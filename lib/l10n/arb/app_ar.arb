@@ -1,0 +1,1354 @@
+{
+  "@@locale": "ar",
+  "@@context": "CarCare App - Arabic Translations",
+  
+  "counterAppBarTitle": "عداد",
+  "@counterAppBarTitle": {
+    "description": "النص المعروض في شريط التطبيق لصفحة العداد"
+  },
+  
+  "appTitle": "خدمات العناية بالسيارات",
+  "@appTitle": {
+    "description": "عنوان التطبيق"
+  },
+  
+  "appName": "كار كير",
+  "@appName": {
+    "description": "اسم التطبيق"
+  },
+  
+  "welcome": "مرحباً",
+  "@welcome": {
+    "description": "رسالة الترحيب"
+  },
+  
+  "welcomeBack": "أهلاً بعودتك",
+  "@welcomeBack": {
+    "description": "رسالة الترحيب بالعودة"
+  },
+  
+  "login": "تسجيل الدخول",
+  "@login": {
+    "description": "زر تسجيل الدخول"
+  },
+  
+  "register": "تسجيل حساب",
+  "@register": {
+    "description": "زر تسجيل حساب"
+  },
+  
+  "logout": "تسجيل الخروج",
+  "@logout": {
+    "description": "زر تسجيل الخروج"
+  },
+  
+  "username": "اسم المستخدم",
+  "@username": {
+    "description": "حقل اسم المستخدم"
+  },
+  
+  "password": "كلمة المرور",
+  "@password": {
+    "description": "حقل كلمة المرور"
+  },
+  
+  "confirmPassword": "تأكيد كلمة المرور",
+  "@confirmPassword": {
+    "description": "حقل تأكيد كلمة المرور"
+  },
+  
+  "phoneNumber": "رقم الهاتف",
+  "@phoneNumber": {
+    "description": "حقل رقم الهاتف"
+  },
+  
+  "fullName": "الاسم الكامل",
+  "@fullName": {
+    "description": "حقل الاسم الكامل"
+  },
+  
+  "email": "البريد الإلكتروني",
+  "@email": {
+    "description": "حقل البريد الإلكتروني"
+  },
+  
+  "submit": "إرسال",
+  "@submit": {
+    "description": "زر الإرسال"
+  },
+  
+  "cancel": "إلغاء",
+  "@cancel": {
+    "description": "زر الإلغاء"
+  },
+  
+  "save": "حفظ",
+  "@save": {
+    "description": "زر الحفظ"
+  },
+  
+  "edit": "تعديل",
+  "@edit": {
+    "description": "زر التعديل"
+  },
+  
+  "delete": "حذف",
+  "@delete": {
+    "description": "زر الحذف"
+  },
+  
+  "close": "إغلاق",
+  "@close": {
+    "description": "زر الإغلاق"
+  },
+  
+  "back": "رجوع",
+  "@back": {
+    "description": "زر الرجوع"
+  },
+  
+  "next": "التالي",
+  "@next": {
+    "description": "زر التالي"
+  },
+  
+  "done": "تم",
+  "@done": {
+    "description": "زر تم"
+  },
+  
+  "retry": "إعادة المحاولة",
+  "@retry": {
+    "description": "زر إعادة المحاولة"
+  },
+  
+  "refresh": "تحديث",
+  "@refresh": {
+    "description": "زر التحديث"
+  },
+  
+  "search": "بحث",
+  "@search": {
+    "description": "زر البحث"
+  },
+  
+  "filter": "تصفية",
+  "@filter": {
+    "description": "زر التصفية"
+  },
+  
+  "forgotPassword": "نسيت كلمة المرور؟",
+  "@forgotPassword": {
+    "description": "رابط نسيان كلمة المرور"
+  },
+  
+  "alreadyHaveAccount": "لديك حساب بالفعل؟",
+  "@alreadyHaveAccount": {
+    "description": "نص امتلاك حساب مسبق"
+  },
+  
+  "dontHaveAccount": "ليس لديك حساب؟",
+  "@dontHaveAccount": {
+    "description": "نص عدم امتلاك حساب"
+  },
+  
+  "createAccount": "إنشاء حساب جديد",
+  "@createAccount": {
+    "description": "زر إنشاء حساب جديد"
+  },
+  
+  "otpVerification": "التحقق بالرمز",
+  "@otpVerification": {
+    "description": "عنوان صفحة التحقق بالرمز"
+  },
+  
+  "enterOtp": "أدخل رمز التحقق",
+  "@enterOtp": {
+    "description": "رسالة إدخال رمز التحقق"
+  },
+  
+  "otpSent": "تم إرسال رمز التحقق إلى",
+  "@otpSent": {
+    "description": "رسالة إرسال الرمز"
+  },
+  
+  "resendOtp": "إعادة إرسال الرمز",
+  "@resendOtp": {
+    "description": "زر إعادة إرسال الرمز"
+  },
+  
+  "resendOtpIn": "إعادة الإرسال خلال",
+  "@resendOtpIn": {
+    "description": "رسالة إعادة الإرسال خلال"
+  },
+  
+  "verify": "تحقق",
+  "@verify": {
+    "description": "زر التحقق"
+  },
+  
+  "home": "الرئيسية",
+  "@home": {
+    "description": "الصفحة الرئيسية"
+  },
+  
+  "schedules": "مواعيد الخدمة",
+  "@schedules": {
+    "description": "صفحة المواعيد"
+  },
+  
+  "complaints": "مشاكل السيارات",
+  "@complaints": {
+    "description": "صفحة المشاكل"
+  },
+  
+  "profile": "الملف الشخصي",
+  "@profile": {
+    "description": "صفحة الملف الشخصي"
+  },
+  
+  "mySchedules": "مواعيدي",
+  "@mySchedules": {
+    "description": "مواعيدي"
+  },
+  
+  "upcomingSchedules": "المواعيد القادمة",
+  "@upcomingSchedules": {
+    "description": "المواعيد القادمة"
+  },
+  
+  "nextPumpingSchedule": "موعد الخدمة القادم",
+  "@nextPumpingSchedule": {
+    "description": "موعد الضخ القادم"
+  },
+  
+  "scheduleDetails": "تفاصيل الموعد",
+  "@scheduleDetails": {
+    "description": "تفاصيل الموعد"
+  },
+  
+  "viewAllSchedules": "عرض جميع المواعيد",
+  "@viewAllSchedules": {
+    "description": "زر عرض جميع المواعيد"
+  },
+  
+  "startTime": "وقت البدء",
+  "@startTime": {
+    "description": "وقت البدء"
+  },
+  
+  "endTime": "وقت الانتهاء",
+  "@endTime": {
+    "description": "وقت الانتهاء"
+  },
+  
+  "actualStartTime": "وقت البدء الفعلي",
+  "@actualStartTime": {
+    "description": "وقت البدء الفعلي"
+  },
+  
+  "actualEndTime": "وقت الانتهاء الفعلي",
+  "@actualEndTime": {
+    "description": "وقت الانتهاء الفعلي"
+  },
+  
+  "status": "الحالة",
+  "@status": {
+    "description": "الحالة"
+  },
+  
+  "notes": "ملاحظات",
+  "@notes": {
+    "description": "ملاحظات"
+  },
+  
+  "createdBy": "تم الإنشاء بواسطة",
+  "@createdBy": {
+    "description": "تم الإنشاء بواسطة"
+  },
+  
+  "scheduled": "مجدول",
+  "@scheduled": {
+    "description": "الحالة: مجدول"
+  },
+  
+  "active": "قيد التنفيذ",
+  "@active": {
+    "description": "الحالة: نشط"
+  },
+  
+  "completed": "مكتمل",
+  "@completed": {
+    "description": "الحالة: مكتمل"
+  },
+  
+  "cancelled": "ملغى",
+  "@cancelled": {
+    "description": "الحالة: ملغى"
+  },
+  
+  "startsIn": "يبدأ خلال",
+  "@startsIn": {
+    "description": "يبدأ خلال"
+  },
+  
+  "activeNow": "نشط الآن",
+  "@activeNow": {
+    "description": "نشط الآن"
+  },
+  
+  "endedAgo": "انتهى منذ",
+  "@endedAgo": {
+    "description": "انتهى منذ"
+  },
+  
+  "today": "اليوم",
+  "@today": {
+    "description": "اليوم"
+  },
+  
+  "thisWeek": "هذا الأسبوع",
+  "@thisWeek": {
+    "description": "هذا الأسبوع"
+  },
+  
+  "thisMonth": "هذا الشهر",
+  "@thisMonth": {
+    "description": "هذا الشهر"
+  },
+  
+  "dateRange": "نطاق التاريخ",
+  "@dateRange": {
+    "description": "نطاق التاريخ"
+  },
+  
+  "selectDateRange": "اختر نطاق التاريخ",
+  "@selectDateRange": {
+    "description": "اختر نطاق التاريخ"
+  },
+  
+  "myComplaints": "مشاكلي",
+  "@myComplaints": {
+    "description": "مشاكلي"
+  },
+  
+  "submitComplaint": "الإبلاغ عن مشكلة",
+  "@submitComplaint": {
+    "description": "زر الإبلاغ عن مشكلة"
+  },
+  
+  "complaintDetails": "تفاصيل المشكلة",
+  "@complaintDetails": {
+    "description": "تفاصيل المشكلة"
+  },
+  
+  "complaintTitle": "عنوان المشكلة",
+  "@complaintTitle": {
+    "description": "عنوان المشكلة"
+  },
+  
+  "complaintDescription": "وصف المشكلة",
+  "@complaintDescription": {
+    "description": "وصف المشكلة"
+  },
+  
+  "complaintCategory": "تصنيف المشكلة",
+  "@complaintCategory": {
+    "description": "تصنيف المشكلة"
+  },
+  
+  "selectCategory": "اختر التصنيف",
+  "@selectCategory": {
+    "description": "اختر التصنيف"
+  },
+  
+  "noWater": "مشكلة في المحرك",
+  "@noWater": {
+    "description": "تصنيف المشكلة: مشكلة في المحرك"
+  },
+  
+  "waterQuality": "مشكلة في الإطارات",
+  "@waterQuality": {
+    "description": "تصنيف المشكلة: مشكلة في الإطارات"
+  },
+  
+  "lowPressure": "مشكلة في البطارية",
+  "@lowPressure": {
+    "description": "تصنيف المشكلة: مشكلة في البطارية"
+  },
+  
+  "scheduleIssue": "تأخير في الخدمة",
+  "@scheduleIssue": {
+    "description": "تصنيف المشكلة: تأخير في الخدمة"
+  },
+  
+  "other": "أخرى",
+  "@other": {
+    "description": "تصنيف المشكلة: أخرى"
+  },
+  
+  "pending": "قيد الانتظار",
+  "@pending": {
+    "description": "حالة المشكلة: قيد الانتظار"
+  },
+  
+  "inProgress": "قيد التنفيذ",
+  "@inProgress": {
+    "description": "حالة المشكلة: قيد التنفيذ"
+  },
+  
+  "resolved": "تم الحل",
+  "@resolved": {
+    "description": "حالة المشكلة: تم الحل"
+  },
+  
+  "rejected": "مرفوض",
+  "@rejected": {
+    "description": "حالة المشكلة: مرفوض"
+  },
+  
+  "adminResponse": "رد الخدمة",
+  "@adminResponse": {
+    "description": "رد الخدمة"
+  },
+  
+  "handledBy": "تم التعامل بواسطة",
+  "@handledBy": {
+    "description": "تم التعامل بواسطة"
+  },
+  
+  "handledAt": "تم التعامل في",
+  "@handledAt": {
+    "description": "تم التعامل في"
+  },
+  
+  "createdAt": "تم الإنشاء في",
+  "@createdAt": {
+    "description": "تم الإنشاء في"
+  },
+  
+  "updatedAt": "تم التحديث في",
+  "@updatedAt": {
+    "description": "تم التحديث في"
+  },
+  
+  "complaintSubmitted": "تم الإبلاغ عن المشكلة بنجاح",
+  "@complaintSubmitted": {
+    "description": "رسالة نجاح الإبلاغ عن المشكلة"
+  },
+  
+  "region": "مركز الخدمة",
+  "@region": {
+    "description": "المنطقة"
+  },
+  
+  "unit": "الوحدة",
+  "@unit": {
+    "description": "الوحدة"
+  },
+  
+  "neighborhood": "الحي",
+  "@neighborhood": {
+    "description": "الحي"
+  },
+  
+  "zone": "المنطقة",
+  "@zone": {
+    "description": "المنطقة"
+  },
+  
+  "selectRegion": "اختر مركز الخدمة",
+  "@selectRegion": {
+    "description": "اختر المنطقة"
+  },
+  
+  "selectUnit": "اختر الوحدة",
+  "@selectUnit": {
+    "description": "اختر الوحدة"
+  },
+  
+  "selectNeighborhood": "اختر الحي",
+  "@selectNeighborhood": {
+    "description": "اختر الحي"
+  },
+  
+  "selectZone": "اختر المنطقة",
+  "@selectZone": {
+    "description": "اختر المنطقة"
+  },
+  
+  "location": "الموقع",
+  "@location": {
+    "description": "الموقع"
+  },
+  
+  "selectLocation": "اختر الموقع",
+  "@selectLocation": {
+    "description": "اختر الموقع"
+  },
+  
+  "clearSelection": "مسح الاختيار",
+  "@clearSelection": {
+    "description": "مسح الاختيار"
+  },
+  
+  "myProfile": "ملفي الشخصي",
+  "@myProfile": {
+    "description": "ملفي الشخصي"
+  },
+  
+  "editProfile": "تعديل الملف الشخصي",
+  "@editProfile": {
+    "description": "تعديل الملف الشخصي"
+  },
+  
+  "profileUpdated": "تم تحديث الملف الشخصي بنجاح",
+  "@profileUpdated": {
+    "description": "رسالة نجاح تحديث الملف الشخصي"
+  },
+  
+  "role": "الدور",
+  "@role": {
+    "description": "الدور"
+  },
+  
+  "admin": "مدير",
+  "@admin": {
+    "description": "الدور: مدير"
+  },
+  
+  "operator": "مشغل",
+  "@operator": {
+    "description": "الدور: مشغل"
+  },
+  
+  "citizen": "عميل",
+  "@citizen": {
+    "description": "الدور: عميل"
+  },
+  
+  "defaultLocation": "الموقع الافتراضي",
+  "@defaultLocation": {
+    "description": "الموقع الافتراضي"
+  },
+  
+  "watchedLocation": "الموقع المراقب",
+  "@watchedLocation": {
+    "description": "الموقع المراقب"
+  },
+  
+  "loading": "جاري التحميل...",
+  "@loading": {
+    "description": "رسالة التحميل"
+  },
+  
+  "error": "خطأ",
+  "@error": {
+    "description": "خطأ"
+  },
+  
+  "errorOccurred": "حدث خطأ",
+  "@errorOccurred": {
+    "description": "رسالة حدوث خطأ"
+  },
+  
+  "networkError": "خطأ في الاتصال بالشبكة",
+  "@networkError": {
+    "description": "خطأ الشبكة"
+  },
+  
+  "serverError": "خطأ في الخادم",
+  "@serverError": {
+    "description": "خطأ الخادم"
+  },
+  
+  "noInternetConnection": "لا يوجد اتصال بالإنترنت",
+  "@noInternetConnection": {
+    "description": "لا يوجد اتصال بالإنترنت"
+  },
+  
+  "tryAgain": "حاول مرة أخرى",
+  "@tryAgain": {
+    "description": "حاول مرة أخرى"
+  },
+  
+  "noData": "لا توجد بيانات",
+  "@noData": {
+    "description": "لا توجد بيانات"
+  },
+  
+  "noSchedules": "لا توجد مواعيد",
+  "@noSchedules": {
+    "description": "لا توجد مواعيد"
+  },
+  
+  "noComplaints": "لا توجد مشاكل تم الإبلاغ عنها",
+  "@noComplaints": {
+    "description": "لا توجد مشاكل"
+  },
+  
+  "noSchedulesMessage": "لا توجد مواعيد خدمة في الوقت الحالي",
+  "@noSchedulesMessage": {
+    "description": "رسالة عدم وجود مواعيد"
+  },
+  
+  "noComplaintsMessage": "لم تقم بالإبلاغ عن أي مشاكل بعد",
+  "@noComplaintsMessage": {
+    "description": "رسالة عدم وجود مشاكل"
+  },
+  
+  "pullToRefresh": "اسحب للتحديث",
+  "@pullToRefresh": {
+    "description": "اسحب للتحديث"
+  },
+  
+  "releaseToRefresh": "حرر للتحديث",
+  "@releaseToRefresh": {
+    "description": "حرر للتحديث"
+  },
+  
+  "loadMore": "تحميل المزيد",
+  "@loadMore": {
+    "description": "تحميل المزيد"
+  },
+  
+  "quickActions": "إجراءات سريعة",
+  "@quickActions": {
+    "description": "إجراءات سريعة"
+  },
+  
+  "viewSchedules": "عرض المواعيد",
+  "@viewSchedules": {
+    "description": "عرض المواعيد"
+  },
+  
+  "requiredField": "هذا الحقل مطلوب",
+  "@requiredField": {
+    "description": "رسالة الحقل المطلوب"
+  },
+  
+  "invalidPhoneNumber": "رقم هاتف غير صحيح",
+  "@invalidPhoneNumber": {
+    "description": "رسالة رقم هاتف غير صحيح"
+  },
+  
+  "invalidEmail": "بريد إلكتروني غير صحيح",
+  "@invalidEmail": {
+    "description": "رسالة بريد إلكتروني غير صحيح"
+  },
+  
+  "passwordTooShort": "كلمة المرور قصيرة جداً (الحد الأدنى 6 أحرف)",
+  "@passwordTooShort": {
+    "description": "رسالة كلمة مرور قصيرة"
+  },
+  
+  "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+  "@passwordsDoNotMatch": {
+    "description": "رسالة كلمات مرور غير متطابقة"
+  },
+  
+  "maxCharacters": "الحد الأقصى {max} حرف",
+  "@maxCharacters": {
+    "description": "رسالة الحد الأقصى للأحرف",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "charactersRemaining": "باقي {count} حرف",
+  "@charactersRemaining": {
+    "description": "رسالة الأحرف المتبقية",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "loginSuccess": "تم تسجيل الدخول بنجاح",
+  "@loginSuccess": {
+    "description": "رسالة نجاح تسجيل الدخول"
+  },
+  
+  "registrationSuccess": "تم التسجيل بنجاح",
+  "@registrationSuccess": {
+    "description": "رسالة نجاح التسجيل"
+  },
+  
+  "logoutConfirmation": "هل أنت متأكد من تسجيل الخروج؟",
+  "@logoutConfirmation": {
+    "description": "رسالة تأكيد تسجيل الخروج"
+  },
+  
+  "yes": "نعم",
+  "@yes": {
+    "description": "نعم"
+  },
+  
+  "no": "لا",
+  "@no": {
+    "description": "لا"
+  },
+  
+  "confirm": "تأكيد",
+  "@confirm": {
+    "description": "تأكيد"
+  },
+  
+  "language": "اللغة",
+  "@language": {
+    "description": "اللغة"
+  },
+  
+  "changeLanguage": "تغيير اللغة",
+  "@changeLanguage": {
+    "description": "تغيير اللغة"
+  },
+  
+  "arabic": "العربية",
+  "@arabic": {
+    "description": "اللغة العربية"
+  },
+  
+  "english": "الإنجليزية",
+  "@english": {
+    "description": "اللغة الإنجليزية"
+  },
+  
+  "settings": "الإعدادات",
+  "@settings": {
+    "description": "الإعدادات"
+  },
+  
+  "about": "حول",
+  "@about": {
+    "description": "حول"
+  },
+  
+  "version": "الإصدار",
+  "@version": {
+    "description": "الإصدار"
+  },
+  
+  "contactUs": "اتصل بنا",
+  "@contactUs": {
+    "description": "اتصل بنا"
+  },
+  
+  "appNameAr": "كار كير أكس",
+  "@appNameAr": {
+    "description": "اسم التطبيق بالعربية"
+  },
+  
+  "splashScreen": "شاشة البدء",
+  "@splashScreen": {
+    "description": "شاشة البدء"
+  },
+  
+  "profileSetup": "إعداد الملف الشخصي",
+  "@profileSetup": {
+    "description": "إعداد الملف الشخصي"
+  },
+  
+  "myVehicles": "مركباتي",
+  "@myVehicles": {
+    "description": "مركباتي"
+  },
+  
+  "addVehicle": "إضافة مركبة",
+  "@addVehicle": {
+    "description": "إضافة مركبة"
+  },
+  
+  "editVehicle": "تعديل المركبة",
+  "@editVehicle": {
+    "description": "تعديل المركبة"
+  },
+  
+  "vehicleDetails": "تفاصيل المركبة",
+  "@vehicleDetails": {
+    "description": "تفاصيل المركبة"
+  },
+  
+  "maintenanceHistory": "سجل الصيانة",
+  "@maintenanceHistory": {
+    "description": "سجل الصيانة"
+  },
+  
+  "vinNumber": "رقم الهيكل",
+  "@vinNumber": {
+    "description": "رقم الهيكل"
+  },
+  
+  "plateNumber": "رقم اللوحة",
+  "@plateNumber": {
+    "description": "رقم اللوحة"
+  },
+  
+  "brand": "الماركة",
+  "@brand": {
+    "description": "الماركة"
+  },
+  
+  "model": "الموديل",
+  "@model": {
+    "description": "الموديل"
+  },
+  
+  "year": "السنة",
+  "@year": {
+    "description": "السنة"
+  },
+  
+  "maintenance": "الصيانة",
+  "@maintenance": {
+    "description": "الصيانة"
+  },
+  
+  "maintenanceRequest": "طلب صيانة",
+  "@maintenanceRequest": {
+    "description": "طلب صيانة"
+  },
+  
+  "serviceType": "نوع الخدمة",
+  "@serviceType": {
+    "description": "نوع الخدمة"
+  },
+  
+  "oilChange": "تغيير الزيت",
+  "@oilChange": {
+    "description": "تغيير الزيت"
+  },
+  
+  "inspection": "فحص",
+  "@inspection": {
+    "description": "فحص"
+  },
+  
+  "repair": "إصلاح",
+  "@repair": {
+    "description": "إصلاح"
+  },
+  
+  "technicianOffers": "عروض الفنيين",
+  "@technicianOffers": {
+    "description": "عروض الفنيين"
+  },
+  
+  "requestStatus": "حالة الطلب",
+  "@requestStatus": {
+    "description": "حالة الطلب"
+  },
+  
+  "rateService": "تقييم الخدمة",
+  "@rateService": {
+    "description": "تقييم الخدمة"
+  },
+  
+  "emergencySOS": "طوارئ",
+  "@emergencySOS": {
+    "description": "طوارئ"
+  },
+  
+  "sosButton": "زر الطوارئ",
+  "@sosButton": {
+    "description": "زر الطوارئ"
+  },
+  
+  "emergencyStatus": "حالة الطوارئ",
+  "@emergencyStatus": {
+    "description": "حالة الطوارئ"
+  },
+  
+  "carWash": "غسيل السيارات",
+  "@carWash": {
+    "description": "غسيل السيارات"
+  },
+  
+  "bookCarWash": "حجز غسيل",
+  "@bookCarWash": {
+    "description": "حجز غسيل"
+  },
+  
+  "washBookingStatus": "حالة الحجز",
+  "@washBookingStatus": {
+    "description": "حالة حجز الغسيل"
+  },
+  
+  "centerWash": "غسيل في المركز",
+  "@centerWash": {
+    "description": "غسيل في المركز"
+  },
+  
+  "mobileWash": "غسيل متنقل",
+  "@mobileWash": {
+    "description": "غسيل متنقل"
+  },
+  
+  "basicWash": "غسيل أساسي",
+  "@basicWash": {
+    "description": "غسيل أساسي"
+  },
+  
+  "premiumWash": "غسيل مميز",
+  "@premiumWash": {
+    "description": "غسيل مميز"
+  },
+  
+  "fullWash": "غسيل كامل",
+  "@fullWash": {
+    "description": "غسيل كامل"
+  },
+  
+  "marketplace": "السوق",
+  "@marketplace": {
+    "description": "السوق"
+  },
+  
+  "products": "المنتجات",
+  "@products": {
+    "description": "المنتجات"
+  },
+  
+  "productDetails": "تفاصيل المنتج",
+  "@productDetails": {
+    "description": "تفاصيل المنتج"
+  },
+  
+  "cart": "السلة",
+  "@cart": {
+    "description": "السلة"
+  },
+  
+  "orderStatus": "حالة الطلب",
+  "@orderStatus": {
+    "description": "حالة طلب المنتجات"
+  },
+  
+  "addToCart": "أضف إلى السلة",
+  "@addToCart": {
+    "description": "أضف إلى السلة"
+  },
+  
+  "checkout": "إتمام الشراء",
+  "@checkout": {
+    "description": "إتمام الشراء"
+  },
+  
+  "subtotal": "المجموع الجزئي",
+  "@subtotal": {
+    "description": "المجموع الجزئي"
+  },
+  
+  "total": "الإجمالي",
+  "@total": {
+    "description": "الإجمالي"
+  },
+  
+  "rentX": "تأجير سيارات",
+  "@rentX": {
+    "description": "تأجير سيارات"
+  },
+  
+  "availableCars": "السيارات المتاحة",
+  "@availableCars": {
+    "description": "السيارات المتاحة للتأجير"
+  },
+  
+  "daily": "يومي",
+  "@daily": {
+    "description": "يومي"
+  },
+  
+  "weekly": "أسبوعي",
+  "@weekly": {
+    "description": "أسبوعي"
+  },
+  
+  "monthly": "شهري",
+  "@monthly": {
+    "description": "شهري"
+  },
+  
+  "rentalPeriod": "فترة التأجير",
+  "@rentalPeriod": {
+    "description": "فترة التأجير"
+  },
+  
+  "startDate": "تاريخ البدء",
+  "@startDate": {
+    "description": "تاريخ البدء"
+  },
+  
+  "endDate": "تاريخ الانتهاء",
+  "@endDate": {
+    "description": "تاريخ الانتهاء"
+  },
+  
+  "bookNow": "احجز الآن",
+  "@bookNow": {
+    "description": "احجز الآن"
+  },
+  
+  "sellX": "بيع سيارات",
+  "@sellX": {
+    "description": "بيع سيارات"
+  },
+  
+  "sellListings": "عروض البيع",
+  "@sellListings": {
+    "description": "عروض البيع"
+  },
+  
+  "myListings": "عروضي",
+  "@myListings": {
+    "description": "عروضي للبيع"
+  },
+  
+  "publishListing": "نشر العرض",
+  "@publishListing": {
+    "description": "نشر العرض"
+  },
+  
+  "contactSeller": "تواصل مع البائع",
+  "@contactSeller": {
+    "description": "تواصل مع البائع"
+  },
+  
+  "fuelX": "توصيل وقود",
+  "@fuelX": {
+    "description": "توصيل وقود"
+  },
+  
+  "fuelRequest": "طلب وقود",
+  "@fuelRequest": {
+    "description": "طلب وقود"
+  },
+  
+  "fuelType": "نوع الوقود",
+  "@fuelType": {
+    "description": "نوع الوقود"
+  },
+  
+  "gasoline91": "بنزين 91",
+  "@gasoline91": {
+    "description": "بنزين 91"
+  },
+  
+  "gasoline95": "بنزين 95",
+  "@gasoline95": {
+    "description": "بنزين 95"
+  },
+  
+  "diesel": "ديزل",
+  "@diesel": {
+    "description": "ديزل"
+  },
+  
+  "quantity": "الكمية",
+  "@quantity": {
+    "description": "الكمية"
+  },
+  
+  "liters": "لتر",
+  "@liters": {
+    "description": "لتر"
+  },
+  
+  "fuelOrderStatus": "حالة طلب الوقود",
+  "@fuelOrderStatus": {
+    "description": "حالة طلب الوقود"
+  },
+  
+  "carOwner": "مالك سيارة",
+  "@carOwner": {
+    "description": "مالك سيارة"
+  },
+  
+  "technician": "فني",
+  "@technician": {
+    "description": "فني"
+  },
+  
+  "accept": "قبول",
+  "@accept": {
+    "description": "قبول"
+  },
+  
+  "reject": "رفض",
+  "@reject": {
+    "description": "رفض"
+  },
+  
+  "proceed": "متابعة",
+  "@proceed": {
+    "description": "متابعة"
+  },
+  
+  "continueButton": "استمرار",
+  "@continueButton": {
+    "description": "استمرار"
+  },
+  
+  "select": "اختر",
+  "@select": {
+    "description": "اختر"
+  },
+  
+  "choose": "اختر",
+  "@choose": {
+    "description": "اختر"
+  },
+  
+  "onTheWay": "في الطريق",
+  "@onTheWay": {
+    "description": "في الطريق"
+  },
+  
+  "arrived": "وصل",
+  "@arrived": {
+    "description": "وصل"
+  },
+  
+  "delivered": "تم التسليم",
+  "@delivered": {
+    "description": "تم التسليم"
+  },
+  
+  "assigned": "تم التكليف",
+  "@assigned": {
+    "description": "تم التكليف"
+  },
+  
+  "requested": "مطلوب",
+  "@requested": {
+    "description": "مطلوب"
+  },
+  
+  "loadingData": "جاري تحميل البيانات...",
+  "@loadingData": {
+    "description": "تحميل البيانات"
+  },
+  
+  "noVehicles": "لا توجد مركبات",
+  "@noVehicles": {
+    "description": "لا توجد مركبات"
+  },
+  
+  "noOffers": "لا توجد عروض",
+  "@noOffers": {
+    "description": "لا توجد عروض"
+  },
+  
+  "noListings": "لا توجد عروض",
+  "@noListings": {
+    "description": "لا توجد عروض"
+  },
+  
+  "success": "نجاح",
+  "@success": {
+    "description": "نجاح"
+  },
+  
+  "failed": "فشل",
+  "@failed": {
+    "description": "فشل"
+  },
+  
+  "currentLocation": "موقعي الحالي",
+  "@currentLocation": {
+    "description": "موقعي الحالي"
+  },
+  
+  "useCurrentLocation": "استخدم موقعي الحالي",
+  "@useCurrentLocation": {
+    "description": "استخدم موقعي الحالي"
+  },
+  
+  "enterAddress": "أدخل العنوان",
+  "@enterAddress": {
+    "description": "أدخل العنوان"
+  },
+  
+  "city": "المدينة",
+  "@city": {
+    "description": "المدينة"
+  },
+  
+  "pickImage": "اختر صورة",
+  "@pickImage": {
+    "description": "اختر صورة"
+  },
+  
+  "camera": "الكاميرا",
+  "@camera": {
+    "description": "الكاميرا"
+  },
+  
+  "gallery": "المعرض",
+  "@gallery": {
+    "description": "المعرض"
+  },
+  
+  "profilePhoto": "صورة الملف الشخصي",
+  "@profilePhoto": {
+    "description": "صورة الملف الشخصي"
+  },
+  
+  "notifications": "الإشعارات",
+  "@notifications": {
+    "description": "الإشعارات"
+  },
+  
+  "more": "المزيد",
+  "@more": {
+    "description": "المزيد"
+  },
+  
+  "searchProducts": "ابحث عن منتجات...",
+  "@searchProducts": {
+    "description": "ابحث عن منتجات"
+  },
+  
+  "searchCars": "ابحث عن سيارات...",
+  "@searchCars": {
+    "description": "ابحث عن سيارات"
+  },
+  
+  "sortBy": "ترتيب حسب",
+  "@sortBy": {
+    "description": "ترتيب حسب"
+  },
+  
+  "priceLowHigh": "السعر: منخفض إلى مرتفع",
+  "@priceLowHigh": {
+    "description": "السعر: منخفض إلى مرتفع"
+  },
+  
+  "priceHighLow": "السعر: مرتفع إلى منخفض",
+  "@priceHighLow": {
+    "description": "السعر: مرتفع إلى منخفض"
+  },
+  
+  "selectDate": "اختر التاريخ",
+  "@selectDate": {
+    "description": "اختر التاريخ"
+  },
+  
+  "selectTime": "اختر الوقت",
+  "@selectTime": {
+    "description": "اختر الوقت"
+  },
+  
+  "timeSlot": "الفترة الزمنية",
+  "@timeSlot": {
+    "description": "الفترة الزمنية"
+  },
+  
+  "now": "الآن",
+  "@now": {
+    "description": "الآن"
+  },
+  
+  "schedule": "جدولة",
+  "@schedule": {
+    "description": "جدولة"
+  },
+  
+  "price": "السعر",
+  "@price": {
+    "description": "السعر"
+  },
+  
+  "cost": "التكلفة",
+  "@cost": {
+    "description": "التكلفة"
+  },
+  
+  "estimatedPrice": "السعر التقديري",
+  "@estimatedPrice": {
+    "description": "السعر التقديري"
+  },
+  
+  "rating": "التقييم",
+  "@rating": {
+    "description": "التقييم"
+  },
+  
+  "stars": "نجوم",
+  "@stars": {
+    "description": "نجوم"
+  },
+  
+  "leaveComment": "اترك تعليقاً",
+  "@leaveComment": {
+    "description": "اترك تعليقاً"
+  },
+  
+  "userType": "نوع المستخدم",
+  "@userType": {
+    "description": "نوع المستخدم"
+  },
+  
+  "userProfile": "ملف المستخدم",
+  "@userProfile": {
+    "description": "ملف المستخدم"
+  },
+  
+  "validationError": "خطأ في التحقق",
+  "@validationError": {
+    "description": "خطأ في التحقق"
+  },
+  
+  "fieldRequired": "هذا الحقل مطلوب",
+  "@fieldRequired": {
+    "description": "حقل مطلوب"
+  },
+  
+  "invalidInput": "إدخال غير صحيح",
+  "@invalidInput": {
+    "description": "إدخال غير صحيح"
+  },
+  
+  "optional": "اختياري",
+  "@optional": {
+    "description": "اختياري"
+  },
+  
+  "required": "مطلوب",
+  "@required": {
+    "description": "مطلوب"
+  },
+  
+  "description": "الوصف",
+  "@description": {
+    "description": "الوصف"
+  },
+  
+  "problemDetails": "تفاصيل المشكلة",
+  "@problemDetails": {
+    "description": "تفاصيل المشكلة"
+  },
+  
+  "attachPhotos": "إرفاق صور",
+  "@attachPhotos": {
+    "description": "إرفاق صور"
+  },
+  
+  "summary": "ملخص",
+  "@summary": {
+    "description": "ملخص"
+  },
+  
+  "orderSummary": "ملخص الطلب",
+  "@orderSummary": {
+    "description": "ملخص الطلب"
+  },
+  
+  "bookingSummary": "ملخص الحجز",
+  "@bookingSummary": {
+    "description": "ملخص الحجز"
+  }
+}

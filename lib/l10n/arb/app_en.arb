@@ -1,0 +1,1354 @@
+{
+  "@@locale": "en",
+  "@@context": "CarCare App - English Translations",
+  
+  "counterAppBarTitle": "Counter",
+  "@counterAppBarTitle": {
+    "description": "Text shown in the AppBar of the Counter Page"
+  },
+  
+  "appTitle": "CarCare Services",
+  "@appTitle": {
+    "description": "Application title"
+  },
+  
+  "appName": "CarCare",
+  "@appName": {
+    "description": "Application name"
+  },
+  
+  "welcome": "Welcome",
+  "@welcome": {
+    "description": "Welcome message"
+  },
+  
+  "welcomeBack": "Welcome Back",
+  "@welcomeBack": {
+    "description": "Welcome back message"
+  },
+  
+  "login": "Login",
+  "@login": {
+    "description": "Login button"
+  },
+  
+  "register": "Register",
+  "@register": {
+    "description": "Register button"
+  },
+  
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout button"
+  },
+  
+  "username": "Username",
+  "@username": {
+    "description": "Username field"
+  },
+  
+  "password": "Password",
+  "@password": {
+    "description": "Password field"
+  },
+  
+  "confirmPassword": "Confirm Password",
+  "@confirmPassword": {
+    "description": "Confirm password field"
+  },
+  
+  "phoneNumber": "Phone Number",
+  "@phoneNumber": {
+    "description": "Phone number field"
+  },
+  
+  "fullName": "Full Name",
+  "@fullName": {
+    "description": "Full name field"
+  },
+  
+  "email": "Email",
+  "@email": {
+    "description": "Email field"
+  },
+  
+  "submit": "Submit",
+  "@submit": {
+    "description": "Submit button"
+  },
+  
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+  
+  "save": "Save",
+  "@save": {
+    "description": "Save button"
+  },
+  
+  "edit": "Edit",
+  "@edit": {
+    "description": "Edit button"
+  },
+  
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete button"
+  },
+  
+  "close": "Close",
+  "@close": {
+    "description": "Close button"
+  },
+  
+  "back": "Back",
+  "@back": {
+    "description": "Back button"
+  },
+  
+  "next": "Next",
+  "@next": {
+    "description": "Next button"
+  },
+  
+  "done": "Done",
+  "@done": {
+    "description": "Done button"
+  },
+  
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button"
+  },
+  
+  "refresh": "Refresh",
+  "@refresh": {
+    "description": "Refresh button"
+  },
+  
+  "search": "Search",
+  "@search": {
+    "description": "Search button"
+  },
+  
+  "filter": "Filter",
+  "@filter": {
+    "description": "Filter button"
+  },
+  
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": {
+    "description": "Forgot password link"
+  },
+  
+  "alreadyHaveAccount": "Already have an account?",
+  "@alreadyHaveAccount": {
+    "description": "Already have account text"
+  },
+  
+  "dontHaveAccount": "Don't have an account?",
+  "@dontHaveAccount": {
+    "description": "Don't have account text"
+  },
+  
+  "createAccount": "Create New Account",
+  "@createAccount": {
+    "description": "Create new account button"
+  },
+  
+  "otpVerification": "OTP Verification",
+  "@otpVerification": {
+    "description": "OTP verification page title"
+  },
+  
+  "enterOtp": "Enter Verification Code",
+  "@enterOtp": {
+    "description": "Enter verification code message"
+  },
+  
+  "otpSent": "Verification code sent to",
+  "@otpSent": {
+    "description": "OTP sent message"
+  },
+  
+  "resendOtp": "Resend Code",
+  "@resendOtp": {
+    "description": "Resend code button"
+  },
+  
+  "resendOtpIn": "Resend in",
+  "@resendOtpIn": {
+    "description": "Resend in message"
+  },
+  
+  "verify": "Verify",
+  "@verify": {
+    "description": "Verify button"
+  },
+  
+  "home": "Home",
+  "@home": {
+    "description": "Home page"
+  },
+  
+  "schedules": "Service Appointments",
+  "@schedules": {
+    "description": "Schedules page"
+  },
+  
+  "complaints": "Car Issues",
+  "@complaints": {
+    "description": "Complaints page"
+  },
+  
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile page"
+  },
+  
+  "mySchedules": "My Appointments",
+  "@mySchedules": {
+    "description": "My schedules"
+  },
+  
+  "upcomingSchedules": "Upcoming Appointments",
+  "@upcomingSchedules": {
+    "description": "Upcoming schedules"
+  },
+  
+  "nextPumpingSchedule": "Next Service Appointment",
+  "@nextPumpingSchedule": {
+    "description": "Next pumping schedule"
+  },
+  
+  "scheduleDetails": "Appointment Details",
+  "@scheduleDetails": {
+    "description": "Schedule details"
+  },
+  
+  "viewAllSchedules": "View All Appointments",
+  "@viewAllSchedules": {
+    "description": "View all schedules button"
+  },
+  
+  "startTime": "Start Time",
+  "@startTime": {
+    "description": "Start time"
+  },
+  
+  "endTime": "End Time",
+  "@endTime": {
+    "description": "End time"
+  },
+  
+  "actualStartTime": "Actual Start Time",
+  "@actualStartTime": {
+    "description": "Actual start time"
+  },
+  
+  "actualEndTime": "Actual End Time",
+  "@actualEndTime": {
+    "description": "Actual end time"
+  },
+  
+  "status": "Status",
+  "@status": {
+    "description": "Status"
+  },
+  
+  "notes": "Notes",
+  "@notes": {
+    "description": "Notes"
+  },
+  
+  "createdBy": "Created By",
+  "@createdBy": {
+    "description": "Created by"
+  },
+  
+  "scheduled": "Scheduled",
+  "@scheduled": {
+    "description": "Status: Scheduled"
+  },
+  
+  "active": "In Progress",
+  "@active": {
+    "description": "Status: Active"
+  },
+  
+  "completed": "Completed",
+  "@completed": {
+    "description": "Status: Completed"
+  },
+  
+  "cancelled": "Cancelled",
+  "@cancelled": {
+    "description": "Status: Cancelled"
+  },
+  
+  "startsIn": "Starts in",
+  "@startsIn": {
+    "description": "Starts in"
+  },
+  
+  "activeNow": "Active Now",
+  "@activeNow": {
+    "description": "Active now"
+  },
+  
+  "endedAgo": "Ended",
+  "@endedAgo": {
+    "description": "Ended ago"
+  },
+  
+  "today": "Today",
+  "@today": {
+    "description": "Today"
+  },
+  
+  "thisWeek": "This Week",
+  "@thisWeek": {
+    "description": "This week"
+  },
+  
+  "thisMonth": "This Month",
+  "@thisMonth": {
+    "description": "This month"
+  },
+  
+  "dateRange": "Date Range",
+  "@dateRange": {
+    "description": "Date range"
+  },
+  
+  "selectDateRange": "Select Date Range",
+  "@selectDateRange": {
+    "description": "Select date range"
+  },
+  
+  "myComplaints": "My Car Issues",
+  "@myComplaints": {
+    "description": "My complaints"
+  },
+  
+  "submitComplaint": "Report Issue",
+  "@submitComplaint": {
+    "description": "Submit complaint button"
+  },
+  
+  "complaintDetails": "Issue Details",
+  "@complaintDetails": {
+    "description": "Complaint details"
+  },
+  
+  "complaintTitle": "Issue Title",
+  "@complaintTitle": {
+    "description": "Complaint title"
+  },
+  
+  "complaintDescription": "Issue Description",
+  "@complaintDescription": {
+    "description": "Complaint description"
+  },
+  
+  "complaintCategory": "Issue Category",
+  "@complaintCategory": {
+    "description": "Complaint category"
+  },
+  
+  "selectCategory": "Select Category",
+  "@selectCategory": {
+    "description": "Select category"
+  },
+  
+  "noWater": "Engine Issue",
+  "@noWater": {
+    "description": "Complaint category: Engine Issue"
+  },
+  
+  "waterQuality": "Tire Issue",
+  "@waterQuality": {
+    "description": "Complaint category: Tire Issue"
+  },
+  
+  "lowPressure": "Battery Issue",
+  "@lowPressure": {
+    "description": "Complaint category: Battery Issue"
+  },
+  
+  "scheduleIssue": "Service Delay",
+  "@scheduleIssue": {
+    "description": "Complaint category: Service Delay"
+  },
+  
+  "other": "Other",
+  "@other": {
+    "description": "Complaint category: Other"
+  },
+  
+  "pending": "Pending",
+  "@pending": {
+    "description": "Complaint status: Pending"
+  },
+  
+  "inProgress": "In Progress",
+  "@inProgress": {
+    "description": "Complaint status: In progress"
+  },
+  
+  "resolved": "Resolved",
+  "@resolved": {
+    "description": "Complaint status: Resolved"
+  },
+  
+  "rejected": "Rejected",
+  "@rejected": {
+    "description": "Complaint status: Rejected"
+  },
+  
+  "adminResponse": "Service Response",
+  "@adminResponse": {
+    "description": "Admin response"
+  },
+  
+  "handledBy": "Handled By",
+  "@handledBy": {
+    "description": "Handled by"
+  },
+  
+  "handledAt": "Handled At",
+  "@handledAt": {
+    "description": "Handled at"
+  },
+  
+  "createdAt": "Created At",
+  "@createdAt": {
+    "description": "Created at"
+  },
+  
+  "updatedAt": "Updated At",
+  "@updatedAt": {
+    "description": "Updated at"
+  },
+  
+  "complaintSubmitted": "Issue Reported Successfully",
+  "@complaintSubmitted": {
+    "description": "Complaint submitted success message"
+  },
+  
+  "region": "Service Center",
+  "@region": {
+    "description": "Region"
+  },
+  
+  "unit": "Unit",
+  "@unit": {
+    "description": "Unit"
+  },
+  
+  "neighborhood": "Neighborhood",
+  "@neighborhood": {
+    "description": "Neighborhood"
+  },
+  
+  "zone": "Zone",
+  "@zone": {
+    "description": "Zone"
+  },
+  
+  "selectRegion": "Select Service Center",
+  "@selectRegion": {
+    "description": "Select region"
+  },
+  
+  "selectUnit": "Select Unit",
+  "@selectUnit": {
+    "description": "Select unit"
+  },
+  
+  "selectNeighborhood": "Select Neighborhood",
+  "@selectNeighborhood": {
+    "description": "Select neighborhood"
+  },
+  
+  "selectZone": "Select Zone",
+  "@selectZone": {
+    "description": "Select zone"
+  },
+  
+  "location": "Location",
+  "@location": {
+    "description": "Location"
+  },
+  
+  "selectLocation": "Select Location",
+  "@selectLocation": {
+    "description": "Select location"
+  },
+  
+  "clearSelection": "Clear Selection",
+  "@clearSelection": {
+    "description": "Clear selection"
+  },
+  
+  "myProfile": "My Profile",
+  "@myProfile": {
+    "description": "My profile"
+  },
+  
+  "editProfile": "Edit Profile",
+  "@editProfile": {
+    "description": "Edit profile"
+  },
+  
+  "profileUpdated": "Profile Updated Successfully",
+  "@profileUpdated": {
+    "description": "Profile updated success message"
+  },
+  
+  "role": "Role",
+  "@role": {
+    "description": "Role"
+  },
+  
+  "admin": "Admin",
+  "@admin": {
+    "description": "Role: Admin"
+  },
+  
+  "operator": "Operator",
+  "@operator": {
+    "description": "Role: Operator"
+  },
+  
+  "citizen": "Customer",
+  "@citizen": {
+    "description": "Role: Customer"
+  },
+  
+  "defaultLocation": "Default Location",
+  "@defaultLocation": {
+    "description": "Default location"
+  },
+  
+  "watchedLocation": "Watched Location",
+  "@watchedLocation": {
+    "description": "Watched location"
+  },
+  
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Loading message"
+  },
+  
+  "error": "Error",
+  "@error": {
+    "description": "Error"
+  },
+  
+  "errorOccurred": "An Error Occurred",
+  "@errorOccurred": {
+    "description": "Error occurred message"
+  },
+  
+  "networkError": "Network Connection Error",
+  "@networkError": {
+    "description": "Network error"
+  },
+  
+  "serverError": "Server Error",
+  "@serverError": {
+    "description": "Server error"
+  },
+  
+  "noInternetConnection": "No Internet Connection",
+  "@noInternetConnection": {
+    "description": "No internet connection"
+  },
+  
+  "tryAgain": "Try Again",
+  "@tryAgain": {
+    "description": "Try again"
+  },
+  
+  "noData": "No Data",
+  "@noData": {
+    "description": "No data"
+  },
+  
+  "noSchedules": "No Appointments",
+  "@noSchedules": {
+    "description": "No schedules"
+  },
+  
+  "noComplaints": "No Reported Issues",
+  "@noComplaints": {
+    "description": "No complaints"
+  },
+  
+  "noSchedulesMessage": "No service appointments at the moment",
+  "@noSchedulesMessage": {
+    "description": "No schedules message"
+  },
+  
+  "noComplaintsMessage": "You haven't reported any issues yet",
+  "@noComplaintsMessage": {
+    "description": "No complaints message"
+  },
+  
+  "pullToRefresh": "Pull to Refresh",
+  "@pullToRefresh": {
+    "description": "Pull to refresh"
+  },
+  
+  "releaseToRefresh": "Release to Refresh",
+  "@releaseToRefresh": {
+    "description": "Release to refresh"
+  },
+  
+  "loadMore": "Load More",
+  "@loadMore": {
+    "description": "Load more"
+  },
+  
+  "quickActions": "Quick Actions",
+  "@quickActions": {
+    "description": "Quick actions"
+  },
+  
+  "viewSchedules": "View Appointments",
+  "@viewSchedules": {
+    "description": "View schedules"
+  },
+  
+  "requiredField": "This field is required",
+  "@requiredField": {
+    "description": "Required field message"
+  },
+  
+  "invalidPhoneNumber": "Invalid phone number",
+  "@invalidPhoneNumber": {
+    "description": "Invalid phone number message"
+  },
+  
+  "invalidEmail": "Invalid email address",
+  "@invalidEmail": {
+    "description": "Invalid email message"
+  },
+  
+  "passwordTooShort": "Password too short (minimum 6 characters)",
+  "@passwordTooShort": {
+    "description": "Password too short message"
+  },
+  
+  "passwordsDoNotMatch": "Passwords do not match",
+  "@passwordsDoNotMatch": {
+    "description": "Passwords do not match message"
+  },
+  
+  "maxCharacters": "Maximum {max} characters",
+  "@maxCharacters": {
+    "description": "Maximum characters message",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "charactersRemaining": "{count} characters remaining",
+  "@charactersRemaining": {
+    "description": "Characters remaining message",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "loginSuccess": "Login Successful",
+  "@loginSuccess": {
+    "description": "Login success message"
+  },
+  
+  "registrationSuccess": "Registration Successful",
+  "@registrationSuccess": {
+    "description": "Registration success message"
+  },
+  
+  "logoutConfirmation": "Are you sure you want to logout?",
+  "@logoutConfirmation": {
+    "description": "Logout confirmation message"
+  },
+  
+  "yes": "Yes",
+  "@yes": {
+    "description": "Yes"
+  },
+  
+  "no": "No",
+  "@no": {
+    "description": "No"
+  },
+  
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Confirm"
+  },
+  
+  "language": "Language",
+  "@language": {
+    "description": "Language"
+  },
+  
+  "changeLanguage": "Change Language",
+  "@changeLanguage": {
+    "description": "Change language"
+  },
+  
+  "arabic": "العربية",
+  "@arabic": {
+    "description": "Arabic language"
+  },
+  
+  "english": "English",
+  "@english": {
+    "description": "English language"
+  },
+  
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings"
+  },
+  
+  "about": "About",
+  "@about": {
+    "description": "About"
+  },
+  
+  "version": "Version",
+  "@version": {
+    "description": "Version"
+  },
+  
+  "contactUs": "Contact Us",
+  "@contactUs": {
+    "description": "Contact us"
+  },
+  
+  "appNameAr": "CarCareX",
+  "@appNameAr": {
+    "description": "Application name in Arabic"
+  },
+  
+  "splashScreen": "Splash Screen",
+  "@splashScreen": {
+    "description": "Splash screen"
+  },
+  
+  "profileSetup": "Profile Setup",
+  "@profileSetup": {
+    "description": "Profile setup"
+  },
+  
+  "myVehicles": "My Vehicles",
+  "@myVehicles": {
+    "description": "My vehicles"
+  },
+  
+  "addVehicle": "Add Vehicle",
+  "@addVehicle": {
+    "description": "Add vehicle"
+  },
+  
+  "editVehicle": "Edit Vehicle",
+  "@editVehicle": {
+    "description": "Edit vehicle"
+  },
+  
+  "vehicleDetails": "Vehicle Details",
+  "@vehicleDetails": {
+    "description": "Vehicle details"
+  },
+  
+  "maintenanceHistory": "Maintenance History",
+  "@maintenanceHistory": {
+    "description": "Maintenance history"
+  },
+  
+  "vinNumber": "VIN Number",
+  "@vinNumber": {
+    "description": "VIN number"
+  },
+  
+  "plateNumber": "Plate Number",
+  "@plateNumber": {
+    "description": "Plate number"
+  },
+  
+  "brand": "Brand",
+  "@brand": {
+    "description": "Brand"
+  },
+  
+  "model": "Model",
+  "@model": {
+    "description": "Model"
+  },
+  
+  "year": "Year",
+  "@year": {
+    "description": "Year"
+  },
+  
+  "maintenance": "Maintenance",
+  "@maintenance": {
+    "description": "Maintenance"
+  },
+  
+  "maintenanceRequest": "Maintenance Request",
+  "@maintenanceRequest": {
+    "description": "Maintenance request"
+  },
+  
+  "serviceType": "Service Type",
+  "@serviceType": {
+    "description": "Service type"
+  },
+  
+  "oilChange": "Oil Change",
+  "@oilChange": {
+    "description": "Oil change"
+  },
+  
+  "inspection": "Inspection",
+  "@inspection": {
+    "description": "Inspection"
+  },
+  
+  "repair": "Repair",
+  "@repair": {
+    "description": "Repair"
+  },
+  
+  "technicianOffers": "Technician Offers",
+  "@technicianOffers": {
+    "description": "Technician offers"
+  },
+  
+  "requestStatus": "Request Status",
+  "@requestStatus": {
+    "description": "Request status"
+  },
+  
+  "rateService": "Rate Service",
+  "@rateService": {
+    "description": "Rate service"
+  },
+  
+  "emergencySOS": "Emergency SOS",
+  "@emergencySOS": {
+    "description": "Emergency SOS"
+  },
+  
+  "sosButton": "SOS Button",
+  "@sosButton": {
+    "description": "SOS button"
+  },
+  
+  "emergencyStatus": "Emergency Status",
+  "@emergencyStatus": {
+    "description": "Emergency status"
+  },
+  
+  "carWash": "Car Wash",
+  "@carWash": {
+    "description": "Car wash"
+  },
+  
+  "bookCarWash": "Book Car Wash",
+  "@bookCarWash": {
+    "description": "Book car wash"
+  },
+  
+  "washBookingStatus": "Booking Status",
+  "@washBookingStatus": {
+    "description": "Wash booking status"
+  },
+  
+  "centerWash": "Center Wash",
+  "@centerWash": {
+    "description": "Center wash"
+  },
+  
+  "mobileWash": "Mobile Wash",
+  "@mobileWash": {
+    "description": "Mobile wash"
+  },
+  
+  "basicWash": "Basic Wash",
+  "@basicWash": {
+    "description": "Basic wash"
+  },
+  
+  "premiumWash": "Premium Wash",
+  "@premiumWash": {
+    "description": "Premium wash"
+  },
+  
+  "fullWash": "Full Wash",
+  "@fullWash": {
+    "description": "Full wash"
+  },
+  
+  "marketplace": "Marketplace",
+  "@marketplace": {
+    "description": "Marketplace"
+  },
+  
+  "products": "Products",
+  "@products": {
+    "description": "Products"
+  },
+  
+  "productDetails": "Product Details",
+  "@productDetails": {
+    "description": "Product details"
+  },
+  
+  "cart": "Cart",
+  "@cart": {
+    "description": "Cart"
+  },
+  
+  "orderStatus": "Order Status",
+  "@orderStatus": {
+    "description": "Order status"
+  },
+  
+  "addToCart": "Add to Cart",
+  "@addToCart": {
+    "description": "Add to cart"
+  },
+  
+  "checkout": "Checkout",
+  "@checkout": {
+    "description": "Checkout"
+  },
+  
+  "subtotal": "Subtotal",
+  "@subtotal": {
+    "description": "Subtotal"
+  },
+  
+  "total": "Total",
+  "@total": {
+    "description": "Total"
+  },
+  
+  "rentX": "Rent Cars",
+  "@rentX": {
+    "description": "Rent cars"
+  },
+  
+  "availableCars": "Available Cars",
+  "@availableCars": {
+    "description": "Available cars"
+  },
+  
+  "daily": "Daily",
+  "@daily": {
+    "description": "Daily"
+  },
+  
+  "weekly": "Weekly",
+  "@weekly": {
+    "description": "Weekly"
+  },
+  
+  "monthly": "Monthly",
+  "@monthly": {
+    "description": "Monthly"
+  },
+  
+  "rentalPeriod": "Rental Period",
+  "@rentalPeriod": {
+    "description": "Rental period"
+  },
+  
+  "startDate": "Start Date",
+  "@startDate": {
+    "description": "Start date"
+  },
+  
+  "endDate": "End Date",
+  "@endDate": {
+    "description": "End date"
+  },
+  
+  "bookNow": "Book Now",
+  "@bookNow": {
+    "description": "Book now"
+  },
+  
+  "sellX": "Sell Cars",
+  "@sellX": {
+    "description": "Sell cars"
+  },
+  
+  "sellListings": "Sell Listings",
+  "@sellListings": {
+    "description": "Sell listings"
+  },
+  
+  "myListings": "My Listings",
+  "@myListings": {
+    "description": "My listings"
+  },
+  
+  "publishListing": "Publish Listing",
+  "@publishListing": {
+    "description": "Publish listing"
+  },
+  
+  "contactSeller": "Contact Seller",
+  "@contactSeller": {
+    "description": "Contact seller"
+  },
+  
+  "fuelX": "Fuel Delivery",
+  "@fuelX": {
+    "description": "Fuel delivery"
+  },
+  
+  "fuelRequest": "Fuel Request",
+  "@fuelRequest": {
+    "description": "Fuel request"
+  },
+  
+  "fuelType": "Fuel Type",
+  "@fuelType": {
+    "description": "Fuel type"
+  },
+  
+  "gasoline91": "Gasoline 91",
+  "@gasoline91": {
+    "description": "Gasoline 91"
+  },
+  
+  "gasoline95": "Gasoline 95",
+  "@gasoline95": {
+    "description": "Gasoline 95"
+  },
+  
+  "diesel": "Diesel",
+  "@diesel": {
+    "description": "Diesel"
+  },
+  
+  "quantity": "Quantity",
+  "@quantity": {
+    "description": "Quantity"
+  },
+  
+  "liters": "Liters",
+  "@liters": {
+    "description": "Liters"
+  },
+  
+  "fuelOrderStatus": "Fuel Order Status",
+  "@fuelOrderStatus": {
+    "description": "Fuel order status"
+  },
+  
+  "carOwner": "Car Owner",
+  "@carOwner": {
+    "description": "Car owner"
+  },
+  
+  "technician": "Technician",
+  "@technician": {
+    "description": "Technician"
+  },
+  
+  "accept": "Accept",
+  "@accept": {
+    "description": "Accept"
+  },
+  
+  "reject": "Reject",
+  "@reject": {
+    "description": "Reject"
+  },
+  
+  "proceed": "Proceed",
+  "@proceed": {
+    "description": "Proceed"
+  },
+  
+  "continueButton": "Continue",
+  "@continueButton": {
+    "description": "Continue"
+  },
+  
+  "select": "Select",
+  "@select": {
+    "description": "Select"
+  },
+  
+  "choose": "Choose",
+  "@choose": {
+    "description": "Choose"
+  },
+  
+  "onTheWay": "On The Way",
+  "@onTheWay": {
+    "description": "On the way"
+  },
+  
+  "arrived": "Arrived",
+  "@arrived": {
+    "description": "Arrived"
+  },
+  
+  "delivered": "Delivered",
+  "@delivered": {
+    "description": "Delivered"
+  },
+  
+  "assigned": "Assigned",
+  "@assigned": {
+    "description": "Assigned"
+  },
+  
+  "requested": "Requested",
+  "@requested": {
+    "description": "Requested"
+  },
+  
+  "loadingData": "Loading data...",
+  "@loadingData": {
+    "description": "Loading data"
+  },
+  
+  "noVehicles": "No Vehicles",
+  "@noVehicles": {
+    "description": "No vehicles"
+  },
+  
+  "noOffers": "No Offers",
+  "@noOffers": {
+    "description": "No offers"
+  },
+  
+  "noListings": "No Listings",
+  "@noListings": {
+    "description": "No listings"
+  },
+  
+  "success": "Success",
+  "@success": {
+    "description": "Success"
+  },
+  
+  "failed": "Failed",
+  "@failed": {
+    "description": "Failed"
+  },
+  
+  "currentLocation": "Current Location",
+  "@currentLocation": {
+    "description": "Current location"
+  },
+  
+  "useCurrentLocation": "Use My Current Location",
+  "@useCurrentLocation": {
+    "description": "Use my current location"
+  },
+  
+  "enterAddress": "Enter Address",
+  "@enterAddress": {
+    "description": "Enter address"
+  },
+  
+  "city": "City",
+  "@city": {
+    "description": "City"
+  },
+  
+  "pickImage": "Pick Image",
+  "@pickImage": {
+    "description": "Pick image"
+  },
+  
+  "camera": "Camera",
+  "@camera": {
+    "description": "Camera"
+  },
+  
+  "gallery": "Gallery",
+  "@gallery": {
+    "description": "Gallery"
+  },
+  
+  "profilePhoto": "Profile Photo",
+  "@profilePhoto": {
+    "description": "Profile photo"
+  },
+  
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "Notifications"
+  },
+  
+  "more": "More",
+  "@more": {
+    "description": "More"
+  },
+  
+  "searchProducts": "Search products...",
+  "@searchProducts": {
+    "description": "Search products"
+  },
+  
+  "searchCars": "Search cars...",
+  "@searchCars": {
+    "description": "Search cars"
+  },
+  
+  "sortBy": "Sort By",
+  "@sortBy": {
+    "description": "Sort by"
+  },
+  
+  "priceLowHigh": "Price: Low to High",
+  "@priceLowHigh": {
+    "description": "Price: Low to High"
+  },
+  
+  "priceHighLow": "Price: High to Low",
+  "@priceHighLow": {
+    "description": "Price: High to Low"
+  },
+  
+  "selectDate": "Select Date",
+  "@selectDate": {
+    "description": "Select date"
+  },
+  
+  "selectTime": "Select Time",
+  "@selectTime": {
+    "description": "Select time"
+  },
+  
+  "timeSlot": "Time Slot",
+  "@timeSlot": {
+    "description": "Time slot"
+  },
+  
+  "now": "Now",
+  "@now": {
+    "description": "Now"
+  },
+  
+  "schedule": "Schedule",
+  "@schedule": {
+    "description": "Schedule"
+  },
+  
+  "price": "Price",
+  "@price": {
+    "description": "Price"
+  },
+  
+  "cost": "Cost",
+  "@cost": {
+    "description": "Cost"
+  },
+  
+  "estimatedPrice": "Estimated Price",
+  "@estimatedPrice": {
+    "description": "Estimated price"
+  },
+  
+  "rating": "Rating",
+  "@rating": {
+    "description": "Rating"
+  },
+  
+  "stars": "Stars",
+  "@stars": {
+    "description": "Stars"
+  },
+  
+  "leaveComment": "Leave Comment",
+  "@leaveComment": {
+    "description": "Leave comment"
+  },
+  
+  "userType": "User Type",
+  "@userType": {
+    "description": "User type"
+  },
+  
+  "userProfile": "User Profile",
+  "@userProfile": {
+    "description": "User profile"
+  },
+  
+  "validationError": "Validation Error",
+  "@validationError": {
+    "description": "Validation error"
+  },
+  
+  "fieldRequired": "This field is required",
+  "@fieldRequired": {
+    "description": "Field required"
+  },
+  
+  "invalidInput": "Invalid Input",
+  "@invalidInput": {
+    "description": "Invalid input"
+  },
+  
+  "optional": "Optional",
+  "@optional": {
+    "description": "Optional"
+  },
+  
+  "required": "Required",
+  "@required": {
+    "description": "Required"
+  },
+  
+  "description": "Description",
+  "@description": {
+    "description": "Description"
+  },
+  
+  "problemDetails": "Problem Details",
+  "@problemDetails": {
+    "description": "Problem details"
+  },
+  
+  "attachPhotos": "Attach Photos",
+  "@attachPhotos": {
+    "description": "Attach photos"
+  },
+  
+  "summary": "Summary",
+  "@summary": {
+    "description": "Summary"
+  },
+  
+  "orderSummary": "Order Summary",
+  "@orderSummary": {
+    "description": "Order summary"
+  },
+  
+  "bookingSummary": "Booking Summary",
+  "@bookingSummary": {
+    "description": "Booking summary"
+  }
+}
