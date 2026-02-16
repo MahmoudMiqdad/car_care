@@ -1,3 +1,5 @@
+import 'package:car_care/features/auth/presentation/pages/register_page.dart';
+import 'package:car_care/features/auth/presentation/pages/login_page.dart';
 
 import 'package:car_care/core/routing/routes.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +37,11 @@ class AppRouter {
       //   name: '/otp',
       //   builder: (context, state) => const OtpPage(),
       // ),
+            GoRoute(
+        path: Routes.register,
+        name: '/register',
+        builder: (context, state) => const RegisterPage(),
+      ),
       ],
 
     // Error handling (Page not found)
