@@ -49,14 +49,26 @@ class _AppTextFieldState extends State<AppTextField> {
       onChanged: widget.onChanged,
       style: context.textTheme.bodyLarge?.copyWith(
         fontSize: 16.sp,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 0.2,
       ),
       decoration: InputDecoration(
+        filled: false,
         hintText: widget.hintText,
         hintStyle: context.textTheme.bodyMedium?.copyWith(
           color: context.colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
           fontSize: 14.sp,
         ),
         prefixIcon: widget.prefixIcon,
+        isDense: true,
+        contentPadding: EdgeInsets.symmetric(
+          vertical: 14.h,
+        ),
+        border: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        focusedBorder: InputBorder.none,
+        errorBorder: InputBorder.none,
+        focusedErrorBorder: InputBorder.none,
         suffixIcon: widget.isPassword
             ? IconButton(
                 onPressed: () => setState(() => _obscureText = !_obscureText),

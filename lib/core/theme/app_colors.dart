@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 /// Official color palette for the Government Digital Identity.
 /// Each group represents a thematic tone for consistent branding.
 class AppColors {
-  static const Color forest = Color(0xFF054239);
-  static const Color goldenWheat = Color(0xFFb9a779);
-  static const Color deepUmber = Color(0xFF4a151e);
+  static const Color primary = Color(0xFF006989);
+  static const Color secondary = Color(0xFFf3f7ec);
+  static const Color accent = Color(0xFFe88d67);
 
   // ☀️ Light Theme Palette
-  static const Color lightPrimary = forest;
+  static const Color lightPrimary = primary;
   static const Color lightScaffold = Color(0xFFedebe0); // Golden Wheat Light
   static const Color lightSurface = Color(0xFFF5F5F5);
   static const Color lightTextPrimary = Color(0xFF161616); // Charcoal Dark
@@ -32,6 +32,6 @@ class AppColors {
   static const Color success = Color(0xff45B733);
   static const Color info = Color(0xFF2E90FA);
   static const Color warning = Color(0xffF5AE42);
-  static const Color orange = Color(0xffE8712E);
+  static const Color orange = Color(0xffe88d67);
   static const Color transparent = Colors.transparent;
 }
