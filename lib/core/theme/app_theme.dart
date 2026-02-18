@@ -85,7 +85,7 @@ class AppTheme {
 
   static ColorScheme get _lightScheme => const ColorScheme.light(
     primary: AppColors.lightPrimary,
-    secondary: AppColors.goldenWheat,
+    secondary: AppColors.primary,
     surface: AppColors.lightScaffold,
     onSurface: AppColors.lightTextPrimary,
     onSurfaceVariant: AppColors.lightTextSecondary,
@@ -95,7 +95,7 @@ class AppTheme {
 
   static ColorScheme get _darkScheme => const ColorScheme.dark(
     primary: AppColors.darkPrimary,
-    secondary: AppColors.goldenWheat,
+    secondary: AppColors.primary,
     surface: AppColors.darkScaffold,
     onSurface: AppColors.darkTextPrimary,
     onSurfaceVariant: AppColors.darkTextSecondary,

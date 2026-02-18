@@ -1,14 +1,12 @@
-import 'package:car_care/features/auth/presentation/pages/register_page.dart';
 import 'package:car_care/features/auth/presentation/pages/login_page.dart';
 
 import 'package:car_care/core/routing/routes.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 
 class AppRouter {
   static final GoRouter router = GoRouter(
-    initialLocation: Routes.splash,
+    initialLocation: Routes.login,
     debugLogDiagnostics: true,
 
     routes: [
@@ -17,11 +15,11 @@ class AppRouter {
       //   name: '/splash',
       //   builder: (context, state) => const SplashPage(),
       // ),
-      //     GoRoute(
-      //   path: Routes.login,
-      //   name: '/login',
-      //   builder: (context, state) => const LoginPage(),
-      // ),
+          GoRoute(
+        path: Routes.login,
+        name: '/login',
+        builder: (context, state) => const LoginPage(),
+      ),
       //       GoRoute(
       //   path: Routes.signup,
       //   name: '/signup',
@@ -37,16 +35,16 @@ class AppRouter {
       //   name: '/otp',
       //   builder: (context, state) => const OtpPage(),
       // ),
-            GoRoute(
-        path: Routes.register,
-        name: '/register',
-        builder: (context, state) => const RegisterPage(),
-      ),
-      ],
+  //           GoRoute(
+  //       path: Routes.register,
+  //       name: '/register',
+  //       builder: (context, state) => const RegisterPage(),
+  //     ),
+       ],
 
-    // Error handling (Page not found)
-    errorBuilder: (context, state) => const Scaffold(
-      body: Center(child: Text('Page not found')),
-    ),
-  );
+  //   // Error handling (Page not found)
+  //   errorBuilder: (context, state) => const Scaffold(
+  //     body: Center(child: Text('Page not found')),
+  //   ),
+   );
 }
