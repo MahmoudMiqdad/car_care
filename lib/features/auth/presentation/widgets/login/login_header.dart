@@ -1,15 +1,17 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginHeader extends StatelessWidget {
-  const LoginHeader({super.key});
-
+   LoginHeader({super.key});
   @override
   Widget build(BuildContext context) {
+      final strings = context.l10n;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
       child: Row(
@@ -21,7 +23,7 @@ class LoginHeader extends StatelessWidget {
                 ? context.pop()
                 : context.go(Routes.splash),
             style: TextButton.styleFrom(
-              foregroundColor: AppColors.white,
+              foregroundColor: const Color.fromARGB(255, 255, 255, 255),
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 10.h),
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
@@ -31,7 +33,7 @@ class LoginHeader extends StatelessWidget {
               color: AppColors.white,
             ),
             label: Text(
-              'Back',
+              strings.back,
               style: context.textTheme.titleMedium?.copyWith(
                 
                 color: AppColors.white,

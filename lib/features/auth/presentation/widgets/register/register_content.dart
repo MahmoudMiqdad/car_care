@@ -2,37 +2,37 @@ import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/buttons/app_button_widget.dart';
+import 'package:car_care/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:car_care/features/auth/presentation/bloc/auth_event.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 class RegisterContent extends StatelessWidget {
   const RegisterContent({
     super.key,
-    required GlobalKey<FormState> formKey,
-    required TextEditingController firstNameController,
-    required TextEditingController accountController,
-    required TextEditingController passwordController,
-    required TextEditingController confirmPasswordController,
-    required VoidCallback onRegister,
-    required VoidCallback onGoToLogin,
-  })  : _formKey = formKey,
-        _firstNameController = firstNameController,
-        _accountController = accountController,
-        _passwordController = passwordController,
-        _confirmPasswordController = confirmPasswordController,
-        _onRegister = onRegister,
-        _onGoToLogin = onGoToLogin;
+    required this.formKey,
+    required this.firstNameController,
+    required this.accountController,
+    required this.passwordController,
+    required this.confirmPasswordController,
+    required this.onRegister,
+    required this.onGoToLogin,
+    this.isLoading = false, VoidCallback? onregister, required this.phoneController,
+  }) : _onregister = onregister;
 
-  final GlobalKey<FormState> _formKey;
-  final TextEditingController _firstNameController;
-  final TextEditingController _accountController;
-  final TextEditingController _passwordController;
-  final TextEditingController _confirmPasswordController;
-
-  final VoidCallback _onRegister;
-  final VoidCallback _onGoToLogin;
+  final GlobalKey<FormState> formKey;
+  final TextEditingController firstNameController;
+  final TextEditingController accountController;
+  final TextEditingController passwordController;
+   final TextEditingController phoneController;
+  final TextEditingController confirmPasswordController;
+final VoidCallback? _onregister;
+  final VoidCallback? onRegister;
+  final VoidCallback onGoToLogin;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -53,12 +53,12 @@ class RegisterContent extends StatelessWidget {
             const _RegisterTitle(),
             SizedBox(height: 24.h),
             Form(
-              key: _formKey,
+              key: formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   LoginTextField(
-                    controller: _firstNameController,
+                    controller: firstNameController,
                     hintText: 'الاسم الأول',
                     keyboardType: TextInputType.name,
                     icon: IconsaxPlusLinear.user,
@@ -68,10 +68,14 @@ class RegisterContent extends StatelessWidget {
                       }
                       return null;
                     },
+
+                    onChanged: (value) {
+                      context.read<AuthBloc>().add(NameChanged(value));
+                    },
                   ),
                   SizedBox(height: 16.h),
                   LoginTextField(
-                    controller: _accountController,
+                    controller: accountController,
                     hintText: 'البريد الإلكتروني أو رقم الهاتف',
                     keyboardType: TextInputType.emailAddress,
                     icon: IconsaxPlusLinear.sms,
@@ -81,10 +85,28 @@ class RegisterContent extends StatelessWidget {
                       }
                       return null;
                     },
+
+                    onChanged: (value) {
+                      context.read<AuthBloc>().add(EmailChanged(value));
+                    },
+                  ),  SizedBox(height: 16.h),
+                    LoginTextField(
+                    controller: phoneController,
+                    hintText: 'رقم الهاتف',
+                    isPassword: false,
+                    keyboardType: TextInputType.visiblePassword,
+                    icon: IconsaxPlusLinear.lock_1,
+                  
+
+                    onChanged: (value) {
+                      context.read<AuthBloc>().add(
+                        PhoneChanged(value),
+                      );
+                    },
                   ),
                   SizedBox(height: 16.h),
                   LoginTextField(
-                    controller: _passwordController,
+                    controller: passwordController,
                     hintText: 'كلمة المرور',
                     isPassword: true,
                     keyboardType: TextInputType.visiblePassword,
@@ -96,12 +118,17 @@ class RegisterContent extends StatelessWidget {
                       if (v.trim().length < 6) {
                         return 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
                       }
+
                       return null;
+                    },
+
+                    onChanged: (value) {
+                      context.read<AuthBloc>().add(PasswordChanged(value));
                     },
                   ),
                   SizedBox(height: 16.h),
                   LoginTextField(
-                    controller: _confirmPasswordController,
+                    controller: confirmPasswordController,
                     hintText: 'تأكيد كلمة المرور',
                     isPassword: true,
                     keyboardType: TextInputType.visiblePassword,
@@ -110,18 +137,24 @@ class RegisterContent extends StatelessWidget {
                       if (v == null || v.trim().isEmpty) {
                         return 'أعد إدخال كلمة المرور';
                       }
-                      if (v.trim() != _passwordController.text.trim()) {
+                      if (v.trim() != passwordController.text.trim()) {
                         return 'كلمتا المرور غير متطابقتين';
                       }
                       return null;
+                    },
+
+                    onChanged: (value) {
+                      context.read<AuthBloc>().add(
+                        ConfirmPasswordChanged(value),
+                      );
                     },
                   ),
                   SizedBox(height: 45.h),
                   SizedBox(
                     height: AppConstants.buttonHeight.h,
                     child: AppButton(
-                      onPressed: _onRegister,
-                      text: 'إنشاء حساب',
+                      onPressed: isLoading ? null : onRegister,
+                      text: isLoading ? 'جاري الإنشاء...' : 'إنشاء حساب',
                       backgroundColor: AppColors.orange,
                       textColor: AppColors.white,
                     ),
@@ -138,7 +171,7 @@ class RegisterContent extends StatelessWidget {
                         ),
                       ),
                       GestureDetector(
-                        onTap: _onGoToLogin,
+                        onTap: _onregister,
                         child: Text(
                           'تسجيل الدخول',
                           style: context.textTheme.bodyMedium?.copyWith(
@@ -173,29 +206,28 @@ class _RegisterTitle extends StatelessWidget {
           'Create Your Account',
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: AppColors.orange,
-                fontWeight: FontWeight.w700,
-                fontSize: 26.sp,
-                letterSpacing: 0.4,
-                height: 1.25,
-                fontFamily: 'Poppins',
-              ),
+            color: AppColors.orange,
+            fontWeight: FontWeight.w700,
+            fontSize: 26.sp,
+            letterSpacing: 0.4,
+            height: 1.25,
+            fontFamily: 'Poppins',
+          ),
         ),
         SizedBox(height: 8.h),
         Text(
-          'We’re here to keep your car in top shape.         Are you ready?',
+          'We’re here to keep your car in top shape. Are you ready?',
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.lightPrimary,
-                fontSize: 15.sp,
-                height: 1.35,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Poppins',
-              ),
+            color: AppColors.lightPrimary,
+            fontSize: 15.sp,
+            height: 1.35,
+            fontWeight: FontWeight.w500,
+            fontFamily: 'Poppins',
+          ),
         ),
         SizedBox(height: 45.h),
       ],
     );
   }
 }
-

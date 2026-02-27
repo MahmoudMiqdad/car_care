@@ -9,7 +9,7 @@ class LoginContent extends StatelessWidget {
     required GlobalKey<FormState> formKey,
     required TextEditingController accountController,
     required TextEditingController passwordController,
-    required VoidCallback onLogin,
+    VoidCallback? onLogin,
     VoidCallback? onForgotPassword,
     VoidCallback? onRegister,
   })  : _formKey = formKey,
@@ -23,7 +23,7 @@ class LoginContent extends StatelessWidget {
   final TextEditingController _accountController;
   final TextEditingController _passwordController;
 
-  final VoidCallback _onLogin;
+ final VoidCallback? _onLogin;
   final VoidCallback? _onForgotPassword;
   final VoidCallback? _onRegister;
 

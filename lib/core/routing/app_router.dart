@@ -1,6 +1,7 @@
 import 'package:car_care/features/auth/presentation/pages/login_page.dart';
 
 import 'package:car_care/core/routing/routes.dart';
+import 'package:car_care/features/auth/presentation/pages/register_page.dart';
 import 'package:go_router/go_router.dart';
 
 
@@ -20,11 +21,11 @@ class AppRouter {
         name: '/login',
         builder: (context, state) => const LoginPage(),
       ),
-      //       GoRoute(
-      //   path: Routes.signup,
-      //   name: '/signup',
-      //   builder: (context, state) => const SignupPage(),
-      // ),
+            GoRoute(
+        path: Routes.signup,
+        name: '/RegisterPage',
+        builder: (context, state) => const RegisterPage(),
+      ),
       //       GoRoute(
       //   path: Routes.forget_password,
       //   name: '/forget_password',
