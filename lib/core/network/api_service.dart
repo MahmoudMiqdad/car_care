@@ -1,18 +1,31 @@
 import 'dart:io';
-import 'package:car_care/core/errors/failures.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
+import 'package:car_care/core/errors/excptions.dart';
+import 'package:car_care/core/errors/filuar.dart';
+import 'package:car_care/core/network/api_client.dart';
+import 'package:dio/dio.dart';
 
 class ApiService {
-  ApiService(this._dio);
+  ApiService(this._apiClient);
 
-  final Dio _dio;
+  final ApiClient _apiClient;
 
-  Future<Map<String, dynamic>> get({required String endPoint}) async {
-    return _performRequest(() => _dio.get(endPoint));
+  Dio get _dio => _apiClient.dio;
+
+  /// GET request
+  Future<Map<String, dynamic>> get({
+    required String endPoint,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    return _performRequest(
+      () => _dio.get(
+        endPoint,
+        queryParameters: queryParameters,
+      ),
+    );
   }
 
+  /// POST request
   Future<Map<String, dynamic>> post({
     required String endPoint,
     dynamic data,
@@ -22,6 +35,7 @@ class ApiService {
     );
   }
 
+  /// PUT request
   Future<Map<String, dynamic>> put({
     required String endPoint,
     required String id,
@@ -32,6 +46,7 @@ class ApiService {
     );
   }
 
+  /// DELETE request
   Future<Map<String, dynamic>> delete({
     required String endPoint,
     required String id,
@@ -41,6 +56,7 @@ class ApiService {
     );
   }
 
+  /// Download file
   Future<File> downloadFile({
     required String endPoint,
     required String filePath,
@@ -54,34 +70,49 @@ class ApiService {
       );
       return File(filePath);
     } on DioException catch (e) {
-      throw _handleError(e);
+      handelDioExcptions(e);
+      rethrow; // احتياط
+    } catch (_) {
+      throw ServerExpcptions(
+        error: const Failure(message: "حدث خطأ غير متوقع"),
+      );
     }
   }
 
+  /// perform request
   Future<Map<String, dynamic>> _performRequest(
     Future<Response> Function() request,
   ) async {
     try {
       final response = await request();
-      return _handleResponse(response);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
 
-  Map<String, dynamic> _handleResponse(Response response) {
-    if (response.data is! Map<String, dynamic>) {
-      throw DioException(
-        requestOptions: response.requestOptions,
-        response: response,
-        type: DioExceptionType.badResponse,
-        error: 'Invalid format',
+      if (response.data is Map<String, dynamic>) {
+        return response.data as Map<String, dynamic>;
+      }
+
+      return {'data': response.data};
+    } on DioException catch (e) {
+      handelDioExcptions(e);
+      rethrow; // لن يصل هنا لأن handelDioExcptions ترمي Exception
+    } catch (_) {
+      throw ServerExpcptions(
+        error: const Failure(message: "حدث خطأ غير متوقع"),
       );
     }
-    return response.data as Map<String, dynamic>;
   }
 
-  Failure _handleError(DioException error) {
-    return ServerFailure.fromDioError(error);
+  /// absolute url
+  Future<Response<dynamic>> getAbsoluteUrl(String url) async {
+    final dio = Dio(
+      BaseOptions(
+        followRedirects: true,
+        validateStatus: (_) => true,
+        headers: const {
+          'Accept': 'application/json',
+        },
+      ),
+    );
+
+    return dio.get(url);
   }
 }

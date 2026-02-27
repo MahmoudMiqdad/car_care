@@ -1,6 +1,14 @@
+import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/features/auth/domain/repositories/abstract/i_auth_repository.dart';
+
+import 'package:car_care/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:car_care/features/auth/presentation/bloc/auth_event.dart';
+import 'package:car_care/features/auth/presentation/bloc/auth_state.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_header.dart';
 import 'package:car_care/features/auth/presentation/widgets/register/register_content.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -11,59 +19,72 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
-  final _firstNameController = TextEditingController();
-  final _accountController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
   @override
-  void dispose() {
-    _firstNameController.dispose();
-    _accountController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    super.dispose();
-  }
-
-  void _onRegister() {
-    if (!(_formKey.currentState?.validate() ?? false)) return;
-  }
-
-  void _onGoToLogin() {
-    Navigator.of(context).maybePop();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
+    return BlocProvider(
+      create: (_) => AuthBloc(getIt<IAuthRepository>()),
       child: Scaffold(
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            Image.asset(
-              'assets/images/BK_.png',
-              fit: BoxFit.cover,
-            ),
-            SafeArea(
-              child: Column(
-                children: [
-                  const LoginHeader(),
-                  Expanded(
-                    child: RegisterContent(
-                      formKey: _formKey,
-                      firstNameController: _firstNameController,
-                      accountController: _accountController,
-                      passwordController: _passwordController,
-                      confirmPasswordController: _confirmPasswordController,
-                      onRegister: _onRegister,
-                      onGoToLogin: _onGoToLogin,
-                    ),
+        body: BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state is AuthFailure) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.message)));
+            } else if (state is AuthSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("تم إنشاء الحساب بنجاح")),
+              );
+
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                GoRouter.of(context).go('/login');
+              });
+            }
+          },
+          builder: (context, state) {
+            bool isLoading = false;
+            bool isValid = true;
+
+            if (state is AuthFormState) {
+              isValid = state.isValid;
+            }
+            return Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.asset('assets/images/BK_.png', fit: BoxFit.cover),
+                SafeArea(
+                  child: Column(
+                    children: [
+                      LoginHeader(),
+                      Expanded(
+                        child: RegisterContent(
+                          phoneController: _phoneController,
+                          formKey: _formKey,
+                          firstNameController: _nameController,
+                          accountController: _emailController,
+                          passwordController: _passwordController,
+                          confirmPasswordController: _confirmPasswordController,
+                          onRegister: (isValid && !isLoading)
+                              ? () => context.read<AuthBloc>().add(
+                                  SubmitRegister(),
+                                )
+                              : null,
+                          onGoToLogin: () => Navigator.pop(context),
+                          isLoading: isLoading,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          ],
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

@@ -37,14 +37,27 @@ class ServerFailure extends Failure {
   }
 
   factory ServerFailure.fromResponse(int? statusCode, dynamic response) {
-    if (statusCode == 400 || statusCode == 401 || statusCode == 403) {
-      return ServerFailure(response['error']['message'].toString());
-    } else if (statusCode == 404) {
-      return ServerFailure('Your request not found, Please try later!');
-    } else if (statusCode == 500) {
-      return ServerFailure('Internal Server error, Please try later');
-    } else {
-      return ServerFailure('Opps There was an Error, Please try again');
+  try {
+    // لو response من نوع Map
+    if (response is Map<String, dynamic>) {
+      // لو السيرفر رجع errors
+      if (response['errors'] != null) {
+        final errors = response['errors'] as Map<String, dynamic>;
+        // ناخد أول قيمة لأي حقل، مثلا 'email'
+        final firstField = errors.keys.first;
+        final firstMessage = (errors[firstField] as List).first;
+        return ServerFailure(firstMessage.toString());
+      }
+      // أو ناخد message العام
+      if (response['message'] != null) {
+        return ServerFailure(response['message'].toString());
+      }
     }
+
+    // fallback
+    return ServerFailure('حدث خطأ غير متوقع');
+  } catch (e) {
+    return ServerFailure('حدث خطأ غير متوقع');
   }
+}
 }

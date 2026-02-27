@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
-
 class AppTextField extends StatefulWidget {
   const AppTextField({
     super.key,
@@ -15,6 +14,7 @@ class AppTextField extends StatefulWidget {
     this.keyboardType,
     this.isPassword = false,
     this.onChanged,
+    this.errorText,
   });
 
   final TextEditingController? controller;
@@ -25,6 +25,7 @@ class AppTextField extends StatefulWidget {
   final TextInputType? keyboardType;
   final bool isPassword;
   final void Function(String)? onChanged;
+  final String? errorText;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -50,28 +51,18 @@ class _AppTextFieldState extends State<AppTextField> {
       style: context.textTheme.bodyLarge?.copyWith(
         fontSize: 16.sp,
         fontWeight: FontWeight.w500,
-        letterSpacing: 0.2,
       ),
       decoration: InputDecoration(
-        filled: false,
         hintText: widget.hintText,
-        hintStyle: context.textTheme.bodyMedium?.copyWith(
-          color: context.colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
-          fontSize: 14.sp,
-        ),
         prefixIcon: widget.prefixIcon,
+        errorText: widget.errorText, // 🔥 هذا المهم
         isDense: true,
-        contentPadding: EdgeInsets.symmetric(
-          vertical: 14.h,
-        ),
+        contentPadding: EdgeInsets.symmetric(vertical: 14.h),
         border: InputBorder.none,
-        enabledBorder: InputBorder.none,
-        focusedBorder: InputBorder.none,
-        errorBorder: InputBorder.none,
-        focusedErrorBorder: InputBorder.none,
         suffixIcon: widget.isPassword
             ? IconButton(
-                onPressed: () => setState(() => _obscureText = !_obscureText),
+                onPressed: () =>
+                    setState(() => _obscureText = !_obscureText),
                 icon: Icon(
                   _obscureText
                       ? IconsaxPlusLinear.eye
