@@ -1,6 +1,7 @@
 import 'package:car_care/core/network/api_endpoints.dart';
 import 'package:car_care/core/network/api_service.dart';
-import 'package:car_care/features/auth/domain/model/auth_modeldart';
+import 'package:car_care/features/auth/domain/model/auth_model.dart';
+
 
 class AuthRemoteDataSource {
   const AuthRemoteDataSource(this._apiService);

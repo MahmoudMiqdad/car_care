@@ -1,3 +1,4 @@
+import 'package:car_care/features/home/presentation/pages/home_page.dart';
 import 'package:car_care/features/auth/presentation/pages/login_page.dart';
 
 import 'package:car_care/core/routing/routes.dart';
@@ -41,7 +42,12 @@ class AppRouter {
   //       name: '/register',
   //       builder: (context, state) => const RegisterPage(),
   //     ),
-       ],
+             GoRoute(
+        path: Routes.home,
+        name: '/home',
+        builder: (context, state) => const HomePage(),
+      ),
+      ],
 
   //   // Error handling (Page not found)
   //   errorBuilder: (context, state) => const Scaffold(

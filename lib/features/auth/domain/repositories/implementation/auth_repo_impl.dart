@@ -2,7 +2,7 @@ import 'package:car_care/core/errors/excptions.dart';
 
 import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/features/auth/data/data_sources/auth_remote_data_source.dart';
-import 'package:car_care/features/auth/domain/model/auth_modeldart';
+import 'package:car_care/features/auth/domain/model/auth_model.dart';
 import 'package:car_care/features/auth/domain/repositories/abstract/i_auth_repository.dart';
 import 'package:dartz/dartz.dart';
 
