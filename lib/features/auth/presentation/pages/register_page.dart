@@ -1,3 +1,4 @@
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/features/auth/domain/repositories/abstract/i_auth_repository.dart';
 
@@ -75,8 +76,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   SubmitRegister(),
                                 )
                               : null,
-                          onGoToLogin: () => Navigator.pop(context),
-                          isLoading: isLoading,
+                          onGoToLogin: (){  GoRouter.of(context).go(Routes.login);},
                         ),
                       ),
                     ],

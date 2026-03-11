@@ -21,7 +21,7 @@ class LoginHeader extends StatelessWidget {
           TextButton.icon(
             onPressed: () => context.canPop()
                 ? context.pop()
-                : context.go(Routes.splash),
+                : context.go(Routes.signup),
             style: TextButton.styleFrom(
               foregroundColor: const Color.fromARGB(255, 255, 255, 255),
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 10.h),

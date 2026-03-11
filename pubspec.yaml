@@ -29,6 +29,7 @@ dependencies:
   vector_graphics: ^1.1.19
   flutter_native_splash: ^2.4.7
   flutter_dotenv: ^6.0.0
+  hive_local_storage: ^2.0.12
 dev_dependencies:
   flutter_lints: ^6.0.0
   vector_graphics_compiler:

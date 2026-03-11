@@ -4,7 +4,7 @@ class AppConstants {
   AppConstants._();
 
   // --- App Info ---
-  static const String appName = 'Qatrah';
+  static const String appName = 'Car care';
   static const String appEmail = 'contact@example.com';
   static const String appPhone = '+963xxx-xxx-xxx';
 

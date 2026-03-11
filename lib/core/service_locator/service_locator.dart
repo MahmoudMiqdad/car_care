@@ -34,6 +34,10 @@ Future<void> setupServiceLocator() async {
       () => AuthRemoteDataSource(getIt<ApiService>()),
     )
     ..registerLazySingleton<IAuthRepository>(
-      () => AuthRepositoryImpl(getIt<AuthRemoteDataSource>()),
-    );
+  () => AuthRepositoryImpl(
+    getIt<AuthRemoteDataSource>(),
+    getIt<SecureStorage>(), // ← أضف هذا
+  ),
+);
+
 }

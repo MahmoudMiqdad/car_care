@@ -171,7 +171,7 @@ final VoidCallback? _onregister;
                         ),
                       ),
                       GestureDetector(
-                        onTap: _onregister,
+                        onTap: onGoToLogin,
                         child: Text(
                           'تسجيل الدخول',
                           style: context.textTheme.bodyMedium?.copyWith(
@@ -190,7 +190,7 @@ final VoidCallback? _onregister;
         ),
       ),
     );
-  }
+  }  
 }
 
 class _RegisterTitle extends StatelessWidget {

@@ -62,7 +62,7 @@ class _LoginTextFieldState extends State<LoginTextField> {
           keyboardType: widget.keyboardType,
           onChanged: widget.onChanged,
           validator: widget.validator,
-          errorText: widget.errorText, // 🔥 تمرير الخطأ
+          errorText: widget.errorText,
           prefixIcon: Padding(
             padding: EdgeInsets.symmetric(horizontal: 14.w),
             child: Icon(
