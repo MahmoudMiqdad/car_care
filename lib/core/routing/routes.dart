@@ -7,4 +7,5 @@ class Routes {
   static const String otp = '/otp';
   static const String register = '/register';
   static const String home = '/home';
+  static const String profile_setup = '/profile_setup';
 }
