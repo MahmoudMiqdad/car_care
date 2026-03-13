@@ -35,34 +35,30 @@ class _ProfileSetupFormState extends State<ProfileSetupForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // 1. حقل الاسم
         LoginTextField(
           controller: _nameController,
           hintText: 'الاسم الكامل',
-          icon: IconsaxPlusLinear.user, // استخدام أيقوناتك
+          icon: IconsaxPlusLinear.user, 
           keyboardType: TextInputType.name,
         ),
         SizedBox(height: 16.h),
 
-        // 2. حقل رقم الهاتف
         LoginTextField(
           controller: _phoneController,
           hintText: 'رقم الهاتف',
-          icon: IconsaxPlusLinear.call, // استخدام أيقوناتك
+          icon: IconsaxPlusLinear.call, 
           keyboardType: TextInputType.phone,
         ),
         SizedBox(height: 16.h),
 
-        // 3. حقل كلمة المرور الحالية
         LoginTextField(
           controller: _currentPasswordController,
           hintText: 'كلمة المرور الحالية',
-          icon: IconsaxPlusLinear.lock_1, // استخدام أيقوناتك
+          icon: IconsaxPlusLinear.lock_1, 
           isPassword: true,
         ),
         SizedBox(height: 16.h),
 
-        // 4. حقل كلمة المرور الجديدة
         LoginTextField(
           controller: _newPasswordController,
           hintText: 'كلمة المرور الجديدة',
@@ -72,12 +68,10 @@ class _ProfileSetupFormState extends State<ProfileSetupForm> {
         
         SizedBox(height: 40.h),
 
-        // 5. زر الحفظ
         SizedBox(
           height: AppConstants.buttonHeight.h,
           child: AppButton(
             onPressed: () {
-              // كود الحفظ هنا
             },
             text: 'حفظ و متابعة',
             backgroundColor: AppColors.orange,
