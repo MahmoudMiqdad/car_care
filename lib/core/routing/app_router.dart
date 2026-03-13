@@ -1,14 +1,14 @@
-import 'package:car_care/features/profile/presentation/pages/profile_setup_page.dart';
 import 'package:car_care/features/profile/presentation/pages/profile_page.dart';
 import 'package:car_care/features/auth/presentation/pages/login_page.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/features/auth/presentation/pages/register_page.dart';
 import 'package:car_care/features/home/presentation/pages/home_page.dart';
+import 'package:car_care/features/profile/presentation/pages/profile_setup_page.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
-    initialLocation: Routes.profile,
+    initialLocation: Routes.profile_setup,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(

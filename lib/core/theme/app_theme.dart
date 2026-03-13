@@ -12,7 +12,15 @@ class AppTheme {
   }) {
     final fontFamily = AppTypography.getFontFamily(languageCode);
     final colorScheme = isDark ? _darkScheme : _lightScheme;
-
+// في ملف الـ Theme الخاص بك
+ThemeData(
+  appBarTheme: AppBarTheme(
+    backgroundColor: AppColors.primary,
+    elevation: 0,
+    centerTitle: true,
+    iconTheme: const IconThemeData(color: Colors.white),
+  ),
+);
     return ThemeData(
       useMaterial3: true,
       brightness: isDark ? Brightness.dark : Brightness.light,
