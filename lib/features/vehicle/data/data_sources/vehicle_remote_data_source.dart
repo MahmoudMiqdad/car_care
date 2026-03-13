@@ -1,13 +1,68 @@
+import 'package:car_care/core/network/api_endpoints.dart';
 import 'package:car_care/core/network/api_service.dart';
+import 'package:car_care/features/vehicle/data/model/vehicle_model.dart';
 
 class VehicleRemoteDataSource {
-
   const VehicleRemoteDataSource(this._apiService);
 
   final ApiService _apiService;
 
-  Future<Map<String, dynamic>> myVehiclesPage(Map<String, dynamic> data) async => _apiService.post(endPoint: 'vehicle/my_vehicles_page', data: data);
-  Future<Map<String, dynamic>> addVehicle(Map<String, dynamic> data) async => _apiService.post(endPoint: 'vehicle/add_vehicle', data: data);
-  Future<Map<String, dynamic>> vehicleDetails(Map<String, dynamic> data) async => _apiService.post(endPoint: 'vehicle/vehicle_details', data: data);
+  Future<List<VehicleModel>> getAllVehicles() async {
+    final response = await _apiService.get(
+      endPoint: ApiEndpoints.vehicles,
+    );
 
+    final data = response['data'] as List<dynamic>? ?? [];
+
+    return data
+        .map(
+          (vehicle) => VehicleModel.fromJson(
+            vehicle as Map<String, dynamic>,
+          ),
+        )
+        .toList();
+  }
+
+  Future<VehicleModel> addVehicle(Map<String, dynamic> data) async {
+    final response = await _apiService.post(
+      endPoint: ApiEndpoints.vehicles,
+      data: data,
+    );
+
+    return VehicleModel.fromJson(
+      response['data'] as Map<String, dynamic>,
+    );
+  }
+
+  Future<VehicleModel> getVehicleDetails(int id) async {
+    final response = await _apiService.get(
+      endPoint: '${ApiEndpoints.vehicles}/$id',
+    );
+
+    return VehicleModel.fromJson(
+      response['data'] as Map<String, dynamic>,
+    );
+  }
+
+  Future<VehicleModel> updateVehicle({
+    required int id,
+    required Map<String, dynamic> data,
+  }) async {
+    final response = await _apiService.put(
+      endPoint: ApiEndpoints.vehicles,
+      id: id.toString(),
+      data: data,
+    );
+
+    return VehicleModel.fromJson(
+      response['data'] as Map<String, dynamic>,
+    );
+  }
+
+  Future<void> deleteVehicle(int id) async {
+    await _apiService.delete(
+      endPoint: ApiEndpoints.vehicles,
+      id: id.toString(),
+    );
+  }
 }
