@@ -2,9 +2,9 @@
 
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/features/vehicle/presentation/widgets/RequestMaintenanceButton.dart';
-import 'package:car_care/features/vehicle/presentation/widgets/VehicleHeaderWidget.dart';
-import 'package:car_care/features/vehicle/presentation/widgets/VehicleInfoCardWidget.dart';
+import 'package:car_care/features/vehicle/presentation/widgets/VehicleDetails/RequestMaintenanceButton.dart';
+import 'package:car_care/features/vehicle/presentation/widgets/VehicleDetails/VehicleHeaderWidget.dart';
+import 'package:car_care/features/vehicle/presentation/widgets/VehicleDetails/VehicleInfoCardWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 class VehicleDetailsBody extends StatelessWidget {

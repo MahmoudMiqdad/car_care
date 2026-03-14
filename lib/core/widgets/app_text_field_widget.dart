@@ -15,6 +15,10 @@ class AppTextField extends StatefulWidget {
     this.isPassword = false,
     this.onChanged,
     this.errorText,
+    this.focusNode,
+    this.textAlign = TextAlign.start,
+    this.hintStyle,
+    this.contentPadding,
   });
 
   final TextEditingController? controller;
@@ -26,6 +30,10 @@ class AppTextField extends StatefulWidget {
   final bool isPassword;
   final void Function(String)? onChanged;
   final String? errorText;
+  final FocusNode? focusNode;
+  final TextAlign textAlign;
+  final TextStyle? hintStyle;
+  final EdgeInsetsGeometry? contentPadding;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -44,29 +52,31 @@ class _AppTextFieldState extends State<AppTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
+      focusNode: widget.focusNode,
       obscureText: _obscureText,
       keyboardType: widget.keyboardType,
       validator: widget.validator,
       onChanged: widget.onChanged,
+      textAlign: widget.textAlign,
       style: context.textTheme.bodyLarge?.copyWith(
         fontSize: 16.sp,
         fontWeight: FontWeight.w500,
       ),
       decoration: InputDecoration(
         hintText: widget.hintText,
+        hintStyle: widget.hintStyle,
         prefixIcon: widget.prefixIcon,
-        errorText: widget.errorText, // 🔥 هذا المهم
+        errorText: widget.errorText,
         isDense: true,
-        contentPadding: EdgeInsets.symmetric(vertical: 14.h),
+        contentPadding: widget.contentPadding ?? EdgeInsets.symmetric(vertical: 14.h),
         border: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        focusedBorder: InputBorder.none,
         suffixIcon: widget.isPassword
             ? IconButton(
-                onPressed: () =>
-                    setState(() => _obscureText = !_obscureText),
+                onPressed: () => setState(() => _obscureText = !_obscureText),
                 icon: Icon(
-                  _obscureText
-                      ? IconsaxPlusLinear.eye
-                      : IconsaxPlusLinear.eye_slash,
+                  _obscureText ? IconsaxPlusLinear.eye : IconsaxPlusLinear.eye_slash,
                   size: 20.sp,
                 ),
               )

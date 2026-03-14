@@ -1,5 +1,5 @@
 import 'package:car_care/core/constants/app_assets.dart';
-import 'package:car_care/core/constants/const.dart';
+import 'package:car_care/core/widgets/const.dart';
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
 import 'package:car_care/features/profile/presentation/widgets/ProfileBody.dart';

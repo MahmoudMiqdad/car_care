@@ -3,8 +3,8 @@
 import 'package:car_care/core/widgets/app_loading_widget.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_state.dart';
-import 'package:car_care/features/vehicle/presentation/widgets/RefreshHint.dart';
-import 'package:car_care/features/vehicle/presentation/widgets/VehiclesList.dart';
+import 'package:car_care/features/vehicle/presentation/widgets/MyVehicles/RefreshHint.dart';
+import 'package:car_care/features/vehicle/presentation/widgets/MyVehicles/VehiclesList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

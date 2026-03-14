@@ -1,12 +1,12 @@
 import 'package:car_care/core/constants/app_assets.dart';
-import 'package:car_care/core/constants/const.dart';
+import 'package:car_care/core/widgets/const.dart';
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit.dart';
-import 'package:car_care/features/vehicle/presentation/widgets/VehiclesBody.dart';
+import 'package:car_care/features/vehicle/presentation/widgets/MyVehicles/VehiclesBody.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
