@@ -1,9 +1,11 @@
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/extensions/theme_extension.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/home/presentation/widgets/ServicesGrid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeBody extends StatelessWidget {
   const HomeBody({super.key});
@@ -33,10 +35,13 @@ class HomeBody extends StatelessWidget {
                 ),
               ],
             ),
-            child: ServicesGrid(
-              onItemPressed: (index) {
-              },
-            ),
+            child:ServicesGrid(
+  onItemPressed: (index) {
+    if (index == 0) {
+      context.go(Routes.my_vehicles_page);
+    }
+  },
+),
           ),
           SizedBox(height: 16.h),
         ],

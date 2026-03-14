@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/VehicleCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class VehiclesList extends StatelessWidget {
   const VehiclesList({super.key, required this.items});
 
-  final List<VehicleItem> items;
+  final List<VehicleEntity> items;
 
   @override
   Widget build(BuildContext context) {
@@ -20,20 +21,4 @@ class VehiclesList extends StatelessWidget {
       },
     );
   }
-}
-
-class VehicleItem {
-  const VehicleItem({
-    required this.imageAsset,
-    required this.name,
-    required this.year,
-    required this.plateNumber,
-    required this.mileage,
-  });
-
-  final String imageAsset;
-  final String name;
-  final String year;
-  final String plateNumber;
-  final String mileage;
 }

@@ -1,8 +1,12 @@
 // ignore_for_file: file_names
 
+import 'package:car_care/core/widgets/app_loading_widget.dart';
+import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit.dart';
+import 'package:car_care/features/vehicle/presentation/cubit/vehicle_state.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/RefreshHint.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/VehiclesList.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class VehiclesBody extends StatelessWidget {
@@ -21,27 +25,33 @@ class VehiclesBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SizedBox(height: 16.h),
-          const RefreshHint(),
+          RefreshHint(
+            onTap: () {
+              context.read<VehicleCubit>().getAllVehicles();
+            },
+          ),
           SizedBox(height: 27.h),
-          const Expanded(
-            child: VehiclesList(
-              items: [
-                VehicleItem(
-                  imageAsset: 'assets/images/1.png',
-                  name: 'فيراري سبورت',
-                  year: '2025',
-                  plateNumber: '18-569847',
-                  mileage: '155,000',
-                ),
-                VehicleItem(
-                  imageAsset: 'assets/images/1.png',
-                  name: 'سابا ١٣٠',
-                  year: '2006',
-                  plateNumber: '215464',
-                  mileage: '265,000',
-                ),
-        
-              ],
+          Expanded(
+            child: BlocBuilder<VehicleCubit, VehicleState>(
+              builder: (context, state) {
+                if (state is VehicleLoading) {
+                  return const Center(child: AppLoadingWidget());
+                }
+
+                if (state is VehicleError) {
+                  return Center(child: Text(state.message));
+                }
+
+                if (state is VehicleEmpty) {
+                  return const Center(child: Text('لا توجد سيارات حتى الآن'));
+                }
+
+                if (state is VehicleLoaded) {
+                  return VehiclesList(items: state.vehicles);
+                }
+
+                return const SizedBox.shrink();
+              },
             ),
           ),
         ],

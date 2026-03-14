@@ -1,10 +1,37 @@
+import 'package:car_care/features/vehicle/domain/repositories/abstract/i_vehicle_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'vehicle_state.dart';
 
 class VehicleCubit extends Cubit<VehicleState> {
+  VehicleCubit(this._vehicleRepository) : super(const VehicleInitial());
 
-  VehicleCubit() : super(VehicleInitial());
+  final IVehicleRepository _vehicleRepository;
 
-  // TODO: Add business logic methods here
+  Future<void> getAllVehicles() async {
+    emit(const VehicleLoading());
 
+    final result = await _vehicleRepository.getAllVehicles();
+
+    result.fold(
+      (failure) => emit(VehicleError(failure.message)),
+      (vehicles) {
+        if (vehicles.isEmpty) {
+          emit(const VehicleEmpty());
+        } else {
+          emit(VehicleLoaded(vehicles));
+        }
+      },
+    );
+  }
+
+  Future<void> addVehicle(Map<String, dynamic> params) async {
+    emit(const VehicleAdding());
+
+    final result = await _vehicleRepository.addVehicle(params);
+
+    result.fold(
+      (failure) => emit(VehicleError(failure.message)),
+      (vehicle) => emit(VehicleAdded(vehicle)),
+    );
+  }
 }
