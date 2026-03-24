@@ -1,3 +1,4 @@
+import 'package:car_care/features/profile/presentation/pages/change_passwordpage.dart';
 import 'package:car_care/features/vehicle/presentation/pages/vehicle_details_page.dart';
 import 'package:car_care/features/vehicle/presentation/pages/add_vehicle_page.dart';
 import 'package:car_care/features/vehicle/presentation/pages/my_vehicles_page_page.dart';
@@ -54,6 +55,12 @@ initialLocation: Routes.profile,
         name: '/vehicle_details',
         builder: (context, state) => const VehicleDetailsPage(),
       ),
+        GoRoute(
+        path: Routes.change_password_page,
+        name: '/change_password',
+        builder: (context, state) => const ChangePasswordPage(),
+      ),
+
       ],
   );
 }

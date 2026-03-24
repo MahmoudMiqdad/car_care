@@ -1,7 +1,9 @@
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/features/profile/presentation/widgets/ProfileActionButton.dart';
-import 'package:car_care/features/profile/presentation/widgets/ProfileAvatar.dart';
-import 'package:car_care/features/profile/presentation/widgets/ProfileInfoCard.dart';
+import 'package:car_care/features/profile/presentation/pages/change_passwordpage.dart';
+import 'package:car_care/features/profile/presentation/pages/profile_setup_page.dart';
+import 'package:car_care/features/profile/presentation/widgets/profile_page/ProfileActionButton.dart';
+import 'package:car_care/features/profile/presentation/widgets/profile_setup/ProfileAvatar.dart';
+import 'package:car_care/features/profile/presentation/widgets/profile_page/ProfileInfoCard.dart';
 import 'package:car_care/features/profile/presentation/cubit/show_profile_cubit/show_profile_cubit.dart';
 import 'package:car_care/features/profile/presentation/cubit/show_profile_cubit/show_profile_state.dart';
 
@@ -55,7 +57,7 @@ class ProfileBody extends StatelessWidget {
 
                   ProfileInfoCard(
                     title: 'رقم الهاتف',
-                    value: profile.phone ?? '',
+                    value: profile.phone,
                     icon: Icons.phone_in_talk_outlined,
                   ),
 
@@ -73,16 +75,30 @@ class ProfileBody extends StatelessWidget {
                     text: 'تعديل الملف الشخصي',
                     backgroundColor: AppColors.orange,
                     textColor: Colors.white,
-                    onPressed: () {},
+                   onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ProfileSetupPage(),
+                        ),
+                      );
+                    },
                   ),
 
                   SizedBox(height: 16.h),
 
-                  ProfileActionButton(
+                 ProfileActionButton(
                     text: 'تعديل كلمة المرور',
                     backgroundColor: AppColors.orange,
                     textColor: Colors.white,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ChangePasswordPage(),
+                        ),
+                      );
+                    },
                   ),
 
                   SizedBox(height: 16.h),
