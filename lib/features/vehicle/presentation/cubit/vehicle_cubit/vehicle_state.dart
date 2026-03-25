@@ -28,12 +28,3 @@ class VehicleError extends VehicleState {
   final String message;
 }
 
-class VehicleAdding extends VehicleState {
-  const VehicleAdding();
-}
-
-class VehicleAdded extends VehicleState {
-  const VehicleAdded(this.vehicle);
-
-  final VehicleEntity vehicle;
-}

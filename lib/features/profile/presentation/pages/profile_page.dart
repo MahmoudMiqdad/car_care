@@ -3,7 +3,7 @@ import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/widgets/const.dart';
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
-import 'package:car_care/features/profile/presentation/widgets/ProfileBody.dart';
+import 'package:car_care/features/profile/presentation/widgets/profile_page/ProfileBody.dart';
 import 'package:car_care/features/profile/presentation/cubit/show_profile_cubit/show_profile_cubit.dart';
 
 

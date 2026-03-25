@@ -1,8 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/features/profile/presentation/widgets/ProfileAvatar.dart';
-import 'package:car_care/features/profile/presentation/widgets/ProfileSetupForm.dart';
+import 'package:car_care/features/profile/presentation/widgets/profile_setup/ProfileAvatar.dart';
+import 'package:car_care/features/profile/presentation/widgets/profile_setup/ProfileSetupForm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ProfileSetupContent extends StatelessWidget {

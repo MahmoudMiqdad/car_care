@@ -17,7 +17,7 @@ import 'package:go_router/go_router.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
-initialLocation: Routes.profile,
+    initialLocation: Routes.login,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -35,30 +35,38 @@ initialLocation: Routes.profile,
         name: '/home',
         builder: (context, state) => const HomePage(),
       ),
-            GoRoute(
+      GoRoute(
         path: Routes.profile,
         name: '/profile',
         builder: (context, state) => const ProfilePage(),
       ),
-            GoRoute(
+      GoRoute(
         path: Routes.profile_setup,
         name: '/profile_setup',
         builder: (context, state) => const ProfileSetupPage(),
       ),
-            GoRoute(
+       GoRoute(
+        path: Routes.change_password_page,
+        name: '/change_password',
+        builder: (context, state) => const ChangePasswordPage(),
+      ),
+      GoRoute(
         path: Routes.my_vehicles_page,
         name: '/my_vehicles_page',
         builder: (context, state) => const MyVehiclesPagePage(),
       ),
-            GoRoute(
+      GoRoute(
         path: Routes.add_vehicle,
         name: '/add_vehicle',
         builder: (context, state) => const AddVehiclePage(),
       ),
-            GoRoute(
+      GoRoute(
         path: Routes.vehicle_details,
         name: '/vehicle_details',
-        builder: (context, state) => const VehicleDetailsPage(),
+        builder: (context, state) {
+          final vehicleId = state.extra as int;
+          return VehicleDetailsPage(vehicleId: vehicleId);
+        },
       ),
             GoRoute(
         path: Routes.technician_profile,
@@ -93,4 +101,3 @@ initialLocation: Routes.profile,
       ],
   );
 }
-

@@ -1,74 +1,38 @@
 // ignore_for_file: file_names
 
-import 'package:car_care/core/extensions/theme_extension.dart';
-import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class VehicleInfoCardWidget extends StatelessWidget {
   final String title;
-  final Widget valueWidget;
-  final Widget iconWidget;
-  final VoidCallback onTap;
+  final String value;
+  final Widget icon;
 
-  const VehicleInfoCardWidget({
-    super.key,
-    required this.title,
-    required this.valueWidget,
-    required this.iconWidget,
-    required this.onTap,
-  });
+  const VehicleInfoCardWidget({super.key, required this.title, required this.value, required this.icon});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 10.r,
-            offset: const Offset(0, 4),
+        // ignore: deprecated_member_use
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 8, offset: const Offset(0, 2))],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: TextStyle(fontSize: 14.sp, color: Colors.black54, fontWeight: FontWeight.bold)),
+          SizedBox(height: 8.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              icon,
+              Text(value, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w900, color: Colors.black)),
+            ],
           ),
         ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(16.r),
-          onTap: onTap,
-          splashColor: AppColors.primary.withValues(alpha: 0.1),
-          highlightColor: AppColors.primary.withValues(alpha: 0.05),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        title,
-                        style: context.textTheme.bodyMedium?.copyWith(
-                          color: Colors.black54,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14.sp,
-                        ),
-                      ),
-                      SizedBox(height: 2.h),
-                      valueWidget,
-                    ],
-                  ),
-                ),
-                SizedBox(width: 12.w),
-                iconWidget,
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

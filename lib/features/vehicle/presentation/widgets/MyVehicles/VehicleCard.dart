@@ -1,10 +1,12 @@
 // ignore_for_file: file_names
 
 import 'package:car_care/core/extensions/theme_extension.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class VehicleCard extends StatelessWidget {
   const VehicleCard({super.key, required this.item});
@@ -86,7 +88,9 @@ class VehicleCard extends StatelessWidget {
             width: double.infinity,
             height: 48.h,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                context.push(Routes.vehicle_details, extra: item.id);
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.orange,
                 elevation: 0,
@@ -110,55 +114,51 @@ class VehicleCard extends StatelessWidget {
   }
 
   Widget _buildVehicleImage() {
-  final imageUrl = item.image?.trim();
+    final imageUrl = item.image?.trim();
 
-  debugPrint('Vehicle image url: $imageUrl');
+    debugPrint('Vehicle image url: $imageUrl');
 
-  if (imageUrl != null && imageUrl.isNotEmpty) {
-    return ClipOval(
-      child: Image.network(
-        imageUrl,
-        width: 90.w,
-        height: 90.w,
-        fit: BoxFit.cover,
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return Container(
-            width: 90.w,
-            height: 90.w,
-            color: AppColors.lightBorder,
-            child: const Center(
-              child: CircularProgressIndicator(strokeWidth: 2),
-            ),
-          );
-        },
-        errorBuilder: (context, error, stackTrace) {
-          debugPrint('Image load error: $error');
-          debugPrint('Failed image url: $imageUrl');
+    if (imageUrl != null && imageUrl.isNotEmpty) {
+      return ClipOval(
+        child: Image.network(
+          imageUrl,
+          width: 90.w,
+          height: 90.w,
+          fit: BoxFit.cover,
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Container(
+              width: 90.w,
+              height: 90.w,
+              color: AppColors.lightBorder,
+              child: const Center(
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+            );
+          },
+          errorBuilder: (context, error, stackTrace) {
+            debugPrint('Image load error: $error');
+            debugPrint('Failed image url: $imageUrl');
 
-          return Container(
-            width: 90.w,
-            height: 90.w,
-            color: AppColors.lightBorder,
-            child: Icon(
-              Icons.directions_car,
-              size: 40.sp,
-              color: AppColors.orange,
-            ),
-          );
-        },
-      ),
+            return Container(
+              width: 90.w,
+              height: 90.w,
+              color: AppColors.lightBorder,
+              child: Icon(
+                Icons.directions_car,
+                size: 40.sp,
+                color: AppColors.orange,
+              ),
+            );
+          },
+        ),
+      );
+    }
+
+    return CircleAvatar(
+      radius: 45.r,
+      backgroundColor: AppColors.lightBorder,
+      child: Icon(Icons.directions_car, size: 40.sp, color: AppColors.orange),
     );
   }
-
-  return CircleAvatar(
-    radius: 45.r,
-    backgroundColor: AppColors.lightBorder,
-    child: Icon(
-      Icons.directions_car,
-      size: 40.sp,
-      color: AppColors.orange,
-    ),
-  );
 }
-  }

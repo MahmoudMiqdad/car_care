@@ -12,8 +12,9 @@ import 'package:car_care/features/profile/presentation/cubit/show_profile_cubit/
 import 'package:car_care/features/vehicle/data/data_sources/vehicle_remote_data_source.dart';
 import 'package:car_care/features/vehicle/domain/repositories/abstract/i_vehicle_repository.dart';
 import 'package:car_care/features/vehicle/domain/repositories/implementation/vehicle_repos_impl.dart';
-import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit.dart';
-import 'package:dio/dio.dart';
+import 'package:car_care/features/vehicle/presentation/cubit/vehicle_add_cubit/vehicle_add_cubit.dart';
+import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_cubit.dart';
+import 'package:car_care/features/vehicle/presentation/cubit/vehicle_details_cubit/vehicle_details_cubit.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 
@@ -42,13 +43,12 @@ Future<void> setupServiceLocator() async {
       () => AuthRemoteDataSource(getIt<ApiService>()),
     )
     ..registerLazySingleton<IAuthRepository>(
-  () => AuthRepositoryImpl(
-    getIt<AuthRemoteDataSource>(),
-    getIt<SecureStorage>(), 
-  ),
-)
-
-  // Vehicle
+      () => AuthRepositoryImpl(
+        getIt<AuthRemoteDataSource>(),
+        getIt<SecureStorage>(),
+      ),
+    )
+    // Vehicle
     ..registerLazySingleton<VehicleRemoteDataSource>(
       () => VehicleRemoteDataSource(getIt<ApiService>()),
     )
@@ -58,15 +58,21 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<VehicleCubit>(
       () => VehicleCubit(getIt<IVehicleRepository>()),
     )
+    ..registerFactory<VehicleDetailsCubit>(
+      () => VehicleDetailsCubit(getIt<IVehicleRepository>()),
+    )
+    ..registerFactory<VehicleAddCubit>(
+      () => VehicleAddCubit(getIt<IVehicleRepository>()),
+    )
+    
     // Profile
     ..registerLazySingleton<ProfileRemoteDataSource>(
-  () => ProfileRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<IProfileRepository>(
-  () => ProfileRepositoryImpl(getIt<ProfileRemoteDataSource>()),
-)
-..registerFactory<ShowProfileCubit>(
-  () => ShowProfileCubit(getIt<IProfileRepository>()),
-);
-
+      () => ProfileRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<IProfileRepository>(
+      () => ProfileRepositoryImpl(getIt<ProfileRemoteDataSource>()),
+    )
+    ..registerFactory<ShowProfileCubit>(
+      () => ShowProfileCubit(getIt<IProfileRepository>()),
+    );
 }

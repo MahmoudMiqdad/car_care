@@ -1,6 +1,10 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:car_care/core/network/api_endpoints.dart';
 import 'package:car_care/core/network/api_service.dart';
 import 'package:car_care/features/vehicle/data/model/vehicle_model.dart';
+import 'package:dio/dio.dart';
 
 class VehicleRemoteDataSource {
   const VehicleRemoteDataSource(this._apiService);
@@ -23,17 +27,35 @@ class VehicleRemoteDataSource {
         .toList();
   }
 
-  Future<VehicleModel> addVehicle(Map<String, dynamic> data) async {
-    final response = await _apiService.post(
-      endPoint: ApiEndpoints.vehicles,
-      data: data,
-    );
+ Future<VehicleModel> addVehicle(Map<String, dynamic> data) async {
+  final imageBytes = data['image_bytes'] as Uint8List?;
+  final imageName = data['image_name'] as String?;
 
-    return VehicleModel.fromJson(
-      response['data'] as Map<String, dynamic>,
-    );
+  if (imageBytes == null || imageName == null) {
+    throw Exception('Image bytes/name are missing. Check VehicleAddCubit keys.');
   }
 
+  final formData = FormData.fromMap({
+    'brand': data['brand'],
+    'model': data['model'],
+    'year': data['year'],
+    'plate_number': data['plate_number'],
+    'current_km': data['current_km'],
+    'image': MultipartFile.fromBytes(
+      imageBytes,
+      filename: imageName,
+    ),
+  });
+
+  final response = await _apiService.post(
+    endPoint: ApiEndpoints.vehicles,
+    data: formData,
+  );
+
+  return VehicleModel.fromJson(
+    response['data'] as Map<String, dynamic>,
+  );
+}
   Future<VehicleModel> getVehicleDetails(int id) async {
     final response = await _apiService.get(
       endPoint: '${ApiEndpoints.vehicles}/$id',

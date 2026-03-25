@@ -24,14 +24,4 @@ class VehicleCubit extends Cubit<VehicleState> {
     );
   }
 
-  Future<void> addVehicle(Map<String, dynamic> params) async {
-    emit(const VehicleAdding());
-
-    final result = await _vehicleRepository.addVehicle(params);
-
-    result.fold(
-      (failure) => emit(VehicleError(failure.message)),
-      (vehicle) => emit(VehicleAdded(vehicle)),
-    );
-  }
 }

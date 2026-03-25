@@ -5,7 +5,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
-import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit.dart';
+import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/MyVehicles/VehiclesBody.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,12 +35,14 @@ class MyVehiclesPagePage extends StatelessWidget {
               ),
               child: IconButton(
                 padding: EdgeInsets.zero,
-                onPressed: () => context.go(Routes.add_vehicle),
-                icon: const Icon(
-                  Icons.add,
-                  color: AppColors.primary,
-                  size: 24,
-                ),
+                onPressed: () async {
+                  final added = await context.push<bool>(Routes.add_vehicle);
+
+                  if (added == true && context.mounted) {
+                    context.read<VehicleCubit>().getAllVehicles();
+                  }
+                },
+                icon: const Icon(Icons.add, color: AppColors.primary, size: 24),
                 splashRadius: 18,
               ),
             ),
@@ -48,10 +50,7 @@ class MyVehiclesPagePage extends StatelessWidget {
           body: Stack(
             fit: StackFit.expand,
             children: [
-              Image.asset(
-                AppAssets.artboardBackground,
-                fit: BoxFit.cover,
-              ),
+              Image.asset(AppAssets.artboardBackground, fit: BoxFit.cover),
               const VehiclesBody(),
             ],
           ),
