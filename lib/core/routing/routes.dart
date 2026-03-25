@@ -11,4 +11,10 @@ class Routes {
   static const String my_vehicles_page = '/my_vehicles_page';
   static const String add_vehicle = '/add_vehicle';
   static const String vehicle_details = '/vehicle_details';
+  static const String technician_profile = '/technician_profile';
+  static const String availability = '/availability';
+  static const String quotations = '/quotations';
+  static const String jobs = '/jobs';
+  static const String statistics = '/statistics';
+  static const String requests = '/requests';
 }

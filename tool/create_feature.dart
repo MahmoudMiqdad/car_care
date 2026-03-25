@@ -63,7 +63,7 @@ class ${pascal}Entity {
 
   _writeFile('$path/domain/repositories/i_${name}_repository.dart', '''
 import 'package:dartz/dartz.dart';
-import 'package:car_care/core/errors/failures.dart';
+import 'package:car_care/core/errors/filuar.dart';
 import '../entities/${name}_entity.dart';
 
 abstract class I${pascal}Repository {
