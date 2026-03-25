@@ -14,9 +14,10 @@ class Routes {
   static const String my_vehicles_page = '/my_vehicles_page';
   // ignore: constant_identifier_names
   static const String add_vehicle = '/add_vehicle';
+   static const String changepasswordpage = '/change_password_page';
   // ignore: constant_identifier_names
   static const String vehicle_details = '/vehicle_details';
-  static const String technician_profile = '/technician_profile';
+  static const String technicianprofile = '/technician_profile';
   static const String availability = '/availability';
   static const String quotations = '/quotations';
   static const String jobs = '/jobs';

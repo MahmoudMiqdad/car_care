@@ -3,6 +3,7 @@ import 'package:car_care/features/maintenance/statistics/presentation/pages/stat
 import 'package:car_care/features/maintenance/jobs/presentation/pages/jobs_page.dart';
 import 'package:car_care/features/maintenance/quotations/presentation/pages/quotations_page.dart';
 import 'package:car_care/features/maintenance/availability/presentation/pages/availability_page.dart';
+import 'package:car_care/features/profile/presentation/pages/change_passwordpage.dart';
 import 'package:car_care/features/technician_profile/presentation/pages/technician_profile_page.dart';
 import 'package:car_care/features/vehicle/presentation/pages/vehicle_details_page.dart';
 import 'package:car_care/features/vehicle/presentation/pages/add_vehicle_page.dart';
@@ -46,7 +47,7 @@ class AppRouter {
         builder: (context, state) => const ProfileSetupPage(),
       ),
        GoRoute(
-        path: Routes.change_password_page,
+        path: Routes.changepasswordpage,
         name: '/change_password',
         builder: (context, state) => const ChangePasswordPage(),
       ),
@@ -69,7 +70,7 @@ class AppRouter {
         },
       ),
             GoRoute(
-        path: Routes.technician_profile,
+        path: Routes.technicianprofile,
         name: '/technician_profile',
         builder: (context, state) => const TechnicianProfilePage(),
       ),
