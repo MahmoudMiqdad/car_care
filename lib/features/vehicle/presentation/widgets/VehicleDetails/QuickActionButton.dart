@@ -23,8 +23,8 @@ class QuickActionButton extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 90.w,
-          height: 90.w,
+          width: 60.w,
+          height: 60.w,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12.r),

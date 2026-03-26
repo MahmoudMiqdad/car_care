@@ -1,6 +1,9 @@
+// ignore_for_file: file_names
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
+import 'package:car_care/features/vehicle/presentation/widgets/UpdateVehicle/UpdateVehiclePage.dart';
+import 'package:car_care/features/vehicle/presentation/widgets/VehicleDetails/DeleteConfirmationDialog.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/VehicleDetails/QuickActionButton.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/VehicleDetails/ServiceRecordTile.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/VehicleDetails/VehicleHeaderWidget.dart';
@@ -87,13 +90,60 @@ class VehicleDetailsBody extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              QuickActionButton(label: 'حذف', iconPath: 'assets/images/delete.png', color: const Color(0xFFA12323), onTap: () {}),
-              QuickActionButton(label: 'تعديل', iconPath: 'assets/images/edit.png', color: AppColors.primary, onTap: () {}),
-              QuickActionButton(label: 'صيانة', iconPath: 'assets/images/2.png', color: AppColors.primary, onTap: () {}),
+QuickActionButton(
+  label: 'حذف',
+  iconPath: 'assets/images/delete.png',
+  color: const Color(0xFFA12323),
+  onTap: () {
+    showCustomDeleteDialog(
+      context,
+      vehicleName,
+      () {
+        Navigator.pop(context);
+      },
+    );
+  },
+),            
+QuickActionButton(
+  label: 'تعديل',
+  iconPath: 'assets/images/edit.png',
+  color: AppColors.primary,
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UpdateVehiclePage(vehicle: vehicle),
+      ),
+    );
+  },
+),              QuickActionButton(label: 'صيانة', iconPath: 'assets/images/2.png', color: AppColors.primary, onTap: () {}),
             ],
           ),
         ],
       ),
     );
   }
+}
+
+
+void showCustomDeleteDialog(BuildContext context, String name, VoidCallback onConfirm) {
+  showGeneralDialog(
+    context: context,
+    barrierDismissible: true,
+    barrierLabel: '',
+    transitionDuration: const Duration(milliseconds: 400),
+    pageBuilder: (context, anim1, anim2) => const SizedBox(),
+    transitionBuilder: (context, anim1, anim2, child) {
+      return Transform.scale(
+        scale: Curves.easeInOutBack.transform(anim1.value),
+        child: Opacity(
+          opacity: anim1.value,
+          child: DeleteConfirmationDialog(
+            vehicleName: name,
+            onDelete: onConfirm,
+          ),
+        ),
+      );
+    },
+  );
 }
