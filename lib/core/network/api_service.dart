@@ -34,7 +34,15 @@ class ApiService {
       () => _dio.post(endPoint, data: data),
     );
   }
-
+/// PATCH request
+Future<Map<String, dynamic>> patch({
+  required String endPoint,
+  dynamic data,
+}) async {
+  return _performRequest(
+    () => _dio.patch(endPoint, data: data),
+  );
+}
   /// PUT request
   Future<Map<String, dynamic>> put({
     required String endPoint,

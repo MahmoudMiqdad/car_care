@@ -1,4 +1,4 @@
-import 'package:car_care/features/auth/domain/repositories/abstract/i_auth_repository.dart';
+import 'package:car_care/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dartz/dartz.dart';
 

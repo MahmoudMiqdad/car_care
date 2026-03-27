@@ -32,6 +32,9 @@ dependencies:
   hive_local_storage: ^2.0.12
   image_picker: ^1.1.2
   lottie: ^3.3.2
+  freezed_annotation: ^3.1.0
+  json_annotation: ^4.11.0
+  freezed: ^3.2.5
 dev_dependencies:
   flutter_lints: ^6.0.0
   vector_graphics_compiler:
@@ -42,6 +45,8 @@ dev_dependencies:
     sdk: flutter
   mocktail: ^1.0.4
   very_good_analysis: ^10.0.0
+  build_runner: ^2.13.1
+  json_serializable: ^6.13.1
 flutter:
   generate: true
   uses-material-design: true

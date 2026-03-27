@@ -1,4 +1,4 @@
-import 'package:car_care/features/vehicle/domain/repositories/abstract/i_vehicle_repository.dart';
+import 'package:car_care/features/vehicle/domain/repositories/i_vehicle_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'vehicle_state.dart';
 
