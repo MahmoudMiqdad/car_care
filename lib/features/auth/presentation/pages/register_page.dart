@@ -1,6 +1,6 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
-import 'package:car_care/features/auth/domain/repositories/abstract/i_auth_repository.dart';
+import 'package:car_care/features/auth/domain/repositories/i_auth_repository.dart';
 
 import 'package:car_care/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_event.dart';
