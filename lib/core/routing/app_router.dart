@@ -16,14 +16,16 @@ import 'package:car_care/features/vehicle/presentation/pages/my_vehicles_page_pa
 import 'package:car_care/features/user_profile/presentation/pages/profile_page.dart';
 import 'package:car_care/features/auth/presentation/pages/login_page.dart';
 import 'package:car_care/core/routing/routes.dart';
+import 'package:car_care/core/widgets/const.dart';
 import 'package:car_care/features/auth/presentation/pages/register_page.dart';
 import 'package:car_care/features/home/presentation/pages/home_page.dart';
+import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
 import 'package:car_care/features/user_profile/presentation/pages/profile_setup_page.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
-    initialLocation: Routes.login,
+    initialLocation: Routes.requests,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -36,15 +38,31 @@ class AppRouter {
         name: '/signup',
         builder: (context, state) => const RegisterPage(),
       ),
-      GoRoute(
-        path: Routes.home,
-        name: '/home',
-        builder: (context, state) => const HomePage(),
-      ),
-      GoRoute(
-        path: Routes.profile,
-        name: '/profile',
-        builder: (context, state) => const ProfilePage(),
+      ShellRoute(
+        builder: (context, state, child) {
+          return MainAppShell(
+            bottomNavigationBar: HomeBottomNavBar(
+              onItemSelected: (index) {
+                if (index == 0) {
+                  context.go(Routes.home);
+                }
+              },
+            ),
+            child: child,
+          );
+        },
+        routes: [
+          GoRoute(
+            path: Routes.home,
+            name: '/home',
+            builder: (context, state) => const HomePage(),
+          ),
+          GoRoute(
+            path: Routes.profile,
+            name: '/profile',
+            builder: (context, state) => const ProfilePage(),
+          ),
+        ],
       ),
       GoRoute(
         path: Routes.profile_setup,

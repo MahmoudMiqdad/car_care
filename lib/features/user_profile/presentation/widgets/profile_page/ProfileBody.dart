@@ -1,7 +1,7 @@
+// ignore: file_names
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/buttons/app_button_widget.dart';
 import 'package:car_care/features/user_profile/presentation/pages/change_passwordpage.dart';
-import 'package:car_care/features/user_profile/presentation/pages/profile_setup_page.dart';
-import 'package:car_care/features/user_profile/presentation/widgets/profile_page/ProfileActionButton.dart';
 import 'package:car_care/features/user_profile/presentation/widgets/profile_setup/ProfileAvatar.dart';
 import 'package:car_care/features/user_profile/presentation/widgets/profile_page/ProfileInfoCard.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/show_profile_cubit/show_profile_cubit.dart';
@@ -71,51 +71,32 @@ class ProfileBody extends StatelessWidget {
 
                   SizedBox(height: 30.h),
 
-                  ProfileActionButton(
-                    text: 'تعديل الملف الشخصي',
-                    backgroundColor: AppColors.orange,
-                    textColor: Colors.white,
-                   onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ProfileSetupPage(),
-                        ),
-                      );
-                    },
-                  ),
+                 AppButton(
+                 text: 'تعديل الملف الشخصي',
+                backgroundColor: AppColors.orange,
+                onPressed: () {},),
 
                   SizedBox(height: 16.h),
 
-                 ProfileActionButton(
-                    text: 'تعديل كلمة المرور',
-                    backgroundColor: AppColors.orange,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ChangePasswordPage(),
-                        ),
-                      );
-                    },
-                  ),
-
+                 AppButton(
+                text: 'تعديل كلمة المرور',
+               backgroundColor: AppColors.orange,
+               onPressed: () {
+               Navigator.push(
+               context,
+               MaterialPageRoute(
+               builder: (context) => const ChangePasswordPage(),
+      ),);},),
                   SizedBox(height: 16.h),
-
-                  ProfileActionButton(
-                    text: 'حذف الحساب',
-                    backgroundColor: Colors.white,
-                    textColor: const Color(0xFFA12323),
-                    borderColor: const Color(0xFFA12323),
-                    onPressed: () {},
-                  ),
+                  AppButton(
+                 text: 'حذف الحساب',
+                 isOutline: true,
+                 backgroundColor: const Color(0xFFA12323), 
+                 onPressed: () {},)
                 ],
               ),
             ),
-          );
-        }
-
+          ); }
         return const SizedBox();
       },
     );
