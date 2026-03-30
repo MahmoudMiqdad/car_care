@@ -23,6 +23,7 @@ class Routes {
   static const String jobs = '/jobs';
   static const String statistics = '/statistics';
   static const String requests = '/requests';
+  static const String maintenanceHistory = '/maintenanceHistory';
   static const String rate_job = '/rate_job';
   static const String technician_requests = '/technician_requests';
   static const String technician_quotations = '/technician_quotations';

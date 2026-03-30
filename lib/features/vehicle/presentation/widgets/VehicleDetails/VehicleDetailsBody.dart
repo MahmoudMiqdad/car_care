@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 import 'package:car_care/core/extensions/theme_extension.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/vehicle_header.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
@@ -10,6 +11,7 @@ import 'package:car_care/features/vehicle/presentation/widgets/VehicleDetails/Se
 import 'package:car_care/features/vehicle/presentation/widgets/VehicleDetails/VehicleInfoCardWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class VehicleDetailsBody extends StatelessWidget {
   const VehicleDetailsBody({super.key, required this.vehicle});
@@ -88,7 +90,11 @@ class VehicleDetailsBody extends StatelessWidget {
             style: context.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, fontSize: 18.sp),
           ),
           SizedBox(height: 5.h),
-          ServiceRecordTile(title: 'سجل الصيانة', icon: Icons.build_outlined, onTap: () {}),
+          ServiceRecordTile(
+            title: 'سجل الصيانة',
+            icon: Icons.build_outlined,
+            onTap: () => context.go(Routes.maintenanceHistory, extra: vehicle.id),
+          ),
           SizedBox(height: 8.h),
           ServiceRecordTile(title: 'سجل الوقود', icon: Icons.local_gas_station_outlined, onTap: () {}),
           SizedBox(height: 8.h),

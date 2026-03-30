@@ -11,6 +11,7 @@ import 'package:car_care/features/maintenance/user_quotations/presentation/pages
 import 'package:car_care/features/user_profile/presentation/pages/change_passwordpage.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/pages/technician_profile_page.dart';
 import 'package:car_care/features/vehicle/presentation/pages/vehicle_details_page.dart';
+import 'package:car_care/features/vehicle/presentation/pages/maintenance_history_page.dart';
 import 'package:car_care/features/vehicle/presentation/pages/add_vehicle_page.dart';
 import 'package:car_care/features/vehicle/presentation/pages/my_vehicles_page_page.dart';
 import 'package:car_care/features/user_profile/presentation/pages/profile_page.dart';
@@ -25,7 +26,7 @@ import 'package:go_router/go_router.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
-    initialLocation: Routes.requests,
+    initialLocation: Routes.login,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -90,6 +91,14 @@ class AppRouter {
         builder: (context, state) {
           final vehicleId = state.extra as int;
           return VehicleDetailsPage(vehicleId: vehicleId);
+        },
+      ),
+      GoRoute(
+        path: Routes.maintenanceHistory,
+        name: '/maintenanceHistory',
+        builder: (context, state) {
+          final vehicleId = state.extra as int;
+          return MaintenanceHistoryPage(vehicleId: vehicleId);
         },
       ),
             GoRoute(

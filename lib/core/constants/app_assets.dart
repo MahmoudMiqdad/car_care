@@ -10,6 +10,7 @@ class AppAssets {
 
   /// Home page background (artboard)
   static const String artboardBackground = '$_imagesPath/Artboard 9.png';
+  static const String calendarIcon = '$_imagesPath/calendar.png';
 
   /// App bar logo (CAR CARE)
   static const String homeAppBarLogo = '$_imagesPath/logo 1 .png';
