@@ -12,6 +12,8 @@ import 'package:car_care/features/user_profile/presentation/cubit/show_profile_c
 import 'package:car_care/features/vehicle/data/data_sources/vehicle_remote_data_source.dart';
 import 'package:car_care/features/vehicle/domain/repositories/i_vehicle_repository.dart';
 import 'package:car_care/features/vehicle/data/repositories/vehicle_repos_impl.dart';
+import 'package:car_care/features/vehicle/presentation/cubit/delete_vehicle/vehicle_delete_cubit.dart';
+import 'package:car_care/features/vehicle/presentation/cubit/update_vehicle/vehicle_update_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_add_cubit/vehicle_add_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_details_cubit/vehicle_details_cubit.dart';
@@ -64,7 +66,10 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<VehicleAddCubit>(
       () => VehicleAddCubit(getIt<IVehicleRepository>()),
     )
-    
+    ..registerFactory<VehicleUpdateCubit>(
+      () => VehicleUpdateCubit(getIt<IVehicleRepository>()),
+    )
+    ..registerFactory<VehicleDeleteCubit>(() => VehicleDeleteCubit(getIt()))
     // Profile
     ..registerLazySingleton<ProfileRemoteDataSource>(
       () => ProfileRemoteDataSource(getIt<ApiService>()),

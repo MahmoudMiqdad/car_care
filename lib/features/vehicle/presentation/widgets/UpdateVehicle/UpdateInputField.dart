@@ -10,7 +10,8 @@ class UpdateInputField extends StatelessWidget {
   final IconData icon;
   final TextInputType? keyboardType;
 
-  const UpdateInputField({super.key, 
+  const UpdateInputField({
+    super.key,
     required this.controller,
     required this.hintText,
     required this.icon,
@@ -40,6 +41,13 @@ class UpdateInputField extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: hintText,
                   border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  filled: false,
+                  fillColor: Colors.transparent,
+                  isDense: true,
+                  contentPadding: EdgeInsets.zero,
                   hintStyle: TextStyle(
                     color: Colors.grey.shade600,
                     fontSize: 16.sp,

@@ -1,36 +1,41 @@
-// ignore_for_file: file_names
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/extensions/theme_extension.dart';
-import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
+import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/widgets/app_loading_widget.dart';
+import 'package:car_care/features/vehicle/presentation/cubit/vehicle_details_cubit/vehicle_details_cubit.dart';
+import 'package:car_care/features/vehicle/presentation/cubit/vehicle_details_cubit/vehicle_details_state.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/UpdateVehicle/update_vehicle_body.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UpdateVehiclePage extends StatelessWidget {
-  final VehicleEntity vehicle;
-
-  const UpdateVehiclePage({super.key, required this.vehicle});
+  final int vehicleId;
+  const UpdateVehiclePage({super.key, required this.vehicleId});
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: context.colorScheme.surface,
-        appBar: AppBar(
-          title: const Text('تحديث مركبة'),
-          centerTitle: true,
+    return BlocProvider(
+      create: (_) => getIt<VehicleDetailsCubit>()..fetchVehicleDetails(vehicleId),
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+          appBar: AppBar(title: const Text('تحديث مركبة'), centerTitle: true),
+          body: BlocBuilder<VehicleDetailsCubit, VehicleDetailsState>(
+            builder: (context, state) {
+              if (state is VehicleDetailsLoading) {
+                return const Center(child: AppLoadingWidget());
+              }
+              if (state is VehicleDetailsLoaded) {
+                return UpdateVehicleBody(vehicle: state.vehicle);
+              }
+              if (state is VehicleDetailsError) {
+                return Center(child: Text(state.message));
+              }
+              return const SizedBox.shrink();
+            },
+          ),
         ),
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            Image.asset(
-              AppAssets.artboardBackground,
-              fit: BoxFit.cover,
-            ),
-            UpdateVehicleBody(vehicle: vehicle),
-          ],
-        ),)
-      ,
+      ),
     );
   }
 }

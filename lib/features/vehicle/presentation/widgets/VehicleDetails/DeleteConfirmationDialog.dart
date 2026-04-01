@@ -1,17 +1,18 @@
 // ignore_for_file: file_names
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DeleteConfirmationDialog extends StatelessWidget {
   final String vehicleName;
-  final VoidCallback onDelete;
+  final VoidCallback? onDelete;
+  final bool isLoading;
 
   const DeleteConfirmationDialog({
     super.key,
     required this.vehicleName,
     required this.onDelete,
+    required this.isLoading,
   });
 
   @override
@@ -63,7 +64,7 @@ class DeleteConfirmationDialog extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextButton(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: isLoading ? null : () => Navigator.pop(context),
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 14.h),
                         shape: RoundedRectangleBorder(
@@ -83,7 +84,7 @@ class DeleteConfirmationDialog extends StatelessWidget {
                   SizedBox(width: 12.w),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: onDelete,
+                      onPressed: onDelete, // ✅ ما في pop هنا
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFA12323),
                         elevation: 0,
@@ -92,14 +93,23 @@ class DeleteConfirmationDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                       ),
-                      child: Text(
-                        'تأكيد الحذف',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.sp,
-                        ),
-                      ),
+                      child: isLoading
+                          ? SizedBox(
+                              height: 18.h,
+                              width: 18.h,
+                              child: const CircularProgressIndicator(
+                                strokeWidth: 2.5,
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                              ),
+                            )
+                          : Text(
+                              'تأكيد الحذف',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.sp,
+                              ),
+                            ),
                     ),
                   ),
                 ],
