@@ -21,7 +21,7 @@ class PreferredDateSection extends StatelessWidget {
       cardRadius: cardRadius,
       title: 'اختيار التاريخ المفضل',
       icon: Icons.calendar_today,
-      iconColor: AppColors.info,
+      iconColor: AppColors.primary,
       child: InkWell(
         onTap: onPickDate,
         borderRadius: BorderRadius.circular(8.r),

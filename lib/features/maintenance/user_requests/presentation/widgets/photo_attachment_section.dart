@@ -22,7 +22,7 @@ class PhotoAttachmentSection extends StatelessWidget {
       cardRadius: cardRadius,
       title: 'إرفاق صور',
       icon: Icons.camera_alt,
-      iconColor: AppColors.info,
+      iconColor: AppColors.primary,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

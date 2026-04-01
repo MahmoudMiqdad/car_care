@@ -16,9 +16,9 @@ class LoginFormSection extends StatelessWidget {
     super.key,
     required this.accountController,
     required this.passwordController,
-
     this.onForgotPassword,
-   required this.onRegister, VoidCallback? onLogin, 
+    required this.onRegister,
+    VoidCallback? onLogin,
   }) : _onLogin = onLogin;
 
   final TextEditingController accountController;
@@ -27,39 +27,33 @@ class LoginFormSection extends StatelessWidget {
   final VoidCallback? onForgotPassword;
   final VoidCallback? onRegister;
 
-
   @override
   Widget build(BuildContext context) {
-      final strings = context.l10n;
-    final theme = Theme.of(context);
-     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-    LoginTextField(
-  controller: accountController,
-  hintText: context.l10n.email,
-  keyboardType: TextInputType.text,
-  icon: IconsaxPlusLinear.user,
-
-  validator: (_) => null,
-  onChanged: (value) {
-    context.read<AuthBloc>().add(EmailChanged(value));
-  },
-),
+        LoginTextField(
+          controller: accountController,
+          hintText: context.l10n.email,
+          keyboardType: TextInputType.emailAddress,
+          icon: IconsaxPlusLinear.sms,
+          validator: (_) => null,
+          onChanged: (value) {
+            context.read<AuthBloc>().add(EmailChanged(value));
+          },
+        ),
         SizedBox(height: 16.h),
-      LoginTextField(
-  controller: passwordController,
-  hintText: context.l10n.password,
-  isPassword: true,
-  keyboardType: TextInputType.visiblePassword,
-  icon: IconsaxPlusLinear.lock_1,
-
-  validator: (_) => null,
-  onChanged: (value) {
-    context.read<AuthBloc>().add(PasswordChanged(value));
-  },
-),
+        LoginTextField(
+          controller: passwordController,
+          hintText: context.l10n.password,
+          isPassword: true,
+          keyboardType: TextInputType.visiblePassword,
+          icon: IconsaxPlusLinear.lock_1,
+          validator: (_) => null,
+          onChanged: (value) {
+            context.read<AuthBloc>().add(PasswordChanged(value));
+          },
+        ),
         SizedBox(height: 10.h),
         Align(
           alignment: Alignment.centerLeft,
@@ -74,12 +68,10 @@ class LoginFormSection extends StatelessWidget {
             ),
           ),
         ),
-
         SizedBox(height: 24.h),
         SizedBox(
           height: AppConstants.buttonHeight.h,
-          child: AppButton( 
-          
+          child: AppButton(
             onPressed: _onLogin,
             text: 'تسجيل الدخول',
             backgroundColor: AppColors.orange,

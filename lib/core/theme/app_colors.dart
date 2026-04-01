@@ -29,6 +29,8 @@ class AppColors {
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF232522);
   static const Color error = Color(0xffE25839);
+  /// خلفية شارات الأولوية الطارئة (مثل تفاصيل الطلب).
+  static const Color errorBannerSurface = Color(0xFFFFEBEE);
   static const Color success = Color(0xff45B733);
   static const Color info = Color(0xFF2E90FA);
   static const Color warning = Color(0xffF5AE42);

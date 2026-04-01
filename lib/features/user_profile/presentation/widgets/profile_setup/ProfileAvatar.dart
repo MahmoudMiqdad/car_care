@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileAvatar extends StatelessWidget {
-  const ProfileAvatar({super.key});
+  const ProfileAvatar({
+    super.key,
+    this.cameraBadgeColor,
+  });
+
+  final Color? cameraBadgeColor;
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +31,11 @@ class ProfileAvatar extends StatelessWidget {
           right: 4.w,
           child: GestureDetector(
             onTap: () {
-              // أضف كود فتح الكاميرا   
             },
             child: Container(
               padding: EdgeInsets.all(6.r),
               decoration: BoxDecoration(
-                color: AppColors.primary,
+                color: cameraBadgeColor ?? AppColors.primary,
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white, width: 2),
               ),

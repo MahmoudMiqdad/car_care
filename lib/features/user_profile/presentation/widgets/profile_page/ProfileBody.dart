@@ -6,14 +6,12 @@ import 'package:car_care/features/user_profile/presentation/widgets/profile_setu
 import 'package:car_care/features/user_profile/presentation/widgets/profile_page/ProfileInfoCard.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/show_profile_cubit/show_profile_cubit.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/show_profile_cubit/show_profile_state.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileBody extends StatelessWidget {
   const ProfileBody({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ShowProfileCubit, ShowProfileState>(
@@ -22,16 +20,13 @@ class ProfileBody extends StatelessWidget {
         if (state is ShowProfileLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-
         // 🔹 error
         if (state is ShowProfileError) {
           return Center(child: Text(state.message));
         }
-
         // 🔹 success
         if (state is ShowProfileLoaded) {
           final profile = state.profile;
-
           return Directionality(
             textDirection: TextDirection.rtl,
             child: SingleChildScrollView(
@@ -50,34 +45,25 @@ class ProfileBody extends StatelessWidget {
                       fontSize: 27.sp,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
-                    ),
-                  ),
-
+                    ),),
                   SizedBox(height: 30.h),
-
                   ProfileInfoCard(
                     title: 'رقم الهاتف',
                     value: profile.phone,
                     icon: Icons.phone_in_talk_outlined,
                   ),
-
                   SizedBox(height: 16.h),
-
                   ProfileInfoCard(
                     title: 'البريد الإلكتروني',
                     value: profile.email,
                     icon: Icons.email_outlined,
                   ),
-
                   SizedBox(height: 30.h),
-
                  AppButton(
                  text: 'تعديل الملف الشخصي',
                 backgroundColor: AppColors.orange,
                 onPressed: () {},),
-
                   SizedBox(height: 16.h),
-
                  AppButton(
                 text: 'تعديل كلمة المرور',
                backgroundColor: AppColors.orange,

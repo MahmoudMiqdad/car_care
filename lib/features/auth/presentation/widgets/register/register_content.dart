@@ -20,16 +20,16 @@ class RegisterContent extends StatelessWidget {
     required this.confirmPasswordController,
     required this.onRegister,
     required this.onGoToLogin,
-    this.isLoading = false, VoidCallback? onregister, required this.phoneController,
-  }) : _onregister = onregister;
+    this.isLoading = false,
+    required this.phoneController,
+  });
 
   final GlobalKey<FormState> formKey;
   final TextEditingController firstNameController;
   final TextEditingController accountController;
   final TextEditingController passwordController;
-   final TextEditingController phoneController;
+  final TextEditingController phoneController;
   final TextEditingController confirmPasswordController;
-final VoidCallback? _onregister;
   final VoidCallback? onRegister;
   final VoidCallback onGoToLogin;
   final bool isLoading;
@@ -68,7 +68,6 @@ final VoidCallback? _onregister;
                       }
                       return null;
                     },
-
                     onChanged: (value) {
                       context.read<AuthBloc>().add(NameChanged(value));
                     },
@@ -76,32 +75,30 @@ final VoidCallback? _onregister;
                   SizedBox(height: 16.h),
                   LoginTextField(
                     controller: accountController,
-                    hintText: 'البريد الإلكتروني أو رقم الهاتف',
+                    hintText: 'البريد الإلكتروني',
                     keyboardType: TextInputType.emailAddress,
                     icon: IconsaxPlusLinear.sms,
                     validator: (v) {
                       if (v == null || v.trim().isEmpty) {
-                        return 'أدخل البريد الإلكتروني أو رقم الهاتف';
+                        return 'أدخل البريد الإلكتروني';
                       }
                       return null;
                     },
-
                     onChanged: (value) {
                       context.read<AuthBloc>().add(EmailChanged(value));
                     },
-                  ),  SizedBox(height: 16.h),
-                    LoginTextField(
+                  ),
+                  SizedBox(height: 16.h),
+                  LoginTextField(
                     controller: phoneController,
                     hintText: 'رقم الهاتف',
                     isPassword: false,
-                    keyboardType: TextInputType.visiblePassword,
-                    icon: IconsaxPlusLinear.lock_1,
-                  
-
+                    keyboardType: TextInputType.phone,
+                    iconPath: 'assets/images/icons8-call-50.png',
                     onChanged: (value) {
                       context.read<AuthBloc>().add(
-                        PhoneChanged(value),
-                      );
+                            PhoneChanged(value),
+                          );
                     },
                   ),
                   SizedBox(height: 16.h),
@@ -118,10 +115,8 @@ final VoidCallback? _onregister;
                       if (v.trim().length < 6) {
                         return 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
                       }
-
                       return null;
                     },
-
                     onChanged: (value) {
                       context.read<AuthBloc>().add(PasswordChanged(value));
                     },
@@ -142,11 +137,10 @@ final VoidCallback? _onregister;
                       }
                       return null;
                     },
-
                     onChanged: (value) {
                       context.read<AuthBloc>().add(
-                        ConfirmPasswordChanged(value),
-                      );
+                            ConfirmPasswordChanged(value),
+                          );
                     },
                   ),
                   SizedBox(height: 45.h),
@@ -190,7 +184,7 @@ final VoidCallback? _onregister;
         ),
       ),
     );
-  }  
+  }
 }
 
 class _RegisterTitle extends StatelessWidget {
@@ -206,25 +200,25 @@ class _RegisterTitle extends StatelessWidget {
           'Create Your Account',
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            color: AppColors.orange,
-            fontWeight: FontWeight.w700,
-            fontSize: 26.sp,
-            letterSpacing: 0.4,
-            height: 1.25,
-            fontFamily: 'Poppins',
-          ),
+                color: AppColors.orange,
+                fontWeight: FontWeight.w700,
+                fontSize: 26.sp,
+                letterSpacing: 0.4,
+                height: 1.25,
+                fontFamily: 'Poppins',
+              ),
         ),
         SizedBox(height: 8.h),
         Text(
           'We’re here to keep your car in top shape. Are you ready?',
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: AppColors.lightPrimary,
-            fontSize: 15.sp,
-            height: 1.35,
-            fontWeight: FontWeight.w500,
-            fontFamily: 'Poppins',
-          ),
+                color: AppColors.lightPrimary,
+                fontSize: 15.sp,
+                height: 1.35,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'Poppins',
+              ),
         ),
         SizedBox(height: 45.h),
       ],

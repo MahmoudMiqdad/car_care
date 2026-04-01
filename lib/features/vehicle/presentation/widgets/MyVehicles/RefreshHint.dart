@@ -8,9 +8,12 @@ class RefreshHint extends StatelessWidget {
   const RefreshHint({
     super.key,
     this.onTap,
+    this.hintText = 'تحديث قائمة السيارات...',
   });
 
   final VoidCallback? onTap;
+
+  final String hintText;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,7 @@ class RefreshHint extends StatelessWidget {
             ),
             SizedBox(height: 6.h),
             Text(
-              'تحديث قائمة السيارات...',
+              hintText,
               style: context.textTheme.bodyMedium?.copyWith(
                 color: AppColors.lightTextSecondary,
                 fontWeight: FontWeight.w600,

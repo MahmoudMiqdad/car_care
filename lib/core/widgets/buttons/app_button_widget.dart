@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/app_loading_widget.dart';
@@ -67,24 +69,25 @@ class AppButton extends StatelessWidget {
   }
 
   Widget _buildOutlineButton(BuildContext context, bool disabled) {
-    final color = backgroundColor ?? context.colorScheme.primary;
+  final color = backgroundColor ?? context.colorScheme.primary;
 
-    return OutlinedButton(
-      onPressed: disabled ? null : onPressed,
-      style: OutlinedButton.styleFrom(
-        foregroundColor: color,
-        side: BorderSide(
-          color: disabled ? (isLoading ? color : context.theme.disabledColor) : color,
-          width: 1.5.w,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
-        ),
+  return OutlinedButton(
+    onPressed: disabled ? null : onPressed,
+    style: OutlinedButton.styleFrom(
+      backgroundColor: color.withOpacity(0.1),
+      
+      foregroundColor: color,
+      side: BorderSide(
+        color: disabled && !isLoading ? color.withOpacity(0.5) : color, 
+        width: 1.5.w,
       ),
-      child: _buildButtonContent(context),
-    );
-  }
-
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
+      ),
+    ),
+    child: _buildButtonContent(context),
+  );
+}
   Widget _buildButtonContent(BuildContext context) {
     if (isLoading) {
       return AppLoadingWidget(

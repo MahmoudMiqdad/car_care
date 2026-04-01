@@ -2,12 +2,14 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/app_text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class LoginTextField extends StatefulWidget {
   const LoginTextField({
     super.key,
     required this.controller,
     required this.hintText,
-    required this.icon,
+    this.icon,
+    this.iconPath,
     this.validator,
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
@@ -17,7 +19,8 @@ class LoginTextField extends StatefulWidget {
 
   final TextEditingController controller;
   final String hintText;
-  final IconData icon;
+  final IconData? icon;
+  final String? iconPath;
   final bool isPassword;
   final TextInputType keyboardType;
   final void Function(String)? onChanged;
@@ -65,11 +68,18 @@ class _LoginTextFieldState extends State<LoginTextField> {
           errorText: widget.errorText,
           prefixIcon: Padding(
             padding: EdgeInsets.symmetric(horizontal: 14.w),
-            child: Icon(
-              widget.icon,
-              size: 22.sp,
-              color: borderColor,
-            ),
+            child: widget.iconPath != null
+                ? Image.asset(
+                    widget.iconPath!,
+                    width: 22.w,
+                    height: 22.h,
+                    color: borderColor,
+                  )
+                : Icon(
+                    widget.icon,
+                    size: 22.sp,
+                    color: borderColor,
+                  ),
           ),
         ),
       ),

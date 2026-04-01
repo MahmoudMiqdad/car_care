@@ -29,4 +29,6 @@ class Routes {
   static const String technician_jobs = '/technician_jobs';
   static const String technician_statistics = '/technician_statistics';
   static const String technician_rate_job = '/technician_rate_job';
+  static const String orders = '/orders';
+  static const String order_details = '/order_details';
 }

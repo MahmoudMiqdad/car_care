@@ -19,7 +19,7 @@ class ProblemDescriptionField extends StatelessWidget {
       cardRadius: cardRadius,
       title: 'وصف المشكلة',
       icon: Icons.edit_note,
-      iconColor: AppColors.info,
+      iconColor: AppColors.primary,
       child: TextField(
         controller: controller,
         maxLines: 1,

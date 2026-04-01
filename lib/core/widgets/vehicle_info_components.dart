@@ -40,20 +40,21 @@ class VehicleInfoSurface extends StatelessWidget {
     );
   }
 }
-
 class VehicleInfoPill extends StatelessWidget {
   const VehicleInfoPill({
     super.key,
     required this.borderRadius,
-    required this.icon,
+    this.icon,
+    this.imagePath,
     required this.text,
-    this.iconColor = AppColors.info,
+    this.iconColor = AppColors.primary,
   });
 
-  final double borderRadius;
-  final IconData icon;
-  final String text;
   final Color iconColor;
+  final double borderRadius;
+  final IconData? icon;
+  final String? imagePath;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +64,17 @@ class VehicleInfoPill extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: iconColor, size: 25.sp),
+          if (imagePath != null)
+            Image.asset(
+              imagePath!,
+              width: 25.sp,
+              height: 25.sp,
+              color: iconColor,
+              colorBlendMode: BlendMode.srcIn,
+            )
+          else if (icon != null)
+            Icon(icon, color: iconColor, size: 25.sp),
+            
           SizedBox(width: 8.w),
           Flexible(
             child: Text(

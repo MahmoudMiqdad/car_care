@@ -1,4 +1,3 @@
-import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/models/maintenance_priority.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,41 +7,36 @@ class RequestPriorityChip extends StatelessWidget {
     super.key,
     required this.label,
     required this.style,
-    required this.onTap,
+    this.padding,
   });
 
   final String label;
   final PriorityChipStyle style;
-  final VoidCallback onTap;
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
-    final r = AppConstants.maintenanceRequestCardRadius.r;
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
+    final r = 20.r; 
+    final effectivePadding = padding ?? EdgeInsets.symmetric(horizontal: 12.w, vertical: 2.h);
+
+    return Container(
+      alignment: Alignment.center, 
+      padding: effectivePadding,
+      decoration: BoxDecoration(
+        color: style.background,
         borderRadius: BorderRadius.circular(r),
-        child: AnimatedContainer(
-          duration: AppConstants.defaultDuration,
-          padding: EdgeInsets.symmetric(vertical: 12.h),
-          decoration: BoxDecoration(
-            color: style.background,
-            borderRadius: BorderRadius.circular(r),
-            border: Border.all(
-              color: style.borderColor,
-              width: style.borderWidth,
-            ),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w700,
-              color: style.textColor,
-            ),
-          ),
+        border: Border.all(
+          color: style.borderColor,
+          width: 1, 
+        ),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          
+          fontSize: 15.sp,
+          fontWeight: FontWeight.w500,
+          color: style.textColor,
         ),
       ),
     );

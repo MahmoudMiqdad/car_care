@@ -36,7 +36,7 @@ class VehicleInfoSection extends StatelessWidget {
           Expanded(
             child: VehicleInfoPill(
               borderRadius: cardRadius,
-              icon: Icons.confirmation_number,
+              imagePath: 'assets/images/number.png', 
               text: '٣٢٨٧٩٧',
             ),
           ),

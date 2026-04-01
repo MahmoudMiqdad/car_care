@@ -1,3 +1,4 @@
+import 'package:car_care/core/constants/app_constants.dart'; // أضفنا هذا لاستخدام نصف القطر
 import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/models/maintenance_priority.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/request_priority_chip.dart';
@@ -16,6 +17,8 @@ class PrioritySelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final r = AppConstants.maintenanceRequestCardRadius.r;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -25,13 +28,19 @@ class PrioritySelector extends StatelessWidget {
           children: [
             for (final priority in MaintenancePriority.values) ...[
               Expanded(
-                child: RequestPriorityChip(
-                  label: priority.labelAr,
-                  style: PriorityChipStyle.forState(
-                    value: priority,
-                    selected: selected,
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(r),
+                    onTap: () => onChanged(priority),
+                    child: RequestPriorityChip(
+                      label: priority.labelAr,
+                      style: PriorityChipStyle.forState(
+                        value: priority,
+                        selected: selected,
+                      ),
+                    ),
                   ),
-                  onTap: () => onChanged(priority),
                 ),
               ),
               if (priority != MaintenancePriority.values.last) 

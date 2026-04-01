@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppConstants {
   AppConstants._();
@@ -47,4 +48,24 @@ class AppConstants {
   static const double homeAppBarLeadingIconSize = 28;
   static const double homeAppBarMenuIconSize = 30;
   static const double homeAppBarElevation = 0;
+
+
+//OrderDetailsLayout
+    static double get sectionRadius => 10.r;
+  static double get sectionHeaderV => 4.h;
+  static double get sectionHeaderH => 16.w;
+  static double get sectionBodyPadding => 14.w;
+  static double get vehicleAvatar => 96.w;
+  static double get customerAvatar => 84.w;
+  static double get issueThumb => 72.w;
+  static double get issueThumbGap => 8.w;
+  static double get titleSize => 20.sp;
+  static double get bodySize => 15.sp;
+  static double get secondarySize => 14.sp;
+  static double get iconSize => 22.sp;
+  static double get ctaRadius => 15.r;
+  static double get ctaVertical => 16.h;
+  static double get pageHorizontal => 16.w;
+  static double get sectionGap => 14.h;
+  static double get beforeCtaGap => 20.h;
 }
