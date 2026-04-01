@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
-
+import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/features/home/presentation/widgets/service_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,30 +12,30 @@ class ServicesGrid extends StatelessWidget {
 
   final ValueChanged<int>? onItemPressed;
 
-  static final List<_ServiceItemData> _items = [
-    const _ServiceItemData(
+  static final List<ServiceItemData> _items = [
+    const ServiceItemData(
       title: 'My Vehicles',
-      assetPath: 'assets/images/6.png',
+      imagePath: AppAssets.serviceMyVehicles,
     ),
-    const _ServiceItemData(
+    const ServiceItemData(
       title: 'Maintenace',
-      assetPath: 'assets/images/3.png',
+      imagePath: AppAssets.serviceMaintenance,
     ),
-    const _ServiceItemData(
+    const ServiceItemData(
       title: 'CarWash',
-      assetPath: 'assets/images/7.png',
+      imagePath: AppAssets.serviceCarWash,
     ),
-    const _ServiceItemData(
+    const ServiceItemData(
       title: 'SOS',
-      assetPath: 'assets/images/4.png',
+      imagePath: AppAssets.serviceSos,
     ),
-    const _ServiceItemData(
+    const ServiceItemData(
       title: 'Market place',
-      assetPath: 'assets/images/8.png',
+      imagePath: AppAssets.serviceMarketplace,
     ),
-    const _ServiceItemData(
+    const ServiceItemData(
       title: 'Fuel',
-      assetPath: 'assets/images/5.png',
+      imagePath: AppAssets.serviceFuel,
     ),
   ];
 
@@ -43,17 +44,17 @@ class ServicesGrid extends StatelessWidget {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 12.h),
+      padding: EdgeInsets.only(top: 4.h, bottom: 8.h),
       itemCount: _items.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 13.w, 
-        mainAxisSpacing: 12.h, 
-        mainAxisExtent: 115.h, 
+        crossAxisSpacing: 12.w,
+        mainAxisSpacing: 12.h,
+        mainAxisExtent: 118.h,
       ),
       itemBuilder: (context, index) {
         final item = _items[index];
-        return _ServiceCard(
+        return ServiceCard(
           item: item,
           onPressed: () => onItemPressed?.call(index),
         );
@@ -62,83 +63,13 @@ class ServicesGrid extends StatelessWidget {
   }
 }
 
-class _ServiceItemData {
-  const _ServiceItemData({
+class ServiceItemData {
+  const ServiceItemData({
     required this.title,
-    required this.assetPath,
+    required this.imagePath,
   });
 
   final String title;
-  final String assetPath;
+  final String imagePath;
 }
 
-class _ServiceCard extends StatelessWidget {
-  const _ServiceCard({
-    required this.item,
-    this.onPressed,
-  });
-
-  final _ServiceItemData item;
-  final VoidCallback? onPressed;
-  
-  static const Color _cardTop = Color(0xFFFFFFFF); 
-  static const Color _cardBottom = Color.fromARGB(255, 168, 167, 167);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(16.r),
-      onTap: onPressed,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16.r),
-          gradient: const LinearGradient(
-            colors: [_cardTop, _cardBottom],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: [0.2, 1.0],
-          ),
-          boxShadow: [
-            BoxShadow(
-              // ignore: deprecated_member_use
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 6.r,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 75.w,
-              height: 55.w,
-              child: Image.asset(
-                item.assetPath,
-                fit: BoxFit.contain,
-              ),
-            ),
-            SizedBox(height: 8.h),
-            Text(
-              item.title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16.sp,
-                shadows: [
-                  BoxShadow(
-                    // ignore: deprecated_member_use
-                    color: Colors.black.withOpacity(0.25),
-                    blurRadius: 2,
-                    offset: const Offset(0, 1),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

@@ -25,8 +25,26 @@ class AppConstants {
   static const double borderRadius = 8;
   static const double buttonHeight = 52;
 
+  /// Maintenance request flow (cards, dashed add tile, priority chips).
+  static const double maintenanceRequestCardRadius = 12;
+  static const double maintenanceRequestDashedStrokeWidth = 1.5;
+
+  /// Shared shadow blur for [VehicleInfoSurface] / compact vehicle metric pills.
+  static const double vehicleInfoSurfaceShadowBlur = 6;
+
+  /// Slightly stronger blur for labeled vehicle info cards (details screen).
+  static const double vehicleInfoLabeledCardShadowBlur = 8;
+
 
 
   static const Size designSize = Size(designWidth, designHeight);
 
+  // --- Home (AppBar & layout) ---
+  static const double homeAppBarHeight = 64;
+  static const double homeAppBarLogoMaxHeight = 200;
+  static const double homeAppBarLogoMaxWidth = 250;
+  static const double homeAppBarLeadingOuter = 42;
+  static const double homeAppBarLeadingIconSize = 28;
+  static const double homeAppBarMenuIconSize = 30;
+  static const double homeAppBarElevation = 0;
 }

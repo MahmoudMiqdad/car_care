@@ -1,5 +1,4 @@
 // ignore_for_file: file_names
-
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/user_profile/presentation/widgets/profile_setup/ProfileAvatar.dart';
 import 'package:car_care/features/user_profile/presentation/widgets/profile_setup/ProfileSetupForm.dart';

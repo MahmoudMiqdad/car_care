@@ -1,19 +1,22 @@
+import 'dart:typed_data';
+import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/buttons/app_button_widget.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/update_vehicle/vehicle_update_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/update_vehicle/vehicle_update_state.dart';
-import 'package:car_care/features/vehicle/presentation/widgets/UpdateVehicle/UpdateActionButton.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/UpdateVehicle/UpdateInputField.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/UpdateVehicle/UpdateVehicleImage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:typed_data';
-import 'package:car_care/core/service_locator/service_locator.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UpdateVehicleBody extends StatefulWidget {
   final VehicleEntity vehicle;
+
   const UpdateVehicleBody({super.key, required this.vehicle});
+
   @override
   State<UpdateVehicleBody> createState() => _UpdateVehicleBodyState();
 }
@@ -30,15 +33,11 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
   @override
   void initState() {
     super.initState();
-    kmController = TextEditingController(
-      text: widget.vehicle.currentKm.toString(),
-    );
+    kmController = TextEditingController(text: widget.vehicle.currentKm.toString());
     plateController = TextEditingController(text: widget.vehicle.plateNumber);
     brandController = TextEditingController(text: widget.vehicle.brand);
     modelController = TextEditingController(text: widget.vehicle.model);
-    yearController = TextEditingController(
-      text: widget.vehicle.year.toString(),
-    );
+    yearController = TextEditingController(text: widget.vehicle.year.toString());
   }
 
   @override
@@ -62,6 +61,14 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
     }
   }
 
+  bool _isAnyFieldEmpty() {
+    return brandController.text.trim().isEmpty ||
+        modelController.text.trim().isEmpty ||
+        yearController.text.trim().isEmpty ||
+        plateController.text.trim().isEmpty ||
+        kmController.text.trim().isEmpty;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -76,9 +83,9 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
           }
 
           if (state is VehicleUpdateError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
           }
         },
         builder: (context, state) {
@@ -93,18 +100,21 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
                   pickedImagePath: _pickedImage?.path,
                   onPickImage: pickImage,
                 ),
+
                 UpdateInputField(
                   controller: brandController,
                   hintText: 'الماركة',
                   icon: Icons.local_offer_outlined,
                 ),
                 SizedBox(height: 12.h),
+
                 UpdateInputField(
                   controller: modelController,
                   hintText: 'الموديل',
                   icon: Icons.directions_car_filled_outlined,
                 ),
                 SizedBox(height: 12.h),
+
                 UpdateInputField(
                   controller: yearController,
                   hintText: 'السنة',
@@ -112,12 +122,14 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
                   keyboardType: TextInputType.number,
                 ),
                 SizedBox(height: 12.h),
+
                 UpdateInputField(
                   controller: plateController,
                   hintText: 'رقم اللوحة',
                   icon: Icons.sort_by_alpha,
                 ),
                 SizedBox(height: 12.h),
+
                 UpdateInputField(
                   controller: kmController,
                   hintText: 'عداد الكيلومترات',
@@ -126,44 +138,41 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
                 ),
                 SizedBox(height: 24.h),
 
-                UpdateActionButton(
-                  label: isLoading ? 'جارٍ الحفظ...' : 'حفظ التعديلات',
-                  onPressed: isLoading
-                      ? null
-                      : () async {
-                          // ✅ هنا
-                          if (brandController.text.trim().isEmpty ||
-                              modelController.text.trim().isEmpty ||
-                              yearController.text.trim().isEmpty ||
-                              plateController.text.trim().isEmpty ||
-                              kmController.text.trim().isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('الرجاء تعبئة جميع الحقول'),
-                              ),
-                            );
-                            return;
-                          }
+                AppButton(
+                  text: isLoading ? 'جارٍ الحفظ...' : 'حفظ التعديلات',
+                  backgroundColor: AppColors.orange,
+                  height: 54.h,
+                  borderRadius: 15.r,
+                  fontSize: 20.sp,
+                  onPressed: () async {
+                    if (isLoading) return;
 
-                          Uint8List? bytes;
-                          String? name;
+                    if (_isAnyFieldEmpty()) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('الرجاء تعبئة جميع الحقول')),
+                      );
+                      return;
+                    }
 
-                          if (_pickedImage != null) {
-                            bytes = await _pickedImage!.readAsBytes();
-                            name = _pickedImage!.name;
-                          }
+                    Uint8List? bytes;
+                    String? name;
 
-                          context.read<VehicleUpdateCubit>().updateVehicle(
-                            id: widget.vehicle.id,
-                            brand: brandController.text,
-                            model: modelController.text,
-                            year: yearController.text,
-                            plateNumber: plateController.text,
-                            currentKm: kmController.text,
-                            imageBytes: bytes,
-                            imageName: name,
-                          );
-                        },
+                    if (_pickedImage != null) {
+                      bytes = await _pickedImage!.readAsBytes();
+                      name = _pickedImage!.name;
+                    }
+
+                    context.read<VehicleUpdateCubit>().updateVehicle(
+                          id: widget.vehicle.id,
+                          brand: brandController.text,
+                          model: modelController.text,
+                          year: yearController.text,
+                          plateNumber: plateController.text,
+                          currentKm: kmController.text,
+                          imageBytes: bytes,
+                          imageName: name,
+                        );
+                  },
                 ),
 
                 SizedBox(height: 32.h),

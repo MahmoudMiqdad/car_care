@@ -17,6 +17,14 @@ class AppAssets {
   /// Maintenance icon for active order card
   static const String maintenanceIcon = '$_imagesPath/2.png';
 
+  /// Home services grid (same folder as legacy paths)
+  static const String serviceMyVehicles = '$_imagesPath/6.png';
+  static const String serviceMaintenance = '$_imagesPath/3.png';
+  static const String serviceCarWash = '$_imagesPath/7.png';
+  static const String serviceSos = '$_imagesPath/4.png';
+  static const String serviceMarketplace = '$_imagesPath/8.png';
+  static const String serviceFuel = '$_imagesPath/5.png';
+
   // icons
   static const String syrianLogoGoldIcon = '$_iconsPath/syrian_logo_gold.svg';
 

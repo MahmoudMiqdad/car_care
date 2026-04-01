@@ -1,7 +1,10 @@
 // ignore_for_file: file_names
+import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/widgets/vehicle_info_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+/// Labeled metric card (title + icon/value row) — surface matches [VehicleInfoSurface].
 class VehicleInfoCardWidget extends StatelessWidget {
   final String title;
   final String value;
@@ -11,24 +14,35 @@ class VehicleInfoCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return VehicleInfoSurface(
+      borderRadius: 16.r,
       padding: EdgeInsets.all(8.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16.r),
-        // ignore: deprecated_member_use
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 8, offset: const Offset(0, 2))],
-      ),
+      shadowBlur: AppConstants.vehicleInfoLabeledCardShadowBlur,
+      shadowOpacity: 0.05,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: TextStyle(fontSize: 14.sp, color: Colors.black54, fontWeight: FontWeight.bold)),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: Colors.black54,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           SizedBox(height: 8.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               icon,
-              Text(value, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w900, color: Colors.black)),
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.black,
+                ),
+              ),
             ],
           ),
         ],

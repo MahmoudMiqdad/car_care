@@ -3,6 +3,7 @@ import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/vehicle_header.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/delete_vehicle/vehicle_delete_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/delete_vehicle/vehicle_delete_state.dart';
@@ -10,7 +11,6 @@ import 'package:car_care/features/vehicle/presentation/cubit/vehicle_details_cub
 import 'package:car_care/features/vehicle/presentation/widgets/VehicleDetails/DeleteConfirmationDialog.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/VehicleDetails/QuickActionButton.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/VehicleDetails/ServiceRecordTile.dart';
-import 'package:car_care/features/vehicle/presentation/widgets/VehicleDetails/VehicleHeaderWidget.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/VehicleDetails/VehicleInfoCardWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,10 +41,22 @@ class VehicleDetailsBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          VehicleHeaderWidget(
-            imageUrl: vehicle.image,
-            vehicleName: vehicleName,
-            ownerName: ownerName,
+          VehicleHeader(
+            imagePath: vehicle.image ?? '',
+            isNetworkImage: true,
+            title: vehicleName,
+            bottomChild: SizedBox(
+              width: double.infinity,
+              child: Text(
+                'المالك : $ownerName',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
           ),
           SizedBox(height: 10.h),
           Row(
