@@ -818,4 +818,85 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bookingSummary => 'Booking Summary';
+
+  @override
+  String get readySummary => 'Ready to get back on the road?';
+
+  @override
+  String get editPassword => 'Edit Password';
+
+  @override
+  String get deleteAccount => 'Delete Account';
+
+  @override
+  String get creating => 'Creating...';
+
+  @override
+  String get enterFirstName => 'Enter first name';
+
+  @override
+  String get enterEmailOrPhone => 'Enter email or phone number';
+
+  @override
+  String get enterPassword => 'Enter password';
+
+  @override
+  String get passwordMinLength => 'Password must be at least 6 characters';
+
+  @override
+  String get reEnterPassword => 'Re-enter password';
+
+  @override
+  String get addVehicleImage => 'Add vehicle image';
+
+  @override
+  String get tapToSelectImage => 'Tap to select image';
+
+  @override
+  String get selectVehicleImage => 'Please select a vehicle image';
+
+  @override
+  String get fillAllFields => 'Please fill in all fields';
+
+  @override
+  String get vehicleAddedSuccess => 'Vehicle added successfully';
+
+  @override
+  String get odometer => 'Odometer';
+
+  @override
+  String get licensePlateNumberFull => 'License plate number';
+
+  @override
+  String get serviceRecords => 'Service records';
+
+  @override
+  String get fuelRecords => 'Fuel records';
+
+  @override
+  String get plate => 'Plate';
+
+  @override
+  String get currentPassword => 'Current password';
+
+  @override
+  String get newPassword => 'New password';
+
+  @override
+  String get createYourAccount => 'Create Your Account';
+
+  @override
+  String get carReadyMessage => 'We’re here to keep your car in top shape. Are you ready?';
+
+  @override
+  String get sos => 'SOS';
+
+  @override
+  String get fuel => 'Fuel';
+
+  @override
+  String get notification => 'Notifications';
+
+  @override
+  String get messages => 'Messages';
 }

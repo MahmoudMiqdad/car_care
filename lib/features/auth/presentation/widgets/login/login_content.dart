@@ -1,4 +1,5 @@
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'login_form_section.dart';
@@ -69,12 +70,13 @@ class _LoginTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     final strings = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SizedBox(height: 4.h),
         Text(
-          'Welcome Back',
+         strings.welcomeBack,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                 color: AppColors.orange,
@@ -87,7 +89,7 @@ class _LoginTitle extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         Text(
-          'Ready to get back on the road?',
+          strings.readySummary,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: AppColors.lightPrimary,

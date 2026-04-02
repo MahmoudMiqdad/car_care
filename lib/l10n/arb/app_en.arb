@@ -1350,5 +1350,125 @@
   "bookingSummary": "Booking Summary",
   "@bookingSummary": {
     "description": "Booking summary"
-  }
+  },
+   
+  "readySummary": "Ready to get back on the road?",
+  "@readySummary": {
+    "description": "Ready to get back on the road?"
+  },
+"editPassword": "Edit Password",
+"@editPassword": {
+"description": "Edit Password"
+},
+"deleteAccount": "Delete Account",
+"@deleteAccount": {
+"description": "Delete Account"
+},
+
+"creating": "Creating...",
+"@creating": {
+"description": "Creating..."
+},
+
+"enterFirstName": "Enter first name",
+"@enterFirstName": {
+"description": "Enter first name"
+},
+"enterEmailOrPhone": "Enter email or phone number",
+"@enterEmailOrPhone": {
+"description": "Enter email or phone number"
+},
+"enterPassword": "Enter password",
+"@enterPassword": {
+"description": "Enter password"
+},
+"passwordMinLength": "Password must be at least 6 characters",
+"@passwordMinLength": {
+"description": "Password must be at least 6 characters"
+},
+"reEnterPassword": "Re-enter password",
+"@reEnterPassword": {
+"description": "Re-enter password"
+},
+"addVehicleImage": "Add vehicle image",
+"@addVehicleImage": {
+"description": "Add vehicle image"
+},
+"tapToSelectImage": "Tap to select image",
+"@tapToSelectImage": {
+"description": "Tap to select image"
+},
+"selectVehicleImage": "Please select a vehicle image",
+"@selectVehicleImage": {
+"description": "Please select a vehicle image"
+},
+"fillAllFields": "Please fill in all fields",
+"@fillAllFields": {
+"description": "Please fill in all fields"
+},
+"vehicleAddedSuccess": "Vehicle added successfully",
+"@vehicleAddedSuccess": {
+"description": "Vehicle added successfully"
+},
+"odometer": "Odometer",
+"@odometer": {
+"description": "Odometer"
+},
+"licensePlateNumberFull": "License plate number",
+"@licensePlateNumberFull": {
+"description": "License plate number"
+},
+"serviceRecords": "Service records",
+"@serviceRecords": {
+"description": "Service records"
+},
+"fuelRecords": "Fuel records",
+"@fuelRecords": {
+"description": "Fuel records"
+},
+"plate": "Plate",
+"@plate": {
+"description": "Plate"
+},
+"currentPassword": "Current password",
+"@currentPassword": {
+"description": "Current password"
+},
+"newPassword": "New password",
+"@newPassword": {
+"description": "New password"
+},
+
+"createYourAccount": "Create Your Account",
+"@createYourAccount": {
+"description": "Create Your Account"
+},
+"carReadyMessage": "We’re here to keep your car in top shape. Are you ready?",
+"@carReadyMessage": {
+"description": "Welcome message"
+},
+
+
+
+"sos": "SOS",
+"@sos": {
+"description": "Emergency button"
+},
+
+"fuel": "Fuel",
+"@fuel": {
+"description": "Fuel"
+},
+
+"notification": "Notifications",
+"@notification": {
+"description": "Notifications"
+},
+"messages": "Messages",
+"@messages": {
+"description": "Messages"
+}
+
+
+
 }

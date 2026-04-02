@@ -30,6 +30,8 @@ class AppAssets {
   static const String syrianLogoGoldIcon = '$_iconsPath/syrian_logo_gold.svg';
 
 
+  // loading
+  static const String loadingImage = '$_imagesPath/cars.json';
   // Fonts
   static const String arFontFamily = 'ITF Qomra Arabic';
   static const String enFontFamily = 'ITF Qomra Arabic';

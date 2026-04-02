@@ -29,6 +29,9 @@ class LoginFormSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      final strings = context.l10n;
+   
+     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -60,7 +63,7 @@ class LoginFormSection extends StatelessWidget {
           child: GestureDetector(
             onTap: onForgotPassword,
             child: Text(
-              'نسيت كلمة المرور',
+              strings.forgotPassword,
               style: context.textTheme.bodySmall?.copyWith(
                 color: AppColors.lightPrimary,
                 fontSize: 14.sp,
@@ -73,7 +76,7 @@ class LoginFormSection extends StatelessWidget {
           height: AppConstants.buttonHeight.h,
           child: AppButton(
             onPressed: _onLogin,
-            text: 'تسجيل الدخول',
+            text: strings.login,
             backgroundColor: AppColors.orange,
             textColor: AppColors.white,
           ),
@@ -83,7 +86,7 @@ class LoginFormSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'ليس لديك حساب؟ ',
+              strings.dontHaveAccount,
               style: context.textTheme.bodyMedium?.copyWith(
                 color: AppColors.lightPrimary,
                 fontSize: 16.sp,
@@ -92,7 +95,7 @@ class LoginFormSection extends StatelessWidget {
             GestureDetector(
               onTap: onRegister,
               child: Text(
-                'إنشاء حساب',
+                strings.createAccount,
                 style: context.textTheme.bodyMedium?.copyWith(
                   color: AppColors.orange,
                   fontWeight: FontWeight.w600,

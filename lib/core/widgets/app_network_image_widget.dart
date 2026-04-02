@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:car_care/core/extensions/theme_extension.dart';
+import 'package:car_care/core/widgets/loding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'app_loading_widget.dart';
+
 
 class AppCachedImageWidget extends StatelessWidget {
   const AppCachedImageWidget({

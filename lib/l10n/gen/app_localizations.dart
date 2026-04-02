@@ -1704,6 +1704,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Booking Summary'**
   String get bookingSummary;
+
+  /// Ready to get back on the road?
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to get back on the road?'**
+  String get readySummary;
+
+  /// Edit Password
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Password'**
+  String get editPassword;
+
+  /// Delete Account
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get deleteAccount;
+
+  /// Creating...
+  ///
+  /// In en, this message translates to:
+  /// **'Creating...'**
+  String get creating;
+
+  /// Enter first name
+  ///
+  /// In en, this message translates to:
+  /// **'Enter first name'**
+  String get enterFirstName;
+
+  /// Enter email or phone number
+  ///
+  /// In en, this message translates to:
+  /// **'Enter email or phone number'**
+  String get enterEmailOrPhone;
+
+  /// Enter password
+  ///
+  /// In en, this message translates to:
+  /// **'Enter password'**
+  String get enterPassword;
+
+  /// Password must be at least 6 characters
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get passwordMinLength;
+
+  /// Re-enter password
+  ///
+  /// In en, this message translates to:
+  /// **'Re-enter password'**
+  String get reEnterPassword;
+
+  /// Add vehicle image
+  ///
+  /// In en, this message translates to:
+  /// **'Add vehicle image'**
+  String get addVehicleImage;
+
+  /// Tap to select image
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to select image'**
+  String get tapToSelectImage;
+
+  /// Please select a vehicle image
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a vehicle image'**
+  String get selectVehicleImage;
+
+  /// Please fill in all fields
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill in all fields'**
+  String get fillAllFields;
+
+  /// Vehicle added successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle added successfully'**
+  String get vehicleAddedSuccess;
+
+  /// Odometer
+  ///
+  /// In en, this message translates to:
+  /// **'Odometer'**
+  String get odometer;
+
+  /// License plate number
+  ///
+  /// In en, this message translates to:
+  /// **'License plate number'**
+  String get licensePlateNumberFull;
+
+  /// Service records
+  ///
+  /// In en, this message translates to:
+  /// **'Service records'**
+  String get serviceRecords;
+
+  /// Fuel records
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel records'**
+  String get fuelRecords;
+
+  /// Plate
+  ///
+  /// In en, this message translates to:
+  /// **'Plate'**
+  String get plate;
+
+  /// Current password
+  ///
+  /// In en, this message translates to:
+  /// **'Current password'**
+  String get currentPassword;
+
+  /// New password
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get newPassword;
+
+  /// Create Your Account
+  ///
+  /// In en, this message translates to:
+  /// **'Create Your Account'**
+  String get createYourAccount;
+
+  /// Welcome message
+  ///
+  /// In en, this message translates to:
+  /// **'We’re here to keep your car in top shape. Are you ready?'**
+  String get carReadyMessage;
+
+  /// Emergency button
+  ///
+  /// In en, this message translates to:
+  /// **'SOS'**
+  String get sos;
+
+  /// Fuel
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel'**
+  String get fuel;
+
+  /// Notifications
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notification;
+
+  /// Messages
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get messages;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

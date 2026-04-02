@@ -5,6 +5,7 @@ import 'package:car_care/core/widgets/buttons/app_button_widget.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_event.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,6 +37,7 @@ class RegisterContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     final strings = context.l10n;
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -59,7 +61,7 @@ class RegisterContent extends StatelessWidget {
                 children: [
                   LoginTextField(
                     controller: firstNameController,
-                    hintText: 'الاسم الأول',
+                    hintText: strings.fullName,
                     keyboardType: TextInputType.name,
                     icon: IconsaxPlusLinear.user,
                     validator: (v) {
@@ -130,7 +132,7 @@ class RegisterContent extends StatelessWidget {
                     icon: IconsaxPlusLinear.lock_1,
                     validator: (v) {
                       if (v == null || v.trim().isEmpty) {
-                        return 'أعد إدخال كلمة المرور';
+                        return strings.reEnterPassword;
                       }
                       if (v.trim() != passwordController.text.trim()) {
                         return 'كلمتا المرور غير متطابقتين';

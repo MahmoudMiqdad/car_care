@@ -902,10 +902,7 @@
     "description": "غسيل كامل"
   },
   
-  "marketplace": "السوق",
-  "@marketplace": {
-    "description": "السوق"
-  },
+
   
   "products": "المنتجات",
   "@products": {
@@ -1350,5 +1347,127 @@
   "bookingSummary": "ملخص الحجز",
   "@bookingSummary": {
     "description": "ملخص الحجز"
-  }
+  },
+    "readygSummary": "هل أنت مستعد للعودة إلى الطريق؟",
+  "@readygSummary": {
+    "description": "هل أنت مستعد للعودة إلى الطريق؟"
+  },
+"editPassword": "تعديل كلمة المرور",
+"@editPassword": {
+"description": "تعديل كلمة المرور"
+},
+"deleteAccount": "حذف الحساب",
+"@deleteAccount": {
+"description": "حذف الحساب"
+},
+
+"creating": "جاري الإنشاء...",
+"@creating": {
+"description": "جاري الإنشاء..."
+},
+
+"enterFirstName": "أدخل الاسم الأول",
+"@enterFirstName": {
+"description": "أدخل الاسم الأول"
+},
+"enterEmailOrPhone": "أدخل البريد الإلكتروني أو رقم الهاتف",
+"@enterEmailOrPhone": {
+"description": "أدخل البريد الإلكتروني أو رقم الهاتف"
+},
+"enterPassword": "أدخل كلمة المرور",
+"@enterPassword": {
+"description": "أدخل كلمة المرور"
+},
+"passwordMinLength": "كلمة المرور يجب أن تكون 6 أحرف على الأقل",
+"@passwordMinLength": {
+"description": "كلمة المرور يجب أن تكون 6 أحرف على الأقل"
+},
+"reEnterPassword": "أعد إدخال كلمة المرور",
+"@reEnterPassword": {
+"description": "أعد إدخال كلمة المرور"
+},
+"addVehicleImage": "أضف صورة المركبة",
+"@addVehicleImage": {
+"description": "أضف صورة المركبة"
+},
+"tapToSelectImage": "اضغط لاختيار صورة",
+"@tapToSelectImage": {
+"description": "اضغط لاختيار صورة"
+},
+"selectVehicleImage": "الرجاء اختيار صورة للمركبة",
+"@selectVehicleImage": {
+"description": "الرجاء اختيار صورة للمركبة"
+},
+"fillAllFields": "الرجاء تعبئة جميع الحقول",
+"@fillAllFields": {
+"description": "الرجاء تعبئة جميع الحقول"
+},
+"vehicleAddedSuccess": "تمت إضافة المركبة بنجاح",
+"@vehicleAddedSuccess": {
+"description": "تمت إضافة المركبة بنجاح"
+},
+"odometer": "عداد الكيلومترات",
+"@odometer": {
+"description": "عداد الكيلومترات"
+},
+"licensePlateNumberFull": "رقم لوحة السيارة",
+"@licensePlateNumberFull": {
+"description": "رقم لوحة السيارة"
+},
+"serviceRecords": "سجلات الخدمات",
+"@serviceRecords": {
+"description": "سجلات الخدمات"
+},
+"fuelRecords": "سجل الوقود",
+"@fuelRecords": {
+"description": "سجل الوقود"
+},
+"plate": "اللوحة",
+"@plate": {
+"description": "اللوحة"
+},
+"currentPassword": "كلمة المرور الحالية",
+"@currentPassword": {
+"description": "كلمة المرور الحالية"
+},
+"newPassword": "كلمة المرور الجديدة",
+"@newPassword": {
+"description": "كلمة المرور الجديدة"
+},
+
+"createYourAccount": "إنشاء حسابك",
+"@createYourAccount": {
+"description": "إنشاء حسابك"
+},
+"carReadyMessage": "نحن هنا للحفاظ على سيارتك بأفضل حالة، هل أنت مستعد؟",
+"@carReadyMessage": {
+"description": "رسالة ترحيبية للمستخدم"
+},
+
+
+
+"sos": "نجدة",
+"@sos": {
+"description": "زر الطوارئ"
+},
+"marketplace": "المتجر",
+"@marketplace": {
+"description": "المتجر"
+},
+"fuel": "الوقود",
+"@fuel": {
+"description": "الوقود"
+},
+
+"notification": "الإشعارات",
+"@notification": {
+"description": "الإشعارات"
+},
+"messages": "الرسائل",
+"@messages": {
+"description": "الرسائل"
 }
+
+
+}
+
