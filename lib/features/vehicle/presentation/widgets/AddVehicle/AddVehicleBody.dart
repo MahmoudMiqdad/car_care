@@ -2,8 +2,8 @@
 import 'dart:typed_data';
 
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/widgets/app_loading_widget.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_add_cubit/vehicle_add_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_add_cubit/vehicle_add_state.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/AddVehicle/SaveVehicleButton.dart';

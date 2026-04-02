@@ -2,7 +2,8 @@
 
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/widgets/app_loading_widget.dart';
+
+import 'package:car_care/core/widgets/loding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -91,8 +92,6 @@ class AppButton extends StatelessWidget {
   Widget _buildButtonContent(BuildContext context) {
     if (isLoading) {
       return AppLoadingWidget(
-        size: 20.sp,
-        color: isOutline ? (backgroundColor ?? context.colorScheme.primary) : AppColors.white,
       );
     }
 

@@ -550,7 +550,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get fullWash => 'غسيل كامل';
 
   @override
-  String get marketplace => 'السوق';
+  String get marketplace => 'المتجر';
 
   @override
   String get products => 'المنتجات';
@@ -818,4 +818,85 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get bookingSummary => 'ملخص الحجز';
+
+  @override
+  String get readySummary => 'Ready to get back on the road?';
+
+  @override
+  String get editPassword => 'تعديل كلمة المرور';
+
+  @override
+  String get deleteAccount => 'حذف الحساب';
+
+  @override
+  String get creating => 'جاري الإنشاء...';
+
+  @override
+  String get enterFirstName => 'أدخل الاسم الأول';
+
+  @override
+  String get enterEmailOrPhone => 'أدخل البريد الإلكتروني أو رقم الهاتف';
+
+  @override
+  String get enterPassword => 'أدخل كلمة المرور';
+
+  @override
+  String get passwordMinLength => 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
+
+  @override
+  String get reEnterPassword => 'أعد إدخال كلمة المرور';
+
+  @override
+  String get addVehicleImage => 'أضف صورة المركبة';
+
+  @override
+  String get tapToSelectImage => 'اضغط لاختيار صورة';
+
+  @override
+  String get selectVehicleImage => 'الرجاء اختيار صورة للمركبة';
+
+  @override
+  String get fillAllFields => 'الرجاء تعبئة جميع الحقول';
+
+  @override
+  String get vehicleAddedSuccess => 'تمت إضافة المركبة بنجاح';
+
+  @override
+  String get odometer => 'عداد الكيلومترات';
+
+  @override
+  String get licensePlateNumberFull => 'رقم لوحة السيارة';
+
+  @override
+  String get serviceRecords => 'سجلات الخدمات';
+
+  @override
+  String get fuelRecords => 'سجل الوقود';
+
+  @override
+  String get plate => 'اللوحة';
+
+  @override
+  String get currentPassword => 'كلمة المرور الحالية';
+
+  @override
+  String get newPassword => 'كلمة المرور الجديدة';
+
+  @override
+  String get createYourAccount => 'إنشاء حسابك';
+
+  @override
+  String get carReadyMessage => 'نحن هنا للحفاظ على سيارتك بأفضل حالة، هل أنت مستعد؟';
+
+  @override
+  String get sos => 'نجدة';
+
+  @override
+  String get fuel => 'الوقود';
+
+  @override
+  String get notification => 'الإشعارات';
+
+  @override
+  String get messages => 'الرسائل';
 }

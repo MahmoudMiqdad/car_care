@@ -1,5 +1,6 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
-import 'package:car_care/core/widgets/app_loading_widget.dart';
+
+import 'package:car_care/core/widgets/loding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -38,8 +39,7 @@ class AppTextButton extends StatelessWidget {
       ),
       child: isLoading
           ? AppLoadingWidget(
-            size: 15.sp,
-            color: primaryColor,
+           
           )
           : Text(
               text,
