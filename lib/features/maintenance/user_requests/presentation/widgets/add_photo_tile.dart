@@ -13,21 +13,21 @@ class AddPhotoTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(cardRadius),
+      borderRadius: BorderRadius.circular(5),
       child: DashedBorderBox(
         color: AppColors.primary,
         borderRadius: cardRadius,
         child: SizedBox(
-          width: 50.w,
-          height: 50.w,
+          width: 45.w,
+          height: 45.h,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.add, color: AppColors.primary, size: 20.sp),
+              Icon(Icons.add, color: AppColors.primary, size: 16.sp),
               Text(
                 'إضافة',
                 style: TextStyle(
-                  fontSize: 14.sp,
+                  fontSize: 13.sp,
                   fontWeight: FontWeight.w700,
                   color: AppColors.primary,
                 ),

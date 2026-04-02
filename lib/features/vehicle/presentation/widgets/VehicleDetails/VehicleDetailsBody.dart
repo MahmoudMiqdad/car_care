@@ -1,8 +1,9 @@
 // ignore_for_file: file_names
-import 'package:car_care/core/extensions/theme_extension.dart';
+import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/core/widgets/vehicle_header.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/delete_vehicle/vehicle_delete_cubit.dart';
@@ -45,20 +46,13 @@ class VehicleDetailsBody extends StatelessWidget {
             imagePath: vehicle.image ?? '',
             isNetworkImage: true,
             title: vehicleName,
-            bottomChild: SizedBox(
-              width: double.infinity,
-              child: Text(
-                'المالك : $ownerName',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
-                ),
-              ),
+            bottomChild: AppText.sectionTitle(
+              'المالك:  $ownerName',
+              color: Colors.black87,
+                 textAlign: TextAlign.center,
+              alignment: Alignment.center,
             ),
           ),
-          SizedBox(height: 10.h),
           Row(
             children: [
               Expanded(
@@ -72,74 +66,54 @@ class VehicleDetailsBody extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(width: 12.w),
+              SizedBox(width: 10.w),
               Expanded(
                 child: VehicleInfoCardWidget(
                   title: 'رقم لوحة السيارة',
                   value: vehicle.plateNumber,
-                  icon: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 4.w,
-                      vertical: 1.h,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.primary, width: 1.5),
-                      borderRadius: BorderRadius.circular(4.r),
-                    ),
-                    child: Text(
-                      '1..',
-                      style: TextStyle(
-                        color: AppColors.primary,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                  icon: Image.asset(
+                    AppAssets.plateNumberIcon,
+                    width: 30.w,
+                    height: 30.h,
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 8.h),
-          Text(
-            'سجلات الخدمات',
-            style: context.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              fontSize: 18.sp,
-            ),
-          ),
+          SizedBox(height: 5.h),
+          AppText.sectionTitle('سجلات الخدمات'),
           SizedBox(height: 5.h),
           ServiceRecordTile(
             title: 'سجل الصيانة',
             icon: Icons.build_outlined,
-            onTap: () {},
+            onTap: () {
+              context.push(
+                Routes.maintenanceHistory,
+                extra: vehicle.id,
+              );
+            },
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: 5.h),
           ServiceRecordTile(
             title: 'سجل الوقود',
             icon: Icons.local_gas_station_outlined,
             onTap: () {},
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: 5.h),
           ServiceRecordTile(
             title: 'سجل التنبيهات',
             icon: Icons.notifications_none_outlined,
             onTap: () {},
           ),
-          SizedBox(height: 10.h),
-          Text(
-            'إجراءات سريعة',
-            style: context.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              fontSize: 18.sp,
-            ),
-          ),
-          SizedBox(height: 8.h),
+          SizedBox(height: 5.h),
+          AppText.sectionTitle('إجراءات سريعة'),
+          SizedBox(height: 5.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               QuickActionButton(
                 label: 'حذف',
-                iconPath: 'assets/images/delete.png',
+                iconPath: AppAssets.deleteIcon,
                 color: const Color(0xFFA12323),
                 onTap: () {
                   showCustomDeleteDialog(
@@ -151,7 +125,7 @@ class VehicleDetailsBody extends StatelessWidget {
               ),
               QuickActionButton(
                 label: 'تعديل',
-                iconPath: 'assets/images/edit.png',
+                iconPath: AppAssets.editIcon,
                 color: AppColors.primary,
                 onTap: () async {
                   final updated = await context.push<bool>(
@@ -161,14 +135,14 @@ class VehicleDetailsBody extends StatelessWidget {
 
                   if (updated == true && context.mounted) {
                     context.read<VehicleDetailsCubit>().fetchVehicleDetails(
-                      vehicle.id,
-                    );
+                          vehicle.id,
+                        );
                   }
                 },
               ),
               QuickActionButton(
                 label: 'صيانة',
-                iconPath: 'assets/images/2.png',
+                iconPath: AppAssets.maintenanceIcon,
                 color: AppColors.primary,
                 onTap: () {},
               ),
@@ -196,34 +170,29 @@ void showCustomDeleteDialog({
         child: BlocConsumer<VehicleDeleteCubit, VehicleDeleteState>(
           listener: (ctx, state) {
             if (state is VehicleDeleteSuccess) {
-              Navigator.of(dialogContext).pop(); // اغلاق الديالوج
-
+              Navigator.of(dialogContext).pop();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('تم حذف المركبة بنجاح')),
               );
-
               if (context.mounted) {
-                // نرجع من صفحة التفاصيل true حتى "سياراتي" تعمل refresh
-                context.pop(true); // أو: Navigator.of(context).pop(true);
+                context.pop(true);
               }
             }
-
             if (state is VehicleDeleteError) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.message)));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.message)),
+              );
             }
           },
           builder: (ctx, state) {
             final isLoading = state is VehicleDeleteLoading;
-
             return DeleteConfirmationDialog(
               vehicleName: vehicleName,
               isLoading: isLoading,
               onDelete: isLoading
                   ? null
                   : () =>
-                        ctx.read<VehicleDeleteCubit>().deleteVehicle(vehicleId),
+                      ctx.read<VehicleDeleteCubit>().deleteVehicle(vehicleId),
             );
           },
         ),

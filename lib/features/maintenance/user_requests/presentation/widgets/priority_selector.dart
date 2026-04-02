@@ -23,7 +23,7 @@ class PrioritySelector extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AppText.sectionTitle('إختيار الأولوية'),
-        SizedBox(height: 12.h),
+        SizedBox(height: 3.h),
         Row(
           children: [
             for (final priority in MaintenancePriority.values) ...[
@@ -44,7 +44,7 @@ class PrioritySelector extends StatelessWidget {
                 ),
               ),
               if (priority != MaintenancePriority.values.last) 
-                SizedBox(width: 8.w),
+                SizedBox(width:5.w),
             ],
           ],
         ),

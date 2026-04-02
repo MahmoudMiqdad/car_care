@@ -7,8 +7,7 @@ class VehicleHeader extends StatelessWidget {
   final String title;
   final TextStyle? titleStyle;
   final Widget? bottomChild;
-  final double imageSize;
-  final double? spacingBetweenTitleAndBottomChild;
+  final double imageHeight;
 
   const VehicleHeader({
     super.key,
@@ -17,87 +16,74 @@ class VehicleHeader extends StatelessWidget {
     required this.title,
     this.titleStyle,
     this.bottomChild,
-    this.imageSize = 120,
-    this.spacingBetweenTitleAndBottomChild,
+    this.imageHeight = 130, 
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: double.infinity,
+      margin: EdgeInsets.only(bottom: 10.h),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
         children: [
-        Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: Colors.white, width: 3.w),
-            boxShadow: [
-              BoxShadow(
-                // ignore: deprecated_member_use
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 10,
-                offset: const Offset(0, 5),
-              )
-            ],
+          Container(
+            height: imageHeight.h,
+            width: 200.w,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.r), 
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.r),
+              child: _imageContent(),
+            ),
           ),
-          child: ClipOval(
-            child: isNetworkImage
-                ? Image.network(
-                    imagePath,
-                    width: imageSize.w,
-                    height: imageSize.w,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => _buildPlaceholder(),
-                    loadingBuilder: (context, child, progress) {
-                      if (progress == null) return child;
-                      return SizedBox(
-                        width: imageSize.w,
-                        height: imageSize.w,
-                        child: const Center(child: CircularProgressIndicator()),
-                      );
-                    },
-                  )
-                : Image.asset(
-                    imagePath,
-                    width: imageSize.w,
-                    height: imageSize.w,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => _buildPlaceholder(),
-                  ),
-          ),
-        ),
-        SizedBox(height: 12.h),
-        SizedBox(
-          width: double.infinity,
-          child: Text(
+          
+          SizedBox(height: 8.h),
+                    Text(
             title,
             textAlign: TextAlign.center,
             style: titleStyle ??
                 TextStyle(
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.black,
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF1A1A1A),
+                  letterSpacing: 0.5,
                 ),
           ),
-        ),
-        if (bottomChild != null) ...[
-          SizedBox(height: spacingBetweenTitleAndBottomChild ?? 8.h),
-          bottomChild!,
+          
+          if (bottomChild != null) ...[
+            bottomChild!,
+          ],
         ],
-      ],
       ),
     );
   }
 
-  Widget _buildPlaceholder() {
+  Widget _imageContent() {
+    if (imagePath.isEmpty) return _placeholder();
+        return isNetworkImage
+        ? Image.network(
+            imagePath,
+            fit: BoxFit.cover, 
+            errorBuilder: (_, __, ___) => _placeholder(),
+          )
+        : Image.asset(
+            imagePath,
+            fit: BoxFit.cover,
+            errorBuilder: (_, __, ___) => _placeholder(),
+          );
+  }
+
+  Widget _placeholder() {
     return Container(
-      width: imageSize.w,
-      height: imageSize.w,
-      color: Colors.grey[200],
-      child: Icon(Icons.directions_car, size: (imageSize / 2).sp, color: Colors.grey),
+      color: const Color(0xFFF5F7F9),
+      child: Center(
+        child: Icon(
+          Icons.directions_car_filled_rounded,
+          size: 50.sp,
+          color: const Color(0xFF0C5D6E).withOpacity(0.2),
+        ),
+      ),
     );
   }
 }

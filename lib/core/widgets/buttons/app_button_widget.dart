@@ -19,8 +19,10 @@ class AppButton extends StatelessWidget {
     this.textColor,
     this.icon,
     this.isOutline = false,
-    this.borderRadius, 
+    this.borderRadius,
     this.fontSize,
+    /// When [isOutline] is true, fills the button (e.g. white) instead of a tinted primary.
+    this.outlineSurfaceColor,
     super.key,
   });
 
@@ -36,6 +38,7 @@ class AppButton extends StatelessWidget {
   final bool isOutline;
   final double? borderRadius;
   final double? fontSize;
+  final Color? outlineSurfaceColor;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +78,7 @@ class AppButton extends StatelessWidget {
   return OutlinedButton(
     onPressed: disabled ? null : onPressed,
     style: OutlinedButton.styleFrom(
-      backgroundColor: color.withOpacity(0.1),
+      backgroundColor: outlineSurfaceColor ?? color.withOpacity(0.1),
       
       foregroundColor: color,
       side: BorderSide(

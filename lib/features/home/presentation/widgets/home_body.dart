@@ -11,48 +11,36 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsetsDirectional.only(
-        start: 20.w,
-        end: 20.w,
-        top: 16.h,
-        bottom: 16.h,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          AppText.headline(context, 'Hello, Sami ...'),
-          SizedBox(height: 16.h),
-
-          const ActiveOrderCard(),
-          SizedBox(height: 24.h),
-
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(16.r),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20.r),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.06),
-                  blurRadius: 8.r,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+    return SafeArea(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AppText.headline(context, 'Hello, Sami ...'),
+            SizedBox(height: 16.h),
+            const ActiveOrderCard(),
+            SizedBox(height: 24.h),
+            ServicesGrid(
+              onItemPressed: (index) => onServicePressed(context, index),
             ),
-            child: ServicesGrid(
-              onItemPressed: (index) {
-                if (index == 0) {
-                  context.go(Routes.my_vehicles_page);
-                }
-              },
-            ),
-          ),
-
-          SizedBox(height: 16.h),
-        ],
+            SizedBox(height: 16.h),
+          ],
+        ),
       ),
     );
+  }
+
+  void onServicePressed(BuildContext context, int index) {
+    switch (index) {
+      case 0:
+        context.go(Routes.my_vehicles_page);
+        break;
+      case 1:
+        context.go(Routes.requests);
+        break;
+      default:
+        debugPrint("No route defined for index $index");
+    }
   }
 }

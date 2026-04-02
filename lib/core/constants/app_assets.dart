@@ -6,10 +6,18 @@ class AppAssets {
   static const String splashBackgroundImg =
       '$_imagesPath/splash_background.png';
 
+   static const String plateNumberIcon = '$_imagesPath/number.png';
+static const String deleteIcon = '$_imagesPath/delete.png';
+  static const String editIcon = '$_imagesPath/edit.png';
+  static const String maintenanceActionIcon = '$_imagesPath/2.png';
+
   static const String logoImg = '$_imagesPath/logo.png';
 
   /// Home page background (artboard)
   static const String artboardBackground = '$_imagesPath/Artboard 9.png';
+
+  /// Price offer / financing illustration (orders flow)
+  static const String carFinanceAmico = '$_imagesPath/Carfinance-amico.png';
   static const String calendarIcon = '$_imagesPath/calendar.png';
 
   /// App bar logo (CAR CARE)

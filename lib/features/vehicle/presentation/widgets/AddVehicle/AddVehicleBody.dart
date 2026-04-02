@@ -1,5 +1,8 @@
-
+// ignore_for_file: file_names
 import 'dart:typed_data';
+import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/widgets/app_loading_widget.dart';
+import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
@@ -45,57 +48,42 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
       source: ImageSource.gallery,
       imageQuality: 80,
     );
-
     if (xFile == null) return;
-
-    setState(() {
-      _pickedImage = xFile;
-    });
+    setState(() => _pickedImage = xFile);
   }
 
   Future<void> _submit(BuildContext context) async {
-    debugPrint('SUBMIT CLICKED ');
-
     if (_pickedImage == null) {
-      debugPrint('NO IMAGE ');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('الرجاء اختيار صورة للمركبة')),
       );
       return;
     }
 
-    debugPrint('IMAGE OK ');
-
     if (_kmController.text.trim().isEmpty ||
         _plateController.text.trim().isEmpty ||
         _brandController.text.trim().isEmpty ||
         _modelController.text.trim().isEmpty ||
         _yearController.text.trim().isEmpty) {
-      debugPrint('FIELDS EMPTY');
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('الرجاء تعبئة جميع الحقول')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('الرجاء تعبئة جميع الحقول')),
+      );
       return;
     }
-
-    debugPrint('FIELDS OK');
 
     final Uint8List bytes = await _pickedImage!.readAsBytes();
     final String fileName = _pickedImage!.name;
 
-    debugPrint('BYTES LENGTH = ${bytes.length}, NAME = $fileName ');
-
+    // ignore: use_build_context_synchronously
     context.read<VehicleAddCubit>().addVehicle(
-      brand: _brandController.text,
-      model: _modelController.text,
-      year: _yearController.text,
-      plateNumber: _plateController.text,
-      currentKm: _kmController.text,
-      imageBytes: bytes,
-      imageFileName: fileName,
-    );
-
-    debugPrint('CUBIT CALLED ');
+          brand: _brandController.text,
+          model: _modelController.text,
+          year: _yearController.text,
+          plateNumber: _plateController.text,
+          currentKm: _kmController.text,
+          imageBytes: bytes,
+          imageFileName: fileName,
+        );
   }
 
   @override
@@ -110,11 +98,10 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
             );
             Navigator.of(context).pop(true);
           }
-
           if (state is VehicleAddError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
           }
         },
         builder: (context, state) {
@@ -127,63 +114,41 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
                 child: Column(
                   children: [
                     VehicleImageWidget(
-                    
                       imagePath: _pickedImage?.path,
                       onPickImage: _pickImage,
                     ),
-                    _InputField(
+                    LoginTextField(
                       controller: _kmController,
                       hintText: 'عداد الكيلومترات',
-                      icon: Icon(
-                        Icons.speed_outlined,
-                        color: AppColors.primary,
-                        size: 26.sp,
-                      ),
+                      icon: Icons.speed_outlined,
                       keyboardType: TextInputType.number,
                     ),
-                    SizedBox(height: 12.h),
-                    _InputField(
+                    SizedBox(height: 10.h),
+                    LoginTextField(
                       controller: _plateController,
                       hintText: 'اللوحة',
-                      icon: Icon(
-                        Icons.sort_by_alpha,
-                        color: AppColors.primary,
-                        size: 26.sp,
-                      ),
+                      icon: Icons.sort_by_alpha,
                     ),
-                    SizedBox(height: 12.h),
-                    _InputField(
+                    SizedBox(height: 10.h),
+                    LoginTextField(
                       controller: _brandController,
                       hintText: 'الماركة',
-                      icon: Icon(
-                        Icons.local_offer_outlined,
-                        color: AppColors.primary,
-                        size: 26.sp,
-                      ),
+                      icon: Icons.local_offer_outlined,
                     ),
-                    SizedBox(height: 12.h),
-                    _InputField(
+                    SizedBox(height: 10.h),
+                    LoginTextField(
                       controller: _modelController,
                       hintText: 'الموديل',
-                      icon: Icon(
-                        Icons.directions_car_filled_outlined,
-                        color: AppColors.primary,
-                        size: 26.sp,
-                      ),
+                      icon: Icons.directions_car_filled_outlined,
                     ),
-                    SizedBox(height: 12.h),
-                    _InputField(
+                    SizedBox(height: 10.h),
+                    LoginTextField(
                       controller: _yearController,
                       hintText: 'السنة',
-                      icon: Icon(
-                        Icons.calendar_month_outlined,
-                        color: AppColors.primary,
-                        size: 26.sp,
-                      ),
+                      icon: Icons.calendar_month_outlined,
                       keyboardType: TextInputType.number,
                     ),
                     SizedBox(height: 16.h),
-
                     SaveVehicleButton(
                       isLoading: isLoading,
                       onPressed: isLoading ? null : () => _submit(context),
@@ -197,64 +162,6 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
             ],
           );
         },
-      ),
-    );
-  }
-}
-
-class _InputField extends StatelessWidget {
-  const _InputField({
-    required this.controller,
-    required this.hintText,
-    required this.icon,
-    this.keyboardType,
-  });
-
-  final TextEditingController controller;
-  final String hintText;
-  final Widget icon;
-  final TextInputType? keyboardType;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 54.h,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: AppColors.primary, width: 1.5.w),
-      ),
-      child: Row(
-        children: [
-          SizedBox(width: 16.w),
-          icon,
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: TextField(
-                controller: controller,
-                keyboardType: keyboardType,
-                textAlign: TextAlign.right,
-                decoration: InputDecoration(
-                  hintText: hintText,
-                  border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                  filled: false,
-                  fillColor: Colors.transparent,
-                  isDense: true,
-                  contentPadding: EdgeInsets.zero,
-                  hintStyle: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

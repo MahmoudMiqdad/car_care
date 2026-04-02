@@ -1,5 +1,4 @@
 // ignore_for_file: file_names
-
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/MyVehicles/VehicleCard.dart';
 import 'package:flutter/material.dart';

@@ -30,10 +30,11 @@ class VehicleInfoCardWidget extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 8.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+                            SizedBox(width: 10,),
+
               icon,
               Text(
                 value,
@@ -43,6 +44,8 @@ class VehicleInfoCardWidget extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
+                            SizedBox(width: 12,),
+
             ],
           ),
         ],

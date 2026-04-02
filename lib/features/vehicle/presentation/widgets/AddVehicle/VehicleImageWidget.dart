@@ -1,6 +1,7 @@
-// ignore_for_file: file_names
+// ignore_for_file: deprecated_member_use, file_names
 import 'dart:io';
 
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -71,7 +72,7 @@ class VehicleImageWidget extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(10.r),
                   decoration: const BoxDecoration(
-                    color: Color(0xFFF29966),
+                    color: AppColors.orange,
                     shape: BoxShape.circle,
                   ),
                   child: Icon(Icons.camera_alt, color: Colors.white, size: 20.sp),

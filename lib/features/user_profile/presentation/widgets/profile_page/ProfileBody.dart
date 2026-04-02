@@ -1,4 +1,5 @@
 // ignore: file_names
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/buttons/app_button_widget.dart';
 import 'package:car_care/core/widgets/loding.dart';
@@ -10,6 +11,7 @@ import 'package:car_care/features/user_profile/presentation/cubit/show_profile_c
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileBody extends StatelessWidget {
   const ProfileBody({super.key});
@@ -63,17 +65,12 @@ class ProfileBody extends StatelessWidget {
                  AppButton(
                  text: 'تعديل الملف الشخصي',
                 backgroundColor: AppColors.orange,
-                onPressed: () {},),
+                onPressed: () => context.push(Routes.profile_setup),),
                   SizedBox(height: 16.h),
                  AppButton(
                 text: 'تعديل كلمة المرور',
                backgroundColor: AppColors.orange,
-               onPressed: () {
-               Navigator.push(
-               context,
-               MaterialPageRoute(
-               builder: (context) => const ChangePasswordPage(),
-      ),);},),
+               onPressed: () => context.push(Routes.changepasswordpage),),
                   SizedBox(height: 16.h),
                   AppButton(
                  text: 'حذف الحساب',

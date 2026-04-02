@@ -16,11 +16,7 @@ class VehiclesBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsetsDirectional.only(
-        start: 20.w,
-        end: 20.w,
-        top: 16.h,
-        bottom: 16.h,
-      ),
+        start: 20.w,end: 20.w,top: 16.h,bottom: 16.h,),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

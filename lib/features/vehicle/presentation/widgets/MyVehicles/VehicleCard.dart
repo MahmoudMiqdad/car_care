@@ -1,9 +1,9 @@
 // ignore_for_file: file_names
-
-import 'package:car_care/core/constants/app_text_styles.dart';
 import 'package:car_care/core/constants/appbox_container.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/app_headline.dart';
+import 'package:car_care/core/widgets/app_info_row.dart';
 import 'package:car_care/core/widgets/buttons/app_button_widget.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +22,7 @@ class VehicleCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               VehicleCircleImage(imageUrl: item.image),
               SizedBox(width: 16.w),
@@ -57,25 +58,32 @@ class VehicleInfoColumn extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
+        AppText.sectionTitle(
           '${item.brand} ${item.model}',
-          style: AppTextStyles.font20BlackBold.copyWith(fontSize: 22.sp),
+          color: AppColors.black,
+        ),
+        SizedBox(height: 8.h),
+        AppInfoRow(
+          label: 'السنة',
+          value: item.year.toString(),
+          labelFontSize: 16.sp,
+          valueFontSize: 16.sp,
         ),
         SizedBox(height: 4.h),
-        buildInfoRow('السنة', item.year.toString()),
-        buildInfoRow('رقم اللوحة', item.plateNumber),
-        buildInfoRow('عداد', item.currentKm.toString()),
+        AppInfoRow(
+          label: 'رقم اللوحة',
+          value: item.plateNumber,
+          labelFontSize: 16.sp,
+          valueFontSize: 16.sp,
+        ),
+        SizedBox(height: 4.h),
+        AppInfoRow(
+          label: 'عداد',
+          value: '${item.currentKm} كم',
+          labelFontSize: 16.sp,
+          valueFontSize: 16.sp,
+        ),
       ],
-    );
-  }
-
-  Widget buildInfoRow(String label, String value) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 2.h),
-      child: Text(
-        '$label : $value',
-        style: AppTextStyles.font18BlackSemiBold.copyWith(fontSize: 16.sp),
-      ),
     );
   }
 }

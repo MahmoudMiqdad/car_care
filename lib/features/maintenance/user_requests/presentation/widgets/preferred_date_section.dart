@@ -24,9 +24,9 @@ class PreferredDateSection extends StatelessWidget {
       iconColor: AppColors.primary,
       child: InkWell(
         onTap: onPickDate,
-        borderRadius: BorderRadius.circular(8.r),
+        borderRadius: BorderRadius.circular(2.r),
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 4.h),
+          padding: EdgeInsets.symmetric(vertical: 0.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

@@ -41,9 +41,11 @@ class AppConstants {
   static const Size designSize = Size(designWidth, designHeight);
 
   // --- Home (AppBar & layout) ---
-  static const double homeAppBarHeight = 64;
-  static const double homeAppBarLogoMaxHeight = 200;
-  static const double homeAppBarLogoMaxWidth = 250;
+  static const double homeAppBarHeight = 72;
+  /// Fraction of screen width used for the app bar logo (main shell).
+  static const double homeAppBarLogoWidthFraction = 0.44;
+  static const double homeAppBarLogoMaxHeight = 220;
+  static const double homeAppBarLogoMaxWidth = 280;
   static const double homeAppBarLeadingOuter = 42;
   static const double homeAppBarLeadingIconSize = 28;
   static const double homeAppBarMenuIconSize = 30;

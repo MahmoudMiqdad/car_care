@@ -2,10 +2,10 @@ import 'dart:typed_data';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/buttons/app_button_widget.dart';
+import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/update_vehicle/vehicle_update_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/update_vehicle/vehicle_update_state.dart';
-import 'package:car_care/features/vehicle/presentation/widgets/UpdateVehicle/UpdateInputField.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/UpdateVehicle/UpdateVehicleImage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,9 +56,7 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
       source: ImageSource.gallery,
       imageQuality: 80,
     );
-    if (xFile != null) {
-      setState(() => _pickedImage = xFile);
-    }
+    if (xFile != null) setState(() => _pickedImage = xFile);
   }
 
   bool _isAnyFieldEmpty() {
@@ -81,7 +79,6 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
             );
             Navigator.of(context).pop(true);
           }
-
           if (state is VehicleUpdateError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.message)),
@@ -100,44 +97,38 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
                   pickedImagePath: _pickedImage?.path,
                   onPickImage: pickImage,
                 ),
-
-                UpdateInputField(
-                  controller: brandController,
-                  hintText: 'الماركة',
-                  icon: Icons.local_offer_outlined,
-                ),
-                SizedBox(height: 12.h),
-
-                UpdateInputField(
-                  controller: modelController,
-                  hintText: 'الموديل',
-                  icon: Icons.directions_car_filled_outlined,
-                ),
-                SizedBox(height: 12.h),
-
-                UpdateInputField(
-                  controller: yearController,
-                  hintText: 'السنة',
-                  icon: Icons.calendar_month_outlined,
-                  keyboardType: TextInputType.number,
-                ),
-                SizedBox(height: 12.h),
-
-                UpdateInputField(
-                  controller: plateController,
-                  hintText: 'رقم اللوحة',
-                  icon: Icons.sort_by_alpha,
-                ),
-                SizedBox(height: 12.h),
-
-                UpdateInputField(
+                LoginTextField(
                   controller: kmController,
                   hintText: 'عداد الكيلومترات',
                   icon: Icons.speed_outlined,
                   keyboardType: TextInputType.number,
                 ),
-                SizedBox(height: 24.h),
-
+                SizedBox(height: 10.h),
+                LoginTextField(
+                  controller: plateController,
+                  hintText: 'اللوحة',
+                  icon: Icons.sort_by_alpha,
+                ),
+                SizedBox(height: 10.h),
+                LoginTextField(
+                  controller: brandController,
+                  hintText: 'الماركة',
+                  icon: Icons.local_offer_outlined,
+                ),
+                SizedBox(height: 10.h),
+                LoginTextField(
+                  controller: modelController,
+                  hintText: 'الموديل',
+                  icon: Icons.directions_car_filled_outlined,
+                ),
+                SizedBox(height: 10.h),
+                LoginTextField(
+                  controller: yearController,
+                  hintText: 'السنة',
+                  icon: Icons.calendar_month_outlined,
+                  keyboardType: TextInputType.number,
+                ),
+                SizedBox(height: 14.h),
                 AppButton(
                   text: isLoading ? 'جارٍ الحفظ...' : 'حفظ التعديلات',
                   backgroundColor: AppColors.orange,
@@ -146,7 +137,6 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
                   fontSize: 20.sp,
                   onPressed: () async {
                     if (isLoading) return;
-
                     if (_isAnyFieldEmpty()) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('الرجاء تعبئة جميع الحقول')),
@@ -156,12 +146,11 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
 
                     Uint8List? bytes;
                     String? name;
-
                     if (_pickedImage != null) {
                       bytes = await _pickedImage!.readAsBytes();
                       name = _pickedImage!.name;
                     }
-
+                    // ignore: use_build_context_synchronously
                     context.read<VehicleUpdateCubit>().updateVehicle(
                           id: widget.vehicle.id,
                           brand: brandController.text,
@@ -174,7 +163,6 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
                         );
                   },
                 ),
-
                 SizedBox(height: 32.h),
               ],
             ),

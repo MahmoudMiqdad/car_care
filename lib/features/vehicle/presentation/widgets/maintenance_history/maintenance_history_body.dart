@@ -1,17 +1,12 @@
-import 'package:car_care/features/vehicle/presentation/widgets/maintenance_history/maintenance_history_entry.dart';
-import 'package:car_care/features/vehicle/presentation/widgets/maintenance_history/maintenance_history_item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'maintenance_history_entry.dart';
+import 'maintenance_history_item_card.dart';
 
 class MaintenanceHistoryBody extends StatelessWidget {
-  const MaintenanceHistoryBody({
-    super.key,
-    required this.vehicleId,
-  });
-
+  const MaintenanceHistoryBody({super.key, required this.vehicleId});
   final int vehicleId;
-
-  List<MaintenanceHistoryEntry> entriesForVehicle(int id) {
+  List<MaintenanceHistoryEntry> _getMockData() {
     return [
       MaintenanceHistoryEntry(
         description: 'تغيير زيت و فلتر',
@@ -36,15 +31,15 @@ class MaintenanceHistoryBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final entries = entriesForVehicle(vehicleId);
+    final entries = _getMockData();
 
     return CustomScrollView(
       slivers: [
         SliverPadding(
-          padding: EdgeInsets.fromLTRB(16.w,40.h,16.w, 20.h),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
           sliver: SliverList.separated(
             itemCount: entries.length,
-            separatorBuilder: (_, __) => SizedBox(height: 12.h),
+            separatorBuilder: (_, __) => SizedBox(height: 16.h),
             itemBuilder: (context, index) {
               return MaintenanceHistoryItemCard(entry: entries[index]);
             },

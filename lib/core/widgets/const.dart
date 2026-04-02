@@ -1,7 +1,9 @@
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/extensions/theme_extension.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -18,23 +20,37 @@ class MainAppShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final location = GoRouterState.of(context).matchedLocation;
+    final isProfile = location == Routes.profile;
+
+    final menuAction = IconButton(
+      onPressed: () {},
+      icon: Icon(
+        Icons.menu,
+        color: Colors.white,
+        size: AppConstants.homeAppBarMenuIconSize,
+      ),
+    );
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: context.colorScheme.surface,
-        appBar: CustomAppBar(
-          title: AppConstants.appName,
-          showBackButton: false,
-          useMainBranding: true,
-          actionWidget: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.menu,
-              color: Colors.white,
-              size: AppConstants.homeAppBarMenuIconSize,
-            ),
-          ),
-        ),
+        appBar: isProfile
+            ? CustomAppBar(
+                title: context.l10n.profile,
+                showBackButton: true,
+                useMainBranding: false,
+                onBackTapped: () => context.go(Routes.home),
+                actionWidget: menuAction,
+              )
+            : CustomAppBar(
+                title: AppConstants.appName,
+                showBackButton: false,
+                useMainBranding: true,
+                onProfileTap: () => context.go(Routes.profile),
+                actionWidget: menuAction,
+              ),
         body: child,
         bottomNavigationBar: bottomNavigationBar,
       ),
@@ -203,7 +219,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         child: Image.asset(
           AppAssets.homeAppBarLogo,
-          width: MediaQuery.sizeOf(context).width * 0.30,
+          width: MediaQuery.sizeOf(context).width *
+              AppConstants.homeAppBarLogoWidthFraction,
           height: AppConstants.homeAppBarLogoMaxHeight.h,
           fit: BoxFit.contain,
           errorBuilder: (_, __, ___) => Text(

@@ -31,4 +31,6 @@ class Routes {
   static const String technician_rate_job = '/technician_rate_job';
   static const String orders = '/orders';
   static const String order_details = '/order_details';
+  static const String price_offer = '/price_offer';
+
 }

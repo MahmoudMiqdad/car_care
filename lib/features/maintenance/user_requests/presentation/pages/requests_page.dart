@@ -1,4 +1,3 @@
-import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
@@ -13,6 +12,7 @@ import 'package:car_care/features/maintenance/user_requests/presentation/widgets
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/problem_description_field.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/requests_action_buttons.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/vehicle_info_section.dart';
+import 'package:car_care/features/orders/presentation/widgets/price_offer_page/requests_flow_shared.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -29,8 +29,6 @@ class _RequestsPageState extends State<RequestsPage> {
   int _photoCount = 0;
   DateTime selectedDate = DateTime(2020, 10, 12);
   MaintenancePriority _priority = MaintenancePriority.medium;
-
-  double get _cardR => AppConstants.maintenanceRequestCardRadius.r;
 
   @override
   void dispose() {
@@ -51,12 +49,14 @@ class _RequestsPageState extends State<RequestsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double cardR = RequestsFlowStyles.formCardRadius;
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: AppColors.lightScaffold,
         appBar: const CustomAppBar(
-          title: 'Maintenance Request',
+          title: 'طلب صيانة',
           showBackButton: true,
         ),
         bottomNavigationBar: HomeBottomNavBar(
@@ -64,56 +64,45 @@ class _RequestsPageState extends State<RequestsPage> {
             if (index == 0) context.go(Routes.home);
           },
         ),
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            Image.asset(
-              AppAssets.artboardBackground,
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+        body: RequestsFlowStyles.backgroundStack(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(18.w, 12.h, 16.w, 24.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                VehicleInfoSection(cardRadius: cardR),
+                AppText.sectionTitle('تفاصيل الطلب'),
+                 ProblemDescriptionField(
+                  controller: _problemController,
+                ),
+                SizedBox(height: 8.h),
+                PhotoAttachmentSection(
+                  cardRadius: cardR,
+                  photoCount: _photoCount,
+                  onAddPhoto: () {
+                    if (_photoCount < 3) setState(() => _photoCount++);
+                  },
+                ),
+                SizedBox(height: 8.h),
+                PreferredDateSection(
+                  cardRadius: cardR,
+                  formattedDate: ArabicFormatting.formatDateSlashedEastern(selectedDate),
+                  onPickDate: _pickDate,
+                ),
+                SizedBox(height: 5.h),
+                PrioritySelector(
+                  selected: _priority,
+                  onChanged: (p) => setState(() => _priority = p),
+                ),
+                SizedBox(height: 8.h),
+                RequestsActionButtons(
+                  cardRadius: cardR,
+                  onSubmit: () {},
+                  onCancel: () => context.pop(),
+                ),
+              ],
             ),
-            SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  VehicleInfoSection(cardRadius: _cardR),
-                  SizedBox(height: 20.h),
-                  AppText.sectionTitle('تفاصيل الطلب'),
-                  SizedBox(height: 5.h),
-                  ProblemDescriptionField(
-                    cardRadius: _cardR,
-                    controller: _problemController,
-                  ),
-                  SizedBox(height: 12.h),
-                  PhotoAttachmentSection(
-                    cardRadius: _cardR,
-                    photoCount: _photoCount,
-                    onAddPhoto: () {
-                      if (_photoCount < 3) setState(() => _photoCount++);
-                    },
-                  ),
-                  SizedBox(height: 12.h),
-                  PreferredDateSection(
-                    cardRadius: _cardR,
-                    formattedDate: ArabicFormatting.formatDateSlashedEastern(selectedDate),
-                    onPickDate: _pickDate,
-                  ),
-                  SizedBox(height: 20.h),
-                  PrioritySelector(
-                    selected: _priority,
-                    onChanged: (p) => setState(() => _priority = p),
-                  ),
-                  SizedBox(height: 24.h),
-                  RequestsActionButtons(
-                    cardRadius: _cardR,
-                    onSubmit: () {},
-                    onCancel: () => context.pop(),
-                  ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

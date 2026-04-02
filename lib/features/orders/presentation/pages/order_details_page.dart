@@ -57,7 +57,7 @@ class OrderDetailsPage extends StatelessWidget {
                     borderRadius: AppConstants.ctaRadius,
                     height: 55.h, 
                     onPressed: () {
-                      debugPrint("تقديم عرض سعر للطلب: $orderId");
+    context.go(Routes.price_offer, extra: orderId);
                     },
                   ),
                 ],
