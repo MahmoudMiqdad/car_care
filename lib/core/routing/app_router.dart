@@ -37,8 +37,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.orders,
-    initialLocation: Routes.profile,
+    initialLocation: Routes.technician_requests,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(

@@ -33,7 +33,7 @@ class OrderDetailsVehicleSection extends StatelessWidget {
                             Expanded(
                 flex: 6,
                 child: OrderDetailsIconLabel(
-                  imagePath: 'assets/images/number.png', // استخدام الصورة المطلوبة
+                  imagePath: 'assets/images/number.png',
                   label: model.licensePlate,
                 ),
               ),

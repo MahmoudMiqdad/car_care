@@ -7,6 +7,7 @@ class AppInfoRow extends StatelessWidget {
   final String label;
   final String value;
   final IconData? icon;
+  final Widget? leading;
   final double? labelFontSize;
   final double? valueFontSize;
 
@@ -15,6 +16,7 @@ class AppInfoRow extends StatelessWidget {
     required this.label,
     required this.value,
     this.icon,
+    this.leading,
     this.labelFontSize,
     this.valueFontSize,
   });
@@ -25,7 +27,10 @@ class AppInfoRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       textDirection: TextDirection.rtl,
       children: [
-        if (icon != null) ...[
+        if (leading != null) ...[
+          leading!,
+          SizedBox(width: 6.w),
+        ] else if (icon != null) ...[
           Icon(icon, size: 18.sp, color: AppColors.primary),
           SizedBox(width: 6.w),
         ],

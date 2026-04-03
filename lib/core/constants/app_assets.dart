@@ -20,6 +20,14 @@ static const String deleteIcon = '$_imagesPath/delete.png';
   static const String carFinanceAmico = '$_imagesPath/Carfinance-amico.png';
   static const String calendarIcon = '$_imagesPath/calendar.png';
 
+  static const String technicianJobNotesIcon = '$_imagesPath/icons8-notes-48.png';
+  static const String technicianJobProfileIcon =
+      '$_imagesPath/icons8-profile-picture-50.png';
+  static const String technicianJobVehicleIcon = '$_imagesPath/car.png';
+  static const String technicianJobRateIcon = '$_imagesPath/icons8-rate-50.png';
+  static const String technicianJobTimeIcon = '$_imagesPath/icons8-time-51.png';
+  static const String technicianJobRejectedIcon = '$_imagesPath/icons8-x-50.png';
+
   /// App bar logo (CAR CARE)
   static const String homeAppBarLogo = '$_imagesPath/logo 1 .png';
 
