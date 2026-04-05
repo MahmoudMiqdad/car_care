@@ -6,7 +6,11 @@ import 'maintenance_history_item_card.dart';
 class MaintenanceHistoryBody extends StatelessWidget {
   const MaintenanceHistoryBody({super.key, required this.vehicleId});
   final int vehicleId;
-  List<MaintenanceHistoryEntry> _getMockData() {
+
+
+  @override
+  Widget build(BuildContext context) {
+      List<MaintenanceHistoryEntry> _getMockData() {
     return [
       MaintenanceHistoryEntry(
         description: 'تغيير زيت و فلتر',
@@ -28,9 +32,6 @@ class MaintenanceHistoryBody extends StatelessWidget {
       ),
     ];
   }
-
-  @override
-  Widget build(BuildContext context) {
     final entries = _getMockData();
 
     return CustomScrollView(

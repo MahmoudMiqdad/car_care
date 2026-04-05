@@ -1,46 +1,49 @@
 // ignore_for_file: file_names
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/features/home/presentation/widgets/service_card.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ServicesGrid extends StatelessWidget {
-  const ServicesGrid({
+   ServicesGrid({
     super.key,
     this.onItemPressed,
   });
-
   final ValueChanged<int>? onItemPressed;
+  @override
+  Widget build(BuildContext context) {
+       
+ final strings = context.l10n;
+ 
 
-  static final List<ServiceItemData> _items = [
-    const ServiceItemData(
-      title: 'My Vehicles',
+  final List<ServiceItemData> _items = [
+     ServiceItemData(
+      title: strings.myVehicles,
       imagePath: AppAssets.serviceMyVehicles,
     ),
-    const ServiceItemData(
-      title: 'Maintenace',
+     ServiceItemData(
+      title: strings.maintenance,
       imagePath: AppAssets.serviceMaintenance,
     ),
-    const ServiceItemData(
-      title: 'CarWash',
+     ServiceItemData(
+      title:strings.carWash,
       imagePath: AppAssets.serviceCarWash,
     ),
-    const ServiceItemData(
-      title: 'SOS',
+     ServiceItemData(
+      title: strings.sos,
       imagePath: AppAssets.serviceSos,
     ),
-    const ServiceItemData(
-      title: 'Market place',
+     ServiceItemData(
+      title:strings.marketplace,
       imagePath: AppAssets.serviceMarketplace,
     ),
-    const ServiceItemData(
-      title: 'Fuel',
+     ServiceItemData(
+      title: strings.fuel,
       imagePath: AppAssets.serviceFuel,
     ),
   ];
 
-  @override
-  Widget build(BuildContext context) {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),

@@ -7,6 +7,7 @@ import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/update_vehicle/vehicle_update_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/update_vehicle/vehicle_update_state.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/UpdateVehicle/UpdateVehicleImage.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -69,13 +70,14 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
 
   @override
   Widget build(BuildContext context) {
+          final strings = context.l10n;
     return BlocProvider(
       create: (_) => getIt<VehicleUpdateCubit>(),
       child: BlocConsumer<VehicleUpdateCubit, VehicleUpdateState>(
         listener: (context, state) {
           if (state is VehicleUpdateSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('تم تحديث المركبة بنجاح')),
+               SnackBar(content: Text(strings.vehicleUpdatedSuccessfully)),
             );
             Navigator.of(context).pop(true);
           }
@@ -99,38 +101,38 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
                 ),
                 LoginTextField(
                   controller: kmController,
-                  hintText: 'عداد الكيلومترات',
+                  hintText: strings.odometer,
                   icon: Icons.speed_outlined,
                   keyboardType: TextInputType.number,
                 ),
                 SizedBox(height: 10.h),
                 LoginTextField(
                   controller: plateController,
-                  hintText: 'اللوحة',
+                  hintText: strings.plate,
                   icon: Icons.sort_by_alpha,
                 ),
                 SizedBox(height: 10.h),
                 LoginTextField(
                   controller: brandController,
-                  hintText: 'الماركة',
+                  hintText: strings.brand,
                   icon: Icons.local_offer_outlined,
                 ),
                 SizedBox(height: 10.h),
                 LoginTextField(
                   controller: modelController,
-                  hintText: 'الموديل',
+                  hintText: strings.model,
                   icon: Icons.directions_car_filled_outlined,
                 ),
                 SizedBox(height: 10.h),
                 LoginTextField(
                   controller: yearController,
-                  hintText: 'السنة',
+                  hintText: strings.year,
                   icon: Icons.calendar_month_outlined,
                   keyboardType: TextInputType.number,
                 ),
                 SizedBox(height: 14.h),
                 AppButton(
-                  text: isLoading ? 'جارٍ الحفظ...' : 'حفظ التعديلات',
+                  text: isLoading ? strings.saving : strings.saveChanges,
                   backgroundColor: AppColors.orange,
                   height: 54.h,
                   borderRadius: 15.r,
@@ -139,7 +141,7 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
                     if (isLoading) return;
                     if (_isAnyFieldEmpty()) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('الرجاء تعبئة جميع الحقول')),
+                         SnackBar(content: Text(strings.fillAllFields)),
                       );
                       return;
                     }

@@ -835,7 +835,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterFirstName => 'Enter first name';
 
   @override
-  String get enterEmailOrPhone => 'Enter email or phone number';
+  String get enterEmail => 'Enter email';
 
   @override
   String get enterPassword => 'Enter password';
@@ -899,4 +899,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get messages => 'Messages';
+
+  @override
+  String get changedpasswordsuccessfully => 'The password has been successfully changed.';
+
+  @override
+  String get enterphone => 'Enter Phone';
+
+  @override
+  String get thepasswordsdonotmatch => ' The passwords do not match.';
+
+  @override
+  String get activeorders => 'Active Orders ';
+
+  @override
+  String get saveandfollow => 'Save and follow';
+
+  @override
+  String get savevehicle => 'Save Vehicle';
+
+  @override
+  String get parts => 'Spare Parts';
+
+  @override
+  String get details => ' عرض التفاصيل';
+
+  @override
+  String get updateCarsList => 'Updating car list...';
+
+  @override
+  String get noCarsYet => 'No cars yet';
+
+  @override
+  String get vehicleUpdatedSuccessfully => 'Vehicle updated successfully';
+
+  @override
+  String get saveChanges => 'Save changes';
+
+  @override
+  String get saving => 'Saving...';
+
+  @override
+  String get updateVehicle => 'Update Vehicle';
+
+  @override
+  String get deleteVehicle => 'Delete Vehicle';
+
+  @override
+  String get confirmDeleteTitle => 'Confirm Deletion';
+
+  @override
+  String get confirmDeleteMessage => 'Are you sure you want to delete this vehicle?\nThis action cannot be undone.';
+
+  @override
+  String get owner => 'Owner';
+
+  @override
+  String get km => 'km';
+
+  @override
+  String get maintenanceRecord => 'Maintenance Record';
+
+  @override
+  String get fuelRecord => 'Fuel Record';
+
+  @override
+  String get alertsRecord => 'Alerts Record';
 }

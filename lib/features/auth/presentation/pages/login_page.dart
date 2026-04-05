@@ -6,6 +6,7 @@ import 'package:car_care/features/auth/presentation/bloc/auth_event.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_state.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_content.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_header.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -15,6 +16,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      final strings = context.l10n;
     final accountController = TextEditingController();
     final passwordController = TextEditingController();
     final formKey = GlobalKey<FormState>();
@@ -27,7 +29,7 @@ class LoginPage extends StatelessWidget {
           listener: (context, state) {
             if (state is AuthSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('تم تسجيل الدخول بنجاح')),
+                 SnackBar(content: Text(strings.loginSuccess)),
               );
               GoRouter.of(context).go(Routes.home);
             } else if (state is AuthFailure) {

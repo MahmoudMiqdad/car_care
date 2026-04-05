@@ -8,7 +8,10 @@ import 'package:car_care/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:car_care/features/user_profile/data/data_sources/profile_remote_data_source.dart';
 import 'package:car_care/features/user_profile/domain/repositories/i_profile_repository.dart';
 import 'package:car_care/features/user_profile/data/repositories/profile_repo_impl.dart';
+import 'package:car_care/features/user_profile/presentation/cubit/avatar_cubit/avatar_cubit.dart';
+import 'package:car_care/features/user_profile/presentation/cubit/change_password_cubit/change_password_cubit.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/show_profile_cubit/show_profile_cubit.dart';
+import 'package:car_care/features/user_profile/presentation/cubit/update_profile_cubit/update_profile_cubit.dart';
 import 'package:car_care/features/vehicle/data/data_sources/vehicle_remote_data_source.dart';
 import 'package:car_care/features/vehicle/domain/repositories/i_vehicle_repository.dart';
 import 'package:car_care/features/vehicle/data/repositories/vehicle_repos_impl.dart';
@@ -79,5 +82,14 @@ Future<void> setupServiceLocator() async {
     )
     ..registerFactory<ShowProfileCubit>(
       () => ShowProfileCubit(getIt<IProfileRepository>()),
+    )
+       ..registerFactory<PasswordCubit>(
+      () => PasswordCubit(getIt<IProfileRepository>()),
+    )
+      ..registerFactory<UpdateProfileCubit>(
+      () => UpdateProfileCubit(getIt<IProfileRepository>()),
+    )
+       ..registerFactory<AvatarCubit>(
+      () => AvatarCubit(getIt<IProfileRepository>()),
     );
 }

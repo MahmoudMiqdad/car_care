@@ -1735,11 +1735,11 @@ abstract class AppLocalizations {
   /// **'Enter first name'**
   String get enterFirstName;
 
-  /// Enter email or phone number
+  /// Enter email
   ///
   /// In en, this message translates to:
-  /// **'Enter email or phone number'**
-  String get enterEmailOrPhone;
+  /// **'Enter email'**
+  String get enterEmail;
 
   /// Enter password
   ///
@@ -1866,6 +1866,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Messages'**
   String get messages;
+
+  /// The password has been successfully changed.
+  ///
+  /// In en, this message translates to:
+  /// **'The password has been successfully changed.'**
+  String get changedpasswordsuccessfully;
+
+  /// Enter Phone
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Phone'**
+  String get enterphone;
+
+  /// The passwords do not match.
+  ///
+  /// In en, this message translates to:
+  /// **' The passwords do not match.'**
+  String get thepasswordsdonotmatch;
+
+  /// Active Orders
+  ///
+  /// In en, this message translates to:
+  /// **'Active Orders '**
+  String get activeorders;
+
+  /// Save and follow
+  ///
+  /// In en, this message translates to:
+  /// **'Save and follow'**
+  String get saveandfollow;
+
+  /// No description provided for @savevehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Vehicle'**
+  String get savevehicle;
+
+  /// Spare Parts
+  ///
+  /// In en, this message translates to:
+  /// **'Spare Parts'**
+  String get parts;
+
+  /// عرض التفاصيل
+  ///
+  /// In en, this message translates to:
+  /// **' عرض التفاصيل'**
+  String get details;
+
+  /// Text shown while updating or loading the cars list
+  ///
+  /// In en, this message translates to:
+  /// **'Updating car list...'**
+  String get updateCarsList;
+
+  /// Message shown when there are no cars added
+  ///
+  /// In en, this message translates to:
+  /// **'No cars yet'**
+  String get noCarsYet;
+
+  /// Message shown after successfully updating a vehicle
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle updated successfully'**
+  String get vehicleUpdatedSuccessfully;
+
+  /// Button to save changes
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get saveChanges;
+
+  /// Text shown while saving data
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get saving;
+
+  /// Title or button for updating a vehicle
+  ///
+  /// In en, this message translates to:
+  /// **'Update Vehicle'**
+  String get updateVehicle;
+
+  /// Button to delete a vehicle
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Vehicle'**
+  String get deleteVehicle;
+
+  /// Title of delete confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Deletion'**
+  String get confirmDeleteTitle;
+
+  /// Warning message before deleting a vehicle
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this vehicle?\nThis action cannot be undone.'**
+  String get confirmDeleteMessage;
+
+  /// Owner label in vehicle details page
+  ///
+  /// In en, this message translates to:
+  /// **'Owner'**
+  String get owner;
+
+  /// Unit for kilometers
+  ///
+  /// In en, this message translates to:
+  /// **'km'**
+  String get km;
+
+  /// Title of maintenance record
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance Record'**
+  String get maintenanceRecord;
+
+  /// Title of fuel record
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel Record'**
+  String get fuelRecord;
+
+  /// Title of alerts record
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts Record'**
+  String get alertsRecord;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

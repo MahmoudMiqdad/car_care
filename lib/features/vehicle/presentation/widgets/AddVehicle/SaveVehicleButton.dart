@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:car_care/core/widgets/buttons/app_button_widget.dart';
@@ -16,8 +17,9 @@ class SaveVehicleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+         final strings = context.l10n;
     return AppButton(
-      text: 'حفظ المركبة',
+      text: strings.savevehicle,
       onPressed: onPressed,
       isLoading: isLoading,
       backgroundColor: AppColors.orange,

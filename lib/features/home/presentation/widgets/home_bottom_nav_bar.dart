@@ -1,5 +1,6 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 class HomeBottomNavBar extends StatelessWidget {
@@ -17,6 +18,8 @@ class HomeBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+         final strings = context.l10n;
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
       decoration: BoxDecoration(
@@ -38,26 +41,26 @@ class HomeBottomNavBar extends StatelessWidget {
         children: [
           HomeBottomNavItem(
             icon: Icons.home_filled,
-            label: 'Home',
+            label: strings.home,
             isActive: activeIndex == 0,
             onTap: () => onItemSelected?.call(0),
           ),
           HomeBottomNavItem(
             icon: Icons.notifications,
-            label: 'Notification',
+            label: strings.notification,
             badgeCount: 2,
             isActive: activeIndex == 1,
             onTap: () => onItemSelected?.call(1),
           ),
           HomeBottomNavItem(
             icon: Icons.chat_bubble_outline,
-            label: 'Messages',
+            label: strings.messages,
             isActive: activeIndex == 2,
             onTap: () => onItemSelected?.call(2),
           ),
           HomeBottomNavItem(
             icon: Icons.more_horiz,
-            label: 'More',
+            label: strings.more,
             isActive: activeIndex == 3,
             onTap: () => onItemSelected?.call(3),
           ),

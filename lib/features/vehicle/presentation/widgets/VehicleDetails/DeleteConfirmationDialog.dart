@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 import 'dart:ui';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,6 +18,7 @@ class DeleteConfirmationDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+       final strings = context.l10n;
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
       child: Dialog(
@@ -72,7 +74,7 @@ class DeleteConfirmationDialog extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        'إلغاء',
+                        strings.cancel,
                         style: TextStyle(
                           color: Colors.grey[700],
                           fontWeight: FontWeight.bold,
@@ -84,7 +86,7 @@ class DeleteConfirmationDialog extends StatelessWidget {
                   SizedBox(width: 12.w),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: onDelete, // ✅ ما في pop هنا
+                      onPressed: onDelete, 
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFA12323),
                         elevation: 0,
@@ -103,7 +105,7 @@ class DeleteConfirmationDialog extends StatelessWidget {
                               ),
                             )
                           : Text(
-                              'تأكيد الحذف',
+                              strings.confirmDeleteTitle,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

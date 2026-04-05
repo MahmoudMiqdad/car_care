@@ -11,7 +11,7 @@ import 'package:car_care/features/maintenance/user_requests/presentation/pages/r
 import 'package:car_care/features/maintenance/user_statistics/presentation/pages/statistics_page.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/pages/quotations_page.dart';
 import 'package:car_care/features/vehicle/presentation/pages/maintenance_history_page.dart';
-import 'package:car_care/features/user_profile/presentation/pages/change_passwordpage.dart';
+import 'package:car_care/features/user_profile/presentation/pages/change_password_page.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/pages/technician_profile_page.dart';
 import 'package:car_care/features/vehicle/presentation/pages/vehicle_details_page.dart';
 import 'package:car_care/features/vehicle/presentation/pages/add_vehicle_page.dart';
@@ -37,7 +37,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.technician_requests,
+    initialLocation: Routes.profile,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -81,7 +81,7 @@ class AppRouter {
         path: Routes.profile_setup,
         name: '/profile_setup',
         parentNavigatorKey: rootNavigatorKey,
-        builder: (context, state) => const ProfileSetupPage(),
+        builder: (context, state) => ProfileSetupPage(),
       ),
       GoRoute(
         path: Routes.changepasswordpage,

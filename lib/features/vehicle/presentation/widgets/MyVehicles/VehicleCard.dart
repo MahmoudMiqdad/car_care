@@ -6,6 +6,7 @@ import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
 import 'package:car_care/core/widgets/buttons/app_button_widget.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +18,7 @@ class VehicleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+          final strings = context.l10n;
     return AppBoxContainer(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -33,7 +35,7 @@ class VehicleCard extends StatelessWidget {
           ),
           SizedBox(height: 16.h),
           AppButton(
-            text: 'التفاصيل',
+            text:strings.details,
             backgroundColor: AppColors.orange,
             borderRadius: 16.r,
             height: 48.h,

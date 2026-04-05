@@ -29,9 +29,12 @@ class ApiService {
   Future<Map<String, dynamic>> post({
     required String endPoint,
     dynamic data,
+     bool isFomrData = false,
   }) async {
     return _performRequest(
-      () => _dio.post(endPoint, data: data),
+      () => _dio.post(endPoint, 
+              data: isFomrData == true ? FormData.fromMap(data) : data,
+),
     );
   }
 /// PATCH request
@@ -50,7 +53,7 @@ Future<Map<String, dynamic>> patch({
     dynamic data,
   }) async {
     return _performRequest(
-      () => _dio.put('$endPoint/$id', data: data),
+      () => _dio.put(endPoint, data: data),
     );
   }
 

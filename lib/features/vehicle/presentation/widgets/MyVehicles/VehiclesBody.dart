@@ -3,6 +3,7 @@ import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehic
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_state.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/MyVehicles/RefreshHint.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/MyVehicles/VehiclesList.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,13 +13,14 @@ class VehiclesBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      final strings = context.l10n;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           RefreshHint(
-            hintText: 'تحديث قائمة السيارات...',
+            hintText: strings.updateCarsList,
             onTap: () => context.read<VehicleCubit>().getAllVehicles(),
           ),
           SizedBox(height: 16.h),
@@ -32,7 +34,7 @@ class VehiclesBody extends StatelessWidget {
                   return Center(child: Text(state.message));
                 }
                 if (state is VehicleEmpty) {
-                  return const Center(child: Text('لا توجد سيارات حتى الآن'));
+                  return  Center(child: Text(strings.noCarsYet));
                 }
                 if (state is VehicleLoaded) {
                   return VehiclesList(items: state.vehicles);

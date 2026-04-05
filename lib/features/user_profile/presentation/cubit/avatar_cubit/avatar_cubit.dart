@@ -8,7 +8,7 @@ class AvatarCubit extends Cubit<AvatarState> {
 
   final IProfileRepository _repository;
 
-  Future<void> updateAvatar(XFile? avatar) async {
+  Future<void> updateAvatar( { XFile? avatar}) async {
     emit(AvatarLoading());
 
     final result = await _repository.updateavatar(avatar);

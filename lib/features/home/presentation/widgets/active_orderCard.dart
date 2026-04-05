@@ -3,6 +3,7 @@ import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/constants/appbox_container.dart';
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,6 +12,8 @@ class ActiveOrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+         final strings = context.l10n;
+
     return AppBoxContainer(
       width: double.infinity,
       backgroundColor: AppColors.primary,
@@ -21,7 +24,7 @@ class ActiveOrderCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'الطلبات النشطة',
+          strings.activeorders,
             style: context.textTheme.bodyMedium?.copyWith(
               color: Colors.white,
               fontSize: 20.sp,

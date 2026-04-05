@@ -835,7 +835,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enterFirstName => 'أدخل الاسم الأول';
 
   @override
-  String get enterEmailOrPhone => 'أدخل البريد الإلكتروني أو رقم الهاتف';
+  String get enterEmail => 'أدخل البريد الإلكتروني';
 
   @override
   String get enterPassword => 'أدخل كلمة المرور';
@@ -899,4 +899,70 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get messages => 'الرسائل';
+
+  @override
+  String get changedpasswordsuccessfully => 'تم تغيير كلمة السر بنجاح';
+
+  @override
+  String get enterphone => 'أدخل رقم الهاتف ';
+
+  @override
+  String get thepasswordsdonotmatch => 'كلمتا المرور غير متطابقتين';
+
+  @override
+  String get activeorders => 'الطلبات النشطة ';
+
+  @override
+  String get saveandfollow => 'حفظ و متابعة';
+
+  @override
+  String get savevehicle => 'حفظ المركبة ';
+
+  @override
+  String get parts => 'قطع الغيار ';
+
+  @override
+  String get details => 'التفاصيل';
+
+  @override
+  String get updateCarsList => 'تحديث قائمة السيارات...';
+
+  @override
+  String get noCarsYet => 'لا توجد سيارات حتى الآن';
+
+  @override
+  String get vehicleUpdatedSuccessfully => 'تم تحديث المركبة بنجاح';
+
+  @override
+  String get saveChanges => 'حفظ التعديلات';
+
+  @override
+  String get saving => 'جارٍ الحفظ...';
+
+  @override
+  String get updateVehicle => 'تحديث مركبة';
+
+  @override
+  String get deleteVehicle => 'حذف المركبة';
+
+  @override
+  String get confirmDeleteTitle => 'تأكيد الحذف';
+
+  @override
+  String get confirmDeleteMessage => 'هل أنت متأكد من حذف هذه المركبة؟\nهذا الإجراء لا يمكن التراجع عنه.';
+
+  @override
+  String get owner => 'المالك';
+
+  @override
+  String get km => 'كم';
+
+  @override
+  String get maintenanceRecord => 'سجل الصيانة';
+
+  @override
+  String get fuelRecord => 'سجل الوقود';
+
+  @override
+  String get alertsRecord => 'سجل التنبيهات';
 }

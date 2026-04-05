@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,7 +19,7 @@ class VehicleImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hasImage = imagePath != null && imagePath!.isNotEmpty;
-
+      final strings = context.l10n;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 24.h),
       child: InkWell(
@@ -53,12 +54,12 @@ class VehicleImageWidget extends StatelessWidget {
                               Icon(Icons.directions_car_filled_outlined, size: 52.sp, color: Colors.grey.shade500),
                               SizedBox(height: 10.h),
                               Text(
-                                'أضف صورة المركبة',
+                                strings.addVehicleImage,
                                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w900, color: Colors.grey.shade700),
                               ),
                               SizedBox(height: 4.h),
                               Text(
-                                'اضغط لاختيار صورة',
+                                strings.tapToSelectImage,
                                 style: TextStyle(fontSize: 13.sp, color: Colors.grey.shade600),
                               ),
                             ],

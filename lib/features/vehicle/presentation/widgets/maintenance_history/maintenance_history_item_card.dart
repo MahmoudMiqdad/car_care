@@ -4,6 +4,7 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/arabic_formatting.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/maintenance_history/maintenance_history_entry.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,6 +15,7 @@ class MaintenanceHistoryItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+          final strings = context.l10n;
     return AppBoxContainer(
       child: IntrinsicHeight(
         child: Row(
@@ -41,7 +43,7 @@ class MaintenanceHistoryItemCard extends StatelessWidget {
               child: Column(
                 children: [
                   AppInfoRow(
-                    label: 'وصف',
+                    label :strings.description,
                     value: entry.description,
                     icon: Icons.description_outlined,
                     labelFontSize: 16.sp,
@@ -49,19 +51,19 @@ class MaintenanceHistoryItemCard extends StatelessWidget {
                   ),
                   SizedBox(height: 8.h),
                   AppInfoRow(
-                    label: 'التاريخ',
+                    label: strings.delete,
                     value: ArabicFormatting.formatDateSlashedEastern(entry.date),
                     icon: Icons.calendar_month_outlined,
                   ),
                   SizedBox(height: 8.h),
                   AppInfoRow(
-                    label: 'القطع',
+                    label: strings.parts,
                     value: entry.part,
                     icon: Icons.settings_outlined,
                   ),
                   SizedBox(height: 8.h),
                   AppInfoRow(
-                    label: 'الفني',
+                    label: strings.technician,
                     value: entry.technicianName,
                     icon: Icons.person_outline,
                   ),

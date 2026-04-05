@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileSetupPage extends StatelessWidget {
-  const ProfileSetupPage({super.key});
-
+  ProfileSetupPage({super.key, this.imageavatar});
+  final String? imageavatar;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,8 +21,8 @@ class ProfileSetupPage extends StatelessWidget {
               children: [
                 const LoginHeader(),
                 SizedBox(height: 16.h),
-                const Expanded(
-                  child: ProfileSetupContent(),
+                Expanded(
+                  child: ProfileSetupContent(image:imageavatar ),
                 ),
               ],
             ),

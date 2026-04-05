@@ -7,6 +7,7 @@ import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/MyVehicles/VehiclesBody.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,6 +18,7 @@ class MyVehiclesPagePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+         final strings = context.l10n;
     return BlocProvider(
       create: (_) => getIt<VehicleCubit>()..getAllVehicles(),
       child: Directionality(
@@ -24,7 +26,7 @@ class MyVehiclesPagePage extends StatelessWidget {
         child: Scaffold(
           backgroundColor: context.colorScheme.surface,
           appBar: CustomAppBar(
-            title: 'My Vehicles',
+            title: strings.myVehicles,
             onBackTapped: () => context.go(Routes.home),
             actionWidget: Container(
               width: 36.w,

@@ -7,6 +7,7 @@ import 'package:car_care/features/auth/presentation/bloc/auth_event.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_state.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_header.dart';
 import 'package:car_care/features/auth/presentation/widgets/register/register_content.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -29,6 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   @override
   Widget build(BuildContext context) {
+          final strings = context.l10n;
     return BlocProvider(
       create: (_) => AuthBloc(getIt<IAuthRepository>()),
       child: Scaffold(
@@ -40,7 +42,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ).showSnackBar(SnackBar(content: Text(state.message)));
             } else if (state is AuthSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("تم إنشاء الحساب بنجاح")),
+                 SnackBar(content: Text(strings.registrationSuccess)),
               );
 
               WidgetsBinding.instance.addPostFrameCallback((_) {

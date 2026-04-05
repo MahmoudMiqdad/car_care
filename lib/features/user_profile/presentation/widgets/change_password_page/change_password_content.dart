@@ -1,5 +1,6 @@
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/user_profile/presentation/widgets/change_password_page/change_password_form.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -8,6 +9,7 @@ class ChangePasswordContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.l10n;
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -20,21 +22,24 @@ class ChangePasswordContent extends StatelessWidget {
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'تغيير كلمة المرور',
-                style: TextStyle(
-                  color: AppColors.orange,
-                  fontSize: 28.sp,
-                  fontWeight: FontWeight.bold,
+          padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 80.h),
+          child: Center(
+            child: Column(
+               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  strings.editPassword,
+                  style: TextStyle(
+                    color: AppColors.orange,
+                    fontSize: 28.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              SizedBox(height: 40.h),
-              const ChangePasswordForm(),
-            ],
+                SizedBox(height: 40.h),
+                const ChangePasswordForm(),
+              ],
+            ),
           ),
         ),
       ),

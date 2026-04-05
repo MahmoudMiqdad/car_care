@@ -66,7 +66,7 @@ class RegisterContent extends StatelessWidget {
                     icon: IconsaxPlusLinear.user,
                     validator: (v) {
                       if (v == null || v.trim().isEmpty) {
-                        return 'أدخل الاسم الأول';
+                        return strings.fullName;
                       }
                       return null;
                     },
@@ -77,12 +77,12 @@ class RegisterContent extends StatelessWidget {
                   SizedBox(height: 16.h),
                   LoginTextField(
                     controller: accountController,
-                    hintText: 'البريد الإلكتروني',
+                    hintText: strings.email,
                     keyboardType: TextInputType.emailAddress,
                     icon: IconsaxPlusLinear.sms,
                     validator: (v) {
                       if (v == null || v.trim().isEmpty) {
-                        return 'أدخل البريد الإلكتروني';
+                        return strings.enterEmail;
                       }
                       return null;
                     },
@@ -93,7 +93,7 @@ class RegisterContent extends StatelessWidget {
                   SizedBox(height: 16.h),
                   LoginTextField(
                     controller: phoneController,
-                    hintText: 'رقم الهاتف',
+                    hintText: strings.enterphone,
                     isPassword: false,
                     keyboardType: TextInputType.phone,
                     iconPath: 'assets/images/icons8-call-50.png',
@@ -106,16 +106,16 @@ class RegisterContent extends StatelessWidget {
                   SizedBox(height: 16.h),
                   LoginTextField(
                     controller: passwordController,
-                    hintText: 'كلمة المرور',
+                    hintText: strings.password,
                     isPassword: true,
                     keyboardType: TextInputType.visiblePassword,
                     icon: IconsaxPlusLinear.lock_1,
                     validator: (v) {
                       if (v == null || v.trim().isEmpty) {
-                        return 'أدخل كلمة المرور';
+                        return strings.enterPassword;
                       }
                       if (v.trim().length < 6) {
-                        return 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
+                        return strings.passwordMinLength;
                       }
                       return null;
                     },
@@ -126,7 +126,7 @@ class RegisterContent extends StatelessWidget {
                   SizedBox(height: 16.h),
                   LoginTextField(
                     controller: confirmPasswordController,
-                    hintText: 'تأكيد كلمة المرور',
+                    hintText: strings.confirmPassword,
                     isPassword: true,
                     keyboardType: TextInputType.visiblePassword,
                     icon: IconsaxPlusLinear.lock_1,
@@ -135,7 +135,7 @@ class RegisterContent extends StatelessWidget {
                         return strings.reEnterPassword;
                       }
                       if (v.trim() != passwordController.text.trim()) {
-                        return 'كلمتا المرور غير متطابقتين';
+                        return strings.thepasswordsdonotmatch;
                       }
                       return null;
                     },
@@ -150,7 +150,7 @@ class RegisterContent extends StatelessWidget {
                     height: AppConstants.buttonHeight.h,
                     child: AppButton(
                       onPressed: isLoading ? null : onRegister,
-                      text: isLoading ? 'جاري الإنشاء...' : 'إنشاء حساب',
+                      text: isLoading ? strings.creating : strings.createAccount,
                       backgroundColor: AppColors.orange,
                       textColor: AppColors.white,
                     ),
@@ -160,7 +160,7 @@ class RegisterContent extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'لديك حساب؟ ',
+                        strings.alreadyHaveAccount,
                         style: context.textTheme.bodyMedium?.copyWith(
                           color: AppColors.lightPrimary,
                           fontSize: 16.sp,
@@ -169,7 +169,7 @@ class RegisterContent extends StatelessWidget {
                       GestureDetector(
                         onTap: onGoToLogin,
                         child: Text(
-                          'تسجيل الدخول',
+                          strings.login,
                           style: context.textTheme.bodyMedium?.copyWith(
                             color: AppColors.orange,
                             fontWeight: FontWeight.w600,
@@ -194,12 +194,14 @@ class _RegisterTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+         final strings = context.l10n;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SizedBox(height: 4.h),
         Text(
-          'Create Your Account',
+        strings.createAccount  ,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                 color: AppColors.orange,
@@ -212,7 +214,7 @@ class _RegisterTitle extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         Text(
-          'We’re here to keep your car in top shape. Are you ready?',
+strings.carReadyMessage,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: AppColors.lightPrimary,

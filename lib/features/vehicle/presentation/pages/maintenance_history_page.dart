@@ -4,6 +4,7 @@ import 'package:car_care/core/widgets/const.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/maintenance_history/maintenance_history_body.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,11 +14,12 @@ class MaintenanceHistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+         final strings = context.l10n;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: AppColors.lightScaffold,
-        appBar: const CustomAppBar(title: 'Maintenance History', showBackButton: true),
+        appBar:  CustomAppBar(title: strings.maintenanceHistory, showBackButton: true),
         body: ImageBackground(
           child: MaintenanceHistoryBody(vehicleId: vehicleId),
         ),

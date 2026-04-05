@@ -40,7 +40,7 @@ class _TechnicianProfileBodyState extends State<TechnicianProfileBody> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Center(child: ProfileAvatar(cameraBadgeColor: AppColors.orange)),
+          // Center(child: ProfileAvatar(cameraBadgeColor: AppColors.orange)),
           SizedBox(height: 10.h),
           LoginTextField(
             controller: _specializationController,

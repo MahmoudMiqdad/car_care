@@ -1374,9 +1374,9 @@
 "@enterFirstName": {
 "description": "Enter first name"
 },
-"enterEmailOrPhone": "Enter email or phone number",
-"@enterEmailOrPhone": {
-"description": "Enter email or phone number"
+"enterEmail": "Enter email",
+"@enterEmail": {
+"description": "Enter email"
 },
 "enterPassword": "Enter password",
 "@enterPassword": {
@@ -1467,7 +1467,116 @@
 "messages": "Messages",
 "@messages": {
 "description": "Messages"
+},
+"changedpasswordsuccessfully": "The password has been successfully changed.",
+"@changedpasswordsuccessfully": {
+"description": "The password has been successfully changed."
+},
+
+  "enterphone": "Enter Phone",
+  "@enterphone": {
+    "description": "Enter Phone"
+  },
+  "thepasswordsdonotmatch":" The passwords do not match.",
+  "@thepasswordsdonotmatch": {
+    "description": "The passwords do not match."
+  },
+  
+  "activeorders": "Active Orders ",
+  "@activeorders": {
+    "description":"Active Orders"
+  },
+  "saveandfollow": "Save and follow",
+  "@saveandfollow": {
+    "description":"Save and follow"
+  },
+  "savevehicle": "Save Vehicle",
+  "@Save Vehicle": {
+    "description":"Save Vehicle"
+
+  },
+  "parts": "Spare Parts",
+  "@parts": {
+    "description":"Spare Parts"
+
+  }  ,
+  
+  "details": " عرض التفاصيل",
+  "@details": {
+    "description":"عرض التفاصيل"
+
+  },
+  "updateCarsList": "Updating car list...",
+"@updateCarsList": {
+  "description": "Text shown while updating or loading the cars list"
+},
+"noCarsYet": "No cars yet",
+"@noCarsYet": {
+  "description": "Message shown when there are no cars added"
+},
+"vehicleUpdatedSuccessfully": "Vehicle updated successfully",
+"@vehicleUpdatedSuccessfully": {
+  "description": "Message shown after successfully updating a vehicle"
+},
+"saveChanges": "Save changes",
+"@saveChanges": {
+  "description": "Button to save changes"
+},
+
+"saving": "Saving...",
+"@saving": {
+  "description": "Text shown while saving data"
+},
+
+"updateVehicle": "Update Vehicle",
+"@updateVehicle": {
+  "description": "Title or button for updating a vehicle"
+},
+
+"deleteVehicle": "Delete Vehicle",
+"@deleteVehicle": {
+  "description": "Button to delete a vehicle"
+},
+
+"confirmDeleteTitle": "Confirm Deletion",
+"@confirmDeleteTitle": {
+  "description": "Title of delete confirmation dialog"
+},
+
+"confirmDeleteMessage": "Are you sure you want to delete this vehicle?\nThis action cannot be undone.",
+"@confirmDeleteMessage": {
+  "description": "Warning message before deleting a vehicle"
 }
+,
+"owner": "Owner",
+"@owner": {
+  "description": "Owner label in vehicle details page"
+},
+
+
+
+"km": "km",
+"@km": {
+  "description": "Unit for kilometers"
+},
+
+
+
+"maintenanceRecord": "Maintenance Record",
+"@maintenanceRecord": {
+  "description": "Title of maintenance record"
+},
+
+"fuelRecord": "Fuel Record",
+"@fuelRecord": {
+  "description": "Title of fuel record"
+},
+
+"alertsRecord": "Alerts Record",
+"@alertsRecord": {
+  "description": "Title of alerts record"
+}
+
 
 
 

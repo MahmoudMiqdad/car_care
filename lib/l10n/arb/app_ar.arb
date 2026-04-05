@@ -1370,9 +1370,9 @@
 "@enterFirstName": {
 "description": "أدخل الاسم الأول"
 },
-"enterEmailOrPhone": "أدخل البريد الإلكتروني أو رقم الهاتف",
-"@enterEmailOrPhone": {
-"description": "أدخل البريد الإلكتروني أو رقم الهاتف"
+"enterEmail": "أدخل البريد الإلكتروني",
+"@enterEmail": {
+"description": "أدخل البريد الإلكتروني"
 },
 "enterPassword": "أدخل كلمة المرور",
 "@enterPassword": {
@@ -1466,8 +1466,117 @@
 "messages": "الرسائل",
 "@messages": {
 "description": "الرسائل"
-}
+},
+"changedpasswordsuccessfully": "تم تغيير كلمة السر بنجاح",
+"@changedpasswordsuccessfully": {
+"description": "تم تغيير كلمة السر بنجاح"
+},
+  "enterphone": "أدخل رقم الهاتف ",
+  "@enterphone": {
+    "description": "ادخل رقم الهاتف "
+  },
+  "thepasswordsdonotmatch": "كلمتا المرور غير متطابقتين",
+  "@thepasswordsdonotmatch": {
+    "description": "كلمتا المرور غير متطابقتين"
+  },
+  "activeorders": "الطلبات النشطة ",
+  "@activeorders": {
+    "description":"الطلبات النشطة "
+  },
+  "saveandfollow": "حفظ و متابعة",
+  "@saveandfollow": {
+    "description":"حفظ و متابعة"
+  },
+  "savevehicle": "حفظ المركبة ",
+  "@Save Vehicle": {
+    "description":"حفظ المركبة"
 
+  },
+  "parts": "قطع الغيار ",
+  "@parts": {
+    "description":"قطع الغيار"
+
+  }
+  ,
+  
+  "details": "التفاصيل",
+  "@details": {
+    "description":"التفاصيل"
+
+  },
+ "saveChanges": "حفظ التعديلات",
+"@saveChanges": {
+  "description": "زر لحفظ التعديلات"
+},
+
+"owner": "المالك",
+"@owner": {
+  "description": "عنوان المالك في صفحة تفاصيل المركبة"
+},
+
+
+"km": "كم",
+"@km": {
+  "description": "وحدة قياس الكيلومترات"
+},
+
+
+
+"maintenanceRecord": "سجل الصيانة",
+"@maintenanceRecord": {
+  "description": "عنوان سجل الصيانة"
+},
+
+"fuelRecord": "سجل الوقود",
+"@fuelRecord": {
+  "description": "عنوان سجل الوقود"
+},
+
+"alertsRecord": "سجل التنبيهات",
+"@alertsRecord": {
+  "description": "عنوان سجل التنبيهات"
+},
+
+
+"deleteVehicle": "حذف المركبة",
+"@deleteVehicle": {
+  "description": "زر لحذف مركبة كاملة"
+},
+
+"updateVehicle": "تحديث مركبة",
+"@updateVehicle": {
+  "description": "زر أو عنوان لتحديث بيانات المركبة"
+},
+
+"vehicleUpdatedSuccessfully": "تم تحديث المركبة بنجاح",
+"@vehicleUpdatedSuccessfully": {
+  "description": "رسالة تظهر بعد تحديث بيانات المركبة بنجاح"
+},
+
+"saving": "جارٍ الحفظ...",
+"@saving": {
+  "description": "نص يظهر أثناء حفظ البيانات"
+},
+
+"confirmDeleteTitle": "تأكيد الحذف",
+"@confirmDeleteTitle": {
+  "description": "عنوان نافذة تأكيد الحذف"
+},
+
+"confirmDeleteMessage": "هل أنت متأكد من حذف هذه المركبة؟\nهذا الإجراء لا يمكن التراجع عنه.",
+"@confirmDeleteMessage": {
+  "description": "رسالة تحذير قبل حذف المركبة"
+},
+
+"noCarsYet": "لا توجد سيارات حتى الآن",
+"@noCarsYet": {
+  "description": "رسالة تظهر عندما لا توجد سيارات مضافة"
+},
+
+"updateCarsList": "تحديث قائمة السيارات...",
+"@updateCarsList": {
+  "description": "نص يظهر عند تحديث أو تحميل قائمة السيارات"
+}
 
 }
 

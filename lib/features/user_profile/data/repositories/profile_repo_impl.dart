@@ -1,6 +1,7 @@
-import 'dart:io';
 
 import 'package:car_care/features/user_profile/data/data_sources/profile_remote_data_source.dart';
+import 'package:car_care/features/user_profile/data/model/avatar_model.dart';
+import 'package:car_care/features/user_profile/domain/entities/Avatar_entity.dart';
 import 'package:car_care/features/user_profile/domain/repositories/i_profile_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,7 +17,15 @@ class ProfileRepositoryImpl implements IProfileRepository {
 
   final ProfileRemoteDataSource _remoteDataSource;
 
+AvatarEntity _mapAvatar(AvatarModel model) {
+  final data = model.data;
 
+  return AvatarEntity(
+    success: model.success,
+    message: model.message,
+    avatarUrl: data.avatarUrl, 
+  );
+}
   ProfileEntity _map(ProfileModel model) {
     final data = model.data;
   
@@ -56,7 +65,7 @@ class ProfileRepositoryImpl implements IProfileRepository {
   }
 
   @override
-  Future<Either<Failure, ProfileEntity>> updateavatar(
+  Future<Either<Failure, AvatarEntity>> updateavatar(
     XFile? avatar,
   ) async {
     try {
@@ -64,13 +73,11 @@ class ProfileRepositoryImpl implements IProfileRepository {
         return const Left(Failure(message: 'لم يتم اختيار صورة'));
       }
 
-      final file = File(avatar.path);
+   
 
-      final model = await _remoteDataSource.updateAvatar({
-        "avatar": file,
-      });
+      final model = await _remoteDataSource.updateAvatar(avatar);
 
-      return Right(_map(model));
+      return Right(_mapAvatar(model));
     } on ServerExpcptions catch (e) {
       return Left(e.error);
     } catch (_) {

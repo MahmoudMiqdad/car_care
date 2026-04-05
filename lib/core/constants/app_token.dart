@@ -1,3 +1,3 @@
 class AppToken {
-   static const String  token ='4|aJE6LoCH8POoNcKX98pVtPTcRpncK4OsOEXYhFpO22e915ad' ;
+   static const String  token ='6|7JUVAwKy03UEwzYRWGOaSel3fk7Bx8ylYMfDsnht94a334c4' ;
 }

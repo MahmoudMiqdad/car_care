@@ -8,6 +8,7 @@ import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_details_cubit/vehicle_details_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_details_cubit/vehicle_details_state.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/VehicleDetails/VehicleDetailsBody.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -18,13 +19,14 @@ class VehicleDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+         final strings = context.l10n;
     return BlocProvider(
       create: (_) => getIt<VehicleDetailsCubit>()..fetchVehicleDetails(vehicleId),
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
           backgroundColor: context.colorScheme.surface,
-          appBar: const CustomAppBar(title: 'Vehicle Details'),
+          appBar:  CustomAppBar(title:strings.vehicleDetails),
           body: ImageBackground(
             child: BlocBuilder<VehicleDetailsCubit, VehicleDetailsState>(
               builder: (context, state) {
