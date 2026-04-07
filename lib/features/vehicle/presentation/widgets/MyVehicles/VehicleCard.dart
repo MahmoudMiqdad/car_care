@@ -4,7 +4,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
-import 'package:car_care/core/widgets/buttons/app_button_widget.dart';
+import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +56,7 @@ class VehicleInfoColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+          final strings = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -66,22 +67,22 @@ class VehicleInfoColumn extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         AppInfoRow(
-          label: 'السنة',
+          label:strings.year,
           value: item.year.toString(),
           labelFontSize: 16.sp,
           valueFontSize: 16.sp,
         ),
         SizedBox(height: 4.h),
         AppInfoRow(
-          label: 'رقم اللوحة',
+          label: strings.plate,
           value: item.plateNumber,
           labelFontSize: 16.sp,
           valueFontSize: 16.sp,
         ),
         SizedBox(height: 4.h),
         AppInfoRow(
-          label: 'عداد',
-          value: '${item.currentKm} كم',
+          label: strings.counterAppBarTitle,
+          value: '${item.currentKm}${strings.km} ',
           labelFontSize: 16.sp,
           valueFontSize: 16.sp,
         ),

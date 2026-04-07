@@ -820,7 +820,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bookingSummary => 'ملخص الحجز';
 
   @override
-  String get readySummary => 'Ready to get back on the road?';
+  String get readySummary => 'هل أنت مستعد للعودة إلى الطريق؟';
 
   @override
   String get editPassword => 'تعديل كلمة المرور';
@@ -949,7 +949,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get confirmDeleteTitle => 'تأكيد الحذف';
 
   @override
-  String get confirmDeleteMessage => 'هل أنت متأكد من حذف هذه المركبة؟\nهذا الإجراء لا يمكن التراجع عنه.';
+  String get confirmDeleteMessage => 'هل أنت متأكد من حذف هذه المركبة؟هذا الإجراء لا يمكن التراجع عنه.';
 
   @override
   String get owner => 'المالك';
@@ -992,4 +992,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get totalRatings => 'عدد التقييمات';
+  String get deleteProfile => 'حذف الحساب';
+
+  @override
+  String get confirmDeleteProfileTitle => 'تأكيد الحذف';
+
+  @override
+  String get confirmDeleteProfileMessage => 'هل أنت متأكد من حذف الحساب؟\nهذا الإجراء لا يمكن التراجع عنه.';
+
+  @override
+  String get profileDeletedSuccessfully => 'تم حذف الحساب بنجاح';
+
+  @override
+  String get enterPhone => 'الرجاء إدخال رقم الهاتف';
+
+  @override
+  String get invalidPhone => 'رقم الهاتف غير صالح';
 }

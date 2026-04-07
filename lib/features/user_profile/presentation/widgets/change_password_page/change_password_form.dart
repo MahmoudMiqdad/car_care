@@ -1,7 +1,6 @@
 import 'package:car_care/core/constants/app_constants.dart';
-import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/widgets/buttons/app_button_widget.dart';
+import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/change_password_cubit/cange_password_state.dart';

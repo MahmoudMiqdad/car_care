@@ -18,9 +18,12 @@ class ProfileRemoteDataSource {
     return ProfileModel.fromJson(response);
   }
 
-  Future<ProfileModel> deleteProfile() async {
+  Future<ProfileModel> deleteProfile(String password) async {
     final response = await _apiService.delete(
       endPoint: ApiEndpoints.deletprofile,
+      data: {
+         "password":password
+      }
     );
     return ProfileModel.fromJson(response);
   }

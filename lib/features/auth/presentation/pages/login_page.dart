@@ -11,12 +11,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  @override
   Widget build(BuildContext context) {
-      final strings = context.l10n;
+    final strings = context.l10n;
     final accountController = TextEditingController();
     final passwordController = TextEditingController();
     final formKey = GlobalKey<FormState>();
@@ -29,7 +34,10 @@ class LoginPage extends StatelessWidget {
           listener: (context, state) {
             if (state is AuthSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
-                 SnackBar(content: Text(strings.loginSuccess)),
+                SnackBar(
+                  content: Text(strings.loginSuccess),
+                  backgroundColor: Colors.green,
+                ),
               );
               GoRouter.of(context).go(Routes.home);
             } else if (state is AuthFailure) {
@@ -42,12 +50,7 @@ class LoginPage extends StatelessWidget {
             }
           },
           builder: (context, state) {
-            bool isLoading = false;
-            bool isValid = false;
-
-            if (state is AuthFormState) {
-              isValid = state.isValid;
-            }
+            bool isLoading = state is AuthLoading;
 
             return Scaffold(
               body: Stack(
@@ -63,11 +66,9 @@ class LoginPage extends StatelessWidget {
                             formKey: formKey,
                             accountController: accountController,
                             passwordController: passwordController,
-                            onLogin: (isValid && !isLoading)
-                                ? () => context.read<AuthBloc>().add(
-                                      SubmitLogin(),
-                                    )
-                                : null,
+                            onLogin: () => context.read<AuthBloc>().add(
+                                  SubmitLogin(),
+                                ),
                             onForgotPassword: null,
                             onRegister: () {
                               GoRouter.of(context).go(Routes.signup);

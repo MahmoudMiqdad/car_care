@@ -1603,6 +1603,29 @@
 
 "totalRatings": "Total ratings",
 "@totalRatings": { "description": "Total ratings count" }
+}
+,
+"deleteProfile": "Delete Profile",
+"@deleteProfile": {"description":"Title of delete profile dialog"},
+
+"confirmDeleteProfileTitle": "Confirm Deletion",
+"@confirmDeleteProfileTitle": {"description":"Delete confirmation button"},
+
+"confirmDeleteProfileMessage": "Are you sure you want to delete your account?\nThis action cannot be undone.",
+"@confirmDeleteProfileMessage": {"description":"Warning message before deleting profile"},
+
+
+"profileDeletedSuccessfully": "Profile deleted successfully",
+"@profileDeletedSuccessfully": {"description":"Message shown after successful deletion"},
+"enterPhone": "Please enter phone number",
+"@enterPhone": {
+  "description": "Message shown when the phone field is left empty"
+},
+"invalidPhone": "Invalid phone number",
+"@invalidPhone": {
+  "description": "Message shown when the phone number is incorrect or incomplete"
+}
+
 
 
 

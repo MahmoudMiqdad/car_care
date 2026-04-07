@@ -31,7 +31,7 @@ class TechnicianProfileCubit extends Cubit<TechnicianProfileState> {
     );
   }
 
-  // إضافة بيانات الفني لأول مرة
+  // إضافة بيانات الفني
   Future<void> insertTechnicianProfile(Map<String, dynamic> params) async {
     emit(TechnicianProfileLoading());
 

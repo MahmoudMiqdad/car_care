@@ -1,7 +1,7 @@
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/widgets/buttons/app_button_widget.dart';
+import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_event.dart';
 import 'package:car_care/l10n.dart';
@@ -11,14 +11,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'login_text_field.dart';
 
-class LoginFormSection extends StatelessWidget {
-  const LoginFormSection({
+class LoginFormSection extends StatefulWidget {
+  const LoginFormSection( {
     super.key,
     required this.accountController,
     required this.passwordController,
     this.onForgotPassword,
     required this.onRegister,
-    VoidCallback? onLogin,
+    VoidCallback? onLogin, required this.formKey,
   }) : _onLogin = onLogin;
 
   final TextEditingController accountController;
@@ -26,33 +26,51 @@ class LoginFormSection extends StatelessWidget {
   final VoidCallback? _onLogin;
   final VoidCallback? onForgotPassword;
   final VoidCallback? onRegister;
+final GlobalKey<FormState> formKey;
+  @override
+  State<LoginFormSection> createState() => _LoginFormSectionState();
+}
 
+class _LoginFormSectionState extends State<LoginFormSection> {
+    bool submitted = false; 
   @override
   Widget build(BuildContext context) {
-      final strings = context.l10n;
-   
-     
+    final strings = context.l10n;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         LoginTextField(
-          controller: accountController,
-          hintText: context.l10n.email,
+          controller: widget.accountController,
+          hintText: strings.email,
           keyboardType: TextInputType.emailAddress,
           icon: IconsaxPlusLinear.sms,
-          validator: (_) => null,
+         validator: (v) {
+                      if (v == null || v.trim().isEmpty) {
+                        return strings.enterEmail;
+                      }
+                      return null;
+                    },
           onChanged: (value) {
             context.read<AuthBloc>().add(EmailChanged(value));
           },
         ),
         SizedBox(height: 16.h),
         LoginTextField(
-          controller: passwordController,
-          hintText: context.l10n.password,
+          controller: widget.passwordController,
+          hintText: strings.password,
           isPassword: true,
           keyboardType: TextInputType.visiblePassword,
           icon: IconsaxPlusLinear.lock_1,
-          validator: (_) => null,
+           validator: (v) {
+                      if (v == null || v.trim().isEmpty) {
+                        return strings.enterPassword;
+                      }
+                      if (v.trim().length < 6) {
+                        return strings.passwordMinLength;
+                      }
+                      return null;
+                    },
           onChanged: (value) {
             context.read<AuthBloc>().add(PasswordChanged(value));
           },
@@ -61,7 +79,7 @@ class LoginFormSection extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: GestureDetector(
-            onTap: onForgotPassword,
+            onTap: widget.onForgotPassword,
             child: Text(
               strings.forgotPassword,
               style: context.textTheme.bodySmall?.copyWith(
@@ -75,7 +93,10 @@ class LoginFormSection extends StatelessWidget {
         SizedBox(
           height: AppConstants.buttonHeight.h,
           child: AppButton(
-            onPressed: _onLogin,
+            onPressed:(){  setState(() => submitted = true);
+                        if (widget.formKey.currentState?.validate() ?? false) {
+                          widget._onLogin?.call();
+                        }},
             text: strings.login,
             backgroundColor: AppColors.orange,
             textColor: AppColors.white,
@@ -93,7 +114,7 @@ class LoginFormSection extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: onRegister,
+              onTap: widget.onRegister,
               child: Text(
                 strings.createAccount,
                 style: context.textTheme.bodyMedium?.copyWith(

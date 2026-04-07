@@ -24,7 +24,7 @@ class LoginContent extends StatelessWidget {
   final TextEditingController _accountController;
   final TextEditingController _passwordController;
 
- final VoidCallback? _onLogin;
+  final VoidCallback? _onLogin;
   final VoidCallback? _onForgotPassword;
   final VoidCallback? _onRegister;
 
@@ -50,7 +50,8 @@ class LoginContent extends StatelessWidget {
             SizedBox(height: 24.h),
             Form(
               key: _formKey,
-              child: LoginFormSection(
+              autovalidateMode: AutovalidateMode.disabled, // ⚡ زر يكون دائمًا مفعل
+              child: LoginFormSection( formKey: _formKey,
                 accountController: _accountController,
                 passwordController: _passwordController,
                 onLogin: _onLogin,
@@ -64,7 +65,6 @@ class LoginContent extends StatelessWidget {
     );
   }
 }
-
 class _LoginTitle extends StatelessWidget {
   const _LoginTitle();
 
