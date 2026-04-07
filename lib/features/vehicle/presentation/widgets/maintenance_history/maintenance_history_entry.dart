@@ -1,13 +1,3 @@
-class MaintenanceHistoryEntry {
-  const MaintenanceHistoryEntry({
-    required this.description,
-    required this.part,
-    required this.technicianName,
-    required this.date,
-  });
+import 'package:car_care/features/vehicle/domain/entities/maintenance_history_entry_entity.dart';
 
-  final String description;
-  final String part;
-  final String technicianName;
-  final DateTime date;
-}
+typedef MaintenanceHistoryEntry = MaintenanceHistoryEntryEntity;
