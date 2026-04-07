@@ -1,9 +1,9 @@
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/models/maintenance_priority.dart';
-import 'package:car_care/features/maintenance/user_requests/presentation/widgets/request_priority_chip.dart';
 import 'package:car_care/core/widgets/app_image_widget.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/widgets/requests_page/request_priority_chip.dart';
 import 'package:car_care/features/technician/technician_order/domain/entities/available_requests_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

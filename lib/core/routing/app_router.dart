@@ -9,6 +9,7 @@ import 'package:car_care/features/technician/technician_quotations/presentation/
 import 'package:car_care/features/technician/technician_jobs/presentation/page/technician_requests_page.dart'
     hide TechnicianRequestsPage;
 import 'package:car_care/features/maintenance/user_rate_job/presentation/pages/rate_job_page.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/pages/all_requests.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/pages/requests_page.dart';
 import 'package:car_care/features/maintenance/user_statistics/presentation/pages/statistics_page.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/pages/quotations_page.dart';
@@ -162,6 +163,11 @@ class AppRouter {
         path: Routes.requests,
         name: '/requests',
         builder: (context, state) => const RequestsPage(),
+      ),
+      GoRoute(
+        path: Routes.all_requests,
+        name: '/all_requests',
+        builder: (context, state) => const AllRequestsPage(),
       ),
       GoRoute(
         path: Routes.orders,
