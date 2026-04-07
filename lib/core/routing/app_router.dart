@@ -59,6 +59,7 @@ class AppRouter {
                 if (index == 0) {
                   context.go(Routes.home);
                 }
+
               },
             ),
             child: child,
@@ -115,6 +116,7 @@ class AppRouter {
     return MaintenanceHistoryPage(vehicleId: vehicleId);
   },
 ),
+
 
       GoRoute(
         path: Routes.updateVehicle,

@@ -965,4 +965,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get alertsRecord => 'Alerts Record';
+
+  @override
+  String get statistics => 'Statistics';
+
+  @override
+  String get totalJobs => 'Total jobs';
+
+  @override
+  String get assignedJobs => 'Assigned';
+
+  @override
+  String get inProgressJobs => 'In progress';
+
+  @override
+  String get completedJobs => 'Completed';
+
+  @override
+  String get totalQuotations => 'Total quotations';
+
+  @override
+  String get pendingQuotations => 'Pending quotations';
+
+  @override
+  String get acceptedQuotations => 'Accepted quotations';
+
+  @override
+  String get totalRatings => 'Total ratings';
 }

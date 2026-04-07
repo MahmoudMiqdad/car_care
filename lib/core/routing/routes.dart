@@ -10,7 +10,7 @@ class Routes {
   static const String otp = '/otp';
   static const String register = '/register';
   static const String home = '/home';
-
+  static const String more = '/more';
   static const String my_vehicles_page = '/my_vehicles_page';
   static const String add_vehicle = '/add_vehicle';
   static const String vehicle_details = '/vehicle_details';

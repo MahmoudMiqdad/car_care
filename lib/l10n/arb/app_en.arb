@@ -1575,7 +1575,34 @@
 "alertsRecord": "Alerts Record",
 "@alertsRecord": {
   "description": "Title of alerts record"
-}
+},
+
+"statistics": "Statistics",
+"@statistics": { "description": "Statistics page title" },
+
+"totalJobs": "Total jobs",
+"@totalJobs": { "description": "Total jobs count" },
+
+"assignedJobs": "Assigned",
+"@assignedJobs": { "description": "Assigned jobs count" },
+
+"inProgressJobs": "In progress",
+"@inProgressJobs": { "description": "In progress jobs count" },
+
+"completedJobs": "Completed",
+"@completedJobs": { "description": "Completed jobs count" },
+
+"totalQuotations": "Total quotations",
+"@totalQuotations": { "description": "Total quotations count" },
+
+"pendingQuotations": "Pending quotations",
+"@pendingQuotations": { "description": "Pending quotations count" },
+
+"acceptedQuotations": "Accepted quotations",
+"@acceptedQuotations": { "description": "Accepted quotations count" },
+
+"totalRatings": "Total ratings",
+"@totalRatings": { "description": "Total ratings count" }
 
 
 
