@@ -1,7 +1,7 @@
 import 'package:car_care/core/constants/app_constants.dart'; // أضفنا هذا لاستخدام نصف القطر
 import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/models/maintenance_priority.dart';
-import 'package:car_care/features/maintenance/user_requests/presentation/widgets/request_priority_chip.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/widgets/requests_page/request_priority_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

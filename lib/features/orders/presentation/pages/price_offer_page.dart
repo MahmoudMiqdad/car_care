@@ -5,7 +5,7 @@ import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/widgets/const.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
-import 'package:car_care/features/maintenance/user_requests/presentation/widgets/requests_action_buttons.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/widgets/requests_page/requests_action_buttons.dart';
 import 'package:car_care/features/orders/presentation/widgets/price_offer_page/parts_mode_section.dart';
 import 'package:car_care/features/orders/presentation/widgets/price_offer_page/requests_flow_shared.dart';
 import 'package:flutter/material.dart';

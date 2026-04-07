@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/image_background.dart';
-import 'package:car_care/features/maintenance/user_requests/presentation/widgets/requests_form_card.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/widgets/requests_page/requests_form_card.dart';
 
 class RequestsFlowStyles {
   static final double formCardRadius = AppConstants.maintenanceRequestCardRadius.r;

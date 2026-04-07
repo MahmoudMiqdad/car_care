@@ -96,7 +96,7 @@ class RegisterContent extends StatelessWidget {
                     hintText: strings.enterphone,
                     isPassword: false,
                     keyboardType: TextInputType.phone,
-                    iconPath: 'assets/images/icons8-call-50.png',
+                    iconPath: 'assets/images/icons8-call_50.png',
                     onChanged: (value) {
                       context.read<AuthBloc>().add(
                             PhoneChanged(value),
