@@ -95,7 +95,7 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
         listener: (context, state) {
           if (state is VehicleAddSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('تمت إضافة المركبة بنجاح')),
+               SnackBar(content: Text(strings.vehicleUpdatedSuccessfully)),
             );
             Navigator.of(context).pop(true);
           }

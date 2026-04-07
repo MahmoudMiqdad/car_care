@@ -8,13 +8,14 @@ class Routes {
   static const String forget_password = '/forget_password';
   static const String changepasswordpage = '/change_password_page';
   static const String otp = '/otp';
-  static const String register = '/register';
   static const String home = '/home';
 
   static const String my_vehicles_page = '/my_vehicles_page';
   static const String add_vehicle = '/add_vehicle';
   static const String vehicle_details = '/vehicle_details';
   static const String updateVehicle = '/update-vehicle';
+    static const String deleteconfirmationdialog= '/delete_confirmation_dialog';
+
   static const String maintenanceHistory = '/maintenanceHistory';
   static const String technicianprofile = '/technician_profile';
   static const String availability = '/availability';
@@ -29,7 +30,11 @@ class Routes {
   static const String technician_jobs = '/technician_jobs';
   static const String technician_statistics = '/technician_statistics';
   static const String technician_rate_job = '/technician_rate_job';
-  static const String orders = '/orders';
-  static const String order_details = '/order_details';
-  static const String price_offer = '/price_offer';
+  static const String technicianProfileViewBody = '/technician_profile_view_page';
+    static const String updateTechnicianProfile = '/update_technician_profile';
+
+  static const String orders = '/orders_page';
+  static const String orderdetails = '/order_details_page';
+  static const String technicianquotationspage = '/technician_quotations_page';
+
 }

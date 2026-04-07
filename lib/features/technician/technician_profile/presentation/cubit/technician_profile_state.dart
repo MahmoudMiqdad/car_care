@@ -6,7 +6,9 @@ abstract class TechnicianProfileState {
 
 class TechnicianProfileInitial extends TechnicianProfileState {}
 
-class TechnicianProfileLoading extends TechnicianProfileState {}
+class TechnicianProfileLoading extends TechnicianProfileState {
+  
+}
 
 class TechnicianProfileLoaded extends TechnicianProfileState {
   final TechnicianProfileEntity profile;

@@ -22,7 +22,7 @@ class AppImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget image = Image.asset(
+    Widget image = Image.network(
       path,
       width: width,
       height: height,

@@ -1,4 +1,4 @@
-import 'package:car_care/features/orders/presentation/widgets/price_offer_page/requests_flow_shared.dart';
+import 'package:car_care/features/technician/technician_quotations/presentation/widgets/price_offer_page/requests_flow_shared.dart';
 import 'package:flutter/material.dart';
 
 class ProblemDescriptionField extends StatelessWidget {

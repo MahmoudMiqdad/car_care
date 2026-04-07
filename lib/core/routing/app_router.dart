@@ -1,18 +1,21 @@
-import 'package:car_care/features/orders/presentation/pages/order_details_page.dart';
-import 'package:car_care/features/orders/presentation/pages/orders_page.dart';
-import 'package:car_care/features/orders/presentation/pages/price_offer_page.dart';
+import 'package:car_care/features/technician/technician_order/presentation/pages/order_details_page.dart';
+import 'package:car_care/features/technician/technician_order/presentation/pages/orders_page.dart';
+import 'package:car_care/features/technician/technician_profile/presentation/pages/tetechnician_profile_view/technician_profile_view_page.dart';
+import 'package:car_care/features/technician/technician_profile/presentation/pages/update_technician_profile/update_technician_profile.dart';
 
 import 'package:car_care/features/technician/technician_statistics/presentation/pages/technician_statistics_page.dart';
 import 'package:car_care/features/technician/technician_jobs/presentation/pages/technician_jobs_page.dart';
 import 'package:car_care/features/technician/technician_quotations/presentation/pages/technician_quotations_page.dart';
-import 'package:car_care/features/technician/technician_requests/presentation/pages/technician_requests_page.dart';
+import 'package:car_care/features/technician/technician_jobs/presentation/page/technician_requests_page.dart'
+    hide TechnicianRequestsPage;
 import 'package:car_care/features/maintenance/user_rate_job/presentation/pages/rate_job_page.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/pages/requests_page.dart';
 import 'package:car_care/features/maintenance/user_statistics/presentation/pages/statistics_page.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/pages/quotations_page.dart';
+import 'package:car_care/features/user_profile/presentation/widgets/delete_confirmation_dialog.dart';
 import 'package:car_care/features/vehicle/presentation/pages/maintenance_history_page.dart';
 import 'package:car_care/features/user_profile/presentation/pages/change_password_page.dart';
-import 'package:car_care/features/technician/technician_profile/presentation/pages/technician_profile_page.dart';
+import 'package:car_care/features/technician/technician_profile/presentation/pages/tetechnician_profile_view/insert_technician_profile/insert_technician_profile.dart';
 import 'package:car_care/features/vehicle/presentation/pages/vehicle_details_page.dart';
 import 'package:car_care/features/vehicle/presentation/pages/add_vehicle_page.dart';
 import 'package:car_care/features/vehicle/presentation/pages/my_vehicles_page_page.dart';
@@ -37,7 +40,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.login,
+    initialLocation: Routes.orders,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -107,14 +110,14 @@ class AppRouter {
           return VehicleDetailsPage(vehicleId: vehicleId);
         },
       ),
-  GoRoute(
-  path: Routes.maintenanceHistory,
-  name: 'maintenanceHistory',
-  builder: (context, state) {
-    final vehicleId = state.extra as int? ?? 0; 
-    return MaintenanceHistoryPage(vehicleId: vehicleId);
-  },
-),
+      GoRoute(
+        path: Routes.maintenanceHistory,
+        name: 'maintenanceHistory',
+        builder: (context, state) {
+          final vehicleId = state.extra as int? ?? 0;
+          return MaintenanceHistoryPage(vehicleId: vehicleId);
+        },
+      ),
 
       GoRoute(
         path: Routes.updateVehicle,
@@ -127,7 +130,17 @@ class AppRouter {
       GoRoute(
         path: Routes.technicianprofile,
         name: '/technician_profile',
-        builder: (context, state) => const TechnicianProfilePage(),
+        builder: (context, state) => const InsertTechnicianProfile(),
+      ),
+      GoRoute(
+        path: Routes.updateTechnicianProfile,
+        name: '/update_technician_profile',
+        builder: (context, state) => const TechnicianProfileEditBody(),
+      ),
+      GoRoute(
+        path: Routes.technicianProfileViewBody,
+        name: '/technician_profile_view_page',
+        builder: (context, state) => const TechnicianProfileViewPage(),
       ),
 
       GoRoute(
@@ -135,7 +148,11 @@ class AppRouter {
         name: '/quotations',
         builder: (context, state) => const QuotationsPage(),
       ),
-
+      GoRoute(
+        path: Routes.deleteconfirmationdialog,
+        name: '/deleteconfirmationdialog',
+        builder: (context, state) => const DeleteProfileDialog(),
+      ),
       GoRoute(
         path: Routes.statistics,
         name: '/statistics',
@@ -148,38 +165,43 @@ class AppRouter {
       ),
       GoRoute(
         path: Routes.orders,
-        name: '/orders',
-        builder: (context, state) => const OrdersPage(),
+        name: '/orders_page',
+        builder: (context, state) => const TechnicianOrderPage(),
       ),
+
       GoRoute(
-        path: Routes.order_details,
-        name: '/order_details',
+        path: Routes.orderdetails,
+        name: '/order_details_page',
         builder: (context, state) {
           final extra = state.extra;
           final id = extra is String ? extra : null;
-          return OrderDetailsPage(orderId: id);
+
+          return TechnicianOrderDetailsPage(orderId: id ?? '');
         },
       ),
+
       GoRoute(
-        path: Routes.price_offer,
-        name: '/price_offer',
-        builder: (context, state) => const PriceOfferPage(),
+        path: Routes.technician_quotations,
+        name: '/technician_quotations',
+        builder: (context, state) {
+          final extra = state.extra;
+          final id = extra is String ? extra : null;
+
+          return TechnicianQuotationsPage(requestId: id ?? '');
+        },
       ),
-            GoRoute(
+
+      GoRoute(
         path: Routes.rate_job,
         name: '/rate_job',
         builder: (context, state) => const RateJobPage(),
       ),
-      GoRoute(
-        path: Routes.technician_requests,
-        name: '/technician_requests',
-        builder: (context, state) => const TechnicianRequestsPage(),
-      ),
-      GoRoute(
-        path: Routes.technician_quotations,
-        name: '/technician_quotations',
-        builder: (context, state) => const TechnicianQuotationsPage(),
-      ),
+
+      // GoRoute(
+      //   path: Routes.technician_requests,
+      //   name: '/technician_requests',
+      //   builder: (context, state) => const TechnicianRequestsPage(),
+      // ),
       GoRoute(
         path: Routes.technician_jobs,
         name: '/technician_jobs',
