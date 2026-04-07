@@ -51,7 +51,7 @@ class MaintenanceHistoryItemCard extends StatelessWidget {
                   ),
                   SizedBox(height: 8.h),
                   AppInfoRow(
-                    label: strings.delete,
+                    label: strings.completed,
                     value: ArabicFormatting.formatDateSlashedEastern(entry.date),
                     icon: Icons.calendar_month_outlined,
                   ),

@@ -15,14 +15,14 @@ class Routes {
   static const String add_vehicle = '/add_vehicle';
   static const String vehicle_details = '/vehicle_details';
   static const String updateVehicle = '/update-vehicle';
-
+  static const String maintenanceHistory = '/maintenanceHistory';
   static const String technicianprofile = '/technician_profile';
   static const String availability = '/availability';
   static const String quotations = '/quotations';
   static const String jobs = '/jobs';
   static const String statistics = '/statistics';
   static const String requests = '/requests';
-  static const String maintenanceHistory = '/maintenanceHistory';
+
   static const String rate_job = '/rate_job';
   static const String technician_requests = '/technician_requests';
   static const String technician_quotations = '/technician_quotations';
@@ -32,5 +32,4 @@ class Routes {
   static const String orders = '/orders';
   static const String order_details = '/order_details';
   static const String price_offer = '/price_offer';
-
 }
