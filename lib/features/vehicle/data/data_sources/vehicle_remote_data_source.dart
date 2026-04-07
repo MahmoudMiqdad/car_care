@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:car_care/core/network/api_endpoints.dart';
 import 'package:car_care/core/network/api_service.dart';
 import 'package:car_care/features/vehicle/data/model/vehicle_model.dart';
+import 'package:car_care/features/vehicle/data/model/maintenance_history_entry_model.dart';
 import 'package:dio/dio.dart';
 
 class VehicleRemoteDataSource {
@@ -109,5 +110,19 @@ class VehicleRemoteDataSource {
       endPoint: ApiEndpoints.vehicles,
       id: id.toString(),
     );
+  }
+
+
+  //maintenance history
+    Future<List<MaintenanceHistoryEntryModel>> getMaintenanceHistory(int vehicleId) async {
+    final response = await _apiService.get(
+      endPoint: ApiEndpoints.vehicleMaintenanceHistory(vehicleId),
+    );
+
+    final data = response['data'] as List<dynamic>? ?? [];
+
+    return data
+        .map((e) => MaintenanceHistoryEntryModel.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 }

@@ -16,6 +16,7 @@ import 'package:car_care/features/vehicle/data/data_sources/vehicle_remote_data_
 import 'package:car_care/features/vehicle/domain/repositories/i_vehicle_repository.dart';
 import 'package:car_care/features/vehicle/data/repositories/vehicle_repos_impl.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/delete_vehicle/vehicle_delete_cubit.dart';
+import 'package:car_care/features/vehicle/presentation/cubit/maintenance_history/maintenance_history_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/update_vehicle/vehicle_update_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_add_cubit/vehicle_add_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_cubit.dart';
@@ -72,7 +73,11 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<VehicleUpdateCubit>(
       () => VehicleUpdateCubit(getIt<IVehicleRepository>()),
     )
-    ..registerFactory<VehicleDeleteCubit>(() => VehicleDeleteCubit(getIt()))
+    ..registerFactory<VehicleDeleteCubit>(() => VehicleDeleteCubit(getIt()),
+    )
+    ..registerFactory(
+      () => MaintenanceHistoryCubit(getIt<IVehicleRepository>()),
+    )
     // Profile
     ..registerLazySingleton<ProfileRemoteDataSource>(
       () => ProfileRemoteDataSource(getIt<ApiService>()),
@@ -83,13 +88,13 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<ShowProfileCubit>(
       () => ShowProfileCubit(getIt<IProfileRepository>()),
     )
-       ..registerFactory<PasswordCubit>(
+    ..registerFactory<PasswordCubit>(
       () => PasswordCubit(getIt<IProfileRepository>()),
     )
-      ..registerFactory<UpdateProfileCubit>(
+    ..registerFactory<UpdateProfileCubit>(
       () => UpdateProfileCubit(getIt<IProfileRepository>()),
     )
-       ..registerFactory<AvatarCubit>(
+    ..registerFactory<AvatarCubit>(
       () => AvatarCubit(getIt<IProfileRepository>()),
     );
 }
