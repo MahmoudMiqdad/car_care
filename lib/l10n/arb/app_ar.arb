@@ -1563,7 +1563,7 @@
   "description": "عنوان نافذة تأكيد الحذف"
 },
 
-"confirmDeleteMessage": "هل أنت متأكد من حذف هذه المركبة؟\nهذا الإجراء لا يمكن التراجع عنه.",
+"confirmDeleteMessage": "هل أنت متأكد من حذف هذه المركبة؟هذا الإجراء لا يمكن التراجع عنه.",
 "@confirmDeleteMessage": {
   "description": "رسالة تحذير قبل حذف المركبة"
 },
@@ -1576,7 +1576,30 @@
 "updateCarsList": "تحديث قائمة السيارات...",
 "@updateCarsList": {
   "description": "نص يظهر عند تحديث أو تحميل قائمة السيارات"
-}
+},
+"deleteProfile": "حذف الحساب",
+"@deleteProfile": {"description":"عنوان حوار حذف الحساب"},
+
+"confirmDeleteProfileTitle": "تأكيد الحذف",
+"@confirmDeleteProfileTitle": {"description":"زر تأكيد الحذف"},
+
+"confirmDeleteProfileMessage": "هل أنت متأكد من حذف الحساب؟\nهذا الإجراء لا يمكن التراجع عنه.",
+"@confirmDeleteProfileMessage": {"description":"رسالة تحذير قبل حذف الحساب"},
+
+"profileDeletedSuccessfully": "تم حذف الحساب بنجاح",
+"@profileDeletedSuccessfully": {"description":"رسالة بعد حذف الحساب بنجاح"},
+"enterPhone": "الرجاء إدخال رقم الهاتف",
+"@enterPhone": {
+  "description": "رسالة تظهر عند ترك حقل الهاتف فارغاً"
+},
+"invalidPhone": "رقم الهاتف غير صالح",
+"@invalidPhone": {
+  "description": "رسالة تظهر عندما يكون رقم الهاتف غير صحيح أو غير مكتمل"
+},
+  "readySummary": "هل أنت مستعد للعودة إلى الطريق؟",
+  "@readySummary": {
+    "description": "هل أنت مستعد للعودة إلى الطريق؟"
+  }
 
 }
 

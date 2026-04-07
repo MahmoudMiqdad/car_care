@@ -12,7 +12,7 @@ import 'package:car_care/features/maintenance/user_requests/presentation/widgets
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/problem_description_field.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/requests_action_buttons.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/vehicle_info_section.dart';
-import 'package:car_care/features/orders/presentation/widgets/price_offer_page/requests_flow_shared.dart';
+import 'package:car_care/features/technician/technician_quotations/presentation/widgets/price_offer_page/requests_flow_shared.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';

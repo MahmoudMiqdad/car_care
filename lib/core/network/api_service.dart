@@ -61,9 +61,10 @@ Future<Map<String, dynamic>> patch({
   Future<Map<String, dynamic>> delete({
     required String endPoint,
     String? id,
+     dynamic data
   }) async {
     return _performRequest(
-      () => _dio.delete('$endPoint/$id'),
+      () => _dio.delete(endPoint, data: data),
     );
   }
 

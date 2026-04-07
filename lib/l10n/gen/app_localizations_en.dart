@@ -965,4 +965,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get alertsRecord => 'Alerts Record';
+
+  @override
+  String get deleteProfile => 'Delete Profile';
+
+  @override
+  String get confirmDeleteProfileTitle => 'Confirm Deletion';
+
+  @override
+  String get confirmDeleteProfileMessage => 'Are you sure you want to delete your account?\nThis action cannot be undone.';
+
+  @override
+  String get profileDeletedSuccessfully => 'Profile deleted successfully';
+
+  @override
+  String get enterPhone => 'Please enter phone number';
+
+  @override
+  String get invalidPhone => 'Invalid phone number';
 }

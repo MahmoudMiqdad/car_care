@@ -1,7 +1,6 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/features/auth/domain/repositories/i_auth_repository.dart';
-
 import 'package:car_care/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_event.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_state.dart';
@@ -10,6 +9,7 @@ import 'package:car_care/features/auth/presentation/widgets/register/register_co
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -28,25 +28,31 @@ class _RegisterPageState extends State<RegisterPage> {
   final _confirmPasswordController = TextEditingController();
 
   @override
-  @override
   Widget build(BuildContext context) {
-          final strings = context.l10n;
+    final strings = context.l10n;
+
     return BlocProvider(
       create: (_) => AuthBloc(getIt<IAuthRepository>()),
       child: Scaffold(
         body: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthFailure) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.message)));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: Colors.red,
+                ),
+              );
             } else if (state is AuthSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
-                 SnackBar(content: Text(strings.registrationSuccess)),
+                SnackBar(
+                  content: Text(strings.registrationSuccess),
+                  backgroundColor: Colors.green,
+                ),
               );
 
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                GoRouter.of(context).go('/login');
+                GoRouter.of(context).go(Routes.login);
               });
             }
           },
@@ -57,6 +63,7 @@ class _RegisterPageState extends State<RegisterPage> {
             if (state is AuthFormState) {
               isValid = state.isValid;
             }
+
             return Stack(
               fit: StackFit.expand,
               children: [
@@ -73,12 +80,13 @@ class _RegisterPageState extends State<RegisterPage> {
                           accountController: _emailController,
                           passwordController: _passwordController,
                           confirmPasswordController: _confirmPasswordController,
-                          onRegister: (isValid && !isLoading)
-                              ? () => context.read<AuthBloc>().add(
-                                  SubmitRegister(),
-                                )
-                              : null,
-                          onGoToLogin: (){  GoRouter.of(context).go(Routes.login);},
+                          isLoading: isLoading,
+                          onRegister: () => context
+                              .read<AuthBloc>()
+                              .add(SubmitRegister()),
+                          onGoToLogin: () {
+                            GoRouter.of(context).go(Routes.login);
+                          },
                         ),
                       ),
                     ],

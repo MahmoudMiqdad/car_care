@@ -11,9 +11,9 @@ class AppLoadingWidget extends StatelessWidget {
    return Center(
               child: Lottie.asset(
                 AppAssets.loadingImage,
-                width: 500.w,
-                height: 500.h,
-                fit: BoxFit.contain,
+                width: 2000000.w,
+                height: 2000.h,
+                fit: BoxFit.fill,
               ),
             );
   }

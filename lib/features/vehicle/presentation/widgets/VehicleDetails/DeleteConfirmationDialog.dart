@@ -44,7 +44,7 @@ class DeleteConfirmationDialog extends StatelessWidget {
               ),
               SizedBox(height: 20.h),
               Text(
-                'حذف المركبة',
+                strings.deleteVehicle,
                 style: TextStyle(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.bold,
@@ -53,7 +53,7 @@ class DeleteConfirmationDialog extends StatelessWidget {
               ),
               SizedBox(height: 12.h),
               Text(
-                'هل أنت متأكد من حذف "$vehicleName"؟\nهذا الإجراء لا يمكن التراجع عنه.',
+               '${ strings.confirmDeleteMessage} $vehicleName',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14.sp,

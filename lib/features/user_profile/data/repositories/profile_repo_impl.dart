@@ -115,7 +115,7 @@ AvatarEntity _mapAvatar(AvatarModel model) {
     String password,
   ) async {
     try {
-      final model = await _remoteDataSource.deleteProfile();
+      final model = await _remoteDataSource.deleteProfile(password);
       return Right(_map(model));
     } on ServerExpcptions catch (e) {
       return Left(e.error);

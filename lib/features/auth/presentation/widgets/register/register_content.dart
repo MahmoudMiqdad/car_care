@@ -1,7 +1,7 @@
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/widgets/buttons/app_button_widget.dart';
+import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_event.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
-class RegisterContent extends StatelessWidget {
+class RegisterContent extends StatefulWidget {
   const RegisterContent({
     super.key,
     required this.formKey,
@@ -36,8 +36,16 @@ class RegisterContent extends StatelessWidget {
   final bool isLoading;
 
   @override
+  State<RegisterContent> createState() => _RegisterContentState();
+}
+
+class _RegisterContentState extends State<RegisterContent> {
+  bool _submitted = false; 
+
+  @override
   Widget build(BuildContext context) {
-     final strings = context.l10n;
+    final strings = context.l10n;
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -55,12 +63,15 @@ class RegisterContent extends StatelessWidget {
             const _RegisterTitle(),
             SizedBox(height: 24.h),
             Form(
-              key: formKey,
+              key: widget.formKey,
+              autovalidateMode: _submitted
+                  ? AutovalidateMode.always
+                  : AutovalidateMode.disabled,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   LoginTextField(
-                    controller: firstNameController,
+                    controller: widget.firstNameController,
                     hintText: strings.fullName,
                     keyboardType: TextInputType.name,
                     icon: IconsaxPlusLinear.user,
@@ -76,7 +87,7 @@ class RegisterContent extends StatelessWidget {
                   ),
                   SizedBox(height: 16.h),
                   LoginTextField(
-                    controller: accountController,
+                    controller: widget.accountController,
                     hintText: strings.email,
                     keyboardType: TextInputType.emailAddress,
                     icon: IconsaxPlusLinear.sms,
@@ -91,21 +102,30 @@ class RegisterContent extends StatelessWidget {
                     },
                   ),
                   SizedBox(height: 16.h),
-                  LoginTextField(
-                    controller: phoneController,
-                    hintText: strings.enterphone,
-                    isPassword: false,
-                    keyboardType: TextInputType.phone,
-                    iconPath: 'assets/images/icons8-call-50.png',
-                    onChanged: (value) {
-                      context.read<AuthBloc>().add(
-                            PhoneChanged(value),
-                          );
-                    },
-                  ),
+LoginTextField(
+  controller: widget.phoneController,
+  hintText: strings.enterphone,
+  isPassword: false,
+  keyboardType: TextInputType.phone,
+  icon: IconsaxPlusLinear.mobile,
+  validator: (v) {
+    if (v == null || v.trim().isEmpty) {
+      return strings.enterPhone; 
+    }
+    if (!RegExp(r'^\d{10}$').hasMatch(v.trim())) {
+      return strings.invalidPhone; 
+    }
+    return null;
+  },
+  onChanged: (value) {
+    context.read<AuthBloc>().add(
+      PhoneChanged(value),
+    );
+  },
+),
                   SizedBox(height: 16.h),
                   LoginTextField(
-                    controller: passwordController,
+                    controller: widget.passwordController,
                     hintText: strings.password,
                     isPassword: true,
                     keyboardType: TextInputType.visiblePassword,
@@ -125,7 +145,7 @@ class RegisterContent extends StatelessWidget {
                   ),
                   SizedBox(height: 16.h),
                   LoginTextField(
-                    controller: confirmPasswordController,
+                    controller: widget.confirmPasswordController,
                     hintText: strings.confirmPassword,
                     isPassword: true,
                     keyboardType: TextInputType.visiblePassword,
@@ -134,23 +154,30 @@ class RegisterContent extends StatelessWidget {
                       if (v == null || v.trim().isEmpty) {
                         return strings.reEnterPassword;
                       }
-                      if (v.trim() != passwordController.text.trim()) {
+                      if (v.trim() != widget.passwordController.text.trim()) {
                         return strings.thepasswordsdonotmatch;
                       }
                       return null;
                     },
                     onChanged: (value) {
                       context.read<AuthBloc>().add(
-                            ConfirmPasswordChanged(value),
-                          );
+                        ConfirmPasswordChanged(value),
+                      );
                     },
                   ),
                   SizedBox(height: 45.h),
                   SizedBox(
                     height: AppConstants.buttonHeight.h,
                     child: AppButton(
-                      onPressed: isLoading ? null : onRegister,
-                      text: isLoading ? strings.creating : strings.createAccount,
+                      onPressed: () {
+                        setState(() => _submitted = true);
+                        if (widget.formKey.currentState?.validate() ?? false) {
+                          widget.onRegister?.call();
+                        }
+                      },
+                      text: widget.isLoading
+                          ? strings.creating
+                          : strings.createAccount,
                       backgroundColor: AppColors.orange,
                       textColor: AppColors.white,
                     ),
@@ -167,7 +194,7 @@ class RegisterContent extends StatelessWidget {
                         ),
                       ),
                       GestureDetector(
-                        onTap: onGoToLogin,
+                        onTap: widget.onGoToLogin,
                         child: Text(
                           strings.login,
                           style: context.textTheme.bodyMedium?.copyWith(
@@ -194,14 +221,14 @@ class _RegisterTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-         final strings = context.l10n;
+    final strings = context.l10n;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SizedBox(height: 4.h),
         Text(
-        strings.createAccount  ,
+          strings.createAccount,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                 color: AppColors.orange,
@@ -214,7 +241,7 @@ class _RegisterTitle extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         Text(
-strings.carReadyMessage,
+          strings.carReadyMessage,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: AppColors.lightPrimary,

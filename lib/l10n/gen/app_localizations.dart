@@ -1998,6 +1998,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Alerts Record'**
   String get alertsRecord;
+
+  /// Title of delete profile dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Profile'**
+  String get deleteProfile;
+
+  /// Delete confirmation button
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Deletion'**
+  String get confirmDeleteProfileTitle;
+
+  /// Warning message before deleting profile
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete your account?\nThis action cannot be undone.'**
+  String get confirmDeleteProfileMessage;
+
+  /// Message shown after successful deletion
+  ///
+  /// In en, this message translates to:
+  /// **'Profile deleted successfully'**
+  String get profileDeletedSuccessfully;
+
+  /// Message shown when the phone field is left empty
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter phone number'**
+  String get enterPhone;
+
+  /// Message shown when the phone number is incorrect or incomplete
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid phone number'**
+  String get invalidPhone;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
