@@ -2,9 +2,6 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/const.dart';
 import 'package:car_care/core/widgets/image_background.dart';
-import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
-import 'package:car_care/features/maintenance/user_requests/data/models/maintenance_request_model.dart';
-
 import 'package:car_care/features/maintenance/user_requests/domain/request_status.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/cubit/show_requests_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/cubit/show_requests_state.dart';
@@ -64,15 +61,10 @@ class _AllRequestsPageState extends State<AllRequestsPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         title: 'All Requests',
         showBackButton: true,
-      ),
-      bottomNavigationBar: HomeBottomNavBar(
-        activeIndex: 0,
-        onItemSelected: (index) {
-          if (index == 0) context.go(Routes.home);
-        },
+        onBackTapped: () => context.go(Routes.home),
       ),
       body: ImageBackground(
         child: SafeArea(

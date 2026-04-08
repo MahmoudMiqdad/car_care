@@ -51,8 +51,8 @@ class HomeBottomNavBar extends StatelessWidget {
             onTap: () => onItemSelected?.call(1),
           ),
           HomeBottomNavItem(
-            icon: Icons.chat_bubble_outline,
-            label: strings.messages,
+            icon: Icons.assignment_outlined,
+            label: strings.activeorders,
             isActive: activeIndex == 2,
             onTap: () => onItemSelected?.call(2),
           ),

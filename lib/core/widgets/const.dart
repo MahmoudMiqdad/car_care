@@ -30,6 +30,7 @@ class _MainAppShellState extends State<MainAppShell> {
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
     final isProfile = location == Routes.profile;
+    final hideShellChrome = location == Routes.all_requests;
 
     final menuAction = IconButton(
       onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
@@ -44,22 +45,24 @@ class _MainAppShellState extends State<MainAppShell> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         key: _scaffoldKey,
-        endDrawer: const AppNavigationDrawer(),
+        endDrawer: hideShellChrome ? null : const AppNavigationDrawer(),
         backgroundColor: context.colorScheme.surface,
-        appBar: isProfile
-            ? CustomAppBar(
-                title: context.l10n.profile,
-                showBackButton: true,
-                useMainBranding: false,
-                onBackTapped: () => context.go(Routes.home),
-                actionWidget: menuAction,
-              )
-            : CustomAppBar(
-                title: AppConstants.appName,
-                showBackButton: false,
-                useMainBranding: true,
-                actionWidget: menuAction,
-              ),
+        appBar: hideShellChrome
+            ? null
+            : (isProfile
+                ? CustomAppBar(
+                    title: context.l10n.profile,
+                    showBackButton: true,
+                    useMainBranding: false,
+                    onBackTapped: () => context.go(Routes.home),
+                    actionWidget: menuAction,
+                  )
+                : CustomAppBar(
+                    title: AppConstants.appName,
+                    showBackButton: false,
+                    useMainBranding: true,
+                    actionWidget: menuAction,
+                  )),
         body: widget.child,
         bottomNavigationBar: widget.bottomNavigationBar,
       ),

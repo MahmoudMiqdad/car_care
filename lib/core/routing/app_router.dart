@@ -42,7 +42,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.all_requests,
+    initialLocation: Routes.login,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -61,6 +61,7 @@ class AppRouter {
           final location = state.matchedLocation;
           final bottomNavIndex = switch (location) {
             Routes.notifications => 1,
+            Routes.all_requests => 2,
             Routes.home => 0,
             _ => -1,
           };
@@ -74,6 +75,9 @@ class AppRouter {
                     break;
                   case 1:
                     context.go(Routes.notifications);
+                    break;
+                  case 2:
+                    context.go(Routes.all_requests);
                     break;
                   case 3:
                     showTechnicianEntrySheet(context);
@@ -96,6 +100,11 @@ class AppRouter {
             path: Routes.notifications,
             name: '/notifications',
             builder: (context, state) => const NotificationsPage(),
+          ),
+          GoRoute(
+            path: Routes.all_requests,
+            name: '/all_requests_stats_page',
+            builder: (context, state) => const AllRequestsStatsPage(),
           ),
           GoRoute(
             path: Routes.profile,
@@ -185,11 +194,6 @@ class AppRouter {
         path: Routes.requests,
         name: '/requests',
         builder: (context, state) => const RequestsPage(),
-      ),
-      GoRoute(
-        path: Routes.all_requests,
-        name: '/all_requests_stats_page',
-        builder: (context, state) => const AllRequestsStatsPage(),
       ),
       GoRoute(
         path: Routes.orders,
