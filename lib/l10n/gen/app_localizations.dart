@@ -2088,6 +2088,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid phone number'**
   String get invalidPhone;
+
+  /// Action to open the technician profile flow from the More tab
+  ///
+  /// In en, this message translates to:
+  /// **'Enter as technician'**
+  String get enterAsTechnician;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

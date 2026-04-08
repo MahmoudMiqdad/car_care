@@ -1010,4 +1010,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invalidPhone => 'Invalid phone number';
+
+  @override
+  String get enterAsTechnician => 'Enter as technician';
 }

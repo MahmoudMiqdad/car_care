@@ -6,8 +6,6 @@ import 'package:car_care/features/technician/technician_profile/presentation/pag
 import 'package:car_care/features/technician/technician_statistics/presentation/pages/technician_statistics_page.dart';
 import 'package:car_care/features/technician/technician_jobs/presentation/pages/technician_jobs_page.dart';
 import 'package:car_care/features/technician/technician_quotations/presentation/pages/technician_quotations_page.dart';
-import 'package:car_care/features/technician/technician_jobs/presentation/page/technician_requests_page.dart'
-    hide TechnicianRequestsPage;
 import 'package:car_care/features/maintenance/user_rate_job/presentation/pages/rate_job_page.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/pages/all_requests.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/pages/requests_page.dart';
@@ -24,8 +22,10 @@ import 'package:car_care/features/user_profile/presentation/pages/profile_page.d
 import 'package:car_care/features/auth/presentation/pages/login_page.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/widgets/const.dart';
+import 'package:car_care/core/widgets/technician_entry_sheet.dart';
 import 'package:car_care/features/auth/presentation/pages/register_page.dart';
 import 'package:car_care/features/home/presentation/pages/home_page.dart';
+import 'package:car_care/features/home/presentation/pages/notifications_page.dart';
 import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
 import 'package:car_care/features/user_profile/presentation/pages/profile_setup_page.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/UpdateVehicle/UpdateVehiclePage.dart';
@@ -57,11 +57,28 @@ class AppRouter {
       ShellRoute(
         navigatorKey: shellNavigatorKey,
         builder: (context, state, child) {
+          final location = state.matchedLocation;
+          final bottomNavIndex = switch (location) {
+            Routes.notifications => 1,
+            Routes.home => 0,
+            _ => -1,
+          };
           return MainAppShell(
             bottomNavigationBar: HomeBottomNavBar(
+              activeIndex: bottomNavIndex,
               onItemSelected: (index) {
-                if (index == 0) {
-                  context.go(Routes.home);
+                switch (index) {
+                  case 0:
+                    context.go(Routes.home);
+                    break;
+                  case 1:
+                    context.go(Routes.notifications);
+                    break;
+                  case 3:
+                    showTechnicianEntrySheet(context);
+                    break;
+                  default:
+                    break;
                 }
               },
             ),
@@ -73,6 +90,11 @@ class AppRouter {
             path: Routes.home,
             name: '/home',
             builder: (context, state) => const HomePage(),
+          ),
+          GoRoute(
+            path: Routes.notifications,
+            name: '/notifications',
+            builder: (context, state) => const NotificationsPage(),
           ),
           GoRoute(
             path: Routes.profile,

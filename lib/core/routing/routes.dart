@@ -9,6 +9,7 @@ class Routes {
   static const String changepasswordpage = '/change_password_page';
   static const String otp = '/otp';
   static const String home = '/home';
+  static const String notifications = '/notifications';
   static const String more = '/more';
   static const String my_vehicles_page = '/my_vehicles_page';
   static const String add_vehicle = '/add_vehicle';

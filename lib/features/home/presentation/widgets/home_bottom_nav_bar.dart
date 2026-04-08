@@ -7,13 +7,11 @@ class HomeBottomNavBar extends StatelessWidget {
   const HomeBottomNavBar({
     super.key,
     this.onItemSelected,
-    /// Index of the highlighted tab (0–3). Use `-1` when no tab should appear active.
     this.activeIndex = 0,
   });
 
   final ValueChanged<int>? onItemSelected;
 
-  /// `0` Home, `1` Notification, `2` Messages, `3` More. `-1` = none (all labels/icons white).
   final int activeIndex;
 
   @override
@@ -59,7 +57,7 @@ class HomeBottomNavBar extends StatelessWidget {
             onTap: () => onItemSelected?.call(2),
           ),
           HomeBottomNavItem(
-            icon: Icons.more_horiz,
+            icon: Icons.engineering_outlined,
             label: strings.more,
             isActive: activeIndex == 3,
             onTap: () => onItemSelected?.call(3),

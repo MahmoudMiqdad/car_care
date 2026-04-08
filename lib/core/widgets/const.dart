@@ -3,12 +3,13 @@ import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/app_navigation_drawer.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-class MainAppShell extends StatelessWidget {
+class MainAppShell extends StatefulWidget {
   const MainAppShell({
     super.key,
     required this.child,
@@ -19,12 +20,19 @@ class MainAppShell extends StatelessWidget {
   final Widget? bottomNavigationBar;
 
   @override
+  State<MainAppShell> createState() => _MainAppShellState();
+}
+
+class _MainAppShellState extends State<MainAppShell> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
     final isProfile = location == Routes.profile;
 
     final menuAction = IconButton(
-      onPressed: () {},
+      onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
       icon: Icon(
         Icons.menu,
         color: Colors.white,
@@ -35,6 +43,8 @@ class MainAppShell extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        key: _scaffoldKey,
+        endDrawer: const AppNavigationDrawer(),
         backgroundColor: context.colorScheme.surface,
         appBar: isProfile
             ? CustomAppBar(
@@ -48,11 +58,10 @@ class MainAppShell extends StatelessWidget {
                 title: AppConstants.appName,
                 showBackButton: false,
                 useMainBranding: true,
-                onProfileTap: () => context.go(Routes.profile),
                 actionWidget: menuAction,
               ),
-        body: child,
-        bottomNavigationBar: bottomNavigationBar,
+        body: widget.child,
+        bottomNavigationBar: widget.bottomNavigationBar,
       ),
     );
   }
@@ -66,9 +75,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? titleWidget;
   final Widget? leadingWidget;
 
-  /// When true, shows main branding (logo + profile leading; RTL-friendly; no LTR wrapper).
+  /// When true, shows main branding (centered logo; RTL-friendly).
   final bool useMainBranding;
-  final VoidCallback? onProfileTap;
 
   final double? toolbarHeight;
   final double elevation;
@@ -82,7 +90,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.titleWidget,
     this.leadingWidget,
     this.useMainBranding = false,
-    this.onProfileTap,
     this.toolbarHeight,
     this.elevation = 0,
   });
@@ -173,43 +180,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: AppConstants.homeAppBarHeight.h,
       backgroundColor: AppColors.primary,
       elevation: AppConstants.homeAppBarElevation,
-      leadingWidth: 60.w,
-      leading: Padding(
-        padding: EdgeInsetsDirectional.only(start: 12.w),
-        child: IconButton(
-          onPressed: onProfileTap ?? () {},
-          padding: EdgeInsets.zero,
-          style: IconButton.styleFrom(
-            shape: const CircleBorder(),
-          ),
-          icon: Container(
-            width: AppConstants.homeAppBarLeadingOuter.w,
-            height: AppConstants.homeAppBarLeadingOuter.w,
-            decoration: BoxDecoration(
-              color: const Color(0xFFCFD8DC),
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Colors.white,
-                width: 2.5,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
-                  blurRadius: 1,
-                  offset: const Offset(0, 1),
-                ),
-              ],
-            ),
-            child: Center(
-              child: Icon(
-                Icons.person,
-                size: AppConstants.homeAppBarLeadingIconSize.sp,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-      ),
+      automaticallyImplyLeading: false,
+      leadingWidth: 0,
       centerTitle: true,
       titleSpacing: 0,
       title: ConstrainedBox(

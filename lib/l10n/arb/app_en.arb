@@ -1624,6 +1624,11 @@
 "invalidPhone": "Invalid phone number",
 "@invalidPhone": {
   "description": "Message shown when the phone number is incorrect or incomplete"
+},
+
+"enterAsTechnician": "Enter as technician",
+"@enterAsTechnician": {
+  "description": "Action to open the technician profile flow from the More tab"
 }
 
 }

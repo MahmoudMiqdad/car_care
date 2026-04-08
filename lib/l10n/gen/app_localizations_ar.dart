@@ -1010,4 +1010,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get invalidPhone => 'رقم الهاتف غير صالح';
+
+  @override
+  String get enterAsTechnician => 'الدخول كفني';
 }

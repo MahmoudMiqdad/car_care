@@ -1627,6 +1627,11 @@
   "readySummary": "هل أنت مستعد للعودة إلى الطريق؟",
   "@readySummary": {
     "description": "هل أنت مستعد للعودة إلى الطريق؟"
+  },
+
+  "enterAsTechnician": "الدخول كفني",
+  "@enterAsTechnician": {
+    "description": "الانتقال إلى بروفايل الفني من تبويب المزيد"
   }
 
 }

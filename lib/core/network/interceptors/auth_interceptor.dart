@@ -48,8 +48,8 @@ class AuthInterceptor extends Interceptor {
   ) async {
     try {
       if (!_isAuthEndpoint(options.path)) {
-           final token = AppToken.token;
-        // final token = await _secureStorage.getToken();
+          // final token = AppToken.token;
+         final token = await _secureStorage.getToken();
 
         if (kDebugMode) {
           debugPrint(
