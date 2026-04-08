@@ -1,6 +1,6 @@
-// domain/entities/vehicle_entity.dart
-import 'package:car_care/features/technician/technician_profile/domain/entities/technician_profile_entity.dart';
 
+
+import 'package:car_care/features/maintenance/user_requests/domain/entities/user_entity.dart' show UserEntity;
 
 class VehicleEntity {
   final int id;
@@ -15,7 +15,7 @@ class VehicleEntity {
   final String status;
   final bool needsMaintenance;
   final DateTime createdAt;
-final DateTime updatedAt;
+  final DateTime updatedAt;
 
   VehicleEntity({
     required this.id,

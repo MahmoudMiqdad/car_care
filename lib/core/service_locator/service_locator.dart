@@ -5,6 +5,17 @@ import 'package:car_care/core/network/api_service.dart';
 import 'package:car_care/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:car_care/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:car_care/features/auth/data/repositories/auth_repo_impl.dart';
+import 'package:car_care/features/maintenance/user_requests/data/data_sources/requests_remote_data_source.dart';
+import 'package:car_care/features/maintenance/user_requests/data/repositories/requests_repository.dart_impl.dart';
+import 'package:car_care/features/maintenance/user_requests/domain/repositories/i_requests_repository.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/cubit/accepted_requests_cubit/accepted_requests_cubit.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/cubit/add_maintenance_request_cubit/add_maintenance_request_cubit.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/cubit/cancel_request_cubit/cancel_request_cubit.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/cubit/completed_requests_cubit/completed_requests_cubit.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/cubit/cubit/show_requests_cubit.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/cubit/delete_request_cubit/delete_request_cubit.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/cubit/show_request_cubit/show_request_cubit.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/cubit/update_request_cubit/update_request_cubit.dart';
 import 'package:car_care/features/technician/technician_order/data/data_sources/technician_order_remote_data_source.dart';
 import 'package:car_care/features/technician/technician_order/data/repositories/technician_order_repository_impl.dart';
 import 'package:car_care/features/technician/technician_order/domain/repositories/i_order_requests_repository.dart';
@@ -146,5 +157,41 @@ Future<void> setupServiceLocator() async {
     )
         ..registerFactory<RequestCubit>(
       () => RequestCubit(getIt<ITechnicianOrderRepository>()),
+    )
+           //
+    ..registerLazySingleton<RequestsRemoteDataSource>(
+      () => RequestsRemoteDataSource(getIt<ApiService>()),
+    )
+     ..registerLazySingleton<IRequestsRepository>(
+      () => RequestsRepositoryImpl(getIt<RequestsRemoteDataSource>()),
+    )
+      ..registerFactory<AcceptedRequestsCubit>(
+      () => AcceptedRequestsCubit(getIt<IRequestsRepository>()),
+    ) 
+       ..registerFactory<DeleteRequestCubit>(
+      () => DeleteRequestCubit(getIt<IRequestsRepository>()),
+    )
+        ..registerFactory<CompletedRequestsCubit>(
+      () => CompletedRequestsCubit(getIt<IRequestsRepository>()),
+    )
+        ..registerFactory<CancelRequestCubit>(
+      () => CancelRequestCubit(getIt<IRequestsRepository>()),
+    )
+        ..registerFactory<AddMaintenanceRequestCubit>(
+      () => AddMaintenanceRequestCubit(getIt<IRequestsRepository>()),
+    )
+         ..registerFactory<UpdateRequestCubit>(
+      () => UpdateRequestCubit(getIt<IRequestsRepository>()),
+    )
+  
+       ..registerFactory<ShowRequestCubit>(
+      () => ShowRequestCubit(getIt<IRequestsRepository>()),
+    )
+  
+       ..registerFactory<RequestsCubit>(
+      () => RequestsCubit(getIt<IRequestsRepository>()),
     );
+   
+  
+  
 }

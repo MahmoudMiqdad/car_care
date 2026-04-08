@@ -1,4 +1,3 @@
-// domain/entities/user_entity.dart
 class UserEntity {
   final int id;
   final String name;

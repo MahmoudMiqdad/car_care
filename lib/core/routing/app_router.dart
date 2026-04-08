@@ -1,3 +1,4 @@
+import 'package:car_care/features/maintenance/user_requests/presentation/pages/all_requests_stats_page.dart';
 import 'package:car_care/features/technician/technician_order/presentation/pages/order_details_page.dart';
 import 'package:car_care/features/technician/technician_order/presentation/pages/orders_page.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/pages/tetechnician_profile_view/technician_profile_view_page.dart';
@@ -41,7 +42,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.orders,
+    initialLocation: Routes.all_requests,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -166,8 +167,8 @@ class AppRouter {
       ),
       GoRoute(
         path: Routes.all_requests,
-        name: '/all_requests',
-        builder: (context, state) => const AllRequestsPage(),
+        name: '/all_requests_stats_page',
+        builder: (context, state) => const AllRequestsStatsPage(),
       ),
       GoRoute(
         path: Routes.orders,

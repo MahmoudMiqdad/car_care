@@ -9,24 +9,26 @@ class RequestsRemoteDataSource {
   final ApiService _apiService;
 
   /// getAllMaintenance
-  Future<MaintenanceRequestResponseModel> getAllMaintenance() async {
+  Future<MaintenanceRequestModel> getAllMaintenance() async {
     final response = await _apiService.get(
       endPoint: ApiEndpoints.maintenance,
-    );
-
-    return MaintenanceRequestResponseModel.fromJson(response);
+      
+    ); 
+     print('88888888888888888888888888888888888888888888888888888888888888'); 
+       print(response); 
+    return MaintenanceRequestModel.fromJson(response);
   }
 
   /// addMaintenanceRequest
   
-  Future<MaintenanceRequestResponseModel> addMaintenanceRequest(
+  Future<MaintenanceRequestModel> addMaintenanceRequest(
     Map<String, dynamic> data,
   ) async {
     final response = await _apiService.post(
       endPoint: ApiEndpoints.maintenance,
       data: data,
     );
-    return MaintenanceRequestResponseModel.fromJson(response);
+    return MaintenanceRequestModel.fromJson(response);
   }
   //cancelRequest
     Future<MaintenanceRequestModel> cancelRequest(
@@ -72,32 +74,32 @@ class RequestsRemoteDataSource {
 
   /// pendingRequests
  
-  Future<MaintenanceRequestResponseModel> pendingRequests() async {
+  Future<MaintenanceRequestModel> pendingRequests() async {
     final response = await _apiService.get(
       endPoint: ApiEndpoints.pendingRequests,
     );
 
-    return MaintenanceRequestResponseModel.fromJson(response);
+    return MaintenanceRequestModel.fromJson(response);
   }
 
   /// completedRequests
  
-  Future<MaintenanceRequestResponseModel> completedRequests() async {
+  Future<MaintenanceRequestModel> completedRequests() async {
     final response = await _apiService.get(
       endPoint: ApiEndpoints.completedRequests,
     );
 
-    return MaintenanceRequestResponseModel.fromJson(response);
+    return MaintenanceRequestModel.fromJson(response);
   }
 
   /// acceptedRequests
  
-  Future<MaintenanceRequestResponseModel> acceptedRequests() async {
+  Future<MaintenanceRequestModel> acceptedRequests() async {
     final response = await _apiService.get(
       endPoint: ApiEndpoints.acceptedRequests,
     );
 
-    return MaintenanceRequestResponseModel.fromJson(response);
+    return MaintenanceRequestModel.fromJson(response);
   }
 }
 
