@@ -1999,6 +1999,60 @@ abstract class AppLocalizations {
   /// **'Alerts Record'**
   String get alertsRecord;
 
+  /// Statistics page title
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get statistics;
+
+  /// Total jobs count
+  ///
+  /// In en, this message translates to:
+  /// **'Total jobs'**
+  String get totalJobs;
+
+  /// Assigned jobs count
+  ///
+  /// In en, this message translates to:
+  /// **'Assigned'**
+  String get assignedJobs;
+
+  /// In progress jobs count
+  ///
+  /// In en, this message translates to:
+  /// **'In progress'**
+  String get inProgressJobs;
+
+  /// Completed jobs count
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completedJobs;
+
+  /// Total quotations count
+  ///
+  /// In en, this message translates to:
+  /// **'Total quotations'**
+  String get totalQuotations;
+
+  /// Pending quotations count
+  ///
+  /// In en, this message translates to:
+  /// **'Pending quotations'**
+  String get pendingQuotations;
+
+  /// Accepted quotations count
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted quotations'**
+  String get acceptedQuotations;
+
+  /// Total ratings count
+  ///
+  /// In en, this message translates to:
+  /// **'Total ratings'**
+  String get totalRatings;
+
   /// Title of delete profile dialog
   ///
   /// In en, this message translates to:

@@ -967,6 +967,33 @@ class AppLocalizationsAr extends AppLocalizations {
   String get alertsRecord => 'سجل التنبيهات';
 
   @override
+  String get statistics => 'الإحصائيات';
+
+  @override
+  String get totalJobs => 'إجمالي الأعمال';
+
+  @override
+  String get assignedJobs => 'المعيّنة';
+
+  @override
+  String get inProgressJobs => 'قيد التنفيذ';
+
+  @override
+  String get completedJobs => 'المكتملة';
+
+  @override
+  String get totalQuotations => 'إجمالي العروض';
+
+  @override
+  String get pendingQuotations => 'العروض المعلّقة';
+
+  @override
+  String get acceptedQuotations => 'العروض المقبولة';
+
+  @override
+  String get totalRatings => 'عدد التقييمات';
+
+  @override
   String get deleteProfile => 'حذف الحساب';
 
   @override

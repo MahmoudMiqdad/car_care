@@ -157,8 +157,7 @@ class AppRouter {
       ),
       GoRoute(
         path: Routes.statistics,
-        name: '/statistics',
-        builder: (context, state) => const StatisticsPage(),
+        builder: (context, state) => const UserStatisticsPage(),
       ),
       GoRoute(
         path: Routes.requests,

@@ -16,6 +16,14 @@ import 'package:car_care/features/maintenance/user_requests/presentation/cubit/c
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/delete_request_cubit/delete_request_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/show_request_cubit/show_request_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/update_request_cubit/update_request_cubit.dart';
+import 'package:car_care/features/maintenance/user_statistics/data/data_sources/statistics_remote_data_source.dart';
+import 'package:car_care/features/maintenance/user_statistics/data/repositories/statistics_impl.dart';
+import 'package:car_care/features/maintenance/user_statistics/domain/repositories/i_statistics.dart';
+import 'package:car_care/features/maintenance/user_statistics/presentation/cubit/statistics_cubit.dart';
+import 'package:car_care/features/technician/technician_statistics/data/data_sources/technician_statistics_remote_data_source.dart';
+import 'package:car_care/features/technician/technician_statistics/data/repositories/technician_statistics_repository_impl.dart';
+import 'package:car_care/features/technician/technician_statistics/domain/repositories/i_technician_statistics_repository.dart';
+import 'package:car_care/features/technician/technician_statistics/presentation/cubit/technician_statistics_cubit.dart';
 import 'package:car_care/features/technician/technician_order/data/data_sources/technician_order_remote_data_source.dart';
 import 'package:car_care/features/technician/technician_order/data/repositories/technician_order_repository_impl.dart';
 import 'package:car_care/features/technician/technician_order/domain/repositories/i_order_requests_repository.dart';
@@ -98,11 +106,28 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<VehicleUpdateCubit>(
       () => VehicleUpdateCubit(getIt<IVehicleRepository>()),
     )
-    ..registerFactory<VehicleDeleteCubit>(() => VehicleDeleteCubit(getIt()),
-    )
+    ..registerFactory<VehicleDeleteCubit>(() => VehicleDeleteCubit(getIt()))
     ..registerFactory(
       () => MaintenanceHistoryCubit(getIt<IVehicleRepository>()),
     )
+    // Technician statistics
+    ..registerLazySingleton<TechnicianStatisticsRemoteDataSource>(
+      () => TechnicianStatisticsRemoteDataSource(getIt()),
+    )
+    ..registerLazySingleton<ITechnicianStatisticsRepository>(
+      () => TechnicianStatisticsRepositoryImpl(getIt()),
+    )
+    ..registerFactory<TechnicianStatisticsCubit>(
+      () => TechnicianStatisticsCubit(getIt()),
+    )
+    // User statistics
+    ..registerLazySingleton<StatisticsRemoteDataSource>(
+      () => StatisticsRemoteDataSource(getIt()),
+    )
+    ..registerLazySingleton<IStatisticsRepository>(
+      () => StatisticsRepositoryImpl(getIt()),
+    )
+    ..registerFactory<StatisticsCubit>(() => StatisticsCubit(getIt()))
     // Profile
     ..registerLazySingleton<ProfileRemoteDataSource>(
       () => ProfileRemoteDataSource(getIt<ApiService>()),
@@ -122,40 +147,46 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<AvatarCubit>(
       () => AvatarCubit(getIt<IProfileRepository>()),
     )
-       ..registerFactory<DeleteProfileCubit>(
+    ..registerFactory<DeleteProfileCubit>(
       () => DeleteProfileCubit(getIt<IProfileRepository>()),
     )
     //TechnicianProfile
     ..registerLazySingleton<TechnicianProfileRemoteDataSource>(
       () => TechnicianProfileRemoteDataSource(getIt<ApiService>()),
     )
-     ..registerLazySingleton<ITechnicianProfileRepository>(
-      () => TechnicianProfileRepositoryImpl(getIt<TechnicianProfileRemoteDataSource>()),
+    ..registerLazySingleton<ITechnicianProfileRepository>(
+      () => TechnicianProfileRepositoryImpl(
+        getIt<TechnicianProfileRemoteDataSource>(),
+      ),
     )
-      ..registerFactory<TechnicianProfileCubit>(
+    ..registerFactory<TechnicianProfileCubit>(
       () => TechnicianProfileCubit(getIt<ITechnicianProfileRepository>()),
     )
-      //TechnicianQuotations
+    //TechnicianQuotations
     ..registerLazySingleton<TechnicianQuotationsRemoteDataSource>(
       () => TechnicianQuotationsRemoteDataSource(getIt<ApiService>()),
     )
-     ..registerLazySingleton<ITechnicianQuotationsRepository>(
-      () => TechnicianQuotationsRepositoryImpl(getIt<TechnicianQuotationsRemoteDataSource>()),
+    ..registerLazySingleton<ITechnicianQuotationsRepository>(
+      () => TechnicianQuotationsRepositoryImpl(
+        getIt<TechnicianQuotationsRemoteDataSource>(),
+      ),
     )
-      ..registerFactory<SubmitQuotationCubit>(
+    ..registerFactory<SubmitQuotationCubit>(
       () => SubmitQuotationCubit(getIt<ITechnicianQuotationsRepository>()),
     )
-        //TechnicianOrder
+    //TechnicianOrder
     ..registerLazySingleton<TechnicianOrderRemoteDataSource>(
       () => TechnicianOrderRemoteDataSource(getIt<ApiService>()),
     )
-     ..registerLazySingleton<ITechnicianOrderRepository>(
-      () => TechnicianOrderRepositoryImpl(getIt<TechnicianOrderRemoteDataSource>()),
+    ..registerLazySingleton<ITechnicianOrderRepository>(
+      () => TechnicianOrderRepositoryImpl(
+        getIt<TechnicianOrderRemoteDataSource>(),
+      ),
     )
-      ..registerFactory<AvailableRequestsCubit>(
+    ..registerFactory<AvailableRequestsCubit>(
       () => AvailableRequestsCubit(getIt<ITechnicianOrderRepository>()),
     )
-        ..registerFactory<RequestCubit>(
+    ..registerFactory<RequestCubit>(
       () => RequestCubit(getIt<ITechnicianOrderRepository>()),
     )
            //

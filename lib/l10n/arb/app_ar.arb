@@ -1577,6 +1577,34 @@
 "@updateCarsList": {
   "description": "نص يظهر عند تحديث أو تحميل قائمة السيارات"
 },
+
+"statistics": "الإحصائيات",
+"@statistics": { "description": "عنوان صفحة الإحصائيات" },
+
+"totalJobs": "إجمالي الأعمال",
+"@totalJobs": { "description": "عدد الأعمال الكلي" },
+
+"assignedJobs": "المعيّنة",
+"@assignedJobs": { "description": "عدد الأعمال المعيّنة" },
+
+"inProgressJobs": "قيد التنفيذ",
+"@inProgressJobs": { "description": "عدد الأعمال قيد التنفيذ" },
+
+"completedJobs": "المكتملة",
+"@completedJobs": { "description": "عدد الأعمال المكتملة" },
+
+"totalQuotations": "إجمالي العروض",
+"@totalQuotations": { "description": "عدد عروض الأسعار الكلي" },
+
+"pendingQuotations": "العروض المعلّقة",
+"@pendingQuotations": { "description": "عدد عروض الأسعار المعلقة" },
+
+"acceptedQuotations": "العروض المقبولة",
+"@acceptedQuotations": { "description": "عدد عروض الأسعار المقبولة" },
+
+"totalRatings": "عدد التقييمات",
+"@totalRatings": { "description": "عدد التقييمات الكلي" },
+
 "deleteProfile": "حذف الحساب",
 "@deleteProfile": {"description":"عنوان حوار حذف الحساب"},
 
