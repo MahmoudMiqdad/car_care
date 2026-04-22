@@ -1,7 +1,6 @@
 import 'package:car_care/core/network/api_endpoints.dart';
 import 'package:car_care/core/network/api_service.dart';
 import 'package:car_care/features/maintenance/user_requests/data/models/maintenance_request_model.dart';
-import 'package:car_care/features/maintenance/user_requests/data/models/maintenance_request_response_model.dart';
 
 class RequestsRemoteDataSource {
   const RequestsRemoteDataSource(this._apiService);
@@ -14,8 +13,7 @@ class RequestsRemoteDataSource {
       endPoint: ApiEndpoints.maintenance,
       
     ); 
-     print('88888888888888888888888888888888888888888888888888888888888888'); 
-       print(response); 
+   
     return MaintenanceRequestModel.fromJson(response);
   }
 

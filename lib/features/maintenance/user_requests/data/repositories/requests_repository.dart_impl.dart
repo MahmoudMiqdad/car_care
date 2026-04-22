@@ -1,7 +1,6 @@
 // requests_repository_impl.dart
 import 'package:car_care/features/maintenance/user_requests/data/models/maintenance_request_model.dart' as model;
 import 'package:car_care/features/maintenance/user_requests/domain/entities/maintenance_request_entity.dart';
-import 'package:car_care/features/maintenance/user_requests/domain/entities/maintenance_request_response_entity.dart';
 import 'package:car_care/features/maintenance/user_requests/domain/mapper/maintenance_request_mapper.dart';
 import 'package:car_care/features/maintenance/user_requests/domain/repositories/i_requests_repository.dart';
 import 'package:dartz/dartz.dart';
@@ -13,7 +12,7 @@ class RequestsRepositoryImpl implements IRequestsRepository {
 
   RequestsRepositoryImpl(this.remoteDataSource);
 
-// Mapper الذي أنشأناه
+
   MaintenanceRequestEntity _map(model.MaintenanceRequestModel model) => mapMaintenanceRequest(model);
 
   @override

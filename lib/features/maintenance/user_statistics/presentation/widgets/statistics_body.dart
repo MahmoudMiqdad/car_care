@@ -13,7 +13,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class UserStatisticsBody extends StatelessWidget {
   const UserStatisticsBody({super.key});
 
-  double _ratio(int part, int total) => total == 0 ? 0.0 : part / total;
 
   @override
   Widget build(BuildContext context) {

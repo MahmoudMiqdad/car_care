@@ -11,8 +11,7 @@ import 'package:car_care/features/maintenance/user_requests/domain/repositories/
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/accepted_requests_cubit/accepted_requests_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/add_maintenance_request_cubit/add_maintenance_request_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/cancel_request_cubit/cancel_request_cubit.dart';
-import 'package:car_care/features/maintenance/user_requests/presentation/cubit/completed_requests_cubit/completed_requests_cubit.dart';
-import 'package:car_care/features/maintenance/user_requests/presentation/cubit/cubit/show_requests_cubit.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/cubit/show/show_requests_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/delete_request_cubit/delete_request_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/show_request_cubit/show_request_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/update_request_cubit/update_request_cubit.dart';
@@ -202,9 +201,7 @@ Future<void> setupServiceLocator() async {
        ..registerFactory<DeleteRequestCubit>(
       () => DeleteRequestCubit(getIt<IRequestsRepository>()),
     )
-        ..registerFactory<CompletedRequestsCubit>(
-      () => CompletedRequestsCubit(getIt<IRequestsRepository>()),
-    )
+ 
         ..registerFactory<CancelRequestCubit>(
       () => CancelRequestCubit(getIt<IRequestsRepository>()),
     )

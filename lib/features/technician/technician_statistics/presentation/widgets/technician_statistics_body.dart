@@ -16,7 +16,6 @@ import 'rating_card.dart';
 class TechnicianStatisticsBody extends StatelessWidget {
   const TechnicianStatisticsBody({super.key});
 
-  double _ratio(int part, int total) => total == 0 ? 0.0 : part / total;
 
   @override
   Widget build(BuildContext context) {
