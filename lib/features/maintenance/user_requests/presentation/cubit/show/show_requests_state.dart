@@ -1,5 +1,4 @@
 import 'package:car_care/features/maintenance/user_requests/domain/entities/maintenance_request_entity.dart';
-import 'package:car_care/features/maintenance/user_requests/domain/entities/maintenance_request_response_entity.dart';
 import 'package:car_care/features/maintenance/user_requests/domain/request_status.dart';
 
 abstract class RequestsState {}

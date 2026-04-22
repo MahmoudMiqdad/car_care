@@ -2,9 +2,10 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/const.dart';
 import 'package:car_care/core/widgets/image_background.dart';
+import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/maintenance/user_requests/domain/request_status.dart';
-import 'package:car_care/features/maintenance/user_requests/presentation/cubit/cubit/show_requests_cubit.dart';
-import 'package:car_care/features/maintenance/user_requests/presentation/cubit/cubit/show_requests_state.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/cubit/show/show_requests_cubit.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/cubit/show/show_requests_state.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/all_requests/all_requests_tab_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -108,7 +109,7 @@ class _AllRequestsPageState extends State<AllRequestsPage>
         key: ValueKey(_currentIndex),
         builder: (context, state) {
           if (state is RequestsLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child:AppLoadingWidget());
           }
 
           if (state is RequestsError) {

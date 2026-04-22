@@ -1,5 +1,4 @@
 import 'package:car_care/features/maintenance/user_requests/data/models/user_model.dart';
-import 'package:car_care/features/technician/technician_profile/data/models/technician_profile.dart';
 
 class VehicleModel {
   final int? id;
