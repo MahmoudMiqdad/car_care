@@ -30,7 +30,8 @@ class _MainAppShellState extends State<MainAppShell> {
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
     final isProfile = location == Routes.profile;
-    final hideShellChrome = location == Routes.all_requests;
+    final hideShellChrome =
+        location == Routes.all_requests || location == Routes.washers;
 
     final menuAction = IconButton(
       onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
@@ -138,7 +139,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                         SizedBox(width: 4.w),
                         Text(
-                          'Back',
+                          context.l10n.back,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16.sp,

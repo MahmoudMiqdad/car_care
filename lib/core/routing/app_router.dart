@@ -47,7 +47,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.home,
+    initialLocation: Routes.washers,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -111,32 +111,31 @@ class AppRouter {
             name: '/all_requests_stats_page',
             builder: (context, state) => const AllRequestsStatsPage(),
           ),
-       
-              GoRoute(
-        path: Routes.washers,
-        name: '/washers',
-        builder: (context, state) => const WashersPage(),
-      ),
-            GoRoute(
-        path: Routes.bookings,
-        name: '/bookings',
-        builder: (context, state) => const BookingsPage(),
-      ),
-            GoRoute(
-        path: Routes.ratings,
-        name: '/ratings',
-        builder: (context, state) => const RatingsPage(),
-      ),
-            GoRoute(
-        path: Routes.availability,
-        name: '/availability',
-        builder: (context, state) => const AvailabilityPage(),
-      ),
-            GoRoute(
-        path: Routes.profile_washer,
-        name: '/profile_washer',
-        builder: (context, state) => const ProfileWasherPage(),
-      ),
+          GoRoute(
+            path: Routes.washers,
+            name: '/washers',
+            builder: (context, state) => const WashersPage(),
+          ),
+          GoRoute(
+            path: Routes.bookings,
+            name: '/bookings',
+            builder: (context, state) => const BookingsPage(),
+          ),
+          GoRoute(
+            path: Routes.ratings,
+            name: '/ratings',
+            builder: (context, state) => const RatingsPage(),
+          ),
+          GoRoute(
+            path: Routes.availability,
+            name: '/availability',
+            builder: (context, state) => const AvailabilityPage(),
+          ),
+          GoRoute(
+            path: Routes.profile_washer,
+            name: '/profile_washer',
+            builder: (context, state) => const ProfileWasherPage(),
+          ),
       ],
       ),
       GoRoute(

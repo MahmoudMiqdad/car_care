@@ -1632,7 +1632,43 @@
   "enterAsTechnician": "الدخول كفني",
   "@enterAsTechnician": {
     "description": "الانتقال إلى بروفايل الفني من تبويب المزيد"
-  }
+  },
 
+  "washersPageTitle": "مغاسل السيارات",
+  "@washersPageTitle": {
+    "description": "عنوان شريط التطبيق لقائمة المغاسل"
+  },
+  "washersByCity": "حسب المدينة",
+  "@washersByCity": {
+    "description": "تصفية المغاسل حسب المدينة"
+  },
+  "washersBookAppointment": "حجز موعد",
+  "@washersBookAppointment": {
+    "description": "زر حجز موعد لغسيل السيارة"
+  },
+  "washersViewDetails": "عرض التفاصيل",
+  "@washersViewDetails": {
+    "description": "زر فتح تفاصيل المغسلة"
+  },
+  "washersCityWithName": "المدينة : {cityName}",
+  "@washersCityWithName": {
+    "description": "سطر عرض المدينة للمغسلة",
+    "placeholders": {
+      "cityName": { "type": "String" }
+    }
+  },
+  "washersRatingsWithCount": "التقييمات : {count}",
+  "@washersRatingsWithCount": {
+    "description": "عدد التقييمات",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "washerTierBasic": "BASIC",
+  "@washerTierBasic": { "description": "تصنيف الخدمة: أساسي" },
+  "washerTierVip": "VIP",
+  "@washerTierVip": { "description": "تصنيف VIP" },
+  "washerTierPremium": "PREMIUM",
+  "@washerTierPremium": { "description": "تصنيف مميز" }
 }
 

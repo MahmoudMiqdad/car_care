@@ -1629,8 +1629,44 @@
 "enterAsTechnician": "Enter as technician",
 "@enterAsTechnician": {
   "description": "Action to open the technician profile flow from the More tab"
-}
+},
 
+"washersPageTitle": "Car washes",
+"@washersPageTitle": {
+  "description": "App bar title for the car wash directory list"
+},
+"washersByCity": "By city",
+"@washersByCity": {
+  "description": "Car wash list filter: choose by city"
+},
+"washersBookAppointment": "Book an appointment",
+"@washersBookAppointment": {
+  "description": "Button to book a car wash appointment"
+},
+"washersViewDetails": "View details",
+"@washersViewDetails": {
+  "description": "Button to open car wash details"
+},
+"washersCityWithName": "City: {cityName}",
+"@washersCityWithName": {
+  "description": "Line showing the city of a car wash",
+  "placeholders": {
+    "cityName": { "type": "String" }
+  }
+},
+"washersRatingsWithCount": "Ratings: {count}",
+"@washersRatingsWithCount": {
+  "description": "Line showing how many ratings a car wash has",
+  "placeholders": {
+    "count": { "type": "int" }
+  }
+},
+"washerTierBasic": "BASIC",
+"@washerTierBasic": { "description": "Service tier label: basic" },
+"washerTierVip": "VIP",
+"@washerTierVip": { "description": "Service tier label: VIP" },
+"washerTierPremium": "PREMIUM",
+"@washerTierPremium": { "description": "Service tier label: premium" }
 }
 
 

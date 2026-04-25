@@ -1013,4 +1013,35 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get enterAsTechnician => 'الدخول كفني';
+
+  @override
+  String get washersPageTitle => 'مغاسل السيارات';
+
+  @override
+  String get washersByCity => 'حسب المدينة';
+
+  @override
+  String get washersBookAppointment => 'حجز موعد';
+
+  @override
+  String get washersViewDetails => 'عرض التفاصيل';
+
+  @override
+  String washersCityWithName(String cityName) {
+    return 'المدينة : $cityName';
+  }
+
+  @override
+  String washersRatingsWithCount(int count) {
+    return 'التقييمات : $count';
+  }
+
+  @override
+  String get washerTierBasic => 'BASIC';
+
+  @override
+  String get washerTierVip => 'VIP';
+
+  @override
+  String get washerTierPremium => 'PREMIUM';
 }

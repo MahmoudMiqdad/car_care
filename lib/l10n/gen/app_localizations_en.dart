@@ -1013,4 +1013,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enterAsTechnician => 'Enter as technician';
+
+  @override
+  String get washersPageTitle => 'Car washes';
+
+  @override
+  String get washersByCity => 'By city';
+
+  @override
+  String get washersBookAppointment => 'Book an appointment';
+
+  @override
+  String get washersViewDetails => 'View details';
+
+  @override
+  String washersCityWithName(String cityName) {
+    return 'City: $cityName';
+  }
+
+  @override
+  String washersRatingsWithCount(int count) {
+    return 'Ratings: $count';
+  }
+
+  @override
+  String get washerTierBasic => 'BASIC';
+
+  @override
+  String get washerTierVip => 'VIP';
+
+  @override
+  String get washerTierPremium => 'PREMIUM';
 }
