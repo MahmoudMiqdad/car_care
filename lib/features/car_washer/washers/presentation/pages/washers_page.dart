@@ -3,8 +3,8 @@ import 'package:car_care/core/widgets/const.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/car_washer/washers/domain/car_wash_listing.dart';
 import 'package:car_care/features/car_washer/washers/presentation/data/car_wash_listings_dev_data.dart';
-import 'package:car_care/features/car_washer/washers/presentation/widgets/washer_listing_card.dart';
-import 'package:car_care/features/car_washer/washers/presentation/widgets/washers_city_filter_bar.dart';
+import 'package:car_care/features/car_washer/washers/presentation/widgets/washers_page/washer_listing_card.dart';
+import 'package:car_care/features/car_washer/washers/presentation/widgets/washers_page/washers_city_filter_bar.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,7 +18,7 @@ class WashersPage extends StatefulWidget {
 }
 
 class _WashersPageState extends State<WashersPage> {
-  static const List<CarWashListing> _listings = CarWashListingsDevData.preview;
+  static final List<CarWashListing> _listings = CarWashListingsDevData.preview;
   String _query = '';
 
   List<CarWashListing> get _filteredListings {
@@ -97,7 +97,9 @@ class _WashersPageState extends State<WashersPage> {
                         itemBuilder: (context, index) => WasherListingCard(
                           listing: filtered[index],
                           onBook: (w) {},
-                          onDetails: (w) {},
+                          onDetails: (w) {
+                            context.push(Routes.washerDetails, extra: w);
+                          },
                         ),
                       ),
                 ),

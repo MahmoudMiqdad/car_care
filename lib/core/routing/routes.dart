@@ -43,4 +43,5 @@ class Routes {
   static const String bookings = '/bookings';
   static const String ratings = '/ratings';
   static const String profile_washer = '/profile_washer';
+  static const String washerDetails = '/washer_details';
 }

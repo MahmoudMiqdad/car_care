@@ -1,8 +1,8 @@
-import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/car_washer/washers/domain/car_wash_listing.dart';
-import 'package:car_care/features/car_washer/washers/presentation/widgets/washer_star_rating_row.dart';
-import 'package:car_care/features/car_washer/washers/presentation/widgets/washer_tier_badges.dart';
+import 'package:car_care/features/car_washer/washers/presentation/widgets/washer_avatar.dart';
+import 'package:car_care/features/car_washer/washers/presentation/widgets/washers_page/washer_star_rating_row.dart';
+import 'package:car_care/features/car_washer/washers/presentation/widgets/washers_page/washer_tier_badges.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -161,24 +161,6 @@ class _SoftOutlinedButton extends StatelessWidget {
           fontSize: 15.sp,
           fontWeight: FontWeight.w700,
         ),
-      ),
-    );
-  }
-}
-
-class WasherAvatar extends StatelessWidget {
-  const WasherAvatar({super.key, required this.listing});
-
-  final CarWashListing listing;
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipOval(
-      child: Image.asset(
-        AppAssets.washersPatternBackground,
-        width: 84.r,
-        height: 84.r,
-        fit: BoxFit.cover,
       ),
     );
   }
