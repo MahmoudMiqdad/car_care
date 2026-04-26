@@ -1044,4 +1044,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get washerTierPremium => 'PREMIUM';
+
+  @override
+  String get washerDetailsTitle => 'Car wash details';
+
+  @override
+  String washerOpenTime(String time) {
+    return 'Open: $time';
+  }
+
+  @override
+  String washerCloseTime(String time) {
+    return 'Close: $time';
+  }
+
+  @override
+  String get washerSectionCityAndAddress => 'City and address';
+
+  @override
+  String get washerSectionServicesAndPrices => 'Services and prices';
+
+  @override
+  String get washerSectionCustomerReviews => 'Customer reviews';
+
+  @override
+  String get washerServiceExterior => 'Exterior';
+
+  @override
+  String get washerServiceInterior => 'Interior';
+
+  @override
+  String get washerServiceEngine => 'Engine';
+
+  @override
+  String washerPackagePrice(int amount) {
+    return 'price: $amount \$';
+  }
 }

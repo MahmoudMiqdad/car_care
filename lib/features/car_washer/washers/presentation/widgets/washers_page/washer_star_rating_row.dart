@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WasherStarRatingRow extends StatelessWidget {
-  const WasherStarRatingRow({super.key, required this.rating});
+  const WasherStarRatingRow({super.key, required this.rating, this.iconSize});
 
   final double rating;
+  final double? iconSize;
 
   @override
   Widget build(BuildContext context) {
     final int full = rating.floor();
     final bool half = (rating - full) >= 0.5;
+    final double size = iconSize ?? 31.sp;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -27,7 +29,7 @@ class WasherStarRatingRow extends StatelessWidget {
           padding: EdgeInsetsDirectional.only(end: i == 4 ? 0 : 1.w),
           child: Icon(
             icon,
-            size: 31.sp,
+            size: size,
             color: i < full || (i == full && half)
                 ? AppColors.primary
                 : AppColors.primary.withValues(alpha: 0.25),

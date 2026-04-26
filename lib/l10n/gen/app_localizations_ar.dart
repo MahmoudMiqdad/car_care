@@ -1044,4 +1044,40 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get washerTierPremium => 'PREMIUM';
+
+  @override
+  String get washerDetailsTitle => 'تفاصيل المغسلة';
+
+  @override
+  String washerOpenTime(String time) {
+    return 'الفتح : $time';
+  }
+
+  @override
+  String washerCloseTime(String time) {
+    return 'الإغلاق : $time';
+  }
+
+  @override
+  String get washerSectionCityAndAddress => 'المدينة و العنوان';
+
+  @override
+  String get washerSectionServicesAndPrices => 'الخدمات و الأسعار';
+
+  @override
+  String get washerSectionCustomerReviews => 'تقييم العملاء';
+
+  @override
+  String get washerServiceExterior => 'خارجي';
+
+  @override
+  String get washerServiceInterior => 'داخلي';
+
+  @override
+  String get washerServiceEngine => 'محرك';
+
+  @override
+  String washerPackagePrice(int amount) {
+    return 'السعر : $amount \$';
+  }
 }

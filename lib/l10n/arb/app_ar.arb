@@ -1669,6 +1669,35 @@
   "washerTierVip": "VIP",
   "@washerTierVip": { "description": "تصنيف VIP" },
   "washerTierPremium": "PREMIUM",
-  "@washerTierPremium": { "description": "تصنيف مميز" }
+  "@washerTierPremium": { "description": "تصنيف مميز" },
+  "washerDetailsTitle": "تفاصيل المغسلة",
+  "@washerDetailsTitle": { "description": "عنوان شريط تفاصيل المغسلة" },
+  "washerOpenTime": "الفتح : {time}",
+  "@washerOpenTime": {
+    "description": "وقت افتتاح المغسلة",
+    "placeholders": { "time": { "type": "String" } }
+  },
+  "washerCloseTime": "الإغلاق : {time}",
+  "@washerCloseTime": {
+    "description": "وقت إغلاق المغسلة",
+    "placeholders": { "time": { "type": "String" } }
+  },
+  "washerSectionCityAndAddress": "المدينة و العنوان",
+  "@washerSectionCityAndAddress": { "description": "عنوان قسم الموقع" },
+  "washerSectionServicesAndPrices": "الخدمات و الأسعار",
+  "@washerSectionServicesAndPrices": { "description": "عنوان قسم الباقات" },
+  "washerSectionCustomerReviews": "تقييم العملاء",
+  "@washerSectionCustomerReviews": { "description": "عنوان قسم التقييمات" },
+  "washerServiceExterior": "خارجي",
+  "@washerServiceExterior": { "description": "خدمة غسيل خارجي" },
+  "washerServiceInterior": "داخلي",
+  "@washerServiceInterior": { "description": "خدمة غسيل داخلي" },
+  "washerServiceEngine": "محرك",
+  "@washerServiceEngine": { "description": "غسيل المحرك" },
+  "washerPackagePrice": "السعر : {amount} $",
+  "@washerPackagePrice": {
+    "description": "سعر الباقة بالدولار",
+    "placeholders": { "amount": { "type": "int" } }
+  }
 }
 

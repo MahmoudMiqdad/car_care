@@ -2,6 +2,8 @@ import 'package:car_care/features/car_washer/profile_washer/presentation/pages/p
 import 'package:car_care/features/car_washer/availability/presentation/pages/availability_page.dart';
 import 'package:car_care/features/car_washer/ratings/presentation/pages/ratings_page.dart';
 import 'package:car_care/features/car_washer/bookings/presentation/pages/bookings_page.dart';
+import 'package:car_care/features/car_washer/washers/domain/car_wash_listing.dart';
+import 'package:car_care/features/car_washer/washers/presentation/pages/washer_details_page.dart';
 import 'package:car_care/features/car_washer/washers/presentation/pages/washers_page.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/pages/all_requests_stats_page.dart';
 import 'package:car_care/features/technician/technician_order/presentation/pages/order_details_page.dart';
@@ -29,6 +31,7 @@ import 'package:car_care/features/auth/presentation/pages/login_page.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/widgets/const.dart';
 import 'package:car_care/core/widgets/technician_entry_sheet.dart';
+import 'package:car_care/l10n.dart';
 import 'package:car_care/features/auth/presentation/pages/register_page.dart';
 import 'package:car_care/features/home/presentation/pages/home_page.dart';
 import 'package:car_care/features/home/presentation/pages/notifications_page.dart';
@@ -115,6 +118,19 @@ class AppRouter {
             path: Routes.washers,
             name: '/washers',
             builder: (context, state) => const WashersPage(),
+          ),
+          GoRoute(
+            path: Routes.washerDetails,
+            name: 'washerDetails',
+            builder: (context, state) {
+              final extra = state.extra;
+              final CarWashListing? listing =
+                  extra is CarWashListing ? extra : null;
+              if (listing == null) {
+                return const _WasherDetailsMissing();
+              }
+              return WasherDetailsPage(listing: listing);
+            },
           ),
           GoRoute(
             path: Routes.bookings,
@@ -271,4 +287,22 @@ class AppRouter {
       ),
     ],
   );
+}
+
+class _WasherDetailsMissing extends StatelessWidget {
+  const _WasherDetailsMissing();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: context.l10n.washerDetailsTitle,
+        showBackButton: true,
+        onBackTapped: () => context.pop(),
+      ),
+      body: Center(
+        child: Text(context.l10n.noData),
+      ),
+    );
+  }
 }

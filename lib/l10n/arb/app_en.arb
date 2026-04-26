@@ -1666,7 +1666,36 @@
 "washerTierVip": "VIP",
 "@washerTierVip": { "description": "Service tier label: VIP" },
 "washerTierPremium": "PREMIUM",
-"@washerTierPremium": { "description": "Service tier label: premium" }
+  "@washerTierPremium": { "description": "Service tier label: premium" },
+  "washerDetailsTitle": "Car wash details",
+  "@washerDetailsTitle": { "description": "App bar: washer details screen" },
+  "washerOpenTime": "Open: {time}",
+  "@washerOpenTime": {
+    "description": "Opening time label for a car wash",
+    "placeholders": { "time": { "type": "String" } }
+  },
+  "washerCloseTime": "Close: {time}",
+  "@washerCloseTime": {
+    "description": "Closing time label for a car wash",
+    "placeholders": { "time": { "type": "String" } }
+  },
+  "washerSectionCityAndAddress": "City and address",
+  "@washerSectionCityAndAddress": { "description": "Header for location block" },
+  "washerSectionServicesAndPrices": "Services and prices",
+  "@washerSectionServicesAndPrices": { "description": "Header for packages section" },
+  "washerSectionCustomerReviews": "Customer reviews",
+  "@washerSectionCustomerReviews": { "description": "Header for reviews" },
+  "washerServiceExterior": "Exterior",
+  "@washerServiceExterior": { "description": "Car wash service: exterior" },
+  "washerServiceInterior": "Interior",
+  "@washerServiceInterior": { "description": "Car wash service: interior" },
+  "washerServiceEngine": "Engine",
+  "@washerServiceEngine": { "description": "Car wash service: engine bay" },
+  "washerPackagePrice": "price: {amount} $",
+  "@washerPackagePrice": {
+    "description": "Package price in USD",
+    "placeholders": { "amount": { "type": "int" } }
+  }
 }
 
 

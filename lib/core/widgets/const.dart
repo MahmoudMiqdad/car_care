@@ -30,8 +30,9 @@ class _MainAppShellState extends State<MainAppShell> {
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
     final isProfile = location == Routes.profile;
-    final hideShellChrome =
-        location == Routes.all_requests || location == Routes.washers;
+    final hideShellChrome = location == Routes.all_requests ||
+        location == Routes.washers ||
+        location == Routes.washerDetails;
 
     final menuAction = IconButton(
       onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),

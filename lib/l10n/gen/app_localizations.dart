@@ -2148,6 +2148,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PREMIUM'**
   String get washerTierPremium;
+
+  /// App bar: washer details screen
+  ///
+  /// In en, this message translates to:
+  /// **'Car wash details'**
+  String get washerDetailsTitle;
+
+  /// Opening time label for a car wash
+  ///
+  /// In en, this message translates to:
+  /// **'Open: {time}'**
+  String washerOpenTime(String time);
+
+  /// Closing time label for a car wash
+  ///
+  /// In en, this message translates to:
+  /// **'Close: {time}'**
+  String washerCloseTime(String time);
+
+  /// Header for location block
+  ///
+  /// In en, this message translates to:
+  /// **'City and address'**
+  String get washerSectionCityAndAddress;
+
+  /// Header for packages section
+  ///
+  /// In en, this message translates to:
+  /// **'Services and prices'**
+  String get washerSectionServicesAndPrices;
+
+  /// Header for reviews
+  ///
+  /// In en, this message translates to:
+  /// **'Customer reviews'**
+  String get washerSectionCustomerReviews;
+
+  /// Car wash service: exterior
+  ///
+  /// In en, this message translates to:
+  /// **'Exterior'**
+  String get washerServiceExterior;
+
+  /// Car wash service: interior
+  ///
+  /// In en, this message translates to:
+  /// **'Interior'**
+  String get washerServiceInterior;
+
+  /// Car wash service: engine bay
+  ///
+  /// In en, this message translates to:
+  /// **'Engine'**
+  String get washerServiceEngine;
+
+  /// Package price in USD
+  ///
+  /// In en, this message translates to:
+  /// **'price: {amount} \$'**
+  String washerPackagePrice(int amount);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

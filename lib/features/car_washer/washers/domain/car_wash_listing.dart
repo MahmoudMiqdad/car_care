@@ -1,3 +1,4 @@
+import 'package:car_care/features/car_washer/washers/domain/car_wash_customer_review.dart';
 import 'package:car_care/features/car_washer/washers/domain/washer_service_tier.dart';
 import 'package:equatable/equatable.dart';
 
@@ -12,6 +13,12 @@ class CarWashListing extends Equatable {
     this.avatarBackgroundArgb,
     this.avatarIconArgb,
     this.logoImageUrl,
+    this.phone = '',
+    this.openTime = '',
+    this.closeTime = '',
+    this.fullAddress = '',
+    this.reviews = const <CarWashCustomerReview>[],
+    this.packagePrices = const <WasherServiceTier, int>{},
   });
 
   final String id;
@@ -25,6 +32,13 @@ class CarWashListing extends Equatable {
   final int? avatarIconArgb;
   final String? logoImageUrl;
 
+  final String phone;
+  final String openTime;
+  final String closeTime;
+  final String fullAddress;
+  final List<CarWashCustomerReview> reviews;
+  final Map<WasherServiceTier, int> packagePrices;
+
   @override
   List<Object?> get props => [
         id,
@@ -36,5 +50,11 @@ class CarWashListing extends Equatable {
         avatarBackgroundArgb,
         avatarIconArgb,
         logoImageUrl,
+        phone,
+        openTime,
+        closeTime,
+        fullAddress,
+        reviews,
+        packagePrices,
       ];
 }

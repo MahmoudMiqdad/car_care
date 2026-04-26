@@ -26,6 +26,8 @@ static const String deleteIcon = '$_imagesPath/delete.png';
   static const String technicianJobNotesIcon = '$_imagesPath/icons8-notes-48.png';
   static const String technicianJobProfileIcon =
       '$_imagesPath/icons8-profile-picture-50.png';
+  static const String reviewerProfilePicture100 =
+      '$_imagesPath/icons8-profile-picture-100.png';
   static const String technicianJobVehicleIcon = '$_imagesPath/car.png';
   static const String technicianJobRateIcon = '$_imagesPath/icons8-rate-50.png';
   static const String technicianJobTimeIcon = '$_imagesPath/icons8-time-51.png';
@@ -41,6 +43,14 @@ static const String deleteIcon = '$_imagesPath/delete.png';
   static const String serviceMyVehicles = '$_imagesPath/6.png';
   static const String serviceMaintenance = '$_imagesPath/3.png';
   static const String serviceCarWash = '$_imagesPath/7.png';
+
+  /// Car wash branch avatar (list + details); shared via [WasherImageAssets].
+  static const String washerBranchAvatar = '$_imagesPath/7.png';
+
+  static const String iconPhoneCall = '$_imagesPath/icons8-call_50.png';
+  static const String iconLocationPin = '$_imagesPath/icons8-location-50.png';
+  static const String iconTime = '$_imagesPath/icons8-time-50.png';
+  static const String iconCheckMark16 = '$_imagesPath/icons8-check-mark-16.png';
   static const String serviceSos = '$_imagesPath/4.png';
   static const String serviceMarketplace = '$_imagesPath/8.png';
   static const String serviceFuel = '$_imagesPath/5.png';
