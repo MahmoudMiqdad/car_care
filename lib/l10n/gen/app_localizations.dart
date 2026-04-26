@@ -2094,6 +2094,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter as technician'**
   String get enterAsTechnician;
+
+  /// App bar title for the car wash directory list
+  ///
+  /// In en, this message translates to:
+  /// **'Car washes'**
+  String get washersPageTitle;
+
+  /// Car wash list filter: choose by city
+  ///
+  /// In en, this message translates to:
+  /// **'By city'**
+  String get washersByCity;
+
+  /// Button to book a car wash appointment
+  ///
+  /// In en, this message translates to:
+  /// **'Book an appointment'**
+  String get washersBookAppointment;
+
+  /// Button to open car wash details
+  ///
+  /// In en, this message translates to:
+  /// **'View details'**
+  String get washersViewDetails;
+
+  /// Line showing the city of a car wash
+  ///
+  /// In en, this message translates to:
+  /// **'City: {cityName}'**
+  String washersCityWithName(String cityName);
+
+  /// Line showing how many ratings a car wash has
+  ///
+  /// In en, this message translates to:
+  /// **'Ratings: {count}'**
+  String washersRatingsWithCount(int count);
+
+  /// Service tier label: basic
+  ///
+  /// In en, this message translates to:
+  /// **'BASIC'**
+  String get washerTierBasic;
+
+  /// Service tier label: VIP
+  ///
+  /// In en, this message translates to:
+  /// **'VIP'**
+  String get washerTierVip;
+
+  /// Service tier label: premium
+  ///
+  /// In en, this message translates to:
+  /// **'PREMIUM'**
+  String get washerTierPremium;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

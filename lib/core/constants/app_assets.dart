@@ -16,6 +16,9 @@ static const String deleteIcon = '$_imagesPath/delete.png';
   /// Home page background (artboard)
   static const String artboardBackground = '$_imagesPath/Artboard 9.png';
 
+  /// Car wash directory / washers list (pattern background)
+  static const String washersPatternBackground = '$_imagesPath/1212s.png';
+
   /// Price offer / financing illustration (orders flow)
   static const String carFinanceAmico = '$_imagesPath/Carfinance-amico.png';
   static const String calendarIcon = '$_imagesPath/calendar.png';
