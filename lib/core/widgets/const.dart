@@ -32,7 +32,8 @@ class _MainAppShellState extends State<MainAppShell> {
     final isProfile = location == Routes.profile;
     final hideShellChrome = location == Routes.all_requests ||
         location == Routes.washers ||
-        location == Routes.washerDetails;
+        location == Routes.washerDetails ||
+        location == Routes.washerReservation;
 
     final menuAction = IconButton(
       onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
@@ -86,6 +87,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? toolbarHeight;
   final double elevation;
 
+  /// When set, used instead of [AppColors.primary] for the title/scaffold app bar.
+  final Color? backgroundColor;
+
   const CustomAppBar({
     super.key,
     required this.title,
@@ -97,6 +101,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.useMainBranding = false,
     this.toolbarHeight,
     this.elevation = 0,
+    this.backgroundColor,
   });
 
   double get _barHeight {
@@ -116,7 +121,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     final appBar = AppBar(
       toolbarHeight: toolbarHeight?.h,
-      backgroundColor: AppColors.primary,
+      backgroundColor: backgroundColor ?? AppColors.primary,
       elevation: elevation,
       centerTitle: true,
       automaticallyImplyLeading: false,
@@ -200,7 +205,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               AppConstants.homeAppBarLogoWidthFraction,
           height: AppConstants.homeAppBarLogoMaxHeight.h,
           fit: BoxFit.contain,
-          errorBuilder: (_, __, ___) => Text(
+          errorBuilder: (_, _, _) => Text(
             title,
             style: const TextStyle(
               color: Colors.white,

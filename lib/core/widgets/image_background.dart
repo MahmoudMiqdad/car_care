@@ -21,7 +21,7 @@ class ImageBackground extends StatelessWidget {
         Image.asset(
           backgroundAsset,
           fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) =>
+          errorBuilder: (_, _, _) =>
               const ColoredBox(color: Color(0xFFE8EEF2)),
         ),
         child,

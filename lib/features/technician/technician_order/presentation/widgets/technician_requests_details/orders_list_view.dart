@@ -19,7 +19,7 @@ class OrdersListView extends StatelessWidget {
     return ListView.separated(
       padding: EdgeInsets.fromLTRB(16.w, 4.h, 16.w, 24.h),
       itemCount: items.length,
-      separatorBuilder: (_, __) => SizedBox(height: 14.h),
+      separatorBuilder: (_, _) => SizedBox(height: 14.h),
       itemBuilder: (context, index) {
         final item = items[index];
 

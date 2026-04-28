@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -65,12 +67,12 @@ class VehicleHeader extends StatelessWidget {
         ? Image.network(
             imagePath,
             fit: BoxFit.cover, 
-            errorBuilder: (_, __, ___) => _placeholder(),
+            errorBuilder: (_, _, _) => _placeholder(),
           )
         : Image.asset(
             imagePath,
             fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) => _placeholder(),
+            errorBuilder: (_, _, _) => _placeholder(),
           );
   }
 

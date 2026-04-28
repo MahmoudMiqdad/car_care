@@ -36,4 +36,9 @@ class AppColors {
   static const Color warning = Color(0xffF5AE42);
   static const Color orange = Color(0xffe88d67);
   static const Color transparent = Colors.transparent;
+
+  // Car wash reservation UI (matches design: teal header, service highlight, CTA)
+  static const Color carWashTeal = Color(0xFF00607D);
+  static const Color serviceTierSelectedBackground = Color(0xFFD9F7D9);
+  static const Color reservationConfirmOrange = Color(0xFFE9967A);
 }

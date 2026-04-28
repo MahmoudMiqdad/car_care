@@ -1,3 +1,4 @@
+// ignore_for_file: file_names
 
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ProfileSetupForm extends StatefulWidget {
-  ProfileSetupForm({super.key, this.Image});
+  const ProfileSetupForm({super.key, this.Image});
   final String? Image;
   @override
   State<ProfileSetupForm> createState() => _ProfileSetupFormState();

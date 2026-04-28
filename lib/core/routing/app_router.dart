@@ -4,6 +4,7 @@ import 'package:car_care/features/car_washer/ratings/presentation/pages/ratings_
 import 'package:car_care/features/car_washer/bookings/presentation/pages/bookings_page.dart';
 import 'package:car_care/features/car_washer/washers/domain/car_wash_listing.dart';
 import 'package:car_care/features/car_washer/washers/presentation/pages/washer_details_page.dart';
+import 'package:car_care/features/car_washer/washers/presentation/pages/washer_reservation_page.dart';
 import 'package:car_care/features/car_washer/washers/presentation/pages/washers_page.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/pages/all_requests_stats_page.dart';
 import 'package:car_care/features/technician/technician_order/presentation/pages/order_details_page.dart';
@@ -130,6 +131,19 @@ class AppRouter {
                 return const _WasherDetailsMissing();
               }
               return WasherDetailsPage(listing: listing);
+            },
+          ),
+          GoRoute(
+            path: Routes.washerReservation,
+            name: 'washerReservation',
+            builder: (context, state) {
+              final extra = state.extra;
+              final CarWashListing? listing =
+                  extra is CarWashListing ? extra : null;
+              if (listing == null) {
+                return const _WasherDetailsMissing();
+              }
+              return WasherReservationPage(listing: listing);
             },
           ),
           GoRoute(

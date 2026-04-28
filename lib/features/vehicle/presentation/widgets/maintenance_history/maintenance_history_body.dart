@@ -35,7 +35,7 @@ class MaintenanceHistoryBody extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
                 sliver: SliverList.separated(
                   itemCount: entries.length,
-                  separatorBuilder: (_, __) => SizedBox(height: 16.h),
+                  separatorBuilder: (_, _) => SizedBox(height: 16.h),
                   itemBuilder: (context, index) {
                     return MaintenanceHistoryItemCard(entry: entries[index]);
                   },

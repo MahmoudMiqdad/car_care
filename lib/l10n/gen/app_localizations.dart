@@ -2208,6 +2208,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'price: {amount} \$'**
   String washerPackagePrice(int amount);
+
+  /// App bar: car wash booking screen
+  ///
+  /// In en, this message translates to:
+  /// **'Reservation'**
+  String get washerReservationTitle;
+
+  /// No description provided for @washerReservationFieldDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get washerReservationFieldDate;
+
+  /// No description provided for @washerReservationFieldTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get washerReservationFieldTime;
+
+  /// No description provided for @washerReservationFieldVehicleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your vehicle type'**
+  String get washerReservationFieldVehicleLabel;
+
+  /// No description provided for @washerReservationFieldVehicleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type your vehicle here'**
+  String get washerReservationFieldVehicleHint;
+
+  /// No description provided for @washerReservationFieldNotesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get washerReservationFieldNotesLabel;
+
+  /// No description provided for @washerReservationFieldNotesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add any notes you want'**
+  String get washerReservationFieldNotesHint;
+
+  /// No description provided for @washerReservationChooseService.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the right service'**
+  String get washerReservationChooseService;
+
+  /// No description provided for @washerReservationConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm reservation'**
+  String get washerReservationConfirm;
+
+  /// No description provided for @washerReservationCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel reservation'**
+  String get washerReservationCancel;
+
+  /// No description provided for @washerReservationPickDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a date'**
+  String get washerReservationPickDate;
+
+  /// No description provided for @washerReservationPickTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a time'**
+  String get washerReservationPickTime;
+
+  /// No description provided for @washerReservationServicePremium.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium'**
+  String get washerReservationServicePremium;
+
+  /// No description provided for @washerReservationServiceVip.
+  ///
+  /// In en, this message translates to:
+  /// **'Vip'**
+  String get washerReservationServiceVip;
+
+  /// No description provided for @washerReservationServiceBasic.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic'**
+  String get washerReservationServiceBasic;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

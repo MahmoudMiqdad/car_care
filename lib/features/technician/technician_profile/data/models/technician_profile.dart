@@ -115,5 +115,5 @@ class User {
         "email": email,
       };
 
-  toEntity() {}
+  void toEntity() {}
 }

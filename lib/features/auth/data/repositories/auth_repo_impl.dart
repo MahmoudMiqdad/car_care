@@ -48,8 +48,7 @@ Future<Either<Failure, AuthResponseModel>> register(
  
     if (result.token != null && result.token!.isNotEmpty) {
       await _secureStorage.setToken(result.token!);
-     final token = await _secureStorage.getToken();
-print(token);
+     await _secureStorage.getToken();
       return Right(result);
     } else {
     

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,10 @@ class AppTextField extends StatefulWidget {
     this.textAlign = TextAlign.start,
     this.hintStyle,
     this.contentPadding,
+    this.maxLines = 1,
+    this.minLines,
+    this.hasShadow = true,
+    this.borderColor,
   });
 
   final TextEditingController? controller;
@@ -35,6 +41,10 @@ class AppTextField extends StatefulWidget {
   final TextAlign textAlign;
   final TextStyle? hintStyle;
   final EdgeInsetsGeometry? contentPadding;
+  final int maxLines;
+  final int? minLines;
+  final bool hasShadow;
+  final Color? borderColor;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -51,16 +61,19 @@ class _AppTextFieldState extends State<AppTextField> {
 
   @override
   Widget build(BuildContext context) {
+    final border = widget.borderColor ?? AppColors.primary;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 10.r,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        boxShadow: widget.hasShadow
+            ? [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.04),
+                  blurRadius: 10.r,
+                  offset: const Offset(0, 4),
+                ),
+              ]
+            : null,
       ),
       child: TextFormField(
         controller: widget.controller,
@@ -70,6 +83,8 @@ class _AppTextFieldState extends State<AppTextField> {
         validator: widget.validator,
         onChanged: widget.onChanged,
         textAlign: widget.textAlign,
+        maxLines: widget.isPassword ? 1 : widget.maxLines,
+        minLines: widget.isPassword ? null : widget.minLines,
         style: context.textTheme.bodyLarge?.copyWith(
           fontSize: 16.sp,
           fontWeight: FontWeight.w600,
@@ -90,11 +105,11 @@ class _AppTextFieldState extends State<AppTextField> {
           
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.r),
-            borderSide: BorderSide(color: AppColors.primary, width: 1.5),
+            borderSide: BorderSide(color: border, width: 1.5),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.r),
-            borderSide: BorderSide(color: AppColors.primary, width: 2),
+            borderSide: BorderSide(color: border, width: 2),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.r),

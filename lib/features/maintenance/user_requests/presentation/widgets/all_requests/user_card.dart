@@ -1,7 +1,6 @@
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
-import 'package:car_care/features/maintenance/user_requests/data/models/maintenance_request_model.dart';
 import 'package:car_care/features/maintenance/user_requests/domain/entities/maintenance_request_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,7 +38,6 @@ class UserCard extends StatelessWidget {
     final bool isWaiting = job.status == 'waiting';
     final bool isCompleted = job.status == 'completed';
     final bool isAccepted = job.status == 'accepted';
-    final bool isRejected = job.status == 'rejected';
 
     // ألوان الخلفية والحالة
     final Color statusBg = isWaiting
@@ -159,7 +157,7 @@ class UserCard extends StatelessWidget {
       width: 20.sp,
       height: 20.sp,
       fit: BoxFit.contain,
-      errorBuilder: (_, __, ___) =>
+      errorBuilder: (_, _, _) =>
           Icon(Icons.info_outline, size: 20.sp, color: AppColors.primary),
     );
   }

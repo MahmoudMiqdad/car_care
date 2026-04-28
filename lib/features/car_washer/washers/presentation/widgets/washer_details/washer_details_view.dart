@@ -18,7 +18,7 @@ class WasherDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         WasherDetailsHeader(listing: listing),
-        SizedBox(height: 16.h),
+        SizedBox(height: 12.h),
         WasherDetailsContactRow(listing: listing),
         SizedBox(height: 8.h),
         WasherDetailsLocationCard(listing: listing),
