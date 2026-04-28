@@ -93,10 +93,12 @@ class _WashersPageState extends State<WashersPage> {
                     : ListView.separated(
                         padding: EdgeInsets.fromLTRB(16.w, 10.h, 16.w, 18.h),
                         itemCount: filtered.length,
-                        separatorBuilder: (_, __) => SizedBox(height: 18.h),
+                        separatorBuilder: (_, _) => SizedBox(height: 18.h),
                         itemBuilder: (context, index) => WasherListingCard(
                           listing: filtered[index],
-                          onBook: (w) {},
+                          onBook: (w) {
+                            context.push(Routes.washerReservation, extra: w);
+                          },
                           onDetails: (w) {
                             context.push(Routes.washerDetails, extra: w);
                           },

@@ -1698,6 +1698,22 @@
   "@washerPackagePrice": {
     "description": "سعر الباقة بالدولار",
     "placeholders": { "amount": { "type": "int" } }
-  }
+  },
+  "washerReservationTitle": "الحجز",
+  "@washerReservationTitle": { "description": "عنوان شريط شاشة حجز المغسلة" },
+  "washerReservationFieldDate": "التاريخ",
+  "washerReservationFieldTime": "الوقت",
+  "washerReservationFieldVehicleLabel": "ادخل نوع مركبتك",
+  "washerReservationFieldVehicleHint": "ادخل هنا نوع مركبتك",
+  "washerReservationFieldNotesLabel": "ملاحظات",
+  "washerReservationFieldNotesHint": "اضف اي ملاحظات تريدها",
+  "washerReservationChooseService": "اختر الخدمة المناسبة",
+  "washerReservationConfirm": "تأكيد حجز",
+  "washerReservationCancel": "إلغاء الحجز",
+  "washerReservationPickDate": "اختر التاريخ",
+  "washerReservationPickTime": "اختر الوقت",
+  "washerReservationServicePremium": "Premium",
+  "washerReservationServiceVip": "Vip",
+  "washerReservationServiceBasic": "Basic"
 }
 

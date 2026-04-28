@@ -37,7 +37,7 @@ class WasherDetailsReviewsSection extends StatelessWidget {
 }
 
 class ReviewCard extends StatelessWidget {
-  const ReviewCard({required this.review});
+  const ReviewCard({super.key, required this.review});
 
   final CarWashCustomerReview review;
 
@@ -70,7 +70,7 @@ class ReviewCard extends StatelessWidget {
 }
 
 class ReviewDate extends StatelessWidget {
-  const ReviewDate({required this.date});
+  const ReviewDate({super.key, required this.date});
 
   final DateTime date;
 
@@ -96,7 +96,7 @@ class ReviewDate extends StatelessWidget {
 }
 
 class ReviewerRow extends StatelessWidget {
-  const ReviewerRow({required this.authorName, required this.imagePath});
+  const ReviewerRow({super.key, required this.authorName, required this.imagePath});
 
   final String authorName;
   final String imagePath;
@@ -130,7 +130,7 @@ class ReviewerRow extends StatelessWidget {
 }
 
 class ReviewComment extends StatelessWidget {
-  const ReviewComment({required this.comment});
+  const ReviewComment({super.key, required this.comment});
 
   final String comment;
 

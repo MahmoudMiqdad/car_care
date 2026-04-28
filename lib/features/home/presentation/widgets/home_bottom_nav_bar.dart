@@ -21,7 +21,8 @@ class HomeBottomNavBar extends StatelessWidget {
     final strings = context.l10n;
     final location = GoRouterState.of(context).matchedLocation;
     final isWashers = location == Routes.washers ||
-        location == Routes.washerDetails;
+        location == Routes.washerDetails ||
+        location == Routes.washerReservation;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),

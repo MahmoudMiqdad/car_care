@@ -144,7 +144,7 @@ class TechnicianJobCard extends StatelessWidget {
       width: 20.sp,
       height: 20.sp,
       fit: BoxFit.contain,
-      errorBuilder: (_, __, ___) => Icon(Icons.info_outline, size: 20.sp, color: AppColors.primary),
+      errorBuilder: (_, _, _) => Icon(Icons.info_outline, size: 20.sp, color: AppColors.primary),
     );
   }
 }

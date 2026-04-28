@@ -50,7 +50,6 @@ class _LoginPageState extends State<LoginPage> {
             }
           },
           builder: (context, state) {
-            bool isLoading = state is AuthLoading;
 
             return Scaffold(
               body: Stack(

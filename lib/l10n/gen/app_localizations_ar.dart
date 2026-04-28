@@ -1080,4 +1080,49 @@ class AppLocalizationsAr extends AppLocalizations {
   String washerPackagePrice(int amount) {
     return 'السعر : $amount \$';
   }
+
+  @override
+  String get washerReservationTitle => 'الحجز';
+
+  @override
+  String get washerReservationFieldDate => 'التاريخ';
+
+  @override
+  String get washerReservationFieldTime => 'الوقت';
+
+  @override
+  String get washerReservationFieldVehicleLabel => 'ادخل نوع مركبتك';
+
+  @override
+  String get washerReservationFieldVehicleHint => 'ادخل هنا نوع مركبتك';
+
+  @override
+  String get washerReservationFieldNotesLabel => 'ملاحظات';
+
+  @override
+  String get washerReservationFieldNotesHint => 'اضف اي ملاحظات تريدها';
+
+  @override
+  String get washerReservationChooseService => 'اختر الخدمة المناسبة';
+
+  @override
+  String get washerReservationConfirm => 'تأكيد حجز';
+
+  @override
+  String get washerReservationCancel => 'إلغاء الحجز';
+
+  @override
+  String get washerReservationPickDate => 'اختر التاريخ';
+
+  @override
+  String get washerReservationPickTime => 'اختر الوقت';
+
+  @override
+  String get washerReservationServicePremium => 'Premium';
+
+  @override
+  String get washerReservationServiceVip => 'Vip';
+
+  @override
+  String get washerReservationServiceBasic => 'Basic';
 }

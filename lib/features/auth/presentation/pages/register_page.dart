@@ -9,7 +9,6 @@ import 'package:car_care/features/auth/presentation/widgets/register/register_co
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -58,10 +57,8 @@ class _RegisterPageState extends State<RegisterPage> {
           },
           builder: (context, state) {
             bool isLoading = false;
-            bool isValid = true;
 
             if (state is AuthFormState) {
-              isValid = state.isValid;
             }
 
             return Stack(

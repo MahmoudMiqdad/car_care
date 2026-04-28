@@ -1695,7 +1695,23 @@
   "@washerPackagePrice": {
     "description": "Package price in USD",
     "placeholders": { "amount": { "type": "int" } }
-  }
+  },
+  "washerReservationTitle": "Reservation",
+  "@washerReservationTitle": { "description": "App bar: car wash booking screen" },
+  "washerReservationFieldDate": "Date",
+  "washerReservationFieldTime": "Time",
+  "washerReservationFieldVehicleLabel": "Enter your vehicle type",
+  "washerReservationFieldVehicleHint": "Type your vehicle here",
+  "washerReservationFieldNotesLabel": "Notes",
+  "washerReservationFieldNotesHint": "Add any notes you want",
+  "washerReservationChooseService": "Choose the right service",
+  "washerReservationConfirm": "Confirm reservation",
+  "washerReservationCancel": "Cancel reservation",
+  "washerReservationPickDate": "Pick a date",
+  "washerReservationPickTime": "Pick a time",
+  "washerReservationServicePremium": "Premium",
+  "washerReservationServiceVip": "Vip",
+  "washerReservationServiceBasic": "Basic"
 }
 
 

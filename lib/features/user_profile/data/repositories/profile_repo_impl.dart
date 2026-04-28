@@ -102,7 +102,6 @@ AvatarEntity _mapAvatar(AvatarModel model) {
      
       final result = await _remoteDataSource.showprofile();
        
-      print(result); 
       return right(_map(result));
     } on ServerExpcptions catch (e) {
       return left(e.error);

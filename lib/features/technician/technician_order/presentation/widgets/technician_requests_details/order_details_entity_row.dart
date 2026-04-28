@@ -34,7 +34,7 @@ class OrderDetailsEntityRow extends StatelessWidget {
               width: avatarSize,
               height: avatarSize,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Icon(
+              errorBuilder: (_, _, _) => Icon(
                 placeholderIcon,
                 size: (avatarSize * 0.6).sp,
                 color: AppColors.lightTextSecondary,

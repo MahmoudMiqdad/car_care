@@ -2,7 +2,6 @@ import 'package:car_care/features/car_washer/washers/domain/car_wash_customer_re
 import 'package:car_care/features/car_washer/washers/domain/car_wash_listing.dart';
 import 'package:car_care/features/car_washer/washers/domain/washer_service_tier.dart';
 
-/// Temporary seed data. Swap the list in the page for repository output + Cubit/Bloc.
 abstract final class CarWashListingsDevData {
   static final List<CarWashListing> preview = <CarWashListing>[
     CarWashListing(

@@ -116,7 +116,7 @@ class _LoginImage extends StatelessWidget {
           'assets/images/City driver-pana.png',
           height: 200.h,
           fit: BoxFit.contain,
-          errorBuilder: (_, __, ___) => Container(
+          errorBuilder: (_, _, _) => Container(
             height: 200.h,
             decoration: BoxDecoration(
               color: AppColors.info.withValues(alpha: 0.15),

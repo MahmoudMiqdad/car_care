@@ -53,11 +53,11 @@ class AuthInterceptor extends Interceptor {
 
         if (kDebugMode) {
           debugPrint(
-            "Auth Token: ${token != null && token.isNotEmpty ? 'Present' : 'Missing'}",
+            "Auth Token: ${token.isNotEmpty ? 'Present' : 'Missing'}",
           );
         }
 
-        if (token != null && token.isNotEmpty) {
+        if (token.isNotEmpty) {
           options.headers['Authorization'] = 'Bearer $token';
         }
       }

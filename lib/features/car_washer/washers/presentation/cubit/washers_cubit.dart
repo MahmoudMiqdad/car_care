@@ -5,6 +5,5 @@ class WashersCubit extends Cubit<WashersState> {
 
   WashersCubit() : super(WashersInitial());
 
-  // TODO: Add business logic methods here
 
 }

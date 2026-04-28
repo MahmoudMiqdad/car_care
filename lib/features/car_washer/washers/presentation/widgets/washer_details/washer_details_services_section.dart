@@ -156,7 +156,7 @@ class CheckLine extends StatelessWidget {
             width: 10.r,
             height: 10.r,
             fit: BoxFit.contain,
-            errorBuilder: (_, __, ___) => Icon(
+            errorBuilder: (_, _, _) => Icon(
               Icons.check,
               size: 10.sp,
               color: AppColors.primary,

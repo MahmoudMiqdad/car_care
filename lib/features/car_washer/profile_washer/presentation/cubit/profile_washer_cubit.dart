@@ -5,6 +5,5 @@ class ProfileWasherCubit extends Cubit<ProfileWasherState> {
 
   ProfileWasherCubit() : super(ProfileWasherInitial());
 
-  // TODO: Add business logic methods here
 
 }
