@@ -1711,7 +1711,63 @@
   "washerReservationPickTime": "Pick a time",
   "washerReservationServicePremium": "Premium",
   "washerReservationServiceVip": "Vip",
-  "washerReservationServiceBasic": "Basic"
+  "washerReservationServiceBasic": "Basic",
+  "bookingsPageTitle": "My Reserved",
+  "@bookingsPageTitle": {
+    "description": "App bar title for bookings page"
+  },
+  "bookingsFilterByStatus": "By status",
+  "@bookingsFilterByStatus": {
+    "description": "Bookings filter label"
+  },
+  "bookingStatusProgress": "progress",
+  "@bookingStatusProgress": {
+    "description": "Booking status chip: progress"
+  },
+  "bookingStatusAccepted": "accepted",
+  "@bookingStatusAccepted": {
+    "description": "Booking status chip: accepted"
+  },
+  "bookingStatusPinding": "pinding",
+  "@bookingStatusPinding": {
+    "description": "Booking status chip: pinding"
+  },
+  "bookingsWasherName": "Al-Miqdad Car Wash",
+  "@bookingsWasherName": {
+    "description": "Washer name on booking card"
+  },
+  "bookingsServiceLabel": "Requested service",
+  "@bookingsServiceLabel": {
+    "description": "Service row label on booking card"
+  },
+  "bookingsServiceVip": "Vip",
+  "@bookingsServiceVip": {
+    "description": "Vip service tier label on booking card"
+  },
+  "bookingsDateTimeLabel": "Date",
+  "@bookingsDateTimeLabel": {
+    "description": "Date row label on booking card"
+  },
+  "bookingsAtLabel": "at",
+  "@bookingsAtLabel": {
+    "description": "Connector between date and time"
+  },
+  "bookingsPriceLabel": "Price",
+  "@bookingsPriceLabel": {
+    "description": "Price row label on booking card"
+  },
+  "bookingsMenuShowDetails": "Show details",
+  "@bookingsMenuShowDetails": {
+    "description": "Menu action for showing booking details"
+  },
+  "bookingsMenuCancelBooking": "Cancel booking",
+  "@bookingsMenuCancelBooking": {
+    "description": "Menu action for cancelling booking"
+  },
+  "bookingsMenuRateService": "Rate service",
+  "@bookingsMenuRateService": {
+    "description": "Menu action for rating service"
+  }
 }
 
 

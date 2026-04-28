@@ -2298,6 +2298,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Basic'**
   String get washerReservationServiceBasic;
+
+  /// App bar title for bookings page
+  ///
+  /// In en, this message translates to:
+  /// **'My Reserved'**
+  String get bookingsPageTitle;
+
+  /// Bookings filter label
+  ///
+  /// In en, this message translates to:
+  /// **'By status'**
+  String get bookingsFilterByStatus;
+
+  /// Booking status chip: progress
+  ///
+  /// In en, this message translates to:
+  /// **'progress'**
+  String get bookingStatusProgress;
+
+  /// Booking status chip: accepted
+  ///
+  /// In en, this message translates to:
+  /// **'accepted'**
+  String get bookingStatusAccepted;
+
+  /// Booking status chip: pinding
+  ///
+  /// In en, this message translates to:
+  /// **'pinding'**
+  String get bookingStatusPinding;
+
+  /// Washer name on booking card
+  ///
+  /// In en, this message translates to:
+  /// **'Al-Miqdad Car Wash'**
+  String get bookingsWasherName;
+
+  /// Service row label on booking card
+  ///
+  /// In en, this message translates to:
+  /// **'Requested service'**
+  String get bookingsServiceLabel;
+
+  /// Vip service tier label on booking card
+  ///
+  /// In en, this message translates to:
+  /// **'Vip'**
+  String get bookingsServiceVip;
+
+  /// Date row label on booking card
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get bookingsDateTimeLabel;
+
+  /// Connector between date and time
+  ///
+  /// In en, this message translates to:
+  /// **'at'**
+  String get bookingsAtLabel;
+
+  /// Price row label on booking card
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get bookingsPriceLabel;
+
+  /// Menu action for showing booking details
+  ///
+  /// In en, this message translates to:
+  /// **'Show details'**
+  String get bookingsMenuShowDetails;
+
+  /// Menu action for cancelling booking
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel booking'**
+  String get bookingsMenuCancelBooking;
+
+  /// Menu action for rating service
+  ///
+  /// In en, this message translates to:
+  /// **'Rate service'**
+  String get bookingsMenuRateService;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

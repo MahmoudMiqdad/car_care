@@ -1125,4 +1125,46 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get washerReservationServiceBasic => 'Basic';
+
+  @override
+  String get bookingsPageTitle => 'حجوزاتي';
+
+  @override
+  String get bookingsFilterByStatus => 'حسب الحالة';
+
+  @override
+  String get bookingStatusProgress => 'قيد التنفيذ';
+
+  @override
+  String get bookingStatusAccepted => 'مقبول';
+
+  @override
+  String get bookingStatusPinding => 'انتظار';
+
+  @override
+  String get bookingsWasherName => 'مغسل المقداد';
+
+  @override
+  String get bookingsServiceLabel => 'الخدمة المطلوبة';
+
+  @override
+  String get bookingsServiceVip => 'Vip';
+
+  @override
+  String get bookingsDateTimeLabel => 'الموعد';
+
+  @override
+  String get bookingsAtLabel => 'الساعة';
+
+  @override
+  String get bookingsPriceLabel => 'السعر';
+
+  @override
+  String get bookingsMenuShowDetails => 'عرض تفاصيل';
+
+  @override
+  String get bookingsMenuCancelBooking => 'إلغاء الحجز';
+
+  @override
+  String get bookingsMenuRateService => 'تقييم الخدمة';
 }

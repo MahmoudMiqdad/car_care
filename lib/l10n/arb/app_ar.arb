@@ -1714,6 +1714,62 @@
   "washerReservationPickTime": "اختر الوقت",
   "washerReservationServicePremium": "Premium",
   "washerReservationServiceVip": "Vip",
-  "washerReservationServiceBasic": "Basic"
+  "washerReservationServiceBasic": "Basic",
+  "bookingsPageTitle": "حجوزاتي",
+  "@bookingsPageTitle": {
+    "description": "عنوان شريط شاشة الحجوزات"
+  },
+  "bookingsFilterByStatus": "حسب الحالة",
+  "@bookingsFilterByStatus": {
+    "description": "عنوان فلتر الحجوزات"
+  },
+  "bookingStatusProgress": "قيد التنفيذ",
+  "@bookingStatusProgress": {
+    "description": "حالة الحجز: قيد التنفيذ"
+  },
+  "bookingStatusAccepted": "مقبول",
+  "@bookingStatusAccepted": {
+    "description": "حالة الحجز: مقبول"
+  },
+  "bookingStatusPinding": "انتظار",
+  "@bookingStatusPinding": {
+    "description": "حالة الحجز: انتظار"
+  },
+  "bookingsWasherName": "مغسل المقداد",
+  "@bookingsWasherName": {
+    "description": "اسم المغسلة في بطاقة الحجز"
+  },
+  "bookingsServiceLabel": "الخدمة المطلوبة",
+  "@bookingsServiceLabel": {
+    "description": "عنوان سطر الخدمة في بطاقة الحجز"
+  },
+  "bookingsServiceVip": "Vip",
+  "@bookingsServiceVip": {
+    "description": "اسم باقة VIP في بطاقة الحجز"
+  },
+  "bookingsDateTimeLabel": "الموعد",
+  "@bookingsDateTimeLabel": {
+    "description": "عنوان سطر الموعد في بطاقة الحجز"
+  },
+  "bookingsAtLabel": "الساعة",
+  "@bookingsAtLabel": {
+    "description": "كلمة الربط بين التاريخ والوقت"
+  },
+  "bookingsPriceLabel": "السعر",
+  "@bookingsPriceLabel": {
+    "description": "عنوان سطر السعر في بطاقة الحجز"
+  },
+  "bookingsMenuShowDetails": "عرض تفاصيل",
+  "@bookingsMenuShowDetails": {
+    "description": "إجراء قائمة: عرض تفاصيل"
+  },
+  "bookingsMenuCancelBooking": "إلغاء الحجز",
+  "@bookingsMenuCancelBooking": {
+    "description": "إجراء قائمة: إلغاء الحجز"
+  },
+  "bookingsMenuRateService": "تقييم الخدمة",
+  "@bookingsMenuRateService": {
+    "description": "إجراء قائمة: تقييم الخدمة"
+  }
 }
 

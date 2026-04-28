@@ -1125,4 +1125,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get washerReservationServiceBasic => 'Basic';
+
+  @override
+  String get bookingsPageTitle => 'My Reserved';
+
+  @override
+  String get bookingsFilterByStatus => 'By status';
+
+  @override
+  String get bookingStatusProgress => 'progress';
+
+  @override
+  String get bookingStatusAccepted => 'accepted';
+
+  @override
+  String get bookingStatusPinding => 'pinding';
+
+  @override
+  String get bookingsWasherName => 'Al-Miqdad Car Wash';
+
+  @override
+  String get bookingsServiceLabel => 'Requested service';
+
+  @override
+  String get bookingsServiceVip => 'Vip';
+
+  @override
+  String get bookingsDateTimeLabel => 'Date';
+
+  @override
+  String get bookingsAtLabel => 'at';
+
+  @override
+  String get bookingsPriceLabel => 'Price';
+
+  @override
+  String get bookingsMenuShowDetails => 'Show details';
+
+  @override
+  String get bookingsMenuCancelBooking => 'Cancel booking';
+
+  @override
+  String get bookingsMenuRateService => 'Rate service';
 }
