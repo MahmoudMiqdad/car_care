@@ -51,7 +51,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.washers,
+    initialLocation: Routes.bookings,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(

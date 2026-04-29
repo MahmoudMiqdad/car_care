@@ -30,10 +30,12 @@ class _MainAppShellState extends State<MainAppShell> {
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
     final isProfile = location == Routes.profile;
-    final hideShellChrome = location == Routes.all_requests ||
+    final hideShellChrome =
+        location == Routes.all_requests ||
         location == Routes.washers ||
         location == Routes.washerDetails ||
-        location == Routes.washerReservation;
+        location == Routes.washerReservation ||
+        location == Routes.bookings;
 
     final menuAction = IconButton(
       onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
@@ -53,19 +55,19 @@ class _MainAppShellState extends State<MainAppShell> {
         appBar: hideShellChrome
             ? null
             : (isProfile
-                ? CustomAppBar(
-                    title: context.l10n.profile,
-                    showBackButton: true,
-                    useMainBranding: false,
-                    onBackTapped: () => context.go(Routes.home),
-                    actionWidget: menuAction,
-                  )
-                : CustomAppBar(
-                    title: AppConstants.appName,
-                    showBackButton: false,
-                    useMainBranding: true,
-                    actionWidget: menuAction,
-                  )),
+                  ? CustomAppBar(
+                      title: context.l10n.profile,
+                      showBackButton: true,
+                      useMainBranding: false,
+                      onBackTapped: () => context.go(Routes.home),
+                      actionWidget: menuAction,
+                    )
+                  : CustomAppBar(
+                      title: AppConstants.appName,
+                      showBackButton: false,
+                      useMainBranding: true,
+                      actionWidget: menuAction,
+                    )),
         body: widget.child,
         bottomNavigationBar: widget.bottomNavigationBar,
       ),
@@ -125,10 +127,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: elevation,
       centerTitle: true,
       automaticallyImplyLeading: false,
-      leadingWidth: leadingWidget != null
-          ? 60.w
-          : (showBackButton ? 100.w : 0),
-      leading: leadingWidget ??
+      leadingWidth: leadingWidget != null ? 60.w : (showBackButton ? 100.w : 0),
+      leading:
+          leadingWidget ??
           (showBackButton
               ? InkWell(
                   borderRadius: BorderRadius.circular(8.r),
@@ -157,7 +158,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 )
               : null),
-      title: titleWidget ??
+      title:
+          titleWidget ??
           Text(
             title,
             style: TextStyle(
@@ -177,10 +179,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
 
     if (showBackButton && leadingWidget == null) {
-      return Directionality(
-        textDirection: TextDirection.ltr,
-        child: appBar,
-      );
+      return Directionality(textDirection: TextDirection.ltr, child: appBar);
     }
     return appBar;
   }
@@ -201,7 +200,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         child: Image.asset(
           AppAssets.homeAppBarLogo,
-          width: MediaQuery.sizeOf(context).width *
+          width:
+              MediaQuery.sizeOf(context).width *
               AppConstants.homeAppBarLogoWidthFraction,
           height: AppConstants.homeAppBarLogoMaxHeight.h,
           fit: BoxFit.contain,
