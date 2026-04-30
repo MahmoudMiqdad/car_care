@@ -2382,6 +2382,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Rate service'**
   String get bookingsMenuRateService;
+
+  /// First section title on car wash rating screen
+  ///
+  /// In en, this message translates to:
+  /// **'Service information'**
+  String get ratingsServiceInfoSectionTitle;
+
+  /// Question prompt above star rating row
+  ///
+  /// In en, this message translates to:
+  /// **'What is your rating for this service?'**
+  String get ratingsYourRatingQuestion;
+
+  /// Label above rating comment field
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us about your experience'**
+  String get ratingsTellUsExperienceTitle;
+
+  /// Hint text inside rating comment field
+  ///
+  /// In en, this message translates to:
+  /// **'Leave us a comment about your experience'**
+  String get ratingsCommentExperienceHint;
+
+  /// Submit rating button label
+  ///
+  /// In en, this message translates to:
+  /// **'Send rating'**
+  String get ratingsSendRating;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

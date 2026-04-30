@@ -44,8 +44,6 @@ static const String deleteIcon = '$_imagesPath/delete.png';
   static const String serviceMaintenance = '$_imagesPath/3.png';
   static const String serviceCarWash = '$_imagesPath/7.png';
 
-  /// Car wash branch avatar (list + details); shared via [WasherImageAssets].
-  static const String washerBranchAvatar = '$_imagesPath/7.png';
 
   static const String iconPhoneCall = '$_imagesPath/icons8-call_50.png';
   static const String iconLocationPin = '$_imagesPath/icons8-location-50.png';

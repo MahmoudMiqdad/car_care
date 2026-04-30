@@ -1145,7 +1145,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bookingsWasherName => 'مغسل المقداد';
 
   @override
-  String get bookingsServiceLabel => 'الخدمة المطلوبة';
+  String get bookingsServiceLabel => 'الخدمة ';
 
   @override
   String get bookingsServiceVip => 'Vip';
@@ -1167,4 +1167,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get bookingsMenuRateService => 'تقييم الخدمة';
+
+  @override
+  String get ratingsServiceInfoSectionTitle => 'معلومات عن الخدمة';
+
+  @override
+  String get ratingsYourRatingQuestion => 'ما تقييمك للخدمة';
+
+  @override
+  String get ratingsTellUsExperienceTitle => 'أخبرنا عن تجربتك';
+
+  @override
+  String get ratingsCommentExperienceHint => 'اترك لنا تعليقاً عن تجربتك';
+
+  @override
+  String get ratingsSendRating => 'إرسال التقييم';
 }

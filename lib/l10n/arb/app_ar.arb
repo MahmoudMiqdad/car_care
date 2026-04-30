@@ -1739,7 +1739,7 @@
   "@bookingsWasherName": {
     "description": "اسم المغسلة في بطاقة الحجز"
   },
-  "bookingsServiceLabel": "الخدمة المطلوبة",
+  "bookingsServiceLabel": "الخدمة ",
   "@bookingsServiceLabel": {
     "description": "عنوان سطر الخدمة في بطاقة الحجز"
   },
@@ -1770,6 +1770,26 @@
   "bookingsMenuRateService": "تقييم الخدمة",
   "@bookingsMenuRateService": {
     "description": "إجراء قائمة: تقييم الخدمة"
+  },
+  "ratingsServiceInfoSectionTitle": "معلومات عن الخدمة",
+  "@ratingsServiceInfoSectionTitle": {
+    "description": "عنوان القسم الأول في شاشة تقييم المغسلة"
+  },
+  "ratingsYourRatingQuestion": "ما تقييمك للخدمة",
+  "@ratingsYourRatingQuestion": {
+    "description": "سؤال قبل نجوم التقييم"
+  },
+  "ratingsTellUsExperienceTitle": "أخبرنا عن تجربتك",
+  "@ratingsTellUsExperienceTitle": {
+    "description": "عنوان فوق حقل نص التعليق"
+  },
+  "ratingsCommentExperienceHint": "اترك لنا تعليقاً عن تجربتك",
+  "@ratingsCommentExperienceHint": {
+    "description": "نص التلميح داخل حقل التعليق"
+  },
+  "ratingsSendRating": "إرسال التقييم",
+  "@ratingsSendRating": {
+    "description": "زر إرسال تقييم المغسلة"
   }
 }
 
