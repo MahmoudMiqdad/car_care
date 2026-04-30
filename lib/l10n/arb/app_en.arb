@@ -1767,6 +1767,26 @@
   "bookingsMenuRateService": "Rate service",
   "@bookingsMenuRateService": {
     "description": "Menu action for rating service"
+  },
+  "ratingsServiceInfoSectionTitle": "Service information",
+  "@ratingsServiceInfoSectionTitle": {
+    "description": "First section title on car wash rating screen"
+  },
+  "ratingsYourRatingQuestion": "What is your rating for this service?",
+  "@ratingsYourRatingQuestion": {
+    "description": "Question prompt above star rating row"
+  },
+  "ratingsTellUsExperienceTitle": "Tell us about your experience",
+  "@ratingsTellUsExperienceTitle": {
+    "description": "Label above rating comment field"
+  },
+  "ratingsCommentExperienceHint": "Leave us a comment about your experience",
+  "@ratingsCommentExperienceHint": {
+    "description": "Hint text inside rating comment field"
+  },
+  "ratingsSendRating": "Send rating",
+  "@ratingsSendRating": {
+    "description": "Submit rating button label"
   }
 }
 

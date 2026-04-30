@@ -1167,4 +1167,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bookingsMenuRateService => 'Rate service';
+
+  @override
+  String get ratingsServiceInfoSectionTitle => 'Service information';
+
+  @override
+  String get ratingsYourRatingQuestion => 'What is your rating for this service?';
+
+  @override
+  String get ratingsTellUsExperienceTitle => 'Tell us about your experience';
+
+  @override
+  String get ratingsCommentExperienceHint => 'Leave us a comment about your experience';
+
+  @override
+  String get ratingsSendRating => 'Send rating';
 }

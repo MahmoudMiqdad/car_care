@@ -39,7 +39,9 @@ class AppText extends StatelessWidget {
     String text, {
     Color? color,
     TextAlign textAlign = TextAlign.right,
-    AlignmentGeometry alignment = AlignmentDirectional.centerStart,  int? fontsize,
+    AlignmentGeometry alignment = AlignmentDirectional.centerStart,
+    double? fontSize, 
+    FontWeight? fontWeight,
   }) {
     return AppText._(
       text: text,
@@ -47,8 +49,8 @@ class AppText extends StatelessWidget {
       alignment: alignment,
       textAlign: textAlign,
       style: AppTypography.bodyMedium.copyWith(
-        fontWeight: FontWeight.w700,
-        fontSize: 20.sp,
+        fontWeight: fontWeight ?? FontWeight.w700,
+        fontSize: fontSize ?? 20.sp,
         color: color ?? AppColors.lightTextPrimary,
       ),
     );

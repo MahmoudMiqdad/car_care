@@ -1,0 +1,49 @@
+import 'package:car_care/core/theme/app_colors.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+class RatingsStarSelector extends StatelessWidget {
+  const RatingsStarSelector({
+    super.key,
+    required this.rating,
+    required this.onRatingChanged,
+  });
+
+  final double rating;
+  final ValueChanged<int> onRatingChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final int full = rating.floor();
+    final bool half = (rating - full) >= 0.5;
+
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List<Widget>.generate(5, (int i) {
+          late final IconData icon;
+          if (i < full) {
+            icon = Icons.star_rounded;
+          } else if (i == full && half) {
+            icon = Icons.star_half_rounded;
+          } else {
+            icon = Icons.star_border_rounded;
+          }
+
+          return GestureDetector(
+            onTap: () => onRatingChanged(i + 1),
+            child: Padding(
+              padding: EdgeInsetsDirectional.only(end: i == 4 ? 0 : 4.w),
+              child: Icon(
+                icon,
+                size: 56.sp,
+                color: AppColors.primary,
+              ),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}
