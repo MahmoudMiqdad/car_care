@@ -44,4 +44,7 @@ class ApiEndpoints {
   static const String quotations = maintenance;
   //rate-job
   static const String ratejob = '/rate-job';
+  // car-washer (customer)
+  static const String customerCarWashers = '/customer/car_washers';
+  static const String carwashBookings = '/customer/carwash_bookings';
 }

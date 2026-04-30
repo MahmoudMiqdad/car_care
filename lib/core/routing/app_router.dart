@@ -2,7 +2,7 @@ import 'package:car_care/features/car_washer/profile_washer/presentation/pages/p
 import 'package:car_care/features/car_washer/availability/presentation/pages/availability_page.dart';
 import 'package:car_care/features/car_washer/ratings/presentation/pages/ratings_page.dart';
 import 'package:car_care/features/car_washer/bookings/presentation/pages/bookings_page.dart';
-import 'package:car_care/features/car_washer/washers/domain/car_wash_listing.dart';
+import 'package:car_care/features/car_washer/washers/domain/entities/washers_entity.dart';
 import 'package:car_care/features/car_washer/washers/presentation/pages/washer_details_page.dart';
 import 'package:car_care/features/car_washer/washers/presentation/pages/washer_reservation_page.dart';
 import 'package:car_care/features/car_washer/washers/presentation/pages/washers_page.dart';
@@ -32,7 +32,6 @@ import 'package:car_care/features/auth/presentation/pages/login_page.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/widgets/const.dart';
 import 'package:car_care/core/widgets/technician_entry_sheet.dart';
-import 'package:car_care/l10n.dart';
 import 'package:car_care/features/auth/presentation/pages/register_page.dart';
 import 'package:car_care/features/home/presentation/pages/home_page.dart';
 import 'package:car_care/features/home/presentation/pages/notifications_page.dart';
@@ -51,7 +50,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.bookings,
+    initialLocation: Routes.washers,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -124,28 +123,21 @@ class AppRouter {
             path: Routes.washerDetails,
             name: 'washerDetails',
             builder: (context, state) {
-              final extra = state.extra;
-              final CarWashListing? listing =
-                  extra is CarWashListing ? extra : null;
-              if (listing == null) {
-                return const _WasherDetailsMissing();
-              }
-              return WasherDetailsPage(listing: listing);
+              final washer = state.extra as WasherEntity;
+              return WasherDetailsPage(washer: washer);
             },
           ),
-          GoRoute(
-            path: Routes.washerReservation,
-            name: 'washerReservation',
-            builder: (context, state) {
-              final extra = state.extra;
-              final CarWashListing? listing =
-                  extra is CarWashListing ? extra : null;
-              if (listing == null) {
-                return const _WasherDetailsMissing();
-              }
-              return WasherReservationPage(listing: listing);
-            },
-          ),
+
+         GoRoute(
+  path: Routes.washerReservation,
+  name: 'washerReservation',
+  builder: (context, state) {
+    final extra = state.extra;
+    final washer = extra is WasherEntity ? extra : null;
+    if (washer == null) return const SizedBox.shrink();
+    return WasherReservationPage(washer: washer);
+  },
+),
           GoRoute(
             path: Routes.bookings,
             name: '/bookings',
@@ -166,7 +158,7 @@ class AppRouter {
             name: '/profile_washer',
             builder: (context, state) => const ProfileWasherPage(),
           ),
-      ],
+        ],
       ),
       GoRoute(
         path: Routes.profile_setup,
@@ -303,20 +295,3 @@ class AppRouter {
   );
 }
 
-class _WasherDetailsMissing extends StatelessWidget {
-  const _WasherDetailsMissing();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: context.l10n.washerDetailsTitle,
-        showBackButton: true,
-        onBackTapped: () => context.pop(),
-      ),
-      body: Center(
-        child: Text(context.l10n.noData),
-      ),
-    );
-  }
-}

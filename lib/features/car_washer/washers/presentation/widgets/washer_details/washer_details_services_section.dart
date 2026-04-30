@@ -2,17 +2,17 @@ import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/widgets/app_headline.dart';
-import 'package:car_care/features/car_washer/washers/domain/car_wash_listing.dart';
-import 'package:car_care/features/car_washer/washers/domain/washer_service_tier.dart';
+import 'package:car_care/features/car_washer/washers/domain/entities/washers_entity.dart';
+import 'package:car_care/features/car_washer/washers/presentation/widgets/washer_service_tier.dart';
 import 'package:car_care/features/car_washer/washers/presentation/widgets/washer_details/washer_tier_l10n.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WasherDetailsServicesSection extends StatelessWidget {
-  const WasherDetailsServicesSection({super.key, required this.listing});
+  const WasherDetailsServicesSection({super.key, required this.washer});
 
-  final CarWashListing listing;
+  final WasherEntity washer;
 
   static const List<WasherServiceTier> _rowOrder = <WasherServiceTier>[
     WasherServiceTier.premium,
@@ -20,15 +20,25 @@ class WasherDetailsServicesSection extends StatelessWidget {
     WasherServiceTier.basic,
   ];
 
+  String _tierKey(WasherServiceTier tier) {
+    switch (tier) {
+      case WasherServiceTier.basic:
+        return 'basic';
+      case WasherServiceTier.vip:
+        return 'vip';
+      case WasherServiceTier.premium:
+        return 'premium';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+
     final visibleTiers = _rowOrder
-        .where(
-          (WasherServiceTier t) =>
-              listing.tiers.contains(t) && listing.packagePrices.containsKey(t),
-        )
+        .where((t) => washer.servicePrices.containsKey(_tierKey(t)))
         .toList();
+
     if (visibleTiers.isEmpty) return const SizedBox.shrink();
 
     return Column(
@@ -48,7 +58,7 @@ class WasherDetailsServicesSection extends StatelessWidget {
               Expanded(
                 child: ServicePackageCard(
                   tier: visibleTiers[i],
-                  priceUsd: listing.packagePrices[visibleTiers[i]]!,
+                  priceUsd: washer.servicePrices[_tierKey(visibleTiers[i])]!,
                 ),
               ),
             ],
@@ -60,7 +70,8 @@ class WasherDetailsServicesSection extends StatelessWidget {
 }
 
 class ServicePackageCard extends StatelessWidget {
-  const ServicePackageCard({super.key, 
+  const ServicePackageCard({
+    super.key,
     required this.tier,
     required this.priceUsd,
   });
@@ -72,6 +83,7 @@ class ServicePackageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final name = washerTierLabel(context, tier);
+
     return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.white,
@@ -95,19 +107,19 @@ class ServicePackageCard extends StatelessWidget {
                 fontSize: 12.sp,
               ),
             ),
-            SizedBox(height: 6.h),
-            Divider(
-              color: AppColors.primary.withValues(alpha: 0.55),
-              height: 1,
-              thickness: 1.4,
-            ),
-            SizedBox(height: 8.h),
-            CheckLine(text: l10n.washerServiceExterior),
-            SizedBox(height: 4.h),
-            CheckLine(text: l10n.washerServiceInterior),
-            SizedBox(height: 4.h),
-            CheckLine(text: l10n.washerServiceEngine),
-            SizedBox(height: 8.h),
+          //   SizedBox(height: 6.h),
+          //   Divider(
+          //     color: AppColors.primary.withValues(alpha: 0.55),
+          //     height: 1,
+          //     thickness: 1.4,
+          //   ),
+          //   SizedBox(height: 8.h),
+          //  // CheckLine(text: l10n.washerServiceExterior),
+          //   SizedBox(height: 4.h),
+          //   CheckLine(text: l10n.washerServiceInterior),
+          //   SizedBox(height: 4.h),
+          //   CheckLine(text: l10n.washerServiceEngine),
+          //   SizedBox(height: 8.h),
             Divider(
               color: AppColors.primary.withValues(alpha: 0.45),
               height: 2,

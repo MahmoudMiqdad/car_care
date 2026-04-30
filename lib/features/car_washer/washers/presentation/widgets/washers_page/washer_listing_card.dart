@@ -1,5 +1,5 @@
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/features/car_washer/washers/domain/car_wash_listing.dart';
+import 'package:car_care/features/car_washer/washers/domain/entities/washers_entity.dart';
 import 'package:car_care/features/car_washer/washers/presentation/widgets/washer_avatar.dart';
 import 'package:car_care/features/car_washer/washers/presentation/widgets/washers_page/washer_star_rating_row.dart';
 import 'package:car_care/features/car_washer/washers/presentation/widgets/washers_page/washer_tier_badges.dart';
@@ -11,26 +11,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class WasherListingCard extends StatelessWidget {
   const WasherListingCard({
     super.key,
-    required this.listing,
+    required this.washer,
     this.onBook,
     this.onDetails,
   });
 
-  final CarWashListing listing;
-  final ValueChanged<CarWashListing>? onBook;
-  final ValueChanged<CarWashListing>? onDetails;
+  final WasherEntity washer;
+  final ValueChanged<WasherEntity>? onBook;
+  final ValueChanged<WasherEntity>? onDetails;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+
     return Material(
       color: AppColors.white,
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.r)),
       child: InkWell(
-        onTap: () {
-          HapticFeedback.selectionClick();
-        },
+        onTap: () => HapticFeedback.selectionClick(),
         borderRadius: BorderRadius.circular(14.r),
         splashColor: AppColors.primary.withValues(alpha: 0.12),
         highlightColor: AppColors.primary.withValues(alpha: 0.05),
@@ -44,7 +43,7 @@ class WasherListingCard extends StatelessWidget {
                   Expanded(
                     child: Align(
                       alignment: AlignmentDirectional.centerStart,
-                      child: WasherTierBadges(tiers: listing.tiers),
+                      child: WasherTierBadges(servicePrices: washer.servicePrices),
                     ),
                   ),
                 ],
@@ -58,7 +57,7 @@ class WasherListingCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          listing.name,
+                          washer.shopName,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             color: AppColors.black,
@@ -69,7 +68,7 @@ class WasherListingCard extends StatelessWidget {
                         ),
                         SizedBox(height: 2.h),
                         Text(
-                          l10n.washersCityWithName(listing.cityName),
+                          l10n.washersCityWithName(washer.city),
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             color: AppColors.lightTextSecondary,
@@ -78,7 +77,7 @@ class WasherListingCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          l10n.washersRatingsWithCount(listing.ratingsCount),
+                          l10n.washersRatingsWithCount(washer.ratingsCount),
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             color: AppColors.lightTextSecondary,
@@ -87,12 +86,12 @@ class WasherListingCard extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 1.h),
-                        WasherStarRatingRow(rating: listing.stars),
+                        WasherStarRatingRow(rating: washer.averageRating),
                       ],
                     ),
                   ),
                   SizedBox(width: 12.w),
-                  WasherAvatar(listing: listing),
+                  WasherAvatar(logoUrl: washer.logoUrl),
                 ],
               ),
               SizedBox(height: 12.h),
@@ -103,7 +102,7 @@ class WasherListingCard extends StatelessWidget {
                       label: l10n.washersViewDetails,
                       onPressed: () {
                         HapticFeedback.lightImpact();
-                        onDetails?.call(listing);
+                        onDetails?.call(washer);
                       },
                     ),
                   ),
@@ -113,7 +112,7 @@ class WasherListingCard extends StatelessWidget {
                       label: l10n.washersBookAppointment,
                       onPressed: () {
                         HapticFeedback.lightImpact();
-                        onBook?.call(listing);
+                        onBook?.call(washer);
                       },
                     ),
                   ),
