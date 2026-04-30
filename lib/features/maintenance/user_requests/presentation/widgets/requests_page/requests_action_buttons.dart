@@ -23,8 +23,8 @@ class RequestsActionButtons extends StatelessWidget {
   });
 
   final double cardRadius;
-  final VoidCallback onSubmit;
-  final VoidCallback onCancel;
+  final VoidCallback? onSubmit;
+final VoidCallback? onCancel;
   final String submitLabel;
   final String cancelLabel;
   final RequestsActionButtonsLayout layout;

@@ -1,4 +1,5 @@
 // requests_repository_impl.dart
+import 'package:car_care/core/domain/entities/base_response_entity.dart';
 import 'package:car_care/features/maintenance/user_requests/data/models/maintenance_request_model.dart' as model;
 import 'package:car_care/features/maintenance/user_requests/domain/entities/maintenance_request_entity.dart';
 import 'package:car_care/features/maintenance/user_requests/domain/mapper/maintenance_request_mapper.dart';
@@ -6,6 +7,7 @@ import 'package:car_care/features/maintenance/user_requests/domain/repositories/
 import 'package:dartz/dartz.dart';
 import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/features/maintenance/user_requests/data/data_sources/requests_remote_data_source.dart';
+import 'package:dio/dio.dart';
 
 class RequestsRepositoryImpl implements IRequestsRepository {
   final RequestsRemoteDataSource remoteDataSource;
@@ -25,15 +27,21 @@ class RequestsRepositoryImpl implements IRequestsRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, MaintenanceRequestEntity>> addMaintenanceRequest(Map<String, dynamic> data) async {
-    try {
-      final model = await remoteDataSource.addMaintenanceRequest(data);
-      return Right(_map(model));
-    } catch (_) {
-      return const Left(Failure(message: 'حدث خطأ أثناء إضافة طلب الصيانة'));
-    }
+@override
+Future<Either<Failure, BaseResponseEntity>> addMaintenanceRequest(
+  FormData formData,
+) async {
+  try {
+    final model = await remoteDataSource.addMaintenanceRequest(formData);
+
+    return Right(model.toEntity());
+  } catch (e) {
+    return const Left(
+      Failure(message: 'حدث خطأ أثناء إضافة طلب الصيانة'),
+    );
   }
+} 
+
 
   @override
   Future<Either<Failure, MaintenanceRequestEntity>> showRequest(String id) async {

@@ -46,10 +46,10 @@ extension PriorityMapper on String {
       case 'متوسطة':
         return MaintenancePriority.medium;
 
-      case 'urgent':
       case 'high':
+      
       case 'طارئة':
-        return MaintenancePriority.urgent;
+        return MaintenancePriority.high;
 
       default:
         return MaintenancePriority.medium;

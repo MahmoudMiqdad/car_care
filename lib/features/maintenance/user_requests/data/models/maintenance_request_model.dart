@@ -1,3 +1,4 @@
+import 'package:car_care/features/maintenance/user_requests/data/models/quotation_model.dart';
 import 'package:car_care/features/maintenance/user_requests/data/models/request_image_model.dart';
 import 'package:car_care/features/maintenance/user_requests/data/models/user_model.dart';
 import 'package:car_care/features/maintenance/user_requests/data/models/vehicle_model.dart';
@@ -35,7 +36,7 @@ class MaintenanceRequestdata {
   VehicleModel? vehicle;
   UserModel? user;
   List<RequestImageModel>? images;
-  List<dynamic>? quotations;
+    final List<QuotationModel>? quotations;
   bool? hasAcceptedQuotation;
   DateTime? preferredDate;
   DateTime? createdAt;
@@ -87,7 +88,7 @@ class MaintenanceRequestdata {
               json["images"].map((x) => RequestImageModel.fromJson(x)))
           : [],
       quotations: json["quotations"] != null
-          ? List<dynamic>.from(json["quotations"])
+          ? List<QuotationModel>.from(json["quotations"])
           : [],
       hasAcceptedQuotation: json["has_accepted_quotation"],
       preferredDate: json["preferred_date"] != null

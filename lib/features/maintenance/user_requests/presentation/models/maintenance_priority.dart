@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 enum MaintenancePriority {
   low,
   medium,
-  urgent,
+  high,
 }
 
 extension MaintenancePriorityArLabel on MaintenancePriority {
@@ -12,7 +12,7 @@ extension MaintenancePriorityArLabel on MaintenancePriority {
     switch (this) {
       case MaintenancePriority.low: return 'منخفضة';
       case MaintenancePriority.medium: return 'متوسطة';
-      case MaintenancePriority.urgent: return 'طارئة';
+      case MaintenancePriority.high: return 'طارئة';
     }
   }
 }
@@ -64,7 +64,7 @@ class PriorityChipStyle {
           borderWidth: _selectedBorder,
           textColor: AppColors.orange,
         );
-      case MaintenancePriority.urgent:
+      case MaintenancePriority.high:
         return const PriorityChipStyle(
           background: Color(0xFFFFEBEE),
           borderColor: AppColors.error,

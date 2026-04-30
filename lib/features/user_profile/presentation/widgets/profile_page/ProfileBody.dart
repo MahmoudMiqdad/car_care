@@ -40,31 +40,12 @@ class ProfileBody extends StatelessWidget {
                 context.read<ShowProfileCubit>().getProfile();},
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        if (profile.avatar != null &&
-                            profile.avatar!.isNotEmpty) {
-                          showDialog(
-                            context: context,
-                            builder: (_) => Dialog(
-                              backgroundColor: Colors.transparent,
-                              child: InteractiveViewer(
-                                panEnabled: true,
-                                minScale: 1,
-                                maxScale: 5,
-                                child: Image.network(
-                                  profile.avatar!,
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ),
-                          );
-                        }
-                      },
-                      child: CircleAvatar(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
                         radius: 60.r,
                         backgroundColor: Colors.grey.shade300,
                         backgroundImage:
@@ -79,56 +60,56 @@ class ProfileBody extends StatelessWidget {
                               )
                             : null,
                       ),
-                    ),
-                    SizedBox(height: 8.h),
-              
-                    Text(
-                      profile.name,
-                      style: TextStyle(
-                        fontSize: 27.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                      SizedBox(height: 8.h),
+                                
+                      Text(
+                        profile.name,
+                        style: TextStyle(
+                          fontSize: 27.sp,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.black,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 30.h),
-                    ProfileInfoCard(
-                      title: strings.phoneNumber,
-                      value: profile.phone,
-                      icon: Icons.phone_in_talk_outlined,
-                    ),
-                    SizedBox(height: 16.h),
-                    ProfileInfoCard(
-                      title: strings.email,
-                      value: profile.email,
-                      icon: Icons.email_outlined,
-                    ),
-                    SizedBox(height: 30.h),
-                    AppButton(
-                      text: strings.editProfile,
-                      backgroundColor: AppColors.orange,
-                      onPressed: () => context.push(Routes.profile_setup),
-                    ),
-                    SizedBox(height: 16.h),
-                    AppButton(
-                      text: strings.editPassword,
-                      backgroundColor: AppColors.orange,
-                      onPressed: () => context.push(Routes.changepasswordpage),
-                    ),
-                    SizedBox(height: 16.h),
-                    AppButton(
-                      text: strings.delete,
-                      isOutline: true,
-                      backgroundColor: const Color(0xFFA12323),
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
-                          builder: (context) => const DeleteProfileDialog(),
-                        );
-                      },
-                    ),
-                  ],
+                      SizedBox(height: 30.h),
+                      ProfileInfoCard(
+                        title: strings.phoneNumber,
+                        value: profile.phone,
+                        icon: Icons.phone_in_talk_outlined,
+                      ),
+                      SizedBox(height: 16.h),
+                      ProfileInfoCard(
+                        title: strings.email,
+                        value: profile.email,
+                        icon: Icons.email_outlined,
+                      ),
+                      SizedBox(height: 30.h),
+                      AppButton(
+                        text: strings.editProfile,
+                        backgroundColor: AppColors.orange,
+                        onPressed: () => context.push(Routes.profile_setup),
+                      ),
+                      SizedBox(height: 16.h),
+                      AppButton(
+                        text: strings.editPassword,
+                        backgroundColor: AppColors.orange,
+                        onPressed: () => context.push(Routes.changepasswordpage),
+                      ),
+                      SizedBox(height: 16.h),
+                      AppButton(
+                        text: strings.delete,
+                        isOutline: true,
+                        backgroundColor: const Color(0xFFA12323),
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (context) => const DeleteProfileDialog(),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

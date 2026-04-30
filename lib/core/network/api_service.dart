@@ -29,11 +29,11 @@ class ApiService {
   Future<Map<String, dynamic>> post({
     required String endPoint,
     dynamic data,
-     bool isFomrData = false,
+     bool isFormData = false,
   }) async {
     return _performRequest(
       () => _dio.post(endPoint, 
-              data: isFomrData == true ? FormData.fromMap(data) : data,
+              data: isFormData == true ? FormData.fromMap(data) : data,
 ),
     );
   }

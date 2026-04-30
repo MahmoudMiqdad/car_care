@@ -151,7 +151,12 @@ Widget build(BuildContext context) {
               label: strings.maintenance,
               iconPath: AppAssets.maintenanceIcon,
               color: AppColors.primary,
-              onTap: () {},
+              onTap: () {
+                  context.push(
+                      Routes.addRequest,
+                     extra:vehicle.id 
+                    );
+              },
             ),
           ],
         ),
