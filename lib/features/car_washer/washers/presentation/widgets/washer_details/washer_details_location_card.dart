@@ -2,15 +2,15 @@ import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/widgets/app_headline.dart';
-import 'package:car_care/features/car_washer/washers/domain/car_wash_listing.dart';
+import 'package:car_care/features/car_washer/washers/domain/entities/washers_entity.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WasherDetailsLocationCard extends StatelessWidget {
-  const WasherDetailsLocationCard({super.key, required this.listing});
+  const WasherDetailsLocationCard({super.key, required this.washer});
 
-  final CarWashListing listing;
+  final WasherEntity washer;
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +42,7 @@ class WasherDetailsLocationCard extends StatelessWidget {
                     textAlign: TextAlign.right,
                   ),
                   Text(
-                    listing.fullAddress.isEmpty
-                        ? listing.cityName
-                        : listing.fullAddress,
+                    washer.fullAddress.isEmpty ? washer.city : washer.fullAddress,
                     textAlign: TextAlign.left,
                     style: AppTypography.bodySmall.copyWith(
                       color: AppColors.lightTextSecondary,

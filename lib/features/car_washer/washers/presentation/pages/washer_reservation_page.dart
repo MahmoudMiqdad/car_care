@@ -3,8 +3,8 @@ import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/widgets/app_date_time_picker_row.dart';
 import 'package:car_care/core/widgets/const.dart';
 import 'package:car_care/core/widgets/image_background.dart';
-import 'package:car_care/features/car_washer/washers/domain/car_wash_listing.dart';
-import 'package:car_care/features/car_washer/washers/domain/washer_service_tier.dart';
+import 'package:car_care/features/car_washer/washers/domain/entities/washers_entity.dart';
+import 'package:car_care/features/car_washer/washers/presentation/widgets/washer_service_tier.dart';
 import 'package:car_care/features/car_washer/washers/presentation/widgets/reservation/reservation_action_buttons_row.dart';
 import 'package:car_care/features/car_washer/washers/presentation/widgets/reservation/reservation_header_info.dart';
 import 'package:car_care/features/car_washer/washers/presentation/widgets/reservation/reservation_inline_input_card.dart';
@@ -19,9 +19,9 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:intl/intl.dart';
 
 class WasherReservationPage extends StatefulWidget {
-  const WasherReservationPage({super.key, required this.listing});
+  const WasherReservationPage({super.key, required this.washer});
 
-  final CarWashListing listing;
+  final WasherEntity washer;
 
   @override
   State<WasherReservationPage> createState() => _WasherReservationPageState();
@@ -37,7 +37,7 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
   @override
   void initState() {
     super.initState();
-    final options = reservationTiersToShow(widget.listing);
+    final options = reservationTiersToShow(widget.washer);
     _selectedTier = options.contains(WasherServiceTier.vip)
         ? WasherServiceTier.vip
         : options.first;
@@ -52,22 +52,14 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
 
   String _dateLabel(BuildContext context) {
     final d = _date;
-    if (d == null) {
-      return context.l10n.washerReservationPickDate;
-    }
-    return DateFormat.yMMMd(
-      Localizations.localeOf(context).toString(),
-    ).format(d);
+    if (d == null) return context.l10n.washerReservationPickDate;
+    return DateFormat.yMMMd(Localizations.localeOf(context).toString()).format(d);
   }
 
   String _timeLabel(BuildContext context) {
     final t = _time;
-    if (t == null) {
-      return context.l10n.washerReservationPickTime;
-    }
-    final m = t.minute;
-    final h = t.hour;
-    return '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}';
+    if (t == null) return context.l10n.washerReservationPickTime;
+    return '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}';
   }
 
   String _tierTitle(AppLocalizations l10n, WasherServiceTier t) {
@@ -80,16 +72,13 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
 
   Future<void> _pickDate() async {
     final now = DateTime.now();
-    final first = now;
     final picked = await showDatePicker(
       context: context,
       initialDate: _date ?? now,
-      firstDate: first,
+      firstDate: now,
       lastDate: DateTime(now.year + 2),
     );
-    if (picked != null) {
-      setState(() => _date = picked);
-    }
+    if (picked != null) setState(() => _date = picked);
   }
 
   Future<void> _pickTime() async {
@@ -97,16 +86,14 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
       context: context,
       initialTime: _time ?? TimeOfDay.now(),
     );
-    if (picked != null) {
-      setState(() => _time = picked);
-    }
+    if (picked != null) setState(() => _time = picked);
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final listing = widget.listing;
-    final tiers = reservationTiersToShow(listing);
+    final washer = widget.washer;
+    final tiers = reservationTiersToShow(washer);
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -121,7 +108,7 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              ReservationHeaderInfo(listing: listing),
+              ReservationHeaderInfo(washer: washer),
               SizedBox(height: 10.h),
               AppDateTimePickerRow(
                 dateText: _dateLabel(context),
@@ -173,7 +160,7 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
                     if (i > 0) SizedBox(width: 8.w),
                     ReservationServiceTierCard(
                       title: _tierTitle(l10n, tiers[i]),
-                      priceAmount: reservationTierPriceUsd(listing, tiers[i]),
+                      priceAmount: reservationTierPriceUsd(washer, tiers[i]),
                       isSelected: _selectedTier == tiers[i],
                       onTap: () => setState(() => _selectedTier = tiers[i]),
                     ),
@@ -184,7 +171,9 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
               ReservationActionButtonsRow(
                 confirmText: l10n.washerReservationConfirm,
                 cancelText: l10n.washerReservationCancel,
-                onConfirm: () => context.pop(),
+                onConfirm: () {
+                  context.pop();
+                },
                 onCancel: () => context.pop(),
               ),
             ],

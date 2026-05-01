@@ -1,5 +1,5 @@
 import 'package:car_care/l10n.dart';
-import 'package:car_care/features/car_washer/washers/domain/washer_service_tier.dart';
+import 'package:car_care/features/car_washer/washers/presentation/widgets/washer_service_tier.dart';
 import 'package:flutter/widgets.dart';
 
 String washerTierLabel(BuildContext context, WasherServiceTier tier) {

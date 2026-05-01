@@ -1,16 +1,17 @@
-import 'package:car_care/features/car_washer/washers/domain/car_wash_listing.dart';
-import 'package:car_care/features/car_washer/washers/domain/washer_service_tier.dart';
+import 'package:car_care/features/car_washer/washers/domain/entities/washers_entity.dart';
+import 'package:car_care/features/car_washer/washers/presentation/widgets/washer_service_tier.dart';
 
-int reservationTierPriceUsd(CarWashListing listing, WasherServiceTier tier) {
-  final p = listing.packagePrices[tier];
-  if (p != null) {
-    return p;
-  }
+String _tierKey(WasherServiceTier tier) {
   return switch (tier) {
-    WasherServiceTier.premium => 30,
-    WasherServiceTier.vip => 20,
-    WasherServiceTier.basic => 10,
+    WasherServiceTier.basic => 'basic',
+    WasherServiceTier.vip => 'vip',
+    WasherServiceTier.premium => 'premium',
   };
+}
+
+int reservationTierPriceUsd(WasherEntity washer, WasherServiceTier tier) {
+  final key = _tierKey(tier);
+  return washer.servicePrices[key] ?? 0;
 }
 
 const List<WasherServiceTier> kReservationTierDisplayOrder = <WasherServiceTier>[
@@ -19,12 +20,10 @@ const List<WasherServiceTier> kReservationTierDisplayOrder = <WasherServiceTier>
   WasherServiceTier.basic,
 ];
 
-List<WasherServiceTier> reservationTiersToShow(CarWashListing listing) {
-  final ordered = kReservationTierDisplayOrder
-      .where((WasherServiceTier t) => listing.tiers.contains(t))
+List<WasherServiceTier> reservationTiersToShow(WasherEntity washer) {
+  final available = kReservationTierDisplayOrder
+      .where((t) => washer.servicePrices.containsKey(_tierKey(t)))
       .toList(growable: false);
-  if (ordered.isNotEmpty) {
-    return ordered;
-  }
-  return List<WasherServiceTier>.from(kReservationTierDisplayOrder);
+
+  return available.isNotEmpty ? available : List.from(kReservationTierDisplayOrder);
 }

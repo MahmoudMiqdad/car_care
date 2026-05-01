@@ -1,15 +1,15 @@
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
-import 'package:car_care/features/car_washer/washers/domain/car_wash_listing.dart';
+import 'package:car_care/features/car_washer/washers/domain/entities/washers_entity.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WasherDetailsContactRow extends StatelessWidget {
-  const WasherDetailsContactRow({super.key, required this.listing});
+  const WasherDetailsContactRow({super.key, required this.washer});
 
-  final CarWashListing listing;
+  final WasherEntity washer;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class WasherDetailsContactRow extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        l10n.washerOpenTime(listing.openTime),
+                        l10n.washerOpenTime(washer.openTime),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTypography.bodySmall.copyWith(
@@ -41,7 +41,7 @@ class WasherDetailsContactRow extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        l10n.washerCloseTime(listing.closeTime),
+                        l10n.washerCloseTime(washer.closeTime),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: AppTypography.bodySmall.copyWith(
@@ -69,7 +69,7 @@ class WasherDetailsContactRow extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    listing.phone,
+                    washer.phone,
                     textDirection: TextDirection.ltr,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

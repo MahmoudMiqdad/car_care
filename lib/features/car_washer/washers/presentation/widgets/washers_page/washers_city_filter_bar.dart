@@ -4,9 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WashersCityFilterBar extends StatelessWidget {
-  const WashersCityFilterBar({super.key, this.onFilterTap});
+  const WashersCityFilterBar({
+    super.key,
+    required this.controller,
+    required this.onChanged,
+    this.onClear,
+  });
 
-  final VoidCallback? onFilterTap;
+  final TextEditingController controller;
+  final ValueChanged<String> onChanged;
+  final VoidCallback? onClear;
 
   @override
   Widget build(BuildContext context) {
@@ -20,26 +27,69 @@ class WashersCityFilterBar extends StatelessWidget {
           side: const BorderSide(color: AppColors.primary, width: 1.5),
         ),
         clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onFilterTap,
-          splashColor: AppColors.primary.withValues(alpha: 0.1),
-          highlightColor: AppColors.primary.withValues(alpha: 0.06),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  context.l10n.washersByCity,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
+          child: Row(
+            children: [
+          
+              _LocationGlyph(size: 36.r),
+              SizedBox(width: 10.w),
+
+              Expanded(
+                child: TextField(
+                  controller: controller,
+                  onChanged: onChanged,
+                  textInputAction: TextInputAction.search,
+                  decoration: InputDecoration(
+                    hintText: context.l10n.washersByCity,
+                    hintStyle: TextStyle(
+                      color: AppColors.lightTextPrimary,
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+
+              
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+
+                    isDense: true,
+                    contentPadding: EdgeInsets.symmetric(vertical: 10.h),
+                  ),
                   style: TextStyle(
-                    color: AppColors.lightTextPrimary,
-                    fontSize: 25.sp,
-                    fontWeight: FontWeight.w500,
+                    color: AppColors.black,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                _LocationGlyph(size: 34.r),
-              ],
-            ),
+              ),
+
+              ValueListenableBuilder<TextEditingValue>(
+                valueListenable: controller,
+                builder: (_, value, __) {
+                  final hasText = value.text.trim().isNotEmpty;
+                  if (!hasText) return SizedBox(width: 4.w);
+
+                  return InkWell(
+                    onTap: onClear,
+                    borderRadius: BorderRadius.circular(999),
+                    child: Container(
+                      width: 34.r,
+                      height: 34.r,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.08),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.close_rounded,
+                        size: 20.r,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),
@@ -49,7 +99,6 @@ class WashersCityFilterBar extends StatelessWidget {
 
 class _LocationGlyph extends StatelessWidget {
   const _LocationGlyph({required this.size});
-
   final double size;
 
   @override
