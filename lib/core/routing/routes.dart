@@ -2,10 +2,9 @@
 
 class Routes {
   static const String splash = '/';
-  static const String profile = '/profile';
   static const String login = '/login';
   static const String signup = '/signup';
-
+  static const String  user_profile = '/user_profile_page.dart';
   static const String profile_setup = '/profile_setup';
   static const String forget_password = '/forget_password';
   static const String changepasswordpage = '/change_password_page';
@@ -25,7 +24,7 @@ class Routes {
   static const String quotations = '/quotations';
   static const String jobs = '/jobs';
   static const String statistics = '/statistics';
-  static const String requests = '/requests';
+  static const String addRequest = '/add_requests_page.dart';
   static const String all_requests = '/all_requests_stats_page';
 
   static const String rate_job = '/rate_job';

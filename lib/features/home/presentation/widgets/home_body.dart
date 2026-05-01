@@ -37,7 +37,7 @@ class HomeBody extends StatelessWidget {
         context.go(Routes.my_vehicles_page);
         break;
       case 1:
-        context.go(Routes.requests);
+        context.go(Routes.addRequest);
         break;
       default:
         debugPrint("No route defined for index $index");

@@ -1,6 +1,9 @@
+import 'package:car_care/core/domain/entities/base_response_entity.dart';
 import 'package:car_care/core/network/api_endpoints.dart';
 import 'package:car_care/core/network/api_service.dart';
+import 'package:car_care/core/network/model/base_response_model.dart' show BaseResponseModel;
 import 'package:car_care/features/maintenance/user_requests/data/models/maintenance_request_model.dart';
+import 'package:dio/dio.dart';
 
 class RequestsRemoteDataSource {
   const RequestsRemoteDataSource(this._apiService);
@@ -19,14 +22,15 @@ class RequestsRemoteDataSource {
 
   /// addMaintenanceRequest
   
-  Future<MaintenanceRequestModel> addMaintenanceRequest(
-    Map<String, dynamic> data,
+  Future<BaseResponseModel> addMaintenanceRequest(
+  FormData formData,
   ) async {
     final response = await _apiService.post(
+   //   isFormData:true,
       endPoint: ApiEndpoints.maintenance,
-      data: data,
+      data: formData,
     );
-    return MaintenanceRequestModel.fromJson(response);
+    return BaseResponseModel  .fromJson(response);
   }
   //cancelRequest
     Future<MaintenanceRequestModel> cancelRequest(

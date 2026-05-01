@@ -38,10 +38,10 @@ class ProfileRemoteDataSource {
 
   Future<AvatarModel> updateAvatar(XFile avatar) async {
     final response = await _apiService.post(
-      isFomrData: true,
+      isFormData: true,
       endPoint: ApiEndpoints.updateavatar,
       data: {
-        "avatar":await uploadFiletoApi(avatar)
+        "avatar":await uploadFileToApi(avatar)
       },
     );
     return AvatarModel.fromJson(response);

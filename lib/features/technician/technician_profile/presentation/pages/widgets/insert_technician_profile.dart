@@ -35,7 +35,7 @@ class _TechnicianProfileBodyState
   final TextEditingController _hourlyRateController =
       TextEditingController();
 
-  /// صور الشهادات
+
   final List<XFile> _certificationImages = [];
   final ImagePicker _picker = ImagePicker();
 

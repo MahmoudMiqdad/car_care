@@ -12,9 +12,10 @@ class PreferredDateSection extends StatelessWidget {
   });
 
   final double cardRadius;
-  final String formattedDate;
+  final DateTime formattedDate;
   final VoidCallback onPickDate;
-
+  static String _formatDate(DateTime d) =>
+      '${d.year}/${d.month}/${d.day}  ';
   @override
   Widget build(BuildContext context) {
     return RequestsFormCard(
@@ -31,7 +32,7 @@ class PreferredDateSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                formattedDate,
+              _formatDate(formattedDate)  ,
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,

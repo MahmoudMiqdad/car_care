@@ -103,7 +103,7 @@ class AppNavigationDrawer extends StatelessWidget {
               iconColor: AppColors.primary,
               onTap: () => _closeThen(
                 context,
-                () => context.go(Routes.profile),
+                () => context.go(Routes.user_profile),
               ),
             ),
             _DrawerTile(
