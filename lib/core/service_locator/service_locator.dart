@@ -5,6 +5,14 @@ import 'package:car_care/core/network/api_service.dart';
 import 'package:car_care/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:car_care/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:car_care/features/auth/data/repositories/auth_repo_impl.dart';
+import 'package:car_care/features/car_washer/washers/data/data_sources/car_wash_booking_remote_data_source.dart';
+import 'package:car_care/features/car_washer/washers/data/data_sources/washers_remote_data_source.dart';
+import 'package:car_care/features/car_washer/washers/data/repositories/car_wash_booking_repository_impl.dart';
+import 'package:car_care/features/car_washer/washers/data/repositories/washers_repository_impl.dart';
+import 'package:car_care/features/car_washer/washers/domain/repositories/i_car_wash_booking_repository.dart';
+import 'package:car_care/features/car_washer/washers/domain/repositories/i_washers_repository.dart';
+import 'package:car_care/features/car_washer/washers/presentation/cubit/reservation/car_wash_booking_cubit.dart';
+import 'package:car_care/features/car_washer/washers/presentation/cubit/washers/washers_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/data/data_sources/requests_remote_data_source.dart';
 import 'package:car_care/features/maintenance/user_requests/data/repositories/requests_repository.dart_impl.dart';
 import 'package:car_care/features/maintenance/user_requests/domain/repositories/i_requests_repository.dart';
@@ -188,38 +196,52 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<RequestCubit>(
       () => RequestCubit(getIt<ITechnicianOrderRepository>()),
     )
-           //
+    //
     ..registerLazySingleton<RequestsRemoteDataSource>(
       () => RequestsRemoteDataSource(getIt<ApiService>()),
     )
-     ..registerLazySingleton<IRequestsRepository>(
+    ..registerLazySingleton<IRequestsRepository>(
       () => RequestsRepositoryImpl(getIt<RequestsRemoteDataSource>()),
     )
-      ..registerFactory<AcceptedRequestsCubit>(
+    ..registerFactory<AcceptedRequestsCubit>(
       () => AcceptedRequestsCubit(getIt<IRequestsRepository>()),
-    ) 
-       ..registerFactory<DeleteRequestCubit>(
+    )
+    ..registerFactory<DeleteRequestCubit>(
       () => DeleteRequestCubit(getIt<IRequestsRepository>()),
     )
- 
-        ..registerFactory<CancelRequestCubit>(
+    ..registerFactory<CancelRequestCubit>(
       () => CancelRequestCubit(getIt<IRequestsRepository>()),
     )
-        ..registerFactory<AddMaintenanceRequestCubit>(
+    ..registerFactory<AddMaintenanceRequestCubit>(
       () => AddMaintenanceRequestCubit(getIt<IRequestsRepository>()),
     )
-         ..registerFactory<UpdateRequestCubit>(
+    ..registerFactory<UpdateRequestCubit>(
       () => UpdateRequestCubit(getIt<IRequestsRepository>()),
     )
-  
-       ..registerFactory<ShowRequestCubit>(
+    ..registerFactory<ShowRequestCubit>(
       () => ShowRequestCubit(getIt<IRequestsRepository>()),
     )
-  
-       ..registerFactory<RequestsCubit>(
+    ..registerFactory<RequestsCubit>(
       () => RequestsCubit(getIt<IRequestsRepository>()),
-    );
-   
-  
-  
+    )
+    ..registerLazySingleton<WashersRemoteDataSource>(
+      () => WashersRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<IWashersRepository>(
+      () => WashersRepositoryImpl(getIt<WashersRemoteDataSource>()),
+    )
+    ..registerFactory<WashersCubit>(
+      () => WashersCubit(getIt<IWashersRepository>()),
+    )
+
+    ..registerLazySingleton<CarWashBookingRemoteDataSource>(
+  () => CarWashBookingRemoteDataSource(getIt<ApiService>()),
+)
+..registerLazySingleton<ICarWashBookingRepository>(
+  () => CarWashBookingRepositoryImpl(getIt<CarWashBookingRemoteDataSource>()),
+)
+..registerFactory<CarWashBookingCubit>(
+  () => CarWashBookingCubit(getIt<ICarWashBookingRepository>()),
+)
+;
 }

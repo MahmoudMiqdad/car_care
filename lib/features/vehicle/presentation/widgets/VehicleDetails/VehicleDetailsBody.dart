@@ -176,7 +176,7 @@ void showCustomDeleteDialog({
     barrierDismissible: true,
     barrierLabel: 'delete_vehicle',
     transitionDuration: const Duration(milliseconds: 400),
-    pageBuilder: (dialogContext, _, __) {
+    pageBuilder: (dialogContext, _, _) {
       return BlocProvider(
         create: (_) => getIt<VehicleDeleteCubit>(),
         child: BlocConsumer<VehicleDeleteCubit, VehicleDeleteState>(

@@ -110,7 +110,7 @@ class VehicleCircleImage extends StatelessWidget {
             ? Image.network(
                 url,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => _buildPlaceholder(),
+                errorBuilder: (_, _, _) => _buildPlaceholder(),
                 loadingBuilder: (_, child, progress) =>
                     progress == null ? child : const Center(child: CircularProgressIndicator(strokeWidth: 2)),
               )

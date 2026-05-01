@@ -47,7 +47,7 @@ class ActiveOrderCard extends StatelessWidget {
                   color: Colors.white,
                   width: 65.w,
                   fit: BoxFit.contain,
-                  errorBuilder: (_, __, ___) => const Icon(
+                  errorBuilder: (_, _, _) => const Icon(
                     Icons.build,
                     color: Colors.white,
                   ),

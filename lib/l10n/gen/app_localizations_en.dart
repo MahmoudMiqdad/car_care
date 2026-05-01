@@ -1013,4 +1013,173 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enterAsTechnician => 'Enter as technician';
+
+  @override
+  String get washersPageTitle => 'Car washes';
+
+  @override
+  String get washersByCity => 'By city';
+
+  @override
+  String get washersBookAppointment => 'Book an appointment';
+
+  @override
+  String get washersViewDetails => 'View details';
+
+  @override
+  String washersCityWithName(String cityName) {
+    return 'City: $cityName';
+  }
+
+  @override
+  String washersRatingsWithCount(int count) {
+    return 'Ratings: $count';
+  }
+
+  @override
+  String get washerTierBasic => 'BASIC';
+
+  @override
+  String get washerTierVip => 'VIP';
+
+  @override
+  String get washerTierPremium => 'PREMIUM';
+
+  @override
+  String get washerDetailsTitle => 'Car wash details';
+
+  @override
+  String washerOpenTime(String time) {
+    return 'Open: $time';
+  }
+
+  @override
+  String washerCloseTime(String time) {
+    return 'Close: $time';
+  }
+
+  @override
+  String get washerSectionCityAndAddress => 'City and address';
+
+  @override
+  String get washerSectionServicesAndPrices => 'Services and prices';
+
+  @override
+  String get washerSectionCustomerReviews => 'Customer reviews';
+
+  @override
+  String get washerServiceExterior => 'Exterior';
+
+  @override
+  String get washerServiceInterior => 'Interior';
+
+  @override
+  String get washerServiceEngine => 'Engine';
+
+  @override
+  String washerPackagePrice(int amount) {
+    return 'price: $amount \$';
+  }
+
+  @override
+  String get washerReservationTitle => 'Reservation';
+
+  @override
+  String get washerReservationFieldDate => 'Date';
+
+  @override
+  String get washerReservationFieldTime => 'Time';
+
+  @override
+  String get washerReservationFieldVehicleLabel => 'Enter your vehicle type';
+
+  @override
+  String get washerReservationFieldVehicleHint => 'Type your vehicle here';
+
+  @override
+  String get washerReservationFieldNotesLabel => 'Notes';
+
+  @override
+  String get washerReservationFieldNotesHint => 'Add any notes you want';
+
+  @override
+  String get washerReservationChooseService => 'Choose the right service';
+
+  @override
+  String get washerReservationConfirm => 'Confirm reservation';
+
+  @override
+  String get washerReservationCancel => 'Cancel reservation';
+
+  @override
+  String get washerReservationPickDate => 'Pick a date';
+
+  @override
+  String get washerReservationPickTime => 'Pick a time';
+
+  @override
+  String get washerReservationServicePremium => 'Premium';
+
+  @override
+  String get washerReservationServiceVip => 'Vip';
+
+  @override
+  String get washerReservationServiceBasic => 'Basic';
+
+  @override
+  String get bookingsPageTitle => 'My Reserved';
+
+  @override
+  String get bookingsFilterByStatus => 'By status';
+
+  @override
+  String get bookingStatusProgress => 'progress';
+
+  @override
+  String get bookingStatusAccepted => 'accepted';
+
+  @override
+  String get bookingStatusPinding => 'pinding';
+
+  @override
+  String get bookingsWasherName => 'Al-Miqdad Car Wash';
+
+  @override
+  String get bookingsServiceLabel => 'Requested service';
+
+  @override
+  String get bookingsServiceVip => 'Vip';
+
+  @override
+  String get bookingsDateTimeLabel => 'Date';
+
+  @override
+  String get bookingsAtLabel => 'at';
+
+  @override
+  String get bookingsPriceLabel => 'Price';
+
+  @override
+  String get bookingsMenuShowDetails => 'Show details';
+
+  @override
+  String get bookingsMenuCancelBooking => 'Cancel booking';
+
+  @override
+  String get bookingsMenuRateService => 'Rate service';
+
+  @override
+  String get ratingsServiceInfoSectionTitle => 'Service information';
+
+  @override
+  String get ratingsYourRatingQuestion => 'What is your rating for this service?';
+
+  @override
+  String get ratingsTellUsExperienceTitle => 'Tell us about your experience';
+
+  @override
+  String get ratingsCommentExperienceHint => 'Leave us a comment about your experience';
+
+  @override
+  String get ratingsSendRating => 'Send rating';
 }

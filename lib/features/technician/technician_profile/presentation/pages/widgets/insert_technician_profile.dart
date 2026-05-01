@@ -7,7 +7,6 @@ import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_state.dart';
-import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,6 +56,7 @@ class _TechnicianProfileBodyState
     if (images.isEmpty) return;
 
     if (images.length + _certificationImages.length > 3) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('يمكنك اختيار 3 صور كحد أقصى'),
@@ -73,7 +73,6 @@ class _TechnicianProfileBodyState
 
   @override
   Widget build(BuildContext context) {
-    final strings = context.l10n;
 
     return BlocConsumer<TechnicianProfileCubit,
         TechnicianProfileState>(

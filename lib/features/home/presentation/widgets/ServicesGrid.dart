@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ServicesGrid extends StatelessWidget {
-   ServicesGrid({
+   const ServicesGrid({
     super.key,
     this.onItemPressed,
   });
@@ -17,7 +17,7 @@ class ServicesGrid extends StatelessWidget {
  final strings = context.l10n;
  
 
-  final List<ServiceItemData> _items = [
+  final List<ServiceItemData> items = [
      ServiceItemData(
       title: strings.myVehicles,
       imagePath: AppAssets.serviceMyVehicles,
@@ -48,7 +48,7 @@ class ServicesGrid extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.only(top: 4.h, bottom: 8.h),
-      itemCount: _items.length,
+      itemCount: items.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 12.w,
@@ -56,7 +56,7 @@ class ServicesGrid extends StatelessWidget {
         mainAxisExtent: 118.h,
       ),
       itemBuilder: (context, index) {
-        final item = _items[index];
+        final item = items[index];
         return ServiceCard(
           item: item,
           onPressed: () => onItemPressed?.call(index),

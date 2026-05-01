@@ -1013,4 +1013,173 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get enterAsTechnician => 'الدخول كفني';
+
+  @override
+  String get washersPageTitle => 'مغاسل السيارات';
+
+  @override
+  String get washersByCity => 'حسب المدينة';
+
+  @override
+  String get washersBookAppointment => 'حجز موعد';
+
+  @override
+  String get washersViewDetails => 'عرض التفاصيل';
+
+  @override
+  String washersCityWithName(String cityName) {
+    return 'المدينة : $cityName';
+  }
+
+  @override
+  String washersRatingsWithCount(int count) {
+    return 'التقييمات : $count';
+  }
+
+  @override
+  String get washerTierBasic => 'BASIC';
+
+  @override
+  String get washerTierVip => 'VIP';
+
+  @override
+  String get washerTierPremium => 'PREMIUM';
+
+  @override
+  String get washerDetailsTitle => 'تفاصيل المغسلة';
+
+  @override
+  String washerOpenTime(String time) {
+    return 'الفتح : $time';
+  }
+
+  @override
+  String washerCloseTime(String time) {
+    return 'الإغلاق : $time';
+  }
+
+  @override
+  String get washerSectionCityAndAddress => 'المدينة و العنوان';
+
+  @override
+  String get washerSectionServicesAndPrices => 'الخدمات و الأسعار';
+
+  @override
+  String get washerSectionCustomerReviews => 'تقييم العملاء';
+
+  @override
+  String get washerServiceExterior => 'خارجي';
+
+  @override
+  String get washerServiceInterior => 'داخلي';
+
+  @override
+  String get washerServiceEngine => 'محرك';
+
+  @override
+  String washerPackagePrice(int amount) {
+    return 'السعر : $amount \$';
+  }
+
+  @override
+  String get washerReservationTitle => 'الحجز';
+
+  @override
+  String get washerReservationFieldDate => 'التاريخ';
+
+  @override
+  String get washerReservationFieldTime => 'الوقت';
+
+  @override
+  String get washerReservationFieldVehicleLabel => 'ادخل نوع مركبتك';
+
+  @override
+  String get washerReservationFieldVehicleHint => 'ادخل هنا نوع مركبتك';
+
+  @override
+  String get washerReservationFieldNotesLabel => 'ملاحظات';
+
+  @override
+  String get washerReservationFieldNotesHint => 'اضف اي ملاحظات تريدها';
+
+  @override
+  String get washerReservationChooseService => 'اختر الخدمة المناسبة';
+
+  @override
+  String get washerReservationConfirm => 'تأكيد حجز';
+
+  @override
+  String get washerReservationCancel => 'إلغاء الحجز';
+
+  @override
+  String get washerReservationPickDate => 'اختر التاريخ';
+
+  @override
+  String get washerReservationPickTime => 'اختر الوقت';
+
+  @override
+  String get washerReservationServicePremium => 'Premium';
+
+  @override
+  String get washerReservationServiceVip => 'Vip';
+
+  @override
+  String get washerReservationServiceBasic => 'Basic';
+
+  @override
+  String get bookingsPageTitle => 'حجوزاتي';
+
+  @override
+  String get bookingsFilterByStatus => 'حسب الحالة';
+
+  @override
+  String get bookingStatusProgress => 'قيد التنفيذ';
+
+  @override
+  String get bookingStatusAccepted => 'مقبول';
+
+  @override
+  String get bookingStatusPinding => 'انتظار';
+
+  @override
+  String get bookingsWasherName => 'مغسل المقداد';
+
+  @override
+  String get bookingsServiceLabel => 'الخدمة ';
+
+  @override
+  String get bookingsServiceVip => 'Vip';
+
+  @override
+  String get bookingsDateTimeLabel => 'الموعد';
+
+  @override
+  String get bookingsAtLabel => 'الساعة';
+
+  @override
+  String get bookingsPriceLabel => 'السعر';
+
+  @override
+  String get bookingsMenuShowDetails => 'عرض تفاصيل';
+
+  @override
+  String get bookingsMenuCancelBooking => 'إلغاء الحجز';
+
+  @override
+  String get bookingsMenuRateService => 'تقييم الخدمة';
+
+  @override
+  String get ratingsServiceInfoSectionTitle => 'معلومات عن الخدمة';
+
+  @override
+  String get ratingsYourRatingQuestion => 'ما تقييمك للخدمة';
+
+  @override
+  String get ratingsTellUsExperienceTitle => 'أخبرنا عن تجربتك';
+
+  @override
+  String get ratingsCommentExperienceHint => 'اترك لنا تعليقاً عن تجربتك';
+
+  @override
+  String get ratingsSendRating => 'إرسال التقييم';
 }

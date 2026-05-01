@@ -50,19 +50,19 @@ class _MainAppShellState extends State<MainAppShell> {
         appBar: hideShellChrome
             ? null
             : (isProfile
-                ? CustomAppBar(
-                    title: context.l10n.profile,
-                    showBackButton: true,
-                    useMainBranding: false,
-                    onBackTapped: () => context.go(Routes.home),
-                    actionWidget: menuAction,
-                  )
-                : CustomAppBar(
-                    title: AppConstants.appName,
-                    showBackButton: false,
-                    useMainBranding: true,
-                    actionWidget: menuAction,
-                  )),
+                  ? CustomAppBar(
+                      title: context.l10n.profile,
+                      showBackButton: true,
+                      useMainBranding: false,
+                      onBackTapped: () => context.go(Routes.home),
+                      actionWidget: menuAction,
+                    )
+                  : CustomAppBar(
+                      title: AppConstants.appName,
+                      showBackButton: false,
+                      useMainBranding: true,
+                      actionWidget: menuAction,
+                    )),
         body: widget.child,
         bottomNavigationBar: widget.bottomNavigationBar,
       ),
@@ -84,6 +84,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? toolbarHeight;
   final double elevation;
 
+  /// When set, used instead of [AppColors.primary] for the title/scaffold app bar.
+  final Color? backgroundColor;
+
   const CustomAppBar({
     super.key,
     required this.title,
@@ -95,6 +98,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.useMainBranding = false,
     this.toolbarHeight,
     this.elevation = 0,
+    this.backgroundColor,
   });
 
   double get _barHeight {
@@ -114,14 +118,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     final appBar = AppBar(
       toolbarHeight: toolbarHeight?.h,
-      backgroundColor: AppColors.primary,
+      backgroundColor: backgroundColor ?? AppColors.primary,
       elevation: elevation,
       centerTitle: true,
       automaticallyImplyLeading: false,
-      leadingWidth: leadingWidget != null
-          ? 60.w
-          : (showBackButton ? 100.w : 0),
-      leading: leadingWidget ??
+      leadingWidth: leadingWidget != null ? 60.w : (showBackButton ? 100.w : 0),
+      leading:
+          leadingWidget ??
           (showBackButton
               ? InkWell(
                   borderRadius: BorderRadius.circular(8.r),
@@ -138,7 +141,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                         SizedBox(width: 4.w),
                         Text(
-                          'Back',
+                          context.l10n.back,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16.sp,
@@ -150,7 +153,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 )
               : null),
-      title: titleWidget ??
+      title:
+          titleWidget ??
           Text(
             title,
             style: TextStyle(
@@ -170,10 +174,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
 
     if (showBackButton && leadingWidget == null) {
-      return Directionality(
-        textDirection: TextDirection.ltr,
-        child: appBar,
-      );
+      return Directionality(textDirection: TextDirection.ltr, child: appBar);
     }
     return appBar;
   }
@@ -194,11 +195,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         child: Image.asset(
           AppAssets.homeAppBarLogo,
-          width: MediaQuery.sizeOf(context).width *
+          width:
+              MediaQuery.sizeOf(context).width *
               AppConstants.homeAppBarLogoWidthFraction,
           height: AppConstants.homeAppBarLogoMaxHeight.h,
           fit: BoxFit.contain,
-          errorBuilder: (_, __, ___) => Text(
+          errorBuilder: (_, _, _) => Text(
             title,
             style: const TextStyle(
               color: Colors.white,

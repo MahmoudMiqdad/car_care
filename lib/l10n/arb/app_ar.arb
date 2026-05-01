@@ -1632,7 +1632,164 @@
   "enterAsTechnician": "الدخول كفني",
   "@enterAsTechnician": {
     "description": "الانتقال إلى بروفايل الفني من تبويب المزيد"
-  }
+  },
 
+  "washersPageTitle": "مغاسل السيارات",
+  "@washersPageTitle": {
+    "description": "عنوان شريط التطبيق لقائمة المغاسل"
+  },
+  "washersByCity": "حسب المدينة",
+  "@washersByCity": {
+    "description": "تصفية المغاسل حسب المدينة"
+  },
+  "washersBookAppointment": "حجز موعد",
+  "@washersBookAppointment": {
+    "description": "زر حجز موعد لغسيل السيارة"
+  },
+  "washersViewDetails": "عرض التفاصيل",
+  "@washersViewDetails": {
+    "description": "زر فتح تفاصيل المغسلة"
+  },
+  "washersCityWithName": "المدينة : {cityName}",
+  "@washersCityWithName": {
+    "description": "سطر عرض المدينة للمغسلة",
+    "placeholders": {
+      "cityName": { "type": "String" }
+    }
+  },
+  "washersRatingsWithCount": "التقييمات : {count}",
+  "@washersRatingsWithCount": {
+    "description": "عدد التقييمات",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "washerTierBasic": "BASIC",
+  "@washerTierBasic": { "description": "تصنيف الخدمة: أساسي" },
+  "washerTierVip": "VIP",
+  "@washerTierVip": { "description": "تصنيف VIP" },
+  "washerTierPremium": "PREMIUM",
+  "@washerTierPremium": { "description": "تصنيف مميز" },
+  "washerDetailsTitle": "تفاصيل المغسلة",
+  "@washerDetailsTitle": { "description": "عنوان شريط تفاصيل المغسلة" },
+  "washerOpenTime": "الفتح : {time}",
+  "@washerOpenTime": {
+    "description": "وقت افتتاح المغسلة",
+    "placeholders": { "time": { "type": "String" } }
+  },
+  "washerCloseTime": "الإغلاق : {time}",
+  "@washerCloseTime": {
+    "description": "وقت إغلاق المغسلة",
+    "placeholders": { "time": { "type": "String" } }
+  },
+  "washerSectionCityAndAddress": "المدينة و العنوان",
+  "@washerSectionCityAndAddress": { "description": "عنوان قسم الموقع" },
+  "washerSectionServicesAndPrices": "الخدمات و الأسعار",
+  "@washerSectionServicesAndPrices": { "description": "عنوان قسم الباقات" },
+  "washerSectionCustomerReviews": "تقييم العملاء",
+  "@washerSectionCustomerReviews": { "description": "عنوان قسم التقييمات" },
+  "washerServiceExterior": "خارجي",
+  "@washerServiceExterior": { "description": "خدمة غسيل خارجي" },
+  "washerServiceInterior": "داخلي",
+  "@washerServiceInterior": { "description": "خدمة غسيل داخلي" },
+  "washerServiceEngine": "محرك",
+  "@washerServiceEngine": { "description": "غسيل المحرك" },
+  "washerPackagePrice": "السعر : {amount} $",
+  "@washerPackagePrice": {
+    "description": "سعر الباقة بالدولار",
+    "placeholders": { "amount": { "type": "int" } }
+  },
+  "washerReservationTitle": "الحجز",
+  "@washerReservationTitle": { "description": "عنوان شريط شاشة حجز المغسلة" },
+  "washerReservationFieldDate": "التاريخ",
+  "washerReservationFieldTime": "الوقت",
+  "washerReservationFieldVehicleLabel": "ادخل نوع مركبتك",
+  "washerReservationFieldVehicleHint": "ادخل هنا نوع مركبتك",
+  "washerReservationFieldNotesLabel": "ملاحظات",
+  "washerReservationFieldNotesHint": "اضف اي ملاحظات تريدها",
+  "washerReservationChooseService": "اختر الخدمة المناسبة",
+  "washerReservationConfirm": "تأكيد حجز",
+  "washerReservationCancel": "إلغاء الحجز",
+  "washerReservationPickDate": "اختر التاريخ",
+  "washerReservationPickTime": "اختر الوقت",
+  "washerReservationServicePremium": "Premium",
+  "washerReservationServiceVip": "Vip",
+  "washerReservationServiceBasic": "Basic",
+  "bookingsPageTitle": "حجوزاتي",
+  "@bookingsPageTitle": {
+    "description": "عنوان شريط شاشة الحجوزات"
+  },
+  "bookingsFilterByStatus": "حسب الحالة",
+  "@bookingsFilterByStatus": {
+    "description": "عنوان فلتر الحجوزات"
+  },
+  "bookingStatusProgress": "قيد التنفيذ",
+  "@bookingStatusProgress": {
+    "description": "حالة الحجز: قيد التنفيذ"
+  },
+  "bookingStatusAccepted": "مقبول",
+  "@bookingStatusAccepted": {
+    "description": "حالة الحجز: مقبول"
+  },
+  "bookingStatusPinding": "انتظار",
+  "@bookingStatusPinding": {
+    "description": "حالة الحجز: انتظار"
+  },
+  "bookingsWasherName": "مغسل المقداد",
+  "@bookingsWasherName": {
+    "description": "اسم المغسلة في بطاقة الحجز"
+  },
+  "bookingsServiceLabel": "الخدمة ",
+  "@bookingsServiceLabel": {
+    "description": "عنوان سطر الخدمة في بطاقة الحجز"
+  },
+  "bookingsServiceVip": "Vip",
+  "@bookingsServiceVip": {
+    "description": "اسم باقة VIP في بطاقة الحجز"
+  },
+  "bookingsDateTimeLabel": "الموعد",
+  "@bookingsDateTimeLabel": {
+    "description": "عنوان سطر الموعد في بطاقة الحجز"
+  },
+  "bookingsAtLabel": "الساعة",
+  "@bookingsAtLabel": {
+    "description": "كلمة الربط بين التاريخ والوقت"
+  },
+  "bookingsPriceLabel": "السعر",
+  "@bookingsPriceLabel": {
+    "description": "عنوان سطر السعر في بطاقة الحجز"
+  },
+  "bookingsMenuShowDetails": "عرض تفاصيل",
+  "@bookingsMenuShowDetails": {
+    "description": "إجراء قائمة: عرض تفاصيل"
+  },
+  "bookingsMenuCancelBooking": "إلغاء الحجز",
+  "@bookingsMenuCancelBooking": {
+    "description": "إجراء قائمة: إلغاء الحجز"
+  },
+  "bookingsMenuRateService": "تقييم الخدمة",
+  "@bookingsMenuRateService": {
+    "description": "إجراء قائمة: تقييم الخدمة"
+  },
+  "ratingsServiceInfoSectionTitle": "معلومات عن الخدمة",
+  "@ratingsServiceInfoSectionTitle": {
+    "description": "عنوان القسم الأول في شاشة تقييم المغسلة"
+  },
+  "ratingsYourRatingQuestion": "ما تقييمك للخدمة",
+  "@ratingsYourRatingQuestion": {
+    "description": "سؤال قبل نجوم التقييم"
+  },
+  "ratingsTellUsExperienceTitle": "أخبرنا عن تجربتك",
+  "@ratingsTellUsExperienceTitle": {
+    "description": "عنوان فوق حقل نص التعليق"
+  },
+  "ratingsCommentExperienceHint": "اترك لنا تعليقاً عن تجربتك",
+  "@ratingsCommentExperienceHint": {
+    "description": "نص التلميح داخل حقل التعليق"
+  },
+  "ratingsSendRating": "إرسال التقييم",
+  "@ratingsSendRating": {
+    "description": "زر إرسال تقييم المغسلة"
+  }
 }
 

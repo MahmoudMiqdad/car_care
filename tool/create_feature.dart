@@ -2,7 +2,6 @@ import 'dart:io';
 
 void main(List<String> args) {
   if (args.isEmpty) {
-    print('Usage: dart run tool/create_feature.dart <feature_name> <page_names...>');
     return;
   }
 
@@ -30,7 +29,6 @@ void main(List<String> args) {
   // 4. Routing Automation
   _automateRouting(featureName, pages, toPascal);
 
-  print('🚀 Feature [$featureName] created with Cubit. Routing updated.');
 }
 
 void _createDirectories(String path) {
@@ -171,7 +169,7 @@ void _automateRouting(String feature, List<String> pages, Function toPascal) {
       ),""";
 
       if (!content.contains(importLine)) {
-        content = importLine + "\n" + content;
+        content = "$importLine\n$content";
       }
 
       if (!content.contains("Routes.$p")) {

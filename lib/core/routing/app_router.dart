@@ -2,6 +2,9 @@ import 'package:car_care/features/car_washer/profile_washer/presentation/pages/p
 import 'package:car_care/features/car_washer/availability/presentation/pages/availability_page.dart';
 import 'package:car_care/features/car_washer/ratings/presentation/pages/ratings_page.dart';
 import 'package:car_care/features/car_washer/bookings/presentation/pages/bookings_page.dart';
+import 'package:car_care/features/car_washer/washers/domain/entities/washers_entity.dart';
+import 'package:car_care/features/car_washer/washers/presentation/pages/washer_details_page.dart';
+import 'package:car_care/features/car_washer/washers/presentation/pages/washer_reservation_page.dart';
 import 'package:car_care/features/car_washer/washers/presentation/pages/washers_page.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/pages/show_requests/all_requests_stats_page.dart';
 import 'package:car_care/features/technician/technician_order/presentation/pages/order_details_page.dart';
@@ -110,33 +113,46 @@ class AppRouter {
             name: '/all_requests_stats_page',
             builder: (context, state) => const AllRequestsStatsPage(),
           ),
-       
-              GoRoute(
-        path: Routes.washers,
-        name: '/washers',
-        builder: (context, state) => const WashersPage(),
-      ),
-            GoRoute(
-        path: Routes.bookings,
-        name: '/bookings',
-        builder: (context, state) => const BookingsPage(),
-      ),
-            GoRoute(
-        path: Routes.ratings,
-        name: '/ratings',
-        builder: (context, state) => const RatingsPage(),
-      ),
-            GoRoute(
-        path: Routes.availability,
-        name: '/availability',
-        builder: (context, state) => const AvailabilityPage(),
-      ),
-            GoRoute(
-        path: Routes.profile_washer,
-        name: '/profile_washer',
-        builder: (context, state) => const ProfileWasherPage(),
-      ),
-      ],
+          GoRoute(
+            path: Routes.washers,
+            name: '/washers',
+            builder: (context, state) => const WashersPage(),
+          ),
+          GoRoute(
+            path: Routes.washerDetails,
+            name: 'washerDetails',
+            builder: (context, state) {
+              final washer = state.extra as WasherEntity;
+              return WasherDetailsPage(washer: washer);
+            },
+          ),
+
+         GoRoute(
+  path: Routes.washerReservation,
+  name: 'washerReservation',
+  builder: (context, state) {
+    final extra = state.extra;
+    final washer = extra is WasherEntity ? extra : null;
+    if (washer == null) return const SizedBox.shrink();
+    return WasherReservationPage(washer: washer);
+  },
+),
+          GoRoute(
+            path: Routes.bookings,
+            name: '/bookings',
+            builder: (context, state) => const BookingsPage(),
+          ),
+          GoRoute(
+            path: Routes.availability,
+            name: '/availability',
+            builder: (context, state) => const AvailabilityPage(),
+          ),
+          GoRoute(
+            path: Routes.profile_washer,
+            name: '/profile_washer',
+            builder: (context, state) => const ProfileWasherPage(),
+          ),
+        ],
       ),
       GoRoute(
         path: Routes.profile_setup,
@@ -218,6 +234,12 @@ class AppRouter {
         builder: (context, state) => const DeleteProfileDialog(),
       ),
       GoRoute(
+        path: Routes.ratings,
+        name: '/ratings',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => const RatingsPage(),
+      ),
+      GoRoute(
         path: Routes.statistics,
         builder: (context, state) => const UserStatisticsPage(),
       ),
@@ -283,3 +305,4 @@ class AppRouter {
     ],
   );
 }
+

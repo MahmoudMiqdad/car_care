@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_state.dart';

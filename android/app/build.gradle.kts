@@ -8,7 +8,8 @@ plugins {
 android {
     namespace = "com.example.car_care"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = "27.1.12297006"
+        ndkVersion = "28.2.13676358"
+
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

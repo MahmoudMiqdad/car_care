@@ -5,6 +5,5 @@ class AvailabilityCubit extends Cubit<AvailabilityState> {
 
   AvailabilityCubit() : super(AvailabilityInitial());
 
-  // TODO: Add business logic methods here
 
 }

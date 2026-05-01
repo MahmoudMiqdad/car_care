@@ -32,7 +32,7 @@ class ServiceImage extends StatelessWidget {
       width: width,
       height: height,
       fit: BoxFit.contain,
-      errorBuilder: (_, __, ___) => Icon(
+      errorBuilder: (_, _, _) => Icon(
         Icons.image_not_supported_outlined,
         size: 32.sp,
         color: AppColors.primary.withValues(alpha: 0.45),

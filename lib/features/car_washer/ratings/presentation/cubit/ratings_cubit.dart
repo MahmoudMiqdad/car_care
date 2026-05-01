@@ -5,6 +5,5 @@ class RatingsCubit extends Cubit<RatingsState> {
 
   RatingsCubit() : super(RatingsInitial());
 
-  // TODO: Add business logic methods here
 
 }

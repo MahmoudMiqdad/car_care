@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/models/maintenance_priority.dart';
@@ -37,7 +39,6 @@ class OrderCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius),
             boxShadow: [
               BoxShadow(
-                // ignore: deprecated_member_use
                 color: Colors.black.withOpacity(0.08),
                 blurRadius: 8,
                 offset: const Offset(0, 2),

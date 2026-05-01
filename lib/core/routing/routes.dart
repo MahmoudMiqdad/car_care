@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 class Routes {
   static const String splash = '/';
   static const String login = '/login';
@@ -42,4 +44,6 @@ class Routes {
   static const String bookings = '/bookings';
   static const String ratings = '/ratings';
   static const String profile_washer = '/profile_washer';
+  static const String washerDetails = '/washer_details';
+  static const String washerReservation = '/washer_reservation';
 }

@@ -5,6 +5,5 @@ class BookingsCubit extends Cubit<BookingsState> {
 
   BookingsCubit() : super(BookingsInitial());
 
-  // TODO: Add business logic methods here
 
 }

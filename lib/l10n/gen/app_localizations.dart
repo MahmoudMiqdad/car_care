@@ -2094,6 +2094,324 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter as technician'**
   String get enterAsTechnician;
+
+  /// App bar title for the car wash directory list
+  ///
+  /// In en, this message translates to:
+  /// **'Car washes'**
+  String get washersPageTitle;
+
+  /// Car wash list filter: choose by city
+  ///
+  /// In en, this message translates to:
+  /// **'By city'**
+  String get washersByCity;
+
+  /// Button to book a car wash appointment
+  ///
+  /// In en, this message translates to:
+  /// **'Book an appointment'**
+  String get washersBookAppointment;
+
+  /// Button to open car wash details
+  ///
+  /// In en, this message translates to:
+  /// **'View details'**
+  String get washersViewDetails;
+
+  /// Line showing the city of a car wash
+  ///
+  /// In en, this message translates to:
+  /// **'City: {cityName}'**
+  String washersCityWithName(String cityName);
+
+  /// Line showing how many ratings a car wash has
+  ///
+  /// In en, this message translates to:
+  /// **'Ratings: {count}'**
+  String washersRatingsWithCount(int count);
+
+  /// Service tier label: basic
+  ///
+  /// In en, this message translates to:
+  /// **'BASIC'**
+  String get washerTierBasic;
+
+  /// Service tier label: VIP
+  ///
+  /// In en, this message translates to:
+  /// **'VIP'**
+  String get washerTierVip;
+
+  /// Service tier label: premium
+  ///
+  /// In en, this message translates to:
+  /// **'PREMIUM'**
+  String get washerTierPremium;
+
+  /// App bar: washer details screen
+  ///
+  /// In en, this message translates to:
+  /// **'Car wash details'**
+  String get washerDetailsTitle;
+
+  /// Opening time label for a car wash
+  ///
+  /// In en, this message translates to:
+  /// **'Open: {time}'**
+  String washerOpenTime(String time);
+
+  /// Closing time label for a car wash
+  ///
+  /// In en, this message translates to:
+  /// **'Close: {time}'**
+  String washerCloseTime(String time);
+
+  /// Header for location block
+  ///
+  /// In en, this message translates to:
+  /// **'City and address'**
+  String get washerSectionCityAndAddress;
+
+  /// Header for packages section
+  ///
+  /// In en, this message translates to:
+  /// **'Services and prices'**
+  String get washerSectionServicesAndPrices;
+
+  /// Header for reviews
+  ///
+  /// In en, this message translates to:
+  /// **'Customer reviews'**
+  String get washerSectionCustomerReviews;
+
+  /// Car wash service: exterior
+  ///
+  /// In en, this message translates to:
+  /// **'Exterior'**
+  String get washerServiceExterior;
+
+  /// Car wash service: interior
+  ///
+  /// In en, this message translates to:
+  /// **'Interior'**
+  String get washerServiceInterior;
+
+  /// Car wash service: engine bay
+  ///
+  /// In en, this message translates to:
+  /// **'Engine'**
+  String get washerServiceEngine;
+
+  /// Package price in USD
+  ///
+  /// In en, this message translates to:
+  /// **'price: {amount} \$'**
+  String washerPackagePrice(int amount);
+
+  /// App bar: car wash booking screen
+  ///
+  /// In en, this message translates to:
+  /// **'Reservation'**
+  String get washerReservationTitle;
+
+  /// No description provided for @washerReservationFieldDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get washerReservationFieldDate;
+
+  /// No description provided for @washerReservationFieldTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get washerReservationFieldTime;
+
+  /// No description provided for @washerReservationFieldVehicleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your vehicle type'**
+  String get washerReservationFieldVehicleLabel;
+
+  /// No description provided for @washerReservationFieldVehicleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type your vehicle here'**
+  String get washerReservationFieldVehicleHint;
+
+  /// No description provided for @washerReservationFieldNotesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get washerReservationFieldNotesLabel;
+
+  /// No description provided for @washerReservationFieldNotesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add any notes you want'**
+  String get washerReservationFieldNotesHint;
+
+  /// No description provided for @washerReservationChooseService.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the right service'**
+  String get washerReservationChooseService;
+
+  /// No description provided for @washerReservationConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm reservation'**
+  String get washerReservationConfirm;
+
+  /// No description provided for @washerReservationCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel reservation'**
+  String get washerReservationCancel;
+
+  /// No description provided for @washerReservationPickDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a date'**
+  String get washerReservationPickDate;
+
+  /// No description provided for @washerReservationPickTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a time'**
+  String get washerReservationPickTime;
+
+  /// No description provided for @washerReservationServicePremium.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium'**
+  String get washerReservationServicePremium;
+
+  /// No description provided for @washerReservationServiceVip.
+  ///
+  /// In en, this message translates to:
+  /// **'Vip'**
+  String get washerReservationServiceVip;
+
+  /// No description provided for @washerReservationServiceBasic.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic'**
+  String get washerReservationServiceBasic;
+
+  /// App bar title for bookings page
+  ///
+  /// In en, this message translates to:
+  /// **'My Reserved'**
+  String get bookingsPageTitle;
+
+  /// Bookings filter label
+  ///
+  /// In en, this message translates to:
+  /// **'By status'**
+  String get bookingsFilterByStatus;
+
+  /// Booking status chip: progress
+  ///
+  /// In en, this message translates to:
+  /// **'progress'**
+  String get bookingStatusProgress;
+
+  /// Booking status chip: accepted
+  ///
+  /// In en, this message translates to:
+  /// **'accepted'**
+  String get bookingStatusAccepted;
+
+  /// Booking status chip: pinding
+  ///
+  /// In en, this message translates to:
+  /// **'pinding'**
+  String get bookingStatusPinding;
+
+  /// Washer name on booking card
+  ///
+  /// In en, this message translates to:
+  /// **'Al-Miqdad Car Wash'**
+  String get bookingsWasherName;
+
+  /// Service row label on booking card
+  ///
+  /// In en, this message translates to:
+  /// **'Requested service'**
+  String get bookingsServiceLabel;
+
+  /// Vip service tier label on booking card
+  ///
+  /// In en, this message translates to:
+  /// **'Vip'**
+  String get bookingsServiceVip;
+
+  /// Date row label on booking card
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get bookingsDateTimeLabel;
+
+  /// Connector between date and time
+  ///
+  /// In en, this message translates to:
+  /// **'at'**
+  String get bookingsAtLabel;
+
+  /// Price row label on booking card
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get bookingsPriceLabel;
+
+  /// Menu action for showing booking details
+  ///
+  /// In en, this message translates to:
+  /// **'Show details'**
+  String get bookingsMenuShowDetails;
+
+  /// Menu action for cancelling booking
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel booking'**
+  String get bookingsMenuCancelBooking;
+
+  /// Menu action for rating service
+  ///
+  /// In en, this message translates to:
+  /// **'Rate service'**
+  String get bookingsMenuRateService;
+
+  /// First section title on car wash rating screen
+  ///
+  /// In en, this message translates to:
+  /// **'Service information'**
+  String get ratingsServiceInfoSectionTitle;
+
+  /// Question prompt above star rating row
+  ///
+  /// In en, this message translates to:
+  /// **'What is your rating for this service?'**
+  String get ratingsYourRatingQuestion;
+
+  /// Label above rating comment field
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us about your experience'**
+  String get ratingsTellUsExperienceTitle;
+
+  /// Hint text inside rating comment field
+  ///
+  /// In en, this message translates to:
+  /// **'Leave us a comment about your experience'**
+  String get ratingsCommentExperienceHint;
+
+  /// Submit rating button label
+  ///
+  /// In en, this message translates to:
+  /// **'Send rating'**
+  String get ratingsSendRating;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

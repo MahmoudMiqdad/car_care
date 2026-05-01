@@ -1629,8 +1629,165 @@
 "enterAsTechnician": "Enter as technician",
 "@enterAsTechnician": {
   "description": "Action to open the technician profile flow from the More tab"
-}
+},
 
+"washersPageTitle": "Car washes",
+"@washersPageTitle": {
+  "description": "App bar title for the car wash directory list"
+},
+"washersByCity": "By city",
+"@washersByCity": {
+  "description": "Car wash list filter: choose by city"
+},
+"washersBookAppointment": "Book an appointment",
+"@washersBookAppointment": {
+  "description": "Button to book a car wash appointment"
+},
+"washersViewDetails": "View details",
+"@washersViewDetails": {
+  "description": "Button to open car wash details"
+},
+"washersCityWithName": "City: {cityName}",
+"@washersCityWithName": {
+  "description": "Line showing the city of a car wash",
+  "placeholders": {
+    "cityName": { "type": "String" }
+  }
+},
+"washersRatingsWithCount": "Ratings: {count}",
+"@washersRatingsWithCount": {
+  "description": "Line showing how many ratings a car wash has",
+  "placeholders": {
+    "count": { "type": "int" }
+  }
+},
+"washerTierBasic": "BASIC",
+"@washerTierBasic": { "description": "Service tier label: basic" },
+"washerTierVip": "VIP",
+"@washerTierVip": { "description": "Service tier label: VIP" },
+"washerTierPremium": "PREMIUM",
+  "@washerTierPremium": { "description": "Service tier label: premium" },
+  "washerDetailsTitle": "Car wash details",
+  "@washerDetailsTitle": { "description": "App bar: washer details screen" },
+  "washerOpenTime": "Open: {time}",
+  "@washerOpenTime": {
+    "description": "Opening time label for a car wash",
+    "placeholders": { "time": { "type": "String" } }
+  },
+  "washerCloseTime": "Close: {time}",
+  "@washerCloseTime": {
+    "description": "Closing time label for a car wash",
+    "placeholders": { "time": { "type": "String" } }
+  },
+  "washerSectionCityAndAddress": "City and address",
+  "@washerSectionCityAndAddress": { "description": "Header for location block" },
+  "washerSectionServicesAndPrices": "Services and prices",
+  "@washerSectionServicesAndPrices": { "description": "Header for packages section" },
+  "washerSectionCustomerReviews": "Customer reviews",
+  "@washerSectionCustomerReviews": { "description": "Header for reviews" },
+  "washerServiceExterior": "Exterior",
+  "@washerServiceExterior": { "description": "Car wash service: exterior" },
+  "washerServiceInterior": "Interior",
+  "@washerServiceInterior": { "description": "Car wash service: interior" },
+  "washerServiceEngine": "Engine",
+  "@washerServiceEngine": { "description": "Car wash service: engine bay" },
+  "washerPackagePrice": "price: {amount} $",
+  "@washerPackagePrice": {
+    "description": "Package price in USD",
+    "placeholders": { "amount": { "type": "int" } }
+  },
+  "washerReservationTitle": "Reservation",
+  "@washerReservationTitle": { "description": "App bar: car wash booking screen" },
+  "washerReservationFieldDate": "Date",
+  "washerReservationFieldTime": "Time",
+  "washerReservationFieldVehicleLabel": "Enter your vehicle type",
+  "washerReservationFieldVehicleHint": "Type your vehicle here",
+  "washerReservationFieldNotesLabel": "Notes",
+  "washerReservationFieldNotesHint": "Add any notes you want",
+  "washerReservationChooseService": "Choose the right service",
+  "washerReservationConfirm": "Confirm reservation",
+  "washerReservationCancel": "Cancel reservation",
+  "washerReservationPickDate": "Pick a date",
+  "washerReservationPickTime": "Pick a time",
+  "washerReservationServicePremium": "Premium",
+  "washerReservationServiceVip": "Vip",
+  "washerReservationServiceBasic": "Basic",
+  "bookingsPageTitle": "My Reserved",
+  "@bookingsPageTitle": {
+    "description": "App bar title for bookings page"
+  },
+  "bookingsFilterByStatus": "By status",
+  "@bookingsFilterByStatus": {
+    "description": "Bookings filter label"
+  },
+  "bookingStatusProgress": "progress",
+  "@bookingStatusProgress": {
+    "description": "Booking status chip: progress"
+  },
+  "bookingStatusAccepted": "accepted",
+  "@bookingStatusAccepted": {
+    "description": "Booking status chip: accepted"
+  },
+  "bookingStatusPinding": "pinding",
+  "@bookingStatusPinding": {
+    "description": "Booking status chip: pinding"
+  },
+  "bookingsWasherName": "Al-Miqdad Car Wash",
+  "@bookingsWasherName": {
+    "description": "Washer name on booking card"
+  },
+  "bookingsServiceLabel": "Requested service",
+  "@bookingsServiceLabel": {
+    "description": "Service row label on booking card"
+  },
+  "bookingsServiceVip": "Vip",
+  "@bookingsServiceVip": {
+    "description": "Vip service tier label on booking card"
+  },
+  "bookingsDateTimeLabel": "Date",
+  "@bookingsDateTimeLabel": {
+    "description": "Date row label on booking card"
+  },
+  "bookingsAtLabel": "at",
+  "@bookingsAtLabel": {
+    "description": "Connector between date and time"
+  },
+  "bookingsPriceLabel": "Price",
+  "@bookingsPriceLabel": {
+    "description": "Price row label on booking card"
+  },
+  "bookingsMenuShowDetails": "Show details",
+  "@bookingsMenuShowDetails": {
+    "description": "Menu action for showing booking details"
+  },
+  "bookingsMenuCancelBooking": "Cancel booking",
+  "@bookingsMenuCancelBooking": {
+    "description": "Menu action for cancelling booking"
+  },
+  "bookingsMenuRateService": "Rate service",
+  "@bookingsMenuRateService": {
+    "description": "Menu action for rating service"
+  },
+  "ratingsServiceInfoSectionTitle": "Service information",
+  "@ratingsServiceInfoSectionTitle": {
+    "description": "First section title on car wash rating screen"
+  },
+  "ratingsYourRatingQuestion": "What is your rating for this service?",
+  "@ratingsYourRatingQuestion": {
+    "description": "Question prompt above star rating row"
+  },
+  "ratingsTellUsExperienceTitle": "Tell us about your experience",
+  "@ratingsTellUsExperienceTitle": {
+    "description": "Label above rating comment field"
+  },
+  "ratingsCommentExperienceHint": "Leave us a comment about your experience",
+  "@ratingsCommentExperienceHint": {
+    "description": "Hint text inside rating comment field"
+  },
+  "ratingsSendRating": "Send rating",
+  "@ratingsSendRating": {
+    "description": "Submit rating button label"
+  }
 }
 
 

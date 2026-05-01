@@ -1,8 +1,10 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 class HomeBottomNavBar extends StatelessWidget {
   const HomeBottomNavBar({
     super.key,
@@ -16,7 +18,11 @@ class HomeBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-         final strings = context.l10n;
+    final strings = context.l10n;
+    final location = GoRouterState.of(context).matchedLocation;
+    final isWashers = location == Routes.washers ||
+        location == Routes.washerDetails ||
+        location == Routes.washerReservation;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
@@ -51,8 +57,10 @@ class HomeBottomNavBar extends StatelessWidget {
             onTap: () => onItemSelected?.call(1),
           ),
           HomeBottomNavItem(
-            icon: Icons.assignment_outlined,
-            label: strings.activeorders,
+            icon: isWashers
+                ? Icons.chat_bubble_outline
+                : Icons.assignment_outlined,
+            label: isWashers ? strings.messages : strings.activeorders,
             isActive: activeIndex == 2,
             onTap: () => onItemSelected?.call(2),
           ),

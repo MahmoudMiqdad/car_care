@@ -129,7 +129,7 @@ class TechnicianProfileViewBody extends StatelessWidget {
                                     child: Image.network(
                                       url,
                                       fit: BoxFit.contain,
-                                      errorBuilder: (_, __, ___) =>
+                                      errorBuilder: (_, _, _) =>
                                           Container(color: Colors.grey[300]),
                                     ),
                                   ),
@@ -141,7 +141,7 @@ class TechnicianProfileViewBody extends StatelessWidget {
                               child: Image.network(
                                 url,
                                 fit: BoxFit.cover,
-                                errorBuilder: (_, __, ___) =>
+                                errorBuilder: (_, _, _) =>
                                     Container(color: Colors.grey[300]),
                               ),
                             ),
