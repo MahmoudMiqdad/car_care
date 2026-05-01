@@ -144,11 +144,6 @@ class AppRouter {
             builder: (context, state) => const BookingsPage(),
           ),
           GoRoute(
-            path: Routes.ratings,
-            name: '/ratings',
-            builder: (context, state) => const RatingsPage(),
-          ),
-          GoRoute(
             path: Routes.availability,
             name: '/availability',
             builder: (context, state) => const AvailabilityPage(),
@@ -232,6 +227,12 @@ class AppRouter {
         path: Routes.deleteconfirmationdialog,
         name: '/deleteconfirmationdialog',
         builder: (context, state) => const DeleteProfileDialog(),
+      ),
+      GoRoute(
+        path: Routes.ratings,
+        name: '/ratings',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => const RatingsPage(),
       ),
       GoRoute(
         path: Routes.statistics,
