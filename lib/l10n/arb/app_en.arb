@@ -1787,6 +1787,119 @@
   "ratingsSendRating": "Send rating",
   "@ratingsSendRating": {
     "description": "Submit rating button label"
+  },
+  "profileWasherPageTitle": "Washer Profile",
+  "@profileWasherPageTitle": {
+    "description": "App bar title for washer owner profile screen"
+  },
+  "profileWasherEditProfile": "Edit profile",
+  "@profileWasherEditProfile": {
+    "description": "Primary button on washer profile screen"
+  },
+  "profileWasherSampleShopName": "Mahaba Car Wash",
+  "@profileWasherSampleShopName": {
+    "description": "Placeholder shop name until API data exists"
+  },
+  "profileWasherRatingsCountLine": "{count} ratings",
+  "@profileWasherRatingsCountLine": {
+    "description": "Rating count subtitle under stars on washer profile",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "profileWasherSampleFullAddress": "Damascus - Abbasiyyin Square - Entrance to Al-Qusour Square",
+  "@profileWasherSampleFullAddress": {
+    "description": "Placeholder full address until API data exists"
+  },
+  "profileWasherSamplePhone": "0987654321",
+  "@profileWasherSamplePhone": {
+    "description": "Placeholder phone displayed on washer profile card"
+  },
+  "profileWasherAboutTitle": "About the wash",
+  "@profileWasherAboutTitle": {
+    "description": "Section title for washer description on profile screen"
+  },
+  "profileWasherDescriptionSample": "At Mahaba Car Wash we deliver professional cleaning with safe, eco-friendly products and a crew that cares about every detail, inside and out. We strive to serve you day after day with clear pricing and a comfortable wait—because your car deserves spotless care from people who love doing the job right.",
+  "@profileWasherDescriptionSample": {
+    "description": "Placeholder washer description until API provides copy"
+  },
+  "profileWasherEditPageTitle": "Edit washer profile",
+  "@profileWasherEditPageTitle": {
+    "description": "App bar title for edit washer profile screen"
+  },
+  "profileWasherFieldWasherName": "Washer name",
+  "@profileWasherFieldWasherName": {
+    "description": "Label for wash name field on edit profile"
+  },
+  "profileWasherHintWasherName": "Enter wash name",
+  "@profileWasherHintWasherName": {
+    "description": "Hint for wash name field"
+  },
+  "profileWasherFieldPhone": "Phone number",
+  "@profileWasherFieldPhone": {
+    "description": "Label for phone field on edit washer profile"
+  },
+  "profileWasherHintPhone": "Enter contact phone number",
+  "@profileWasherHintPhone": {
+    "description": "Hint for phone field"
+  },
+  "profileWasherFieldAddress": "City and address",
+  "@profileWasherFieldAddress": {
+    "description": "Label for address field"
+  },
+  "profileWasherHintAddress": "Enter full wash address",
+  "@profileWasherHintAddress": {
+    "description": "Hint for address field"
+  },
+  "profileWasherFieldWorkStart": "Opening time",
+  "@profileWasherFieldWorkStart": {
+    "description": "Label for work start time"
+  },
+  "profileWasherHintWorkStart": "Enter opening time",
+  "@profileWasherHintWorkStart": {
+    "description": "Hint for opening time"
+  },
+  "profileWasherFieldWorkEnd": "Closing time",
+  "@profileWasherFieldWorkEnd": {
+    "description": "Label for work end time"
+  },
+  "profileWasherHintWorkEnd": "Enter closing time",
+  "@profileWasherHintWorkEnd": {
+    "description": "Hint for closing time"
+  },
+  "profileWasherChooseServicesTitle": "Choose the services you offer",
+  "@profileWasherChooseServicesTitle": {
+    "description": "Section title on edit washer profile"
+  },
+  "profileWasherFieldDescription": "Description",
+  "@profileWasherFieldDescription": {
+    "description": "Label for description field"
+  },
+  "profileWasherHintDescription": "Enter wash description",
+  "@profileWasherHintDescription": {
+    "description": "Hint for description field"
+  },
+  "profileWasherTierBasic": "Basic",
+  "@profileWasherTierBasic": {
+    "description": "Basic tier name"
+  },
+  "profileWasherTierVip": "Vip",
+  "@profileWasherTierVip": {
+    "description": "VIP tier name"
+  },
+  "profileWasherTierPremium": "Premium",
+  "@profileWasherTierPremium": {
+    "description": "Premium tier name"
+  },
+  "profileWasherFieldPrice": "Price",
+  "@profileWasherFieldPrice": {
+    "description": "Price field label under tier"
+  },
+  "profileWasherHintPrice": "Enter price",
+  "@profileWasherHintPrice": {
+    "description": "Hint for tier price field"
+  },
+  "profileWasherSaveChanges": "Save changes",
+  "@profileWasherSaveChanges": {
+    "description": "Primary save button on edit washer profile"
   }
 }
 

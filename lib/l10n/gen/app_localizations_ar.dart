@@ -1182,4 +1182,90 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ratingsSendRating => 'إرسال التقييم';
+
+  @override
+  String get profileWasherPageTitle => 'ملف المنظّف';
+
+  @override
+  String get profileWasherEditProfile => 'تعديل الملف';
+
+  @override
+  String get profileWasherSampleShopName => 'مغسل المحبة';
+
+  @override
+  String profileWasherRatingsCountLine(int count) {
+    return '$count تقييمات';
+  }
+
+  @override
+  String get profileWasherSampleFullAddress => 'دمشق - ساحة العباسيين - مدخل ساحة القصور';
+
+  @override
+  String get profileWasherSamplePhone => '0987654321';
+
+  @override
+  String get profileWasherAboutTitle => 'عن المغسلة';
+
+  @override
+  String get profileWasherDescriptionSample => 'في مغسل المحبة نوفّر لكم غسيلاً احترافياً للسيارات بمنتجات آمنة وصديقة للبيئة، مع فريق يهتم بتفاصيل السيارة من الخارج إلى الداخل. نسعى لخدمتكم يوماً بعد يوم بأسعار واضحة ووقت انتظار مريح، لتشعرون أن سيارتكم في عناية ناس بتحب الشغل النظيف.';
+
+  @override
+  String get profileWasherEditPageTitle => 'تعديل ملف المنظّف';
+
+  @override
+  String get profileWasherFieldWasherName => 'اسم المغسل';
+
+  @override
+  String get profileWasherHintWasherName => 'ادخل اسم المغسل';
+
+  @override
+  String get profileWasherFieldPhone => 'رقم الهاتف';
+
+  @override
+  String get profileWasherHintPhone => 'ادخل رقم الهاتف للتواصل';
+
+  @override
+  String get profileWasherFieldAddress => 'المدينة والعنوان';
+
+  @override
+  String get profileWasherHintAddress => 'ادخل عنوان المغسل بالتفصيل';
+
+  @override
+  String get profileWasherFieldWorkStart => 'بداية العمل';
+
+  @override
+  String get profileWasherHintWorkStart => 'ادخل وقت بداية العمل';
+
+  @override
+  String get profileWasherFieldWorkEnd => 'نهاية العمل';
+
+  @override
+  String get profileWasherHintWorkEnd => 'ادخل وقت نهاية العمل';
+
+  @override
+  String get profileWasherChooseServicesTitle => 'اختر الخدمات التي تقدمها';
+
+  @override
+  String get profileWasherFieldDescription => 'الوصف';
+
+  @override
+  String get profileWasherHintDescription => 'ادخل وصف المغسلة';
+
+  @override
+  String get profileWasherTierBasic => 'Basic';
+
+  @override
+  String get profileWasherTierVip => 'Vip';
+
+  @override
+  String get profileWasherTierPremium => 'Premium';
+
+  @override
+  String get profileWasherFieldPrice => 'السعر';
+
+  @override
+  String get profileWasherHintPrice => 'ادخل السعر';
+
+  @override
+  String get profileWasherSaveChanges => 'حفظ التغييرات';
 }

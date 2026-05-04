@@ -1790,6 +1790,119 @@
   "ratingsSendRating": "إرسال التقييم",
   "@ratingsSendRating": {
     "description": "زر إرسال تقييم المغسلة"
+  },
+  "profileWasherPageTitle": "ملف المنظّف",
+  "@profileWasherPageTitle": {
+    "description": "عنوان شريط شاشة ملف المغسلة (المالك)"
+  },
+  "profileWasherEditProfile": "تعديل الملف",
+  "@profileWasherEditProfile": {
+    "description": "زر التعديل في شاشة ملف المغسلة"
+  },
+  "profileWasherSampleShopName": "مغسل المحبة",
+  "@profileWasherSampleShopName": {
+    "description": "اسم تجريبي للمغسلة حتى توفر بيانات من الخادم"
+  },
+  "profileWasherRatingsCountLine": "{count} تقييمات",
+  "@profileWasherRatingsCountLine": {
+    "description": "عدد التقييمات أسفل النجوم في ملف المنظّف",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "profileWasherSampleFullAddress": "دمشق - ساحة العباسيين - مدخل ساحة القصور",
+  "@profileWasherSampleFullAddress": {
+    "description": "عنوان تجريبي حتى توفر بيانات من الخادم"
+  },
+  "profileWasherSamplePhone": "0987654321",
+  "@profileWasherSamplePhone": {
+    "description": "رقم هاتف تجريبي على بطاقة ملف المنظّف"
+  },
+  "profileWasherAboutTitle": "عن المغسلة",
+  "@profileWasherAboutTitle": {
+    "description": "عنوان قسم الوصف النصفي في ملف المنظّف"
+  },
+  "profileWasherDescriptionSample": "في مغسل المحبة نوفّر لكم غسيلاً احترافياً للسيارات بمنتجات آمنة وصديقة للبيئة، مع فريق يهتم بتفاصيل السيارة من الخارج إلى الداخل. نسعى لخدمتكم يوماً بعد يوم بأسعار واضحة ووقت انتظار مريح، لتشعرون أن سيارتكم في عناية ناس بتحب الشغل النظيف.",
+  "@profileWasherDescriptionSample": {
+    "description": "وصف تجريبي قصير للمغسلة حتى توفر البيانات من الخادم"
+  },
+  "profileWasherEditPageTitle": "تعديل ملف المنظّف",
+  "@profileWasherEditPageTitle": {
+    "description": "عنوان شريط شاشة تعديل ملف المغسلة"
+  },
+  "profileWasherFieldWasherName": "اسم المغسل",
+  "@profileWasherFieldWasherName": {
+    "description": "تسمية حقل اسم المغسل في التعديل"
+  },
+  "profileWasherHintWasherName": "ادخل اسم المغسل",
+  "@profileWasherHintWasherName": {
+    "description": "تلميح حقل اسم المغسل"
+  },
+  "profileWasherFieldPhone": "رقم الهاتف",
+  "@profileWasherFieldPhone": {
+    "description": "تسمية حقل الهاتف في تعديل الملف"
+  },
+  "profileWasherHintPhone": "ادخل رقم الهاتف للتواصل",
+  "@profileWasherHintPhone": {
+    "description": "تلميح حقل الهاتف"
+  },
+  "profileWasherFieldAddress": "المدينة والعنوان",
+  "@profileWasherFieldAddress": {
+    "description": "تسمية حقل العنوان"
+  },
+  "profileWasherHintAddress": "ادخل عنوان المغسل بالتفصيل",
+  "@profileWasherHintAddress": {
+    "description": "تلميح حقل العنوان"
+  },
+  "profileWasherFieldWorkStart": "بداية العمل",
+  "@profileWasherFieldWorkStart": {
+    "description": "تسمية وقت بداية العمل"
+  },
+  "profileWasherHintWorkStart": "ادخل وقت بداية العمل",
+  "@profileWasherHintWorkStart": {
+    "description": "تلميح وقت البداية"
+  },
+  "profileWasherFieldWorkEnd": "نهاية العمل",
+  "@profileWasherFieldWorkEnd": {
+    "description": "تسمية وقت نهاية العمل"
+  },
+  "profileWasherHintWorkEnd": "ادخل وقت نهاية العمل",
+  "@profileWasherHintWorkEnd": {
+    "description": "تلميح وقت النهاية"
+  },
+  "profileWasherChooseServicesTitle": "اختر الخدمات التي تقدمها",
+  "@profileWasherChooseServicesTitle": {
+    "description": "عنوان قسم الخدمات في التعديل"
+  },
+  "profileWasherFieldDescription": "الوصف",
+  "@profileWasherFieldDescription": {
+    "description": "تسمية حقل وصف المغسلة"
+  },
+  "profileWasherHintDescription": "ادخل وصف المغسلة",
+  "@profileWasherHintDescription": {
+    "description": "تلميح حقل الوصف"
+  },
+  "profileWasherTierBasic": "Basic",
+  "@profileWasherTierBasic": {
+    "description": "اسم الباقة الأساسية"
+  },
+  "profileWasherTierVip": "Vip",
+  "@profileWasherTierVip": {
+    "description": "اسم باقة VIP"
+  },
+  "profileWasherTierPremium": "Premium",
+  "@profileWasherTierPremium": {
+    "description": "اسم الباقة المميزة"
+  },
+  "profileWasherFieldPrice": "السعر",
+  "@profileWasherFieldPrice": {
+    "description": "تسمية حقل السعر تحت الباقة"
+  },
+  "profileWasherHintPrice": "ادخل السعر",
+  "@profileWasherHintPrice": {
+    "description": "تلميح حقل السعر"
+  },
+  "profileWasherSaveChanges": "حفظ التغييرات",
+  "@profileWasherSaveChanges": {
+    "description": "زر حفظ تعديلات ملف المغسلة"
   }
 }
 
