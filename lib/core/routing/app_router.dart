@@ -1,3 +1,4 @@
+import 'package:car_care/features/car_washer/profile_washer/presentation/pages/edit_profile_washer_page.dart';
 import 'package:car_care/features/car_washer/profile_washer/presentation/pages/profile_washer_page.dart';
 import 'package:car_care/features/car_washer/availability/presentation/pages/availability_page.dart';
 import 'package:car_care/features/car_washer/ratings/presentation/pages/ratings_page.dart';
@@ -49,7 +50,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.my_vehicles_page,
+    initialLocation: Routes.profile_washer,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -151,6 +152,11 @@ class AppRouter {
             path: Routes.profile_washer,
             name: '/profile_washer',
             builder: (context, state) => const ProfileWasherPage(),
+          ),
+          GoRoute(
+            path: Routes.editProfileWasher,
+            name: '/edit_profile_washer',
+            builder: (context, state) => const EditProfileWasherPage(),
           ),
         ],
       ),

@@ -1182,4 +1182,90 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ratingsSendRating => 'Send rating';
+
+  @override
+  String get profileWasherPageTitle => 'Washer Profile';
+
+  @override
+  String get profileWasherEditProfile => 'Edit profile';
+
+  @override
+  String get profileWasherSampleShopName => 'Mahaba Car Wash';
+
+  @override
+  String profileWasherRatingsCountLine(int count) {
+    return '$count ratings';
+  }
+
+  @override
+  String get profileWasherSampleFullAddress => 'Damascus - Abbasiyyin Square - Entrance to Al-Qusour Square';
+
+  @override
+  String get profileWasherSamplePhone => '0987654321';
+
+  @override
+  String get profileWasherAboutTitle => 'About the wash';
+
+  @override
+  String get profileWasherDescriptionSample => 'At Mahaba Car Wash we deliver professional cleaning with safe, eco-friendly products and a crew that cares about every detail, inside and out. We strive to serve you day after day with clear pricing and a comfortable wait—because your car deserves spotless care from people who love doing the job right.';
+
+  @override
+  String get profileWasherEditPageTitle => 'Edit washer profile';
+
+  @override
+  String get profileWasherFieldWasherName => 'Washer name';
+
+  @override
+  String get profileWasherHintWasherName => 'Enter wash name';
+
+  @override
+  String get profileWasherFieldPhone => 'Phone number';
+
+  @override
+  String get profileWasherHintPhone => 'Enter contact phone number';
+
+  @override
+  String get profileWasherFieldAddress => 'City and address';
+
+  @override
+  String get profileWasherHintAddress => 'Enter full wash address';
+
+  @override
+  String get profileWasherFieldWorkStart => 'Opening time';
+
+  @override
+  String get profileWasherHintWorkStart => 'Enter opening time';
+
+  @override
+  String get profileWasherFieldWorkEnd => 'Closing time';
+
+  @override
+  String get profileWasherHintWorkEnd => 'Enter closing time';
+
+  @override
+  String get profileWasherChooseServicesTitle => 'Choose the services you offer';
+
+  @override
+  String get profileWasherFieldDescription => 'Description';
+
+  @override
+  String get profileWasherHintDescription => 'Enter wash description';
+
+  @override
+  String get profileWasherTierBasic => 'Basic';
+
+  @override
+  String get profileWasherTierVip => 'Vip';
+
+  @override
+  String get profileWasherTierPremium => 'Premium';
+
+  @override
+  String get profileWasherFieldPrice => 'Price';
+
+  @override
+  String get profileWasherHintPrice => 'Enter price';
+
+  @override
+  String get profileWasherSaveChanges => 'Save changes';
 }

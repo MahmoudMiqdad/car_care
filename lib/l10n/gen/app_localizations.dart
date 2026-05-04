@@ -2412,6 +2412,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Send rating'**
   String get ratingsSendRating;
+
+  /// App bar title for washer owner profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Washer Profile'**
+  String get profileWasherPageTitle;
+
+  /// Primary button on washer profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile'**
+  String get profileWasherEditProfile;
+
+  /// Placeholder shop name until API data exists
+  ///
+  /// In en, this message translates to:
+  /// **'Mahaba Car Wash'**
+  String get profileWasherSampleShopName;
+
+  /// Rating count subtitle under stars on washer profile
+  ///
+  /// In en, this message translates to:
+  /// **'{count} ratings'**
+  String profileWasherRatingsCountLine(int count);
+
+  /// Placeholder full address until API data exists
+  ///
+  /// In en, this message translates to:
+  /// **'Damascus - Abbasiyyin Square - Entrance to Al-Qusour Square'**
+  String get profileWasherSampleFullAddress;
+
+  /// Placeholder phone displayed on washer profile card
+  ///
+  /// In en, this message translates to:
+  /// **'0987654321'**
+  String get profileWasherSamplePhone;
+
+  /// Section title for washer description on profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'About the wash'**
+  String get profileWasherAboutTitle;
+
+  /// Placeholder washer description until API provides copy
+  ///
+  /// In en, this message translates to:
+  /// **'At Mahaba Car Wash we deliver professional cleaning with safe, eco-friendly products and a crew that cares about every detail, inside and out. We strive to serve you day after day with clear pricing and a comfortable wait—because your car deserves spotless care from people who love doing the job right.'**
+  String get profileWasherDescriptionSample;
+
+  /// App bar title for edit washer profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Edit washer profile'**
+  String get profileWasherEditPageTitle;
+
+  /// Label for wash name field on edit profile
+  ///
+  /// In en, this message translates to:
+  /// **'Washer name'**
+  String get profileWasherFieldWasherName;
+
+  /// Hint for wash name field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter wash name'**
+  String get profileWasherHintWasherName;
+
+  /// Label for phone field on edit washer profile
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get profileWasherFieldPhone;
+
+  /// Hint for phone field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter contact phone number'**
+  String get profileWasherHintPhone;
+
+  /// Label for address field
+  ///
+  /// In en, this message translates to:
+  /// **'City and address'**
+  String get profileWasherFieldAddress;
+
+  /// Hint for address field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter full wash address'**
+  String get profileWasherHintAddress;
+
+  /// Label for work start time
+  ///
+  /// In en, this message translates to:
+  /// **'Opening time'**
+  String get profileWasherFieldWorkStart;
+
+  /// Hint for opening time
+  ///
+  /// In en, this message translates to:
+  /// **'Enter opening time'**
+  String get profileWasherHintWorkStart;
+
+  /// Label for work end time
+  ///
+  /// In en, this message translates to:
+  /// **'Closing time'**
+  String get profileWasherFieldWorkEnd;
+
+  /// Hint for closing time
+  ///
+  /// In en, this message translates to:
+  /// **'Enter closing time'**
+  String get profileWasherHintWorkEnd;
+
+  /// Section title on edit washer profile
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the services you offer'**
+  String get profileWasherChooseServicesTitle;
+
+  /// Label for description field
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get profileWasherFieldDescription;
+
+  /// Hint for description field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter wash description'**
+  String get profileWasherHintDescription;
+
+  /// Basic tier name
+  ///
+  /// In en, this message translates to:
+  /// **'Basic'**
+  String get profileWasherTierBasic;
+
+  /// VIP tier name
+  ///
+  /// In en, this message translates to:
+  /// **'Vip'**
+  String get profileWasherTierVip;
+
+  /// Premium tier name
+  ///
+  /// In en, this message translates to:
+  /// **'Premium'**
+  String get profileWasherTierPremium;
+
+  /// Price field label under tier
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get profileWasherFieldPrice;
+
+  /// Hint for tier price field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter price'**
+  String get profileWasherHintPrice;
+
+  /// Primary save button on edit washer profile
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get profileWasherSaveChanges;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

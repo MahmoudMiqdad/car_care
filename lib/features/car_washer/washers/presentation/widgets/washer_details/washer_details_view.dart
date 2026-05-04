@@ -2,7 +2,6 @@ import 'package:car_care/features/car_washer/washers/domain/entities/washers_ent
 import 'package:car_care/features/car_washer/washers/presentation/widgets/washer_details/washer_details_contact_row.dart';
 import 'package:car_care/features/car_washer/washers/presentation/widgets/washer_details/washer_details_header.dart';
 import 'package:car_care/features/car_washer/washers/presentation/widgets/washer_details/washer_details_location_card.dart';
-import 'package:car_care/features/car_washer/washers/presentation/widgets/washer_details/washer_details_reviews_section.dart';
 import 'package:car_care/features/car_washer/washers/presentation/widgets/washer_details/washer_details_services_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
