@@ -1169,6 +1169,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bookingsMenuRateService => 'تقييم الخدمة';
 
   @override
+  String get bookingDetailsPageTitle => 'تفاصيل الحجوزات';
+
+  @override
+  String get bookingDetailsServiceSectionTitle => 'تفاصيل عن الخدمة';
+
+  @override
+  String get bookingDetailsAppointmentSectionTitle => 'تفاصيل عن الموعد';
+
+  @override
+  String get bookingDetailsUserNotesSectionTitle => 'ملاحظات المستخدم';
+
+  @override
+  String get bookingDetailsWasherNameLabel => 'اسم المغسل';
+
+  @override
+  String get bookingDetailsOrderDateLabel => 'تاريخ الطلب';
+
+  @override
+  String get bookingDetailsVehicleLabel => 'المركبة';
+
+  @override
   String get ratingsServiceInfoSectionTitle => 'معلومات عن الخدمة';
 
   @override

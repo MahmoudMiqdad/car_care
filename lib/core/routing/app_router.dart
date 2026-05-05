@@ -3,6 +3,7 @@ import 'package:car_care/features/car_washer/profile_washer/presentation/pages/p
 import 'package:car_care/features/car_washer/availability/presentation/pages/availability_page.dart';
 import 'package:car_care/features/car_washer/ratings/presentation/pages/ratings_page.dart';
 import 'package:car_care/features/car_washer/bookings/presentation/pages/bookings_page.dart';
+import 'package:car_care/features/car_washer/bookings/presentation/pages/booking_details_page.dart';
 import 'package:car_care/features/car_washer/washers/domain/entities/washers_entity.dart';
 import 'package:car_care/features/car_washer/washers/presentation/pages/washer_details_page.dart';
 import 'package:car_care/features/car_washer/washers/presentation/pages/washer_reservation_page.dart';
@@ -50,7 +51,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.profile_washer,
+    initialLocation: Routes.bookings,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -142,6 +143,11 @@ class AppRouter {
             path: Routes.bookings,
             name: '/bookings',
             builder: (context, state) => const BookingsPage(),
+          ),
+          GoRoute(
+            path: Routes.bookingDetails,
+            name: '/booking_details',
+            builder: (context, state) => const BookingDetailsPage(),
           ),
           GoRoute(
             path: Routes.availability,

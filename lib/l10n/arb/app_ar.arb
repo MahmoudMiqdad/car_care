@@ -1771,6 +1771,34 @@
   "@bookingsMenuRateService": {
     "description": "إجراء قائمة: تقييم الخدمة"
   },
+  "bookingDetailsPageTitle": "تفاصيل الحجوزات",
+  "@bookingDetailsPageTitle": {
+    "description": "عنوان شريط شاشة تفاصيل الحجز"
+  },
+  "bookingDetailsServiceSectionTitle": "تفاصيل عن الخدمة",
+  "@bookingDetailsServiceSectionTitle": {
+    "description": "عنوان القسم الأول في شاشة تفاصيل الحجز"
+  },
+  "bookingDetailsAppointmentSectionTitle": "تفاصيل عن الموعد",
+  "@bookingDetailsAppointmentSectionTitle": {
+    "description": "عنوان قسم الموعد في شاشة تفاصيل الحجز"
+  },
+  "bookingDetailsUserNotesSectionTitle": "ملاحظات المستخدم",
+  "@bookingDetailsUserNotesSectionTitle": {
+    "description": "عنوان قسم ملاحظات المستخدم في شاشة تفاصيل الحجز"
+  },
+  "bookingDetailsWasherNameLabel": "اسم المغسل",
+  "@bookingDetailsWasherNameLabel": {
+    "description": "عنوان سطر اسم المغسل في الكارد الأول بتفاصيل الحجز"
+  },
+  "bookingDetailsOrderDateLabel": "تاريخ الطلب",
+  "@bookingDetailsOrderDateLabel": {
+    "description": "عنوان سطر تاريخ الطلب في كارد الموعد"
+  },
+  "bookingDetailsVehicleLabel": "المركبة",
+  "@bookingDetailsVehicleLabel": {
+    "description": "عنوان سطر المركبة في كارد الموعد"
+  },
   "ratingsServiceInfoSectionTitle": "معلومات عن الخدمة",
   "@ratingsServiceInfoSectionTitle": {
     "description": "عنوان القسم الأول في شاشة تقييم المغسلة"

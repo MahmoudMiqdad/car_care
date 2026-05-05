@@ -1768,6 +1768,34 @@
   "@bookingsMenuRateService": {
     "description": "Menu action for rating service"
   },
+  "bookingDetailsPageTitle": "Booking details",
+  "@bookingDetailsPageTitle": {
+    "description": "App bar title for booking details screen"
+  },
+  "bookingDetailsServiceSectionTitle": "Service details",
+  "@bookingDetailsServiceSectionTitle": {
+    "description": "First section title on booking details screen"
+  },
+  "bookingDetailsAppointmentSectionTitle": "Appointment details",
+  "@bookingDetailsAppointmentSectionTitle": {
+    "description": "Appointment section title on booking details screen"
+  },
+  "bookingDetailsUserNotesSectionTitle": "User notes",
+  "@bookingDetailsUserNotesSectionTitle": {
+    "description": "User notes section title on booking details screen"
+  },
+  "bookingDetailsWasherNameLabel": "Car wash name",
+  "@bookingDetailsWasherNameLabel": {
+    "description": "Washer name row label in first card on booking details screen"
+  },
+  "bookingDetailsOrderDateLabel": "Order date",
+  "@bookingDetailsOrderDateLabel": {
+    "description": "Order date row label in appointment card"
+  },
+  "bookingDetailsVehicleLabel": "Vehicle",
+  "@bookingDetailsVehicleLabel": {
+    "description": "Vehicle row label in appointment card"
+  },
   "ratingsServiceInfoSectionTitle": "Service information",
   "@ratingsServiceInfoSectionTitle": {
     "description": "First section title on car wash rating screen"

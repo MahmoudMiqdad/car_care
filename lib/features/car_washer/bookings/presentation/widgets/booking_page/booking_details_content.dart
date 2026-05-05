@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/theme/app_colors.dart';
-import '../../../../../l10n.dart';
+import '../../../../../../core/theme/buttons/app_button_widget.dart';
+import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../l10n.dart';
 
 class BookingDetailsContent extends StatelessWidget {
-  const BookingDetailsContent({super.key});
+  const BookingDetailsContent({required this.onShowDetails, super.key});
+
+  final VoidCallback onShowDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +48,19 @@ class BookingDetailsContent extends StatelessWidget {
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w700,
                   color: AppColors.black,
+                ),
+              ),
+              SizedBox(height: 6.h),
+              SizedBox(
+                  width: 130,
+                  height: 36.h,
+                  child: AppButton(
+                    onPressed: onShowDetails,
+                    text: context.l10n.bookingsMenuShowDetails,
+                    backgroundColor: AppColors.primary,
+                    textColor: AppColors.white,
+                    fontSize: 16,
+                  
                 ),
               ),
             ],
