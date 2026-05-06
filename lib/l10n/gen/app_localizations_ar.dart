@@ -514,7 +514,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get requestStatus => 'حالة الطلب';
 
   @override
-  String get rateService => 'تقييم الخدمة';
+  String get rateService => 'تقييم المغسلة';
 
   @override
   String get emergencySOS => 'طوارئ';
@@ -1289,4 +1289,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profileWasherSaveChanges => 'حفظ التغييرات';
+
+  @override
+  String get showRatingTotalBookings => 'اجمالي الحجوزات';
+
+  @override
+  String get showRatingAllReserved => 'إجمالي الحجوزات';
+
+  @override
+  String get showRatingInProgress => 'قيد المعالجة';
+
+  @override
+  String get showRatingAverageRatings => 'متوسط التقييمات';
+
+  @override
+  String get showRatingUsersComments => 'تعليقات المستخدمين';
 }

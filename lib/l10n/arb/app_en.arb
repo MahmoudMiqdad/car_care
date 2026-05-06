@@ -1928,6 +1928,26 @@
   "profileWasherSaveChanges": "Save changes",
   "@profileWasherSaveChanges": {
     "description": "Primary save button on edit washer profile"
+  },
+  "showRatingTotalBookings": "Total bookings",
+  "@showRatingTotalBookings": {
+    "description": "Title of total bookings section on ratings screen"
+  },
+  "showRatingAllReserved": "All Reserved",
+  "@showRatingAllReserved": {
+    "description": "All reserved count label on ratings screen"
+  },
+  "showRatingInProgress": "in_progress",
+  "@showRatingInProgress": {
+    "description": "In progress count label on ratings screen"
+  },
+  "showRatingAverageRatings": "Average ratings",
+  "@showRatingAverageRatings": {
+    "description": "Title of average ratings section"
+  },
+  "showRatingUsersComments": "Users comments",
+  "@showRatingUsersComments": {
+    "description": "Title of users comments section"
   }
 }
 

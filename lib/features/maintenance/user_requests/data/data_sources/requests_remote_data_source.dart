@@ -1,4 +1,3 @@
-import 'package:car_care/core/domain/entities/base_response_entity.dart';
 import 'package:car_care/core/network/api_endpoints.dart';
 import 'package:car_care/core/network/api_service.dart';
 import 'package:car_care/core/network/model/base_response_model.dart' show BaseResponseModel;

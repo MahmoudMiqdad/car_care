@@ -842,9 +842,9 @@
     "description": "حالة الطلب"
   },
   
-  "rateService": "تقييم الخدمة",
+  "rateService": "تقييم المغسلة",
   "@rateService": {
-    "description": "تقييم الخدمة"
+    "description": "تقييم المغسلة"
   },
   
   "emergencySOS": "طوارئ",
@@ -1931,6 +1931,27 @@
   "profileWasherSaveChanges": "حفظ التغييرات",
   "@profileWasherSaveChanges": {
     "description": "زر حفظ تعديلات ملف المغسلة"
+  },
+  "showRatingTotalBookings": "اجمالي الحجوزات",
+  "@showRatingTotalBookings": {
+    "description": "عنوان قسم إجمالي الحجوزات في شاشة عرض التقييمات"
+  },
+  "showRatingAllReserved": "إجمالي الحجوزات",
+  "@showRatingAllReserved": {
+    "description": "إجمالي الحجوزات المحجوزة"
+  },
+  "showRatingInProgress": "قيد المعالجة",
+  "@showRatingInProgress": {
+    "description": "عدد الحجوزات قيد التنفيذ في شاشة عرض التقييمات"
+  },
+  "showRatingAverageRatings": "متوسط التقييمات",
+  "@showRatingAverageRatings": {
+    "description": "عنوان قسم متوسط التقييمات"
+  },
+  "showRatingUsersComments": "تعليقات المستخدمين",
+  "@showRatingUsersComments": {
+    "description": "عنوان قسم تعليقات المستخدمين"
   }
+
 }
 

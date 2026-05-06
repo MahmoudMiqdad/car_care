@@ -2,6 +2,7 @@ import 'package:car_care/features/car_washer/profile_washer/presentation/pages/e
 import 'package:car_care/features/car_washer/profile_washer/presentation/pages/profile_washer_page.dart';
 import 'package:car_care/features/car_washer/availability/presentation/pages/availability_page.dart';
 import 'package:car_care/features/car_washer/ratings/presentation/pages/ratings_page.dart';
+import 'package:car_care/features/car_washer/ratings/presentation/pages/show_rating.dart';
 import 'package:car_care/features/car_washer/bookings/presentation/pages/bookings_page.dart';
 import 'package:car_care/features/car_washer/bookings/presentation/pages/booking_details_page.dart';
 import 'package:car_care/features/car_washer/washers/domain/entities/washers_entity.dart';
@@ -51,7 +52,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.bookings,
+    initialLocation: Routes.show_ratings,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -129,16 +130,16 @@ class AppRouter {
             },
           ),
 
-         GoRoute(
-  path: Routes.washerReservation,
-  name: 'washerReservation',
-  builder: (context, state) {
-    final extra = state.extra;
-    final washer = extra is WasherEntity ? extra : null;
-    if (washer == null) return const SizedBox.shrink();
-    return WasherReservationPage(washer: washer);
-  },
-),
+          GoRoute(
+            path: Routes.washerReservation,
+            name: 'washerReservation',
+            builder: (context, state) {
+              final extra = state.extra;
+              final washer = extra is WasherEntity ? extra : null;
+              if (washer == null) return const SizedBox.shrink();
+              return WasherReservationPage(washer: washer);
+            },
+          ),
           GoRoute(
             path: Routes.bookings,
             name: '/bookings',
@@ -172,7 +173,7 @@ class AppRouter {
         parentNavigatorKey: rootNavigatorKey,
         builder: (context, state) => ProfileSetupPage(),
       ),
-          GoRoute(
+      GoRoute(
         path: Routes.user_profile,
         name: '/user_profile_page.dart',
         parentNavigatorKey: rootNavigatorKey,
@@ -252,18 +253,24 @@ class AppRouter {
         builder: (context, state) => const RatingsPage(),
       ),
       GoRoute(
+        path: Routes.show_ratings,
+        name: '/show_ratings',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => const ShowRatingPage(),
+      ),
+      GoRoute(
         path: Routes.statistics,
         builder: (context, state) => const UserStatisticsPage(),
       ),
       GoRoute(
         path: Routes.addRequest,
         name: '/add_requests_page.dart',
-        
-        
-        builder:(context, state) { 
+
+        builder: (context, state) {
           final extra = state.extra;
           final vehicleId = extra is String ? extra : null;
-           return AddRequestsPage(vehicleId:vehicleId ?? '');},
+          return AddRequestsPage(vehicleId: vehicleId ?? '');
+        },
       ),
       GoRoute(
         path: Routes.orders,
@@ -317,4 +324,3 @@ class AppRouter {
     ],
   );
 }
-
