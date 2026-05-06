@@ -66,7 +66,7 @@ class WashersCityFilterBar extends StatelessWidget {
 
               ValueListenableBuilder<TextEditingValue>(
                 valueListenable: controller,
-                builder: (_, value, __) {
+                builder: (_, value, _) {
                   final hasText = value.text.trim().isNotEmpty;
                   if (!hasText) return SizedBox(width: 4.w);
 

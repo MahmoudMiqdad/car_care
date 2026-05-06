@@ -1,4 +1,4 @@
-import 'package:car_care/core/constants/app_assets.dart'; // تأكد من وجود مسار الصور
+import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/l10n.dart';

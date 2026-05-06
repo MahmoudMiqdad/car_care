@@ -1,7 +1,7 @@
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/const.dart';
 import 'package:car_care/core/widgets/image_background.dart';
-import 'package:car_care/features/car_washer/ratings/presentation/widgets/ratings_body.dart';
+import 'package:car_care/features/car_washer/ratings/presentation/widgets/ratings_page/ratings_body.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 

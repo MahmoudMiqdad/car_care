@@ -73,7 +73,6 @@ class _EditProfileWasherLoadedFormState extends State<EditProfileWasherLoadedFor
         if (context.canPop()) context.pop();
       },
       onSave: () {
-        // TODO: wire update washer profile API / cubit
       },
       onAvatarAction: () {},
     );

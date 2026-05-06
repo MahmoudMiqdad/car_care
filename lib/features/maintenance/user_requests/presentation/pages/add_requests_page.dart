@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/functions/upload_file_to_api.dart';
 import 'package:car_care/core/routing/routes.dart';
@@ -63,6 +65,8 @@ class _RequestsPageState extends State<_RequestsPageBody> {
     if (picked.isEmpty) return;
 
     if (picked.length + _images.length > 3) {
+      // ignore: duplicate_ignore
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('يمكنك اختيار 3 صور كحد أقصى'),

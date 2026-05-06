@@ -2622,6 +2622,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save changes'**
   String get profileWasherSaveChanges;
+
+  /// Title of total bookings section on ratings screen
+  ///
+  /// In en, this message translates to:
+  /// **'Total bookings'**
+  String get showRatingTotalBookings;
+
+  /// All reserved count label on ratings screen
+  ///
+  /// In en, this message translates to:
+  /// **'All Reserved'**
+  String get showRatingAllReserved;
+
+  /// In progress count label on ratings screen
+  ///
+  /// In en, this message translates to:
+  /// **'in_progress'**
+  String get showRatingInProgress;
+
+  /// Title of average ratings section
+  ///
+  /// In en, this message translates to:
+  /// **'Average ratings'**
+  String get showRatingAverageRatings;
+
+  /// Title of users comments section
+  ///
+  /// In en, this message translates to:
+  /// **'Users comments'**
+  String get showRatingUsersComments;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

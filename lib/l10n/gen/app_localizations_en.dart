@@ -1289,4 +1289,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileWasherSaveChanges => 'Save changes';
+
+  @override
+  String get showRatingTotalBookings => 'Total bookings';
+
+  @override
+  String get showRatingAllReserved => 'All Reserved';
+
+  @override
+  String get showRatingInProgress => 'in_progress';
+
+  @override
+  String get showRatingAverageRatings => 'Average ratings';
+
+  @override
+  String get showRatingUsersComments => 'Users comments';
 }
