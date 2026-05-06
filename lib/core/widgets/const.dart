@@ -32,7 +32,8 @@ class _MainAppShellState extends State<MainAppShell> {
     final isProfile = location == Routes.user_profile;
     final hideShellChrome = location == Routes.all_requests ||
         location == Routes.profile_washer ||
-        location == Routes.editProfileWasher;
+        location == Routes.editProfileWasher ||
+        location == Routes.bookings;
 
     final menuAction = IconButton(
       onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),

@@ -2383,6 +2383,48 @@ abstract class AppLocalizations {
   /// **'Rate service'**
   String get bookingsMenuRateService;
 
+  /// App bar title for booking details screen
+  ///
+  /// In en, this message translates to:
+  /// **'Booking details'**
+  String get bookingDetailsPageTitle;
+
+  /// First section title on booking details screen
+  ///
+  /// In en, this message translates to:
+  /// **'Service details'**
+  String get bookingDetailsServiceSectionTitle;
+
+  /// Appointment section title on booking details screen
+  ///
+  /// In en, this message translates to:
+  /// **'Appointment details'**
+  String get bookingDetailsAppointmentSectionTitle;
+
+  /// User notes section title on booking details screen
+  ///
+  /// In en, this message translates to:
+  /// **'User notes'**
+  String get bookingDetailsUserNotesSectionTitle;
+
+  /// Washer name row label in first card on booking details screen
+  ///
+  /// In en, this message translates to:
+  /// **'Car wash name'**
+  String get bookingDetailsWasherNameLabel;
+
+  /// Order date row label in appointment card
+  ///
+  /// In en, this message translates to:
+  /// **'Order date'**
+  String get bookingDetailsOrderDateLabel;
+
+  /// Vehicle row label in appointment card
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle'**
+  String get bookingDetailsVehicleLabel;
+
   /// First section title on car wash rating screen
   ///
   /// In en, this message translates to:

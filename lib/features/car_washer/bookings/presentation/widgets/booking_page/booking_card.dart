@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/theme/app_colors.dart';
 import 'booking_action_menu.dart';
 import 'booking_details_content.dart';
 import 'booking_status_chips.dart';
@@ -9,10 +9,12 @@ class BookingCard extends StatelessWidget {
   const BookingCard({
     super.key,
     required this.statusChips,
+    required this.onShowDetails,
     this.showMenuByDefault = false,
   });
 
   final List<String> statusChips;
+  final VoidCallback onShowDetails;
   final bool showMenuByDefault;
 
   @override
@@ -33,7 +35,7 @@ class BookingCard extends StatelessWidget {
             children: [
               BookingStatusChips(statusChips: statusChips),
               SizedBox(height: 8.h),
-              const BookingDetailsContent(),
+              BookingDetailsContent(onShowDetails: onShowDetails),
             ],
           ),
         ),

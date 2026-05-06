@@ -1169,6 +1169,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bookingsMenuRateService => 'Rate service';
 
   @override
+  String get bookingDetailsPageTitle => 'Booking details';
+
+  @override
+  String get bookingDetailsServiceSectionTitle => 'Service details';
+
+  @override
+  String get bookingDetailsAppointmentSectionTitle => 'Appointment details';
+
+  @override
+  String get bookingDetailsUserNotesSectionTitle => 'User notes';
+
+  @override
+  String get bookingDetailsWasherNameLabel => 'Car wash name';
+
+  @override
+  String get bookingDetailsOrderDateLabel => 'Order date';
+
+  @override
+  String get bookingDetailsVehicleLabel => 'Vehicle';
+
+  @override
   String get ratingsServiceInfoSectionTitle => 'Service information';
 
   @override

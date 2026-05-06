@@ -1,7 +1,8 @@
 import 'package:car_care/core/widgets/const.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/widgets/image_background.dart';
-import 'package:car_care/features/car_washer/bookings/presentation/widgets/booking_card.dart';
-import 'package:car_care/features/car_washer/bookings/presentation/widgets/filter_drop_down.dart';
+import 'package:car_care/features/car_washer/bookings/presentation/widgets/booking_page/booking_card.dart';
+import 'package:car_care/features/car_washer/bookings/presentation/widgets/booking_page/filter_drop_down.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -52,6 +53,7 @@ class BookingsPage extends StatelessWidget {
                 final bookingIndex = index - 1;
                 return BookingCard(
                   statusChips: statusChips,
+                  onShowDetails: () => context.push(Routes.bookingDetails),
                   showMenuByDefault: bookings[bookingIndex],
                 );
               },
