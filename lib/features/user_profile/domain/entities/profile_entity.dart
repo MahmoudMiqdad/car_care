@@ -15,6 +15,7 @@ class ProfileEntity {
   final String createdAgo;
   final DateTime updatedAt;
   final bool profileCompleted;
+  final List<String> roles;
 
   ProfileEntity({
     required this.success,
@@ -33,5 +34,6 @@ class ProfileEntity {
     required this.createdAgo,
     required this.updatedAt,
     required this.profileCompleted,
+    this.roles = const [],
   });
 }

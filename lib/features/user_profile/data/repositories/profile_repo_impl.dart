@@ -47,6 +47,7 @@ AvatarEntity _mapAvatar(AvatarModel model) {
       createdAgo: data?.createdAgo ?? '',
       updatedAt: data?.updatedAt ?? DateTime.now(),
       profileCompleted: data?.profileCompleted ?? false,
+      roles: data?.parsedRoles ?? [],
     );
   }
 
