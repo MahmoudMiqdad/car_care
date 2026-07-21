@@ -1,4 +1,5 @@
 // شاشة تفاصيل طلب قطع الغيار لعميل
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
@@ -15,6 +16,7 @@ import 'package:car_care/features/spare_parts_store/customer/orders/presentation
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomerOrderDetailsPage extends StatefulWidget {
   const CustomerOrderDetailsPage({super.key, required this.orderId});
@@ -131,6 +133,21 @@ class _CustomerOrderDetailsPageState extends State<CustomerOrderDetailsPage> {
           _fadeSlide(visible: _s3, child: _DeliveryCard(order: order)),
           SizedBox(height: 12.h),
           _fadeSlide(visible: _s4, child: _TotalCard(totalPrice: order.totalPrice)),
+          if (order.status == 'out_for_delivery') ...[
+            SizedBox(height: 16.h),
+            _fadeSlide(
+              visible: _s4,
+              child: _TrackDeliveryButton(
+                onTrack: () => context.push(
+                  Routes.customerTrackDeliveryPath(order.id),
+                  extra: {
+                    'customerLat': order.customerLatitude,
+                    'customerLng': order.customerLongitude,
+                  },
+                ),
+              ),
+            ),
+          ],
           if (order.canCancel) ...[
             SizedBox(height: 16.h),
             _fadeSlide(
@@ -456,6 +473,39 @@ class _TotalCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _TrackDeliveryButton extends StatelessWidget {
+  const _TrackDeliveryButton({required this.onTrack});
+
+  final VoidCallback onTrack;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: onTrack,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primary,
+          foregroundColor: AppColors.white,
+          padding: EdgeInsets.symmetric(vertical: 12.h),
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+        ),
+        icon: Icon(Icons.location_on_outlined, size: 18.sp),
+        label: Text(
+          'تتبع التوصيل',
+          style: AppTypography.labelLarge.copyWith(
+            color: AppColors.white,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
       ),
     );
   }

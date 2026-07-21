@@ -5,7 +5,6 @@ import 'package:car_care/features/fuel_provider/provider_profile/presentation/cu
 import 'package:car_care/features/maintenance/user_quotations/domain/entities/quotation_entity.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/cubit/quotations_cubit.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/pages/quotation_details_page.dart';
-import 'package:car_care/features/maintenance/user_requests/domain/entities/maintenance_request_details_entity.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/cancel_request_cubit/cancel_request_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/show_request_cubit/show_request_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/pages/show_requests/maintenance_request_details_page.dart';
@@ -15,8 +14,6 @@ import 'package:car_care/features/technician_sos/presentation/pages/all_technici
 import 'package:car_care/features/user_fuel/domain/entities/user_fuel_order_entity.dart';
 import 'package:car_care/features/user_fuel/presentation/cubit/user_fuel_cubit/user_fuel_cubit.dart';
 import 'package:car_care/features/user_fuel/presentation/pages/fuel_orders_list_page.dart';
-import 'package:car_care/features/user_fuel/presentation/pages/fuel_sos_create_page.dart';
-
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/presentation/pages/bookings_page.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/domain/entities/washers_entity.dart';
@@ -25,6 +22,7 @@ import 'package:car_care/features/car_washer/car_wash/washers_browse/presentatio
 import 'package:car_care/features/car_washer/washers/washers_availability/presentation/pages/availability_page.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/pages/washer_bookings_details.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/pages/washer_bookings_page.dart';
+import 'package:car_care/features/car_washer/washers/washers_profile/presentation/pages/create_profile_washer_page.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/pages/edit_profile_washer_page.dart';
 import 'package:car_care/features/fuel_provider/provider_order/presentation/pages/provider_order_details_page.dart';
 import 'package:car_care/features/user_fuel/presentation/pages/fuel_order_details_page.dart';
@@ -81,6 +79,8 @@ import 'package:car_care/features/spare_parts_store/customer/orders/presentation
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/pages/owner_profile_page.dart';
 import 'package:car_care/features/spare_parts_store/owner/orders/presentation/pages/owner_orders_page.dart';
 import 'package:car_care/features/spare_parts_store/owner/orders/presentation/pages/owner_order_details_page.dart';
+import 'package:car_care/features/spare_parts_store/owner/delivery/presentation/pages/owner_share_location_page.dart';
+import 'package:car_care/features/spare_parts_store/customer/delivery_tracking/presentation/pages/customer_delivery_tracking_page.dart';
 import 'package:car_care/features/spare_parts_store/customer/products/presentation/pages/all_products_page.dart';
 import 'package:car_care/features/spare_parts_store/customer/products/presentation/pages/customer_product_details_page.dart';
 import 'package:car_care/features/spare_parts_store/customer/shops/presentation/pages/shop_details_page.dart';
@@ -101,16 +101,16 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.splash,
-    debugLogDiagnostics: true,
+initialLocation: Routes.home,   
+ debugLogDiagnostics: true,
     routes: [
       GoRoute(
   path: Routes.splash,
-  builder: (_, __) => const SplashScreen(),
+  builder: (_, _) => const SplashScreen(),
 ),
 GoRoute(
   path: Routes.onboarding,
-  builder: (_, __) => const OnboardingPage(),
+  builder: (_, _) => const OnboardingPage(),
 ),
       GoRoute(
         path: Routes.login,
@@ -270,9 +270,11 @@ GoRoute(
             name: '/profile_washer',
             builder: (context, state) => const ProfileWasherPage(),
           ),
-
-   
-         
+          GoRoute(
+            path: Routes.create_profile_washer,
+            name: 'createProfileWasher',
+            builder: (context, state) => const CreateProfileWasherPage(),
+          ),
 
           GoRoute(
             path: Routes.editProfileWasher,
@@ -571,6 +573,32 @@ GoRoute(
         builder: (context, state) {
           final orderId = int.parse(state.pathParameters['id']!);
           return OwnerOrderDetailsPage(orderId: orderId);
+        },
+      ),
+      GoRoute(
+        path: '${Routes.ownerShareLocation}/:id',
+        name: 'ownerShareLocation',
+        builder: (context, state) {
+          final orderId = int.parse(state.pathParameters['id']!);
+          final extra = state.extra as Map<String, dynamic>?;
+          return OwnerShareLocationPage(
+            orderId: orderId,
+            customerLat: extra?['customerLat'] as double?,
+            customerLng: extra?['customerLng'] as double?,
+          );
+        },
+      ),
+      GoRoute(
+        path: '${Routes.customerTrackDelivery}/:id',
+        name: 'customerTrackDelivery',
+        builder: (context, state) {
+          final orderId = int.parse(state.pathParameters['id']!);
+          final extra = state.extra as Map<String, dynamic>?;
+          return CustomerDeliveryTrackingPage(
+            orderId: orderId,
+            customerLat: extra?['customerLat'] as double?,
+            customerLng: extra?['customerLng'] as double?,
+          );
         },
       ),
 

@@ -90,6 +90,12 @@ void showTechnicianEntrySheet(BuildContext context) {
                   label: 'الدخول كـ مزود وقود',
                   onTap: () {}, // يحتاج route مزود الوقود
                 ),
+                Divider(height: 1.h, indent: 16.w, endIndent: 16.w),
+                entryItem(
+                  icon: Icons.store_outlined,
+                  label: 'الدخول كصاحب متجر',
+                  onTap: () => context.push(Routes.ownerProfile),
+                ),
               ],
             ),
           ),
