@@ -1,3 +1,5 @@
+import 'package:car_care/core/local_storage/secure_storage.dart';
+import 'package:car_care/core/routing/role_route_resolver.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/features/auth/domain/repositories/i_auth_repository.dart';
@@ -19,6 +21,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  Future<void> _resolveAndNavigate(BuildContext context) async {
+    final role = await getIt<SecureStorage>().getPrimaryRole();
+    if (!context.mounted) return;
+    GoRouter.of(context).go(RoleRouteResolver.resolve(role));
+  }
+
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
@@ -39,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                   backgroundColor: Colors.green,
                 ),
               );
-              GoRouter.of(context).go(Routes.home);
+              _resolveAndNavigate(context);
             } else if (state is AuthFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

@@ -101,7 +101,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-initialLocation: Routes.home,   
+initialLocation: Routes.splash,
  debugLogDiagnostics: true,
     routes: [
       GoRoute(

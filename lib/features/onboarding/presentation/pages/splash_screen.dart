@@ -1,8 +1,10 @@
 // splash_screen.dart
 
 import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/local_storage/secure_storage.dart';
+import 'package:car_care/core/routing/role_route_resolver.dart';
 import 'package:car_care/core/routing/routes.dart';
-import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -54,9 +56,24 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    Future.delayed(const Duration(milliseconds: 3000), () {
+    Future.delayed(const Duration(milliseconds: 3000), () async {
       if (!mounted) return;
-      context.go(Routes.onboarding);
+
+      final storage = getIt<SecureStorage>();
+      final token = await storage.getToken();
+
+      if (!mounted) return;
+
+      if (token == null || token.isEmpty) {
+        context.go(Routes.onboarding);
+        return;
+      }
+
+      final primaryRole = await storage.getPrimaryRole();
+
+      if (!mounted) return;
+
+      context.go(RoleRouteResolver.resolve(primaryRole));
     });
   }
 
@@ -87,7 +104,7 @@ class _SplashScreenState extends State<SplashScreen>
           Center(
             child: AnimatedBuilder(
               animation: _controller,
-              builder: (_, __) {
+              builder: (_, _) {
                 return FadeTransition(
                   opacity: _fadeAnim,
                   child: SlideTransition(
