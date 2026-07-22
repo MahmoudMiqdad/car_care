@@ -95,30 +95,61 @@ class _Body extends StatelessWidget {
         },
       ),
       body: ImageBackground(
-        child: BlocBuilder<AvailableRequestsCubit, AvailableRequestsState>(
+        child: BlocConsumer<AvailableRequestsCubit, AvailableRequestsState>(
+          listenWhen: (_, current) => current is AvailableRequestsError,
+          listener: (context, state) {
+            if (state is AvailableRequestsError) {
+              final msg = state.message.isEmpty ||
+                      state.message.startsWith('Instance of')
+                  ? 'حدث خطأ أثناء تحميل الطلبات'
+                  : state.message;
+              AppSnackBar.error(context, msg);
+            }
+          },
           builder: (context, state) {
             if (state is AvailableRequestsLoading) {
               return const Center(child: AppLoadingWidget());
             }
 
             if (state is AvailableRequestsError) {
-              AppSnackBar.error(context, state.message);
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                    const SizedBox(height: 12),
+                    const Text(
+                      'حدث خطأ أثناء تحميل الطلبات',
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton.icon(
+                      onPressed: () => context
+                          .read<AvailableRequestsCubit>()
+                          .fetchAvailableRequests(),
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('إعادة المحاولة'),
+                    ),
+                  ],
+                ),
+              );
             }
 
             if (state is AvailableRequestsLoaded) {
               final requests = state.requests.data;
 
               if (requests.isEmpty) {
-                return const Center(child: Text("لا يوجد طلبات حالياً"));
+                return const Center(child: Text('لا يوجد طلبات حالياً'));
               }
 
               return RefreshIndicator(
                 onRefresh: () async {
-                context.read<AvailableRequestsCubit>().fetchAvailableRequests();
-              },
+                  context
+                      .read<AvailableRequestsCubit>()
+                      .fetchAvailableRequests();
+                },
                 child: OrdersListView(
                   items: requests,
-                
                   onOrderTap: (item) {
                     context.push(
                       Routes.orderdetails,
