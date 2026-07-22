@@ -1,6 +1,7 @@
 import 'package:car_care/core/errors/excptions.dart';
 import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/features/fuel_provider/provider_profile/data/data_sources/provider_profile_remote_data_source.dart';
+import 'package:car_care/features/fuel_provider/provider_profile/data/models/fuel_provider_model.dart';
 import 'package:car_care/features/fuel_provider/provider_profile/domain/entities/provider_profile_entity.dart';
 import 'package:car_care/features/fuel_provider/provider_profile/domain/repositories/i_provider_profile_repository.dart';
 
@@ -12,7 +13,7 @@ class FuelProviderProfileRepositoryImpl
 
   FuelProviderProfileRepositoryImpl(this._remote);
 
-  FuelProviderProfileEntity _map(d) => FuelProviderProfileEntity(
+  FuelProviderProfileEntity _map(FuelProviderProfileData? d) => FuelProviderProfileEntity(
         id: d?.id,
         companyName: d?.companyName,
         phone: d?.phone,
@@ -25,6 +26,8 @@ class FuelProviderProfileRepositoryImpl
         isAvailable: d?.isAvailable,
         isVerified: d?.isVerified,
         createdAt: d?.createdAt,
+        status: d?.status,
+        rejectionReason: d?.rejectionReason,
       );
 
   @override

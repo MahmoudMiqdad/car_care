@@ -14,6 +14,8 @@ class ShopEntity extends Equatable {
     required this.carBrands,
     required this.partCategories,
     required this.createdAt,
+    this.status,
+    this.rejectionReason,
   });
 
   final int id;
@@ -26,6 +28,8 @@ class ShopEntity extends Equatable {
   final List<String> carBrands;
   final List<String> partCategories;
   final DateTime? createdAt;
+  final String? status;
+  final String? rejectionReason;
 
   @override
   List<Object?> get props => [

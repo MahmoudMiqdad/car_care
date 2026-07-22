@@ -14,6 +14,8 @@ class ShopModel extends ShopEntity {
     required super.carBrands,
     required super.partCategories,
     required super.createdAt,
+    super.status,
+    super.rejectionReason,
   });
 
   factory ShopModel.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,8 @@ class ShopModel extends ShopEntity {
       carBrands: _stringList(json['car_brands']),
       partCategories: _stringList(json['part_categories']),
       createdAt: DateTime.tryParse((json['created_at'] ?? '').toString()),
+      status: json['status'] as String?,
+      rejectionReason: json['rejection_reason'] as String?,
     );
   }
 

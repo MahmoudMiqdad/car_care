@@ -1,8 +1,6 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:flutter/foundation.dart';
 
-/// Maps a stored primaryRole string to the correct initial route for that role.
-/// Admin is intentionally excluded from mobile — it belongs to the web dashboard.
 class RoleRouteResolver {
   const RoleRouteResolver._();
 

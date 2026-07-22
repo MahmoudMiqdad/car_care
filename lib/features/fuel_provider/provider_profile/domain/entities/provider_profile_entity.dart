@@ -25,5 +25,10 @@ class FuelProviderProfileEntity {
     this.isAvailable,
     this.isVerified,
     this.createdAt,
+    this.status,
+    this.rejectionReason,
   });
+
+  final String? status;
+  final String? rejectionReason;
 }

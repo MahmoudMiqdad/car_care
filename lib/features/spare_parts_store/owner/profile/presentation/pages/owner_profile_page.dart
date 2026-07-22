@@ -5,6 +5,7 @@ import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/error_state_widget.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
+import 'package:car_care/core/widgets/provider_status_page.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/cubit/owner_profile/owner_profile_cubit.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/cubit/owner_profile/owner_profile_state.dart';
@@ -125,6 +126,13 @@ class _OwnerProfilePageState extends State<OwnerProfilePage> {
                   );
                 }
                 if (state is OwnerProfileReady) {
+                  if (state.shop != null) {
+                    final gate = buildProviderStatusGate(
+                      state.shop!.status,
+                      state.shop!.rejectionReason,
+                    );
+                    if (gate != null) return gate;
+                  }
                   return OwnerProfileBody(
                     nameCtrl: _nameCtrl,
                     phoneCtrl: _phoneCtrl,
