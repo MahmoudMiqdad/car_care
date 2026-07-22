@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/local_storage/secure_storage.dart';
+import 'package:car_care/core/routing/routes.dart';
+import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
@@ -8,11 +11,14 @@ import 'package:car_care/features/auth/presentation/widgets/login/login_text_fie
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_cubit.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_state.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/widgets/technician_location_card.dart';
+import 'package:car_care/features/user_profile/data/data_sources/profile_remote_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:latlong2/latlong.dart';
 
 class InsertTechnicianProfileBody extends StatefulWidget {
   const InsertTechnicianProfileBody({super.key});
@@ -31,6 +37,10 @@ class _TechnicianProfileBodyState extends State<InsertTechnicianProfileBody> {
 
   final List<XFile> _certificationImages = [];
   final ImagePicker _picker = ImagePicker();
+
+  // Picked locally during onboarding — sent with the profile save request,
+  // never through the protected /technician/location endpoint.
+  LatLng? _pickedLocation;
 
   @override
   void dispose() {
@@ -62,6 +72,10 @@ class _TechnicianProfileBodyState extends State<InsertTechnicianProfileBody> {
       "phone": _phoneController.text.trim(),
       "city": _cityController.text.trim(),
       "hourly_rate": _hourlyRateController.text.trim(),
+      if (_pickedLocation != null) ...{
+        "latitude": _pickedLocation!.latitude.toString(),
+        "longitude": _pickedLocation!.longitude.toString(),
+      },
     };
 
     for (int i = 0; i < _certificationImages.length; i++) {
@@ -71,12 +85,29 @@ class _TechnicianProfileBodyState extends State<InsertTechnicianProfileBody> {
     context.read<TechnicianProfileCubit>().insertTechnicianProfile(params);
   }
 
+  /// After the profile is created the backend assigns the technician role.
+  /// Refresh /auth/me and stored roles so More shows it immediately, then
+  /// return to More (the technician entries are status-gated from there).
+  Future<void> _refreshRolesAndExit() async {
+    try {
+      final model = await getIt<ProfileRemoteDataSource>().showprofile();
+      final roles = model.data?.parsedRoles ?? const <String>[];
+      if (roles.isNotEmpty) {
+        await getIt<SecureStorage>().setRoles(roles);
+      }
+    } catch (_) {
+      // Roles will still refresh next time More opens.
+    }
+    if (mounted) context.go(Routes.more);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TechnicianProfileCubit, TechnicianProfileState>(
       listener: (context, state) {
         if (state is TechnicianProfileLoaded) {
-       AppSnackBar.success(context, 'تم تحديد موقع الورشة');
+          AppSnackBar.success(context, 'تم إرسال طلب الانضمام كفني بنجاح');
+          _refreshRolesAndExit();
         }
         if (state is TechnicianProfileError) {
          AppSnackBar.error(context, state.message);
@@ -132,7 +163,11 @@ class _TechnicianProfileBodyState extends State<InsertTechnicianProfileBody> {
               ),
               SizedBox(height: 16.h),
 
-              const LocationUpdateCard(),
+              LocationUpdateCard(
+                localOnly: true,
+                onLocationPicked: (picked) =>
+                    setState(() => _pickedLocation = picked),
+              ),
               SizedBox(height: 20.h),
 
               Text(

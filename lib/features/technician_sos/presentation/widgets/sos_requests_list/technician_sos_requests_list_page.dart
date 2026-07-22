@@ -74,14 +74,41 @@ class _SosRequestsListPageState extends State<TechnicianSosRequestsListPage> {
     body: RefreshIndicator(
       onRefresh: _onRefresh,
       child: ImageBackground(
-        child: BlocBuilder<TechnicianSosCubit, TechnicianSosState>(
+        child: BlocConsumer<TechnicianSosCubit, TechnicianSosState>(
+          listenWhen: (_, current) => current is TechnicianError,
+          listener: (context, state) {
+            if (state is TechnicianError) {
+              final msg = state.message.isEmpty ||
+                      state.message.startsWith('Instance of')
+                  ? 'حدث خطأ أثناء تحميل الطلبات'
+                  : state.message;
+              AppSnackBar.error(context, msg);
+            }
+          },
           builder: (context, state) {
             if (state is TechnicianLoading) {
               return const Center(child: AppLoadingWidget());
             }
 
             if (state is TechnicianError) {
-              AppSnackBar.error(context, state.message);
+              return ListView(
+                children: [
+                  const SizedBox(height: 160),
+                  const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                  const SizedBox(height: 12),
+                  const Center(
+                    child: Text('حدث خطأ أثناء تحميل الطلبات'),
+                  ),
+                  const SizedBox(height: 16),
+                  Center(
+                    child: ElevatedButton.icon(
+                      onPressed: _load,
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('إعادة المحاولة'),
+                    ),
+                  ),
+                ],
+              );
             }
 
             if (state is TechnicianAvailableLoaded) {
@@ -99,7 +126,7 @@ class _SosRequestsListPageState extends State<TechnicianSosRequestsListPage> {
               return ListView.separated(
                 padding: EdgeInsets.all(AppConstants.pageHorizontal),
                 itemCount: list.length,
-                separatorBuilder: (_, __) => SizedBox(height: 16.h),
+                separatorBuilder: (_, _) => SizedBox(height: 16.h),
                 itemBuilder: (context, index) {
                   return TechnicianSosRequestCard(
                     item: list[index],

@@ -47,6 +47,7 @@ import 'package:car_care/features/technician/technician_order/presentation/pages
 import 'package:car_care/features/technician/technician_order/presentation/pages/orders_page.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/pages/tetechnician_profile_view/technician_profile_view_page.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/pages/update_technician_profile/update_technician_profile.dart';
+import 'package:car_care/features/technician/technician_profile/presentation/widgets/technician_status_gate.dart';
 import 'package:car_care/features/technician/technician_statistics/presentation/pages/technician_statistics_page.dart';
 import 'package:car_care/features/technician/technician_jobs/presentation/pages/technician_jobs_page.dart';
 import 'package:car_care/features/technician/technician_quotations/presentation/pages/technician_quotations_page.dart';
@@ -185,14 +186,18 @@ GoRoute(
                GoRoute(
             path: Routes.technician_sos_requests,
             name: '/all_technician_sos_requests',
-            builder: (context, state) => const AllTechnicianSosRequests(),
+            builder: (context, state) => const TechnicianStatusGate(
+              child: AllTechnicianSosRequests(),
+            ),
           ),
              GoRoute(
             path: '/technicianSosDetails/:id',
             name: 'SosTechnicianDetailsPage',
             builder: (context, state) {
               final id = int.parse(state.pathParameters['id']!);
-              return SosTechnicianDetailsPage(id: id);
+              return TechnicianStatusGate(
+                child: SosTechnicianDetailsPage(id: id),
+              );
             },
           ),
           GoRoute(
@@ -441,14 +446,18 @@ GoRoute(
       GoRoute(
         path: Routes.updateTechnicianProfile,
         name: '/update_technician_profile',
-        builder: (context, state) => TechnicianProfileEditPage(
-          initialData: state.extra as TechnicianDataEntity?,
+        builder: (context, state) => TechnicianStatusGate(
+          child: TechnicianProfileEditPage(
+            initialData: state.extra as TechnicianDataEntity?,
+          ),
         ),
       ),
       GoRoute(
         path: Routes.technicianProfileViewBody,
         name: '/technician_profile_view_page',
-        builder: (context, state) => const TechnicianProfileViewPage(),
+        builder: (context, state) => const TechnicianStatusGate(
+          child: TechnicianProfileViewPage(),
+        ),
       ),
 GoRoute(
   path: Routes.maintenance_request_details,
@@ -640,7 +649,9 @@ GoRoute(
           final extra = state.extra;
           final id = extra is String ? extra : null;
 
-          return TechnicianOrderDetailsPage(orderId: id ?? '');
+          return TechnicianStatusGate(
+            child: TechnicianOrderDetailsPage(orderId: id ?? ''),
+          );
         },
       ),
 
@@ -651,7 +662,9 @@ GoRoute(
           final extra = state.extra;
           final id = extra is String ? extra : null;
 
-          return TechnicianQuotationsPage(requestId: id ?? '');
+          return TechnicianStatusGate(
+            child: TechnicianQuotationsPage(requestId: id ?? ''),
+          );
         },
       ),
 
@@ -663,22 +676,28 @@ GoRoute(
       GoRoute(
         path: Routes.technician_jobs,
         name: '/technician_jobs',
-        builder: (context, state) => const TechnicianJobsPage(),
+        builder: (context, state) => const TechnicianStatusGate(
+          child: TechnicianJobsPage(),
+        ),
       ),
       GoRoute(
         path: Routes.technician_statistics,
         name: '/technician_statistics',
-        builder: (context, state) => const TechnicianStatisticsPage(),
+        builder: (context, state) => const TechnicianStatusGate(
+          child: TechnicianStatisticsPage(),
+        ),
       ),
       GoRoute(
   name: 'TechnicianSosMapPage',
   path: '/technician/sos/:id/map',
   builder: (context, state) {
     final extra = state.extra as Map<String, dynamic>?;
-    return TechnicianSosMapPage(
-      sosId: int.parse(state.pathParameters['id']!),
-      clientLat: extra?['lat'],
-      clientLng: extra?['lng'],
+    return TechnicianStatusGate(
+      child: TechnicianSosMapPage(
+        sosId: int.parse(state.pathParameters['id']!),
+        clientLat: extra?['lat'],
+        clientLng: extra?['lng'],
+      ),
     );
   },
 ),
