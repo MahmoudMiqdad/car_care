@@ -81,10 +81,10 @@ class _SplashScreenState extends State<SplashScreen>
           await storage.setPrimaryRole(RoleRouteResolver.pickPrimaryRole(roles));
         }
 
+        // Multi-provider accounts: every user is a customer — always land
+        // on Home. Provider flows are reached from the More page.
         if (!mounted) return;
-        final primaryRole = await storage.getPrimaryRole();
-        if (!mounted) return;
-        context.go(RoleRouteResolver.resolve(primaryRole));
+        context.go(Routes.home);
       } on ServerExpcptions catch (e) {
         if (!mounted) return;
         final msg = e.error.message.toLowerCase();
@@ -96,9 +96,7 @@ class _SplashScreenState extends State<SplashScreen>
             msg.contains('network') ||
             msg.contains('timeout');
         if (isConnectivity) {
-          final primaryRole = await storage.getPrimaryRole();
-          if (!mounted) return;
-          context.go(RoleRouteResolver.resolve(primaryRole));
+          context.go(Routes.home);
         } else {
           // Auth failure (401 / invalid token) — force re-login.
           await storage.clearAuth();

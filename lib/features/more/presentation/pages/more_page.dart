@@ -3,6 +3,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
+import 'package:car_care/features/user_profile/data/data_sources/profile_remote_data_source.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,10 +12,28 @@ import 'package:go_router/go_router.dart';
 class MorePage extends StatelessWidget {
   const MorePage({super.key});
 
+  /// Refreshes roles from /auth/me so a provider role gained mid-session
+  /// (e.g. right after creating a provider profile) shows up without
+  /// re-login. Falls back to cached roles when the request fails.
+  Future<List<String>> _loadRoles() async {
+    final storage = getIt<SecureStorage>();
+    try {
+      final model = await getIt<ProfileRemoteDataSource>().showprofile();
+      final fresh = model.data?.parsedRoles ?? const <String>[];
+      if (fresh.isNotEmpty) {
+        await storage.setRoles(fresh);
+        return fresh;
+      }
+    } catch (_) {
+      // Network/server failure — cached roles below.
+    }
+    return storage.getRoles();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String?>(
-      future: getIt<SecureStorage>().getPrimaryRole(),
+    return FutureBuilder<List<String>>(
+      future: _loadRoles(),
       builder: (context, snap) {
         if (snap.connectionState == ConnectionState.waiting) {
           return const Scaffold(
@@ -22,25 +41,44 @@ class MorePage extends StatelessWidget {
             body: Center(child: CircularProgressIndicator()),
           );
         }
-        final role = snap.data ?? 'user';
-        return _MoreContent(role: role);
+        final roles = snap.data ?? const <String>[];
+        return _MoreContent(roles: roles);
       },
     );
   }
 }
 
 class _MoreContent extends StatelessWidget {
-  const _MoreContent({required this.role});
+  const _MoreContent({required this.roles});
 
-  final String role;
+  final List<String> roles;
 
-  String get _roleLabel => switch (role) {
-        'shop-owner' => 'صاحب متجر',
-        'technician' => 'فني',
-        'car-washer' => 'مغسلة',
-        'fuel-provider' => 'مزود وقود',
-        _ => 'عميل',
-      };
+  // No priority between provider roles — fixed display order only.
+  static const _providerRoles = [
+    'technician',
+    'car-washer',
+    'fuel-provider',
+    'shop-owner',
+  ];
+
+  static const _providerLabels = {
+    'technician': 'فني',
+    'car-washer': 'مغسلة',
+    'fuel-provider': 'مزود وقود',
+    'shop-owner': 'صاحب متجر',
+  };
+
+  List<String> get _ownedProviders =>
+      _providerRoles.where(roles.contains).toList();
+
+  List<String> get _missingProviders =>
+      _providerRoles.where((r) => !roles.contains(r)).toList();
+
+  String get _roleLabel {
+    final owned = _ownedProviders;
+    if (owned.isEmpty) return 'عميل';
+    return 'عميل · ${owned.map((r) => _providerLabels[r]).join(' · ')}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,43 +105,70 @@ class _MoreContent extends StatelessWidget {
   }
 
   List<Widget> _buildItems(BuildContext context) {
-    return switch (role) {
-      'shop-owner' => _shopOwnerItems(context),
+    final owned = _ownedProviders;
+    final missing = _missingProviders;
+    return [
+      if (owned.isNotEmpty) ...[
+        _SectionHeader(label: 'خدماتي كمزود'),
+        for (final role in owned) ..._ownedProviderItems(context, role),
+        SizedBox(height: 8.h),
+      ],
+      if (missing.isNotEmpty) ...[
+        _SectionHeader(label: 'انضم كمزود خدمة'),
+        for (final role in missing) _joinTile(context, role),
+      ],
+    ];
+  }
+
+  // Existing role-specific menus, kept intact per owned role. Each
+  // destination page already applies the provider status gate
+  // (pending / rejected / suspended) and redirects to create-profile
+  // when no profile exists.
+  List<Widget> _ownedProviderItems(BuildContext context, String role) {
+    final items = switch (role) {
       'technician' => _technicianItems(context),
       'car-washer' => _carWasherItems(context),
       'fuel-provider' => _fuelProviderItems(context),
-      _ => _customerItems(context),
+      'shop-owner' => _shopOwnerItems(context),
+      _ => const <Widget>[],
     };
+    if (items.isEmpty) return items;
+    // Sub-label only needed to tell sections apart with multiple roles.
+    if (_ownedProviders.length == 1) return items;
+    return [
+      _SectionHeader(label: _providerLabels[role] ?? role),
+      ...items,
+    ];
   }
 
-  List<Widget> _customerItems(BuildContext context) {
-    return [
-      _SectionHeader(label: 'انضم كمزود خدمة'),
-      _MoreTile(
-        icon: Icons.engineering_outlined,
-        label: 'التقديم كفني',
-        iconColor: const Color(0xFF6366F1),
-        onTap: () => context.push(Routes.inserttechnicianprofile),
-      ),
-      _MoreTile(
-        icon: Icons.local_car_wash_outlined,
-        label: 'تسجيل مغسلة سيارات',
-        iconColor: const Color(0xFF14B8A6),
-        onTap: () => context.push(Routes.create_profile_washer),
-      ),
-      _MoreTile(
-        icon: Icons.local_gas_station_outlined,
-        label: 'التسجيل كمزود وقود',
-        iconColor: const Color(0xFFF59E0B),
-        onTap: () => context.push(Routes.provider_create_profile),
-      ),
-      _MoreTile(
-        icon: Icons.store_outlined,
-        label: 'فتح متجر قطع غيار',
-        iconColor: const Color(0xFFEC4899),
-        onTap: () => context.push(Routes.ownerProfile),
-      ),
-    ];
+  Widget _joinTile(BuildContext context, String role) {
+    return switch (role) {
+      'technician' => _MoreTile(
+          icon: Icons.engineering_outlined,
+          label: 'التقديم كفني',
+          iconColor: const Color(0xFF6366F1),
+          onTap: () => context.push(Routes.inserttechnicianprofile),
+        ),
+      'car-washer' => _MoreTile(
+          icon: Icons.local_car_wash_outlined,
+          label: 'تسجيل مغسلة سيارات',
+          iconColor: const Color(0xFF14B8A6),
+          onTap: () => context.push(Routes.create_profile_washer),
+        ),
+      'fuel-provider' => _MoreTile(
+          icon: Icons.local_gas_station_outlined,
+          label: 'التسجيل كمزود وقود',
+          iconColor: const Color(0xFFF59E0B),
+          onTap: () => context.push(Routes.provider_create_profile),
+        ),
+      'shop-owner' => _MoreTile(
+          icon: Icons.store_outlined,
+          label: 'فتح متجر قطع غيار',
+          iconColor: const Color(0xFFEC4899),
+          onTap: () => context.push(Routes.ownerProfile),
+        ),
+      _ => const SizedBox.shrink(),
+    };
   }
 
   List<Widget> _shopOwnerItems(BuildContext context) {

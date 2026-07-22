@@ -1,5 +1,3 @@
-import 'package:car_care/core/local_storage/secure_storage.dart';
-import 'package:car_care/core/routing/role_route_resolver.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/features/auth/domain/repositories/i_auth_repository.dart';
@@ -21,10 +19,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  Future<void> _resolveAndNavigate(BuildContext context) async {
-    final role = await getIt<SecureStorage>().getPrimaryRole();
-    if (!context.mounted) return;
-    GoRouter.of(context).go(RoleRouteResolver.resolve(role));
+  // Multi-provider accounts: every user is a customer, so login always
+  // lands on Home. Provider flows are reached from the More page.
+  void _navigateHome(BuildContext context) {
+    GoRouter.of(context).go(Routes.home);
   }
 
   @override
@@ -47,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                   backgroundColor: Colors.green,
                 ),
               );
-              _resolveAndNavigate(context);
+              _navigateHome(context);
             } else if (state is AuthFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
