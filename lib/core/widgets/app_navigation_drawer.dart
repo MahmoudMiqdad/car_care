@@ -110,7 +110,7 @@ class AppNavigationDrawer extends StatelessWidget {
               icon: Icons.notifications_outlined,
               label: strings.notifications,
               iconColor: AppColors.orange,
-              onTap: (){}
+              onTap: () => _closeThen(context, () => context.go(Routes.notifications)),
             ),
             const Spacer(),
             Padding(

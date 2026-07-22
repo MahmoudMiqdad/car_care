@@ -64,7 +64,7 @@ import 'package:car_care/features/vehicle/presentation/pages/add_vehicle_page.da
 import 'package:car_care/features/vehicle/presentation/pages/my_vehicles_page_page.dart';
 import 'package:car_care/features/auth/presentation/pages/login_page.dart';
 import 'package:car_care/core/routing/routes.dart';
-import 'package:car_care/core/widgets/technician_entry_sheet.dart';
+import 'package:car_care/features/more/presentation/pages/more_page.dart';
 import 'package:car_care/features/auth/presentation/pages/register_page.dart';
 import 'package:car_care/features/home/presentation/pages/home_page.dart';
 import 'package:car_care/features/home/presentation/pages/notifications_page.dart';
@@ -147,7 +147,7 @@ GoRoute(
                     context.go(Routes.all_requests);
                     break;
                   case 3:
-                    showTechnicianEntrySheet(context);
+                    context.go(Routes.more);
                     break;
                   default:
                     break;
@@ -162,6 +162,11 @@ GoRoute(
             path: Routes.home,
             name: '/home',
             builder: (context, state) => const HomePage(),
+          ),
+          GoRoute(
+            path: Routes.more,
+            name: '/more',
+            builder: (context, state) => const MorePage(),
           ),
         
           GoRoute(
