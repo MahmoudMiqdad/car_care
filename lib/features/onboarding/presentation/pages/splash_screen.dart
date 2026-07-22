@@ -1,10 +1,12 @@
 // splash_screen.dart
 
 import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/errors/excptions.dart';
 import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/core/routing/role_route_resolver.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/features/user_profile/data/data_sources/profile_remote_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -69,11 +71,45 @@ class _SplashScreenState extends State<SplashScreen>
         return;
       }
 
-      final primaryRole = await storage.getPrimaryRole();
+      // Validate token with backend before routing.
+      try {
+        final model = await getIt<ProfileRemoteDataSource>().showprofile();
 
-      if (!mounted) return;
+        final roles = model.data?.parsedRoles ?? [];
+        if (roles.isNotEmpty) {
+          await storage.setRoles(roles);
+          await storage.setPrimaryRole(RoleRouteResolver.pickPrimaryRole(roles));
+        }
 
-      context.go(RoleRouteResolver.resolve(primaryRole));
+        if (!mounted) return;
+        final primaryRole = await storage.getPrimaryRole();
+        if (!mounted) return;
+        context.go(RoleRouteResolver.resolve(primaryRole));
+      } on ServerExpcptions catch (e) {
+        if (!mounted) return;
+        final msg = e.error.message.toLowerCase();
+        // Connectivity errors: fail open so offline users stay logged in.
+        final isConnectivity = msg.contains('اتصال') ||
+            msg.contains('شبكة') ||
+            msg.contains('مهلة') ||
+            msg.contains('internet') ||
+            msg.contains('network') ||
+            msg.contains('timeout');
+        if (isConnectivity) {
+          final primaryRole = await storage.getPrimaryRole();
+          if (!mounted) return;
+          context.go(RoleRouteResolver.resolve(primaryRole));
+        } else {
+          // Auth failure (401 / invalid token) — force re-login.
+          await storage.clearAuth();
+          if (!mounted) return;
+          context.go(Routes.onboarding);
+        }
+      } catch (_) {
+        await storage.clearAuth();
+        if (!mounted) return;
+        context.go(Routes.onboarding);
+      }
     });
   }
 

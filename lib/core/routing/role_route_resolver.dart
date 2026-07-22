@@ -4,6 +4,23 @@ import 'package:flutter/foundation.dart';
 class RoleRouteResolver {
   const RoleRouteResolver._();
 
+  static const _rolePriority = [
+    'admin',
+    'shop-owner',
+    'technician',
+    'car-washer',
+    'fuel-provider',
+    'user',
+  ];
+
+  /// Picks the highest-priority role from a list — used after token validation.
+  static String pickPrimaryRole(List<String> roles) {
+    for (final priority in _rolePriority) {
+      if (roles.contains(priority)) return priority;
+    }
+    return roles.isNotEmpty ? roles.first : 'user';
+  }
+
   static String resolve(String? primaryRole) {
     switch (primaryRole) {
       case 'admin':
