@@ -75,6 +75,11 @@ class AuthInterceptor extends Interceptor {
       return handler.next(err);
     }
 
+    // Already retried with a fresh token — don't loop
+    if (err.requestOptions.headers['_isRetry'] == true) {
+      return handler.next(err);
+    }
+
     //logout if the refresh faild
     if (err.requestOptions.path.contains(_refreshPath)) {
       await _secureStorage.deleteAll();
@@ -170,8 +175,8 @@ class AuthInterceptor extends Interceptor {
         method: requestOptions.method,
         headers: {
           ...requestOptions.headers,
-           'Authorization': 'Bearer $accessToken',
-            
+          'Authorization': 'Bearer $accessToken',
+          '_isRetry': true,
         },
       ),
       cancelToken: requestOptions.cancelToken,
