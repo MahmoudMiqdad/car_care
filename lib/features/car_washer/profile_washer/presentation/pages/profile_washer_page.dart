@@ -1,5 +1,6 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/widgets/provider_status_page.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
@@ -63,7 +64,15 @@ class ProfileWasherPage extends StatelessWidget {
               }
 
               if (state is ProfileWasherLoaded) {
-                return ProfileWasherBody(profile: state.profile);
+                final profile = state.profile;
+                final effectiveStatus =
+                    (profile.status != null && profile.status!.isNotEmpty)
+                        ? profile.status
+                        : (profile.isVerified ? null : 'pending');
+                final gate = buildProviderStatusGate(
+                    effectiveStatus, profile.rejectionReason);
+                if (gate != null) return gate;
+                return ProfileWasherBody(profile: profile);
               }
 
               if (state is ProfileWasherError) {
