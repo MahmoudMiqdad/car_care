@@ -33,13 +33,15 @@ class AddRequestsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => AddMaintenanceRequestCubit(getIt<IRequestsRepository>()),
-      child: const _RequestsPageBody(),
+      child: _RequestsPageBody(vehicleId: vehicleId),
     );
   }
 }
 
 class _RequestsPageBody extends StatefulWidget {
-  const _RequestsPageBody();
+  const _RequestsPageBody({required this.vehicleId});
+
+  final String vehicleId;
 
   @override
   State<_RequestsPageBody> createState() => _RequestsPageState();
@@ -51,7 +53,8 @@ class _RequestsPageState extends State<_RequestsPageBody> {
   final List<XFile> _images = [];
   final ImagePicker _picker = ImagePicker();
 
-  DateTime selectedDate = DateTime.now();
+  // Backend requires preferred_date strictly after today.
+  DateTime selectedDate = DateTime.now().add(const Duration(days: 1));
   MaintenancePriority _priority = MaintenancePriority.medium;
 
   @override
@@ -81,12 +84,15 @@ class _RequestsPageState extends State<_RequestsPageBody> {
   }
   
 
-  Future<void> _pickDate() async { 
-    
+  Future<void> _pickDate() async {
+    // Backend rejects dates that are not after today.
+    final tomorrow = DateTime.now().add(const Duration(days: 1));
+    final firstDate = DateTime(tomorrow.year, tomorrow.month, tomorrow.day);
+
     final picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2000),
+      initialDate: selectedDate.isBefore(firstDate) ? firstDate : selectedDate,
+      firstDate: firstDate,
       lastDate: DateTime(2100),
       locale: AppConstants.localeAr,
     );
@@ -94,11 +100,22 @@ class _RequestsPageState extends State<_RequestsPageBody> {
   }
 
   void _submitRequest() async {
+    final vehicleId = widget.vehicleId.trim();
+    if (vehicleId.isEmpty || int.tryParse(vehicleId) == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('يرجى اختيار مركبة أولاً من صفحة مركباتي'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     try {
       final formData = FormData();
 
       formData.fields.addAll([
-        const MapEntry('vehicle_id', '3'),
+        MapEntry('vehicle_id', vehicleId),
         MapEntry('description', _problemController.text),
         MapEntry('preferred_date', selectedDate.toIso8601String()),
         MapEntry('priority', _priority.name),

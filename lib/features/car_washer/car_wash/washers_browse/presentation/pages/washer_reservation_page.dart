@@ -1,4 +1,5 @@
-﻿import 'package:car_care/core/routing/routes.dart';
+﻿import 'package:car_care/core/routing/navigation_x.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
@@ -110,9 +111,18 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
 
   void _onConfirm(BuildContext ctx) {
     if (_selectedVehicle == null) {
-      ScaffoldMessenger.of(
-        ctx,
-      ).showSnackBar(const SnackBar(content: Text('الرجاء اختيار المركبة')));
+      final vehicleState = _vehicleCubit.state;
+      final hasNoVehicles =
+          vehicleState is VehicleLoaded && vehicleState.vehicles.isEmpty;
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text(
+            hasNoVehicles
+                ? 'لا توجد مركبات لديك، يرجى إضافة مركبة أولاً من صفحة مركباتي'
+                : 'الرجاء اختيار المركبة',
+          ),
+        ),
+      );
       return;
     }
     if (_date == null || _time == null) {
@@ -157,7 +167,9 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
       child: BlocListener<VehicleCubit, VehicleState>(
         bloc: _vehicleCubit,
         listener: (_, vehicleState) {
-          if (vehicleState is VehicleLoaded && _selectedVehicle == null) {
+          if (vehicleState is VehicleLoaded &&
+              vehicleState.vehicles.isNotEmpty &&
+              _selectedVehicle == null) {
             setState(() => _selectedVehicle = vehicleState.vehicles.first);
           }
         },
@@ -188,7 +200,7 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
               appBar: CustomAppBar(
                 title: l10n.washerReservationTitle,
                 showBackButton: true,
-                onBackTapped: () => context.pop(),
+                onBackTapped: () => context.safePopOrGo(Routes.washers),
                 backgroundColor: AppColors.carWashTeal,
               ),
               body: ImageBackground(
@@ -276,7 +288,7 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
                           confirmText: l10n.washerReservationConfirm,
                           cancelText: l10n.washerReservationCancel,
                           onConfirm: () => _onConfirm(ctx),
-                          onCancel: () => context.pop(),
+                          onCancel: () => context.safePopOrGo(Routes.washers),
                         ),
                       SizedBox(height: 10.h),
                       AppButton(

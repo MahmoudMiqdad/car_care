@@ -42,7 +42,7 @@ import 'package:car_care/features/technician_sos/presentation/widgets/sos_reques
 import 'package:car_care/features/sos/presentation/pages/all_user_sos_requests.dart';
 import 'package:car_care/features/sos/presentation/pages/sos_details_page.dart';
 import 'package:car_care/features/car_washer/profile_washer/presentation/pages/profile_washer_page.dart';
-import 'package:car_care/features/car_washer/washers/presentation/pages/washer_reservation_page.dart';
+import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/pages/washer_reservation_page.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/pages/all_requests_stats_page.dart';
 import 'package:car_care/features/technician/technician_order/presentation/pages/order_details_page.dart';
 import 'package:car_care/features/technician/technician_order/presentation/pages/orders_page.dart';
@@ -633,8 +633,13 @@ GoRoute(
 
         builder: (context, state) {
           final extra = state.extra;
-          final vehicleId = extra is String ? extra : null;
-          return AddRequestsPage(vehicleId: vehicleId ?? '');
+          // Vehicle id arrives as int (from vehicle details) or String.
+          final vehicleId = switch (extra) {
+            final int id => id.toString(),
+            final String id => id,
+            _ => '',
+          };
+          return AddRequestsPage(vehicleId: vehicleId);
         },
       ),
       GoRoute(

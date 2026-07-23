@@ -24,7 +24,7 @@ class CarWashBookingCubit extends Cubit<CarWashBookingState> {
     );
 
     result.fold(
-      (f) => emit(CarWashBookingError(f.message)),
+      (f) => emit(CarWashBookingError(f.displayMessage)),
       (data) => emit(CarWashBookingSuccess(data)),
     );
   }

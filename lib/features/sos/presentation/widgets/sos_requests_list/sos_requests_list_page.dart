@@ -7,7 +7,6 @@ import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/sos/presentation/cubit/sos_cubit/sos_cubit.dart';
 import 'package:car_care/features/sos/presentation/cubit/sos_cubit/sos_state.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_request_card.dart';
-import 'package:car_care/features/technician_sos/presentation/cubit/technician_sos_cubit/technician_sos_cubit.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,11 +20,7 @@ class SosRequestsListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return RefreshIndicator(
-      onRefresh: () async {
-        context.read<TechnicianSosCubit>().getAvailableRequests();
-      },
-      child: Directionality(
+    return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
           backgroundColor: AppColors.lightScaffold,
@@ -53,26 +48,43 @@ class SosRequestsListPage extends StatelessWidget {
                 }
 
                 if (state is SosListLoaded) {
-                  final Sos = state.listSOs;
+                  final sosList = state.listSOs;
 
                   return RefreshIndicator(
-                      onRefresh: () async {
-                context.read<SosCubit>().getAll();
-              },
-                    
-                    child: ListView.separated(
-                      padding: EdgeInsets.fromLTRB(
-                        AppConstants.pageHorizontal,
-                        16.h,
-                        AppConstants.pageHorizontal,
-                        16.h,
-                      ),
-                      itemCount: Sos.length,
-                      separatorBuilder: (_, _) => SizedBox(height: 16.h),
-                      itemBuilder: (context, index) {
-                        return SosRequestCard(item: Sos[index]);
-                      },
-                    ),
+                    // silent: keep the current list visible while refreshing;
+                    // only the pull indicator spins.
+                    onRefresh: () =>
+                        context.read<SosCubit>().getAll(silent: true),
+                    child: sosList.isEmpty
+                        ? ListView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            children: [
+                              SizedBox(height: 180.h),
+                              Icon(
+                                Icons.notifications_off_outlined,
+                                size: 48.r,
+                                color: Colors.grey,
+                              ),
+                              SizedBox(height: 12.h),
+                              const Center(
+                                child: Text('لا توجد طلبات طوارئ حالياً'),
+                              ),
+                            ],
+                          )
+                        : ListView.separated(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            padding: EdgeInsets.fromLTRB(
+                              AppConstants.pageHorizontal,
+                              16.h,
+                              AppConstants.pageHorizontal,
+                              16.h,
+                            ),
+                            itemCount: sosList.length,
+                            separatorBuilder: (_, _) => SizedBox(height: 16.h),
+                            itemBuilder: (context, index) {
+                              return SosRequestCard(item: sosList[index]);
+                            },
+                          ),
                   );
                 }
                 return const SizedBox();
@@ -80,7 +92,6 @@ class SosRequestsListPage extends StatelessWidget {
             ),
           ),
         ),
-      ),
     );
   }
 }
