@@ -1,13 +1,14 @@
 ﻿import 'package:car_care/core/service_locator/service_locator.dart';
-import 'package:car_care/features/fuel_provider/provider_order/presentation/pages/provider_available_orders_page_wrapper.dart';
-import 'package:car_care/features/fuel_provider/provider_profile/domain/entities/provider_profile_entity.dart';
-import 'package:car_care/features/fuel_provider/provider_profile/presentation/cubit/provider_profile_cubit.dart';
+import 'package:car_care/features/car_washer/washers/washers_statistics/presentation/pages/statistics_page.dart';
+import 'package:car_care/features/fuel_provider/fuel_provider_order/presentation/pages/provider_available_orders_page_wrapper.dart';
+import 'package:car_care/features/fuel_provider/fuel_provider_profile/domain/entities/provider_profile_entity.dart';
+import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/cubit/provider_profile_cubit.dart';
 import 'package:car_care/features/maintenance/user_quotations/domain/entities/quotation_entity.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/cubit/quotations_cubit.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/pages/quotation_details_page.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/cancel_request_cubit/cancel_request_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/show_request_cubit/show_request_cubit.dart';
-import 'package:car_care/features/maintenance/user_requests/presentation/pages/show_requests/maintenance_request_details_page.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/pages/maintenance_request_details_page.dart';
 import 'package:car_care/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:car_care/features/onboarding/presentation/pages/splash_screen.dart';
 import 'package:car_care/features/technician_sos/presentation/pages/all_technician_sos_requests.dart';
@@ -24,14 +25,14 @@ import 'package:car_care/features/car_washer/washers/washers_bookings/presentati
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/pages/washer_bookings_page.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/pages/create_profile_washer_page.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/pages/edit_profile_washer_page.dart';
-import 'package:car_care/features/fuel_provider/provider_order/presentation/pages/provider_order_details_page.dart';
+import 'package:car_care/features/fuel_provider/fuel_provider_order/presentation/pages/provider_order_details_page.dart';
 import 'package:car_care/features/user_fuel/presentation/pages/fuel_order_details_page.dart';
-import 'package:car_care/features/fuel_provider/provider_order/presentation/pages/provider_available_orders_page.dart';
+import 'package:car_care/features/fuel_provider/fuel_provider_order/presentation/pages/provider_available_orders_page.dart';
 import 'package:car_care/features/fuel_provider/share_location_fuel/presentation/pages/share_location_fuel_page.dart';
-import 'package:car_care/features/fuel_provider/provider_statistics/presentation/pages/provider_statistics_page.dart';
-import 'package:car_care/features/fuel_provider/provider_profile/presentation/pages/provider_create_profile_page.dart';
-import 'package:car_care/features/fuel_provider/provider_profile/presentation/pages/provider_edit_profile_page.dart';
-import 'package:car_care/features/fuel_provider/provider_profile/presentation/pages/provider_profile_page.dart';
+import 'package:car_care/features/fuel_provider/fuel_provider_statistics/presentation/pages/provider_statistics_page.dart';
+import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/pages/provider_create_profile_page.dart';
+import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/pages/provider_edit_profile_page.dart';
+import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/pages/provider_profile_page.dart';
 import 'package:car_care/core/widgets/main_shell.dart';
 import 'package:car_care/features/sos/presentation/pages/Create_sos_page_wrapper.dart';
 import 'package:car_care/features/technician/technician_profile/domain/entities/technician_profile_entity.dart';
@@ -42,7 +43,7 @@ import 'package:car_care/features/sos/presentation/pages/all_user_sos_requests.d
 import 'package:car_care/features/sos/presentation/pages/sos_details_page.dart';
 import 'package:car_care/features/car_washer/profile_washer/presentation/pages/profile_washer_page.dart';
 import 'package:car_care/features/car_washer/washers/presentation/pages/washer_reservation_page.dart';
-import 'package:car_care/features/maintenance/user_requests/presentation/pages/show_requests/all_requests_stats_page.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/pages/all_requests_stats_page.dart';
 import 'package:car_care/features/technician/technician_order/presentation/pages/order_details_page.dart';
 import 'package:car_care/features/technician/technician_order/presentation/pages/orders_page.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/pages/tetechnician_profile_view/technician_profile_view_page.dart';
@@ -52,7 +53,7 @@ import 'package:car_care/features/technician/technician_statistics/presentation/
 import 'package:car_care/features/technician/technician_jobs/presentation/pages/technician_jobs_page.dart';
 import 'package:car_care/features/technician/technician_quotations/presentation/pages/technician_quotations_page.dart';
 import 'package:car_care/features/maintenance/user_rate_job/presentation/pages/rate_job_page.dart';
-import 'package:car_care/features/maintenance/user_requests/presentation/pages/show_requests/add_requests_page.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/pages/add_requests_page.dart';
 import 'package:car_care/features/maintenance/user_statistics/presentation/pages/statistics_page.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/pages/quotations_page.dart';
 import 'package:car_care/features/user_fuel/presentation/pages/fuel_sos_create_page_wrapper.dart';
@@ -102,8 +103,8 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-initialLocation: Routes.splash,
- debugLogDiagnostics: true,
+    initialLocation: Routes.splash,
+    debugLogDiagnostics: true,
     routes: [
       GoRoute(
   path: Routes.splash,
@@ -701,11 +702,11 @@ GoRoute(
     );
   },
 ),
-      // GoRoute(
-      //   path: Routes.washer_statistics,
-      //   name: '/washer_statistics',
-      //   builder: (context, state) => const CarWasherStatisticsPage(),
-      // ),
+      GoRoute(
+        path: Routes.washer_statistics,
+        name: '/washer_statistics',
+        builder: (context, state) => const CarWasherStatisticsPage(),
+      ),
     ],
   );
   

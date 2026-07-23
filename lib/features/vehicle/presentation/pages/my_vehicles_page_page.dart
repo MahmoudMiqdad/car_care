@@ -3,6 +3,7 @@ import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/floating_add_button.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_cubit.dart';
@@ -43,6 +44,13 @@ class _MyVehiclesPagePageState extends State<MyVehiclesPagePage> {
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
+          floatingActionButton: Padding(
+            padding: EdgeInsets.only(bottom: 16.h, left: 16.w),
+            child: FloatingAddButton(
+              onTap: () => context.push(Routes.add_vehicle),
+            ),
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
           backgroundColor: context.colorScheme.surface,
           appBar: CustomAppBar(
             title: strings.myVehicles,
@@ -50,7 +58,10 @@ class _MyVehiclesPagePageState extends State<MyVehiclesPagePage> {
             actionWidget: Container(
               width: 36.w,
               height: 36.w,
-              decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
               child: IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () async {
@@ -63,9 +74,7 @@ class _MyVehiclesPagePageState extends State<MyVehiclesPagePage> {
               ),
             ),
           ),
-          body: const ImageBackground(
-            child: VehiclesBody(),
-          ),
+          body: const ImageBackground(child: VehiclesBody()),
           bottomNavigationBar: HomeBottomNavBar(
             onItemSelected: (index) {
               if (index == 0) context.go(Routes.home);

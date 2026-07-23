@@ -1,5 +1,7 @@
+import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_event.dart';
@@ -36,20 +38,9 @@ class _RegisterPageState extends State<RegisterPage> {
         body: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: Colors.red,
-                ),
-              );
+                AppSnackBar.error(context, state.message);
             } else if (state is AuthSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(strings.registrationSuccess),
-                  backgroundColor: Colors.green,
-                ),
-              );
-
+               AppSnackBar.success(context,strings.registrationSuccess);
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 GoRouter.of(context).go(Routes.login);
               });
@@ -64,7 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
             return Stack(
               fit: StackFit.expand,
               children: [
-                Image.asset('assets/images/BK_.png', fit: BoxFit.cover),
+                Image.asset(AppAssets.backgroung, fit: BoxFit.cover),
                 SafeArea(
                   child: Column(
                     children: [
