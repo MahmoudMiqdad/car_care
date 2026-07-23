@@ -100,6 +100,14 @@ import 'package:car_care/features/spare_parts_store/owner/orders/data/repositori
 import 'package:car_care/features/spare_parts_store/owner/orders/domain/repositories/i_owner_orders_repository.dart';
 import 'package:car_care/features/spare_parts_store/owner/orders/presentation/cubit/owner_orders/owner_orders_cubit.dart';
 import 'package:car_care/features/spare_parts_store/owner/orders/presentation/cubit/owner_order_details/owner_order_details_cubit.dart';
+import 'package:car_care/features/spare_parts_store/owner/delivery/data/data_sources/owner_share_location_remote_data_source.dart';
+import 'package:car_care/features/spare_parts_store/owner/delivery/data/repositories/owner_share_location_repository_impl.dart';
+import 'package:car_care/features/spare_parts_store/owner/delivery/domain/repositories/i_owner_share_location_repository.dart';
+import 'package:car_care/features/spare_parts_store/owner/delivery/presentation/cubit/owner_share_location/owner_share_location_cubit.dart';
+import 'package:car_care/features/spare_parts_store/customer/delivery_tracking/data/data_sources/spare_order_track_remote_data_source.dart';
+import 'package:car_care/features/spare_parts_store/customer/delivery_tracking/data/repositories/spare_order_track_repository_impl.dart';
+import 'package:car_care/features/spare_parts_store/customer/delivery_tracking/domain/repositories/i_spare_order_track_repository.dart';
+import 'package:car_care/features/spare_parts_store/customer/delivery_tracking/presentation/cubit/customer_delivery_tracking/customer_delivery_tracking_cubit.dart';
 import 'package:car_care/features/spare_parts_store/customer/products/presentation/cubit/all_products/all_products_cubit.dart';
 import 'package:car_care/features/spare_parts_store/customer/products/presentation/cubit/product_details/product_details_cubit.dart';
 import 'package:car_care/features/spare_parts_store/customer/shops/data/data_sources/shops_remote_data_source.dart';
@@ -573,5 +581,28 @@ Future<void> setupServiceLocator() async {
 )
 ..registerFactory<OwnerOrderDetailsCubit>(
   () => OwnerOrderDetailsCubit(getIt<IOwnerOrdersRepository>()),
+)
+//SpareParts Store - Owner Share Location (Delivery)
+..registerLazySingleton<OwnerShareLocationRemoteDataSource>(
+  () => OwnerShareLocationRemoteDataSource(getIt<ApiService>()),
+)
+..registerLazySingleton<IOwnerShareLocationRepository>(
+  () => OwnerShareLocationRepositoryImpl(
+      getIt<OwnerShareLocationRemoteDataSource>()),
+)
+..registerFactory<OwnerShareLocationCubit>(
+  () => OwnerShareLocationCubit(getIt<IOwnerShareLocationRepository>()),
+)
+//SpareParts Store - Customer Delivery Tracking
+..registerLazySingleton<SpareOrderTrackRemoteDataSource>(
+  () => SpareOrderTrackRemoteDataSource(getIt<ApiService>()),
+)
+..registerLazySingleton<ISpareOrderTrackRepository>(
+  () => SpareOrderTrackRepositoryImpl(
+      getIt<SpareOrderTrackRemoteDataSource>()),
+)
+..registerFactory<CustomerDeliveryTrackingCubit>(
+  () =>
+      CustomerDeliveryTrackingCubit(getIt<ISpareOrderTrackRepository>()),
   );
 }

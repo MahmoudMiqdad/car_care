@@ -23,14 +23,44 @@ class TechnicianProfileViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = context.l10n;
 
-    return BlocBuilder<TechnicianProfileCubit, TechnicianProfileState>(
+    return BlocConsumer<TechnicianProfileCubit, TechnicianProfileState>(
+      listenWhen: (_, current) => current is TechnicianProfileError,
+      listener: (context, state) {
+        if (state is TechnicianProfileError) {
+          final msg = state.message.isEmpty ||
+                  state.message.startsWith('Instance of')
+              ? 'حدث خطأ أثناء تحميل الملف'
+              : state.message;
+          AppSnackBar.error(context, msg);
+        }
+      },
       builder: (context, state) {
         if (state is TechnicianProfileLoading) {
           return const Center(child: AppLoadingWidget());
         }
 
         if (state is TechnicianProfileError) {
-          AppSnackBar.error(context, state.message);
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                const SizedBox(height: 12),
+                const Text(
+                  'حدث خطأ أثناء تحميل الملف',
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton.icon(
+                  onPressed: () => context
+                      .read<TechnicianProfileCubit>()
+                      .getTechnicianProfile(),
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('إعادة المحاولة'),
+                ),
+              ],
+            ),
+          );
         }
 
         if (state is TechnicianProfileLoaded) {

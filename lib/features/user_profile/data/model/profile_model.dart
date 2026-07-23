@@ -46,6 +46,16 @@ class Data {
     this.roles,
   });
 
+  // Normalizes roles from either string or object (with slug/name) format
+  List<String> get parsedRoles {
+    if (roles == null) return [];
+    return roles!.map((r) {
+      if (r is String) return r;
+      if (r is Map) return (r['slug'] ?? r['name'] ?? '').toString();
+      return r.toString();
+    }).where((r) => r.isNotEmpty).toList();
+  }
+
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
         uuid: json["uuid"],

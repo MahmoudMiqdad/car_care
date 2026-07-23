@@ -1,3 +1,5 @@
+import 'package:car_care/core/routing/navigation_x.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/app_headline.dart';
@@ -12,7 +14,6 @@ import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 class BookingDetailsPage extends StatelessWidget {
   const BookingDetailsPage({super.key, required this.booking});
@@ -45,7 +46,7 @@ class BookingDetailsPage extends StatelessWidget {
                 behavior: SnackBarBehavior.floating,
                 backgroundColor: Colors.green,
               ));
-            context.pop(true);
+            context.safePopOrGo(Routes.bookings, result: true);
           } else if (state is CustomerBookingActionError) {
             ScaffoldMessenger.of(context)
               ..clearSnackBars()
@@ -63,7 +64,7 @@ class BookingDetailsPage extends StatelessWidget {
             appBar: CustomAppBar(
               title: context.l10n.bookingDetailsPageTitle,
               showBackButton: true,
-              onBackTapped: () => context.pop(),
+              onBackTapped: () => context.safePopOrGo(Routes.bookings),
             ),
             body: ImageBackground(
               child: SafeArea(

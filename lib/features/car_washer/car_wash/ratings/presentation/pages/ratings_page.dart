@@ -1,3 +1,5 @@
+import 'package:car_care/core/routing/navigation_x.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -9,7 +11,6 @@ import 'package:car_care/features/car_washer/car_wash/ratings/presentation/widge
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class RatingsPage extends StatefulWidget {
   const RatingsPage({super.key, required this.booking});
@@ -59,7 +60,7 @@ class _RatingsPageState extends State<RatingsPage> {
                             backgroundColor: Colors.green,
                           ),
                         );
-                      context.pop(true);
+                      context.safePopOrGo(Routes.bookings, result: true);
                     }
 
                     if (state is RatingsError) {

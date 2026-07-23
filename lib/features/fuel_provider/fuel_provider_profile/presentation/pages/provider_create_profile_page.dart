@@ -1,4 +1,5 @@
 import 'package:car_care/core/constants/list_province.dart';
+import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
@@ -106,7 +107,7 @@ class _ProviderCreateProfilePageState
           title: l10n.providerCreateProfilePageTitle,
           showBackButton: true,
           backgroundColor: AppColors.carWashTeal,
-          onBackTapped: () => context.pop(),
+          onBackTapped: () => context.safePopOrGo(Routes.more),
         ),
         body: BlocListener<FuelProviderProfileCubit, FuelProviderProfileState>(
           listener: (context, state) {
@@ -127,7 +128,7 @@ class _ProviderCreateProfilePageState
               onPickGovernorate: _pickGovernorate,
               fuelPrices: _fuelPrices,
               onSave: _onCreate,
-              onCancel: () => context.pop(),
+              onCancel: () => context.safePopOrGo(Routes.more),
               saveLabel: l10n.providerCreateProfileSave,
               onFuelTypeTap: _onFuelTypeTap,
             ),

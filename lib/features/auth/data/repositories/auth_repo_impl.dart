@@ -15,48 +15,69 @@ class AuthRepositoryImpl implements IAuthRepository {
   final AuthRemoteDataSource _authRemoteDataSource;
   final SecureStorage _secureStorage;
 
-@override
-Future<Either<Failure, AuthResponseModel>> login(
-  String email,
-  String password,
-) async {
-  try {
-    final result = await _authRemoteDataSource.login({
-      'email': email.trim(),
-      'password': password.trim(),
-    });
+  // Role priority: first match wins
+  static const _rolePriority = [
+    'admin',
+    'shop-owner',
+    'technician',
+    'car-washer',
+    'fuel-provider',
+    'user',
+  ];
 
-   
-    if (result.token != null && result.token!.isNotEmpty) {
-      await _secureStorage.setToken(result.token!);
-      return Right(result);
-    } else {
-      return Left(Failure(message: 'Email أو كلمة المرور غير صحيحة'));
+  static String _pickPrimaryRole(List<String> roles) {
+    for (final priority in _rolePriority) {
+      if (roles.contains(priority)) return priority;
     }
-  } on ServerExpcptions catch (e) {
-    return Left(e.error);
+    return roles.isNotEmpty ? roles.first : 'user';
   }
-}
 
-@override
-Future<Either<Failure, AuthResponseModel>> register(
-  Map<String, dynamic> data,
-) async {
-  try {
-    final result = await _authRemoteDataSource.register(data);
-
- 
-    if (result.token != null && result.token!.isNotEmpty) {
-      await _secureStorage.setToken(result.token!);
-     await _secureStorage.getToken();
-      return Right(result);
-    } else {
-    
-      return Left(Failure(message: 'حدث خطأ أثناء التسجيل، تحقق من البيانات'));
+  Future<void> _saveAuthData(AuthResponseModel result) async {
+    await _secureStorage.setToken(result.token!);
+    final roles = result.user?.roles ?? [];
+    if (roles.isNotEmpty) {
+      await _secureStorage.setRoles(roles);
+      await _secureStorage.setPrimaryRole(_pickPrimaryRole(roles));
     }
-  } on ServerExpcptions catch (e) {
-    return Left(e.error);
   }
-}
 
+  @override
+  Future<Either<Failure, AuthResponseModel>> login(
+    String email,
+    String password,
+  ) async {
+    try {
+      final result = await _authRemoteDataSource.login({
+        'email': email.trim(),
+        'password': password.trim(),
+      });
+
+      if (result.token != null && result.token!.isNotEmpty) {
+        await _saveAuthData(result);
+        return Right(result);
+      } else {
+        return Left(Failure(message: 'Email أو كلمة المرور غير صحيحة'));
+      }
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, AuthResponseModel>> register(
+    Map<String, dynamic> data,
+  ) async {
+    try {
+      final result = await _authRemoteDataSource.register(data);
+
+      if (result.token != null && result.token!.isNotEmpty) {
+        await _saveAuthData(result);
+        return Right(result);
+      } else {
+        return Left(Failure(message: 'حدث خطأ أثناء التسجيل، تحقق من البيانات'));
+      }
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
+    }
+  }
 }

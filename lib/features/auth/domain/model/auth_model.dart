@@ -62,8 +62,18 @@ class UserModel {
         createdAt: DateTime.parse(json['created_at']),
         updatedAt: DateTime.parse(json['updated_at']),
         tenant: json['tenant'],
-        roles: List<String>.from(json['roles'] ?? []),
+        roles: _parseRoles(json['roles']),
       );
+
+  // Handles both ["shop-owner"] and [{"slug":"shop-owner","name":"..."}] formats
+  static List<String> _parseRoles(dynamic rawRoles) {
+    if (rawRoles == null) return [];
+    return (rawRoles as List).map((r) {
+      if (r is String) return r;
+      if (r is Map) return (r['slug'] ?? r['name'] ?? '').toString();
+      return r.toString();
+    }).where((r) => r.isNotEmpty).toList();
+  }
 
   Map<String, dynamic> toJson() => {
         'id': id,

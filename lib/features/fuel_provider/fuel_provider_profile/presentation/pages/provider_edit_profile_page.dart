@@ -1,4 +1,6 @@
 import 'package:car_care/core/constants/list_province.dart';
+import 'package:car_care/core/routing/navigation_x.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -11,7 +13,6 @@ import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentati
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class ProviderEditProfilePage extends StatefulWidget {
   const ProviderEditProfilePage({super.key, this.profile});
@@ -119,13 +120,13 @@ class _ProviderEditProfilePageState extends State<ProviderEditProfilePage> {
           title: l10n.providerEditProfilePageTitle,
           showBackButton: true,
           backgroundColor: AppColors.carWashTeal,
-          onBackTapped: () => context.pop(),
+          onBackTapped: () => context.safePopOrGo(Routes.provider_profile),
         ),
         body: BlocListener<FuelProviderProfileCubit, FuelProviderProfileState>(
           listener: (context, state) {
             if (state is FuelProviderProfileLoaded) {
                AppSnackBar.success(context, "تم حفظ البيانات");
-              context.pop(true);
+              context.safePopOrGo(Routes.provider_profile, result: true);
             }
             if (state is FuelProviderProfileError) {
               AppSnackBar.error(context, state.message);
@@ -140,7 +141,7 @@ class _ProviderEditProfilePageState extends State<ProviderEditProfilePage> {
               onPickGovernorate: _pickGovernorate,
               fuelPrices: _fuelPrices,
               onSave: _onSave,
-              onCancel: () => context.pop(),
+              onCancel: () => context.safePopOrGo(Routes.provider_profile),
               onFuelTypeTap: _onFuelTypeTap,
             ),
           ),

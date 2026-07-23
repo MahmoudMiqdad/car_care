@@ -1,4 +1,6 @@
+import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/core/routing/routes.dart';
+import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -57,43 +59,68 @@ void showTechnicianEntrySheet(BuildContext context) {
         );
       }
 
-      return Padding(
-        padding: EdgeInsets.fromLTRB(
-          16.w,
-          0,
-          16.w,
-          16.h + MediaQuery.paddingOf(sheetContext).bottom,
-        ),
-        child: Material(
-          borderRadius: BorderRadius.circular(16.r),
-          color: Colors.white,
-          clipBehavior: Clip.antiAlias,
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 400.w),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                entryItem(
-                  icon: Icons.engineering_outlined,
-                  label: strings.enterAsTechnician,
-                  onTap: () => context.push(Routes.inserttechnicianprofile),
-                ),
-                Divider(height: 1.h, indent: 16.w, endIndent: 16.w),
-                entryItem(
-                  icon: Icons.local_car_wash_outlined,
-                  label: 'الدخول كـ مغسلة',
-                  onTap: () => context.push(Routes.create_profile_washer),
-                ),
-                Divider(height: 1.h, indent: 16.w, endIndent: 16.w),
-                entryItem(
-                  icon: Icons.local_gas_station_outlined,
-                  label: 'الدخول كـ مزود وقود',
-                  onTap: () {}, // يحتاج route مزود الوقود
-                ),
-              ],
+      return FutureBuilder<String?>(
+        future: getIt<SecureStorage>().getPrimaryRole(),
+        builder: (_, snap) {
+          final role = snap.data ?? '';
+
+          return Padding(
+            padding: EdgeInsets.fromLTRB(
+              16.w,
+              0,
+              16.w,
+              16.h + MediaQuery.paddingOf(sheetContext).bottom,
             ),
-          ),
-        ),
+            child: Material(
+              borderRadius: BorderRadius.circular(16.r),
+              color: Colors.white,
+              clipBehavior: Clip.antiAlias,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 400.w),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    entryItem(
+                      icon: Icons.engineering_outlined,
+                      label: strings.enterAsTechnician,
+                      onTap: () => context.push(
+                        role == 'technician'
+                            ? Routes.orders
+                            : Routes.inserttechnicianprofile,
+                      ),
+                    ),
+                    Divider(height: 1.h, indent: 16.w, endIndent: 16.w),
+                    entryItem(
+                      icon: Icons.local_car_wash_outlined,
+                      label: 'الدخول كـ مغسلة',
+                      onTap: () => context.push(
+                        role == 'car-washer'
+                            ? Routes.profile_washer
+                            : Routes.create_profile_washer,
+                      ),
+                    ),
+                    Divider(height: 1.h, indent: 16.w, endIndent: 16.w),
+                    entryItem(
+                      icon: Icons.local_gas_station_outlined,
+                      label: 'الدخول كـ مزود وقود',
+                      onTap: () => context.push(
+                        role == 'fuel-provider'
+                            ? Routes.provider_profile
+                            : Routes.provider_create_profile,
+                      ),
+                    ),
+                    Divider(height: 1.h, indent: 16.w, endIndent: 16.w),
+                    entryItem(
+                      icon: Icons.store_outlined,
+                      label: 'الدخول كصاحب متجر',
+                      onTap: () => context.push(Routes.ownerProfile),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       );
     },
   );

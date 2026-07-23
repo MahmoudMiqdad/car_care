@@ -6,7 +6,6 @@ import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentati
 import 'package:car_care/features/maintenance/user_quotations/domain/entities/quotation_entity.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/cubit/quotations_cubit.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/pages/quotation_details_page.dart';
-import 'package:car_care/features/maintenance/user_requests/domain/entities/maintenance_request_details_entity.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/cancel_request_cubit/cancel_request_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/show_request_cubit/show_request_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/pages/maintenance_request_details_page.dart';
@@ -16,8 +15,6 @@ import 'package:car_care/features/technician_sos/presentation/pages/all_technici
 import 'package:car_care/features/user_fuel/domain/entities/user_fuel_order_entity.dart';
 import 'package:car_care/features/user_fuel/presentation/cubit/user_fuel_cubit/user_fuel_cubit.dart';
 import 'package:car_care/features/user_fuel/presentation/pages/fuel_orders_list_page.dart';
-import 'package:car_care/features/user_fuel/presentation/pages/fuel_sos_create_page.dart';
-
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/presentation/pages/bookings_page.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/domain/entities/washers_entity.dart';
@@ -26,6 +23,7 @@ import 'package:car_care/features/car_washer/car_wash/washers_browse/presentatio
 import 'package:car_care/features/car_washer/washers/washers_availability/presentation/pages/availability_page.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/pages/washer_bookings_details.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/pages/washer_bookings_page.dart';
+import 'package:car_care/features/car_washer/washers/washers_profile/presentation/pages/create_profile_washer_page.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/pages/edit_profile_washer_page.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_order/presentation/pages/provider_order_details_page.dart';
 import 'package:car_care/features/user_fuel/presentation/pages/fuel_order_details_page.dart';
@@ -44,12 +42,13 @@ import 'package:car_care/features/technician_sos/presentation/widgets/sos_reques
 import 'package:car_care/features/sos/presentation/pages/all_user_sos_requests.dart';
 import 'package:car_care/features/sos/presentation/pages/sos_details_page.dart';
 import 'package:car_care/features/car_washer/profile_washer/presentation/pages/profile_washer_page.dart';
-import 'package:car_care/features/car_washer/washers/presentation/pages/washer_reservation_page.dart';
+import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/pages/washer_reservation_page.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/pages/all_requests_stats_page.dart';
 import 'package:car_care/features/technician/technician_order/presentation/pages/order_details_page.dart';
 import 'package:car_care/features/technician/technician_order/presentation/pages/orders_page.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/pages/tetechnician_profile_view/technician_profile_view_page.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/pages/update_technician_profile/update_technician_profile.dart';
+import 'package:car_care/features/technician/technician_profile/presentation/widgets/technician_status_gate.dart';
 import 'package:car_care/features/technician/technician_statistics/presentation/pages/technician_statistics_page.dart';
 import 'package:car_care/features/technician/technician_jobs/presentation/pages/technician_jobs_page.dart';
 import 'package:car_care/features/technician/technician_quotations/presentation/pages/technician_quotations_page.dart';
@@ -67,7 +66,7 @@ import 'package:car_care/features/vehicle/presentation/pages/add_vehicle_page.da
 import 'package:car_care/features/vehicle/presentation/pages/my_vehicles_page_page.dart';
 import 'package:car_care/features/auth/presentation/pages/login_page.dart';
 import 'package:car_care/core/routing/routes.dart';
-import 'package:car_care/core/widgets/technician_entry_sheet.dart';
+import 'package:car_care/features/more/presentation/pages/more_page.dart';
 import 'package:car_care/features/auth/presentation/pages/register_page.dart';
 import 'package:car_care/features/home/presentation/pages/home_page.dart';
 import 'package:car_care/features/home/presentation/pages/notifications_page.dart';
@@ -82,6 +81,8 @@ import 'package:car_care/features/spare_parts_store/customer/orders/presentation
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/pages/owner_profile_page.dart';
 import 'package:car_care/features/spare_parts_store/owner/orders/presentation/pages/owner_orders_page.dart';
 import 'package:car_care/features/spare_parts_store/owner/orders/presentation/pages/owner_order_details_page.dart';
+import 'package:car_care/features/spare_parts_store/owner/delivery/presentation/pages/owner_share_location_page.dart';
+import 'package:car_care/features/spare_parts_store/customer/delivery_tracking/presentation/pages/customer_delivery_tracking_page.dart';
 import 'package:car_care/features/spare_parts_store/customer/products/presentation/pages/all_products_page.dart';
 import 'package:car_care/features/spare_parts_store/customer/products/presentation/pages/customer_product_details_page.dart';
 import 'package:car_care/features/spare_parts_store/customer/shops/presentation/pages/shop_details_page.dart';
@@ -102,8 +103,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.login
-    ,
+    initialLocation: Routes.splash,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -149,7 +149,7 @@ GoRoute(
                     context.go(Routes.all_requests);
                     break;
                   case 3:
-                    showTechnicianEntrySheet(context);
+                    context.go(Routes.more);
                     break;
                   default:
                     break;
@@ -164,6 +164,11 @@ GoRoute(
             path: Routes.home,
             name: '/home',
             builder: (context, state) => const HomePage(),
+          ),
+          GoRoute(
+            path: Routes.more,
+            name: '/more',
+            builder: (context, state) => const MorePage(),
           ),
         
           GoRoute(
@@ -182,14 +187,18 @@ GoRoute(
                GoRoute(
             path: Routes.technician_sos_requests,
             name: '/all_technician_sos_requests',
-            builder: (context, state) => const AllTechnicianSosRequests(),
+            builder: (context, state) => const TechnicianStatusGate(
+              child: AllTechnicianSosRequests(),
+            ),
           ),
              GoRoute(
             path: '/technicianSosDetails/:id',
             name: 'SosTechnicianDetailsPage',
             builder: (context, state) {
               final id = int.parse(state.pathParameters['id']!);
-              return SosTechnicianDetailsPage(id: id);
+              return TechnicianStatusGate(
+                child: SosTechnicianDetailsPage(id: id),
+              );
             },
           ),
           GoRoute(
@@ -272,9 +281,11 @@ GoRoute(
             name: '/profile_washer',
             builder: (context, state) => const ProfileWasherPage(),
           ),
-
-   
-         
+          GoRoute(
+            path: Routes.create_profile_washer,
+            name: 'createProfileWasher',
+            builder: (context, state) => const CreateProfileWasherPage(),
+          ),
 
           GoRoute(
             path: Routes.editProfileWasher,
@@ -436,14 +447,18 @@ GoRoute(
       GoRoute(
         path: Routes.updateTechnicianProfile,
         name: '/update_technician_profile',
-        builder: (context, state) => TechnicianProfileEditPage(
-          initialData: state.extra as TechnicianDataEntity?,
+        builder: (context, state) => TechnicianStatusGate(
+          child: TechnicianProfileEditPage(
+            initialData: state.extra as TechnicianDataEntity?,
+          ),
         ),
       ),
       GoRoute(
         path: Routes.technicianProfileViewBody,
         name: '/technician_profile_view_page',
-        builder: (context, state) => const TechnicianProfileViewPage(),
+        builder: (context, state) => const TechnicianStatusGate(
+          child: TechnicianProfileViewPage(),
+        ),
       ),
 GoRoute(
   path: Routes.maintenance_request_details,
@@ -575,6 +590,32 @@ GoRoute(
           return OwnerOrderDetailsPage(orderId: orderId);
         },
       ),
+      GoRoute(
+        path: '${Routes.ownerShareLocation}/:id',
+        name: 'ownerShareLocation',
+        builder: (context, state) {
+          final orderId = int.parse(state.pathParameters['id']!);
+          final extra = state.extra as Map<String, dynamic>?;
+          return OwnerShareLocationPage(
+            orderId: orderId,
+            customerLat: extra?['customerLat'] as double?,
+            customerLng: extra?['customerLng'] as double?,
+          );
+        },
+      ),
+      GoRoute(
+        path: '${Routes.customerTrackDelivery}/:id',
+        name: 'customerTrackDelivery',
+        builder: (context, state) {
+          final orderId = int.parse(state.pathParameters['id']!);
+          final extra = state.extra as Map<String, dynamic>?;
+          return CustomerDeliveryTrackingPage(
+            orderId: orderId,
+            customerLat: extra?['customerLat'] as double?,
+            customerLng: extra?['customerLng'] as double?,
+          );
+        },
+      ),
 
       // GoRoute(
       //   path: Routes.ratings,
@@ -592,8 +633,13 @@ GoRoute(
 
         builder: (context, state) {
           final extra = state.extra;
-          final vehicleId = extra is String ? extra : null;
-          return AddRequestsPage(vehicleId: vehicleId ?? '');
+          // Vehicle id arrives as int (from vehicle details) or String.
+          final vehicleId = switch (extra) {
+            final int id => id.toString(),
+            final String id => id,
+            _ => '',
+          };
+          return AddRequestsPage(vehicleId: vehicleId);
         },
       ),
       GoRoute(
@@ -609,7 +655,9 @@ GoRoute(
           final extra = state.extra;
           final id = extra is String ? extra : null;
 
-          return TechnicianOrderDetailsPage(orderId: id ?? '');
+          return TechnicianStatusGate(
+            child: TechnicianOrderDetailsPage(orderId: id ?? ''),
+          );
         },
       ),
 
@@ -620,7 +668,9 @@ GoRoute(
           final extra = state.extra;
           final id = extra is String ? extra : null;
 
-          return TechnicianQuotationsPage(requestId: id ?? '');
+          return TechnicianStatusGate(
+            child: TechnicianQuotationsPage(requestId: id ?? ''),
+          );
         },
       ),
 
@@ -632,22 +682,28 @@ GoRoute(
       GoRoute(
         path: Routes.technician_jobs,
         name: '/technician_jobs',
-        builder: (context, state) => const TechnicianJobsPage(),
+        builder: (context, state) => const TechnicianStatusGate(
+          child: TechnicianJobsPage(),
+        ),
       ),
       GoRoute(
         path: Routes.technician_statistics,
         name: '/technician_statistics',
-        builder: (context, state) => const TechnicianStatisticsPage(),
+        builder: (context, state) => const TechnicianStatusGate(
+          child: TechnicianStatisticsPage(),
+        ),
       ),
       GoRoute(
   name: 'TechnicianSosMapPage',
   path: '/technician/sos/:id/map',
   builder: (context, state) {
     final extra = state.extra as Map<String, dynamic>?;
-    return TechnicianSosMapPage(
-      sosId: int.parse(state.pathParameters['id']!),
-      clientLat: extra?['lat'],
-      clientLng: extra?['lng'],
+    return TechnicianStatusGate(
+      child: TechnicianSosMapPage(
+        sosId: int.parse(state.pathParameters['id']!),
+        clientLat: extra?['lat'],
+        clientLng: extra?['lng'],
+      ),
     );
   },
 ),

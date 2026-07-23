@@ -46,6 +46,8 @@ TechnicianAvailabilityEntity _mapAvailability(TechnicianAvailabilityModel model)
                     ),
               createdAt: data.createdAt,
               updatedAt: data.updatedAt,
+              status: data.status,
+              rejectionReason: data.rejectionReason,
             ),
     );
   }

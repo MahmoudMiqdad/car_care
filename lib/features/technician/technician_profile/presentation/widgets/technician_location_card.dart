@@ -10,19 +10,32 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
 
 class LocationUpdateCard extends StatefulWidget {
-  const LocationUpdateCard({super.key});
+  const LocationUpdateCard({
+    super.key,
+    this.localOnly = false,
+    this.onLocationPicked,
+  });
+
+  /// When true (onboarding), the picker only returns the location locally —
+  /// no protected endpoint is called. See [LocationPickerSheet.localOnly].
+  final bool localOnly;
+
+  /// Reports the picked location to the parent form.
+  final ValueChanged<LatLng>? onLocationPicked;
 
   @override
   State<LocationUpdateCard> createState() => _LocationUpdateCardState();
 }
 
 class _LocationUpdateCardState extends State<LocationUpdateCard> {
-  LatLng? _savedLocation; 
+  LatLng? _savedLocation;
 
   Future<void> _openPicker() async {
-    final picked = await LocationPickerSheet.show(context);
+    final picked =
+        await LocationPickerSheet.show(context, localOnly: widget.localOnly);
     if (picked != null) {
       setState(() => _savedLocation = picked);
+      widget.onLocationPicked?.call(picked);
     }
   }
 
@@ -30,7 +43,8 @@ class _LocationUpdateCardState extends State<LocationUpdateCard> {
   Widget build(BuildContext context) {
     return BlocBuilder<TechnicianLocationCubit, TechnicianLocationState>(
       builder: (context, state) {
-        final isSuccess = state is UpdateLocationSuccess;
+        final isSuccess =
+            state is UpdateLocationSuccess || _savedLocation != null;
 
         return Container(
           width: double.infinity,

@@ -4,9 +4,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 enum DbKeys {
   username,
   password,
-  token ,
+  token,
   refreshToken,
   role,
+  roles,
   admin,
   premium,
   logged,
@@ -99,17 +100,37 @@ class SecureStorage {
   Future<void> setRole(String role) => setValue(DbKeys.role, role);
   Future<String?> getRole() => getValue(DbKeys.role);
 
+  // Primary role — same key as role, explicit naming for clarity
+  Future<void> setPrimaryRole(String role) => setRole(role);
+  Future<String?> getPrimaryRole() => getRole();
+
+  // Full roles list stored as comma-separated string
+  Future<void> setRoles(List<String> rolesList) =>
+      setValue(DbKeys.roles, rolesList.join(','));
+
+  Future<List<String>> getRoles() async {
+    final value = await getValue(DbKeys.roles);
+    if (value == null || value.isEmpty) return [];
+    return value.split(',').where((r) => r.isNotEmpty).toList();
+  }
+
+  Future<void> clearRoles() async {
+    await deleteValue(DbKeys.role);
+    await deleteValue(DbKeys.roles);
+  }
+
   // Check if user is authenticated
   Future<bool> isAuthenticated() async {
     final token = await getToken();
     return token != null && token.isNotEmpty;
   }
 
-  // Clear all authentication data
+  // Clear all authentication data including roles
   Future<void> clearAuth() async {
     await deleteToken();
     await deleteValue(DbKeys.refreshToken);
     await setLoggedInStatus(false);
+    await clearRoles();
   }
 
   // Method for checking if a key exists

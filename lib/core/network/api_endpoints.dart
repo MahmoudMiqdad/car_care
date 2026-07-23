@@ -103,4 +103,8 @@ static String customerCancelBooking(int bookingId) =>
   static String ownerAcceptOrder(int id) => '$ownerOrders/$id/accept';
   static String ownerRejectOrder(int id) => '$ownerOrders/$id/reject';
   static String ownerUpdateOrderStatus(int id) => '$ownerOrders/$id/status';
+  static String ownerShareLocation(int id) => '$ownerOrders/$id/location';
+
+  // spare-parts-store (customer) - delivery tracking
+  static String customerTrackSpareOrder(int id) => '$customerOrders/$id/track';
 }

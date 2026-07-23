@@ -21,6 +21,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  // Multi-provider accounts: every user is a customer, so login always
+  // lands on Home. Provider flows are reached from the More page.
+  void _navigateHome(BuildContext context) {
+    GoRouter.of(context).go(Routes.home);
+  }
+
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
@@ -35,8 +41,8 @@ class _LoginPageState extends State<LoginPage> {
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthSuccess) {
-            AppSnackBar.success(context, strings.loginSuccess);
-              GoRouter.of(context).go(Routes.home);
+              AppSnackBar.success(context, strings.loginSuccess);
+              _navigateHome(context);
             } else if (state is AuthFailure) {
              AppSnackBar.error(context, state.message);
             }

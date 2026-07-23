@@ -32,6 +32,8 @@ class Data {
   User? user;
   DateTime? createdAt;
   DateTime? updatedAt;
+  String? status;
+  String? rejectionReason;
 
   Data({
     this.id,
@@ -47,6 +49,8 @@ class Data {
     this.user,
     this.createdAt,
     this.updatedAt,
+    this.status,
+    this.rejectionReason,
   });
 
   factory Data.fromJson(Map<String, dynamic>? json) {
@@ -73,6 +77,8 @@ class Data {
       updatedAt: json["updated_at"] != null
           ? DateTime.tryParse(json["updated_at"])
           : null,
+      status: json["status"] as String?,
+      rejectionReason: json["rejection_reason"] as String?,
     );
   }
 
@@ -90,6 +96,8 @@ class Data {
         "user": user?.toJson(),
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
+        "status": status,
+        "rejection_reason": rejectionReason,
       };
 }
 

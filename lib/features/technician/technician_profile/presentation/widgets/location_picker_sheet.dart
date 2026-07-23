@@ -12,17 +12,21 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
 class LocationPickerSheet extends StatefulWidget {
-  const LocationPickerSheet({super.key});
+  const LocationPickerSheet({super.key, this.localOnly = false});
 
+  /// When true (onboarding), confirming only returns the picked location —
+  /// no call to the protected /technician/location endpoint. The location
+  /// is sent later as part of the profile save request.
+  final bool localOnly;
 
-  static Future<LatLng?> show(BuildContext context) {
+  static Future<LatLng?> show(BuildContext context, {bool localOnly = false}) {
     return showModalBottomSheet<LatLng>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) => BlocProvider.value(
         value: context.read<TechnicianLocationCubit>(),
-        child: const LocationPickerSheet(),
+        child: LocationPickerSheet(localOnly: localOnly),
       ),
     );
   }
@@ -68,6 +72,11 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
 
   // إرسال الموقع المختار
   Future<void> _confirmLocation() async {
+    if (widget.localOnly) {
+      // Onboarding: keep the location in local form state only.
+      Navigator.pop(context, _pickedLocation);
+      return;
+    }
     context.read<TechnicianLocationCubit>().technicianLocation(
           lat: _pickedLocation.latitude,
           lng: _pickedLocation.longitude,

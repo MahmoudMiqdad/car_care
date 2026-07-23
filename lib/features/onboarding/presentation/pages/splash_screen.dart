@@ -1,8 +1,12 @@
 // splash_screen.dart
 
 import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/errors/excptions.dart';
+import 'package:car_care/core/local_storage/secure_storage.dart';
+import 'package:car_care/core/routing/role_route_resolver.dart';
 import 'package:car_care/core/routing/routes.dart';
-import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/features/user_profile/data/data_sources/profile_remote_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -54,9 +58,56 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    Future.delayed(const Duration(milliseconds: 3000), () {
+    Future.delayed(const Duration(milliseconds: 3000), () async {
       if (!mounted) return;
-      context.go(Routes.onboarding);
+
+      final storage = getIt<SecureStorage>();
+      final token = await storage.getToken();
+
+      if (!mounted) return;
+
+      if (token == null || token.isEmpty) {
+        context.go(Routes.onboarding);
+        return;
+      }
+
+      // Validate token with backend before routing.
+      try {
+        final model = await getIt<ProfileRemoteDataSource>().showprofile();
+
+        final roles = model.data?.parsedRoles ?? [];
+        if (roles.isNotEmpty) {
+          await storage.setRoles(roles);
+          await storage.setPrimaryRole(RoleRouteResolver.pickPrimaryRole(roles));
+        }
+
+        // Multi-provider accounts: every user is a customer — always land
+        // on Home. Provider flows are reached from the More page.
+        if (!mounted) return;
+        context.go(Routes.home);
+      } on ServerExpcptions catch (e) {
+        if (!mounted) return;
+        final msg = e.error.message.toLowerCase();
+        // Connectivity errors: fail open so offline users stay logged in.
+        final isConnectivity = msg.contains('اتصال') ||
+            msg.contains('شبكة') ||
+            msg.contains('مهلة') ||
+            msg.contains('internet') ||
+            msg.contains('network') ||
+            msg.contains('timeout');
+        if (isConnectivity) {
+          context.go(Routes.home);
+        } else {
+          // Auth failure (401 / invalid token) — force re-login.
+          await storage.clearAuth();
+          if (!mounted) return;
+          context.go(Routes.onboarding);
+        }
+      } catch (_) {
+        await storage.clearAuth();
+        if (!mounted) return;
+        context.go(Routes.onboarding);
+      }
     });
   }
 
@@ -87,7 +138,7 @@ class _SplashScreenState extends State<SplashScreen>
           Center(
             child: AnimatedBuilder(
               animation: _controller,
-              builder: (_, __) {
+              builder: (_, _) {
                 return FadeTransition(
                   opacity: _fadeAnim,
                   child: SlideTransition(

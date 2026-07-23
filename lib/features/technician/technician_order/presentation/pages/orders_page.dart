@@ -4,10 +4,13 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
+import 'package:car_care/core/widgets/provider_status_page.dart';
 import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
 import 'package:car_care/features/technician/technician_order/presentation/cubit/available_requests_cubit/available_requests_cubit.dart';
 import 'package:car_care/features/technician/technician_order/presentation/cubit/available_requests_cubit/available_requests_state.dart';
 import 'package:car_care/features/technician/technician_order/presentation/widgets/technician_requests_details/orders_list_view.dart';
+import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_cubit.dart';
+import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_state.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,8 +22,58 @@ class TechnicianOrderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AvailableRequestsCubit(getIt())..fetchAvailableRequests(),
-      child: const _Body(),
+      create: (_) => getIt<TechnicianProfileCubit>()..getTechnicianProfile(),
+      child: const _TechnicianStatusGate(),
+    );
+  }
+}
+
+class _TechnicianStatusGate extends StatelessWidget {
+  const _TechnicianStatusGate();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<TechnicianProfileCubit, TechnicianProfileState>(
+      listener: (context, state) {
+        if (state is TechnicianProfileError) {
+          final msg = state.message.toLowerCase();
+          final isNotFound = msg.contains('404') ||
+              msg.contains('not found') ||
+              msg.contains('غير موجود') ||
+              msg.contains('لا يوجد') ||
+              msg.contains('لم');
+          if (isNotFound) {
+            context.go(Routes.inserttechnicianprofile);
+          }
+        }
+      },
+      builder: (context, state) {
+        if (state is TechnicianProfileLoading || state is TechnicianProfileInitial) {
+          return const Scaffold(
+            body: Center(child: AppLoadingWidget()),
+          );
+        }
+
+        if (state is TechnicianProfileLoaded) {
+          final gate = buildProviderStatusGate(
+            state.profile.data?.status,
+            state.profile.data?.rejectionReason,
+          );
+          if (gate != null) return gate;
+          return BlocProvider(
+            create: (_) => getIt<AvailableRequestsCubit>()..fetchAvailableRequests(),
+            child: const _Body(),
+          );
+        }
+
+        if (state is TechnicianProfileError) {
+          return const Scaffold(
+            body: Center(child: AppLoadingWidget()),
+          );
+        }
+
+        return const Scaffold(body: SizedBox.shrink());
+      },
     );
   }
 }
@@ -42,30 +95,61 @@ class _Body extends StatelessWidget {
         },
       ),
       body: ImageBackground(
-        child: BlocBuilder<AvailableRequestsCubit, AvailableRequestsState>(
+        child: BlocConsumer<AvailableRequestsCubit, AvailableRequestsState>(
+          listenWhen: (_, current) => current is AvailableRequestsError,
+          listener: (context, state) {
+            if (state is AvailableRequestsError) {
+              final msg = state.message.isEmpty ||
+                      state.message.startsWith('Instance of')
+                  ? 'حدث خطأ أثناء تحميل الطلبات'
+                  : state.message;
+              AppSnackBar.error(context, msg);
+            }
+          },
           builder: (context, state) {
             if (state is AvailableRequestsLoading) {
               return const Center(child: AppLoadingWidget());
             }
 
             if (state is AvailableRequestsError) {
-              AppSnackBar.error(context, state.message);
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                    const SizedBox(height: 12),
+                    const Text(
+                      'حدث خطأ أثناء تحميل الطلبات',
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton.icon(
+                      onPressed: () => context
+                          .read<AvailableRequestsCubit>()
+                          .fetchAvailableRequests(),
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('إعادة المحاولة'),
+                    ),
+                  ],
+                ),
+              );
             }
 
             if (state is AvailableRequestsLoaded) {
               final requests = state.requests.data;
 
               if (requests.isEmpty) {
-                return const Center(child: Text("لا يوجد طلبات حالياً"));
+                return const Center(child: Text('لا يوجد طلبات حالياً'));
               }
 
               return RefreshIndicator(
                 onRefresh: () async {
-                context.read<AvailableRequestsCubit>().fetchAvailableRequests();
-              },
+                  context
+                      .read<AvailableRequestsCubit>()
+                      .fetchAvailableRequests();
+                },
                 child: OrdersListView(
                   items: requests,
-                
                   onOrderTap: (item) {
                     context.push(
                       Routes.orderdetails,

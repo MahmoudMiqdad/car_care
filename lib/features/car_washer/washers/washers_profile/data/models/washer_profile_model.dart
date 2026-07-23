@@ -18,6 +18,8 @@ class WasherProfileModel extends WasherProfileEntity {
     required super.ratingsCount,
     required super.ratingStars,
     required super.createdAt,
+    super.status,
+    super.rejectionReason,
   });
 
   factory WasherProfileModel.fromJson(Map<String, dynamic> json) {
@@ -42,6 +44,8 @@ class WasherProfileModel extends WasherProfileEntity {
       ratingsCount: _toInt(json['ratings_count']),
       ratingStars: (json['rating_stars'] ?? '').toString(),
       createdAt: (json['created_at'] ?? '').toString(),
+      status: json['status']?.toString(),
+      rejectionReason: json['rejection_reason']?.toString(),
     );
   }
 

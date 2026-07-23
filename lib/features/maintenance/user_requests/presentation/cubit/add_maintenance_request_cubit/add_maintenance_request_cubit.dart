@@ -12,7 +12,7 @@ class AddMaintenanceRequestCubit extends Cubit<AddMaintenanceRequestState> {
     emit(AddMaintenanceRequestLoading());
     final result = await _repository.addMaintenanceRequest(formData);
     result.fold(
-      (failure) => emit(AddMaintenanceRequestError(failure.message)),
+      (failure) => emit(AddMaintenanceRequestError(failure.displayMessage)),
       (response) => emit(AddMaintenanceRequestSuccess(response)),
     );
   }
