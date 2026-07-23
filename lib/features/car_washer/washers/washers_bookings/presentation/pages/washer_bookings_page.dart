@@ -33,7 +33,7 @@ class WasherBookingsPage extends StatelessWidget {
               if (context.canPop()) {
                 context.pop();
               } else {
-                context.go(Routes.home);
+                context.go(Routes.more);
               }
             },
           ),

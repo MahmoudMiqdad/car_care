@@ -2,6 +2,7 @@
 
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/functions/upload_file_to_api.dart';
+import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
@@ -182,7 +183,7 @@ class _RequestsPageState extends State<_RequestsPageBody> {
                     RequestsActionButtons(
                       cardRadius: cardR,
                       onSubmit: isLoading ? null : _submitRequest,
-                      onCancel: () => context.pop(),
+                      onCancel: () => context.safePopOrGo(Routes.home),
                     ),
                   ],
                 ),

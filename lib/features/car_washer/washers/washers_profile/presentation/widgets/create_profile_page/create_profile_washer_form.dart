@@ -1,3 +1,5 @@
+import 'package:car_care/core/routing/navigation_x.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/create_profile_page/create_profile_washer_basic_section.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/create_profile_page/create_profile_washer_logo_section.dart';
@@ -7,7 +9,6 @@ import 'package:car_care/features/car_washer/washers/washers_profile/presentatio
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 class CreateProfileWasherForm extends StatelessWidget {
   const CreateProfileWasherForm({
@@ -118,11 +119,7 @@ class CreateProfileWasherForm extends StatelessWidget {
                 onSave: isLoading ? null : onSave,
                 onCancel: isLoading
                     ? null
-                    : () {
-                        if (context.canPop()) {
-                          context.pop();
-                        }
-                      },
+                    : () => context.safePopOrGo(Routes.more),
               ),
             ],
           ),

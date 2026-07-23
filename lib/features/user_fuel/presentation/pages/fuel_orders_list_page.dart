@@ -1,4 +1,5 @@
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -47,7 +48,7 @@ floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
           title: l10n.fuelOrdersListTitle,
           showBackButton: true,
           backgroundColor: AppColors.carWashTeal,
-          onBackTapped: () => context.pop(),
+          onBackTapped: () => context.safePopOrGo(Routes.home),
         ),
         body: ImageBackground(
           child: BlocBuilder<UserFuelCubit, UserFuelState>(
@@ -92,7 +93,7 @@ floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
                         16.h,
                       ),
                       itemCount: state.orders.length,
-                      separatorBuilder: (_, __) => SizedBox(height: 16.h),
+                      separatorBuilder: (_, _) => SizedBox(height: 16.h),
                       itemBuilder: (_, index) {
                         final order = state.orders[index];
                         return FuelOrderCard(

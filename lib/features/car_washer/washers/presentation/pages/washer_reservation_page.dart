@@ -1,3 +1,4 @@
+import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
@@ -163,7 +164,7 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
             appBar: CustomAppBar(
               title: l10n.washerReservationTitle,
               showBackButton: true,
-              onBackTapped: () => context.pop(),
+              onBackTapped: () => context.safePopOrGo(Routes.washers),
               backgroundColor: AppColors.carWashTeal,
             ),
             body: ImageBackground(
@@ -239,7 +240,7 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
                         confirmText: l10n.washerReservationConfirm,
                         cancelText: l10n.washerReservationCancel,
                         onConfirm: () => _onConfirm(ctx),
-                        onCancel: () => context.pop(),
+                        onCancel: () => context.safePopOrGo(Routes.washers),
                       ),
                   ],
                 ),

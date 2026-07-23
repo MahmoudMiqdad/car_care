@@ -1,3 +1,5 @@
+import 'package:car_care/core/routing/navigation_x.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/technician_sos/presentation/cubit/share_technician_location_cubit/share_technician_location_sos_cubit.dart';
@@ -7,7 +9,6 @@ import 'package:car_care/features/technician_sos/presentation/widgets/technician
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 class TechnicianSosMapPage extends StatelessWidget {
   final int sosId;
@@ -60,7 +61,7 @@ class TechnicianSosMapPage extends StatelessWidget {
                       TextButton(
                         onPressed: () {
                           Navigator.pop(context);
-                          context.pop();
+                          context.safePopOrGo(Routes.technician_sos_requests);
                         },
                         child: const Text(
                           'خروج',
@@ -84,7 +85,9 @@ class TechnicianSosMapPage extends StatelessWidget {
                   ),
                 );
                 Future.delayed(const Duration(seconds: 1), () {
-                  if (context.mounted) context.pop();
+                  if (context.mounted) {
+                    context.safePopOrGo(Routes.technician_sos_requests);
+                  }
                 });
               }
             },

@@ -1,11 +1,12 @@
 
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/routing/navigation_x.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -21,6 +22,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   final Color? backgroundColor;
 
+  /// Where the default back action navigates when there is no route to pop
+  /// (first route in stack via go/redirect/deep link). Ignored when
+  /// [onBackTapped] is provided.
+  final String fallbackRoute;
+
   const CustomAppBar({
     super.key,
     required this.title,
@@ -33,6 +39,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.toolbarHeight,
     this.elevation = 0,
     this.backgroundColor,
+    this.fallbackRoute = Routes.home,
   });
 
   double get _barHeight {
@@ -62,7 +69,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           (showBackButton
               ? InkWell(
                   borderRadius: BorderRadius.circular(8.r),
-                  onTap: onBackTapped ?? () => context.pop(),
+                  onTap: onBackTapped ?? () => context.safePopOrGo(fallbackRoute),
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     child: Row(

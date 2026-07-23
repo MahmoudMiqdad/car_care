@@ -1,4 +1,5 @@
 import 'package:car_care/core/constants/list_province.dart';
+import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -36,7 +37,7 @@ class _CreateSosPageState extends State<CreateSosPage> {
 
   
     Future.microtask(() {
-      context.read<VehicleCubit>().getAllVehicles();
+      if (mounted) context.read<VehicleCubit>().getAllVehicles();
     });
   }
 
@@ -252,7 +253,7 @@ class _CreateSosPageState extends State<CreateSosPage> {
           appBar: CustomAppBar(
             title: l10n.createSosTitle,
             showBackButton: true,
-            onBackTapped: () => context.pop(),
+            onBackTapped: () => context.safePopOrGo(Routes.home),
           ),
           body: ImageBackground(
             child: BlocBuilder<SosCubit, SosState>(

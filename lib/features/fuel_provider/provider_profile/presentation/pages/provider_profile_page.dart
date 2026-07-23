@@ -1,4 +1,5 @@
 // provider_profile_page.dart
+import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
@@ -71,7 +72,7 @@ class _ProviderProfilePageState extends State<ProviderProfilePage> {
           title: l10n.providerProfilePageTitle,
           showBackButton: true,
           backgroundColor: AppColors.carWashTeal,
-          onBackTapped: () => context.pop(),
+          onBackTapped: () => context.safePopOrGo(Routes.more),
         ),
         body: BlocConsumer<FuelProviderProfileCubit, FuelProviderProfileState>(
           listener: (context, state) {
