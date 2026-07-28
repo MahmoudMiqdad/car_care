@@ -19,7 +19,7 @@ import 'package:go_router/go_router.dart';
 class SosTechnicianDetailsPage extends StatelessWidget {
   final int id;
 
-   SosTechnicianDetailsPage({super.key, required this.id});
+   const SosTechnicianDetailsPage({super.key, required this.id});
 
   @override
 @override
@@ -38,7 +38,7 @@ Widget build(BuildContext context) {
           if (context.canPop()) {
             context.pop();
           } else {
-            context.go(Routes.allUserSosRequests);
+            context.go(Routes.technician_sos_requests);
           }
         },
       ),

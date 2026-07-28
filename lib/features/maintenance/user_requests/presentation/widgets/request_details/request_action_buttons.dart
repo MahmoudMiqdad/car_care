@@ -1,4 +1,5 @@
-  import 'package:car_care/core/routing/routes.dart';
+  import 'package:car_care/core/routing/navigation_x.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
@@ -29,11 +30,11 @@ class RequestActionButtons extends StatelessWidget {
       listener: (context, state) {
         if (state is DeleteRequestSuccess) {
           AppSnackBar.success(context, 'تم حذف الطلب بنجاح');
-          context.pop();
+          context.safePopOrGo(Routes.all_requests);
         }
         if (state is DeleteRequestError) {
           AppSnackBar.error(context, state.message);
-          context.pop();
+          context.safePopOrGo(Routes.all_requests);
         }
       },
       child: BlocBuilder<CancelRequestCubit, CancelRequestState>(

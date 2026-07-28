@@ -1,4 +1,5 @@
 import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
@@ -168,7 +169,7 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
                                     );
                                     
                               },
-                               onCancel: () => context.pop(),
+                               onCancel: () => context.safePopOrGo(Routes.orders),
                       ),
                     ],
                   ),

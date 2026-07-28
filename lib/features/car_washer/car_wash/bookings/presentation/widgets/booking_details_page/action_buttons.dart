@@ -1,3 +1,4 @@
+import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
@@ -84,7 +85,7 @@ class _ActionButtonsState extends State<ActionButtons> {
                 extra: booking,
               );
               if (result == true && context.mounted) {
-                context.pop(true);
+                context.safePopOrGo(Routes.bookings, result: true);
               }
             },
             text: context.l10n.bookingsMenuRateService,

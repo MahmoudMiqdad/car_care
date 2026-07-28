@@ -1,4 +1,5 @@
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -38,7 +39,7 @@ class _QuotationsPageState extends State<QuotationsPage> {
           title: 'عروض الأسعار',
           showBackButton: true,
           backgroundColor: AppColors.carWashTeal,
-          onBackTapped: () => context.pop(),
+          onBackTapped: () => context.safePopOrGo(Routes.all_requests),
         ),
         body: ImageBackground(
           child: BlocBuilder<QuotationsCubit, QuotationsState>(
@@ -83,7 +84,7 @@ class _QuotationsPageState extends State<QuotationsPage> {
                         16.h,
                       ),
                       itemCount: state.quotations.data.length,
-                      separatorBuilder: (_, __) => SizedBox(height: 16.h),
+                      separatorBuilder: (_, _) => SizedBox(height: 16.h),
                       itemBuilder: (_, index) {
                         final quotation = state.quotations.data[index];
                         return QuotationCard(

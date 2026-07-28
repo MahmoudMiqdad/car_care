@@ -1,3 +1,5 @@
+import 'package:car_care/core/routing/navigation_x.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
@@ -6,7 +8,6 @@ import 'package:car_care/features/car_washer/car_wash/bookings/presentation/widg
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 
@@ -28,7 +29,7 @@ class CustomerBookingsPage extends StatelessWidget {
           appBar: CustomAppBar(
             title: context.l10n.bookingsPageTitle,
             showBackButton: true,
-            onBackTapped: () => context.pop(),
+            onBackTapped: () => context.safePopOrGo(Routes.home),
           ),
           backgroundColor: AppColors.lightScaffold,
           body: ImageBackground(

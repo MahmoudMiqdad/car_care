@@ -31,7 +31,12 @@ class HomeBottomNavBar extends StatelessWidget {
         location == Routes.editProfileWasher;
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
+      padding: EdgeInsets.fromLTRB(
+        24.w,
+        10.h,
+        24.w,
+        10.h + MediaQuery.paddingOf(context).bottom,
+      ),
       decoration: BoxDecoration(
         color: AppColors.primary,
         borderRadius: BorderRadius.only(

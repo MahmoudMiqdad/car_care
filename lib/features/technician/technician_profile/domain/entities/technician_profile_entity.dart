@@ -37,7 +37,12 @@ class TechnicianDataEntity {
     this.user,
     this.createdAt,
     this.updatedAt,
+    this.status,
+    this.rejectionReason,
   });
+
+  final String? status;
+  final String? rejectionReason;
 }
 
 class UserEntity {

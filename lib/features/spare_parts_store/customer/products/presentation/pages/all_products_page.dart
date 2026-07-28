@@ -44,7 +44,26 @@ class _AllProductsPageState extends State<AllProductsPage> {
         value: _cubit,
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: const CustomAppBar(title: 'كل المنتجات'),
+          appBar: CustomAppBar(
+            title: 'كل المنتجات',
+            actionWidget: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.shopping_cart_outlined,
+                      color: Colors.white),
+                  tooltip: 'السلة',
+                  onPressed: () => context.push(Routes.customerCart),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.receipt_long_outlined,
+                      color: Colors.white),
+                  tooltip: 'طلباتي',
+                  onPressed: () => context.push(Routes.customerOrders),
+                ),
+              ],
+            ),
+          ),
           body: ImageBackground(
             child: BlocBuilder<AllProductsCubit, AllProductsState>(
               builder: (context, state) {

@@ -1,3 +1,5 @@
+import 'package:car_care/core/routing/navigation_x.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
@@ -52,7 +54,7 @@ class BookingDetailsPage extends StatelessWidget {
             appBar: CustomAppBar(
               title: context.l10n.bookingDetailsPageTitle,
               showBackButton: true,
-              onBackTapped: () => context.pop(),
+              onBackTapped: () => context.safePopOrGo(Routes.bookings),
             ),
             body: ImageBackground(
               child: SafeArea(

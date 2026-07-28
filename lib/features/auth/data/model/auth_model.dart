@@ -4,7 +4,6 @@ class AuthResponseModel {
   final Map<String, dynamic>? errors;
   final UserModel? user;
   final String? token;
-  final String? tokenType;
 
   AuthResponseModel({
     required this.success,
@@ -12,23 +11,22 @@ class AuthResponseModel {
     this.errors,
     this.user,
     this.token,
-    this.tokenType,
   });
 
   factory AuthResponseModel.fromJson(Map<String, dynamic> json) {
-    final data = json['data'];
-
     return AuthResponseModel(
       success: json['success'] ?? false,
       message: json['message'] ?? '',
       errors: json['errors'],
-      user: data?['user'] != null
-          ? UserModel.fromJson(data['user'])
+      user: json['data']?['user'] != null
+          ? UserModel.fromJson(json['data']['user'])
           : null,
-      token: data?['token'],
-      tokenType: data?['token_type'],
+      token: json['data']?['token'],
     );
-  }}
+  }
+}
+
+
 class UserModel {
   final int id;
   final String uuid;
@@ -39,14 +37,14 @@ class UserModel {
   final DateTime createdAt;
   final DateTime updatedAt;
   final dynamic tenant;
-  final List<RoleModel> roles;
+  final List<String> roles;
 
   UserModel({
     required this.id,
     required this.uuid,
     required this.name,
     required this.email,
-    this.phone,
+    required this.phone,
     required this.status,
     required this.createdAt,
     required this.updatedAt,
@@ -54,44 +52,39 @@ class UserModel {
     required this.roles,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
-      id: json['id'],
-      uuid: json['uuid'],
-      name: json['name'],
-      email: json['email'],
-      phone: json['phone'],
-      status: json['status'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
-      tenant: json['tenant'],
-      roles: (json['roles'] as List?)
-              ?.map((e) => RoleModel.fromJson(e))
-              .toList() ??
-          [],
-    );
+  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+        id: json['id'],
+        uuid: json['uuid'],
+        name: json['name'],
+        email: json['email'],
+        phone: json['phone'],
+        status: json['status'],
+        createdAt: DateTime.parse(json['created_at']),
+        updatedAt: DateTime.parse(json['updated_at']),
+        tenant: json['tenant'],
+        roles: _parseRoles(json['roles']),
+      );
+
+  // Handles both ["shop-owner"] and [{"slug":"shop-owner","name":"..."}] formats
+  static List<String> _parseRoles(dynamic rawRoles) {
+    if (rawRoles == null) return [];
+    return (rawRoles as List).map((r) {
+      if (r is String) return r;
+      if (r is Map) return (r['slug'] ?? r['name'] ?? '').toString();
+      return r.toString();
+    }).where((r) => r.isNotEmpty).toList();
   }
 
-
-}
-class RoleModel {
-  final int id;
-  final String name;
-  final String slug;
-
-  RoleModel({
-    required this.id,
-    required this.name,
-    required this.slug,
-  });
-
-  factory RoleModel.fromJson(Map<String, dynamic> json) {
-    return RoleModel(
-      id: json['id'],
-      name: json['name'],
-      slug: json['slug'],
-    );
-  }
-
-
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'uuid': uuid,
+        'name': name,
+        'email': email,
+        'phone': phone,
+        'status': status,
+        'created_at': createdAt.toIso8601String(),
+        'updated_at': updatedAt.toIso8601String(),
+        'tenant': tenant,
+        'roles': roles,
+      };
 }

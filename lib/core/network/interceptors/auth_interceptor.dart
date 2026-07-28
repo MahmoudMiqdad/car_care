@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:car_care/core/constants/app_token.dart';
 import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/core/network/api_client.dart';
 import 'package:car_care/core/network/api_endpoints.dart';
@@ -48,11 +47,10 @@ class AuthInterceptor extends Interceptor {
   ) async {
     try {
       if (!_isAuthEndpoint(options.path)) {
-         final token = await _secureStorage.getToken() ?? '';
-  //  final token= AppToken.token;
+        final token = await _secureStorage.getToken() ?? '';
         if (kDebugMode) {
           debugPrint(
-            "Auth Token: ${token.isNotEmpty ? 'Present' : 'Missing'}",
+            'Auth Token: ${token.isNotEmpty ? 'Present' : 'Missing'}',
           );
         }
 
@@ -77,6 +75,11 @@ class AuthInterceptor extends Interceptor {
       return handler.next(err);
     }
 
+    // Already retried with a fresh token — don't loop
+    if (err.requestOptions.headers['_isRetry'] == true) {
+      return handler.next(err);
+    }
+
     //logout if the refresh faild
     if (err.requestOptions.path.contains(_refreshPath)) {
       await _secureStorage.deleteAll();
@@ -85,7 +88,6 @@ class AuthInterceptor extends Interceptor {
 
     final refreshToken = await _secureStorage.getRefreshToken();
     if (refreshToken == null || refreshToken.isEmpty) {
-      await _secureStorage.deleteAll();
       return handler.next(err);
     }
 
@@ -173,8 +175,8 @@ class AuthInterceptor extends Interceptor {
         method: requestOptions.method,
         headers: {
           ...requestOptions.headers,
-           'Authorization': 'Bearer $accessToken',
-            
+          'Authorization': 'Bearer $accessToken',
+          '_isRetry': true,
         },
       ),
       cancelToken: requestOptions.cancelToken,

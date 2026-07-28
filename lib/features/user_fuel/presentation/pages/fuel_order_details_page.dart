@@ -1,3 +1,5 @@
+import 'package:car_care/core/routing/navigation_x.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -9,7 +11,6 @@ import 'package:car_care/features/user_fuel/presentation/widgets/fuel_order_deta
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class FuelOrderDetailsPage extends StatelessWidget {
   const FuelOrderDetailsPage({super.key, required this.order});
@@ -28,13 +29,13 @@ class FuelOrderDetailsPage extends StatelessWidget {
           title: l10n.fuelOrderDetailsTitle,
           showBackButton: true,
           backgroundColor: AppColors.carWashTeal,
-          onBackTapped: () => context.pop(),
+          onBackTapped: () => context.safePopOrGo(Routes.fuelorderslist),
         ),
         body: BlocListener<UserFuelCubit, UserFuelState>(
           listener: (context, state) {
             if (state is UserFuelOrderCancelled) {
               AppSnackBar.success (context,"تم إلغاء الطلب");
-              context.pop();
+              context.safePopOrGo(Routes.fuelorderslist);
             }
             if (state is UserFuelError) {
                AppSnackBar.error(context, state.message);

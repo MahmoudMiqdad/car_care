@@ -16,6 +16,16 @@ class Failure {
 
   Object? get data => null;
 
+  /// Message plus backend field validation errors (422), one per line —
+  /// e.g. "بيانات الإدخال غير صحيحة\nالمركبة غير موجودة\n...".
+  String get displayMessage {
+    final errs = errors;
+    if (errs == null || errs.isEmpty) return message;
+    final details =
+        errs.values.expand((list) => list).where((m) => m.isNotEmpty).join('\n');
+    return details.isEmpty ? message : '$message\n$details';
+  }
+
   static Map<String, List<String>>? _parseErrors(dynamic errorsJson) {
     if (errorsJson == null) return null;
 

@@ -18,6 +18,8 @@ class WasherProfileEntity extends Equatable {
     required this.ratingsCount,
     required this.ratingStars,
     required this.createdAt,
+    this.status,
+    this.rejectionReason,
   });
 
   final int id;
@@ -40,6 +42,8 @@ class WasherProfileEntity extends Equatable {
   final int ratingsCount;
   final String ratingStars;
   final String createdAt;
+  final String? status;
+  final String? rejectionReason;
 
   @override
   List<Object?> get props => [id, shopName, phone, city, address, createdAt];

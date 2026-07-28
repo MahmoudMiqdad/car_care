@@ -1,10 +1,12 @@
 // provider_profile_page.dart
+import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
+import 'package:car_care/core/widgets/provider_status_page.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/domain/entities/provider_profile_entity.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/cubit/provider_profile_cubit.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/cubit/provider_profile_state.dart';
@@ -70,12 +72,21 @@ class _ProviderProfilePageState extends State<ProviderProfilePage> {
           title: l10n.providerProfilePageTitle,
           showBackButton: true,
           backgroundColor: AppColors.carWashTeal,
-          onBackTapped: () => context.pop(),
+          onBackTapped: () => context.safePopOrGo(Routes.more),
         ),
         body: BlocConsumer<FuelProviderProfileCubit, FuelProviderProfileState>(
           listener: (context, state) {
             if (state is FuelProviderProfileError) {
-               AppSnackBar.error(context, state.message);
+              final msg = state.message.toLowerCase();
+              final isNotFound = msg.contains('404') ||
+                  msg.contains('not found') ||
+                  msg.contains('غير موجود') ||
+                  msg.contains('لم');
+              if (isNotFound) {
+                context.go(Routes.provider_create_profile);
+              } else {
+                AppSnackBar.error(context, state.message);
+              }
             }
           },
           builder: (context, state) {
@@ -84,6 +95,11 @@ class _ProviderProfilePageState extends State<ProviderProfilePage> {
             }
 
             if (state is FuelProviderProfileLoaded) {
+              final gate = buildProviderStatusGate(
+                state.profile.status,
+                state.profile.rejectionReason,
+              );
+              if (gate != null) return gate;
               return _buildBody(context, state.profile);
             }
 

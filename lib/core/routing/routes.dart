@@ -113,4 +113,13 @@ class Routes {
   static const String ownerOrderDetails = '/spare-parts/owner/order-details';
   static String ownerOrderDetailsPath(int orderId) =>
       '$ownerOrderDetails/$orderId';
+
+  static const String ownerShareLocation = '/spare-parts/owner/share-location';
+  static String ownerShareLocationPath(int orderId) =>
+      '$ownerShareLocation/$orderId';
+
+  static const String customerTrackDelivery =
+      '/spare-parts/customer/track-delivery';
+  static String customerTrackDeliveryPath(int orderId) =>
+      '$customerTrackDelivery/$orderId';
 }

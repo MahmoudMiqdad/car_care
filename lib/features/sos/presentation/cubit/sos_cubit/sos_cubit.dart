@@ -17,8 +17,10 @@ class SosCubit extends Cubit<SosState> {
     );
   }
 
-  Future<void> getAll() async {
-    emit(SosLoading());
+  /// [silent] keeps the current list on screen during pull-to-refresh
+  /// instead of swapping it for a full-page loader.
+  Future<void> getAll({bool silent = false}) async {
+    if (!silent) emit(SosLoading());
 
     final result = await _repo.getAll();
 

@@ -15,6 +15,7 @@ class OwnerOrderActionsSection extends StatelessWidget {
     required this.onStartProcessing,
     required this.onStartDelivery,
     required this.onConfirmDelivered,
+    required this.onShareLocation,
   });
 
   final String status;
@@ -24,6 +25,7 @@ class OwnerOrderActionsSection extends StatelessWidget {
   final VoidCallback onStartProcessing;
   final VoidCallback onStartDelivery;
   final VoidCallback onConfirmDelivered;
+  final VoidCallback onShareLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,29 @@ class OwnerOrderActionsSection extends StatelessWidget {
           onTap: onStartDelivery,
         ),
       'out_for_delivery' => Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: onShareLocation,
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppColors.primary,
+                  side: const BorderSide(color: AppColors.primary),
+                  padding: EdgeInsets.symmetric(vertical: 12.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                ),
+                icon: Icon(Icons.location_on_outlined, size: 16.sp),
+                label: Text(
+                  'مشاركة الموقع',
+                  style: AppTypography.labelSmall
+                      .copyWith(fontWeight: FontWeight.w700),
+                ),
+              ),
+            ),
+            SizedBox(height: 10.h),
             _ActionButton(
               label: 'تأكيد التوصيل',
               icon: Icons.check_circle_outline,

@@ -28,6 +28,8 @@ class FuelProviderProfileData {
   final bool? isAvailable;
   final bool? isVerified;
   final String? createdAt;
+  final String? status;
+  final String? rejectionReason;
 
   FuelProviderProfileData({
     this.id,
@@ -42,6 +44,8 @@ class FuelProviderProfileData {
     this.isAvailable,
     this.isVerified,
     this.createdAt,
+    this.status,
+    this.rejectionReason,
   });
 
   factory FuelProviderProfileData.fromJson(Map<String, dynamic> json) =>
@@ -67,5 +71,7 @@ class FuelProviderProfileData {
         isAvailable: json['is_available'],
         isVerified: json['is_verified'],
         createdAt: json['created_at'],
+        status: json['status'] as String?,
+        rejectionReason: json['rejection_reason'] as String?,
       );
 }
