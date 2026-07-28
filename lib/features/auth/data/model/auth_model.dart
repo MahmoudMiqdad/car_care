@@ -88,4 +88,3 @@ class UserModel {
         'roles': roles,
       };
 }
-

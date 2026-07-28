@@ -1,5 +1,6 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
@@ -44,21 +45,11 @@ class WasherBookingsPage extends StatelessWidget {
                 listener: (context, state) {
                   if (state is BookingActionSuccessMessage) {
                     ScaffoldMessenger.of(context).clearSnackBars();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(state.message),
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
+                    AppSnackBar.success(context, state.message);
                   }
                   if (state is BookingActionError) {
                     ScaffoldMessenger.of(context).clearSnackBars();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(state.message),
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
+                    AppSnackBar.error(context, state.message);
                   }
                 },
                 builder: (context, state) {
@@ -69,16 +60,21 @@ class WasherBookingsPage extends StatelessWidget {
                   } else if (state is BookingsLoaded) {
                     final realBookings = state.items;
 
-                    return ListView.separated(
-                      padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 20.h),
-                      itemCount: realBookings.length + 1,
-                      separatorBuilder: (_, index) => SizedBox(height: 14.h),
-                      itemBuilder: (context, index) {
-                        if (index == 0) return const WasherBookingFilter();
-                        return WasherBookingCard(
-                          booking: realBookings[index - 1],
-                        );
-                      },
+                    return RefreshIndicator(
+                        onRefresh: () async => context
+                      .read<BookingsCubit>()
+                      .fetchBookings(),
+                      child: ListView.separated(
+                        padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 20.h),
+                        itemCount: realBookings.length + 1,
+                        separatorBuilder: (_, index) => SizedBox(height: 14.h),
+                        itemBuilder: (context, index) {
+                          if (index == 0) return const WasherBookingFilter();
+                          return WasherBookingCard(
+                            booking: realBookings[index - 1],
+                          );
+                        },
+                      ),
                     );
                   }
 

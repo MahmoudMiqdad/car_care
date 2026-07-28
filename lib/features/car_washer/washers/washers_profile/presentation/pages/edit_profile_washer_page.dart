@@ -1,6 +1,7 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
@@ -63,29 +64,13 @@ class _EditProfileWasherViewState extends State<_EditProfileWasherView> {
           child: BlocConsumer<ProfileWasherCubit, ProfileWasherState>(
             listener: (context, state) {
               if (state is ProfileWasherLoaded && _saved) {
-                ScaffoldMessenger.of(context)
-                  ..clearSnackBars()
-                  ..showSnackBar(
-                    const SnackBar(
-                      content: Text('تم حفظ التعديلات بنجاح'),
-                      behavior: SnackBarBehavior.floating,
-                      backgroundColor: Colors.green,
-                    ),
-                  );
+               AppSnackBar.success(context,"تم حفظ التعديلات بنجاح ");
                 context.pop(true);
               }
 
               if (state is ProfileWasherError) {
                 _saved = false;
-                ScaffoldMessenger.of(context)
-                  ..clearSnackBars()
-                  ..showSnackBar(
-                    SnackBar(
-                      content: Text(state.message),
-                      behavior: SnackBarBehavior.floating,
-                      backgroundColor: Colors.red,
-                    ),
-                  );
+                  AppSnackBar.error(context, state.message);
               }
 
               if (state is ProfileWasherSaving) {

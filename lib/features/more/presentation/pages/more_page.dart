@@ -21,7 +21,7 @@ class MorePage extends StatelessWidget {
       final model = await getIt<ProfileRemoteDataSource>().showprofile();
       final fresh = model.data?.parsedRoles ?? const <String>[];
       if (fresh.isNotEmpty) {
-        await storage.setRoles(fresh);
+        // await storage.setRoles(fresh);
         return fresh;
       }
     } catch (_) {

@@ -133,22 +133,27 @@ class _WashersPageState extends State<WashersPage> {
                           );
                         }
 
-                        return ListView.separated(
-                          padding: EdgeInsets.fromLTRB(16.w, 10.h, 16.w, 18.h),
-                          itemCount: items.length,
-                          separatorBuilder: (_, __) => SizedBox(height: 18.h),
-                          itemBuilder: (context, index) {
-                            final washer = items[index];
-                            return WasherListingCard(
-                              washer: washer,
-                              onBook: (w) => context.push(
-                                Routes.washerReservation,
-                                extra: w,
-                              ),
-                              onDetails: (w) =>
-                                  context.push(Routes.washerDetails, extra: w),
-                            );
-                          },
+                        return RefreshIndicator(
+                               onRefresh: () async => context
+                      .read<WashersCubit>()
+                      .fetchWashers(),
+                          child: ListView.separated(
+                            padding: EdgeInsets.fromLTRB(16.w, 10.h, 16.w, 18.h),
+                            itemCount: items.length,
+                            separatorBuilder: (_, __) => SizedBox(height: 18.h),
+                            itemBuilder: (context, index) {
+                              final washer = items[index];
+                              return WasherListingCard(
+                                washer: washer,
+                                onBook: (w) => context.push(
+                                  Routes.washerReservation,
+                                  extra: w,
+                                ),
+                                onDetails: (w) =>
+                                    context.push(Routes.washerDetails, extra: w),
+                              );
+                            },
+                          ),
                         );
                       }
 

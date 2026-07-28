@@ -93,7 +93,7 @@ class _TechnicianProfileBodyState extends State<InsertTechnicianProfileBody> {
       final model = await getIt<ProfileRemoteDataSource>().showprofile();
       final roles = model.data?.parsedRoles ?? const <String>[];
       if (roles.isNotEmpty) {
-        await getIt<SecureStorage>().setRoles(roles);
+        // await getIt<SecureStorage>().setRoles(roles);
       }
     } catch (_) {
       // Roles will still refresh next time More opens.

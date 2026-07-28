@@ -2,7 +2,7 @@ import 'package:car_care/core/errors/excptions.dart';
 import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/features/auth/data/data_sources/auth_remote_data_source.dart';
-import 'package:car_care/features/auth/domain/model/auth_model.dart';
+import 'package:car_care/features/auth/data/model/auth_model.dart';
 import 'package:car_care/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:dartz/dartz.dart';
 
@@ -37,7 +37,7 @@ class AuthRepositoryImpl implements IAuthRepository {
     final roles = result.user?.roles ?? [];
     if (roles.isNotEmpty) {
       await _secureStorage.setRoles(roles);
-      await _secureStorage.setPrimaryRole(_pickPrimaryRole(roles));
+      // await _secureStorage.setPrimaryRole(_pickPrimaryRole(roles));
     }
   }
 
