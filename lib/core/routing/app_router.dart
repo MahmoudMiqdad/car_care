@@ -43,7 +43,7 @@ import 'package:car_care/features/technician_sos/presentation/pages/sos_details_
 import 'package:car_care/features/technician_sos/presentation/widgets/sos_requests_list/technician_sos_map_page.dart';
 import 'package:car_care/features/sos/presentation/pages/all_user_sos_requests.dart';
 import 'package:car_care/features/sos/presentation/pages/sos_details_page.dart';
-import 'package:car_care/features/car_washer/profile_washer/presentation/pages/profile_washer_page.dart';
+import 'package:car_care/features/car_washer/car_wash/profile_washer/presentation/pages/profile_washer_page.dart';
 import 'package:car_care/features/car_washer/washers/presentation/pages/washer_reservation_page.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/pages/all_requests_stats_page.dart';
 import 'package:car_care/features/technician/technician_order/presentation/pages/order_details_page.dart';
@@ -51,7 +51,7 @@ import 'package:car_care/features/technician/technician_order/presentation/pages
 import 'package:car_care/features/technician/technician_profile/presentation/pages/tetechnician_profile_view/technician_profile_view_page.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/pages/update_technician_profile/update_technician_profile.dart';
 import 'package:car_care/features/technician/technician_statistics/presentation/pages/technician_statistics_page.dart';
-import 'package:car_care/features/technician/technician_jobs/presentation/pages/technician_jobs_page.dart';
+
 import 'package:car_care/features/technician/technician_quotations/presentation/pages/technician_quotations_page.dart';
 import 'package:car_care/features/maintenance/user_rate_job/presentation/pages/rate_job_page.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/pages/add_requests_page.dart';
@@ -102,7 +102,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.login
+    initialLocation: Routes.splash
     ,
     debugLogDiagnostics: true,
     routes: [
@@ -629,11 +629,8 @@ GoRoute(
         name: '/rate_job',
         builder: (context, state) => const RateJobPage(),
       ),
-      GoRoute(
-        path: Routes.technician_jobs,
-        name: '/technician_jobs',
-        builder: (context, state) => const TechnicianJobsPage(),
-      ),
+    
+    
       GoRoute(
         path: Routes.technician_statistics,
         name: '/technician_statistics',

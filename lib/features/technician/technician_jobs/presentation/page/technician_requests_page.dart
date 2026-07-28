@@ -2,9 +2,10 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
+import 'package:car_care/features/technician/technician_jobs/presentation/cubit/technician_jobs_cubit.dart';
 import 'package:car_care/features/technician/technician_jobs/presentation/widget/accepted_request_card.dart';
-import 'package:car_care/features/vehicle/presentation/widgets/MyVehicles/RefreshHint.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
@@ -45,21 +46,23 @@ class TechnicianRequestsPage extends StatelessWidget {
       ),
       body: ImageBackground(
         child: SafeArea(
-          child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 22.w),
-            children: [
-              RefreshHint(
-                hintText: 'تحديث سجل الطلبات ...',
-                onTap: () {},
-              ),
-              ..._sampleRequests.map(
-                (req) => Padding(
-                  padding: EdgeInsets.only(bottom: 12.h),
-                  child: AcceptedRequestCard(request: req),
+          child: RefreshIndicator(
+              onRefresh: () async {
+                context.read<TechnicianJobsCubit>().fetchMyJobs();
+              },
+            child: ListView(
+              padding: EdgeInsets.symmetric(horizontal: 22.w),
+              children: [
+             
+                ..._sampleRequests.map(
+                  (req) => Padding(
+                    padding: EdgeInsets.only(bottom: 12.h),
+                    child: AcceptedRequestCard(request: req),
+                  ),
                 ),
-              ),
-              SizedBox(height: 24.h),
-            ],
+                SizedBox(height: 24.h),
+              ],
+            ),
           ),
         ),
       ),

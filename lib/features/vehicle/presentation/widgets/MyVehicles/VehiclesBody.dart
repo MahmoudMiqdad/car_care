@@ -3,7 +3,7 @@
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_state.dart';
-import 'package:car_care/features/vehicle/presentation/widgets/MyVehicles/RefreshHint.dart';
+
 import 'package:car_care/features/vehicle/presentation/widgets/MyVehicles/VehiclesList.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +21,6 @@ class VehiclesBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          RefreshHint(
-            hintText: strings.updateCarsList,
-            onTap: () => context.read<VehicleCubit>().getAllVehicles(),
-          ),
           SizedBox(height: 16.h),
           Expanded(
             child: BlocBuilder<VehicleCubit, VehicleState>(

@@ -3,6 +3,7 @@ import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/theme/app_typography.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/app_date_time_picker_row.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
@@ -165,21 +166,11 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
           bloc: _bookingCubit,
           listener: (ctx, state) {
             if (state is CarWashBookingSuccess) {
-              ScaffoldMessenger.of(ctx).showSnackBar(
-                SnackBar(
-                  content: const Text('تم الحجز بنجاح'),
-                  backgroundColor: Colors.green.shade600,
-                ),
-              );
+              AppSnackBar.success(context, "تم الحجز بنجاح");
               ctx.go(Routes.washers);
               ctx.push(Routes.bookings);
             } else if (state is CarWashBookingError) {
-              ScaffoldMessenger.of(ctx).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: Colors.red.shade600,
-                ),
-              );
+              AppSnackBar.error(context, state.message);
             }
           },
           builder: (ctx, bookingState) {

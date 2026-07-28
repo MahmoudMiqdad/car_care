@@ -1,10 +1,6 @@
 
-
-
-
-
 import 'package:car_care/core/errors/filuar.dart';
-import 'package:car_care/features/auth/domain/model/auth_model.dart';
+import 'package:car_care/features/auth/data/model/auth_model.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class IAuthRepository {
