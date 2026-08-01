@@ -37,6 +37,17 @@ class TechnicianSosRemoteDataSource {
     return TechnicianSosData.fromJson(res['data']);
   }
 
+  /// POST /technician/sos/requests/{id}/cancel
+  /// Returns the backend message plus the reopened request.
+  Future<TechnicianSosModel> cancelResponse(int id, String reason) async {
+    final res = await _api.post(
+      endPoint: '${ApiEndpoints.technicianSosRequests}/$id/cancel',
+      data: {"cancellation_reason": reason},
+    );
+
+    return TechnicianSosModel.fromJson(res);
+  }
+
   Future<TechnicianSosData> updateStatus(int id, String status) async {
     final res = await _api.patch(
       endPoint: '${ApiEndpoints.technicianSosRequests}/$id/status',

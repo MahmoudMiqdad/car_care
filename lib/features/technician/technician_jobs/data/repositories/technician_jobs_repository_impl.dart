@@ -17,11 +17,25 @@ class TechnicianJobsRepositoryImpl implements ITechnicianJobsRepository {
     return TechnicianJobsEntity(
       success: model.success,
       jobs: model.data.data.map((e) {
+        final request = e.maintenanceRequest;
+        final vehicle = request?.vehicle;
+        final customer = request?.user;
         return JobEntity(
           id: e.id,
           status: e.status,
           scheduledDate: e.scheduledDate,
           notes: e.notes,
+          maintenanceRequestId: e.maintenanceRequestId,
+          description: request?.description ?? '',
+          priority: request?.priority ?? '',
+          customerName: customer?.name ?? '',
+          customerPhone: customer?.phone ?? '',
+          vehicleBrand: vehicle?.brand ?? '',
+          vehicleModel: vehicle?.model ?? '',
+          vehicleYear: vehicle?.year ?? '',
+          plateNumber: vehicle?.plateNumber ?? '',
+          quotationPrice: e.quotation?.price,
+          estimatedDays: e.quotation?.estimatedDays,
         );
       }).toList(),
     );

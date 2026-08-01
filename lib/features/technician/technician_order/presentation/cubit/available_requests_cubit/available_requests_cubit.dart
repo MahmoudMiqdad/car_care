@@ -14,7 +14,7 @@ class AvailableRequestsCubit extends Cubit<AvailableRequestsState> {
     final result = await _repository.fetchAvailableRequests();
 
     result.fold(
-      (failure) => emit(AvailableRequestsError(failure.message)),
+      (failure) => emit(AvailableRequestsError(failure.displayMessage)),
       (requests) => emit(AvailableRequestsLoaded(requests)),
     );
   }

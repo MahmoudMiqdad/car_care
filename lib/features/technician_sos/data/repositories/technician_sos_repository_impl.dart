@@ -1,3 +1,4 @@
+import 'package:car_care/core/errors/excptions.dart';
 import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/features/technician_sos/data/data_sources/technician_sos_remote_data_source.dart';
 import 'package:car_care/features/technician_sos/data/models/technician_sos_model.dart';
@@ -6,6 +7,8 @@ import 'package:car_care/features/technician_sos/domain/entities/technician_sos_
 import 'package:car_care/features/technician_sos/domain/entities/update_request_status_technician_entities.dart';
 import 'package:car_care/features/technician_sos/domain/repositories/i_technician_sos_repository.dart';
 import 'package:dartz/dartz.dart';
+
+const String _genericError = 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى';
 
 class TechnicianSosRepositoryImpl implements ITechnicianSosRepository {
   final TechnicianSosRemoteDataSource _remote;
@@ -89,8 +92,10 @@ UpdateRequestStatusTechnicianEntity? _mapToEntitystats(
           .toList();
 
       return Right(entities);
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
+    } catch (_) {
+      return const Left(Failure(message: _genericError));
     }
   }
 
@@ -106,8 +111,10 @@ UpdateRequestStatusTechnicianEntity? _mapToEntitystats(
       }
 
       return Right(entity);
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
+    } catch (_) {
+      return const Left(Failure(message: _genericError));
     }
   }
 
@@ -123,8 +130,10 @@ UpdateRequestStatusTechnicianEntity? _mapToEntitystats(
       }
 
       return Right(entity);
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
+    } catch (_) {
+      return const Left(Failure(message: _genericError));
     }
   }
 
@@ -143,8 +152,22 @@ UpdateRequestStatusTechnicianEntity? _mapToEntitystats(
       }
 
       return Right(entity);
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
+    } catch (_) {
+      return const Left(Failure(message: _genericError));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> cancelResponse(int id, String reason) async {
+    try {
+      final result = await _remote.cancelResponse(id, reason);
+      return Right(result.message ?? 'تم إلغاء الاستجابة');
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
+    } catch (_) {
+      return const Left(Failure(message: _genericError));
     }
   }
 
@@ -159,8 +182,10 @@ UpdateRequestStatusTechnicianEntity? _mapToEntitystats(
           .toList();
 
       return Right(entities);
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
+    } catch (_) {
+      return const Left(Failure(message: _genericError));
     }
   }
 
@@ -170,8 +195,10 @@ UpdateRequestStatusTechnicianEntity? _mapToEntitystats(
       final result = await _remote.statistics();
 
       return Right(result['data']);
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
+    } catch (_) {
+      return const Left(Failure(message: _genericError));
     }
   }
 
@@ -190,8 +217,10 @@ UpdateRequestStatusTechnicianEntity? _mapToEntitystats(
         return Left(Failure(message: "Request not found"));
       }
       return  Right(entity);
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
+    } catch (_) {
+      return const Left(Failure(message: _genericError));
     }
   }
 }

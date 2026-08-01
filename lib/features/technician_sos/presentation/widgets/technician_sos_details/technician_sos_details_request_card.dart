@@ -13,12 +13,16 @@ class SosTechnicianDetailsRequestCard extends StatelessWidget {
     required this.plateNumber,
     required this.technicianName,
     required this.description,
+    this.vehicleImageUrl,
   });
 
   final String vehicleTitle;
   final String plateNumber;
   final String technicianName;
   final String description;
+
+  /// Real vehicle image from the API; null falls back to a placeholder icon.
+  final String? vehicleImageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +33,19 @@ class SosTechnicianDetailsRequestCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (vehicleImageUrl != null) ...[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12.r),
+              child: Image.network(
+                vehicleImageUrl!,
+                height: 140.h,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                errorBuilder: (_, _, _) => _imagePlaceholder(),
+              ),
+            ),
+            SizedBox(height: 10.h),
+          ],
           Text(
             vehicleTitle,
             textAlign: TextAlign.start,
@@ -54,6 +71,19 @@ class SosTechnicianDetailsRequestCard extends StatelessWidget {
             value: description,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _imagePlaceholder() {
+    return Container(
+      height: 140.h,
+      width: double.infinity,
+      color: const Color(0xFFF5F7F9),
+      child: Icon(
+        Icons.directions_car_filled_rounded,
+        size: 48.sp,
+        color: AppColors.primary,
       ),
     );
   }

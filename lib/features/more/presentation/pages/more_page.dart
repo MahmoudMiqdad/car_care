@@ -3,6 +3,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
+import 'package:car_care/features/technician_sos/presentation/technician_sos_request_type.dart';
 import 'package:car_care/features/user_profile/data/data_sources/profile_remote_data_source.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -203,10 +204,28 @@ class _MoreContent extends StatelessWidget {
         onTap: () => context.push(Routes.technicianProfileViewBody),
       ),
       _MoreTile(
+        icon: Icons.build_circle_outlined,
+        label: 'أعمالي',
+        iconColor: AppColors.primary,
+        onTap: () => context.push(Routes.technician_jobs),
+      ),
+      _MoreTile(
         icon: Icons.emergency_outlined,
-        label: 'طلبات SOS الفني',
+        label: 'طلبات الطوارئ المتاحة',
         iconColor: AppColors.error,
-        onTap: () => context.push(Routes.technician_sos_requests),
+        onTap: () => context.push(
+          Routes.technician_sos_requests,
+          extra: SosRequestType.available,
+        ),
+      ),
+      _MoreTile(
+        icon: Icons.assignment_turned_in_outlined,
+        label: 'طلبات الطوارئ المقبولة',
+        iconColor: AppColors.error,
+        onTap: () => context.push(
+          Routes.technician_sos_requests,
+          extra: SosRequestType.myRequests,
+        ),
       ),
       _MoreTile(
         icon: Icons.bar_chart_outlined,

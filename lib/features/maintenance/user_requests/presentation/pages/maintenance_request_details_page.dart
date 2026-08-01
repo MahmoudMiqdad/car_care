@@ -107,11 +107,24 @@ class _MaintenanceRequestDetailsPageState
     return BlocListener<CancelRequestCubit, CancelRequestState>(
       listener: (context, state) {
         if (state is CancelRequestSuccess) {
-          AppSnackBar.success(context, 'تم إلغاء الطلب بنجاح');
+          // Prefer the backend message over a hardcoded one.
+          final message = state.request.message?.trim();
+          AppSnackBar.success(
+            context,
+            message == null || message.isEmpty
+                ? 'تم إلغاء الطلب بنجاح'
+                : message,
+          );
+          // Returning to the list re-fetches it, so the cancelled request
+          // shows its new status.
           context.safePopOrGo(Routes.all_requests);
         }
         if (state is CancelRequestError) {
-          AppSnackBar.error(context, state.message);
+          final msg = state.message.isEmpty ||
+                  state.message.startsWith('Instance of')
+              ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
+              : state.message;
+          AppSnackBar.error(context, msg);
         }
       },
       child: Directionality(

@@ -11,9 +11,14 @@ class AvailableRequestsModel {
     });
 
     factory AvailableRequestsModel.fromJson(Map<String, dynamic> json) => AvailableRequestsModel(
-        success: json["success"],
-        data: List<Data>.from(json["data"].map((x) => Data.fromJson(x))),
-        meta: Meta.fromJson(json["meta"]),
+        success: json["success"] as bool? ?? true,
+        data: json["data"] is List
+            ? List<Data>.from(
+                (json["data"] as List).map((x) => Data.fromJson(x as Map<String, dynamic>)))
+            : <Data>[],
+        meta: json["meta"] is Map<String, dynamic>
+            ? Meta.fromJson(json["meta"] as Map<String, dynamic>)
+            : Meta.empty(),
     );
 
 
@@ -48,22 +53,35 @@ class Data {
         required this.createdAgo,
     });
 
+    // Tolerant parsing: the list endpoint may omit optional fields or send
+    // numbers where strings are expected. A single mismatch used to throw and
+    // fail the whole technician requests screen.
     factory Data.fromJson(Map<String, dynamic> json) => Data(
-        id: json["id"],
-        description: json["description"],
-        priority: json["priority"],
-        priorityText: json["priority_text"],
-        status: json["status"],
-        statusText: json["status_text"],
-        customer: Customer.fromJson(json["customer"]),
-        vehicle: Vehicle.fromJson(json["vehicle"]),
-        images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
-        preferredDate: DateTime.parse(json["preferred_date"]),
-        createdAt: DateTime.parse(json["created_at"]),
-        createdAgo: json["created_ago"],
+        id: json["id"] as int? ?? 0,
+        description: json["description"]?.toString() ?? '',
+        priority: json["priority"]?.toString() ?? 'medium',
+        priorityText: json["priority_text"]?.toString() ?? '',
+        status: json["status"]?.toString() ?? '',
+        statusText: json["status_text"]?.toString() ?? '',
+        customer: json["customer"] is Map<String, dynamic>
+            ? Customer.fromJson(json["customer"] as Map<String, dynamic>)
+            : Customer.empty(),
+        vehicle: json["vehicle"] is Map<String, dynamic>
+            ? Vehicle.fromJson(json["vehicle"] as Map<String, dynamic>)
+            : Vehicle.empty(),
+        images: json["images"] is List
+            ? List<Image>.from(
+                (json["images"] as List).map((x) => Image.fromJson(x as Map<String, dynamic>)))
+            : <Image>[],
+        preferredDate:
+            DateTime.tryParse(json["preferred_date"]?.toString() ?? '') ??
+                DateTime.now(),
+        createdAt: DateTime.tryParse(json["created_at"]?.toString() ?? '') ??
+            DateTime.now(),
+        createdAgo: json["created_ago"]?.toString() ?? '',
     );
 
-  
+
 }
 
 class Customer {
@@ -77,10 +95,12 @@ class Customer {
         required this.phone,
     });
 
+    factory Customer.empty() => Customer(id: 0, name: '', phone: '');
+
     factory Customer.fromJson(Map<String, dynamic> json) => Customer(
-        id: json["id"],
-        name: json["name"],
-        phone: json["phone"],
+        id: json["id"] as int? ?? 0,
+        name: json["name"]?.toString() ?? '',
+        phone: json["phone"]?.toString() ?? '',
     );
 
 }
@@ -95,8 +115,8 @@ class Image {
     });
 
     factory Image.fromJson(Map<String, dynamic> json) => Image(
-        id: json["id"],
-        url: json["url"],
+        id: json["id"] as int? ?? 0,
+        url: json["url"]?.toString() ?? '',
     );
 
     Map<String, dynamic> toJson() => {
@@ -120,12 +140,16 @@ class Vehicle {
         required this.plateNumber,
     });
 
+    factory Vehicle.empty() =>
+        Vehicle(id: 0, brand: '', model: '', year: '', plateNumber: '');
+
+    // `year` arrives as int from the backend, so always stringify.
     factory Vehicle.fromJson(Map<String, dynamic> json) => Vehicle(
-        id: json["id"],
-        brand: json["brand"],
-        model: json["model"],
-        year: json["year"],
-        plateNumber: json["plate_number"],
+        id: json["id"] as int? ?? 0,
+        brand: json["brand"]?.toString() ?? '',
+        model: json["model"]?.toString() ?? '',
+        year: json["year"]?.toString() ?? '',
+        plateNumber: json["plate_number"]?.toString() ?? '',
     );
 
     Map<String, dynamic> toJson() => {
@@ -148,10 +172,12 @@ class Meta {
         required this.currentPage,
     });
 
+    factory Meta.empty() => Meta(total: 0, perPage: 0, currentPage: 1);
+
     factory Meta.fromJson(Map<String, dynamic> json) => Meta(
-        total: json["total"],
-        perPage: json["per_page"],
-        currentPage: json["current_page"],
+        total: json["total"] as int? ?? 0,
+        perPage: json["per_page"] as int? ?? 0,
+        currentPage: json["current_page"] as int? ?? 1,
     );
 
     Map<String, dynamic> toJson() => {

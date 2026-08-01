@@ -8,6 +8,10 @@ abstract class ITechnicianSosRepository {
   Future<Either<Failure, TechnicianSosEntity>> getRequest(int id);
   Future<Either<Failure, TechnicianSosEntity>> acceptRequest(int id);
   Future<Either<Failure, TechnicianSosEntity>> updateStatus(int id, String status);
+
+  /// Technician cancels their own response; backend reopens the request.
+  /// Returns the backend success message.
+  Future<Either<Failure, String>> cancelResponse(int id, String reason);
   Future<Either<Failure, List<TechnicianSosEntity>>> myRequests();
   Future<Either<Failure, Map<String, dynamic>>> statistics();
   Future<Either<Failure, UpdateRequestStatusTechnicianEntity>> shareLocation(int id, double lat, double lng);
