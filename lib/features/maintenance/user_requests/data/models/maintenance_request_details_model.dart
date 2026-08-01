@@ -85,6 +85,7 @@ class RequestVehicle {
   final String? year;
   final String? plateNumber;
   final int? currentKm;
+  final String? image;
   final String? imagePath;
 
   RequestVehicle({
@@ -92,6 +93,7 @@ class RequestVehicle {
     this.brand,
     this.model,
     this.year,
+    this.image,
     this.plateNumber,
     this.currentKm,
     this.imagePath,
@@ -104,7 +106,8 @@ class RequestVehicle {
         year: json["year"],
         plateNumber: json["plate_number"],
         currentKm: json["current_km"],
-        imagePath: json["image_path"],
+        image: json["image"]?.toString(),
+        imagePath: json["image_path"]?.toString(),
       );
 }
 

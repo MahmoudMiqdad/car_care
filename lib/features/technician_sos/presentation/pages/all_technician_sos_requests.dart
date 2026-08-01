@@ -6,23 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AllTechnicianSosRequests extends StatelessWidget {
-  const AllTechnicianSosRequests({super.key});
+  const AllTechnicianSosRequests({
+    super.key,
+    this.type = SosRequestType.available,
+  });
+
+  /// [SosRequestType.available] -> GET /technician/sos/available
+  /// [SosRequestType.myRequests] -> GET /technician/sos/my_requests
+  final SosRequestType type;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<TechnicianSosCubit>(),
-      child: const TechnicianSosRequestsListPage(
-        type: SosRequestType.myRequests,
-      ),
+      child: TechnicianSosRequestsListPage(type: type),
     );
   }
 }
-// context.push(
-//   '/sos-list',
-//   extra: SosRequestType.myRequests,
-// );
-// ontext.push(
-//   '/sos-list',
-//   extra: SosRequestType.available,
-// );

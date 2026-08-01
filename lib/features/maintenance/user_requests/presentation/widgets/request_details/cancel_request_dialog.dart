@@ -13,6 +13,7 @@ class CancelRequestDialog extends StatefulWidget {
 
 class _CancelRequestDialogState extends State<CancelRequestDialog> {
   late final TextEditingController _reasonController;
+  String? _error;
 
   @override
   void initState() {
@@ -27,7 +28,14 @@ class _CancelRequestDialogState extends State<CancelRequestDialog> {
   }
 
   void _onConfirm() {
-    Navigator.of(context).pop(_reasonController.text.trim());
+    final reason = _reasonController.text.trim();
+    // The backend requires a non-empty cancellation_reason; returning null
+    // keeps the caller from submitting an invalid request.
+    if (reason.isEmpty) {
+      setState(() => _error = 'يرجى كتابة سبب الإلغاء');
+      return;
+    }
+    Navigator.of(context).pop(reason);
   }
 
   void _onCancel() => Navigator.of(context).pop();
@@ -78,8 +86,12 @@ class _CancelRequestDialogState extends State<CancelRequestDialog> {
                     textAlign: TextAlign.right,
                     maxLines: 3,
                     minLines: 2,
+                    onChanged: (_) {
+                      if (_error != null) setState(() => _error = null);
+                    },
                     style: TextStyle(fontSize: 15.sp, color: AppColors.black),
                     decoration: InputDecoration(
+                      errorText: _error,
                       hintText: 'اكتب سبب الإلغاء...',
                       hintTextDirection: TextDirection.rtl,
                       filled: true,

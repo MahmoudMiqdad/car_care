@@ -14,6 +14,7 @@ class TechnicianJobUiModel {
     required this.vehicle,
     required this.appointmentDate,
     required this.priceOffer,
+    this.statusLabel,
   });
 
   final TechnicianJobCardStatus status;
@@ -21,7 +22,13 @@ class TechnicianJobUiModel {
   final String customerName;
   final String vehicle;
   final String appointmentDate;
-  final String priceOffer;
+
+  /// null when the backend did not return a quotation price -> row is hidden.
+  final String? priceOffer;
+
+  /// Backend status text (status_text / mapped status). Falls back to the
+  /// legacy إنتظار/مرفوض labels when not provided.
+  final String? statusLabel;
 }
 
 class TechnicianJobCard extends StatelessWidget {
@@ -80,13 +87,16 @@ class TechnicianJobCard extends StatelessWidget {
                         valueFontSize: localValueSize,
                         leading: _rowAsset(AppAssets.calendarIcon),
                       ),
-                      AppInfoRow(
-                        label: 'عرض السعر',
-                        value: job.priceOffer,
-                        labelFontSize: localLabelSize,
-                        valueFontSize: localValueSize,
-                        leading: Icon(Icons.monetization_on_rounded, size: 20.sp, color: AppColors.primary),
-                      ),
+                      // The my-jobs endpoint does not eager-load the quotation,
+                      // so the price row is hidden rather than showing "-".
+                      if (job.priceOffer != null)
+                        AppInfoRow(
+                          label: 'عرض السعر',
+                          value: job.priceOffer!,
+                          labelFontSize: localLabelSize,
+                          valueFontSize: localValueSize,
+                          leading: Icon(Icons.monetization_on_rounded, size: 20.sp, color: AppColors.primary),
+                        ),
                     ],
                   ),
                 ),
@@ -121,7 +131,8 @@ class TechnicianJobCard extends StatelessWidget {
                         ),
                       SizedBox(height: 8.h),
                       Text(
-                        isWaiting ? 'إنتظار' : 'مرفوض',
+                        job.statusLabel ?? (isWaiting ? 'إنتظار' : 'مرفوض'),
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w900,

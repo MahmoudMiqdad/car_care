@@ -12,6 +12,7 @@ import 'package:car_care/features/maintenance/user_requests/presentation/pages/m
 import 'package:car_care/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:car_care/features/onboarding/presentation/pages/splash_screen.dart';
 import 'package:car_care/features/technician_sos/presentation/pages/all_technician_sos_requests.dart';
+import 'package:car_care/features/technician_sos/presentation/technician_sos_request_type.dart';
 import 'package:car_care/features/user_fuel/domain/entities/user_fuel_order_entity.dart';
 import 'package:car_care/features/user_fuel/presentation/cubit/user_fuel_cubit/user_fuel_cubit.dart';
 import 'package:car_care/features/user_fuel/presentation/pages/fuel_orders_list_page.dart';
@@ -187,9 +188,15 @@ GoRoute(
                GoRoute(
             path: Routes.technician_sos_requests,
             name: '/all_technician_sos_requests',
-            builder: (context, state) => const TechnicianStatusGate(
-              child: AllTechnicianSosRequests(),
-            ),
+            builder: (context, state) {
+              // extra selects available (default) vs my accepted SOS requests.
+              final type = state.extra is SosRequestType
+                  ? state.extra as SosRequestType
+                  : SosRequestType.available;
+              return TechnicianStatusGate(
+                child: AllTechnicianSosRequests(type: type),
+              );
+            },
           ),
              GoRoute(
             path: '/technicianSosDetails/:id',

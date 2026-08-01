@@ -9,8 +9,11 @@ class MyJobsModel {
     });
 
     factory MyJobsModel.fromJson(Map<String, dynamic> json) => MyJobsModel(
-        success: json["success"],
-        data: Data.fromJson(json["data"]),
+        success: json["success"] as bool? ?? true,
+        data: json["data"] is Map<String, dynamic>
+            ? Data.fromJson(json["data"] as Map<String, dynamic>)
+            // Some endpoints return a plain list instead of a paginator.
+            : Data.fromList(json["data"] is List ? json["data"] as List : const []),
     );
 
 
@@ -19,65 +22,54 @@ class MyJobsModel {
 class Data {
     int currentPage;
     List<Datum> data;
-    String firstPageUrl;
-    int from;
-    int lastPage;
-    String lastPageUrl;
-    List<Link> links;
-    dynamic nextPageUrl;
-    String path;
     int perPage;
-    dynamic prevPageUrl;
-    int to;
     int total;
 
     Data({
         required this.currentPage,
         required this.data,
-        required this.firstPageUrl,
-        required this.from,
-        required this.lastPage,
-        required this.lastPageUrl,
-        required this.links,
-        required this.nextPageUrl,
-        required this.path,
         required this.perPage,
-        required this.prevPageUrl,
-        required this.to,
         required this.total,
     });
 
+    factory Data.fromList(List raw) => Data(
+        currentPage: 1,
+        data: raw
+            .whereType<Map<String, dynamic>>()
+            .map(Datum.fromJson)
+            .toList(),
+        perPage: raw.length,
+        total: raw.length,
+    );
+
     factory Data.fromJson(Map<String, dynamic> json) => Data(
-        currentPage: json["current_page"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-        firstPageUrl: json["first_page_url"],
-        from: json["from"],
-        lastPage: json["last_page"],
-        lastPageUrl: json["last_page_url"],
-        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
-        nextPageUrl: json["next_page_url"],
-        path: json["path"],
-        perPage: json["per_page"],
-        prevPageUrl: json["prev_page_url"],
-        to: json["to"],
-        total: json["total"],
+        currentPage: json["current_page"] as int? ?? 1,
+        data: json["data"] is List
+            ? (json["data"] as List)
+                .whereType<Map<String, dynamic>>()
+                .map(Datum.fromJson)
+                .toList()
+            : <Datum>[],
+        perPage: json["per_page"] as int? ?? 0,
+        total: json["total"] as int? ?? 0,
     );
 
 }
 
 class Datum {
     int id;
-    int maintenanceRequestId;
-    int quotationId;
-    int technicianId;
+    int? maintenanceRequestId;
+    int? quotationId;
+    int? technicianId;
     String status;
-    DateTime scheduledDate;
+    DateTime? scheduledDate;
     String notes;
-    dynamic startedAt;
-    DateTime completedAt;
-    DateTime createdAt;
-    DateTime updatedAt;
-    MaintenanceRequest maintenanceRequest;
+    DateTime? startedAt;
+    DateTime? completedAt;
+    DateTime? createdAt;
+    DateTime? updatedAt;
+    MaintenanceRequest? maintenanceRequest;
+    Quotation? quotation;
 
     Datum({
         required this.id,
@@ -92,38 +84,63 @@ class Datum {
         required this.createdAt,
         required this.updatedAt,
         required this.maintenanceRequest,
+        required this.quotation,
     });
 
+    // started_at / completed_at are null while a job is still open, so every
+    // date is parsed with tryParse instead of parse.
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        id: json["id"],
-        maintenanceRequestId: json["maintenance_request_id"],
-        quotationId: json["quotation_id"],
-        technicianId: json["technician_id"],
-        status: json["status"],
-        scheduledDate: DateTime.parse(json["scheduled_date"]),
-        notes: json["notes"],
-        startedAt: json["started_at"],
-        completedAt: DateTime.parse(json["completed_at"]),
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        maintenanceRequest: MaintenanceRequest.fromJson(json["maintenance_request"]),
+        id: json["id"] as int? ?? 0,
+        maintenanceRequestId: json["maintenance_request_id"] as int?,
+        quotationId: json["quotation_id"] as int?,
+        technicianId: json["technician_id"] as int?,
+        status: json["status"]?.toString() ?? '',
+        scheduledDate: DateTime.tryParse(json["scheduled_date"]?.toString() ?? ''),
+        notes: json["notes"]?.toString() ?? '',
+        startedAt: DateTime.tryParse(json["started_at"]?.toString() ?? ''),
+        completedAt: DateTime.tryParse(json["completed_at"]?.toString() ?? ''),
+        createdAt: DateTime.tryParse(json["created_at"]?.toString() ?? ''),
+        updatedAt: DateTime.tryParse(json["updated_at"]?.toString() ?? ''),
+        maintenanceRequest: json["maintenance_request"] is Map<String, dynamic>
+            ? MaintenanceRequest.fromJson(
+                json["maintenance_request"] as Map<String, dynamic>)
+            : null,
+        quotation: json["quotation"] is Map<String, dynamic>
+            ? Quotation.fromJson(json["quotation"] as Map<String, dynamic>)
+            : null,
     );
 
 
 }
 
+class Quotation {
+    int? id;
+    String? price;
+    String? notes;
+    int? estimatedDays;
+
+    Quotation({this.id, this.price, this.notes, this.estimatedDays});
+
+    factory Quotation.fromJson(Map<String, dynamic> json) => Quotation(
+        id: json["id"] as int?,
+        price: json["price"]?.toString(),
+        notes: json["notes"]?.toString(),
+        estimatedDays: json["estimated_days"] is int
+            ? json["estimated_days"] as int
+            : int.tryParse(json["estimated_days"]?.toString() ?? ''),
+    );
+}
+
 class MaintenanceRequest {
     int id;
-    int userId;
-    int vehicleId;
+    int? userId;
+    int? vehicleId;
     String description;
     String priority;
-    DateTime preferredDate;
+    DateTime? preferredDate;
     String status;
-    DateTime createdAt;
-    DateTime updatedAt;
-    User user;
-    Vehicle vehicle;
+    User? user;
+    Vehicle? vehicle;
 
     MaintenanceRequest({
         required this.id,
@@ -133,70 +150,46 @@ class MaintenanceRequest {
         required this.priority,
         required this.preferredDate,
         required this.status,
-        required this.createdAt,
-        required this.updatedAt,
         required this.user,
         required this.vehicle,
     });
 
     factory MaintenanceRequest.fromJson(Map<String, dynamic> json) => MaintenanceRequest(
-        id: json["id"],
-        userId: json["user_id"],
-        vehicleId: json["vehicle_id"],
-        description: json["description"],
-        priority: json["priority"],
-        preferredDate: DateTime.parse(json["preferred_date"]),
-        status: json["status"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        user: User.fromJson(json["user"]),
-        vehicle: Vehicle.fromJson(json["vehicle"]),
+        id: json["id"] as int? ?? 0,
+        userId: json["user_id"] as int?,
+        vehicleId: json["vehicle_id"] as int?,
+        description: json["description"]?.toString() ?? '',
+        priority: json["priority"]?.toString() ?? '',
+        preferredDate: DateTime.tryParse(json["preferred_date"]?.toString() ?? ''),
+        status: json["status"]?.toString() ?? '',
+        user: json["user"] is Map<String, dynamic>
+            ? User.fromJson(json["user"] as Map<String, dynamic>)
+            : null,
+        vehicle: json["vehicle"] is Map<String, dynamic>
+            ? Vehicle.fromJson(json["vehicle"] as Map<String, dynamic>)
+            : null,
     );
 
 }
 
 class User {
     int id;
-    String uuid;
-    dynamic tenantId;
     String name;
-    String email;
-    dynamic emailVerifiedAt;
-    String phone;
-    dynamic avatar;
-    String status;
-    DateTime createdAt;
-    DateTime updatedAt;
-    dynamic deletedAt;
+    String? email;
+    String? phone;
 
     User({
         required this.id,
-        required this.uuid,
-        required this.tenantId,
         required this.name,
         required this.email,
-        required this.emailVerifiedAt,
         required this.phone,
-        required this.avatar,
-        required this.status,
-        required this.createdAt,
-        required this.updatedAt,
-        required this.deletedAt,
     });
 
     factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
-        uuid: json["uuid"],
-        tenantId: json["tenant_id"],
-        name: json["name"],
-        email: json["email"],
-        emailVerifiedAt: json["email_verified_at"],
-        phone: json["phone"],
-        avatar: json["avatar"],
-        status: json["status"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        deletedAt: json["deleted_at"],
+        id: json["id"] as int? ?? 0,
+        name: json["name"]?.toString() ?? '',
+        email: json["email"]?.toString(),
+        phone: json["phone"]?.toString(),
     );
 
 
@@ -204,76 +197,31 @@ class User {
 
 class Vehicle {
     int id;
-    int userId;
     String brand;
     String model;
     String year;
     String plateNumber;
-    int currentKm;
-    dynamic image;
-    DateTime createdAt;
-    DateTime updatedAt;
-    dynamic deletedAt;
+    int? currentKm;
+    String? image;
 
     Vehicle({
         required this.id,
-        required this.userId,
         required this.brand,
         required this.model,
         required this.year,
         required this.plateNumber,
         required this.currentKm,
         required this.image,
-        required this.createdAt,
-        required this.updatedAt,
-        required this.deletedAt,
     });
 
     factory Vehicle.fromJson(Map<String, dynamic> json) => Vehicle(
-        id: json["id"],
-        userId: json["user_id"],
-        brand: json["brand"],
-        model: json["model"],
-        year: json["year"],
-        plateNumber: json["plate_number"],
-        currentKm: json["current_km"],
-        image: json["image"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        deletedAt: json["deleted_at"],
+        id: json["id"] as int? ?? 0,
+        brand: json["brand"]?.toString() ?? '',
+        model: json["model"]?.toString() ?? '',
+        year: json["year"]?.toString() ?? '',
+        plateNumber: json["plate_number"]?.toString() ?? '',
+        currentKm: json["current_km"] as int?,
+        image: json["image"]?.toString(),
     );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "user_id": userId,
-        "brand": brand,
-        "model": model,
-        "year": year,
-        "plate_number": plateNumber,
-        "current_km": currentKm,
-        "image": image,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "deleted_at": deletedAt,
-    };
-}
-
-class Link {
-    String? url;
-    String label;
-    bool active;
-
-    Link({
-        required this.url,
-        required this.label,
-        required this.active,
-    });
-
-    factory Link.fromJson(Map<String, dynamic> json) => Link(
-        url: json["url"],
-        label: json["label"],
-        active: json["active"],
-    );
-
 
 }

@@ -122,6 +122,10 @@ import 'package:car_care/features/technician/technician_statistics/data/data_sou
 import 'package:car_care/features/technician/technician_statistics/data/repositories/technician_statistics_repository_impl.dart';
 import 'package:car_care/features/technician/technician_statistics/domain/repositories/i_technician_statistics_repository.dart';
 import 'package:car_care/features/technician/technician_statistics/presentation/cubit/technician_statistics_cubit.dart';
+import 'package:car_care/features/technician/technician_jobs/data/data_sources/technician_jobs_remote_data_source.dart';
+import 'package:car_care/features/technician/technician_jobs/data/repositories/technician_jobs_repository_impl.dart';
+import 'package:car_care/features/technician/technician_jobs/domain/repositories/i_technician_jobs_repository.dart';
+import 'package:car_care/features/technician/technician_jobs/presentation/cubit/technician_jobs_cubit.dart';
 import 'package:car_care/features/technician/technician_order/data/data_sources/technician_order_remote_data_source.dart';
 import 'package:car_care/features/technician/technician_order/data/repositories/technician_order_repository_impl.dart';
 import 'package:car_care/features/technician/technician_order/domain/repositories/i_order_requests_repository.dart';
@@ -300,6 +304,18 @@ Future<void> setupServiceLocator() async {
     )
     ..registerFactory<RequestCubit>(
       () => RequestCubit(getIt<ITechnicianOrderRepository>()),
+    )
+    //TechnicianJobs
+    ..registerLazySingleton<TechnicianJobsRemoteDataSource>(
+      () => TechnicianJobsRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<ITechnicianJobsRepository>(
+      () => TechnicianJobsRepositoryImpl(
+        getIt<TechnicianJobsRemoteDataSource>(),
+      ),
+    )
+    ..registerFactory<TechnicianJobsCubit>(
+      () => TechnicianJobsCubit(getIt<ITechnicianJobsRepository>()),
     )
     //
     ..registerLazySingleton<RequestsRemoteDataSource>(

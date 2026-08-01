@@ -2,6 +2,8 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/widgets/Empty_state.dart';
+import 'package:car_care/core/widgets/error_state_widget.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/core/widgets/provider_status_page.dart';
@@ -112,35 +114,19 @@ class _Body extends StatelessWidget {
             }
 
             if (state is AvailableRequestsError) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.error_outline, size: 48, color: Colors.red),
-                    const SizedBox(height: 12),
-                    const Text(
-                      'حدث خطأ أثناء تحميل الطلبات',
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 16),
-                    ElevatedButton.icon(
-                      onPressed: () => context
-                          .read<AvailableRequestsCubit>()
-                          .fetchAvailableRequests(),
-                      icon: const Icon(Icons.refresh),
-                      label: const Text('إعادة المحاولة'),
-                    ),
-                  ],
-                ),
+              return ErrorStateWidget(
+                message: state.message.isEmpty ||
+                        state.message.startsWith('Instance of')
+                    ? 'حدث خطأ أثناء تحميل الطلبات'
+                    : state.message,
+                onRetry: () => context
+                    .read<AvailableRequestsCubit>()
+                    .fetchAvailableRequests(),
               );
             }
 
             if (state is AvailableRequestsLoaded) {
               final requests = state.requests.data;
-
-              if (requests.isEmpty) {
-                return const Center(child: Text('لا يوجد طلبات حالياً'));
-              }
 
               return RefreshIndicator(
                 onRefresh: () async {
@@ -148,15 +134,23 @@ class _Body extends StatelessWidget {
                       .read<AvailableRequestsCubit>()
                       .fetchAvailableRequests();
                 },
-                child: OrdersListView(
-                  items: requests,
-                  onOrderTap: (item) {
-                    context.push(
-                      Routes.orderdetails,
-                      extra: item.id.toString(),
-                    );
-                  },
-                ),
+                child: requests.isEmpty
+                    ? ListView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        children: const [
+                          SizedBox(height: 60),
+                          EmptyStateWidget(),
+                        ],
+                      )
+                    : OrdersListView(
+                        items: requests,
+                        onOrderTap: (item) {
+                          context.push(
+                            Routes.orderdetails,
+                            extra: item.id.toString(),
+                          );
+                        },
+                      ),
               );
             }
 

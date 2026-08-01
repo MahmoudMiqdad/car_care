@@ -12,7 +12,9 @@ class SosCubit extends Cubit<SosState> {
     final result = await _repo.createSos(data);
 
     result.fold(
-      (l) => emit(SosError(l.message)),
+      // displayMessage surfaces backend 422 field errors instead of the
+      // generic "بيانات الإدخال غير صحيحة".
+      (l) => emit(SosError(l.displayMessage)),
       (r) => emit(SosCreated(r)),
     );
   }
@@ -25,7 +27,7 @@ class SosCubit extends Cubit<SosState> {
     final result = await _repo.getAll();
 
     result.fold(
-      (l) => emit(SosError(l.message)),
+      (l) => emit(SosError(l.displayMessage)),
       (r) => emit(SosListLoaded(r)),
     );
   }
@@ -45,8 +47,8 @@ class SosCubit extends Cubit<SosState> {
   final result = await _repo.cancelSos(id, cancellationReason);
 
   result.fold(
-    (l) => emit(SosError(l.message)),
-    (r) => emit(SosCansel(r)), 
+    (l) => emit(SosError(l.displayMessage)),
+    (r) => emit(SosCansel(r)),
   );
 }
 }

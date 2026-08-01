@@ -22,12 +22,24 @@ class TechnicianMapWidget extends StatefulWidget {
   final double? userLat;
   final double? userLng;
 
+  /// Backend status of the SOS request. Location is only shared while the
+  /// request is still active (accepted / in_progress).
+  final String? sosStatus;
+
   const TechnicianMapWidget({
     super.key,
     required this.sosId,
     this.userLat,
     this.userLng,
+    this.sosStatus,
   });
+
+  bool get canShareLocation {
+    final status = sosStatus;
+    if (status == null) return true;
+    return status != 'completed' && status != 'cancelled' &&
+        status != 'canceled';
+  }
 
   @override
   State<TechnicianMapWidget> createState() => _TechnicianMapWidgetState();
@@ -57,6 +69,9 @@ class _TechnicianMapWidgetState extends State<TechnicianMapWidget> {
   }
 
   Future<void> _startSharingLocation() async {
+    // Never post a location for a finished/cancelled request.
+    if (!widget.canShareLocation) return;
+
     final permission = await _requestPermission();
     if (!permission) return;
 
@@ -88,6 +103,10 @@ class _TechnicianMapWidgetState extends State<TechnicianMapWidget> {
   }
 
   Future<void> _sendCurrentLocation() async {
+    if (!widget.canShareLocation) {
+      _locationTimer?.cancel();
+      return;
+    }
     try {
       final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,

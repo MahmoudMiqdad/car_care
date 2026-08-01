@@ -14,7 +14,7 @@ class TechnicianJobsCubit extends Cubit<TechnicianJobsState> {
     final result = await _repository.fetchMyJobs();
 
     result.fold(
-      (failure) => emit(TechnicianJobsError(failure.message)),
+      (failure) => emit(TechnicianJobsError(failure.displayMessage)),
       (data) => emit(TechnicianJobsLoaded(data)),
     );
   }
@@ -25,7 +25,7 @@ class TechnicianJobsCubit extends Cubit<TechnicianJobsState> {
     final result = await _repository.fetchAcceptedJobs();
 
     result.fold(
-      (failure) => emit(TechnicianJobsError(failure.message)),
+      (failure) => emit(TechnicianJobsError(failure.displayMessage)),
       (data) => emit(TechnicianJobsLoaded(data)),
     );
   }

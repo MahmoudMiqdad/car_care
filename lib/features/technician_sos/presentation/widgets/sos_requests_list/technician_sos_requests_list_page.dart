@@ -2,7 +2,9 @@ import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
+import 'package:car_care/core/widgets/error_state_widget.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/technician_sos/presentation/cubit/technician_sos_cubit/technician_sos_cubit.dart';
@@ -75,39 +77,52 @@ class _SosRequestsListPageState extends State<TechnicianSosRequestsListPage> {
       onRefresh: _onRefresh,
       child: ImageBackground(
         child: BlocConsumer<TechnicianSosCubit, TechnicianSosState>(
-          listenWhen: (_, current) => current is TechnicianError,
+          listenWhen: (_, current) =>
+              current is TechnicianError ||
+              current is TechnicianResponseCancelled ||
+              current is TechnicianStatusChanged,
           listener: (context, state) {
             if (state is TechnicianError) {
               final msg = state.message.isEmpty ||
                       state.message.startsWith('Instance of')
-                  ? 'حدث خطأ أثناء تحميل الطلبات'
+                  ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
                   : state.message;
               AppSnackBar.error(context, msg);
             }
+            // Response cancelled -> backend reopened the request, so it must
+            // leave "طلبات الطوارئ المقبولة".
+            if (state is TechnicianResponseCancelled) {
+              AppSnackBar.success(context, state.message);
+              _load();
+            }
+            if (state is TechnicianStatusChanged) {
+              AppSnackBar.success(
+                context,
+                state.request.statusText?.trim().isNotEmpty == true
+                    ? 'تم تحديث الحالة: ${state.request.statusText}'
+                    : 'تم تحديث حالة الطلب',
+              );
+              _load();
+            }
           },
+          // Only list-level states rebuild, so the list stays on screen while
+          // an accept/status/cancel action is in flight.
+          buildWhen: (_, current) =>
+              current is TechnicianLoading ||
+              current is TechnicianError ||
+              current is TechnicianAvailableLoaded,
           builder: (context, state) {
             if (state is TechnicianLoading) {
               return const Center(child: AppLoadingWidget());
             }
 
             if (state is TechnicianError) {
-              return ListView(
-                children: [
-                  const SizedBox(height: 160),
-                  const Icon(Icons.error_outline, size: 48, color: Colors.red),
-                  const SizedBox(height: 12),
-                  const Center(
-                    child: Text('حدث خطأ أثناء تحميل الطلبات'),
-                  ),
-                  const SizedBox(height: 16),
-                  Center(
-                    child: ElevatedButton.icon(
-                      onPressed: _load,
-                      icon: const Icon(Icons.refresh),
-                      label: const Text('إعادة المحاولة'),
-                    ),
-                  ),
-                ],
+              return ErrorStateWidget(
+                message: state.message.isEmpty ||
+                        state.message.startsWith('Instance of')
+                    ? 'حدث خطأ أثناء تحميل الطلبات'
+                    : state.message,
+                onRetry: _load,
               );
             }
 
@@ -115,15 +130,19 @@ class _SosRequestsListPageState extends State<TechnicianSosRequestsListPage> {
               final list = state.list;
 
               if (list.isEmpty) {
-                return ListView( 
+                return ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   children: [
-                    SizedBox(height: 200),
+                    SizedBox(height: 60.h),
+                    const EmptyStateWidget(),
+                    SizedBox(height: 12.h),
                     Center(child: Text(l10n.noAvailableRequests)),
                   ],
                 );
               }
 
               return ListView.separated(
+                physics: const AlwaysScrollableScrollPhysics(),
                 padding: EdgeInsets.all(AppConstants.pageHorizontal),
                 itemCount: list.length,
                 separatorBuilder: (_, _) => SizedBox(height: 16.h),
@@ -132,6 +151,7 @@ class _SosRequestsListPageState extends State<TechnicianSosRequestsListPage> {
                     item: list[index],
                     showAcceptButton:
                         widget.type == SosRequestType.available,
+                    onRefreshList: _load,
                   );
                 },
               );

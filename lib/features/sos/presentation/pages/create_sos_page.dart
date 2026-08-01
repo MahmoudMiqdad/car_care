@@ -2,6 +2,7 @@ import 'package:car_care/core/constants/list_province.dart';
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/sos/presentation/cubit/sos_cubit/sos_cubit.dart';
@@ -229,21 +230,18 @@ class _CreateSosPageState extends State<CreateSosPage> {
     );
 
     if (id != null) {
-         context.pushNamed(
-                      'sosDetails',
-                      pathParameters: {'id': id.toString()},
-                    );
-                  
+      // Replace the form so back from details returns to the list.
+      context.pushReplacementNamed(
+        'sosDetails',
+        pathParameters: {'id': id.toString()},
+      );
+    } else {
+      context.safePopOrGo(Routes.allUserSosRequests);
     }
   }
 
   if (state is SosError) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Colors.red,
-        content: Text(state.message),
-      ),
-    );
+    AppSnackBar.error(context, state.message);
   }
 },
       child: Directionality(
