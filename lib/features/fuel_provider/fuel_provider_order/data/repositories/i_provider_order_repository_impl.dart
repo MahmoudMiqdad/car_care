@@ -51,8 +51,11 @@ FuelOrderEntity _mapOrder(FuelOrderData? d) => FuelOrderEntity(
       return Right(await fn());
     } on ServerExpcptions catch (e) {
       return Left(e.error);
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+    } catch (_) {
+      // Never surface raw exception text such as "Instance of ...".
+      return const Left(
+        Failure(message: 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'),
+      );
     }
   }
 
@@ -78,7 +81,12 @@ FuelOrderEntity _mapOrder(FuelOrderData? d) => FuelOrderEntity(
        @override
   Future<Either<Failure, List<FuelOrderEntity>>> getavailableOrders() =>
       _call(() async => (await _remote.getavailableOrders()).data.map(_mapOrder).toList());
-       @override
-     Future<Either<Failure, FuelOrderEntity>> ShareLocation(int id  ,int latitude ,int longitude) =>
-      _call(() async => _mapOrder((await _remote.ShareLocation(id,latitude,longitude)).data));
+  @override
+  Future<Either<Failure, FuelOrderEntity>> shareLocation(
+    int id,
+    double latitude,
+    double longitude,
+  ) =>
+      _call(() async =>
+          _mapOrder((await _remote.shareLocation(id, latitude, longitude)).data));
 }

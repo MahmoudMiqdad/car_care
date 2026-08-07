@@ -38,8 +38,10 @@ class FuelProviderProfileRepositoryImpl
       return Right(_map(res.data));
     } on ServerExpcptions catch (e) {
       return Left(e.error);
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+    } catch (_) {
+      return const Left(
+        Failure(message: 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'),
+      );
     }
   }
 
@@ -50,8 +52,10 @@ class FuelProviderProfileRepositoryImpl
       return Right(_map(res.data));
     } on ServerExpcptions catch (e) {
       return Left(e.error);
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+    } catch (_) {
+      return const Left(
+        Failure(message: 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'),
+      );
     }
   }
 
@@ -62,8 +66,10 @@ class FuelProviderProfileRepositoryImpl
       return const Right(unit);
     } on ServerExpcptions catch (e) {
       return Left(e.error);
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+    } catch (_) {
+      return const Left(
+        Failure(message: 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'),
+      );
     }
   }
 
@@ -74,8 +80,10 @@ class FuelProviderProfileRepositoryImpl
       return const Right(unit);
     } on ServerExpcptions catch (e) {
       return Left(e.error);
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+    } catch (_) {
+      return const Left(
+        Failure(message: 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'),
+      );
     }
   }
 }

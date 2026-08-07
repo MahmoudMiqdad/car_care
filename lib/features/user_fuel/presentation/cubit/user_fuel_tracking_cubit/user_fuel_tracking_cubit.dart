@@ -23,7 +23,7 @@ class UserFuelTrackingCubit extends Cubit<UserFuelTrackingState> {
   Future<void> _fetch(int orderId) async {
     final res = await _repo.trackOrder(orderId);
     res.fold(
-      (l) => emit(UserFuelTrackingError(l.message)),
+      (l) => emit(UserFuelTrackingError(l.displayMessage)),
       (r) {
         final loc = r.currentLocation;
         final liveLocation = (loc?.latitude != null && loc?.longitude != null)
