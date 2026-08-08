@@ -11,8 +11,12 @@ class MaintenanceRequestDetailsModel {
 
   factory MaintenanceRequestDetailsModel.fromJson(Map<String, dynamic> json) =>
       MaintenanceRequestDetailsModel(
-        success: json["success"],
-        data: MaintenanceRequestDetailsData.fromJson(json["data"]),
+        success: json["success"] as bool? ?? true,
+        data: MaintenanceRequestDetailsData.fromJson(
+          json["data"] is Map<String, dynamic>
+              ? json["data"] as Map<String, dynamic>
+              : const {},
+        ),
       );
 }
 
@@ -51,29 +55,38 @@ class MaintenanceRequestDetailsData {
 
   factory MaintenanceRequestDetailsData.fromJson(Map<String, dynamic> json) =>
       MaintenanceRequestDetailsData(
-        id: json["id"],
-        description: json["description"],
-        priority: json["priority"],
-        priorityText: json["priority_text"],
-        status: json["status"],
-        statusText: json["status_text"],
-        vehicle: json["vehicle"] != null
-            ? RequestVehicle.fromJson(json["vehicle"])
+        id: json["id"] as int? ?? 0,
+        description: json["description"]?.toString() ?? '',
+        priority: json["priority"]?.toString() ?? '',
+        priorityText: json["priority_text"]?.toString() ?? '',
+        status: json["status"]?.toString() ?? '',
+        statusText: json["status_text"]?.toString() ?? '',
+        vehicle: json["vehicle"] is Map<String, dynamic>
+            ? RequestVehicle.fromJson(json["vehicle"] as Map<String, dynamic>)
             : null,
-        images: (json["images"] as List)
-            .map((e) => RequestImage.fromJson(e))
-            .toList(),
-        quotations: (json["quotations"] as List)
-            .map((e) => RequestQuotation.fromJson(e))
-            .toList(),
+        images: json["images"] is List
+            ? (json["images"] as List)
+                .whereType<Map<String, dynamic>>()
+                .map(RequestImage.fromJson)
+                .toList()
+            : const [],
+        // Confirmed backend example: quotations[].notes can be null; every
+        // nested field below is now parsed leniently for the same reason.
+        quotations: json["quotations"] is List
+            ? (json["quotations"] as List)
+                .whereType<Map<String, dynamic>>()
+                .map(RequestQuotation.fromJson)
+                .toList()
+            : const [],
         preferredDate: json["preferred_date"] != null
-            ? DateTime.parse(json["preferred_date"])
+            ? DateTime.tryParse(json["preferred_date"].toString())
             : null,
-        createdAt: json["created_at"],
-        createdAgo: json["created_ago"],
-        canCancel: json["can_cancel"] ?? false,
-        assignedTechnician: json["assigned_technician"] != null
-            ? AssignedTechnician.fromJson(json["assigned_technician"])
+        createdAt: json["created_at"]?.toString(),
+        createdAgo: json["created_ago"]?.toString(),
+        canCancel: json["can_cancel"] as bool? ?? false,
+        assignedTechnician: json["assigned_technician"] is Map<String, dynamic>
+            ? AssignedTechnician.fromJson(
+                json["assigned_technician"] as Map<String, dynamic>)
             : null,
       );
 }
@@ -100,12 +113,12 @@ class RequestVehicle {
   });
 
   factory RequestVehicle.fromJson(Map<String, dynamic> json) => RequestVehicle(
-        id: json["id"],
-        brand: json["brand"],
-        model: json["model"],
-        year: json["year"],
-        plateNumber: json["plate_number"],
-        currentKm: json["current_km"],
+        id: json["id"] as int? ?? 0,
+        brand: json["brand"]?.toString(),
+        model: json["model"]?.toString(),
+        year: json["year"]?.toString(),
+        plateNumber: json["plate_number"]?.toString(),
+        currentKm: json["current_km"] as int?,
         image: json["image"]?.toString(),
         imagePath: json["image_path"]?.toString(),
       );
@@ -117,8 +130,10 @@ class RequestImage {
 
   RequestImage({required this.id, required this.url});
 
-  factory RequestImage.fromJson(Map<String, dynamic> json) =>
-      RequestImage(id: json["id"], url: json["url"]);
+  factory RequestImage.fromJson(Map<String, dynamic> json) => RequestImage(
+        id: json["id"] as int? ?? 0,
+        url: json["url"]?.toString() ?? '',
+      );
 }
 
 class RequestQuotation {
@@ -150,17 +165,22 @@ class RequestQuotation {
 
   factory RequestQuotation.fromJson(Map<String, dynamic> json) =>
       RequestQuotation(
-        id: json["id"],
-        price: json["price"],
-        priceFormatted: json["price_formatted"],
-        estimatedDays: json["estimated_days"],
-        notes: json["notes"],
-        partsIncluded: json["parts_included"],
-        status: json["status"],
-        statusText: json["status_text"],
-        technician: RequestTechnician.fromJson(json["technician"]),
-        createdAt: json["created_at"],
-        createdAgo: json["created_ago"],
+        id: json["id"] as int? ?? 0,
+        // price is a float column on the backend, so it may arrive as a
+        // decimal — round() is safe for either an int or a double input.
+        price: (json["price"] as num?)?.round() ?? 0,
+        priceFormatted: json["price_formatted"]?.toString() ?? '',
+        estimatedDays: json["estimated_days"] as int? ?? 0,
+        notes: json["notes"]?.toString() ?? '',
+        partsIncluded: json["parts_included"] as bool? ?? false,
+        status: json["status"]?.toString() ?? '',
+        statusText: json["status_text"]?.toString() ?? '',
+        technician: json["technician"] is Map<String, dynamic>
+            ? RequestTechnician.fromJson(
+                json["technician"] as Map<String, dynamic>)
+            : RequestTechnician.empty(),
+        createdAt: json["created_at"]?.toString(),
+        createdAgo: json["created_ago"]?.toString(),
       );
 }
 
@@ -177,13 +197,22 @@ class RequestTechnician {
     required this.technicianProfile,
   });
 
+  factory RequestTechnician.empty() => RequestTechnician(
+        id: 0,
+        name: '',
+        phone: '',
+        technicianProfile: RequestTechnicianProfile.empty(),
+      );
+
   factory RequestTechnician.fromJson(Map<String, dynamic> json) =>
       RequestTechnician(
-        id: json["id"],
-        name: json["name"],
-        phone: json["phone"],
-        technicianProfile:
-            RequestTechnicianProfile.fromJson(json["technician_profile"]),
+        id: json["id"] as int? ?? 0,
+        name: json["name"]?.toString() ?? '',
+        phone: json["phone"]?.toString() ?? '',
+        technicianProfile: json["technician_profile"] is Map<String, dynamic>
+            ? RequestTechnicianProfile.fromJson(
+                json["technician_profile"] as Map<String, dynamic>)
+            : RequestTechnicianProfile.empty(),
       );
 }
 
@@ -198,12 +227,18 @@ class RequestTechnicianProfile {
     this.currentLocation,
   });
 
+  factory RequestTechnicianProfile.empty() => RequestTechnicianProfile(
+        specialization: '',
+        experienceYears: 0,
+      );
+
   factory RequestTechnicianProfile.fromJson(Map<String, dynamic> json) =>
       RequestTechnicianProfile(
-        specialization: json["specialization"],
-        experienceYears: json["experience_years"],
-        currentLocation: json["current_location"] != null
-            ? RequestCurrentLocation.fromJson(json["current_location"])
+        specialization: json["specialization"]?.toString() ?? '',
+        experienceYears: json["experience_years"] as int? ?? 0,
+        currentLocation: json["current_location"] is Map<String, dynamic>
+            ? RequestCurrentLocation.fromJson(
+                json["current_location"] as Map<String, dynamic>)
             : null,
       );
 }
@@ -229,14 +264,15 @@ class AssignedTechnician {
 
   factory AssignedTechnician.fromJson(Map<String, dynamic> json) =>
       AssignedTechnician(
-        id: json["id"],
-        name: json["name"],
-        phone: json["phone"],
-        specialization: json["specialization"],
-        experienceYears: json["experience_years"],
-        hourlyRate: json["hourly_rate"],
-        currentLocation: json["current_location"] != null
-            ? RequestCurrentLocation.fromJson(json["current_location"])
+        id: json["id"] as int? ?? 0,
+        name: json["name"]?.toString() ?? '',
+        phone: json["phone"]?.toString() ?? '',
+        specialization: json["specialization"]?.toString() ?? '',
+        experienceYears: json["experience_years"] as int? ?? 0,
+        hourlyRate: json["hourly_rate"]?.toString(),
+        currentLocation: json["current_location"] is Map<String, dynamic>
+            ? RequestCurrentLocation.fromJson(
+                json["current_location"] as Map<String, dynamic>)
             : null,
       );
 }
@@ -254,8 +290,8 @@ class RequestCurrentLocation {
 
   factory RequestCurrentLocation.fromJson(Map<String, dynamic> json) =>
       RequestCurrentLocation(
-        lat: (json["lat"] as num).toDouble(),
-        lng: (json["lng"] as num).toDouble(),
-        updatedAt: json["updated_at"],
+        lat: (json["lat"] as num?)?.toDouble() ?? 0,
+        lng: (json["lng"] as num?)?.toDouble() ?? 0,
+        updatedAt: json["updated_at"]?.toString() ?? '',
       );
 }

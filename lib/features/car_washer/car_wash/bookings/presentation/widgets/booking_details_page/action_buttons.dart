@@ -73,31 +73,33 @@ class _ActionButtonsState extends State<ActionButtons> {
   @override
   Widget build(BuildContext context) {
     final booking = widget.booking;
-    final canCancel = booking.status == 'pending';
+    final canCancel = booking.status == 'pending' && booking.canCancel;
+    final canRate = booking.status == 'completed';
 
     return Row(
       children: [
-        Expanded(
-          child: AppButton(
-            onPressed: () async {
-              final result = await context.push(
-                Routes.ratings,
-                extra: booking,
-              );
-              if (result == true && context.mounted) {
-                context.safePopOrGo(Routes.bookings, result: true);
-              }
-            },
-            text: context.l10n.bookingsMenuRateService,
-            backgroundColor: AppColors.accent,
-            textColor: AppColors.white,
-            borderRadius: 12.r,
-            fontSize: 18.sp,
-            height: 46.h,
+        if (canRate)
+          Expanded(
+            child: AppButton(
+              onPressed: () async {
+                final result = await context.push(
+                  Routes.ratings,
+                  extra: booking,
+                );
+                if (result == true && context.mounted) {
+                  context.safePopOrGo(Routes.bookings, result: true);
+                }
+              },
+              text: context.l10n.bookingsMenuRateService,
+              backgroundColor: AppColors.accent,
+              textColor: AppColors.white,
+              borderRadius: 12.r,
+              fontSize: 18.sp,
+              height: 46.h,
+            ),
           ),
-        ),
         if (canCancel) ...[
-          SizedBox(width: 14.w),
+          if (canRate) SizedBox(width: 14.w),
           Expanded(
             child: AppButton(
               onPressed: () => _showCancelDialog(context),

@@ -20,7 +20,13 @@ class TechnicianJobsError extends TechnicianJobsState {
 }
 
 /// update status
-class JobStatusLoading extends TechnicianJobsState {}
+/// Carries the job id so only that card shows a busy state instead of
+/// collapsing the whole page into a loader.
+class JobStatusLoading extends TechnicianJobsState {
+  final String jobId;
+
+  JobStatusLoading(this.jobId);
+}
 
 class JobStatusUpdated extends TechnicianJobsState {
   final UpdateJobStatusEntity data;

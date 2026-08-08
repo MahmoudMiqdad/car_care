@@ -5,24 +5,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CustomerBookingFilter extends StatelessWidget {
+class CustomerBookingFilter extends StatefulWidget {
   const CustomerBookingFilter({super.key});
+
+  @override
+  State<CustomerBookingFilter> createState() => _CustomerBookingFilterState();
+}
+
+class _CustomerBookingFilterState extends State<CustomerBookingFilter> {
+  String? _selectedStatus;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
     final Map<String?, String> statuses = {
-      null: l10n.bookingsFilterByStatus, 
+      null: 'الكل',
       'pending': l10n.bookingStatusPending,
       'accepted': l10n.bookingStatusAccepted,
       'in_progress': l10n.bookingStatusProgress,
       'completed': l10n.bookingStatusCompleted,
-      'cancelled': l10n.bookingStatusCanceled, 
+      'cancelled': l10n.bookingStatusCanceled,
     };
 
     return PopupMenuButton<String?>(
       onSelected: (status) {
+        setState(() => _selectedStatus = status);
         context.read<CustomerBookingsCubit>().fetchBookings(status: status);
       },
       itemBuilder: (_) {
@@ -46,7 +54,7 @@ class CustomerBookingFilter extends StatelessWidget {
             const Icon(Icons.keyboard_arrow_down_rounded, color: AppColors.black),
             SizedBox(width: 8.w),
             Text(
-              l10n.bookingsFilterByStatus,
+              statuses[_selectedStatus] ?? 'الكل',
               style: TextStyle(
                 fontSize: 24.sp,
                 fontWeight: FontWeight.w700,

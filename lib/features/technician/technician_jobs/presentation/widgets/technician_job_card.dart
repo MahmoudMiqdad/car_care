@@ -32,9 +32,22 @@ class TechnicianJobUiModel {
 }
 
 class TechnicianJobCard extends StatelessWidget {
-  const TechnicianJobCard({super.key, required this.job});
+  const TechnicianJobCard({
+    super.key,
+    required this.job,
+    this.rawStatus,
+    this.isBusy = false,
+    this.onStart,
+    this.onComplete,
+  });
 
   final TechnicianJobUiModel job;
+
+  /// Raw backend ServiceJob status: assigned | in_progress | completed | …
+  final String? rawStatus;
+  final bool isBusy;
+  final VoidCallback? onStart;
+  final VoidCallback? onComplete;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +58,61 @@ class TechnicianJobCard extends StatelessWidget {
     final double localValueSize = 16.sp;
     return Padding(
       padding: EdgeInsets.only(bottom: 12.h),
-      child: ClipRRect(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _cardBody(isWaiting, statusBg, statusColor, localLabelSize,
+              localValueSize),
+          _statusAction(),
+        ],
+      ),
+    );
+  }
+
+  /// assigned -> بدء التنفيذ · in_progress -> إنهاء المهمة · otherwise none.
+  Widget _statusAction() {
+    final status = rawStatus?.toLowerCase();
+    final isAssigned = status == 'assigned';
+    final isInProgress = status == 'in_progress' || status == 'in-progress';
+
+    if (!isAssigned && !isInProgress) return const SizedBox.shrink();
+
+    final onPressed = isAssigned ? onStart : onComplete;
+
+    return Padding(
+      padding: EdgeInsets.only(top: 8.h),
+      child: SizedBox(
+        height: 44.h,
+        child: ElevatedButton(
+          onPressed: isBusy ? null : onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor:
+                isAssigned ? AppColors.carWashTeal : AppColors.primary,
+            foregroundColor: Colors.white,
+            disabledBackgroundColor: Colors.grey.shade400,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+          ),
+          child: Text(
+            isBusy
+                ? 'جارٍ التحديث...'
+                : (isAssigned ? 'بدء التنفيذ' : 'إنهاء المهمة'),
+            style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w700),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _cardBody(
+    bool isWaiting,
+    Color statusBg,
+    Color statusColor,
+    double localLabelSize,
+    double localValueSize,
+  ) {
+    return ClipRRect(
         borderRadius: BorderRadius.circular(12.r),
         child: IntrinsicHeight(
           child: Row(
@@ -146,9 +213,9 @@ class TechnicianJobCard extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
+
   Widget _rowAsset(String path) {
     return Image.asset(
       path,

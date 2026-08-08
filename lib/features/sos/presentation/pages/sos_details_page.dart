@@ -9,6 +9,7 @@ import 'package:car_care/features/sos/presentation/cubit/sos_cubit/sos_cubit.dar
 import 'package:car_care/features/sos/presentation/cubit/sos_cubit/sos_state.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/cancel_sos_dialog.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_body.dart';
+import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_location_card.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -106,6 +107,12 @@ class SosDetailsPage extends StatelessWidget {
                     final item = state.sos;
                     final cubit = context.read<SosCubit>();
 
+                    // Tracking is only meaningful while the technician is
+                    // actively on the way; hidden for open / accepted /
+                    // completed / cancelled and any unknown status.
+                    final canTrack =
+                        item.id != null && item.status == 'in_progress';
+
                     return SosDetailsBody(
                       sos: item,
                       vehicleTitle:
@@ -113,6 +120,9 @@ class SosDetailsPage extends StatelessWidget {
                       plateNumber: item.plateNumber?.toString() ?? '',
                       technicianName: item.technicianName ?? '',
                       description: item.description ?? '',
+                      onTrackTapped: canTrack
+                          ? () => showSosTrackingSheet(context, item.id!)
+                          : null,
                       onCancelTapped: () =>
                           _showCancelDialog(context, cubit, item.id!),
                     );

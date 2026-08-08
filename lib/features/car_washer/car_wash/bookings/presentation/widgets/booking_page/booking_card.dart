@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'booking_action_menu.dart';
 import 'booking_details_content.dart';
 import 'booking_status_chips.dart';
 
@@ -14,20 +13,30 @@ class BookingCard extends StatelessWidget {
   const BookingCard({
     super.key,
     required this.booking,
-    this.showMenuByDefault = false,
   });
 
   final BookingsEntity booking;
-  final bool showMenuByDefault;
+
+  Future<void> _openDetails(BuildContext context) async {
+    final changed = await context.push(
+      Routes.bookingDetails,
+      extra: booking,
+    );
+    if (changed == true && context.mounted) {
+      context.read<CustomerBookingsCubit>().fetchBookings(status: null);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final statusChips = <String>[booking.statusText];
 
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Container(
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16.r),
+        onTap: () => _openDetails(context),
+        child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
             color: AppColors.white.withValues(alpha: 0.85),
@@ -42,29 +51,12 @@ class BookingCard extends StatelessWidget {
               SizedBox(height: 8.h),
               BookingDetailsContent(
                 booking: booking,
-                onShowDetails: () async {
-                  final changed = await context.push(
-                    Routes.bookingDetails,
-                    extra: booking,
-                  );
-                  if (changed == true && context.mounted) {
-                    context.read<CustomerBookingsCubit>().fetchBookings(
-                      status: null,
-                    );
-                  }
-                },
+                onShowDetails: () => _openDetails(context),
               ),
             ],
           ),
         ),
-        Positioned(
-          left: 6.w,
-          top: 8.h,
-          child: showMenuByDefault
-              ? const BookingActionMenu(showAsOpen: true)
-              : const BookingActionMenu(),
-        ),
-      ],
+      ),
     );
   }
 }

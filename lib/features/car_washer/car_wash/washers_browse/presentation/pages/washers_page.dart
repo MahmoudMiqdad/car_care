@@ -55,6 +55,17 @@ class _WashersPageState extends State<WashersPage> {
           title: l10n.washersPageTitle,
           showBackButton: true,
           onBackTapped: () => context.go(Routes.home),
+          actionWidget: TextButton(
+            onPressed: () => context.push(Routes.bookings),
+            child: Text(
+              l10n.bookingsPageTitle,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
         ),
         body: ImageBackground(
           child: Padding(

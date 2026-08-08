@@ -45,7 +45,8 @@ class HomeBody extends StatelessWidget {
         context.go(Routes.my_vehicles_page);
         break;
       case 1:
-        context.go(Routes.addRequest);
+        // "الصيانة" -> customer requests list (its FAB creates a new request)
+        context.go(Routes.all_requests);
         break;
       case 2:
         context.go(Routes.washers);

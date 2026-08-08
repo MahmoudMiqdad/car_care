@@ -1,4 +1,4 @@
-﻿import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/features/car_washer/washers/washers_statistics/presentation/pages/statistics_page.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_order/presentation/pages/provider_available_orders_page_wrapper.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/domain/entities/provider_profile_entity.dart';
@@ -72,6 +72,7 @@ import 'package:car_care/features/auth/presentation/pages/register_page.dart';
 import 'package:car_care/features/home/presentation/pages/home_page.dart';
 import 'package:car_care/features/home/presentation/pages/notifications_page.dart';
 import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
+import 'package:car_care/features/home/presentation/widgets/ai_assistant_button.dart';
 import 'package:car_care/features/user_profile/presentation/pages/profile_setup_page.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/UpdateVehicle/UpdateVehiclePage.dart';
 import 'package:car_care/features/spare_parts_store/customer/cart/presentation/cubit/cart/cart_cubit.dart';
@@ -107,14 +108,11 @@ class AppRouter {
     initialLocation: Routes.splash,
     debugLogDiagnostics: true,
     routes: [
+      GoRoute(path: Routes.splash, builder: (_, _) => const SplashScreen()),
       GoRoute(
-  path: Routes.splash,
-  builder: (_, _) => const SplashScreen(),
-),
-GoRoute(
-  path: Routes.onboarding,
-  builder: (_, _) => const OnboardingPage(),
-),
+        path: Routes.onboarding,
+        builder: (_, _) => const OnboardingPage(),
+      ),
       GoRoute(
         path: Routes.login,
         name: '/login',
@@ -133,6 +131,7 @@ GoRoute(
             Routes.notifications => 1,
             Routes.all_requests => 2,
             Routes.home => 0,
+            Routes.more => 3,
             _ => -1,
           };
           return MainAppShell(
@@ -157,6 +156,10 @@ GoRoute(
                 }
               },
             ),
+            // Visual-only for now: no callback wired, no navigation added.
+            floatingActionButton: const AiAssistantButton(),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
             child: child,
           );
         },
@@ -171,7 +174,7 @@ GoRoute(
             name: '/more',
             builder: (context, state) => const MorePage(),
           ),
-        
+
           GoRoute(
             path: Routes.allUserSosRequests,
             name: '/sos',
@@ -185,7 +188,7 @@ GoRoute(
               return SosDetailsPage(id: id);
             },
           ),
-               GoRoute(
+          GoRoute(
             path: Routes.technician_sos_requests,
             name: '/all_technician_sos_requests',
             builder: (context, state) {
@@ -198,7 +201,7 @@ GoRoute(
               );
             },
           ),
-             GoRoute(
+          GoRoute(
             path: '/technicianSosDetails/:id',
             name: 'SosTechnicianDetailsPage',
             builder: (context, state) {
@@ -301,92 +304,91 @@ GoRoute(
               return const EditProfileWasherPage();
             },
           ),
-       
-    GoRoute(
-  path: Routes.provider_profile,
-  name: '/provider_profile',
-  builder: (context, state) => BlocProvider(
-   create: (_) => getIt<FuelProviderProfileCubit>(),
-   child: const ProviderProfilePage(),
-  ),
-),
 
-GoRoute(
-  path: Routes.provider_edit_profile,
-  name: '/provider_edit_profile',
-  builder: (context, state) {
-    final profile = state.extra as FuelProviderProfileEntity?;
-    return BlocProvider(
-      create: (_) => getIt<FuelProviderProfileCubit>(),
-      child: ProviderEditProfilePage(profile: profile),
-    );
-  },
-),
+          GoRoute(
+            path: Routes.provider_profile,
+            name: '/provider_profile',
+            builder: (context, state) => BlocProvider(
+              create: (_) => getIt<FuelProviderProfileCubit>(),
+              child: const ProviderProfilePage(),
+            ),
+          ),
 
-GoRoute(
-  path: Routes.provider_create_profile,
-  name: '/provider_create_profile',
-  builder: (context, state) => BlocProvider(
-    create: (_) => getIt<FuelProviderProfileCubit>(),
-    child: const ProviderCreateProfilePage(),
-  ),
-),
-            GoRoute(
-        path: Routes.provider_statistics,
-        name: '/provider_statistics',
-        builder: (context, state) => const ProviderStatisticsPage(),
-      ),
-      
-  
-            GoRoute(
-        path: Routes.share_location_fuel,
-        name: '/share_location_fuel',
-        builder: (context, state) => const ShareLocationFuelPage(),
-      ),
-            GoRoute(
-        path: Routes.provider_available_orders,
-        name: '/provider_available_orders',
-        builder: (context, state) => const ProviderAvailableOrdersPage(),
-      ),
-    
- GoRoute(
-  path: Routes.add_user_fuel,
-  builder: (context, state) => const FuelSosCreatePageWrapper(),
-),
+          GoRoute(
+            path: Routes.provider_edit_profile,
+            name: '/provider_edit_profile',
+            builder: (context, state) {
+              final profile = state.extra as FuelProviderProfileEntity?;
+              return BlocProvider(
+                create: (_) => getIt<FuelProviderProfileCubit>(),
+                child: ProviderEditProfilePage(profile: profile),
+              );
+            },
+          ),
 
-GoRoute(
-  path: Routes.fuelorderslist,
-  builder: (context, state) => BlocProvider(
-    create: (_) => getIt<UserFuelCubit>(),
-    child: const FuelOrdersListPage(),
-  ),
-),
+          GoRoute(
+            path: Routes.provider_create_profile,
+            name: '/provider_create_profile',
+            builder: (context, state) => BlocProvider(
+              create: (_) => getIt<FuelProviderProfileCubit>(),
+              child: const ProviderCreateProfilePage(),
+            ),
+          ),
+          GoRoute(
+            path: Routes.provider_statistics,
+            name: '/provider_statistics',
+            builder: (context, state) => const ProviderStatisticsPage(),
+          ),
 
-GoRoute(
-  path: Routes.fuel_order_details,
-  builder: (context, state) {
-    final order = state.extra as UserFuelOrderEntity;
-    return BlocProvider(
-      create: (_) => getIt<UserFuelCubit>(),
-      child: FuelOrderDetailsPage(order: order),
-    );
-  },
-),
-            GoRoute(
-        path: Routes.provider_order,
-        name: '/provider_available_orders_page_wrapper',
-        builder: (context, state) => const ProviderOrdersTabsWrapper(),
-      ),
-     GoRoute(
-  path: '/provider_order_details/:id',
-  name: 'providerOrderDetailsPage',
-  builder: (context, state) {
-    final id = int.parse(state.pathParameters['id']!);
+          GoRoute(
+            path: Routes.share_location_fuel,
+            name: '/share_location_fuel',
+            builder: (context, state) => const ShareLocationFuelPage(),
+          ),
+          GoRoute(
+            path: Routes.provider_available_orders,
+            name: '/provider_available_orders',
+            builder: (context, state) => const ProviderAvailableOrdersPage(),
+          ),
 
-    return ProviderOrderDetailsPage(id: id);
-  },
-),
-      ],
+          GoRoute(
+            path: Routes.add_user_fuel,
+            builder: (context, state) => const FuelSosCreatePageWrapper(),
+          ),
+
+          GoRoute(
+            path: Routes.fuelorderslist,
+            builder: (context, state) => BlocProvider(
+              create: (_) => getIt<UserFuelCubit>(),
+              child: const FuelOrdersListPage(),
+            ),
+          ),
+
+          GoRoute(
+            path: Routes.fuel_order_details,
+            builder: (context, state) {
+              final order = state.extra as UserFuelOrderEntity;
+              return BlocProvider(
+                create: (_) => getIt<UserFuelCubit>(),
+                child: FuelOrderDetailsPage(order: order),
+              );
+            },
+          ),
+          GoRoute(
+            path: Routes.provider_order,
+            name: '/provider_available_orders_page_wrapper',
+            builder: (context, state) => const ProviderOrdersTabsWrapper(),
+          ),
+          GoRoute(
+            path: '/provider_order_details/:id',
+            name: 'providerOrderDetailsPage',
+            builder: (context, state) {
+              final id = int.parse(state.pathParameters['id']!);
+
+              return ProviderOrderDetailsPage(id: id);
+            },
+          ),
+        ],
       ),
       GoRoute(
         path: Routes.profile_setup,
@@ -463,52 +465,51 @@ GoRoute(
       GoRoute(
         path: Routes.technicianProfileViewBody,
         name: '/technician_profile_view_page',
-        builder: (context, state) => const TechnicianStatusGate(
-          child: TechnicianProfileViewPage(),
-        ),
+        builder: (context, state) =>
+            const TechnicianStatusGate(child: TechnicianProfileViewPage()),
       ),
-GoRoute(
-  path: Routes.maintenance_request_details,
-  builder: (context, state) {
-    final id = state.extra as int;
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => getIt<ShowRequestCubit>()),
-        BlocProvider(create: (_) => getIt<CancelRequestCubit>()),
-      ],
-      child: MaintenanceRequestDetailsPage(requestId: id),
-    );
-  },
-),
       GoRoute(
-  path: Routes.quotations,
-  name: '/quotations',
-  builder: (context, state) {
-    final requestId = state.extra as String;
-    return BlocProvider(
-      create: (_) => getIt<QuotationsCubit>(),
-      child: QuotationsPage(requestId: requestId),
-    );
-  },
-),
-GoRoute(
-  path: Routes.quotation_details,
-  name: '/quotation_details',
-  builder: (context, state) {
-    final data = state.extra as Map<String, dynamic>;
-
-    final quotation = data['quotation'] as QuotationEntity;
-    final requestId = data['requestId'] as String;
-
-    return BlocProvider(
-      create: (_) => getIt<QuotationsCubit>(),
-      child: QuotationDetailsPage(
-        quotation: quotation,
-        requestId: requestId,
+        path: Routes.maintenance_request_details,
+        builder: (context, state) {
+          final id = state.extra as int;
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (_) => getIt<ShowRequestCubit>()),
+              BlocProvider(create: (_) => getIt<CancelRequestCubit>()),
+            ],
+            child: MaintenanceRequestDetailsPage(requestId: id),
+          );
+        },
       ),
-    );
-  },
-),
+      GoRoute(
+        path: Routes.quotations,
+        name: '/quotations',
+        builder: (context, state) {
+          final requestId = state.extra as String;
+          return BlocProvider(
+            create: (_) => getIt<QuotationsCubit>(),
+            child: QuotationsPage(requestId: requestId),
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.quotation_details,
+        name: '/quotation_details',
+        builder: (context, state) {
+          final data = state.extra as Map<String, dynamic>;
+
+          final quotation = data['quotation'] as QuotationEntity;
+          final requestId = data['requestId'] as String;
+
+          return BlocProvider(
+            create: (_) => getIt<QuotationsCubit>(),
+            child: QuotationDetailsPage(
+              quotation: quotation,
+              requestId: requestId,
+            ),
+          );
+        },
+      ),
       GoRoute(
         path: Routes.deleteconfirmationdialog,
         name: '/deleteconfirmationdialog',
@@ -689,31 +690,29 @@ GoRoute(
       GoRoute(
         path: Routes.technician_jobs,
         name: '/technician_jobs',
-        builder: (context, state) => const TechnicianStatusGate(
-          child: TechnicianJobsPage(),
-        ),
+        builder: (context, state) =>
+            const TechnicianStatusGate(child: TechnicianJobsPage()),
       ),
       GoRoute(
         path: Routes.technician_statistics,
         name: '/technician_statistics',
-        builder: (context, state) => const TechnicianStatusGate(
-          child: TechnicianStatisticsPage(),
-        ),
+        builder: (context, state) =>
+            const TechnicianStatusGate(child: TechnicianStatisticsPage()),
       ),
       GoRoute(
-  name: 'TechnicianSosMapPage',
-  path: '/technician/sos/:id/map',
-  builder: (context, state) {
-    final extra = state.extra as Map<String, dynamic>?;
-    return TechnicianStatusGate(
-      child: TechnicianSosMapPage(
-        sosId: int.parse(state.pathParameters['id']!),
-        clientLat: extra?['lat'],
-        clientLng: extra?['lng'],
+        name: 'TechnicianSosMapPage',
+        path: '/technician/sos/:id/map',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return TechnicianStatusGate(
+            child: TechnicianSosMapPage(
+              sosId: int.parse(state.pathParameters['id']!),
+              clientLat: extra?['lat'],
+              clientLng: extra?['lng'],
+            ),
+          );
+        },
       ),
-    );
-  },
-),
       GoRoute(
         path: Routes.washer_statistics,
         name: '/washer_statistics',
@@ -721,5 +720,4 @@ GoRoute(
       ),
     ],
   );
-  
 }

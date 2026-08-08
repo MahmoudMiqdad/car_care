@@ -132,7 +132,7 @@ class _MaintenanceRequestDetailsPageState
         child: Scaffold(
           backgroundColor: AppColors.lightScaffold,
           appBar: CustomAppBar(
-            title: 'تفاصيل الطلب',
+            title: 'تفاصيل طلب صيانة',
             showBackButton: true,
             backgroundColor: AppColors.carWashTeal,
             onBackTapped: () => context.safePopOrGo(Routes.all_requests),

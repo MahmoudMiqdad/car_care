@@ -3,6 +3,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
@@ -30,16 +31,29 @@ class TechnicianOrderDetailsPage extends StatelessWidget {
   }
 }
 
-class _Body extends StatelessWidget {
+class _Body extends StatefulWidget {
   final String orderId;
 
   const _Body({required this.orderId});
 
   @override
+  State<_Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<_Body> {
+  String get orderId => widget.orderId;
+
+  /// Set immediately from the quotation page's pop(true) result, so the CTA
+  /// flips without waiting for the refetch round trip. The subsequent
+  /// refetch/myQuotation check still runs and remains the source of truth
+  /// on a fresh page load.
+  bool _justSubmitted = false;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.lightScaffold,
-    appBar: AppBar(title: const Text("طلبات الصيانة")),
+    appBar: AppBar(title: const Text('تفاصيل طلب صيانة')),
       bottomNavigationBar: HomeBottomNavBar(
         activeIndex: -1,
         onItemSelected: (index) {
@@ -60,7 +74,8 @@ class _Body extends StatelessWidget {
         
             if (state is RequestLoaded) {
               final data = state.request.data;
-        
+              final hasQuotation = data.myQuotation != null || _justSubmitted;
+
               return SingleChildScrollView(
                 padding: EdgeInsets.all(16.w),
                 child: Column(
@@ -78,19 +93,70 @@ class _Body extends StatelessWidget {
         
                     SizedBox(height: 10.h),
         
-                    AppButton(
-                      text: 'تقديم عرض سعر',
-                      backgroundColor: AppColors.accent,
-                      fontSize: 17.sp,
-                      borderRadius: AppConstants.ctaRadius,
-                      height: 55.h,
-                      onPressed: () {
-                        context.push(
-                          Routes.technician_quotations,
-                          extra: orderId,
-                        );
-                      },
-                    ),
+                    // Once this technician has a quotation on the request the
+                    // CTA is replaced by a non-interactive waiting state.
+                    if (hasQuotation)
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                          vertical: 16.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.serviceTierSelectedBackground,
+                          borderRadius:
+                              BorderRadius.circular(AppConstants.ctaRadius),
+                          border: Border.all(color: AppColors.success),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.check_circle_outline,
+                              color: AppColors.success,
+                              size: 20.sp,
+                            ),
+                            SizedBox(width: 8.w),
+                            Flexible(
+                              child: Text(
+                                'تم إرسال عرضك — بانتظار قبول العميل',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    else
+                      AppButton(
+                        text: 'تقديم عرض سعر',
+                        backgroundColor: AppColors.accent,
+                        fontSize: 17.sp,
+                        borderRadius: AppConstants.ctaRadius,
+                        height: 55.h,
+                        onPressed: () async {
+                          final submitted = await context.push<bool>(
+                            Routes.technician_quotations,
+                            extra: orderId,
+                          );
+                          if (!context.mounted) return;
+                          if (submitted == true) {
+                            // Flip the CTA immediately using the pop(true)
+                            // result — do not wait for the refetch.
+                            setState(() => _justSubmitted = true);
+                            AppSnackBar.success(
+                              context,
+                              'تم إرسال العرض بنجاح',
+                            );
+                          }
+                          // Refresh so myQuotation confirms/persists the state.
+                          context.read<RequestCubit>().fetchRequest(orderId);
+                        },
+                      ),
                   ],
                 ),
               );
