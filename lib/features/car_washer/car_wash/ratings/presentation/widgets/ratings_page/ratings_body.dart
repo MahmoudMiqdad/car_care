@@ -2,7 +2,6 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
-import 'package:car_care/features/car_washer/car_wash/ratings/presentation/widgets/ratings_page/ratings_comment_field.dart';
 import 'package:car_care/features/car_washer/car_wash/ratings/presentation/widgets/ratings_page/ratings_service_info_card.dart';
 import 'package:car_care/features/car_washer/car_wash/ratings/presentation/widgets/ratings_page/ratings_star_selector.dart';
 import 'package:car_care/l10n.dart';
@@ -14,7 +13,6 @@ class RatingsBody extends StatelessWidget {
     super.key,
     required this.booking,
     required this.selectedStars,
-    required this.commentController,
     required this.onStarsChanged,
     required this.isLoading,
     this.onSubmit,
@@ -22,7 +20,6 @@ class RatingsBody extends StatelessWidget {
 
   final BookingsEntity booking;
   final int selectedStars;
-  final TextEditingController commentController;
   final ValueChanged<int> onStarsChanged;
   final bool isLoading;
   final VoidCallback? onSubmit;
@@ -60,11 +57,7 @@ class RatingsBody extends StatelessWidget {
           ),
           SizedBox(height: 28.h),
 
-         
-          RatingsCommentField(controller: commentController),
-          SizedBox(height: 24.h),
 
-         
           AppButton(
             text: isLoading ? '...' : strings.ratingsSendRating,
             onPressed: onSubmit,

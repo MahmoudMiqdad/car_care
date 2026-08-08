@@ -22,14 +22,7 @@ class RatingsPage extends StatefulWidget {
 }
 
 class _RatingsPageState extends State<RatingsPage> {
-  final _commentController = TextEditingController();
   int _selectedStars = 3;
-
-  @override
-  void dispose() {
-    _commentController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +74,6 @@ class _RatingsPageState extends State<RatingsPage> {
                     return RatingsBody(
                       booking: widget.booking,
                       selectedStars: _selectedStars,
-                      commentController: _commentController,
                       isLoading: isLoading,
                       onStarsChanged: (value) {
                         setState(() => _selectedStars = value);
@@ -92,7 +84,7 @@ class _RatingsPageState extends State<RatingsPage> {
                               context.read<RatingsCubit>().submitRating(
                                 bookingId: widget.booking.id,
                                 rating: _selectedStars,
-                                review: _commentController.text.trim(),
+                                review: '',
                               );
                             },
                     );

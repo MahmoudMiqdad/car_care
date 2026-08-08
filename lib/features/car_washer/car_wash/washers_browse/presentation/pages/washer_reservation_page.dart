@@ -2,7 +2,6 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/widgets/app_date_time_picker_row.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -290,15 +289,6 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
                           onConfirm: () => _onConfirm(ctx),
                           onCancel: () => context.safePopOrGo(Routes.washers),
                         ),
-                      SizedBox(height: 10.h),
-                      AppButton(
-                        text: l10n.bookingsPageTitle,
-                        onPressed: () => context.push(Routes.bookings),
-
-                        outlineSurfaceColor: AppColors.white,
-                        fontSize: 15.sp,
-                        height: 48.h,
-                      ),
                     ],
                   ),
                 ),
