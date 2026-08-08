@@ -315,6 +315,7 @@ class ProviderOrderDetailsLocationCard extends StatelessWidget {
               orderId: order.id ?? 0,
               userLat: order.deliveryLatitude,
               userLng: order.deliveryLongitude,
+              orderStatus: order.status,
             ),
           ),
         ),

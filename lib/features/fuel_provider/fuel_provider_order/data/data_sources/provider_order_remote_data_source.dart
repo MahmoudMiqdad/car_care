@@ -20,8 +20,9 @@ class FuelProviderOrderRemoteDataSource {
     return FuelOrderModel.fromJson(res);
   }
 
+  /// Backend route is PATCH /fuel_provider/orders/{id}/status
   Future<FuelOrderModel> completeOrder(int id) async {
-    final res = await _api.post(
+    final res = await _api.patch(
       endPoint: '${ApiEndpoints.fuelProvider}/orders/$id/status',
       data: {'status': 'completed'},
     );
@@ -44,14 +45,22 @@ class FuelProviderOrderRemoteDataSource {
     final res = await _api.get(endPoint: '${ApiEndpoints.fuelProvider}/available_orders');
     return FuelOrderListModel.fromJson(res);
   }
-    Future<FuelOrderModel> ShareLocation(int id  ,int latitude ,int longitude) async {
-    final res = await _api.post(endPoint: '${ApiEndpoints.fuelProvider}/orders/$id/location',
-    data: {
-    "latitude": latitude,
-    "longitude": longitude
-}
+  /// Coordinates must stay `double` — int truncation would move the pin by
+  /// tens of kilometres. Live sharing goes through
+  /// ShareFuelProviderLocationRemoteDataSource; this stays for parity.
+  Future<FuelOrderModel> shareLocation(
+    int id,
+    double latitude,
+    double longitude,
+  ) async {
+    final res = await _api.post(
+      endPoint: '${ApiEndpoints.fuelProvider}/orders/$id/location',
+      data: {
+        "latitude": latitude,
+        "longitude": longitude,
+      },
     );
-    
+
     return FuelOrderModel.fromJson(res);
   }
 }

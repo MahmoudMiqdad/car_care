@@ -24,8 +24,10 @@ class FuelProviderStatisticsRepositoryImpl
       ));
     } on ServerExpcptions catch (e) {
       return Left(e.error);
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+    } catch (_) {
+      return const Left(
+        Failure(message: 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'),
+      );
     }
   }
 }

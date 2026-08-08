@@ -56,6 +56,10 @@ class HomeBody extends StatelessWidget {
       case 4:
         context.go(Routes.customerAllProducts);
         break;
+      case 5:
+        // "الوقود" -> customer fuel orders list (its FAB creates a new order)
+        context.go(Routes.fuelorderslist);
+        break;
       default:
         debugPrint("No route defined for index $index");
     }

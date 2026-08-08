@@ -17,12 +17,28 @@ class FuelProviderMapWidget extends StatefulWidget {
   final int orderId;
   final double? userLat;
   final double? userLng;
+
+  /// Backend order status. Location is only shared while the order is active.
+  final String? orderStatus;
+
   const FuelProviderMapWidget({
     super.key,
     required this.orderId,
     this.userLat,
     this.userLng,
+    this.orderStatus,
   });
+
+  /// Terminal orders must never receive location updates.
+  bool get canShareLocation {
+    final status = orderStatus?.toLowerCase();
+    if (status == null) return true;
+    return status != 'completed' &&
+        status != 'delivered' &&
+        status != 'cancelled' &&
+        status != 'canceled';
+  }
+
   @override
   State<FuelProviderMapWidget> createState() => _FuelProviderMapWidgetState();
 }
@@ -50,10 +66,21 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
   }
 
   Future<void> _startSharingLocation() async {
-    final permission = await _requestPermission();
-    if (!permission) return;
+    // Never start a sharing session for a finished/cancelled order.
+    if (!widget.canShareLocation) {
+      if (mounted) {
+        AppSnackBar.error(
+          context,
+          'لا يمكن مشاركة الموقع لطلب منتهٍ أو ملغى',
+        );
+      }
+      return;
+    }
 
-    setState(() => _isSharing = true);
+    final ready = await _ensureLocationReady();
+    if (!ready) return;
+
+    if (mounted) setState(() => _isSharing = true);
 
     await _sendCurrentLocation();
 
@@ -63,41 +90,75 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
     );
   }
 
-  Future<bool> _requestPermission() async {
+  /// Checks the location service + permission once, showing a clear Arabic
+  /// message instead of failing silently.
+  Future<bool> _ensureLocationReady() async {
+    final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      if (mounted) {
+        AppSnackBar.error(
+          context,
+          'يرجى تفعيل خدمة الموقع من إعدادات الجهاز',
+        );
+      }
+      return false;
+    }
+
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
     }
+
     if (permission == LocationPermission.deniedForever) {
       if (mounted) {
-        AppSnackBar.error(context,"صلاحية الموقع مرفوضة");
+        AppSnackBar.error(
+          context,
+          'صلاحية الموقع مرفوضة نهائيًا، يرجى تفعيلها من إعدادات التطبيق',
+        );
       }
       return false;
     }
-    return permission == LocationPermission.whileInUse ||
-        permission == LocationPermission.always;
+
+    if (permission == LocationPermission.denied) {
+      if (mounted) {
+        AppSnackBar.error(
+          context,
+          'صلاحية الموقع مطلوبة لمشاركة موقعك مع العميل',
+        );
+      }
+      return false;
+    }
+
+    return true;
   }
 
   Future<void> _sendCurrentLocation() async {
+    // Stop the periodic sharing as soon as the order becomes terminal.
+    if (!widget.canShareLocation) {
+      _locationTimer?.cancel();
+      if (mounted) setState(() => _isSharing = false);
+      return;
+    }
+
     try {
       final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+        ),
       );
 
       final myLatLng = LatLng(position.latitude, position.longitude);
 
-      if (mounted) {
-        setState(() => _myLocation = myLatLng);
-        _mapController.move(myLatLng, _mapController.camera.zoom);
-      }
+      if (!mounted) return;
 
-      if (mounted) {
-        context.read<ShareFuelProviderLocationCubit>().shareLocation(
-              orderId: widget.orderId,
-              lat: position.latitude,
-              lng: position.longitude,
-            );
-      }
+      setState(() => _myLocation = myLatLng);
+      _mapController.move(myLatLng, _mapController.camera.zoom);
+
+      context.read<ShareFuelProviderLocationCubit>().shareLocation(
+            orderId: widget.orderId,
+            lat: position.latitude,
+            lng: position.longitude,
+          );
 
       if (widget.userLat != null && widget.userLng != null) {
         await _fetchRoute(
@@ -107,6 +168,9 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
       }
     } catch (e) {
       debugPrint('❌ Location error: $e');
+      if (mounted) {
+        AppSnackBar.error(context, 'تعذر تحديد موقعك الحالي، حاول مرة أخرى');
+      }
     }
   }
 
@@ -193,7 +257,11 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
         ShareFuelProviderLocationState>(
       listener: (context, state) {
         if (state is ShareFuelProviderLocationError) {
-    AppSnackBar.error(context, 'خطأ في إرسال الموقع: ${state.message}');
+          final msg = state.message.isEmpty ||
+                  state.message.startsWith('Instance of')
+              ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
+              : state.message;
+          AppSnackBar.error(context, 'خطأ في إرسال الموقع: $msg');
         }
       },
       child: Stack(

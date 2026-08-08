@@ -14,7 +14,7 @@ Future<void> getOrder(int id) async {
 
   res.fold(
   
- (l) => emit(FuelProviderOrderError(l.message)),
+ (l) => emit(FuelProviderOrderError(l.displayMessage)),
 (r) => emit(FuelProviderOrderDetailsLoaded(r))
     
   );
@@ -23,7 +23,7 @@ Future<void> getOrder(int id) async {
     emit(FuelProviderOrderLoading());
     final res = await _repo.acceptOrder(id);
     res.fold(
-      (l) => emit(FuelProviderOrderError(l.message)),
+      (l) => emit(FuelProviderOrderError(l.displayMessage)),
       (r) => emit(FuelProviderOrderAccepted(r)),
     );
   }
@@ -31,7 +31,7 @@ Future<void> getOrder(int id) async {
   Future<void> completeOrder(int id) async {
     final res = await _repo.completeOrder(id);
     res.fold(
-      (l) => emit(FuelProviderOrderError(l.message)),
+      (l) => emit(FuelProviderOrderError(l.displayMessage)),
       (r) => emit(FuelProviderOrderCompleted(r)),
     );
   }
@@ -39,7 +39,7 @@ Future<void> getOrder(int id) async {
   Future<void> cancelOrder(int id, String reason) async {
     final res = await _repo.cancelOrder(id, reason);
     res.fold(
-      (l) => emit(FuelProviderOrderError(l.message)),
+      (l) => emit(FuelProviderOrderError(l.displayMessage)),
       (r) => emit(FuelProviderOrderCancelled(r)),
     );
   }
@@ -48,7 +48,7 @@ Future<void> getOrder(int id) async {
     emit(FuelProviderOrderLoading());
     final res = await _repo.getMyOrders();
     res.fold(
-      (l) => emit(FuelProviderOrderError(l.message)),
+      (l) => emit(FuelProviderOrderError(l.displayMessage)),
       (r) => emit(FuelProviderOrdersListLoaded(r)),
     );
   }
@@ -57,7 +57,7 @@ Future<void> getAvailableOrders() async {
   emit(FuelProviderOrderLoading());
   final res = await _repo.getavailableOrders();
   res.fold(
-    (l) => emit(FuelProviderOrderError(l.message)),
+    (l) => emit(FuelProviderOrderError(l.displayMessage)),
     (r) => emit(FuelProviderOrdersListLoaded(r)),
   );
 }

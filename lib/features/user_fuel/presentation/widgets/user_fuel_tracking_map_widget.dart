@@ -1,4 +1,6 @@
 
+import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/location_helper.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/user_fuel/presentation/cubit/user_fuel_tracking_cubit/user_fuel_tracking_cubit.dart';
 import 'package:car_care/features/user_fuel/presentation/cubit/user_fuel_tracking_cubit/user_fuel_tracking_state.dart';
@@ -7,7 +9,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
 final _osrmDio = Dio(BaseOptions(
@@ -46,19 +47,18 @@ class _UserFuelTrackingMapWidgetState
   }
 
   Future<void> _goToMyLocation() async {
-    try {
-      LocationPermission permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) return;
-      }
-      if (permission == LocationPermission.deniedForever) return;
+    // Uses the shared guard so GPS-off / denied permission surface a clear
+    // Arabic message instead of doing nothing.
+    final location = await getCurrentLocation();
+    if (!mounted) return;
 
-      final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
-      _mapController.move(LatLng(position.latitude, position.longitude), 16);
-    } catch (_) {}
+    if (!location.isSuccess) {
+      AppSnackBar.error(context, location.errorMessage!);
+      return;
+    }
+
+    final position = location.position!;
+    _mapController.move(LatLng(position.latitude, position.longitude), 16);
   }
 
   Future<void> _fetchRoute(LatLng from, LatLng to) async {
@@ -217,6 +217,39 @@ class _UserFuelTrackingMapWidgetState
             ),
           ],
         ),
+        // Successful response but the provider has not posted a location yet.
+        // This is not an error — polling continues and the banner disappears
+        // as soon as a location arrives.
+        if (providerLocation == null)
+          Positioned(
+            top: 12,
+            left: 12,
+            right: 12,
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 10,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.black54,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Row(
+                children: [
+                  Icon(Icons.location_searching,
+                      color: Colors.white, size: 18),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'لم يشارك مزود الوقود موقعه بعد',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white, fontSize: 13),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         Positioned(
           bottom: 16,
           right: 16,

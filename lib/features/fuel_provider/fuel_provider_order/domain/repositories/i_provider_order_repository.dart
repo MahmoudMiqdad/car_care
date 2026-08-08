@@ -10,5 +10,10 @@ abstract class IFuelProviderOrderRepository {
   Future<Either<Failure, FuelOrderEntity>> cancelOrder(int id, String reason);
   Future<Either<Failure, List<FuelOrderEntity>>> getMyOrders();
   Future<Either<Failure, List<FuelOrderEntity>>> getavailableOrders();
-    Future<Either<Failure, FuelOrderEntity>> ShareLocation(int id  ,int latitude ,int longitude);
+  /// Coordinates are `double` — never int, to avoid truncating GPS precision.
+  Future<Either<Failure, FuelOrderEntity>> shareLocation(
+    int id,
+    double latitude,
+    double longitude,
+  );
 }
