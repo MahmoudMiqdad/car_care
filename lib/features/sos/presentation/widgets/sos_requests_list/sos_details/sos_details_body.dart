@@ -59,14 +59,30 @@ class SosDetailsBody extends StatelessWidget {
               lng: sos.lng,
             ),
             SizedBox(height: 22.h),
-            AppButton(
-              onPressed: onCancelTapped,
-              text: l10n.sosDetailsCancelRequest,
-              backgroundColor: AppColors.reservationConfirmOrange,
-              textColor: AppColors.white,
-              borderRadius: 14.r,
-              height: 52.h,
-            ),
+            // Only supplied when a technician is assigned, so tracking is
+            // never offered when there is no location to show.
+            if (onTrackTapped != null) ...[
+              AppButton(
+                onPressed: onTrackTapped,
+                text: 'تتبع الفني',
+                backgroundColor: AppColors.carWashTeal,
+                textColor: AppColors.white,
+                borderRadius: 14.r,
+                height: 52.h,
+              ),
+              SizedBox(height: 12.h),
+            ],
+            // Cancelling is only allowed while the request is still open;
+            // the backend can_cancel flag is kept as an extra safety check.
+            if (sos.status == 'open' && sos.canCancel == true)
+              AppButton(
+                onPressed: onCancelTapped,
+                text: l10n.sosDetailsCancelRequest,
+                backgroundColor: AppColors.reservationConfirmOrange,
+                textColor: AppColors.white,
+                borderRadius: 14.r,
+                height: 52.h,
+              ),
           ],
         ),
       ),

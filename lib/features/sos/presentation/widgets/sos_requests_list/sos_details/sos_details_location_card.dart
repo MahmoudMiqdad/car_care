@@ -4,7 +4,6 @@ import 'package:car_care/core/service/pusher_service.dart';
 import 'package:car_care/features/sos/domain/repositories/i_sos_repository.dart';
 import 'package:car_care/features/sos/presentation/cubit/tracking_cubit/tracking_cubit.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_section_card.dart';
-import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_track_chip.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_map_widget.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -72,34 +71,29 @@ class SosDetailsLocationCard extends StatelessWidget {
               ],
             ),
           ),
-
-          PositionedDirectional(
-            start: 12.w,
-            bottom: 12.h,
-            child: SosDetailsTrackChip(
-              label: l10n.sosDetailsTrack,
-              onTap: () => _openTrackingSheet(context),
-            ),
-          ),
+          // The old "تتبع" chip was removed — tracking is now a single
+          // "تتبع الفني" action on the details page.
         ],
       ),
     );
   }
+}
 
-  void _openTrackingSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => BlocProvider(
-        create: (_) => TrackingCubit(
-          getIt<ISosRepository>(),
-          PusherService(),
-        ),
-        child: _TrackingSheet(sosId: sosId),
+/// Opens the existing technician tracking sheet (TrackingCubit + SosMapWidget).
+/// Shared by the map chip and the "تتبع الفني" action on SOS details.
+void showSosTrackingSheet(BuildContext context, int sosId) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (_) => BlocProvider(
+      create: (_) => TrackingCubit(
+        getIt<ISosRepository>(),
+        PusherService(),
       ),
-    );
-  }
+      child: _TrackingSheet(sosId: sosId),
+    ),
+  );
 }
 
 

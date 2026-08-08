@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OrderDetailsEntityRow extends StatelessWidget {
- final String imageAsset;
+  /// Optional avatar asset. When null/empty, [placeholderIcon] is rendered —
+  /// used by the vehicle card, which has no image to show.
+  final String? imageAsset;
   final IconData placeholderIcon;
   final double avatarSize;
   final String title;
@@ -12,7 +14,7 @@ class OrderDetailsEntityRow extends StatelessWidget {
 
   const OrderDetailsEntityRow({
     super.key,
-   required this.imageAsset,
+    this.imageAsset,
     required this.placeholderIcon,
     required this.avatarSize,
     required this.title,
@@ -21,6 +23,9 @@ class OrderDetailsEntityRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final asset = imageAsset;
+    final hasAsset = asset != null && asset.isNotEmpty;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       textDirection: TextDirection.rtl,
@@ -28,19 +33,17 @@ class OrderDetailsEntityRow extends StatelessWidget {
         CircleAvatar(
           radius: avatarSize / 2,
           backgroundColor: AppColors.lightBorder,
-          child: ClipOval(
-            child: Image.asset(
-              imageAsset,
-              width: avatarSize,
-              height: avatarSize,
-              fit: BoxFit.cover,
-              errorBuilder: (_, _, _) => Icon(
-                placeholderIcon,
-                size: (avatarSize * 0.6).sp,
-                color: AppColors.lightTextSecondary,
-              ),
-            ),
-          ),
+          child: hasAsset
+              ? ClipOval(
+                  child: Image.asset(
+                    asset,
+                    width: avatarSize,
+                    height: avatarSize,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, _, _) => _placeholder(),
+                  ),
+                )
+              : _placeholder(),
         ),
         SizedBox(width: 14.w),
         Expanded(
@@ -62,6 +65,14 @@ class OrderDetailsEntityRow extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _placeholder() {
+    return Icon(
+      placeholderIcon,
+      size: (avatarSize * 0.6).sp,
+      color: AppColors.lightTextSecondary,
     );
   }
 }

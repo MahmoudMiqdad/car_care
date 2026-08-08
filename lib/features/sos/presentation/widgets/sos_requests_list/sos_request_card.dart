@@ -77,23 +77,19 @@ class SosRequestCard extends StatelessWidget {
                   SizedBox(width: 12.w),
                   Container(width: 1, color: AppColors.carWashTeal),
                   SizedBox(width: 12.w),
+                  // Real backend status only — no static three-state list.
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SosRequestStatusBadge(
-                        label: l10n.sosStatusFinished,
-                        style: SosRequestStatusBadgeStyle.outlineOnWhite,
-                      ),
-                      SizedBox(height: 8.h),
-                      SosRequestStatusBadge(
-                        label: l10n.sosStatusInProgress,
-                        style: SosRequestStatusBadgeStyle.softSuccess,
-                      ),
-                      SizedBox(height: 8.h),
-                      SosRequestStatusBadge(
-                        label: l10n.sosStatusWaiting,
-                        style: SosRequestStatusBadgeStyle.softSuccess,
+                        label: item.statusText?.trim().isNotEmpty == true
+                            ? item.statusText!
+                            : '-',
+                        style: item.status == 'completed' ||
+                                item.status == 'cancelled'
+                            ? SosRequestStatusBadgeStyle.outlineOnWhite
+                            : SosRequestStatusBadgeStyle.softSuccess,
                       ),
                     ],
                   ),

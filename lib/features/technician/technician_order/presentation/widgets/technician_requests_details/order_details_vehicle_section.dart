@@ -15,7 +15,8 @@ class OrderDetailsVehicleSection extends StatelessWidget {
     return OrderDetailsSectionCard(
       title: 'بيانات المركبة',
       child: OrderDetailsEntityRow(
-        imageAsset: 'assets/images/icons8-profile-picture-50.png',
+        // No vehicle image in the technician response, so show the vehicle
+        // placeholder icon instead of a person avatar.
         placeholderIcon: Icons.directions_car_outlined,
         avatarSize: AppConstants.vehicleAvatar,
         title: model.brand,
