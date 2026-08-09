@@ -2459,6 +2459,21 @@
   "providerStatisticsAllOrders": "All Reserved",
   "@providerStatisticsAllOrders": {
     "description": "Label for total orders count on provider statistics"
+  },
+  "advertisementSemanticLabel": "Advertisement",
+  "@advertisementSemanticLabel": {
+    "description": "Accessibility label for an advertisement card with no title"
+  },
+  "advertisementSemanticLabelWithTitle": "Advertisement: {title}",
+  "@advertisementSemanticLabelWithTitle": {
+    "description": "Accessibility label for an advertisement card, including its title",
+    "placeholders": {
+      "title": { "type": "String" }
+    }
+  },
+  "advertisementLinkOpenFailed": "Couldn't open the advertisement link",
+  "@advertisementLinkOpenFailed": {
+    "description": "Shown when tapping an advertisement fails to open its link"
   }
 }
 

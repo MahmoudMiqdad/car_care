@@ -2462,6 +2462,21 @@
   "providerStatisticsAllOrders": "All Reserved",
   "@providerStatisticsAllOrders": {
     "description": "تسمية إجمالي الطلبات في بطاقة الإحصائيات"
+  },
+  "advertisementSemanticLabel": "إعلان",
+  "@advertisementSemanticLabel": {
+    "description": "وصف لقارئ الشاشة لبطاقة إعلان بدون عنوان"
+  },
+  "advertisementSemanticLabelWithTitle": "إعلان: {title}",
+  "@advertisementSemanticLabelWithTitle": {
+    "description": "وصف لقارئ الشاشة لبطاقة إعلان مع عنوانه",
+    "placeholders": {
+      "title": { "type": "String" }
+    }
+  },
+  "advertisementLinkOpenFailed": "تعذر فتح رابط الإعلان",
+  "@advertisementLinkOpenFailed": {
+    "description": "رسالة تظهر عند فشل فتح رابط الإعلان بعد النقر عليه"
   }
 }
 

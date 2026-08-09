@@ -1,4 +1,8 @@
-﻿import 'package:car_care/core/local_storage/secure_storage.dart';
+import 'package:car_care/features/advertisements/data/data_sources/advertisement_remote_data_source.dart';
+import 'package:car_care/features/advertisements/data/repositories/advertisement_repository_impl.dart';
+import 'package:car_care/features/advertisements/domain/repositories/i_advertisement_repository.dart';
+import 'package:car_care/features/advertisements/presentation/cubit/advertisement_cubit.dart';
+import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/core/locale/locale_cubit.dart';
 import 'package:car_care/core/network/api_client.dart';
 import 'package:car_care/core/network/api_service.dart';
@@ -168,6 +172,7 @@ import 'package:car_care/features/vehicle/presentation/cubit/vehicle_details_cub
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/data/repository/bookings_repo_impl.dart';
+
 final GetIt getIt = GetIt.instance;
 
 Future<void> setupServiceLocator() async {
@@ -273,7 +278,7 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<TechnicianProfileCubit>(
       () => TechnicianProfileCubit(getIt<ITechnicianProfileRepository>()),
     )
-       ..registerFactory<TechnicianAvailabilityCubit>(
+    ..registerFactory<TechnicianAvailabilityCubit>(
       () => TechnicianAvailabilityCubit(getIt<ITechnicianProfileRepository>()),
     )
     //TechnicianQuotations
@@ -285,8 +290,7 @@ Future<void> setupServiceLocator() async {
         getIt<TechnicianQuotationsRemoteDataSource>(),
       ),
     )
-    //Technicianlocation 
- 
+    //Technicianlocation
     ..registerFactory<TechnicianLocationCubit>(
       () => TechnicianLocationCubit(getIt<ITechnicianProfileRepository>()),
     )
@@ -310,9 +314,8 @@ Future<void> setupServiceLocator() async {
       () => TechnicianJobsRemoteDataSource(getIt<ApiService>()),
     )
     ..registerLazySingleton<ITechnicianJobsRepository>(
-      () => TechnicianJobsRepositoryImpl(
-        getIt<TechnicianJobsRemoteDataSource>(),
-      ),
+      () =>
+          TechnicianJobsRepositoryImpl(getIt<TechnicianJobsRemoteDataSource>()),
     )
     ..registerFactory<TechnicianJobsCubit>(
       () => TechnicianJobsCubit(getIt<ITechnicianJobsRepository>()),
@@ -327,7 +330,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<AcceptedRequestsCubit>(
       () => AcceptedRequestsCubit(getIt<IRequestsRepository>()),
     )
-  
     ..registerFactory<CancelRequestCubit>(
       () => CancelRequestCubit(getIt<IRequestsRepository>()),
     )
@@ -356,12 +358,13 @@ Future<void> setupServiceLocator() async {
       () => CarWashBookingRemoteDataSource(getIt<ApiService>()),
     )
     ..registerLazySingleton<ICarWashBookingRepository>(
-      () => CarWashBookingRepositoryImpl(getIt<CarWashBookingRemoteDataSource>()),
+      () =>
+          CarWashBookingRepositoryImpl(getIt<CarWashBookingRemoteDataSource>()),
     )
     ..registerFactory<CarWashBookingCubit>(
       () => CarWashBookingCubit(getIt<ICarWashBookingRepository>()),
     )
-      ..registerLazySingleton<QuotationsRemoteDataSource>(
+    ..registerLazySingleton<QuotationsRemoteDataSource>(
       () => QuotationsRemoteDataSource(getIt<ApiService>()),
     )
     ..registerLazySingleton<IQuotationsRepository>(
@@ -380,245 +383,261 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<BookingsCubit>(
       () => BookingsCubit(getIt<IBookingsRepository>()),
     )
-//customer bookings
+    //customer bookings
     ..registerLazySingleton<CustomerBookingsRemoteDataSource>(
-  () => CustomerBookingsRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<ICustomerBookingsRepository>(
-  () => CustomerBookingsRepositoryImpl(getIt<CustomerBookingsRemoteDataSource>()),
-)
-..registerFactory<CustomerBookingsCubit>(
-  () => CustomerBookingsCubit(getIt<ICustomerBookingsRepository>()),
-)
-
-..registerLazySingleton<ProfileWasherRemoteDataSource>(
-  () => ProfileWasherRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<IProfileWasherRepository>(
-  () => ProfileWasherRepositoryImpl(getIt<ProfileWasherRemoteDataSource>()),
-)
-..registerFactory<ProfileWasherCubit>(
-  () => ProfileWasherCubit(getIt<IProfileWasherRepository>()),
-)
-..registerLazySingleton<SosRemoteDataSource>(
-  () => SosRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<ISosRepository>(
-  () => SosRepositoryImpl(getIt<SosRemoteDataSource>()),
-)
-..registerFactory<SosCubit>(
-  () => SosCubit(getIt<ISosRepository>()),
-
-)
-//
-..registerLazySingleton<TechnicianSosRemoteDataSource>(
-  () => TechnicianSosRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<ITechnicianSosRepository>(
-  () => TechnicianSosRepositoryImpl(getIt<TechnicianSosRemoteDataSource>()),
-)
-..registerFactory<TechnicianSosCubit>(
-  () => TechnicianSosCubit(getIt<ITechnicianSosRepository>()),
-
-)
-..registerFactory<ShareTechnicianLocationSosCubit>(
-  () => ShareTechnicianLocationSosCubit(getIt<ITechnicianSosRepository>()),
-
-)
-..registerLazySingleton<CarWasherStatisticsRemoteDataSource>(
-  () => CarWasherStatisticsRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<ICarWasherStatisticsRepository>(
-  () => CarWasherStatisticsRepositoryImpl(
-    getIt<CarWasherStatisticsRemoteDataSource>(),
-  ),
-)
-..registerFactory<CarWasherStatisticsCubit>(
-  () => CarWasherStatisticsCubit(getIt<ICarWasherStatisticsRepository>()),
-)
-
-..registerLazySingleton<RatingsRemoteDataSource>(
-  () => RatingsRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<IRatingsRepository>(
-  () => RatingsRepositoryImpl(getIt<RatingsRemoteDataSource>()),
-)
-..registerFactory<RatingsCubit>(
-  () => RatingsCubit(getIt<IRatingsRepository>()),
-)
-
-// CarWasherRatings (washer owner view)
-..registerLazySingleton<CarWasherRatingsRemoteDataSource>(
-  () => CarWasherRatingsRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<ICarWasherRatingsRepository>(
-  () => CarWasherRatingsRepoImpl(getIt<CarWasherRatingsRemoteDataSource>()),
-)
-..registerFactory<CarWasherRatingsCubit>(
-  () => CarWasherRatingsCubit(getIt<ICarWasherRatingsRepository>()),
-)
-//FULE
-..registerLazySingleton<FuelProviderOrderRemoteDataSource>(
-  () => FuelProviderOrderRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<IFuelProviderOrderRepository>(
-  () => FuelProviderOrderRepositoryImpl(getIt<FuelProviderOrderRemoteDataSource>()),
-)
-..registerFactory<FuelProviderOrderCubit>(
-  () => FuelProviderOrderCubit(getIt<IFuelProviderOrderRepository>()),
-)
-//statisticsFULE
-..registerLazySingleton<FuelProviderStatisticsRemoteDataSource>(
-  () => FuelProviderStatisticsRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<IFuelProviderStatisticsRepository>(
-  () => FuelProviderStatisticsRepositoryImpl(getIt<FuelProviderStatisticsRemoteDataSource>()),
-)
-..registerFactory<FuelProviderStatisticsCubit>(
-  () => FuelProviderStatisticsCubit(getIt<IFuelProviderStatisticsRepository>()),
-)
-//FuelProviderProfile
-..registerLazySingleton<FuelProviderProfileRemoteDataSource>(
-  () => FuelProviderProfileRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<IFuelProviderProfileRepository>(
-  () => FuelProviderProfileRepositoryImpl(getIt<FuelProviderProfileRemoteDataSource>()),
-)
-..registerFactory<FuelProviderProfileCubit>(
-  () => FuelProviderProfileCubit(getIt<IFuelProviderProfileRepository>()),
-)
-//UserFuel
-..registerLazySingleton<UserFuelRemoteDataSource>(
-  () => UserFuelRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<IUserFuelRepository>(
-  () => UserFuelRepositoryImpl(getIt<UserFuelRemoteDataSource>()),
-)
-..registerFactory<UserFuelCubit>(
-  () => UserFuelCubit(getIt<IUserFuelRepository>()),
-  
-)
-..registerFactory<UserFuelTrackingCubit>(
-  () => UserFuelTrackingCubit(getIt<IUserFuelRepository>()),)
-//ShareFuelProviderLocation 
-..registerLazySingleton<ShareFuelProviderLocationRemoteDataSource>(
-  () => ShareFuelProviderLocationRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<IShareFuelProviderLocationRepository>(
-  () => ShareFuelProviderLocationRepositoryImpl(getIt<ShareFuelProviderLocationRemoteDataSource>()),
-)
-..registerFactory<ShareFuelProviderLocationCubit>(
-  () => ShareFuelProviderLocationCubit(getIt<IShareFuelProviderLocationRepository>()),
-  )
-//SpareParts Store - Products
-..registerLazySingleton<ProductsRemoteDataSource>(
-  () => ProductsRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<IProductsRepository>(
-  () => ProductsRepositoryImpl(getIt<ProductsRemoteDataSource>()),
-)
-..registerFactory<ProductDetailsCubit>(
-  () => ProductDetailsCubit(getIt<IProductsRepository>()),
-)
-..registerFactory<AllProductsCubit>(
-  () => AllProductsCubit(getIt<IProductsRepository>()),
-)
-//SpareParts Store - Shops
-..registerLazySingleton<ShopsRemoteDataSource>(
-  () => ShopsRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<IShopsRepository>(
-  () => ShopsRepositoryImpl(getIt<ShopsRemoteDataSource>()),
-)
-..registerFactory<ShopsListCubit>(
-  () => ShopsListCubit(getIt<IShopsRepository>()),
-)
-..registerFactory<ShopDetailsCubit>(
-  () => ShopDetailsCubit(getIt<IShopsRepository>()),
-)
-..registerFactory<ShopProductsCubit>(
-  () => ShopProductsCubit(getIt<IShopsRepository>()),
-)
-//SpareParts Store - Cart
-..registerLazySingleton<CartRemoteDataSource>(
-  () => CartRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<ICartRepository>(
-  () => CartRepositoryImpl(getIt<CartRemoteDataSource>()),
-)
-..registerFactory<AddToCartCubit>(
-  () => AddToCartCubit(getIt<ICartRepository>()),
-)
-..registerFactory<CartCubit>(
-  () => CartCubit(getIt<ICartRepository>()),
-)
-//SpareParts Store - Checkout
-..registerLazySingleton<CheckoutRemoteDataSource>(
-  () => CheckoutRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<ICheckoutRepository>(
-  () => CheckoutRepositoryImpl(getIt<CheckoutRemoteDataSource>()),
-)
-..registerFactory<CreateOrderCubit>(
-  () => CreateOrderCubit(getIt<ICheckoutRepository>()),
-)
-//SpareParts Store - Customer Orders
-..registerLazySingleton<CustomerOrdersRemoteDataSource>(
-  () => CustomerOrdersRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<ICustomerOrdersRepository>(
-  () => CustomerOrdersRepositoryImpl(getIt<CustomerOrdersRemoteDataSource>()),
-)
-..registerFactory<OrderDetailsCubit>(
-  () => OrderDetailsCubit(getIt<ICustomerOrdersRepository>()),
-)
-..registerFactory<CustomerOrdersCubit>(
-  () => CustomerOrdersCubit(getIt<ICustomerOrdersRepository>()),
-)
-//SpareParts Store - Owner Profile
-..registerLazySingleton<OwnerProfileRemoteDataSource>(
-  () => OwnerProfileRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<IOwnerProfileRepository>(
-  () => OwnerProfileRepositoryImpl(getIt<OwnerProfileRemoteDataSource>()),
-)
-..registerFactory<OwnerProfileCubit>(
-  () => OwnerProfileCubit(getIt<IOwnerProfileRepository>()),
-)
-//SpareParts Store - Owner Orders
-..registerLazySingleton<OwnerOrdersRemoteDataSource>(
-  () => OwnerOrdersRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<IOwnerOrdersRepository>(
-  () => OwnerOrdersRepositoryImpl(getIt<OwnerOrdersRemoteDataSource>()),
-)
-..registerFactory<OwnerOrdersCubit>(
-  () => OwnerOrdersCubit(getIt<IOwnerOrdersRepository>()),
-)
-..registerFactory<OwnerOrderDetailsCubit>(
-  () => OwnerOrderDetailsCubit(getIt<IOwnerOrdersRepository>()),
-)
-//SpareParts Store - Owner Share Location (Delivery)
-..registerLazySingleton<OwnerShareLocationRemoteDataSource>(
-  () => OwnerShareLocationRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<IOwnerShareLocationRepository>(
-  () => OwnerShareLocationRepositoryImpl(
-      getIt<OwnerShareLocationRemoteDataSource>()),
-)
-..registerFactory<OwnerShareLocationCubit>(
-  () => OwnerShareLocationCubit(getIt<IOwnerShareLocationRepository>()),
-)
-//SpareParts Store - Customer Delivery Tracking
-..registerLazySingleton<SpareOrderTrackRemoteDataSource>(
-  () => SpareOrderTrackRemoteDataSource(getIt<ApiService>()),
-)
-..registerLazySingleton<ISpareOrderTrackRepository>(
-  () => SpareOrderTrackRepositoryImpl(
-      getIt<SpareOrderTrackRemoteDataSource>()),
-)
-..registerFactory<CustomerDeliveryTrackingCubit>(
-  () =>
-      CustomerDeliveryTrackingCubit(getIt<ISpareOrderTrackRepository>()),
-  );
+      () => CustomerBookingsRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<ICustomerBookingsRepository>(
+      () => CustomerBookingsRepositoryImpl(
+        getIt<CustomerBookingsRemoteDataSource>(),
+      ),
+    )
+    ..registerFactory<CustomerBookingsCubit>(
+      () => CustomerBookingsCubit(getIt<ICustomerBookingsRepository>()),
+    )
+    ..registerLazySingleton<ProfileWasherRemoteDataSource>(
+      () => ProfileWasherRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<IProfileWasherRepository>(
+      () => ProfileWasherRepositoryImpl(getIt<ProfileWasherRemoteDataSource>()),
+    )
+    ..registerFactory<ProfileWasherCubit>(
+      () => ProfileWasherCubit(getIt<IProfileWasherRepository>()),
+    )
+    ..registerLazySingleton<SosRemoteDataSource>(
+      () => SosRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<ISosRepository>(
+      () => SosRepositoryImpl(getIt<SosRemoteDataSource>()),
+    )
+    ..registerFactory<SosCubit>(() => SosCubit(getIt<ISosRepository>()))
+    //
+    ..registerLazySingleton<TechnicianSosRemoteDataSource>(
+      () => TechnicianSosRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<ITechnicianSosRepository>(
+      () => TechnicianSosRepositoryImpl(getIt<TechnicianSosRemoteDataSource>()),
+    )
+    ..registerFactory<TechnicianSosCubit>(
+      () => TechnicianSosCubit(getIt<ITechnicianSosRepository>()),
+    )
+    ..registerFactory<ShareTechnicianLocationSosCubit>(
+      () => ShareTechnicianLocationSosCubit(getIt<ITechnicianSosRepository>()),
+    )
+    ..registerLazySingleton<CarWasherStatisticsRemoteDataSource>(
+      () => CarWasherStatisticsRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<ICarWasherStatisticsRepository>(
+      () => CarWasherStatisticsRepositoryImpl(
+        getIt<CarWasherStatisticsRemoteDataSource>(),
+      ),
+    )
+    ..registerFactory<CarWasherStatisticsCubit>(
+      () => CarWasherStatisticsCubit(getIt<ICarWasherStatisticsRepository>()),
+    )
+    ..registerLazySingleton<RatingsRemoteDataSource>(
+      () => RatingsRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<IRatingsRepository>(
+      () => RatingsRepositoryImpl(getIt<RatingsRemoteDataSource>()),
+    )
+    ..registerFactory<RatingsCubit>(
+      () => RatingsCubit(getIt<IRatingsRepository>()),
+    )
+    // CarWasherRatings (washer owner view)
+    ..registerLazySingleton<CarWasherRatingsRemoteDataSource>(
+      () => CarWasherRatingsRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<ICarWasherRatingsRepository>(
+      () => CarWasherRatingsRepoImpl(getIt<CarWasherRatingsRemoteDataSource>()),
+    )
+    ..registerFactory<CarWasherRatingsCubit>(
+      () => CarWasherRatingsCubit(getIt<ICarWasherRatingsRepository>()),
+    )
+    //FULE
+    ..registerLazySingleton<FuelProviderOrderRemoteDataSource>(
+      () => FuelProviderOrderRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<IFuelProviderOrderRepository>(
+      () => FuelProviderOrderRepositoryImpl(
+        getIt<FuelProviderOrderRemoteDataSource>(),
+      ),
+    )
+    ..registerFactory<FuelProviderOrderCubit>(
+      () => FuelProviderOrderCubit(getIt<IFuelProviderOrderRepository>()),
+    )
+    //statisticsFULE
+    ..registerLazySingleton<FuelProviderStatisticsRemoteDataSource>(
+      () => FuelProviderStatisticsRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<IFuelProviderStatisticsRepository>(
+      () => FuelProviderStatisticsRepositoryImpl(
+        getIt<FuelProviderStatisticsRemoteDataSource>(),
+      ),
+    )
+    ..registerFactory<FuelProviderStatisticsCubit>(
+      () => FuelProviderStatisticsCubit(
+        getIt<IFuelProviderStatisticsRepository>(),
+      ),
+    )
+    //FuelProviderProfile
+    ..registerLazySingleton<FuelProviderProfileRemoteDataSource>(
+      () => FuelProviderProfileRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<IFuelProviderProfileRepository>(
+      () => FuelProviderProfileRepositoryImpl(
+        getIt<FuelProviderProfileRemoteDataSource>(),
+      ),
+    )
+    ..registerFactory<FuelProviderProfileCubit>(
+      () => FuelProviderProfileCubit(getIt<IFuelProviderProfileRepository>()),
+    )
+    //UserFuel
+    ..registerLazySingleton<UserFuelRemoteDataSource>(
+      () => UserFuelRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<IUserFuelRepository>(
+      () => UserFuelRepositoryImpl(getIt<UserFuelRemoteDataSource>()),
+    )
+    ..registerFactory<UserFuelCubit>(
+      () => UserFuelCubit(getIt<IUserFuelRepository>()),
+    )
+    ..registerFactory<UserFuelTrackingCubit>(
+      () => UserFuelTrackingCubit(getIt<IUserFuelRepository>()),
+    )
+    //ShareFuelProviderLocation
+    ..registerLazySingleton<ShareFuelProviderLocationRemoteDataSource>(
+      () => ShareFuelProviderLocationRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<IShareFuelProviderLocationRepository>(
+      () => ShareFuelProviderLocationRepositoryImpl(
+        getIt<ShareFuelProviderLocationRemoteDataSource>(),
+      ),
+    )
+    ..registerFactory<ShareFuelProviderLocationCubit>(
+      () => ShareFuelProviderLocationCubit(
+        getIt<IShareFuelProviderLocationRepository>(),
+      ),
+    )
+    //SpareParts Store - Products
+    ..registerLazySingleton<ProductsRemoteDataSource>(
+      () => ProductsRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<IProductsRepository>(
+      () => ProductsRepositoryImpl(getIt<ProductsRemoteDataSource>()),
+    )
+    ..registerFactory<ProductDetailsCubit>(
+      () => ProductDetailsCubit(getIt<IProductsRepository>()),
+    )
+    ..registerFactory<AllProductsCubit>(
+      () => AllProductsCubit(getIt<IProductsRepository>()),
+    )
+    //SpareParts Store - Shops
+    ..registerLazySingleton<ShopsRemoteDataSource>(
+      () => ShopsRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<IShopsRepository>(
+      () => ShopsRepositoryImpl(getIt<ShopsRemoteDataSource>()),
+    )
+    ..registerFactory<ShopsListCubit>(
+      () => ShopsListCubit(getIt<IShopsRepository>()),
+    )
+    ..registerFactory<ShopDetailsCubit>(
+      () => ShopDetailsCubit(getIt<IShopsRepository>()),
+    )
+    ..registerFactory<ShopProductsCubit>(
+      () => ShopProductsCubit(getIt<IShopsRepository>()),
+    )
+    //SpareParts Store - Cart
+    ..registerLazySingleton<CartRemoteDataSource>(
+      () => CartRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<ICartRepository>(
+      () => CartRepositoryImpl(getIt<CartRemoteDataSource>()),
+    )
+    ..registerFactory<AddToCartCubit>(
+      () => AddToCartCubit(getIt<ICartRepository>()),
+    )
+    ..registerFactory<CartCubit>(() => CartCubit(getIt<ICartRepository>()))
+    //SpareParts Store - Checkout
+    ..registerLazySingleton<CheckoutRemoteDataSource>(
+      () => CheckoutRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<ICheckoutRepository>(
+      () => CheckoutRepositoryImpl(getIt<CheckoutRemoteDataSource>()),
+    )
+    ..registerFactory<CreateOrderCubit>(
+      () => CreateOrderCubit(getIt<ICheckoutRepository>()),
+    )
+    //SpareParts Store - Customer Orders
+    ..registerLazySingleton<CustomerOrdersRemoteDataSource>(
+      () => CustomerOrdersRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<ICustomerOrdersRepository>(
+      () =>
+          CustomerOrdersRepositoryImpl(getIt<CustomerOrdersRemoteDataSource>()),
+    )
+    ..registerFactory<OrderDetailsCubit>(
+      () => OrderDetailsCubit(getIt<ICustomerOrdersRepository>()),
+    )
+    ..registerFactory<CustomerOrdersCubit>(
+      () => CustomerOrdersCubit(getIt<ICustomerOrdersRepository>()),
+    )
+    //SpareParts Store - Owner Profile
+    ..registerLazySingleton<OwnerProfileRemoteDataSource>(
+      () => OwnerProfileRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<IOwnerProfileRepository>(
+      () => OwnerProfileRepositoryImpl(getIt<OwnerProfileRemoteDataSource>()),
+    )
+    ..registerFactory<OwnerProfileCubit>(
+      () => OwnerProfileCubit(getIt<IOwnerProfileRepository>()),
+    )
+    //SpareParts Store - Owner Orders
+    ..registerLazySingleton<OwnerOrdersRemoteDataSource>(
+      () => OwnerOrdersRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<IOwnerOrdersRepository>(
+      () => OwnerOrdersRepositoryImpl(getIt<OwnerOrdersRemoteDataSource>()),
+    )
+    ..registerFactory<OwnerOrdersCubit>(
+      () => OwnerOrdersCubit(getIt<IOwnerOrdersRepository>()),
+    )
+    ..registerFactory<OwnerOrderDetailsCubit>(
+      () => OwnerOrderDetailsCubit(getIt<IOwnerOrdersRepository>()),
+    )
+    //SpareParts Store - Owner Share Location (Delivery)
+    ..registerLazySingleton<OwnerShareLocationRemoteDataSource>(
+      () => OwnerShareLocationRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<IOwnerShareLocationRepository>(
+      () => OwnerShareLocationRepositoryImpl(
+        getIt<OwnerShareLocationRemoteDataSource>(),
+      ),
+    )
+    ..registerFactory<OwnerShareLocationCubit>(
+      () => OwnerShareLocationCubit(getIt<IOwnerShareLocationRepository>()),
+    )
+    //SpareParts Store - Customer Delivery Tracking
+    ..registerLazySingleton<SpareOrderTrackRemoteDataSource>(
+      () => SpareOrderTrackRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<ISpareOrderTrackRepository>(
+      () => SpareOrderTrackRepositoryImpl(
+        getIt<SpareOrderTrackRemoteDataSource>(),
+      ),
+    )
+    ..registerFactory<CustomerDeliveryTrackingCubit>(
+      () => CustomerDeliveryTrackingCubit(getIt<ISpareOrderTrackRepository>()),
+    )
+    //Advertisements
+    ..registerLazySingleton<AdvertisementRemoteDataSource>(
+      () => AdvertisementRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<IAdvertisementRepository>(
+      () => AdvertisementRepositoryImpl(getIt<AdvertisementRemoteDataSource>()),
+    )
+    ..registerFactory<AdvertisementCubit>(
+      () => AdvertisementCubit(getIt<IAdvertisementRepository>()),
+    );
 }
