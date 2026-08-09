@@ -1672,4 +1672,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get providerStatisticsAllOrders => 'All Reserved';
+
+  @override
+  String get advertisementSemanticLabel => 'Advertisement';
+
+  @override
+  String advertisementSemanticLabelWithTitle(String title) {
+    return 'Advertisement: $title';
+  }
+
+  @override
+  String get advertisementLinkOpenFailed => 'Couldn\'t open the advertisement link';
 }
