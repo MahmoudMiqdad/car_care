@@ -10,11 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProviderOrderCard extends StatelessWidget {
-  const ProviderOrderCard({
-    super.key,
-    required this.order,
-    this.onViewDetails,
-  });
+  const ProviderOrderCard({super.key, required this.order, this.onViewDetails});
 
   final FuelOrderEntity order;
   final VoidCallback? onViewDetails;
@@ -87,7 +83,7 @@ class ProviderOrderCard extends StatelessWidget {
                     children: [
                       SosRequestStatusBadge(
                         label: order.statusText ?? '-',
-                        style: SosRequestStatusBadgeStyle.softSuccess,
+                        style: sosRequestStatusBadgeStyleFor(order.status),
                       ),
                     ],
                   ),

@@ -6,7 +6,6 @@ import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/error_state_widget.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
-import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
 import 'package:car_care/features/technician/technician_jobs/domain/entities/technician_jobs_entity.dart';
 import 'package:car_care/features/technician/technician_jobs/presentation/cubit/technician_jobs_cubit.dart';
 import 'package:car_care/features/technician/technician_jobs/presentation/cubit/technician_jobs_state.dart';
@@ -16,7 +15,6 @@ import 'package:car_care/features/vehicle/presentation/widgets/MyVehicles/Refres
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 class TechnicianJobsPage extends StatelessWidget {
   const TechnicianJobsPage({super.key});
@@ -49,15 +47,12 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
   /// Maps the backend job status to the card's colour bucket + Arabic label.
   static (TechnicianJobCardStatus, String) _statusOf(String status) {
     return switch (status.toLowerCase()) {
-      'rejected' || 'cancelled' || 'canceled' => (
-          TechnicianJobCardStatus.rejected,
-          'ملغي',
-        ),
+      'rejected' ||
+      'cancelled' ||
+      'canceled' => (TechnicianJobCardStatus.rejected, 'ملغي'),
       'completed' => (TechnicianJobCardStatus.waiting, 'مكتمل'),
-      'in_progress' || 'in-progress' => (
-          TechnicianJobCardStatus.waiting,
-          'قيد التنفيذ',
-        ),
+      'in_progress' ||
+      'in-progress' => (TechnicianJobCardStatus.waiting, 'قيد التنفيذ'),
       'assigned' => (TechnicianJobCardStatus.waiting, 'مُسند'),
       'accepted' => (TechnicianJobCardStatus.waiting, 'مقبول'),
       _ => (TechnicianJobCardStatus.waiting, 'إنتظار'),
@@ -79,8 +74,7 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
       vehicle: job.vehicleLabel,
       appointmentDate: _formatDate(job.scheduledDate),
       // Hidden entirely when the backend has no quotation price.
-      priceOffer:
-          job.quotationPrice == null ? null : '\$${job.quotationPrice}',
+      priceOffer: job.quotationPrice == null ? null : '\$${job.quotationPrice}',
     );
   }
 
@@ -88,10 +82,9 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
   void _startJob(JobEntity job) {
     if (_busyJobId != null) return;
     setState(() => _busyJobId = job.id.toString());
-    context.read<TechnicianJobsCubit>().updateJobStatus(
-      {'status': 'in_progress'},
-      job.id.toString(),
-    );
+    context.read<TechnicianJobsCubit>().updateJobStatus({
+      'status': 'in_progress',
+    }, job.id.toString());
   }
 
   /// PATCH /technician/jobs/{ServiceJob id}/status
@@ -104,10 +97,10 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
     if (notes == null || !mounted) return;
 
     setState(() => _busyJobId = job.id.toString());
-    await cubit.updateJobStatus(
-      {'status': 'completed', 'completion_notes': notes},
-      job.id.toString(),
-    );
+    await cubit.updateJobStatus({
+      'status': 'completed',
+      'completion_notes': notes,
+    }, job.id.toString());
   }
 
   @override
@@ -121,12 +114,6 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
           title: 'أعمالي',
           showBackButton: true,
           fallbackRoute: Routes.more,
-        ),
-        bottomNavigationBar: HomeBottomNavBar(
-          activeIndex: -1,
-          onItemSelected: (index) {
-            if (index == 0) context.go(Routes.home);
-          },
         ),
         body: ImageBackground(
           child: SafeArea(
@@ -149,7 +136,8 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
                 }
                 if (state is JobStatusError) {
                   setState(() => _busyJobId = null);
-                  final msg = state.message.isEmpty ||
+                  final msg =
+                      state.message.isEmpty ||
                           state.message.startsWith('Instance of')
                       ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
                       : state.message;
@@ -164,7 +152,8 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
 
                 if (state is TechnicianJobsError) {
                   return ErrorStateWidget(
-                    message: state.message.isEmpty ||
+                    message:
+                        state.message.isEmpty ||
                             state.message.startsWith('Instance of')
                         ? 'حدث خطأ أثناء تحميل الأعمال'
                         : state.message,

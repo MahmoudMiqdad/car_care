@@ -164,6 +164,7 @@ import 'package:car_care/features/vehicle/data/data_sources/vehicle_remote_data_
 import 'package:car_care/features/vehicle/domain/repositories/i_vehicle_repository.dart';
 import 'package:car_care/features/vehicle/data/repositories/vehicle_repos_impl.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/delete_vehicle/vehicle_delete_cubit.dart';
+import 'package:car_care/features/vehicle/presentation/cubit/fuel_logs/fuel_logs_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/maintenance_history/maintenance_history_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/update_vehicle/vehicle_update_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_add_cubit/vehicle_add_cubit.dart';
@@ -225,6 +226,9 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<VehicleDeleteCubit>(() => VehicleDeleteCubit(getIt()))
     ..registerFactory(
       () => MaintenanceHistoryCubit(getIt<IVehicleRepository>()),
+    )
+    ..registerFactory<FuelLogsCubit>(
+      () => FuelLogsCubit(getIt<IVehicleRepository>()),
     )
     // Technician statistics
     ..registerLazySingleton<TechnicianStatisticsRemoteDataSource>(

@@ -86,10 +86,7 @@ class SosRequestCard extends StatelessWidget {
                         label: item.statusText?.trim().isNotEmpty == true
                             ? item.statusText!
                             : '-',
-                        style: item.status == 'completed' ||
-                                item.status == 'cancelled'
-                            ? SosRequestStatusBadgeStyle.outlineOnWhite
-                            : SosRequestStatusBadgeStyle.softSuccess,
+                        style: sosRequestStatusBadgeStyleFor(item.status),
                       ),
                     ],
                   ),
@@ -101,7 +98,6 @@ class SosRequestCard extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 14.w),
             child: Column(
               children: [
-           
                 SizedBox(height: 10.h),
                 AppButton(
                   onPressed: () {

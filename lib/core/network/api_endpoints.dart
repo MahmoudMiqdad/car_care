@@ -13,6 +13,8 @@ class ApiEndpoints {
   static String vehicleMaintenanceHistory(int id) =>
       '${vehicleById(id)}/maintenance';
 
+  static String vehicleFuelLogs(int id) => '${vehicleById(id)}/fuel-logs';
+
   //profile
   static const String updateprofile = '/profile';
   static const String updatepassword = '/profile/password';

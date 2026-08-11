@@ -52,21 +52,32 @@ class AiAssistantButton extends StatelessWidget {
             child: InkWell(
               customBorder: const CircleBorder(),
               onTap: onPressed,
+              // Chat bubble (outline, so it frames rather than hides the car
+              // icon) + a small car-front glyph + a spark accent — reads as
+              // "AI chat about your car" without any text in the button.
               child: Stack(
                 alignment: Alignment.center,
                 children: [
                   Icon(
-                    Icons.chat_bubble_rounded,
+                    Icons.chat_bubble_outline_rounded,
                     color: Colors.white,
-                    size: diameter * 0.52,
+                    size: diameter * 0.62,
+                  ),
+                  Align(
+                    alignment: const Alignment(0, -0.12),
+                    child: Icon(
+                      Icons.directions_car_rounded,
+                      color: Colors.white,
+                      size: diameter * 0.30,
+                    ),
                   ),
                   Positioned(
-                    right: diameter * 0.16,
-                    top: diameter * 0.14,
+                    right: diameter * 0.14,
+                    top: diameter * 0.12,
                     child: Icon(
                       Icons.auto_awesome_rounded,
                       color: Colors.white,
-                      size: diameter * 0.30,
+                      size: diameter * 0.24,
                     ),
                   ),
                 ],

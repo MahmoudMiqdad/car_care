@@ -2,10 +2,8 @@ import 'package:car_care/features/technician/technician_quotations/domain/reposi
 import 'package:car_care/features/technician/technician_quotations/presentation/cubit/technician_quotations_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class SubmitQuotationCubit extends Cubit<SubmitQuotationState> {
-  SubmitQuotationCubit(this._repository)
-      : super(SubmitQuotationInitial());
+  SubmitQuotationCubit(this._repository) : super(SubmitQuotationInitial());
 
   final ITechnicianQuotationsRepository _repository;
 
@@ -15,11 +13,10 @@ class SubmitQuotationCubit extends Cubit<SubmitQuotationState> {
   ) async {
     emit(SubmitQuotationLoading());
 
-    final result =
-        await _repository.submitQuotation(data, requestId);
+    final result = await _repository.submitQuotation(data, requestId);
 
     result.fold(
-      (failure) => emit(SubmitQuotationError(failure.message)),
+      (failure) => emit(SubmitQuotationError(failure.displayMessage)),
       (data) => emit(SubmitQuotationSuccess(data)),
     );
   }

@@ -61,6 +61,7 @@ import 'package:car_care/features/user_fuel/presentation/pages/fuel_sos_create_p
 import 'package:car_care/features/user_profile/presentation/pages/profile_page.dart';
 import 'package:car_care/features/user_profile/presentation/widgets/delete_confirmation_dialog.dart';
 import 'package:car_care/features/vehicle/presentation/pages/maintenance_history_page.dart';
+import 'package:car_care/features/vehicle/presentation/pages/vehicle_fuel_logs_page.dart';
 import 'package:car_care/features/user_profile/presentation/pages/change_password_page.dart';
 import 'package:car_care/features/vehicle/presentation/pages/vehicle_details_page.dart';
 import 'package:car_care/features/vehicle/presentation/pages/add_vehicle_page.dart';
@@ -128,9 +129,9 @@ class AppRouter {
         builder: (context, state, child) {
           final location = state.matchedLocation;
           final bottomNavIndex = switch (location) {
-            Routes.notifications => 1,
-            Routes.all_requests => 2,
             Routes.home => 0,
+            Routes.notifications => 1,
+            Routes.create_sos => 2,
             Routes.more => 3,
             _ => -1,
           };
@@ -146,7 +147,7 @@ class AppRouter {
                     context.go(Routes.notifications);
                     break;
                   case 2:
-                    context.go(Routes.all_requests);
+                    context.go(Routes.create_sos);
                     break;
                   case 3:
                     context.go(Routes.more);
@@ -163,6 +164,11 @@ class AppRouter {
             child: child,
           );
         },
+        // Exactly the 4 customer root-tab destinations live here. Every other
+        // route is a true top-level sibling of this ShellRoute in
+        // GoRouter.routes (see below) — none of them may be nested inside
+        // this routes list, since go_router requires a nested route's
+        // parentNavigatorKey to match its literal parent's navigatorKey.
         routes: [
           GoRoute(
             path: Routes.home,
@@ -170,225 +176,236 @@ class AppRouter {
             builder: (context, state) => const HomePage(),
           ),
           GoRoute(
-            path: Routes.more,
-            name: '/more',
-            builder: (context, state) => const MorePage(),
-          ),
-
-          GoRoute(
-            path: Routes.allUserSosRequests,
-            name: '/sos',
-            builder: (context, state) => const AllUserSosRequests(),
-          ),
-          GoRoute(
-            path: '/userSosDetailss/:id',
-            name: 'sosDetails',
-            builder: (context, state) {
-              final id = int.parse(state.pathParameters['id']!);
-              return SosDetailsPage(id: id);
-            },
-          ),
-          GoRoute(
-            path: Routes.technician_sos_requests,
-            name: '/all_technician_sos_requests',
-            builder: (context, state) {
-              // extra selects available (default) vs my accepted SOS requests.
-              final type = state.extra is SosRequestType
-                  ? state.extra as SosRequestType
-                  : SosRequestType.available;
-              return TechnicianStatusGate(
-                child: AllTechnicianSosRequests(type: type),
-              );
-            },
-          ),
-          GoRoute(
-            path: '/technicianSosDetails/:id',
-            name: 'SosTechnicianDetailsPage',
-            builder: (context, state) {
-              final id = int.parse(state.pathParameters['id']!);
-              return TechnicianStatusGate(
-                child: SosTechnicianDetailsPage(id: id),
-              );
-            },
-          ),
-          GoRoute(
             path: Routes.notifications,
             name: '/notifications',
             builder: (context, state) => const NotificationsPage(),
           ),
           GoRoute(
-            path: Routes.all_requests,
-            name: '/all_requests_stats_page',
-            builder: (context, state) => const AllRequestsStatsPage(),
+            path: Routes.create_sos,
+            name: '/Create_sos_page_wrapper',
+            builder: (context, state) => const CreateSosPageWrapper(),
           ),
           GoRoute(
-            path: Routes.washers,
-            name: '/washers',
-            builder: (context, state) => const WashersPage(),
-          ),
-          GoRoute(
-            path: Routes.washerDetails,
-            name: 'washerDetails',
-            builder: (context, state) {
-              final washer = state.extra as WasherEntity;
-              return WasherDetailsPage(washer: washer);
-            },
-          ),
-
-          GoRoute(
-            path: Routes.washerReservation,
-            name: 'washerReservation',
-            builder: (context, state) {
-              final extra = state.extra;
-              final washer = extra is WasherEntity ? extra : null;
-              if (washer == null) return const SizedBox.shrink();
-              return WasherReservationPage(washer: washer);
-            },
-          ),
-          GoRoute(
-            path: Routes.bookings,
-            name: '/bookings',
-            builder: (context, state) => const CustomerBookingsPage(),
-          ),
-          GoRoute(
-            path: Routes.washerBookings,
-            name: '/washer_bookings',
-            builder: (context, state) => const WasherBookingsPage(),
-          ),
-          GoRoute(
-            path: Routes.washerBookingsDetails,
-            name: 'washerBookingsDetails',
-            builder: (context, state) {
-              final extra = state.extra;
-              if (extra is BookingsEntity) {
-                return WasherBookingsDetails(booking: extra);
-              }
-              return const SizedBox.shrink();
-            },
-          ),
-          GoRoute(
-            path: Routes.bookingDetails,
-            builder: (context, state) {
-              final booking = state.extra as BookingsEntity;
-              return BookingDetailsPage(booking: booking);
-            },
-          ),
-          GoRoute(
-            path: Routes.ratings,
-            name: 'ratings',
-            builder: (context, state) {
-              final booking = state.extra as BookingsEntity;
-              return RatingsPage(booking: booking);
-            },
-          ),
-          GoRoute(
-            path: Routes.availability,
-            name: '/availability',
-            builder: (context, state) => const AvailabilityPage(),
-          ),
-          GoRoute(
-            path: Routes.profile_washer,
-            name: '/profile_washer',
-            builder: (context, state) => const ProfileWasherPage(),
-          ),
-          GoRoute(
-            path: Routes.create_profile_washer,
-            name: 'createProfileWasher',
-            builder: (context, state) => const CreateProfileWasherPage(),
-          ),
-
-          GoRoute(
-            path: Routes.editProfileWasher,
-            name: 'editProfileWasher',
-            builder: (context, state) {
-              return const EditProfileWasherPage();
-            },
-          ),
-
-          GoRoute(
-            path: Routes.provider_profile,
-            name: '/provider_profile',
-            builder: (context, state) => BlocProvider(
-              create: (_) => getIt<FuelProviderProfileCubit>(),
-              child: const ProviderProfilePage(),
-            ),
-          ),
-
-          GoRoute(
-            path: Routes.provider_edit_profile,
-            name: '/provider_edit_profile',
-            builder: (context, state) {
-              final profile = state.extra as FuelProviderProfileEntity?;
-              return BlocProvider(
-                create: (_) => getIt<FuelProviderProfileCubit>(),
-                child: ProviderEditProfilePage(profile: profile),
-              );
-            },
-          ),
-
-          GoRoute(
-            path: Routes.provider_create_profile,
-            name: '/provider_create_profile',
-            builder: (context, state) => BlocProvider(
-              create: (_) => getIt<FuelProviderProfileCubit>(),
-              child: const ProviderCreateProfilePage(),
-            ),
-          ),
-          GoRoute(
-            path: Routes.provider_statistics,
-            name: '/provider_statistics',
-            builder: (context, state) => const ProviderStatisticsPage(),
-          ),
-
-          GoRoute(
-            path: Routes.share_location_fuel,
-            name: '/share_location_fuel',
-            builder: (context, state) => const ShareLocationFuelPage(),
-          ),
-          GoRoute(
-            path: Routes.provider_available_orders,
-            name: '/provider_available_orders',
-            builder: (context, state) => const ProviderAvailableOrdersPage(),
-          ),
-
-          GoRoute(
-            path: Routes.add_user_fuel,
-            builder: (context, state) => const FuelSosCreatePageWrapper(),
-          ),
-
-          GoRoute(
-            path: Routes.fuelorderslist,
-            builder: (context, state) => BlocProvider(
-              create: (_) => getIt<UserFuelCubit>(),
-              child: const FuelOrdersListPage(),
-            ),
-          ),
-
-          GoRoute(
-            path: Routes.fuel_order_details,
-            builder: (context, state) {
-              final order = state.extra as UserFuelOrderEntity;
-              return BlocProvider(
-                create: (_) => getIt<UserFuelCubit>(),
-                child: FuelOrderDetailsPage(order: order),
-              );
-            },
-          ),
-          GoRoute(
-            path: Routes.provider_order,
-            name: '/provider_available_orders_page_wrapper',
-            builder: (context, state) => const ProviderOrdersTabsWrapper(),
-          ),
-          GoRoute(
-            path: '/provider_order_details/:id',
-            name: 'providerOrderDetailsPage',
-            builder: (context, state) {
-              final id = int.parse(state.pathParameters['id']!);
-
-              return ProviderOrderDetailsPage(id: id);
-            },
+            path: Routes.more,
+            name: '/more',
+            builder: (context, state) => const MorePage(),
           ),
         ],
+      ),
+      // The routes below are true top-level siblings of ShellRoute inside
+      // GoRouter.routes — they must NOT be physically nested inside
+      // ShellRoute.routes. go_router requires a nested route's
+      // parentNavigatorKey to match its literal parent's navigatorKey; a
+      // route nested under ShellRoute (navigatorKey: shellNavigatorKey)
+      // that declares parentNavigatorKey: rootNavigatorKey violates that
+      // and throws at router-construction time. Being a real top-level
+      // sibling here means no parentNavigatorKey is needed — it already
+      // resolves against the root navigator by default.
+      GoRoute(
+        path: Routes.allUserSosRequests,
+        name: '/sos',
+        builder: (context, state) => const AllUserSosRequests(),
+      ),
+      GoRoute(
+        path: '/userSosDetailss/:id',
+        name: 'sosDetails',
+        builder: (context, state) {
+          final id = int.parse(state.pathParameters['id']!);
+          return SosDetailsPage(id: id);
+        },
+      ),
+      GoRoute(
+        path: Routes.technician_sos_requests,
+        name: '/all_technician_sos_requests',
+        builder: (context, state) {
+          // extra selects available (default) vs my accepted SOS requests.
+          final type = state.extra is SosRequestType
+              ? state.extra as SosRequestType
+              : SosRequestType.available;
+          return TechnicianStatusGate(
+            child: AllTechnicianSosRequests(type: type),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/technicianSosDetails/:id',
+        name: 'SosTechnicianDetailsPage',
+        builder: (context, state) {
+          final id = int.parse(state.pathParameters['id']!);
+          return TechnicianStatusGate(child: SosTechnicianDetailsPage(id: id));
+        },
+      ),
+      GoRoute(
+        path: Routes.all_requests,
+        name: '/all_requests_stats_page',
+        builder: (context, state) => const AllRequestsStatsPage(),
+      ),
+      GoRoute(
+        path: Routes.washers,
+        name: '/washers',
+        builder: (context, state) => const WashersPage(),
+      ),
+      GoRoute(
+        path: Routes.washerDetails,
+        name: 'washerDetails',
+        builder: (context, state) {
+          final washer = state.extra as WasherEntity;
+          return WasherDetailsPage(washer: washer);
+        },
+      ),
+
+      GoRoute(
+        path: Routes.washerReservation,
+        name: 'washerReservation',
+        builder: (context, state) {
+          final extra = state.extra;
+          final washer = extra is WasherEntity ? extra : null;
+          if (washer == null) return const SizedBox.shrink();
+          return WasherReservationPage(washer: washer);
+        },
+      ),
+      GoRoute(
+        path: Routes.bookings,
+        name: '/bookings',
+        builder: (context, state) => const CustomerBookingsPage(),
+      ),
+      GoRoute(
+        path: Routes.washerBookings,
+        name: '/washer_bookings',
+        builder: (context, state) => const WasherBookingsPage(),
+      ),
+      GoRoute(
+        path: Routes.washerBookingsDetails,
+        name: 'washerBookingsDetails',
+        builder: (context, state) {
+          final extra = state.extra;
+          if (extra is BookingsEntity) {
+            return WasherBookingsDetails(booking: extra);
+          }
+          return const SizedBox.shrink();
+        },
+      ),
+      GoRoute(
+        path: Routes.bookingDetails,
+        builder: (context, state) {
+          final booking = state.extra as BookingsEntity;
+          return BookingDetailsPage(booking: booking);
+        },
+      ),
+      GoRoute(
+        path: Routes.ratings,
+        name: 'ratings',
+        builder: (context, state) {
+          final booking = state.extra as BookingsEntity;
+          return RatingsPage(booking: booking);
+        },
+      ),
+      GoRoute(
+        path: Routes.availability,
+        name: '/availability',
+        builder: (context, state) => const AvailabilityPage(),
+      ),
+      GoRoute(
+        path: Routes.profile_washer,
+        name: '/profile_washer',
+        builder: (context, state) => const ProfileWasherPage(),
+      ),
+      GoRoute(
+        path: Routes.create_profile_washer,
+        name: 'createProfileWasher',
+        builder: (context, state) => const CreateProfileWasherPage(),
+      ),
+
+      GoRoute(
+        path: Routes.editProfileWasher,
+        name: 'editProfileWasher',
+        builder: (context, state) {
+          return const EditProfileWasherPage();
+        },
+      ),
+
+      GoRoute(
+        path: Routes.provider_profile,
+        name: '/provider_profile',
+        builder: (context, state) => BlocProvider(
+          create: (_) => getIt<FuelProviderProfileCubit>(),
+          child: const ProviderProfilePage(),
+        ),
+      ),
+
+      GoRoute(
+        path: Routes.provider_edit_profile,
+        name: '/provider_edit_profile',
+        builder: (context, state) {
+          final profile = state.extra as FuelProviderProfileEntity?;
+          return BlocProvider(
+            create: (_) => getIt<FuelProviderProfileCubit>(),
+            child: ProviderEditProfilePage(profile: profile),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: Routes.provider_create_profile,
+        name: '/provider_create_profile',
+        builder: (context, state) => BlocProvider(
+          create: (_) => getIt<FuelProviderProfileCubit>(),
+          child: const ProviderCreateProfilePage(),
+        ),
+      ),
+      GoRoute(
+        path: Routes.provider_statistics,
+        name: '/provider_statistics',
+        builder: (context, state) => const ProviderStatisticsPage(),
+      ),
+
+      GoRoute(
+        path: Routes.share_location_fuel,
+        name: '/share_location_fuel',
+        builder: (context, state) => const ShareLocationFuelPage(),
+      ),
+      GoRoute(
+        path: Routes.provider_available_orders,
+        name: '/provider_available_orders',
+        builder: (context, state) => const ProviderAvailableOrdersPage(),
+      ),
+
+      GoRoute(
+        path: Routes.add_user_fuel,
+        builder: (context, state) => const FuelSosCreatePageWrapper(),
+      ),
+
+      GoRoute(
+        path: Routes.fuelorderslist,
+        builder: (context, state) => BlocProvider(
+          create: (_) => getIt<UserFuelCubit>(),
+          child: const FuelOrdersListPage(),
+        ),
+      ),
+
+      GoRoute(
+        path: Routes.fuel_order_details,
+        builder: (context, state) {
+          final order = state.extra as UserFuelOrderEntity;
+          return BlocProvider(
+            create: (_) => getIt<UserFuelCubit>(),
+            child: FuelOrderDetailsPage(order: order),
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.provider_order,
+        name: '/provider_available_orders_page_wrapper',
+        builder: (context, state) => const ProviderOrdersTabsWrapper(),
+      ),
+      GoRoute(
+        path: '/provider_order_details/:id',
+        name: 'providerOrderDetailsPage',
+        builder: (context, state) {
+          final id = int.parse(state.pathParameters['id']!);
+
+          return ProviderOrderDetailsPage(id: id);
+        },
       ),
       GoRoute(
         path: Routes.profile_setup,
@@ -434,6 +451,14 @@ class AppRouter {
           return MaintenanceHistoryPage(vehicleId: vehicleId);
         },
       ),
+      GoRoute(
+        path: Routes.vehicleFuelLogs,
+        name: 'vehicleFuelLogs',
+        builder: (context, state) {
+          final vehicleId = state.extra as int? ?? 0;
+          return VehicleFuelLogsPage(vehicleId: vehicleId);
+        },
+      ),
 
       GoRoute(
         path: Routes.updateVehicle,
@@ -447,11 +472,6 @@ class AppRouter {
         path: Routes.inserttechnicianprofile,
         name: '/insert_technician_profile',
         builder: (context, state) => const InsertTechnicianProfile(),
-      ),
-      GoRoute(
-        path: Routes.create_sos,
-        name: '/Create_sos_page_wrapper',
-        builder: (context, state) => const CreateSosPageWrapper(),
       ),
       GoRoute(
         path: Routes.updateTechnicianProfile,

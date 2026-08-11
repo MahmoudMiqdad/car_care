@@ -4,6 +4,15 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+/// Backend requires `scheduled_date` to be strictly `after:today`, so the
+/// earliest pickable day is tomorrow. Computed from the date components only
+/// (not `DateTime.now()` directly) so the current time-of-day can never push
+/// this to the wrong calendar day. Top-level so it's directly unit-testable.
+DateTime firstSelectableQuotationDate() {
+  final now = DateTime.now();
+  return DateTime(now.year, now.month, now.day).add(const Duration(days: 1));
+}
+
 class AcceptQuotationDialogResult {
   const AcceptQuotationDialogResult({
     required this.scheduledDate,
@@ -38,11 +47,12 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
   }
 
   Future<void> _pickDate() async {
+    final firstSelectable = firstSelectableQuotationDate();
     final picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
+      initialDate: firstSelectable,
+      firstDate: firstSelectable,
+      lastDate: firstSelectable.add(const Duration(days: 365)),
     );
     if (picked != null) {
       setState(() => _selectedDate = picked);
@@ -167,10 +177,7 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
                     textAlign: TextAlign.right,
                     maxLines: 3,
                     minLines: 2,
-                    style: TextStyle(
-                      fontSize: 15.sp,
-                      color: AppColors.black,
-                    ),
+                    style: TextStyle(fontSize: 15.sp, color: AppColors.black),
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: AppColors.white,

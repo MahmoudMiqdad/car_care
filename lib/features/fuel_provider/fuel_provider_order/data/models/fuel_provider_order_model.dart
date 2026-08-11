@@ -1,4 +1,3 @@
-
 class FuelOrderModel {
   final bool? success;
   final String? message;
@@ -7,12 +6,10 @@ class FuelOrderModel {
   FuelOrderModel({this.success, this.message, this.data});
 
   factory FuelOrderModel.fromJson(Map<String, dynamic> json) => FuelOrderModel(
-        success: json['success'],
-        message: json['message'],
-        data: json['data'] != null
-            ? FuelOrderData.fromJson(json['data'])
-            : null,
-      );
+    success: json['success'],
+    message: json['message'],
+    data: json['data'] != null ? FuelOrderData.fromJson(json['data']) : null,
+  );
 }
 
 class FuelOrderListModel {
@@ -25,9 +22,9 @@ class FuelOrderListModel {
       FuelOrderListModel(
         success: json['success'],
         data: json['data'] != null
-            ? List.from(json['data'])
-                .map((e) => FuelOrderData.fromJson(e))
-                .toList()
+            ? List.from(
+                json['data'],
+              ).map((e) => FuelOrderData.fromJson(e)).toList()
             : [],
       );
 }
@@ -68,28 +65,26 @@ class FuelOrderData {
   });
 
   factory FuelOrderData.fromJson(Map<String, dynamic> json) => FuelOrderData(
-        id: json['id'],
-        fuelType: json['fuel_type'],
-        amount: double.tryParse(json['amount'].toString()),
-        deliveryAddress: json['delivery_address'],
-        deliveryLatitude:
-            double.tryParse(json['delivery_latitude'].toString()),
-        deliveryLongitude:
-            double.tryParse(json['delivery_longitude'].toString()),
-        totalPrice: json['total_price']?.toString(),
-        status: json['status'],
-        statusText: json['status_text'],
-        scheduledTime: json['scheduled_time'],
-        vehicle: json['vehicle'] != null
-            ? FuelOrderVehicleData.fromJson(json['vehicle'])
-            : null,
-        fuelProvider: json['fuel_provider'] != null
-            ? FuelOrderProviderData.fromJson(json['fuel_provider'])
-            : null,
-        notes: json['notes'],
-        createdAt: json['created_at'],
-        canCancel: json['can_cancel'],
-      );
+    id: json['id'],
+    fuelType: json['fuel_type'],
+    amount: double.tryParse(json['amount'].toString()),
+    deliveryAddress: json['delivery_address'],
+    deliveryLatitude: double.tryParse(json['delivery_latitude'].toString()),
+    deliveryLongitude: double.tryParse(json['delivery_longitude'].toString()),
+    totalPrice: json['total_price']?.toString(),
+    status: json['status'],
+    statusText: json['status_text'],
+    scheduledTime: json['scheduled_time'],
+    vehicle: json['vehicle'] != null
+        ? FuelOrderVehicleData.fromJson(json['vehicle'])
+        : null,
+    fuelProvider: json['fuel_provider'] != null
+        ? FuelOrderProviderData.fromJson(json['fuel_provider'])
+        : null,
+    notes: json['notes'],
+    createdAt: json['created_at'],
+    canCancel: json['can_cancel'],
+  );
 }
 
 class FuelOrderVehicleData {
@@ -100,10 +95,19 @@ class FuelOrderVehicleData {
   final String? plateNumber;
   final int? currentKm;
   final String? ownerName;
+  final String? image;
+  final String? imagePath;
 
   FuelOrderVehicleData({
-    this.id, this.brand, this.model, this.year,
-    this.plateNumber, this.currentKm, this.ownerName,
+    this.id,
+    this.brand,
+    this.model,
+    this.year,
+    this.plateNumber,
+    this.currentKm,
+    this.ownerName,
+    this.image,
+    this.imagePath,
   });
 
   factory FuelOrderVehicleData.fromJson(Map<String, dynamic> json) {
@@ -116,6 +120,10 @@ class FuelOrderVehicleData {
       plateNumber: json['plate_number'],
       currentKm: json['current_km'],
       ownerName: owner?['name'],
+      // Same "vehicle" resource shape as the maintenance-request and
+      // customer fuel-order flows (see vehicle_model.dart).
+      image: json['image']?.toString(),
+      imagePath: json['image_path']?.toString(),
     );
   }
 }
@@ -128,8 +136,11 @@ class FuelOrderProviderData {
   final double? currentLng;
 
   FuelOrderProviderData({
-    this.id, this.companyName, this.phone,
-    this.currentLat, this.currentLng,
+    this.id,
+    this.companyName,
+    this.phone,
+    this.currentLat,
+    this.currentLng,
   });
 
   factory FuelOrderProviderData.fromJson(Map<String, dynamic> json) {

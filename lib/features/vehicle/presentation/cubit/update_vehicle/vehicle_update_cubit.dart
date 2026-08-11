@@ -11,25 +11,19 @@ class VehicleUpdateCubit extends Cubit<VehicleUpdateState> {
 
   final IVehicleRepository _repo;
 
+  /// [changedFields] must contain only the fields that actually differ from
+  /// the vehicle's original values (see buildVehicleUpdateFields) — this
+  /// cubit no longer decides inclusion itself, so an unchanged plate_number
+  /// is never resubmitted and can't trip the backend's uniqueness check.
   Future<void> updateVehicle({
     required int id,
-    required String brand,
-    required String model,
-    required String year,
-    required String plateNumber,
-    required String currentKm,
+    required Map<String, String> changedFields,
     Uint8List? imageBytes,
     String? imageName,
   }) async {
     emit(const VehicleUpdateLoading());
 
-    final params = <String, dynamic>{
-      if (brand.trim().isNotEmpty) 'brand': brand.trim(),
-      if (model.trim().isNotEmpty) 'model': model.trim(),
-      if (year.trim().isNotEmpty) 'year': year.trim(),
-      if (plateNumber.trim().isNotEmpty) 'plate_number': plateNumber.trim(),
-      if (currentKm.trim().isNotEmpty) 'current_km': currentKm.trim(),
-    };
+    final params = <String, dynamic>{...changedFields};
 
     if (imageBytes != null && imageName != null) {
       params['image_bytes'] = imageBytes;
@@ -39,7 +33,7 @@ class VehicleUpdateCubit extends Cubit<VehicleUpdateState> {
     final result = await _repo.updateVehicle(id: id, params: params);
 
     result.fold(
-      (failure) => emit(VehicleUpdateError(failure.message)),
+      (failure) => emit(VehicleUpdateError(failure.displayMessage)),
       (VehicleEntity vehicle) => emit(VehicleUpdateSuccess(vehicle)),
     );
   }

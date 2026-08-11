@@ -8,7 +8,6 @@ import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
-import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
 import 'package:car_care/features/maintenance/user_requests/domain/repositories/i_requests_repository.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/add_maintenance_request_cubit/add_maintenance_request_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/add_maintenance_request_cubit/add_maintenance_request_state.dart';
@@ -27,7 +26,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddRequestsPage extends StatelessWidget {
@@ -38,11 +36,10 @@ class AddRequestsPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => AddMaintenanceRequestCubit(getIt<IRequestsRepository>()),
+          create: (_) =>
+              AddMaintenanceRequestCubit(getIt<IRequestsRepository>()),
         ),
-        BlocProvider(
-          create: (_) => getIt<VehicleCubit>()..getAllVehicles(),
-        ),
+        BlocProvider(create: (_) => getIt<VehicleCubit>()..getAllVehicles()),
       ],
       child: _RequestsPageBody(vehicleId: vehicleId),
     );
@@ -167,7 +164,6 @@ class _RequestsPageState extends State<_RequestsPageBody> {
 
     setState(() => _images.addAll(picked));
   }
-  
 
   Future<void> _pickDate() async {
     // Backend rejects dates that are not after today.
@@ -245,11 +241,6 @@ class _RequestsPageState extends State<_RequestsPageBody> {
               title: 'طلب صيانة',
               showBackButton: true,
             ),
-            bottomNavigationBar: HomeBottomNavBar(
-              onItemSelected: (index) {
-                if (index == 0) context.go(Routes.home);
-              },
-            ),
             body: RequestsFlowStyles.backgroundStack(
               child: SingleChildScrollView(
                 padding: EdgeInsets.fromLTRB(18.w, 12.h, 16.w, 24.h),
@@ -269,7 +260,7 @@ class _RequestsPageState extends State<_RequestsPageBody> {
                       ),
                     ),
                     ProblemDescriptionField(controller: _problemController),
-                  SizedBox(height: 8.h),
+                    SizedBox(height: 8.h),
                     PhotoAttachmentSection(
                       cardRadius: cardR,
                       images: _images,
@@ -282,12 +273,12 @@ class _RequestsPageState extends State<_RequestsPageBody> {
                       formattedDate: selectedDate,
                       onPickDate: _pickDate,
                     ),
-                   SizedBox(height: 8.h),
+                    SizedBox(height: 8.h),
                     PrioritySelector(
                       selected: _priority,
                       onChanged: (p) => setState(() => _priority = p),
                     ),
-                     SizedBox(height: 8.h),
+                    SizedBox(height: 8.h),
                     RequestsActionButtons(
                       cardRadius: cardR,
                       onSubmit: isLoading ? null : _submitRequest,

@@ -40,13 +40,20 @@ class ProviderOrderDetailsPage extends StatelessWidget {
                 context.safePopOrGo(Routes.provider_order);
               }
 
+              if (state is FuelProviderOrderStarted) {
+                AppSnackBar.success(context, "تم بدء تنفيذ الطلب");
+                // Stay on this page and reload so the correct next action
+                // (إكمال الطلب) shows for the new in_progress status.
+                context.read<FuelProviderOrderCubit>().getOrder(id);
+              }
+
               if (state is FuelProviderOrderCompleted) {
                 AppSnackBar.success(context, "تم إكمال الطلب");
                 context.safePopOrGo(Routes.provider_order);
               }
 
               if (state is FuelProviderOrderError) {
-               AppSnackBar.error(context, state.message);
+                AppSnackBar.error(context, state.message);
               }
             },
             child: ImageBackground(
@@ -70,11 +77,25 @@ class ProviderOrderDetailsPage extends StatelessWidget {
                             if (result != null &&
                                 order.id != null &&
                                 context.mounted) {
+                              final minutes = int.tryParse(result.minutes);
+                              final notes = result.notes.trim();
                               context
                                   .read<FuelProviderOrderCubit>()
-                                  .acceptOrder(order.id!);
+                                  .acceptOrder(
+                                    order.id!,
+                                    estimatedArrivalMinutes:
+                                        minutes != null && minutes > 0
+                                        ? minutes
+                                        : null,
+                                    notes: notes.isEmpty ? null : notes,
+                                  );
                             }
                           },
+                          onStartOrder: order.id != null
+                              ? () => context
+                                    .read<FuelProviderOrderCubit>()
+                                    .startOrder(order.id!)
+                              : null,
                           onCompleteOrder: order.id != null
                               ? () => context
                                     .read<FuelProviderOrderCubit>()

@@ -6,7 +6,6 @@ import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
-import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
 import 'package:car_care/features/technician/technician_order/presentation/cubit/request_cubit/request_cubit.dart';
 import 'package:car_care/features/technician/technician_order/presentation/cubit/request_cubit/request_state.dart';
 import 'package:car_care/features/technician/technician_order/presentation/widgets/technician_requests_details/order_details_customer_section.dart';
@@ -53,117 +52,111 @@ class _BodyState extends State<_Body> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.lightScaffold,
-    appBar: AppBar(title: const Text('تفاصيل طلب صيانة')),
-      bottomNavigationBar: HomeBottomNavBar(
-        activeIndex: -1,
-        onItemSelected: (index) {
-          if (index == 0) {
-            context.go(Routes.home);
-          }
-        }),
+      appBar: AppBar(title: const Text('تفاصيل طلب صيانة')),
       body: ImageBackground(
-        child: BlocBuilder<RequestCubit, RequestState>(
-          builder: (context, state) {
-            if (state is RequestLoading) {
-              return const Center(child: AppLoadingWidget());
-            }
-        
-            if (state is RequestError) {
-              return Center(child: Text(state.message));
-            }
-        
-            if (state is RequestLoaded) {
-              final data = state.request.data;
-              final hasQuotation = data.myQuotation != null || _justSubmitted;
+        child: SafeArea(
+          top: false,
+          child: BlocBuilder<RequestCubit, RequestState>(
+            builder: (context, state) {
+              if (state is RequestLoading) {
+                return const Center(child: AppLoadingWidget());
+              }
 
-              return SingleChildScrollView(
-                padding: EdgeInsets.all(16.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    OrderDetailsVehicleSection(model: data.vehicle),
-                    SizedBox(height: AppConstants.sectionGap),
-                    OrderDetailsCustomerSection(model: data.customer),
-                    SizedBox(height: AppConstants.sectionGap),
-                    OrderDetailsMalfunctionSection(model: data),
-                    SizedBox(height: AppConstants.beforeCtaGap),
-                  
-        
-                   
-        
-                    SizedBox(height: 10.h),
-        
-                    // Once this technician has a quotation on the request the
-                    // CTA is replaced by a non-interactive waiting state.
-                    if (hasQuotation)
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16.w,
-                          vertical: 16.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.serviceTierSelectedBackground,
-                          borderRadius:
-                              BorderRadius.circular(AppConstants.ctaRadius),
-                          border: Border.all(color: AppColors.success),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.check_circle_outline,
-                              color: AppColors.success,
-                              size: 20.sp,
+              if (state is RequestError) {
+                return Center(child: Text(state.message));
+              }
+
+              if (state is RequestLoaded) {
+                final data = state.request.data;
+                final hasQuotation = data.myQuotation != null || _justSubmitted;
+
+                return SingleChildScrollView(
+                  padding: EdgeInsets.all(16.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      OrderDetailsVehicleSection(model: data.vehicle),
+                      SizedBox(height: AppConstants.sectionGap),
+                      OrderDetailsCustomerSection(model: data.customer),
+                      SizedBox(height: AppConstants.sectionGap),
+                      OrderDetailsMalfunctionSection(model: data),
+                      SizedBox(height: AppConstants.beforeCtaGap),
+
+                      SizedBox(height: 10.h),
+
+                      // Once this technician has a quotation on the request the
+                      // CTA is replaced by a non-interactive waiting state.
+                      if (hasQuotation)
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 16.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.serviceTierSelectedBackground,
+                            borderRadius: BorderRadius.circular(
+                              AppConstants.ctaRadius,
                             ),
-                            SizedBox(width: 8.w),
-                            Flexible(
-                              child: Text(
-                                'تم إرسال عرضك — بانتظار قبول العميل',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.black,
+                            border: Border.all(color: AppColors.success),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.check_circle_outline,
+                                color: AppColors.success,
+                                size: 20.sp,
+                              ),
+                              SizedBox(width: 8.w),
+                              Flexible(
+                                child: Text(
+                                  'تم إرسال عرضك — بانتظار قبول العميل',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.black,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      )
-                    else
-                      AppButton(
-                        text: 'تقديم عرض سعر',
-                        backgroundColor: AppColors.accent,
-                        fontSize: 17.sp,
-                        borderRadius: AppConstants.ctaRadius,
-                        height: 55.h,
-                        onPressed: () async {
-                          final submitted = await context.push<bool>(
-                            Routes.technician_quotations,
-                            extra: orderId,
-                          );
-                          if (!context.mounted) return;
-                          if (submitted == true) {
-                            // Flip the CTA immediately using the pop(true)
-                            // result — do not wait for the refetch.
-                            setState(() => _justSubmitted = true);
-                            AppSnackBar.success(
-                              context,
-                              'تم إرسال العرض بنجاح',
+                            ],
+                          ),
+                        )
+                      else
+                        AppButton(
+                          text: 'تقديم عرض سعر',
+                          backgroundColor: AppColors.accent,
+                          fontSize: 17.sp,
+                          borderRadius: AppConstants.ctaRadius,
+                          height: 55.h,
+                          onPressed: () async {
+                            final submitted = await context.push<bool>(
+                              Routes.technician_quotations,
+                              extra: orderId,
                             );
-                          }
-                          // Refresh so myQuotation confirms/persists the state.
-                          context.read<RequestCubit>().fetchRequest(orderId);
-                        },
-                      ),
-                  ],
-                ),
-              );
-            }
-        
-            return const SizedBox();
-          },
+                            if (!context.mounted) return;
+                            if (submitted == true) {
+                              // Flip the CTA immediately using the pop(true)
+                              // result — do not wait for the refetch.
+                              setState(() => _justSubmitted = true);
+                              AppSnackBar.success(
+                                context,
+                                'تم إرسال العرض بنجاح',
+                              );
+                            }
+                            // Refresh so myQuotation confirms/persists the state.
+                            context.read<RequestCubit>().fetchRequest(orderId);
+                          },
+                        ),
+                    ],
+                  ),
+                );
+              }
+
+              return const SizedBox();
+            },
+          ),
         ),
       ),
     );

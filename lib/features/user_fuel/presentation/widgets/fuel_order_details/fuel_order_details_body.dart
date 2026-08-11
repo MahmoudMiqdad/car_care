@@ -2,7 +2,7 @@ import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/widgets/cancel_reason_dialog.dart';
- import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_status_banner.dart';
+import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_status_banner.dart';
 import 'package:car_care/features/user_fuel/domain/entities/user_fuel_order_entity.dart';
 import 'package:car_care/features/user_fuel/presentation/widgets/fuel_order_details/fuel_order_details_location_card.dart';
 import 'package:car_care/features/user_fuel/presentation/widgets/fuel_order_details/fuel_order_details_order_card.dart';
@@ -12,11 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FuelOrderDetailsBody extends StatelessWidget {
-  const FuelOrderDetailsBody({
-    super.key,
-    required this.order,
-    this.onCancel,
-  });
+  const FuelOrderDetailsBody({super.key, required this.order, this.onCancel});
 
   final UserFuelOrderEntity order;
   final void Function(String reason)? onCancel;
@@ -27,7 +23,6 @@ class FuelOrderDetailsBody extends StatelessWidget {
     final canCancel = order.canCancel ?? false;
 
     return SafeArea(
-      bottom: false,
       child: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(
           AppConstants.pageHorizontal,
@@ -44,10 +39,9 @@ class FuelOrderDetailsBody extends StatelessWidget {
             SizedBox(height: 14.h),
             FuelOrderDetailsProviderCard(order: order),
             SizedBox(height: 14.h),
-            
 
             ProviderOrderDetailsNotesCard(order: order),
-             SizedBox(height: 14.h),
+            SizedBox(height: 14.h),
             FuelOrderDetailsLocationCard(order: order),
             SizedBox(height: 22.h),
             if (canCancel)
