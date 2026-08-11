@@ -5,8 +5,12 @@ import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/core/utils/media_url.dart';
 import 'package:car_care/core/widgets/vehicle_image_box.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
+import 'package:car_care/features/car_washer/car_wash/bookings/domain/repositories/i_customer_bookings_repository.dart';
+import 'package:car_care/features/car_washer/car_wash/bookings/presentation/cubit/customer_bookings/customer_bookings_cubit.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/presentation/widgets/booking_page/booking_status_chips.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/presentation/widgets/booking_page/filter_drop_down.dart';
+import 'package:car_care/features/car_washer/shared/presentation/widgets/carwash_booking_filter.dart';
+import 'package:car_care/features/car_washer/shared/presentation/widgets/carwash_booking_status_badge.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/domain/repositories/i_bookings_repository.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/cubit/washer_bookings/bookings_cubit.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/cubit/washer_bookings/bookings_state.dart';
@@ -15,12 +19,35 @@ import 'package:car_care/features/car_washer/washers/washers_bookings/presentati
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/widgets/washer_bookings_page/washer_booking_quick_actions_column.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/widgets/washer_bookings_page/washer_booking_status_chips_row.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
+import 'package:car_care/l10n/gen/app_localizations.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockBookingsRepository extends Mock implements IBookingsRepository {}
+
+class MockCustomerBookingsRepository extends Mock
+    implements ICustomerBookingsRepository {}
+
+/// Pumps [child] inside a ScreenUtilInit + MaterialApp (with l10n delegates)
+/// so widgets using `.w`/`.h`/`.sp`/`.r` and `context.l10n` can be tested.
+Future<void> _pumpWithApp(WidgetTester tester, Widget child) async {
+  await tester.pumpWidget(
+    ScreenUtilInit(
+      designSize: const Size(375, 812),
+      builder: (context, _) => MaterialApp(
+        locale: const Locale('ar'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Scaffold(body: child),
+      ),
+    ),
+  );
+  await tester.pumpAndSettle();
+}
 
 BookingsEntity _fakeBooking({required int id, required String status}) {
   return BookingsEntity(
@@ -525,6 +552,150 @@ void main() {
     expect(
       oldBlues,
       isNot(contains(customerBookingChipStyleFor('cancelled').background)),
+    );
+  });
+
+  group('carwashBookingFilterStatusKeys — CW1-R shared source of truth', () {
+    test('six keys in order: all(null), pending, accepted, in_progress, '
+        'completed, cancelled', () {
+      expect(carwashBookingFilterStatusKeys, [
+        null,
+        'pending',
+        'accepted',
+        'in_progress',
+        'completed',
+        'cancelled',
+      ]);
+    });
+  });
+
+  group(
+    'carwashBookingStatusStyleFor — CW1-R shared color source of truth',
+    () {
+      test(
+        'completed=success border, cancelled=error border, others neutral',
+        () {
+          expect(
+            carwashBookingStatusStyleFor('completed').border,
+            equals(const Color(0xff45B733)),
+          );
+          expect(
+            carwashBookingStatusStyleFor('cancelled').border,
+            equals(const Color(0xffE25839)),
+          );
+          for (final status in ['pending', 'accepted', 'in_progress']) {
+            expect(
+              carwashBookingStatusStyleFor(status).background,
+              Colors.transparent,
+            );
+          }
+        },
+      );
+    },
+  );
+
+  group('CarwashBookingFilter — shared widget behavior', () {
+    testWidgets(
+      'shows a check mark for the selected status only, and calls onChanged '
+      'with the tapped status key',
+      (tester) async {
+        String? received;
+        var callCount = 0;
+
+        await _pumpWithApp(
+          tester,
+          CarwashBookingFilter(
+            selectedStatus: 'accepted',
+            onChanged: (status) {
+              received = status;
+              callCount++;
+            },
+          ),
+        );
+
+        await tester.tap(find.byType(PopupMenuButton<String?>));
+        await tester.pumpAndSettle();
+
+        // The closed field also shows the selected label ("تم القبول" —
+        // bookingStatusAccepted), so at least one match is expected there
+        // plus the menu item; the check mark itself must appear exactly
+        // once (next to the selected menu item only).
+        expect(find.text('تم القبول'), findsWidgets);
+        expect(find.byIcon(Icons.check_rounded), findsOneWidget);
+
+        await tester.tap(find.text('مكتمل'));
+        await tester.pumpAndSettle();
+
+        expect(callCount, 1);
+        expect(received, 'completed');
+      },
+    );
+  });
+
+  group('CustomerBookingFilter / WasherBookingFilter — wrappers still work '
+      'after CW1-R', () {
+    testWidgets('CustomerBookingFilter renders through CustomerBookingsCubit', (
+      tester,
+    ) async {
+      final repo = MockCustomerBookingsRepository();
+      when(() => repo.getBookings(status: any(named: 'status'))).thenAnswer(
+        (_) async => Right([_fakeBooking(id: 1, status: 'pending')]),
+      );
+      final cubit = CustomerBookingsCubit(repo);
+      await cubit.fetchBookings();
+
+      await _pumpWithApp(
+        tester,
+        BlocProvider<CustomerBookingsCubit>.value(
+          value: cubit,
+          child: const CustomerBookingFilter(),
+        ),
+      );
+
+      expect(find.byType(PopupMenuButton<String?>), findsOneWidget);
+      expect(find.text('الكل'), findsOneWidget);
+      await cubit.close();
+    });
+
+    testWidgets('WasherBookingFilter renders through BookingsCubit', (
+      tester,
+    ) async {
+      final repo = MockBookingsRepository();
+      when(() => repo.getBookings(status: any(named: 'status'))).thenAnswer(
+        (_) async => Right([_fakeBooking(id: 1, status: 'pending')]),
+      );
+      final cubit = BookingsCubit(repo);
+      await cubit.fetchBookings();
+
+      await _pumpWithApp(
+        tester,
+        BlocProvider<BookingsCubit>.value(
+          value: cubit,
+          child: const WasherBookingFilter(),
+        ),
+      );
+
+      expect(find.byType(PopupMenuButton<String?>), findsOneWidget);
+      expect(find.text('الكل'), findsOneWidget);
+      await cubit.close();
+    });
+
+    testWidgets(
+      'BookingStatusChip / WasherBookingStatusChipsRow still render their '
+      'label with no Cubit needed',
+      (tester) async {
+        await _pumpWithApp(
+          tester,
+          const Column(
+            children: [
+              BookingStatusChip(status: 'completed', label: 'مكتمل'),
+              WasherBookingStatusChipsRow(status: 'cancelled', label: 'ملغي'),
+            ],
+          ),
+        );
+        expect(find.text('مكتمل'), findsOneWidget);
+        expect(find.text('ملغي'), findsOneWidget);
+      },
     );
   });
 }
