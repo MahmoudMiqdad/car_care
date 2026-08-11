@@ -14,7 +14,7 @@ class QuotationsCubit extends Cubit<QuotationsState> {
     final result = await _repository.fetchQuotations(requestId);
 
     result.fold(
-      (failure) => emit(QuotationsError(failure.message)),
+      (failure) => emit(QuotationsError(failure.displayMessage)),
       (data) => emit(QuotationsLoaded(data)),
     );
   }
@@ -26,7 +26,7 @@ class QuotationsCubit extends Cubit<QuotationsState> {
     final result = await _repository.fetchAcceptedQuotations(requestId);
 
     result.fold(
-      (failure) => emit(QuotationsError(failure.message)),
+      (failure) => emit(QuotationsError(failure.displayMessage)),
       (data) => emit(AcceptedQuotationsLoaded(data)),
     );
   }
@@ -46,25 +46,19 @@ class QuotationsCubit extends Cubit<QuotationsState> {
     );
 
     result.fold(
-      (failure) => emit(QuotationsError(failure.message)),
+      (failure) => emit(QuotationsError(failure.displayMessage)),
       (res) => emit(QuotationAccepted(res)),
     );
   }
 
   /// reject quotation
-  Future<void> rejectQuotation(
-    String reason,
-    String quotationId,
-  ) async {
+  Future<void> rejectQuotation(String reason, String quotationId) async {
     emit(QuotationsLoading());
 
-    final result = await _repository.rejectQuotation(
-      reason,
-      quotationId,
-    );
+    final result = await _repository.rejectQuotation(reason, quotationId);
 
     result.fold(
-      (failure) => emit(QuotationsError(failure.message)),
+      (failure) => emit(QuotationsError(failure.displayMessage)),
       (res) => emit(QuotationRejected(res)),
     );
   }

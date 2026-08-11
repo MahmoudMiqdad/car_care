@@ -16,10 +16,21 @@ class FuelOrderEntity {
   final bool? canCancel;
 
   FuelOrderEntity({
-    this.id, this.fuelType, this.amount,
-    this.deliveryAddress, this.deliveryLatitude, this.deliveryLongitude,
-    this.totalPrice, this.status, this.statusText, this.scheduledTime,
-    this.vehicle, this.fuelProvider, this.notes, this.createdAt, this.canCancel,
+    this.id,
+    this.fuelType,
+    this.amount,
+    this.deliveryAddress,
+    this.deliveryLatitude,
+    this.deliveryLongitude,
+    this.totalPrice,
+    this.status,
+    this.statusText,
+    this.scheduledTime,
+    this.vehicle,
+    this.fuelProvider,
+    this.notes,
+    this.createdAt,
+    this.canCancel,
   });
 }
 
@@ -32,9 +43,20 @@ class FuelOrderVehicleEntity {
   final int? currentKm;
   final String? ownerName;
 
+  /// Raw `image` / `image_path` from the API; resolve with resolveMediaUrl().
+  final String? image;
+  final String? imagePath;
+
   FuelOrderVehicleEntity({
-    this.id, this.brand, this.model, this.year,
-    this.plateNumber, this.currentKm, this.ownerName,
+    this.id,
+    this.brand,
+    this.model,
+    this.year,
+    this.plateNumber,
+    this.currentKm,
+    this.ownerName,
+    this.image,
+    this.imagePath,
   });
 }
 
@@ -46,7 +68,10 @@ class FuelOrderProviderEntity {
   final double? currentLng;
 
   FuelOrderProviderEntity({
-    this.id, this.companyName, this.phone,
-    this.currentLat, this.currentLng,
+    this.id,
+    this.companyName,
+    this.phone,
+    this.currentLat,
+    this.currentLng,
   });
 }

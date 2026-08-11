@@ -7,7 +7,6 @@ import 'package:car_care/core/widgets/error_state_widget.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/core/widgets/provider_status_page.dart';
-import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
 import 'package:car_care/features/technician/technician_order/presentation/cubit/available_requests_cubit/available_requests_cubit.dart';
 import 'package:car_care/features/technician/technician_order/presentation/cubit/available_requests_cubit/available_requests_state.dart';
 import 'package:car_care/features/technician/technician_order/presentation/widgets/technician_requests_details/orders_list_view.dart';
@@ -39,7 +38,8 @@ class _TechnicianStatusGate extends StatelessWidget {
       listener: (context, state) {
         if (state is TechnicianProfileError) {
           final msg = state.message.toLowerCase();
-          final isNotFound = msg.contains('404') ||
+          final isNotFound =
+              msg.contains('404') ||
               msg.contains('not found') ||
               msg.contains('غير موجود') ||
               msg.contains('لا يوجد') ||
@@ -50,10 +50,9 @@ class _TechnicianStatusGate extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state is TechnicianProfileLoading || state is TechnicianProfileInitial) {
-          return const Scaffold(
-            body: Center(child: AppLoadingWidget()),
-          );
+        if (state is TechnicianProfileLoading ||
+            state is TechnicianProfileInitial) {
+          return const Scaffold(body: Center(child: AppLoadingWidget()));
         }
 
         if (state is TechnicianProfileLoaded) {
@@ -63,15 +62,14 @@ class _TechnicianStatusGate extends StatelessWidget {
           );
           if (gate != null) return gate;
           return BlocProvider(
-            create: (_) => getIt<AvailableRequestsCubit>()..fetchAvailableRequests(),
+            create: (_) =>
+                getIt<AvailableRequestsCubit>()..fetchAvailableRequests(),
             child: const _Body(),
           );
         }
 
         if (state is TechnicianProfileError) {
-          return const Scaffold(
-            body: Center(child: AppLoadingWidget()),
-          );
+          return const Scaffold(body: Center(child: AppLoadingWidget()));
         }
 
         return const Scaffold(body: SizedBox.shrink());
@@ -88,20 +86,13 @@ class _Body extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.lightScaffold,
       appBar: AppBar(title: const Text("طلبات الصيانة")),
-      bottomNavigationBar: HomeBottomNavBar(
-        activeIndex: -1,
-        onItemSelected: (index) {
-          if (index == 0) {
-            context.go(Routes.home);
-          }
-        },
-      ),
       body: ImageBackground(
         child: BlocConsumer<AvailableRequestsCubit, AvailableRequestsState>(
           listenWhen: (_, current) => current is AvailableRequestsError,
           listener: (context, state) {
             if (state is AvailableRequestsError) {
-              final msg = state.message.isEmpty ||
+              final msg =
+                  state.message.isEmpty ||
                       state.message.startsWith('Instance of')
                   ? 'حدث خطأ أثناء تحميل الطلبات'
                   : state.message;
@@ -115,7 +106,8 @@ class _Body extends StatelessWidget {
 
             if (state is AvailableRequestsError) {
               return ErrorStateWidget(
-                message: state.message.isEmpty ||
+                message:
+                    state.message.isEmpty ||
                         state.message.startsWith('Instance of')
                     ? 'حدث خطأ أثناء تحميل الطلبات'
                     : state.message,

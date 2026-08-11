@@ -9,7 +9,6 @@ import 'package:car_care/features/car_washer/washers/washers_profile/domain/enti
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/cubit/profile_washer_cubit.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/cubit/profile_washer_state.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/profile_page/profile_washer_body.dart';
-import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -96,9 +95,7 @@ class _ProfileWasherLoadingPage extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: AppColors.lightScaffold,
-        body: const ImageBackground(
-          child: Center(child: AppLoadingWidget()),
-        ),
+        body: const ImageBackground(child: Center(child: AppLoadingWidget())),
       ),
     );
   }
@@ -121,21 +118,12 @@ class _ProfileWasherErrorPage extends StatelessWidget {
           backgroundColor: AppColors.carWashTeal,
           onBackTapped: () => profileWasherBack(context),
         ),
-        bottomNavigationBar: HomeBottomNavBar(
-          onItemSelected: (index) {
-            if (index == 0) context.go(Routes.home);
-          },
-        ),
         body: ImageBackground(
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.error_outline,
-                  size: 64,
-                  color: Colors.red.shade400,
-                ),
+                Icon(Icons.error_outline, size: 64, color: Colors.red.shade400),
                 const SizedBox(height: 16),
                 Text(message, textAlign: TextAlign.center),
                 const SizedBox(height: 24),
@@ -172,14 +160,7 @@ class ProfileWasherViewPage extends StatelessWidget {
           backgroundColor: AppColors.carWashTeal,
           onBackTapped: () => profileWasherBack(context),
         ),
-        bottomNavigationBar: HomeBottomNavBar(
-          onItemSelected: (index) {
-            if (index == 0) context.go(Routes.home);
-          },
-        ),
-        body: ImageBackground(
-          child: ProfileWasherBody(profile: profile),
-        ),
+        body: ImageBackground(child: ProfileWasherBody(profile: profile)),
       ),
     );
   }

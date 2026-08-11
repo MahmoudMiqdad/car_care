@@ -7,28 +7,45 @@ class FuelProviderOrderCubit extends Cubit<FuelProviderOrderState> {
 
   FuelProviderOrderCubit(this._repo) : super(FuelProviderOrderInitial());
 
-Future<void> getOrder(int id) async {
-  emit(FuelProviderOrderLoading());
-
-  final res = await _repo.getOrder(id);
-
-  res.fold(
-  
- (l) => emit(FuelProviderOrderError(l.displayMessage)),
-(r) => emit(FuelProviderOrderDetailsLoaded(r))
-    
-  );
-}
-  Future<void> acceptOrder(int id) async {
+  Future<void> getOrder(int id) async {
     emit(FuelProviderOrderLoading());
-    final res = await _repo.acceptOrder(id);
+
+    final res = await _repo.getOrder(id);
+
+    res.fold(
+      (l) => emit(FuelProviderOrderError(l.displayMessage)),
+      (r) => emit(FuelProviderOrderDetailsLoaded(r)),
+    );
+  }
+
+  Future<void> acceptOrder(
+    int id, {
+    int? estimatedArrivalMinutes,
+    String? notes,
+  }) async {
+    emit(FuelProviderOrderLoading());
+    final res = await _repo.acceptOrder(
+      id,
+      estimatedArrivalMinutes: estimatedArrivalMinutes,
+      notes: notes,
+    );
     res.fold(
       (l) => emit(FuelProviderOrderError(l.displayMessage)),
       (r) => emit(FuelProviderOrderAccepted(r)),
     );
   }
 
+  Future<void> startOrder(int id) async {
+    emit(FuelProviderOrderLoading());
+    final res = await _repo.startOrder(id);
+    res.fold(
+      (l) => emit(FuelProviderOrderError(l.displayMessage)),
+      (r) => emit(FuelProviderOrderStarted(r)),
+    );
+  }
+
   Future<void> completeOrder(int id) async {
+    emit(FuelProviderOrderLoading());
     final res = await _repo.completeOrder(id);
     res.fold(
       (l) => emit(FuelProviderOrderError(l.displayMessage)),
@@ -52,13 +69,13 @@ Future<void> getOrder(int id) async {
       (r) => emit(FuelProviderOrdersListLoaded(r)),
     );
   }
- 
-Future<void> getAvailableOrders() async {
-  emit(FuelProviderOrderLoading());
-  final res = await _repo.getavailableOrders();
-  res.fold(
-    (l) => emit(FuelProviderOrderError(l.displayMessage)),
-    (r) => emit(FuelProviderOrdersListLoaded(r)),
-  );
-}
+
+  Future<void> getAvailableOrders() async {
+    emit(FuelProviderOrderLoading());
+    final res = await _repo.getavailableOrders();
+    res.fold(
+      (l) => emit(FuelProviderOrderError(l.displayMessage)),
+      (r) => emit(FuelProviderOrdersListLoaded(r)),
+    );
+  }
 }

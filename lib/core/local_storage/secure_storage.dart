@@ -1,3 +1,4 @@
+// مسؤول عن تخزين بيانات الجلسة والمصادقة محليًا بأمان وإدارة مسحها.
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -16,10 +17,9 @@ enum DbKeys {
 }
 
 class SecureStorage {
-
   // Constructor that accepts FlutterSecureStorage
   SecureStorage([FlutterSecureStorage? storage])
-      : _storage = storage ?? const FlutterSecureStorage();
+    : _storage = storage ?? const FlutterSecureStorage();
   final FlutterSecureStorage _storage;
 
   Future<T?> _performOperation<T>(Future<T?> Function() operation) async {
@@ -125,12 +125,14 @@ class SecureStorage {
     return token != null && token.isNotEmpty;
   }
 
-  // Clear all authentication data including roles
+  // Clear all authentication data including roles and stored credentials
   Future<void> clearAuth() async {
     await deleteToken();
     await deleteValue(DbKeys.refreshToken);
     await setLoggedInStatus(false);
     await clearRoles();
+    await deleteValue(DbKeys.username);
+    await deleteValue(DbKeys.password);
   }
 
   // Method for checking if a key exists
@@ -141,7 +143,6 @@ class SecureStorage {
 
   // Method for getting all keys
   Future<Map<String, String>> getAllKeys() async {
-    return await _performOperation(_storage.readAll) ??
-        {};
+    return await _performOperation(_storage.readAll) ?? {};
   }
 }

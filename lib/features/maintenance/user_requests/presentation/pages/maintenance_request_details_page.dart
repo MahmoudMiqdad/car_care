@@ -1,4 +1,3 @@
-
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
@@ -44,7 +43,9 @@ class _MaintenanceRequestDetailsPageState
   }
 
   void _showFullMapDialog(
-      BuildContext context, RequestCurrentLocationEntity location) {
+    BuildContext context,
+    RequestCurrentLocationEntity location,
+  ) {
     showDialog(
       context: context,
       barrierColor: Colors.black87,
@@ -59,8 +60,7 @@ class _MaintenanceRequestDetailsPageState
               ),
               children: [
                 TileLayer(
-                  urlTemplate:
-                      'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                   userAgentPackageName: 'com.car_care.app',
                   maxNativeZoom: 19,
                 ),
@@ -90,7 +90,9 @@ class _MaintenanceRequestDetailsPageState
                   decoration: BoxDecoration(
                     color: AppColors.white,
                     shape: BoxShape.circle,
-                    boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 6.r)],
+                    boxShadow: [
+                      BoxShadow(color: Colors.black26, blurRadius: 6.r),
+                    ],
                   ),
                   child: Icon(Icons.close, color: AppColors.black, size: 22.r),
                 ),
@@ -120,8 +122,8 @@ class _MaintenanceRequestDetailsPageState
           context.safePopOrGo(Routes.all_requests);
         }
         if (state is CancelRequestError) {
-          final msg = state.message.isEmpty ||
-                  state.message.startsWith('Instance of')
+          final msg =
+              state.message.isEmpty || state.message.startsWith('Instance of')
               ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
               : state.message;
           AppSnackBar.error(context, msg);
@@ -139,7 +141,6 @@ class _MaintenanceRequestDetailsPageState
           ),
           body: ImageBackground(
             child: SafeArea(
-              bottom: false,
               child: BlocBuilder<ShowRequestCubit, ShowRequestState>(
                 builder: (context, state) {
                   if (state is ShowRequestLoading ||
@@ -184,7 +185,9 @@ class _MaintenanceRequestDetailsPageState
   }
 
   Widget _buildContent(
-      BuildContext context, MaintenanceRequestDetailsEntity request) {
+    BuildContext context,
+    MaintenanceRequestDetailsEntity request,
+  ) {
     final assigned = request.data.assignedTechnician;
 
     return SingleChildScrollView(
@@ -216,10 +219,8 @@ class _MaintenanceRequestDetailsPageState
           if (assigned != null) ...[
             TechnicianCard(
               technician: assigned,
-              onMapTap: () => _showFullMapDialog(
-                context,
-                assigned.currentLocation!,
-              ),
+              onMapTap: () =>
+                  _showFullMapDialog(context, assigned.currentLocation!),
             ),
             SizedBox(height: 14.h),
           ],

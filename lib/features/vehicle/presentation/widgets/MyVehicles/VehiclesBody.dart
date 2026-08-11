@@ -3,7 +3,6 @@
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_state.dart';
-import 'package:car_care/features/vehicle/presentation/widgets/MyVehicles/RefreshHint.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/MyVehicles/VehiclesList.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -15,37 +14,43 @@ class VehiclesBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      final strings = context.l10n;
+    final strings = context.l10n;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          RefreshHint(
-            hintText: strings.updateCarsList,
-            onTap: () => context.read<VehicleCubit>().getAllVehicles(),
-          ),
-          SizedBox(height: 16.h),
-          Expanded(
-            child: BlocBuilder<VehicleCubit, VehicleState>(
-              builder: (context, state) {
-                if (state is VehicleLoading) {
-                  return const Center(child: AppLoadingWidget());
-                }
-                if (state is VehicleError) {
-                  return Center(child: Text(state.message));
-                }
-                if (state is VehicleEmpty) {
-                  return  Center(child: Text(strings.noCarsYet));
-                }
-                if (state is VehicleLoaded) {
-                  return VehiclesList(items: state.vehicles);
-                }
-                return const SizedBox.shrink();
-              },
-            ),
-          ),
-        ],
+      child: BlocBuilder<VehicleCubit, VehicleState>(
+        builder: (context, state) {
+          return RefreshIndicator(
+            onRefresh: () => context.read<VehicleCubit>().getAllVehicles(),
+            child: switch (state) {
+              VehicleLoading() => ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  SizedBox(height: 120.h),
+                  const Center(child: AppLoadingWidget()),
+                ],
+              ),
+              VehicleError(:final message) => ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  SizedBox(height: 120.h),
+                  Center(child: Text(message)),
+                ],
+              ),
+              VehicleEmpty() => ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  SizedBox(height: 120.h),
+                  Center(child: Text(strings.noCarsYet)),
+                ],
+              ),
+              VehicleLoaded(:final vehicles) => VehiclesList(items: vehicles),
+              _ => ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: const [SizedBox.shrink()],
+              ),
+            },
+          );
+        },
       ),
     );
   }

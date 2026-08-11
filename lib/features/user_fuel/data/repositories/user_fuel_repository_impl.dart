@@ -1,4 +1,3 @@
-
 import 'package:car_care/core/errors/excptions.dart';
 import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/features/user_fuel/data/data_sources/user_fuel_remote_data_source.dart';
@@ -25,72 +24,77 @@ class UserFuelRepositoryImpl implements IUserFuelRepository {
   }
 
   UserFuelOrderEntity _mapOrder(UserFuelOrderData? d) => UserFuelOrderEntity(
-        id: d?.id,
-        fuelType: d?.fuelType,
-        amount: d?.amount,
-        deliveryAddress: d?.deliveryAddress,
-        deliveryLatitude: d?.deliveryLatitude,
-        deliveryLongitude: d?.deliveryLongitude,
-        totalPrice: d?.totalPrice,
-        status: d?.status,
-        statusText: d?.statusText,
-        scheduledTime: d?.scheduledTime,
-        notes: d?.notes,
-        createdAt: d?.createdAt,
-        canCancel: d?.canCancel,
-        vehicle: d?.vehicle != null
-            ? UserFuelOrderVehicleEntity(
-                id: d!.vehicle!.id,
-                brand: d.vehicle!.brand,
-                model: d.vehicle!.model,
-                year: d.vehicle!.year,
-                plateNumber: d.vehicle!.plateNumber,
-                currentKm: d.vehicle!.currentKm,
-                ownerName: d.vehicle!.ownerName,
-              )
-            : null,
-        fuelProvider: d?.fuelProvider != null
-            ? UserFuelOrderProviderEntity(
-                id: d!.fuelProvider!.id,
-                companyName: d.fuelProvider!.companyName,
-                phone: d.fuelProvider!.phone,
-                currentLat: d.fuelProvider!.currentLat,
-                currentLng: d.fuelProvider!.currentLng,
-              )
-            : null,
-      );
+    id: d?.id,
+    fuelType: d?.fuelType,
+    amount: d?.amount,
+    deliveryAddress: d?.deliveryAddress,
+    deliveryLatitude: d?.deliveryLatitude,
+    deliveryLongitude: d?.deliveryLongitude,
+    totalPrice: d?.totalPrice,
+    status: d?.status,
+    statusText: d?.statusText,
+    scheduledTime: d?.scheduledTime,
+    notes: d?.notes,
+    createdAt: d?.createdAt,
+    canCancel: d?.canCancel,
+    vehicle: d?.vehicle != null
+        ? UserFuelOrderVehicleEntity(
+            id: d!.vehicle!.id,
+            brand: d.vehicle!.brand,
+            model: d.vehicle!.model,
+            year: d.vehicle!.year,
+            plateNumber: d.vehicle!.plateNumber,
+            currentKm: d.vehicle!.currentKm,
+            ownerName: d.vehicle!.ownerName,
+            image: d.vehicle!.image,
+            imagePath: d.vehicle!.imagePath,
+          )
+        : null,
+    fuelProvider: d?.fuelProvider != null
+        ? UserFuelOrderProviderEntity(
+            id: d!.fuelProvider!.id,
+            companyName: d.fuelProvider!.companyName,
+            phone: d.fuelProvider!.phone,
+            currentLat: d.fuelProvider!.currentLat,
+            currentLng: d.fuelProvider!.currentLng,
+          )
+        : null,
+  );
 
   UserFuelTrackEntity _mapTrack(UserFuelTrackData? d) => UserFuelTrackEntity(
-        orderId: d?.orderId,
-        orderStatus: d?.orderStatus,
-        provider: d?.provider != null
-            ? UserFuelTrackProviderEntity(
-                id: d!.provider!.id,
-                companyName: d.provider!.companyName,
-                phone: d.provider!.phone,
-              )
-            : null,
-        currentLocation: d?.currentLocation != null
-            ? UserFuelTrackLocationEntity(
-                latitude: d!.currentLocation!.latitude,
-                longitude: d.currentLocation!.longitude,
-                timestamp: d.currentLocation!.timestamp,
-              )
-            : null,
-        trackingPath: d?.trackingPath
-                .map((e) => UserFuelTrackLocationEntity(
-                      latitude: e.latitude,
-                      longitude: e.longitude,
-                      timestamp: e.timestamp,
-                    ))
-                .toList() ??
-            [],
-      );
+    orderId: d?.orderId,
+    orderStatus: d?.orderStatus,
+    provider: d?.provider != null
+        ? UserFuelTrackProviderEntity(
+            id: d!.provider!.id,
+            companyName: d.provider!.companyName,
+            phone: d.provider!.phone,
+          )
+        : null,
+    currentLocation: d?.currentLocation != null
+        ? UserFuelTrackLocationEntity(
+            latitude: d!.currentLocation!.latitude,
+            longitude: d.currentLocation!.longitude,
+            timestamp: d.currentLocation!.timestamp,
+          )
+        : null,
+    trackingPath:
+        d?.trackingPath
+            .map(
+              (e) => UserFuelTrackLocationEntity(
+                latitude: e.latitude,
+                longitude: e.longitude,
+                timestamp: e.timestamp,
+              ),
+            )
+            .toList() ??
+        [],
+  );
 
   @override
-  Future<Either<Failure, List<UserFuelOrderEntity>>> getAllOrders() =>
-      _call(() async =>
-          (await _remote.getAllOrders()).data.map(_mapOrder).toList());
+  Future<Either<Failure, List<UserFuelOrderEntity>>> getAllOrders() => _call(
+    () async => (await _remote.getAllOrders()).data.map(_mapOrder).toList(),
+  );
 
   @override
   Future<Either<Failure, UserFuelOrderEntity>> getOrder(int id) =>
@@ -98,9 +102,10 @@ class UserFuelRepositoryImpl implements IUserFuelRepository {
 
   @override
   Future<Either<Failure, UserFuelOrderEntity>> addEmergencyOrder(
-          Map<String, dynamic> data) =>
-      _call(() async =>
-          _mapOrder((await _remote.addEmergencyOrder(data)).data));
+    Map<String, dynamic> data,
+  ) => _call(
+    () async => _mapOrder((await _remote.addEmergencyOrder(data)).data),
+  );
 
   @override
   Future<Either<Failure, void>> cancelOrder(int id, String reason) =>

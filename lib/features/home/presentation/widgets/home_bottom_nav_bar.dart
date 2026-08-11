@@ -16,10 +16,20 @@ class HomeBottomNavBar extends StatelessWidget {
   final int activeIndex;
 
   /// Compact colored-bar height, excluding the device bottom safe inset.
-  static const double _barHeight = 78;
+  /// Matches the reference design's short, tight pill rather than a tall bar.
+  static const double _barHeight = 60;
 
   /// Horizontal floating margin applied to both sides of the pill.
   static const double _horizontalMargin = 16;
+
+  /// Corner radius — a light rounding like the reference, not a full stadium.
+  static const double _cornerRadius = 22;
+
+  /// Small, shallow gap between the notch curve and the assistant button.
+  static const double _notchMargin = 8;
+
+  /// Reserved width for the centered notch/button gap.
+  static const double _centerGap = 72;
 
   @override
   Widget build(BuildContext context) {
@@ -30,27 +40,30 @@ class HomeBottomNavBar extends StatelessWidget {
     // Padding/ClipRRect layer so the BottomAppBar's own notched background
     // never has to paint square/full-width, and nothing opaque sits behind
     // the notch. The device bottom safe-area inset is applied exactly once,
-    // right here.
+    // right here — plus a small fixed visual lift so the bar never sits
+    // flush against the system navigation area.
+    final liftedBottomInset = bottomInset > 0 ? bottomInset + 8.h : 10.h;
+
     return Padding(
       padding: EdgeInsets.fromLTRB(
         _horizontalMargin.w,
         0,
         _horizontalMargin.w,
-        bottomInset > 0 ? bottomInset : 10.h,
+        liftedBottomInset,
       ),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(28.r),
+          borderRadius: BorderRadius.circular(_cornerRadius.r),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.12),
-              blurRadius: 10.r,
-              offset: Offset(0, 4.h),
+              blurRadius: 8.r,
+              offset: Offset(0, 3.h),
             ),
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(28.r),
+          borderRadius: BorderRadius.circular(_cornerRadius.r),
           // The outer Padding above already accounts for the safe-area
           // bottom inset once; strip it here so BottomAppBar doesn't apply
           // it again internally and inflate the colored bar's height.
@@ -72,7 +85,7 @@ class HomeBottomNavBar extends StatelessWidget {
               shape: _CenteredNotchedShape(
                 horizontalInset: _horizontalMargin.w,
               ),
-              notchMargin: 10.r,
+              notchMargin: _notchMargin.r,
               child: Center(
                 child: Row(
                   children: [
@@ -96,14 +109,14 @@ class HomeBottomNavBar extends StatelessWidget {
                       ),
                     ),
                     // Reserved gap for the centered AI button's notch.
-                    SizedBox(width: 84.w),
+                    SizedBox(width: _centerGap.w),
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           HomeBottomNavItem(
-                            icon: Icons.assignment_outlined,
-                            label: strings.activeorders,
+                            icon: Icons.sos_rounded,
+                            label: strings.sos,
                             isActive: activeIndex == 2,
                             onTap: () => onItemSelected?.call(2),
                           ),
@@ -173,11 +186,11 @@ class HomeBottomNavItem extends StatelessWidget {
           Stack(
             clipBehavior: Clip.none,
             children: [
-              Icon(icon, color: iconColor, size: 24.sp),
+              Icon(icon, color: iconColor, size: 20.sp),
               if (badgeCount != null && badgeCount! > 0)
                 Positioned(
-                  top: -6,
-                  right: -6,
+                  top: -5,
+                  right: -5,
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 4,
@@ -191,7 +204,7 @@ class HomeBottomNavItem extends StatelessWidget {
                       '$badgeCount',
                       style: context.textTheme.bodySmall?.copyWith(
                         color: Colors.white,
-                        fontSize: 10.sp,
+                        fontSize: 9.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -199,12 +212,12 @@ class HomeBottomNavItem extends StatelessWidget {
                 ),
             ],
           ),
-          SizedBox(height: 4.h),
+          SizedBox(height: 2.h),
           Text(
             label,
             style: context.textTheme.bodySmall?.copyWith(
               color: isActive ? AppColors.orange : Colors.white,
-              fontSize: 13.sp,
+              fontSize: 11.sp,
               fontWeight: FontWeight.w500,
             ),
           ),

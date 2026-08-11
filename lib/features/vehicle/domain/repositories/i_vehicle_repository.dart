@@ -1,4 +1,5 @@
 import 'package:car_care/core/errors/filuar.dart';
+import 'package:car_care/features/vehicle/domain/entities/fuel_log_entity.dart';
 import 'package:car_care/features/vehicle/domain/entities/maintenance_history_entry_entity.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
 import 'package:dartz/dartz.dart';
@@ -20,4 +21,10 @@ abstract class IVehicleRepository {
   Future<Either<Failure, Unit>> deleteVehicle(int id);
   Future<Either<Failure, List<MaintenanceHistoryEntryEntity>>>
   getMaintenanceHistory(int vehicleId);
+
+  Future<Either<Failure, FuelLogPageEntity>> getFuelLogs(
+    int vehicleId, {
+    int page,
+    int perPage,
+  });
 }

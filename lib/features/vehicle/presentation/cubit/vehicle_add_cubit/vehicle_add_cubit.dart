@@ -15,7 +15,8 @@ class VehicleAddCubit extends Cubit<VehicleAddState> {
     required String year,
     required String plateNumber,
     required String currentKm,
-    required Uint8List imageBytes,//اذا حطينا فايل  ما رح تنحفظ الصورة بالكاش و رح يطلع خطأ
+    required Uint8List
+    imageBytes, //اذا حطينا فايل  ما رح تنحفظ الصورة بالكاش و رح يطلع خطأ
     required String imageFileName,
   }) async {
     emit(const VehicleAddLoading());
@@ -33,7 +34,7 @@ class VehicleAddCubit extends Cubit<VehicleAddState> {
     final result = await _vehicleRepository.addVehicle(params);
 
     result.fold(
-      (failure) => emit(VehicleAddError(failure.message)),
+      (failure) => emit(VehicleAddError(failure.displayMessage)),
       (VehicleEntity vehicle) => emit(VehicleAddSuccess(vehicle)),
     );
   }

@@ -1,4 +1,3 @@
-
 class UserFuelOrderModel {
   final bool? success;
   final String? message;
@@ -26,9 +25,9 @@ class UserFuelOrderListModel {
       UserFuelOrderListModel(
         success: json['success'],
         data: json['data'] != null
-            ? List.from(json['data'])
-                .map((e) => UserFuelOrderData.fromJson(e))
-                .toList()
+            ? List.from(
+                json['data'],
+              ).map((e) => UserFuelOrderData.fromJson(e)).toList()
             : [],
       );
 }
@@ -51,10 +50,21 @@ class UserFuelOrderData {
   final bool? canCancel;
 
   UserFuelOrderData({
-    this.id, this.fuelType, this.amount,
-    this.deliveryAddress, this.deliveryLatitude, this.deliveryLongitude,
-    this.totalPrice, this.status, this.statusText, this.scheduledTime,
-    this.vehicle, this.fuelProvider, this.notes, this.createdAt, this.canCancel,
+    this.id,
+    this.fuelType,
+    this.amount,
+    this.deliveryAddress,
+    this.deliveryLatitude,
+    this.deliveryLongitude,
+    this.totalPrice,
+    this.status,
+    this.statusText,
+    this.scheduledTime,
+    this.vehicle,
+    this.fuelProvider,
+    this.notes,
+    this.createdAt,
+    this.canCancel,
   });
 
   factory UserFuelOrderData.fromJson(Map<String, dynamic> json) =>
@@ -64,7 +74,9 @@ class UserFuelOrderData {
         amount: double.tryParse(json['amount'].toString()),
         deliveryAddress: json['delivery_address'],
         deliveryLatitude: double.tryParse(json['delivery_latitude'].toString()),
-        deliveryLongitude: double.tryParse(json['delivery_longitude'].toString()),
+        deliveryLongitude: double.tryParse(
+          json['delivery_longitude'].toString(),
+        ),
         totalPrice: json['total_price']?.toString(),
         status: json['status'],
         statusText: json['status_text'],
@@ -89,10 +101,19 @@ class UserFuelOrderVehicleData {
   final String? plateNumber;
   final int? currentKm;
   final String? ownerName;
+  final String? image;
+  final String? imagePath;
 
   UserFuelOrderVehicleData({
-    this.id, this.brand, this.model, this.year,
-    this.plateNumber, this.currentKm, this.ownerName,
+    this.id,
+    this.brand,
+    this.model,
+    this.year,
+    this.plateNumber,
+    this.currentKm,
+    this.ownerName,
+    this.image,
+    this.imagePath,
   });
 
   factory UserFuelOrderVehicleData.fromJson(Map<String, dynamic> json) {
@@ -105,6 +126,10 @@ class UserFuelOrderVehicleData {
       plateNumber: json['plate_number'],
       currentKm: json['current_km'],
       ownerName: owner?['name'],
+      // Same "vehicle" resource shape as the maintenance-request flow
+      // (see vehicle_model.dart), just not read here before.
+      image: json['image']?.toString(),
+      imagePath: json['image_path']?.toString(),
     );
   }
 }
@@ -117,8 +142,11 @@ class UserFuelOrderProviderData {
   final double? currentLng;
 
   UserFuelOrderProviderData({
-    this.id, this.companyName, this.phone,
-    this.currentLat, this.currentLng,
+    this.id,
+    this.companyName,
+    this.phone,
+    this.currentLat,
+    this.currentLng,
   });
 
   factory UserFuelOrderProviderData.fromJson(Map<String, dynamic> json) {

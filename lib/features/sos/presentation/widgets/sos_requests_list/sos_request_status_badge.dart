@@ -2,7 +2,15 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-enum SosRequestStatusBadgeStyle { outlineOnWhite, softSuccess }
+enum SosRequestStatusBadgeStyle { outlineOnWhite, softSuccess, softError }
+
+SosRequestStatusBadgeStyle sosRequestStatusBadgeStyleFor(String? status) {
+  return switch (status) {
+    'completed' => SosRequestStatusBadgeStyle.softSuccess,
+    'cancelled' => SosRequestStatusBadgeStyle.softError,
+    _ => SosRequestStatusBadgeStyle.outlineOnWhite,
+  };
+}
 
 class _SosRequestStatusBadgeLayout {
   _SosRequestStatusBadgeLayout._();
@@ -24,6 +32,7 @@ class SosRequestStatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool outline = style == SosRequestStatusBadgeStyle.outlineOnWhite;
+    final bool isError = style == SosRequestStatusBadgeStyle.softError;
     return Container(
       width: _SosRequestStatusBadgeLayout.width,
       height: _SosRequestStatusBadgeLayout.height,
@@ -32,10 +41,16 @@ class SosRequestStatusBadge extends StatelessWidget {
       decoration: BoxDecoration(
         color: outline
             ? AppColors.white
+            : isError
+            ? AppColors.errorBannerSurface
             : AppColors.serviceTierSelectedBackground,
         borderRadius: BorderRadius.circular(6.r),
         border: Border.all(
-          color: outline ? AppColors.carWashTeal : AppColors.success,
+          color: outline
+              ? AppColors.carWashTeal
+              : isError
+              ? AppColors.error
+              : AppColors.success,
           width: 1,
         ),
       ),

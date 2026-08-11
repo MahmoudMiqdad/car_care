@@ -82,25 +82,30 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
 
     final choice = await showModalBottomSheet<VehicleEntity>(
       context: context,
+      useSafeArea: true,
+      isScrollControlled: true,
       builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: vehicles.map((v) {
-            return ListTile(
-              leading: CircleAvatar(
-                radius: 20,
-                backgroundImage: v.image != null && v.image!.isNotEmpty
-                    ? NetworkImage(v.image!)
-                    : null,
-                child: v.image == null || v.image!.isEmpty
-                    ? const Icon(Icons.directions_car, size: 18)
-                    : null,
-              ),
-              title: Text('${v.brand} ${v.model}'),
-              subtitle: Text('${v.year} • ${v.plateNumber}'),
-              onTap: () => Navigator.pop(context, v),
-            );
-          }).toList(),
+        return SafeArea(
+          top: false,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: vehicles.map((v) {
+              return ListTile(
+                leading: CircleAvatar(
+                  radius: 20,
+                  backgroundImage: v.image != null && v.image!.isNotEmpty
+                      ? NetworkImage(v.image!)
+                      : null,
+                  child: v.image == null || v.image!.isEmpty
+                      ? const Icon(Icons.directions_car, size: 18)
+                      : null,
+                ),
+                title: Text('${v.brand} ${v.model}'),
+                subtitle: Text('${v.year} • ${v.plateNumber}'),
+                onTap: () => Navigator.pop(context, v),
+              );
+            }).toList(),
+          ),
         );
       },
     );
@@ -114,7 +119,9 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
 
   /// Fuel types accepted by the backend. 91 is intentionally absent — the
   /// API rejects it with "The selected fuel type is invalid".
-  List<({String label, String apiValue})> _fuelTypeOptions(BuildContext context) {
+  List<({String label, String apiValue})> _fuelTypeOptions(
+    BuildContext context,
+  ) {
     final l10n = context.l10n;
     return [
       (label: l10n.gasoline95, apiValue: '95'),
@@ -126,20 +133,26 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
   Future<void> _pickFuelType() async {
     final options = _fuelTypeOptions(context);
 
-    final choice = await showModalBottomSheet<({String label, String apiValue})>(
-      context: context,
-      builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: options.map((e) {
-            return ListTile(
-              title: Text(e.label),
-              onTap: () => Navigator.pop(context, e),
+    final choice =
+        await showModalBottomSheet<({String label, String apiValue})>(
+          context: context,
+          useSafeArea: true,
+          isScrollControlled: true,
+          builder: (context) {
+            return SafeArea(
+              top: false,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: options.map((e) {
+                  return ListTile(
+                    title: Text(e.label),
+                    onTap: () => Navigator.pop(context, e),
+                  );
+                }).toList(),
+              ),
             );
-          }).toList(),
+          },
         );
-      },
-    );
 
     if (!mounted || choice == null) return;
     // Store the API value alongside the label so submit never has to
@@ -244,7 +257,8 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
               );
             }
             if (state is UserFuelError) {
-              final msg = state.message.isEmpty ||
+              final msg =
+                  state.message.isEmpty ||
                       state.message.startsWith('Instance of')
                   ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
                   : state.message;

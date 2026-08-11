@@ -42,12 +42,8 @@ class TechnicianSosRequestCard extends StatelessWidget {
       enableDrag: false,
       builder: (_) => MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create: (_) => getIt<ShareTechnicianLocationSosCubit>(),
-          ),
-          BlocProvider.value(
-            value: context.read<TechnicianSosCubit>(),
-          ),
+          BlocProvider(create: (_) => getIt<ShareTechnicianLocationSosCubit>()),
+          BlocProvider.value(value: context.read<TechnicianSosCubit>()),
         ],
         child: _TechnicianNavigationSheet(
           sosId: item.id!,
@@ -144,11 +140,9 @@ class TechnicianSosRequestCard extends StatelessWidget {
                           label: item.statusText?.trim().isNotEmpty == true
                               ? item.statusText!
                               : '-',
-                          style: item.status == 'completed'
-                              ? TechnicianSosRequestStatusBadgeStyle
-                                  .outlineOnWhite
-                              : TechnicianSosRequestStatusBadgeStyle
-                                  .softSuccess,
+                          style: technicianSosRequestStatusBadgeStyleFor(
+                            item.status,
+                          ),
                         ),
                       ],
                     ),
@@ -165,7 +159,8 @@ class TechnicianSosRequestCard extends StatelessWidget {
                   // الأزرار حسب الحالة الحقيقية القادمة من الباك اند
                   BlocBuilder<TechnicianSosCubit, TechnicianSosState>(
                     builder: (context, state) {
-                      final isBusy = state is TechnicianActionLoading &&
+                      final isBusy =
+                          state is TechnicianActionLoading &&
                           state.sosId == item.id;
                       return _StatusActions(
                         item: item,
@@ -250,8 +245,9 @@ class _StatusActions extends StatelessWidget {
           AppButton(
             onPressed: isBusy
                 ? null
-                : () =>
-                    context.read<TechnicianSosCubit>().acceptRequest(item.id!),
+                : () => context.read<TechnicianSosCubit>().acceptRequest(
+                    item.id!,
+                  ),
             text: isBusy ? 'جاري القبول...' : 'قبول الطلب',
             isOutline: true,
             backgroundColor: AppColors.carWashTeal,
@@ -278,9 +274,9 @@ class _StatusActions extends StatelessWidget {
           onPressed: isBusy
               ? null
               : () => context.read<TechnicianSosCubit>().changeStatus(
-                    item.id!,
-                    isAccepted ? 'in_progress' : 'completed',
-                  ),
+                  item.id!,
+                  isAccepted ? 'in_progress' : 'completed',
+                ),
           text: isBusy
               ? 'جاري التنفيذ...'
               : (isAccepted ? 'بدء التنفيذ' : 'إنهاء الطلب'),
@@ -326,8 +322,9 @@ class _TechnicianNavigationSheet extends StatelessWidget {
       builder: (dialogContext) => Directionality(
         textDirection: TextDirection.rtl,
         child: AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
           title: const Text(
             'تغيير حالة الطلب',
             style: TextStyle(fontWeight: FontWeight.bold),
@@ -338,33 +335,35 @@ class _TechnicianNavigationSheet extends StatelessWidget {
               // ─── قيد التنفيذ ──────────────────────────────────────
               ListTile(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.r)),
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
                 tileColor: Colors.orange.shade50,
                 title: const Text('قيد التنفيذ'),
-                leading:
-                    const Icon(Icons.play_circle, color: Colors.orange),
+                leading: const Icon(Icons.play_circle, color: Colors.orange),
                 onTap: () {
                   Navigator.pop(dialogContext);
-                  context
-                      .read<TechnicianSosCubit>()
-                      .changeStatus(sosId, 'in_progress');
+                  context.read<TechnicianSosCubit>().changeStatus(
+                    sosId,
+                    'in_progress',
+                  );
                 },
               ),
               SizedBox(height: 8.h),
               // ─── منتهي ───────────────────────────────────────────
               ListTile(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.r)),
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
                 tileColor: Colors.green.shade50,
                 title: const Text('منتهي'),
-                leading:
-                    const Icon(Icons.check_circle, color: Colors.green),
+                leading: const Icon(Icons.check_circle, color: Colors.green),
                 onTap: () {
                   Navigator.pop(dialogContext);
                   // backend value is `completed`, not `finished`
-                  context
-                      .read<TechnicianSosCubit>()
-                      .changeStatus(sosId, 'completed');
+                  context.read<TechnicianSosCubit>().changeStatus(
+                    sosId,
+                    'completed',
+                  );
                   Navigator.pop(context); // اغلق الخريطة بعد الإنهاء
                 },
               ),
@@ -429,8 +428,7 @@ class _TechnicianNavigationSheet extends StatelessWidget {
 
           // ─── زر تغيير الحالة ───────────────────────────────────────
           Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             child: BlocBuilder<TechnicianSosCubit, TechnicianSosState>(
               builder: (context, state) {
                 final isLoading = state is TechnicianLoading;
