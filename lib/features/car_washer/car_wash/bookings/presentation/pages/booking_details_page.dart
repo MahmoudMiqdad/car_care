@@ -2,9 +2,11 @@ import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/media_url.dart';
 import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
+import 'package:car_care/core/widgets/vehicle_image_box.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/presentation/cubit/customer_bookings/customer_bookings_cubit.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/presentation/cubit/customer_bookings/customer_bookings_state.dart';
@@ -21,6 +23,10 @@ class BookingDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final vehicleImageUrl = resolveMediaUrl(
+      vehicleImageRawValue(booking!.vehicle.image, booking!.vehicle.imagePath),
+    );
+
     final serviceLines = [
       '${context.l10n.bookingDetailsWasherNameLabel}:  ${booking!.vehicle.ownerName ?? '---'}',
       '${context.l10n.bookingsServiceLabel}:  ${booking!.serviceType}',
@@ -41,20 +47,24 @@ class BookingDetailsPage extends StatelessWidget {
           if (state is CustomerBookingActionSuccess) {
             ScaffoldMessenger.of(context)
               ..clearSnackBars()
-              ..showSnackBar(SnackBar(
-                content: Text(state.message),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.green,
-              ));
+              ..showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Colors.green,
+                ),
+              );
             context.safePopOrGo(Routes.bookings, result: true);
           } else if (state is CustomerBookingActionError) {
             ScaffoldMessenger.of(context)
               ..clearSnackBars()
-              ..showSnackBar(SnackBar(
-                content: Text(state.message),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.red,
-              ));
+              ..showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Colors.red,
+                ),
+              );
           }
         },
         child: Directionality(
@@ -73,13 +83,8 @@ class BookingDetailsPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(
-                        child: Image.asset(
-                          'assets/images/Carfinance-amico.png',
-                          height: 150.h,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
+                      VehicleImageBox(imageUrl: vehicleImageUrl),
+                      SizedBox(height: 14.h),
                       AppText.sectionTitle(
                         context.l10n.bookingDetailsServiceSectionTitle,
                         fontSize: 19.sp,

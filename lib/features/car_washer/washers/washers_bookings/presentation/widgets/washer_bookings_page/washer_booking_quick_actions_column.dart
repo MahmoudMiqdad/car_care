@@ -3,6 +3,22 @@ import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+/// Which action keys are visible for a given status's visibility flags —
+/// pure and widget-free so accepted/in_progress/pending/completed/
+/// cancelled are directly unit-testable without pumping a widget tree.
+/// This is the single source of truth the widget below renders from, so a
+/// passing test here is a guarantee about what actually renders.
+List<String> washerBookingVisibleActionKeys({
+  required bool showAcceptReject,
+  required bool showStartComplete,
+  required bool showCompleteOnly,
+}) {
+  if (showAcceptReject) return const ['accept', 'reject'];
+  if (showStartComplete) return const ['start']; // never 'complete' too
+  if (showCompleteOnly) return const ['complete'];
+  return const [];
+}
+
 class WasherBookingQuickActionsColumn extends StatelessWidget {
   const WasherBookingQuickActionsColumn({
     super.key,
@@ -16,6 +32,7 @@ class WasherBookingQuickActionsColumn extends StatelessWidget {
     required this.onRejectSubmit,
     required this.onStartExecution,
     required this.onComplete,
+    this.busy = false,
   });
 
   final bool showAcceptReject;
@@ -32,9 +49,30 @@ class WasherBookingQuickActionsColumn extends StatelessWidget {
   final VoidCallback onStartExecution;
   final VoidCallback onComplete;
 
+  /// True while an action request for this specific booking is in flight —
+  /// shows a small inline indicator instead of the buttons and prevents a
+  /// second tap from firing a duplicate request.
+  final bool busy;
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+
+    if (busy && (showAcceptReject || showStartComplete || showCompleteOnly)) {
+      return SizedBox(
+        width: 90.w,
+        child: Column(
+          children: [
+            SizedBox(height: 40.h),
+            SizedBox(
+              width: 18.w,
+              height: 18.w,
+              child: const CircularProgressIndicator(strokeWidth: 2),
+            ),
+          ],
+        ),
+      );
+    }
 
     // Reject reason UI
     if (showAcceptReject && rejectMode) {
@@ -49,54 +87,55 @@ class WasherBookingQuickActionsColumn extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: 'سبب الرفض',
                 isDense: true,
-                contentPadding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 8.w,
+                  vertical: 8.h,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
               ),
             ),
             SizedBox(height: 6.h),
-            _ActionBtn(
-              label: 'إرسال',
-              onPressed: onRejectSubmit,
-              filled: true,
-            ),
+            _ActionBtn(label: 'إرسال', onPressed: onRejectSubmit, filled: true),
           ],
         ),
       );
     }
 
-    // pending => accept/reject
-    if (showAcceptReject) {
-      return Column(
-        children: [
-          SizedBox(height: 40.h),
-          _ActionBtn(label: l10n.washerBookingAccept, onPressed: onAccept),
-          _ActionBtn(label: l10n.washerBookingReject, onPressed: onRejectTap),
-        ],
-      );
-    }
+    final visibleKeys = washerBookingVisibleActionKeys(
+      showAcceptReject: showAcceptReject,
+      showStartComplete: showStartComplete,
+      showCompleteOnly: showCompleteOnly,
+    );
 
-    // accepted => start/complete
-    if (showStartComplete) {
-      return Column(
-        children: [
-          SizedBox(height: 40.h),
-          _ActionBtn(label: l10n.washerBookingStartExecution, onPressed: onStartExecution),
-          _ActionBtn(label: l10n.washerBookingCompleted, onPressed: onComplete),
-        ],
-      );
-    }
+    if (visibleKeys.isEmpty) return const SizedBox.shrink();
 
-    // in_progress => complete only
-    if (showCompleteOnly) {
-      return Column(
-        children: [
-          SizedBox(height: 40.h),
-          _ActionBtn(label: l10n.washerBookingCompleted, onPressed: onComplete),
-        ],
-      );
-    }
+    final buttonsByKey = <String, Widget>{
+      'accept': _ActionBtn(
+        label: l10n.washerBookingAccept,
+        onPressed: onAccept,
+      ),
+      'reject': _ActionBtn(
+        label: l10n.washerBookingReject,
+        onPressed: onRejectTap,
+      ),
+      'start': _ActionBtn(
+        label: l10n.washerBookingStartExecution,
+        onPressed: onStartExecution,
+      ),
+      'complete': _ActionBtn(
+        label: l10n.washerBookingCompleted,
+        onPressed: onComplete,
+      ),
+    };
 
-    return const SizedBox.shrink();
+    return Column(
+      children: [
+        SizedBox(height: 40.h),
+        for (final key in visibleKeys) buttonsByKey[key]!,
+      ],
+    );
   }
 }
 

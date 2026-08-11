@@ -11,10 +11,36 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+/// Which quick-action buttons a booking's current status makes available —
+/// shared by the list card and the details page so the pending/accepted/
+/// in_progress → action mapping is defined exactly once. Top-level so it's
+/// directly unit-testable.
+typedef WasherBookingActionVisibility = ({
+  bool showAcceptReject,
+  bool showStartComplete,
+  bool showCompleteOnly,
+});
+
+WasherBookingActionVisibility washerBookingActionVisibilityFor(String status) {
+  return (
+    showAcceptReject: status == 'pending',
+    showStartComplete: status == 'accepted',
+    showCompleteOnly: status == 'in_progress',
+  );
+}
+
 class WasherBookingCard extends StatefulWidget {
-  const WasherBookingCard({super.key, required this.booking});
+  const WasherBookingCard({
+    super.key,
+    required this.booking,
+    this.busy = false,
+  });
 
   final BookingsEntity booking;
+
+  /// True while an accept/reject/start/complete request for this specific
+  /// booking is in flight — disables only this card's own buttons.
+  final bool busy;
 
   @override
   State<WasherBookingCard> createState() => _WasherBookingCardState();
@@ -41,11 +67,10 @@ class _WasherBookingCardState extends State<WasherBookingCard> {
   Widget build(BuildContext context) {
     final booking = widget.booking;
 
-    final status =
-        booking.status; // pending / accepted / in_progress / completed / ...
-    final showDefaultActions = status == 'pending';
-    final showAfterAcceptActions = status == 'accepted';
-    final showInProgressActions = status == 'in_progress';
+    final visibility = washerBookingActionVisibilityFor(booking.status);
+    final showDefaultActions = visibility.showAcceptReject;
+    final showAfterAcceptActions = visibility.showStartComplete;
+    final showInProgressActions = visibility.showCompleteOnly;
 
     return Container(
       decoration: BoxDecoration(
@@ -56,7 +81,10 @@ class _WasherBookingCardState extends State<WasherBookingCard> {
       padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
       child: Column(
         children: [
-          WasherBookingStatusChipsRow(labels: [booking.statusText]),
+          WasherBookingStatusChipsRow(
+            status: booking.status,
+            label: booking.statusText,
+          ),
           SizedBox(height: 10.h),
 
           Row(
@@ -76,6 +104,7 @@ class _WasherBookingCardState extends State<WasherBookingCard> {
                 showAcceptReject: showDefaultActions,
                 showStartComplete: showAfterAcceptActions,
                 showCompleteOnly: showInProgressActions,
+                busy: widget.busy,
 
                 rejectMode: _rejectMode,
                 rejectController: _rejectController,
@@ -114,8 +143,15 @@ class _WasherBookingCardState extends State<WasherBookingCard> {
           SizedBox(height: 10.h),
 
           WasherBookingViewDetailsButton(
-            onPressed: () {
-              context.push(Routes.washerBookingsDetails, extra: booking);
+            onPressed: () async {
+              final cubit = context.read<BookingsCubit>();
+              final changed = await context.push<bool>(
+                Routes.washerBookingsDetails,
+                extra: booking,
+              );
+              if (changed == true) {
+                cubit.fetchBookings(status: cubit.currentStatus);
+              }
             },
           ),
         ],

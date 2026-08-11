@@ -1,8 +1,10 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
+import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/widgets/washer_bookings_page/washer_booking_card.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/widgets/washer_bookings_page/washer_booking_filter.dart';
 import 'package:car_care/l10n.dart';
@@ -62,27 +64,57 @@ class WasherBookingsPage extends StatelessWidget {
                   }
                 },
                 builder: (context, state) {
-                  if (state is BookingsLoading) {
+                  if (state is BookingsLoading || state is BookingsInitial) {
                     return const Center(child: AppLoadingWidget());
-                  } else if (state is BookingsError) {
+                  }
+                  if (state is BookingsError) {
                     return Center(child: Text(state.message));
-                  } else if (state is BookingsLoaded) {
-                    final realBookings = state.items;
-
-                    return ListView.separated(
-                      padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 20.h),
-                      itemCount: realBookings.length + 1,
-                      separatorBuilder: (_, index) => SizedBox(height: 14.h),
-                      itemBuilder: (context, index) {
-                        if (index == 0) return const WasherBookingFilter();
-                        return WasherBookingCard(
-                          booking: realBookings[index - 1],
-                        );
-                      },
-                    );
                   }
 
-                  return const SizedBox.shrink();
+                  // BookingsLoaded and every action state below all carry
+                  // items/status, so an in-flight or just-finished action
+                  // never blanks the list — only the busy bookings' own
+                  // buttons show as disabled/loading. busyBookingIds (not a
+                  // single id) so two different bookings can be mid-action
+                  // at once without one clobbering the other's indicator.
+                  List<BookingsEntity>? realBookings;
+                  Set<int> busyBookingIds = const {};
+                  if (state is BookingsLoaded) {
+                    realBookings = state.items;
+                    busyBookingIds = state.busyBookingIds;
+                  } else if (state is BookingActionLoading) {
+                    realBookings = state.currentItems;
+                    busyBookingIds = state.busyBookingIds;
+                  } else if (state is BookingActionSuccessMessage) {
+                    realBookings = state.currentItems;
+                    busyBookingIds = state.busyBookingIds;
+                  } else if (state is BookingActionError) {
+                    realBookings = state.currentItems;
+                    busyBookingIds = state.busyBookingIds;
+                  }
+
+                  if (realBookings == null) return const SizedBox.shrink();
+                  final items = realBookings;
+
+                  return ListView.separated(
+                    padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 20.h),
+                    itemCount: items.length + 1 + (items.isEmpty ? 1 : 0),
+                    separatorBuilder: (_, index) => SizedBox(height: 14.h),
+                    itemBuilder: (context, index) {
+                      if (index == 0) return const WasherBookingFilter();
+                      if (items.isEmpty) {
+                        return const Padding(
+                          padding: EdgeInsets.only(top: 40),
+                          child: EmptyStateWidget(),
+                        );
+                      }
+                      final booking = items[index - 1];
+                      return WasherBookingCard(
+                        booking: booking,
+                        busy: busyBookingIds.contains(booking.id),
+                      );
+                    },
+                  );
                 },
               ),
             ),
