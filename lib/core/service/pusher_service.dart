@@ -1,3 +1,4 @@
+// مسؤول عن اتصال WebSocket بخدمة Reverb وإدارة اشتراكات تتبع مواقع الفنيين.
 import 'dart:async';
 import 'dart:convert';
 import 'package:car_care/core/config/env.dart';
@@ -15,11 +16,16 @@ class PusherService {
   final Map<String, LocationCallback> _callbacks = {};
   final Set<String> _subscribedChannels = {}; // ← منع الاشتراك المزدوج
   Timer? _pingTimer;
+  Timer? _reconnectTimer;
   bool _connected = false;
+  bool _intentionalDisconnect = false;
 
   // ─── Connect ──────────────────────────────────────────────────────────────
   Future<void> init() async {
     if (_channel != null) return;
+
+    _intentionalDisconnect = false;
+    _reconnectTimer?.cancel();
 
     final wsUrl =
         'ws://${Env.reverbHost}:${Env.reverbPort}/app/${Env.reverbKey}'
@@ -33,11 +39,14 @@ class PusherService {
       _onMessage,
       onError: (e) => print('❌ WS Error: $e'),
       onDone: () {
-        print('🔌 WS Disconnected - reconnecting...');
+        print('🔌 WS Disconnected');
         _channel = null;
         _connected = false;
         _subscribedChannels.clear();
-        Future.delayed(const Duration(seconds: 3), () => init());
+        // Only accidental drops reconnect — an intentional (logout) shutdown
+        // must stay disconnected until something explicitly calls init() again.
+        if (_intentionalDisconnect) return;
+        _reconnectTimer = Timer(const Duration(seconds: 3), init);
       },
     );
 
@@ -143,7 +152,12 @@ class PusherService {
   }
 
   // ─── Disconnect ───────────────────────────────────────────────────────────
-  Future<void> disconnect() async {
+  /// [intentional] true (e.g. logout) stops the auto-reconnect scheduled by
+  /// [init]'s onDone handler; a later [init]/[subscribeToSosTracking] call
+  /// still connects fresh normally.
+  Future<void> disconnect({bool intentional = false}) async {
+    _intentionalDisconnect = intentional;
+    _reconnectTimer?.cancel();
     _pingTimer?.cancel();
     await _subscription?.cancel();
     await _channel?.sink.close();

@@ -1,10 +1,10 @@
+// مسؤول عن إرفاق رمز الدخول بالطلبات وإدارة تجديده تلقائيًا عند انتهائه.
 import 'dart:async';
 import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/core/network/api_client.dart';
 import 'package:car_care/core/network/api_endpoints.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-
 
 class AuthInterceptor extends Interceptor {
   AuthInterceptor({
@@ -34,7 +34,6 @@ class AuthInterceptor extends Interceptor {
       ApiEndpoints.login,
       ApiEndpoints.refresh,
       ApiEndpoints.register,
-      ApiEndpoints.logout,
     ];
 
     return authPaths.any((p) => path.contains(p));
@@ -49,9 +48,7 @@ class AuthInterceptor extends Interceptor {
       if (!_isAuthEndpoint(options.path)) {
         final token = await _secureStorage.getToken() ?? '';
         if (kDebugMode) {
-          debugPrint(
-            'Auth Token: ${token.isNotEmpty ? 'Present' : 'Missing'}',
-          );
+          debugPrint('Auth Token: ${token.isNotEmpty ? 'Present' : 'Missing'}');
         }
 
         if (token.isNotEmpty) {
@@ -77,6 +74,11 @@ class AuthInterceptor extends Interceptor {
 
     // Already retried with a fresh token — don't loop
     if (err.requestOptions.headers['_isRetry'] == true) {
+      return handler.next(err);
+    }
+
+    // Logout must never trigger a refresh/retry cycle of its own.
+    if (err.requestOptions.path.contains(ApiEndpoints.logout)) {
       return handler.next(err);
     }
 
@@ -137,9 +139,7 @@ class AuthInterceptor extends Interceptor {
     final response = await refreshDio.post(
       _refreshPath,
       data: {'refreshToken': refreshToken},
-      options: Options(
-        headers: {'Content-Type': 'application/json'},
-      ),
+      options: Options(headers: {'Content-Type': 'application/json'}),
     );
 
     if (response.statusCode != 200 || response.data is! Map) return null;

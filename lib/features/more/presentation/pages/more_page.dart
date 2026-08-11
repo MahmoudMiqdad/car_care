@@ -6,6 +6,7 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/features/advertisements/domain/entities/advertisement_entity.dart';
 import 'package:car_care/features/advertisements/presentation/widgets/advertisement_section.dart';
+import 'package:car_care/features/auth/presentation/widgets/logout_action.dart';
 import 'package:car_care/features/technician_sos/presentation/technician_sos_request_type.dart';
 import 'package:car_care/features/user_profile/data/data_sources/profile_remote_data_source.dart';
 import 'package:car_care/l10n.dart';
@@ -431,32 +432,6 @@ class _MoreTile extends StatelessWidget {
 class _LogoutTile extends StatelessWidget {
   const _LogoutTile();
 
-  Future<void> _confirmLogout(BuildContext context) async {
-    final strings = context.l10n;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(strings.logout),
-        content: Text(strings.logoutConfirmation),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(false),
-            child: Text(strings.cancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(true),
-            style: TextButton.styleFrom(foregroundColor: AppColors.error),
-            child: Text(strings.logout),
-          ),
-        ],
-      ),
-    );
-    if (confirmed != true || !context.mounted) return;
-    await getIt<SecureStorage>().clearAuth();
-    if (!context.mounted) return;
-    context.go(Routes.login);
-  }
-
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
@@ -467,7 +442,7 @@ class _LogoutTile extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(14.r),
         child: InkWell(
-          onTap: () => _confirmLogout(context),
+          onTap: () => confirmAndLogout(context),
           borderRadius: BorderRadius.circular(14.r),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 13.h),
