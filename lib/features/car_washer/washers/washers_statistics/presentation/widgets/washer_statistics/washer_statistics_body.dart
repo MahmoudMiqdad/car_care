@@ -11,8 +11,10 @@ class WasherStatisticsBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomSafeSpace = MediaQuery.viewPaddingOf(context).bottom;
+
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+      padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h + bottomSafeSpace),
       child: Column(
         children: [
           WasherStatisticsSummaryCard(statistics: statistics),

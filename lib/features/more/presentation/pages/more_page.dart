@@ -251,10 +251,10 @@ class _MoreContent extends StatelessWidget {
         onTap: () => context.push(Routes.washerBookings),
       ),
       _MoreTile(
-        icon: Icons.toggle_on_outlined,
-        label: 'التوفر',
+        icon: Icons.bar_chart_outlined,
+        label: 'الإحصائيات',
         iconColor: AppColors.carWashTeal,
-        onTap: () => context.push(Routes.availability),
+        onTap: () => context.push(Routes.washer_statistics),
       ),
     ];
   }

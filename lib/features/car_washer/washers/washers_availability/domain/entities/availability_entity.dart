@@ -1,4 +1,5 @@
 class AvailabilityEntity {
-  const AvailabilityEntity({required this.id});
-  final String id;
+  const AvailabilityEntity({required this.isAvailable});
+
+  final bool isAvailable;
 }
