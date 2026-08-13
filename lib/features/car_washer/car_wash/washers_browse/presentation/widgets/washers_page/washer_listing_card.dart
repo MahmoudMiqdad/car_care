@@ -1,8 +1,7 @@
-﻿import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/domain/entities/washers_entity.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/widgets/washer_avatar.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/widgets/washers_page/washer_star_rating_row.dart';
-import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/widgets/washers_page/washer_tier_badges.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,17 +37,6 @@ class WasherListingCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Align(
-                      alignment: AlignmentDirectional.centerStart,
-                      child: WasherTierBadges(servicePrices: washer.servicePrices),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 6.h),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -127,10 +115,7 @@ class WasherListingCard extends StatelessWidget {
 }
 
 class _SoftOutlinedButton extends StatelessWidget {
-  const _SoftOutlinedButton({
-    required this.label,
-    required this.onPressed,
-  });
+  const _SoftOutlinedButton({required this.label, required this.onPressed});
 
   final String label;
   final VoidCallback onPressed;
@@ -156,10 +141,7 @@ class _SoftOutlinedButton extends StatelessWidget {
         textAlign: TextAlign.center,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-          fontSize: 15.sp,
-          fontWeight: FontWeight.w700,
-        ),
+        style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w700),
       ),
     );
   }
