@@ -20,9 +20,6 @@ class WasherBookingsDetails extends StatefulWidget {
 }
 
 class _WasherBookingsDetailsState extends State<WasherBookingsDetails> {
-  // Whether any action actually changed this booking's status — reported
-  // back to the list page on pop so it knows to refresh once, since this
-  // page now updates itself in place instead of popping on every action.
   bool _changed = false;
 
   void _popBack() {
@@ -36,11 +33,6 @@ class _WasherBookingsDetailsState extends State<WasherBookingsDetails> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      // A fresh instance scoped to this page — the list page's own
-      // BookingsCubit lives under a different route and isn't reachable
-      // here; seeded with just this booking so the existing accept/
-      // reject/start/complete logic can update it in place, with no new
-      // Cubit/Repository and no extra GET endpoint.
       create: (_) => getIt<BookingsCubit>()..seedSingle(widget.booking),
       child: Directionality(
         textDirection: TextDirection.rtl,

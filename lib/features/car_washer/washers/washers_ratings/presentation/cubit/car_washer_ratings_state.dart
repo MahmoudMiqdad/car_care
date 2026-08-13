@@ -6,9 +6,6 @@ class CarWasherRatingsInitial extends CarWasherRatingsState {}
 
 class CarWasherRatingsLoading extends CarWasherRatingsState {}
 
-/// Also covers the empty case — an empty [ratings] list is a legitimate,
-/// well-formed result; `average`/`total` still come from `meta` and are
-/// never derived from the list itself.
 class CarWasherRatingsLoaded extends CarWasherRatingsState {
   CarWasherRatingsLoaded({
     required this.ratings,

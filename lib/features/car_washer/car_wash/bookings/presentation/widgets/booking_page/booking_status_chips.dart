@@ -2,8 +2,6 @@ import 'package:car_care/features/car_washer/shared/presentation/widgets/carwash
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Kept for call-site/test compatibility — delegates to the shared color
-/// resolver, no duplicated switch here.
 ({Color background, Color border}) customerBookingChipStyleFor(String status) =>
     carwashBookingStatusStyleFor(status);
 
@@ -14,10 +12,7 @@ class BookingStatusChips extends StatelessWidget {
     super.key,
   });
 
-  /// Canonical status (pending/accepted/in_progress/completed/cancelled).
   final String status;
-
-  /// Arabic display text (e.g. `booking.statusText`) — display only.
   final String label;
 
   @override
@@ -28,10 +23,6 @@ class BookingStatusChips extends StatelessWidget {
   }
 }
 
-/// Thin wrapper around the shared [CarwashBookingStatusBadge] — keeps this
-/// screen's exact original spacing (left padding, font size, vertical
-/// padding) with no visual change; the color/shape logic itself lives only
-/// in the shared widget.
 class BookingStatusChip extends StatelessWidget {
   const BookingStatusChip({
     required this.status,

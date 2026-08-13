@@ -4,10 +4,6 @@ import 'package:car_care/features/car_washer/washers/washers_statistics/domain/e
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 
-/// Adapts [StatisticsEntity] into the compact "حالات الحجوزات" indicators
-/// section — only pending/accepted/in_progress, since completed/cancelled
-/// already appear in [WasherStatisticsSummaryCard] and shouldn't repeat
-/// here.
 class WasherStatisticsIndicatorsCard extends StatelessWidget {
   const WasherStatisticsIndicatorsCard({super.key, required this.statistics});
 

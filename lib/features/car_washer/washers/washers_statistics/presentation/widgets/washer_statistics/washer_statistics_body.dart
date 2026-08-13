@@ -36,12 +36,6 @@ class WasherStatisticsBody extends StatelessWidget {
   }
 }
 
-/// carWasherId isn't part of [StatisticsEntity] — this slot reads it off
-/// the washer's own profile (my_profile) via the existing
-/// [ProfileWasherCubit] instead of adding a new endpoint just for the id.
-/// Kept isolated in its own BlocBuilder so a slow/failed profile load
-/// never hides the rest of the statistics page, which renders from
-/// [statistics] regardless.
 class _StatisticsRatingsSlot extends StatelessWidget {
   const _StatisticsRatingsSlot();
 

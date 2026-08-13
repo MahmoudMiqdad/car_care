@@ -22,7 +22,6 @@ class CarWasherRatingModel extends CarWasherRatingEntity {
       userId: _toInt(user['id']),
       userName: (user['name'] ?? '').toString(),
       createdAt: (json['created_at'] ?? '').toString(),
-      // Live backend sends `created_ago`; `ago` is kept only as a fallback.
       createdAgo: (json['created_ago'] ?? json['ago'] ?? '').toString(),
     );
   }
@@ -35,11 +34,6 @@ class CarWasherRatingModel extends CarWasherRatingEntity {
   }
 }
 
-/// Parses the whole `GET /customer/car_washers/{id}/ratings` response into
-/// a [CarWasherRatingsPageEntity]. `average_rating` is read from `meta`
-/// only — never derived from the individual ratings or from
-/// `rating_stars` — and every numeric meta field is accepted as either a
-/// JSON number or a numeric string.
 class CarWasherRatingsPageModel {
   static CarWasherRatingsPageEntity fromJson(Map<String, dynamic> json) {
     final rawList = json['data'];

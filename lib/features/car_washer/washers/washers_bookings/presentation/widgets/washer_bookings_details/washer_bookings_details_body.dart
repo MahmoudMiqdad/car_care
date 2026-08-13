@@ -22,8 +22,6 @@ class WasherBookingsDetailsBody extends StatefulWidget {
 
   final int bookingId;
 
-  /// Called once an action actually changed this booking's status, so the
-  /// page can report it back to the list on manual pop.
   final VoidCallback onChanged;
 
   @override
@@ -49,8 +47,6 @@ class _WasherBookingsDetailsBodyState extends State<WasherBookingsDetailsBody> {
     );
   }
 
-  /// The booking actually on screen right now, tracked across whichever
-  /// state the cubit (seeded via `seedSingle`) is currently in.
   BookingsEntity? _currentBooking(BookingsState state) {
     final pool = _itemsOf(state);
     if (pool == null) return null;
@@ -128,9 +124,6 @@ class _WasherBookingsDetailsBodyState extends State<WasherBookingsDetailsBody> {
           booking.notes.isNotEmpty ? booking.notes : '---',
         ];
 
-        // Same status → visible-actions mapping as WasherBookingCard
-        // (shared helper) — the mutation logic itself lives only in
-        // BookingsCubit.
         final visibility = washerBookingActionVisibilityFor(booking.status);
         final showDefaultActions = visibility.showAcceptReject;
         final showAfterAcceptActions = visibility.showStartComplete;

@@ -1,4 +1,4 @@
-﻿import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/widgets/app_headline.dart';
@@ -107,19 +107,6 @@ class ServicePackageCard extends StatelessWidget {
                 fontSize: 12.sp,
               ),
             ),
-          //   SizedBox(height: 6.h),
-          //   Divider(
-          //     color: AppColors.primary.withValues(alpha: 0.55),
-          //     height: 1,
-          //     thickness: 1.4,
-          //   ),
-          //   SizedBox(height: 8.h),
-          //  // CheckLine(text: l10n.washerServiceExterior),
-          //   SizedBox(height: 4.h),
-          //   CheckLine(text: l10n.washerServiceInterior),
-          //   SizedBox(height: 4.h),
-          //   CheckLine(text: l10n.washerServiceEngine),
-          //   SizedBox(height: 8.h),
             Divider(
               color: AppColors.primary.withValues(alpha: 0.45),
               height: 2,
@@ -168,11 +155,8 @@ class CheckLine extends StatelessWidget {
             width: 10.r,
             height: 10.r,
             fit: BoxFit.contain,
-            errorBuilder: (_, _, _) => Icon(
-              Icons.check,
-              size: 10.sp,
-              color: AppColors.primary,
-            ),
+            errorBuilder: (_, _, _) =>
+                Icon(Icons.check, size: 10.sp, color: AppColors.primary),
           ),
         ),
         SizedBox(width: 4.w),

@@ -21,12 +21,8 @@ class _WasherAvailabilitySwitchCardState
 
   void _onChanged(bool next) {
     if (context.read<AvailabilityCubit>().state is AvailabilityLoading) {
-      return; // prevent double submit
+      return;
     }
-    // Deliberately not updated here: no optimistic update. The displayed
-    // value only changes once AvailabilitySuccess confirms it below — the
-    // Switch is replaced by a small loading indicator in the meantime
-    // instead of jumping ahead of the server.
     context.read<AvailabilityCubit>().changeAvailability(next);
   }
 
@@ -45,8 +41,6 @@ class _WasherAvailabilitySwitchCardState
               ),
             );
         } else if (state is AvailabilityError) {
-          // Value was never changed, so it's already back at the previous
-          // confirmed state — just surface the error.
           ScaffoldMessenger.of(context)
             ..clearSnackBars()
             ..showSnackBar(

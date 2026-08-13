@@ -9,7 +9,7 @@ class AvailabilityCubit extends Cubit<AvailabilityState> {
   final IAvailabilityRepository _repository;
 
   Future<void> changeAvailability(bool isAvailable) async {
-    if (state is AvailabilityLoading) return; // prevent double submit
+    if (state is AvailabilityLoading) return;
 
     emit(const AvailabilityLoading());
 

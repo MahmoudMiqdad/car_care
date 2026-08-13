@@ -3,18 +3,13 @@ import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Which action keys are visible for a given status's visibility flags —
-/// pure and widget-free so accepted/in_progress/pending/completed/
-/// cancelled are directly unit-testable without pumping a widget tree.
-/// This is the single source of truth the widget below renders from, so a
-/// passing test here is a guarantee about what actually renders.
 List<String> washerBookingVisibleActionKeys({
   required bool showAcceptReject,
   required bool showStartComplete,
   required bool showCompleteOnly,
 }) {
   if (showAcceptReject) return const ['accept', 'reject'];
-  if (showStartComplete) return const ['start']; // never 'complete' too
+  if (showStartComplete) return const ['start'];
   if (showCompleteOnly) return const ['complete'];
   return const [];
 }
@@ -49,9 +44,6 @@ class WasherBookingQuickActionsColumn extends StatelessWidget {
   final VoidCallback onStartExecution;
   final VoidCallback onComplete;
 
-  /// True while an action request for this specific booking is in flight —
-  /// shows a small inline indicator instead of the buttons and prevents a
-  /// second tap from firing a duplicate request.
   final bool busy;
 
   @override
@@ -74,7 +66,6 @@ class WasherBookingQuickActionsColumn extends StatelessWidget {
       );
     }
 
-    // Reject reason UI
     if (showAcceptReject && rejectMode) {
       return SizedBox(
         width: 120.w,

@@ -5,9 +5,6 @@ import 'package:car_care/features/car_washer/washers/washers_statistics/domain/e
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 
-/// Adapts [StatisticsEntity] into the simple view data the generic
-/// [StatsSummaryCard] needs — the washer statistics page stays responsible
-/// for this conversion, the shared widget knows nothing about bookings.
 class WasherStatisticsSummaryCard extends StatelessWidget {
   const WasherStatisticsSummaryCard({super.key, required this.statistics});
 

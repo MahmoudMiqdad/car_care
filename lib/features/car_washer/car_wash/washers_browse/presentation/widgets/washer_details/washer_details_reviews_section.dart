@@ -10,8 +10,6 @@ class WasherDetailsReviewsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // carWasherId comes from the washer profile itself, never from a
-    // nested `user` object.
     return CarWasherRatingsSection(carWasherId: washer.id);
   }
 }

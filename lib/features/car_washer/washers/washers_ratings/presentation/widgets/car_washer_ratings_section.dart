@@ -8,11 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// The single shared "التقييمات" section — used both inside the washer's
-/// own profile page and inside the customer-facing washer details page.
-/// Owns its own [CarWasherRatingsCubit] instance (each screen gets one,
-/// per the existing `registerFactory` in the service locator) and fetches
-/// once per [carWasherId]; it never navigates to a standalone page.
 class CarWasherRatingsSection extends StatefulWidget {
   const CarWasherRatingsSection({super.key, required this.carWasherId});
 

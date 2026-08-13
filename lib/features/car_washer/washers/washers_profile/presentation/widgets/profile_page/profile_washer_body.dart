@@ -72,10 +72,8 @@ class ProfileWasherBody extends StatelessWidget {
               premiumPrice: _price(profile.servicePrices, 'premium'),
             ),
             SizedBox(height: 8.h),
-            // ── التوفر ── (بدلاً من صفحة/زر مستقل — انظر CW2)
             WasherAvailabilitySwitchCard(initialValue: profile.isAvailable),
             SizedBox(height: 16.h),
-            // ── تعديل الملف ──
             AppButton(
               onPressed: () async {
                 final result = await context.push(Routes.editProfileWasher);

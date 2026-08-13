@@ -11,7 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
       );
     case 'cancelled':
       return (background: const Color(0xFFF8D7DA), border: AppColors.error);
-    default: // pending / accepted / in_progress
+    default:
       return (background: Colors.transparent, border: AppColors.lightBorder);
   }
 }
@@ -29,8 +29,6 @@ class CarwashBookingStatusBadge extends StatelessWidget {
   final String status;
   final String label;
 
-  /// Kept per-caller so each existing wrapper can reproduce its own exact
-  /// current sizing without any visual change.
   final double fontSize;
   final double verticalPadding;
   final double horizontalPadding;

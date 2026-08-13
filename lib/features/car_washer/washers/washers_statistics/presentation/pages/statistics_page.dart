@@ -23,10 +23,6 @@ class CarWasherStatisticsPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => getIt<CarWasherStatisticsCubit>()..load()),
-        // Statistics has no carWasherId of its own — the ratings section
-        // embedded in the body gets it from the washer's own profile
-        // (my_profile), reusing the existing ProfileWasherCubit instead of
-        // adding a new endpoint/repository just for this id.
         BlocProvider(create: (_) => getIt<ProfileWasherCubit>()..load()),
       ],
       child: Directionality(

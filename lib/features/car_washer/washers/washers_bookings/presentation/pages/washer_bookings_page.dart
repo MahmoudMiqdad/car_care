@@ -71,12 +71,6 @@ class WasherBookingsPage extends StatelessWidget {
                     return Center(child: Text(state.message));
                   }
 
-                  // BookingsLoaded and every action state below all carry
-                  // items/status, so an in-flight or just-finished action
-                  // never blanks the list — only the busy bookings' own
-                  // buttons show as disabled/loading. busyBookingIds (not a
-                  // single id) so two different bookings can be mid-action
-                  // at once without one clobbering the other's indicator.
                   List<BookingsEntity>? realBookings;
                   Set<int> busyBookingIds = const {};
                   if (state is BookingsLoaded) {

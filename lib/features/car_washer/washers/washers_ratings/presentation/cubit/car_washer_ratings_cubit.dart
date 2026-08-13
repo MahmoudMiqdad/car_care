@@ -7,7 +7,7 @@ class CarWasherRatingsCubit extends Cubit<CarWasherRatingsState> {
   final ICarWasherRatingsRepository _repo;
 
   Future<void> fetchRatings(int carWasherId) async {
-    if (state is CarWasherRatingsLoading) return; // no duplicate request
+    if (state is CarWasherRatingsLoading) return;
 
     emit(CarWasherRatingsLoading());
     final result = await _repo.getRatings(carWasherId, page: 1);
@@ -38,8 +38,6 @@ class CarWasherRatingsCubit extends Cubit<CarWasherRatingsState> {
     );
 
     result.fold(
-      // Keeps the previously-loaded items visible; a failed "load more"
-      // page simply stops the spinner instead of losing what's shown.
       (failure) => emit(current.copyWith(isLoadingMore: false)),
       (page) => emit(
         current.copyWith(

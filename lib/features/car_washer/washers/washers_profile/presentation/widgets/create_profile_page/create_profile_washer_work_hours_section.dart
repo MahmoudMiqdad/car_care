@@ -103,8 +103,9 @@ class _WorkTimeField extends StatelessWidget {
         ListenableBuilder(
           listenable: controller,
           builder: (context, _) {
-            final display =
-                controller.text.trim().isEmpty ? hint : controller.text.trim();
+            final display = controller.text.trim().isEmpty
+                ? hint
+                : controller.text.trim();
             return AppOutlinedSelectField(
               valueText: display,
               onTap: onTap ?? () {},
@@ -116,7 +117,6 @@ class _WorkTimeField extends StatelessWidget {
   }
 }
 
-/// Parses [HH:mm] or legacy [HH:mm-HH:mm] start segment for [showTimePicker].
 TimeOfDay profileWasherParseWorkTime(String text, {TimeOfDay? fallback}) {
   final raw = text.trim();
   if (raw.isEmpty) return fallback ?? const TimeOfDay(hour: 9, minute: 0);
@@ -144,10 +144,7 @@ Future<void> profileWasherPickWorkTime(
 }) async {
   final picked = await showTimePicker(
     context: context,
-    initialTime: profileWasherParseWorkTime(
-      controller.text,
-      fallback: initial,
-    ),
+    initialTime: profileWasherParseWorkTime(controller.text, fallback: initial),
     builder: (context, child) {
       return Theme(
         data: Theme.of(context).copyWith(

@@ -11,10 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-/// Which quick-action buttons a booking's current status makes available —
-/// shared by the list card and the details page so the pending/accepted/
-/// in_progress → action mapping is defined exactly once. Top-level so it's
-/// directly unit-testable.
 typedef WasherBookingActionVisibility = ({
   bool showAcceptReject,
   bool showStartComplete,
@@ -38,8 +34,6 @@ class WasherBookingCard extends StatefulWidget {
 
   final BookingsEntity booking;
 
-  /// True while an accept/reject/start/complete request for this specific
-  /// booking is in flight — disables only this card's own buttons.
   final bool busy;
 
   @override

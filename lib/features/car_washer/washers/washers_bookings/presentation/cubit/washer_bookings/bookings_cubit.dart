@@ -14,15 +14,8 @@ class BookingsCubit extends Cubit<BookingsState> {
   String? _currentStatus;
   List<BookingsEntity> _currentItems = [];
 
-  /// Every booking id with an accept/reject/start/complete request
-  /// currently in flight. A set (not a single nullable id) so an action on
-  /// one booking never clobbers the busy tracking of another booking whose
-  /// own request is still running.
   final Set<int> _busyBookingIds = {};
 
-  /// The status filter currently applied to the list — lets a caller that
-  /// isn't this cubit (e.g. the details page, after an action) re-fetch
-  /// with the same filter instead of silently resetting it to "all".
   String? get currentStatus => _currentStatus;
 
   Future<void> fetchBookings({String? status}) async {
@@ -46,11 +39,6 @@ class BookingsCubit extends Cubit<BookingsState> {
     });
   }
 
-  /// Used by the booking-details page, which has no list of its own to
-  /// fetch: seeds this cubit with just the one booking passed in via
-  /// navigation `extra`, so the existing accept/reject/start/complete
-  /// logic below (including in-place status updates) works there too,
-  /// without a `GET` for a single booking (which the API doesn't expose).
   void seedSingle(BookingsEntity booking) {
     _currentItems = [booking];
     _currentStatus = null;
@@ -58,11 +46,6 @@ class BookingsCubit extends Cubit<BookingsState> {
     emit(BookingsLoaded(_currentItems, status: 'all'));
   }
 
-  /// Parses the updated booking out of the endpoint's `data` field.
-  /// Returns null — never throws — whenever `data` is missing, not a map,
-  /// or fails to parse into a full `BookingModel` (e.g. a partial
-  /// response missing `vehicle`), so a malformed response can never crash
-  /// the cubit; the caller falls back to a single re-fetch instead.
   BookingsEntity? _bookingFromResponse(Map<String, dynamic> response) {
     final data = response['data'];
     if (data is! Map<String, dynamic>) return null;
@@ -73,17 +56,6 @@ class BookingsCubit extends Cubit<BookingsState> {
     }
   }
 
-  /// Applies a single accept/reject/start/complete action without ever
-  /// emitting a state that drops the currently-visible list:
-  /// - a booking already being acted on refuses a second call, but a
-  ///   different booking's own action is never blocked by it,
-  /// - the loading/error/success states all carry the same items+status
-  ///   plus the full set of currently-busy booking ids,
-  /// - on success, the item is updated in place from the response when it
-  ///   includes the updated booking (dropped from the list instead if its
-  ///   new status no longer matches the active filter); otherwise exactly
-  ///   one re-fetch (with the active filter) is awaited to learn the
-  ///   confirmed status — never both, and never left un-awaited.
   Future<void> _runAction({
     required int bookingId,
     required Future<Either<Failure, Map<String, dynamic>>> Function() call,
@@ -150,9 +122,6 @@ class BookingsCubit extends Cubit<BookingsState> {
             ),
           );
         } else {
-          // Endpoint only returned a message (or an unparseable/partial
-          // `data`) — one awaited re-fetch from the existing source to
-          // learn the confirmed status; never a second request beyond it.
           await fetchBookings(status: _currentStatus);
           _busyBookingIds.remove(bookingId);
           final latest = state;

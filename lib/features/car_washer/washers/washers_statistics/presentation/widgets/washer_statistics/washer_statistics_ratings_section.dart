@@ -46,7 +46,6 @@ class WasherStatisticsRatingsSection extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 6.h),
-                // ✅ الحل: تحديد أقصى عرض + FittedBox لتصغير النجوم تلقائيًا
                 SizedBox(
                   width: double.infinity,
                   child: FittedBox(
