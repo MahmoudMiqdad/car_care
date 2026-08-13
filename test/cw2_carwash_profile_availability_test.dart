@@ -18,7 +18,11 @@ import 'package:car_care/features/car_washer/washers/washers_availability/presen
 import 'package:car_care/features/car_washer/washers/washers_availability/presentation/cubit/availability_state.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/domain/entities/washer_profile_entity.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/profile_page/profile_washer_body.dart';
+import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/profile_page/profile_washer_star_rating_row.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/profile_page/washer_availability_switch_card.dart';
+import 'package:car_care/features/car_washer/washers/washers_ratings/domain/repositories/i_car_washer_ratings_repository.dart';
+import 'package:car_care/features/car_washer/washers/washers_ratings/presentation/cubit/car_washer_ratings_cubit.dart';
+import 'package:car_care/features/car_washer/washers/washers_ratings/presentation/widgets/car_washer_ratings_section.dart';
 import 'package:car_care/features/more/presentation/pages/more_page.dart';
 import 'package:car_care/features/user_profile/data/data_sources/profile_remote_data_source.dart';
 import 'package:car_care/features/user_profile/data/model/profile_model.dart';
@@ -365,45 +369,83 @@ void main() {
     );
   });
 
-  group('ProfileWasherBody — cleaned-up button set', () {
-    late MockIAvailabilityRepository repo;
+  group(
+    'ProfileWasherBody — cleaned-up button set, no ratings (CW3-PLACEMENT-CORRECTION)',
+    () {
+      late MockIAvailabilityRepository repo;
 
-    setUp(() => repo = MockIAvailabilityRepository());
+      setUp(() {
+        repo = MockIAvailabilityRepository();
+        // The ratings section was moved out of ProfileWasherBody entirely —
+        // deliberately NOT registering ICarWasherRatingsRepository/
+        // CarWasherRatingsCubit in getIt for this group. If the profile page
+        // ever tried to resolve either, pumping below would throw a GetIt
+        // "not registered" error instead of silently succeeding — so a
+        // clean pump is itself proof no ratings request is ever made when
+        // the profile page opens.
+        if (getIt.isRegistered<ICarWasherRatingsRepository>()) {
+          getIt.unregister<ICarWasherRatingsRepository>();
+        }
+        if (getIt.isRegistered<CarWasherRatingsCubit>()) {
+          getIt.unregister<CarWasherRatingsCubit>();
+        }
+      });
 
-    Future<void> pumpBody(WidgetTester tester, WasherProfileEntity profile) {
-      return _pumpWithApp(
-        tester,
-        BlocProvider<AvailabilityCubit>(
-          create: (_) => AvailabilityCubit(repo),
-          child: ProfileWasherBody(profile: profile),
-        ),
-      );
-    }
+      Future<void> pumpBody(WidgetTester tester, WasherProfileEntity profile) {
+        return _pumpWithApp(
+          tester,
+          BlocProvider<AvailabilityCubit>(
+            create: (_) => AvailabilityCubit(repo),
+            child: ProfileWasherBody(profile: profile),
+          ),
+        );
+      }
 
-    testWidgets('8) the edit-profile button remains visible', (tester) async {
-      await pumpBody(tester, _fakeProfile(isAvailable: true));
-      expect(find.text('تعديل الملف'), findsOneWidget);
-    });
-
-    testWidgets(
-      '9) حجوزاتي / الإحصائيات / التقييمات standalone buttons no longer '
-      'appear inside ProfileWasherBody',
-      (tester) async {
+      testWidgets('8) the edit-profile button remains visible', (tester) async {
         await pumpBody(tester, _fakeProfile(isAvailable: true));
-        expect(find.text('حجوزاتي'), findsNothing);
-        expect(find.text('الإحصائيات'), findsNothing);
-        expect(find.text('التقييمات'), findsNothing);
-      },
-    );
+        expect(find.text('تعديل الملف'), findsOneWidget);
+      });
 
-    testWidgets('the embedded availability switch card is present', (
-      tester,
-    ) async {
-      await pumpBody(tester, _fakeProfile(isAvailable: true));
-      expect(find.byType(WasherAvailabilitySwitchCard), findsOneWidget);
-      expect(find.byType(Switch), findsOneWidget);
-    });
-  });
+      testWidgets(
+        '9) حجوزاتي / الإحصائيات standalone buttons no longer appear inside '
+        'ProfileWasherBody',
+        (tester) async {
+          await pumpBody(tester, _fakeProfile(isAvailable: true));
+          expect(find.text('حجوزاتي'), findsNothing);
+          expect(find.text('الإحصائيات'), findsNothing);
+        },
+      );
+
+      testWidgets(
+        '9b) no ratings information appears at all: no section title, no '
+        'star row, no average, no ratings-count text — and opening the '
+        'profile never resolves a ratings Cubit/Repository from getIt',
+        (tester) async {
+          expect(getIt.isRegistered<CarWasherRatingsCubit>(), false);
+          expect(getIt.isRegistered<ICarWasherRatingsRepository>(), false);
+
+          await pumpBody(tester, _fakeProfile(isAvailable: true));
+
+          expect(find.text('التقييمات'), findsNothing);
+          expect(find.byType(CarWasherRatingsSection), findsNothing);
+          expect(find.byType(ProfileWasherStarRatingRow), findsNothing);
+          expect(find.textContaining('تقييم'), findsNothing);
+
+          // still nothing registered afterwards — no lazy resolution happened.
+          expect(getIt.isRegistered<CarWasherRatingsCubit>(), false);
+          expect(getIt.isRegistered<ICarWasherRatingsRepository>(), false);
+        },
+      );
+
+      testWidgets('the embedded availability switch card is present', (
+        tester,
+      ) async {
+        await pumpBody(tester, _fakeProfile(isAvailable: true));
+        expect(find.byType(WasherAvailabilitySwitchCard), findsOneWidget);
+        expect(find.byType(Switch), findsOneWidget);
+      });
+    },
+  );
 
   group('MorePage — car-washer role items (real widget, not source text)', () {
     late MockProfileRemoteDataSource profileDs;

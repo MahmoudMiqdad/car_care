@@ -4,6 +4,7 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
+import 'package:car_care/features/car_washer/washers/washers_profile/presentation/cubit/profile_washer_cubit.dart';
 import 'package:car_care/features/car_washer/washers/washers_statistics/presentation/cubit/statistics_cubit.dart';
 import 'package:car_care/features/car_washer/washers/washers_statistics/presentation/cubit/statistics_state.dart';
 import 'package:car_care/features/car_washer/washers/washers_statistics/presentation/widgets/washer_statistics/washer_statistics_body.dart';
@@ -19,8 +20,15 @@ class CarWasherStatisticsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = context.l10n;
 
-    return BlocProvider(
-      create: (_) => getIt<CarWasherStatisticsCubit>()..load(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => getIt<CarWasherStatisticsCubit>()..load()),
+        // Statistics has no carWasherId of its own — the ratings section
+        // embedded in the body gets it from the washer's own profile
+        // (my_profile), reusing the existing ProfileWasherCubit instead of
+        // adding a new endpoint/repository just for this id.
+        BlocProvider(create: (_) => getIt<ProfileWasherCubit>()..load()),
+      ],
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -52,8 +60,11 @@ class CarWasherStatisticsPage extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.error_outline,
-                            size: 64, color: Colors.red.shade400),
+                        Icon(
+                          Icons.error_outline,
+                          size: 64,
+                          color: Colors.red.shade400,
+                        ),
                         const SizedBox(height: 16),
                         Text(state.message, textAlign: TextAlign.center),
                         const SizedBox(height: 24),
