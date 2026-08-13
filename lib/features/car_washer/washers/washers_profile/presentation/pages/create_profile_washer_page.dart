@@ -7,14 +7,20 @@ import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/cubit/profile_washer_cubit.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/cubit/profile_washer_state.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/create_profile_page/create_profile_washer_form.dart';
-import 'package:car_care/features/car_washer/washers/washers_profile/presentation/pages/profile_washer_page.dart'
-    show profileWasherBack;
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/create_profile_page/create_profile_washer_work_hours_section.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+
+void _profileWasherBack(BuildContext context) {
+  if (context.canPop()) {
+    context.pop();
+  } else {
+    context.go(Routes.home);
+  }
+}
 
 class CreateProfileWasherPage extends StatelessWidget {
   const CreateProfileWasherPage({super.key});
@@ -32,7 +38,8 @@ class _CreateProfileWasherView extends StatefulWidget {
   const _CreateProfileWasherView();
 
   @override
-  State<_CreateProfileWasherView> createState() => _CreateProfileWasherViewState();
+  State<_CreateProfileWasherView> createState() =>
+      _CreateProfileWasherViewState();
 }
 
 class _CreateProfileWasherViewState extends State<_CreateProfileWasherView> {
@@ -44,8 +51,7 @@ class _CreateProfileWasherViewState extends State<_CreateProfileWasherView> {
   final _basic = TextEditingController();
   final _vip = TextEditingController();
   final _premium = TextEditingController();
-  final _services =
-      TextEditingController(text: 'غسيل عادي, غسيل ممتاز, تلميع');
+  final _services = TextEditingController(text: 'غسيل عادي, غسيل ممتاز, تلميع');
   final _workStart = TextEditingController(text: '11:00');
   final _workEnd = TextEditingController(text: '16:00');
 
@@ -102,10 +108,10 @@ class _CreateProfileWasherViewState extends State<_CreateProfileWasherView> {
       profileWasherPickWorkTime(context, controller: _workStart);
 
   Future<void> _pickWorkEnd() => profileWasherPickWorkTime(
-        context,
-        controller: _workEnd,
-        initial: const TimeOfDay(hour: 16, minute: 0),
-      );
+    context,
+    controller: _workEnd,
+    initial: const TimeOfDay(hour: 16, minute: 0),
+  );
 
   Future<void> _pickLogo() async {
     final file = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -129,15 +135,15 @@ class _CreateProfileWasherViewState extends State<_CreateProfileWasherView> {
 
     _waitingForSave = true;
     context.read<ProfileWasherCubit>().saveProfile(
-          shopName: _shop.text.trim(),
-          phone: _phone.text.trim(),
-          city: _city.text.trim(),
-          address: _address.text.trim(),
-          description: _desc.text.trim(),
-          services: _parseServices(),
-          servicePrices: _parsePrices(),
-          workingHours: _parseHours(),
-        );
+      shopName: _shop.text.trim(),
+      phone: _phone.text.trim(),
+      city: _city.text.trim(),
+      address: _address.text.trim(),
+      description: _desc.text.trim(),
+      services: _parseServices(),
+      servicePrices: _parsePrices(),
+      workingHours: _parseHours(),
+    );
   }
 
   @override
@@ -189,7 +195,7 @@ class _CreateProfileWasherViewState extends State<_CreateProfileWasherView> {
               title: l10n.profileWasherCreatePageTitle,
               showBackButton: true,
               backgroundColor: AppColors.carWashTeal,
-              onBackTapped: () => profileWasherBack(context),
+              onBackTapped: () => _profileWasherBack(context),
             ),
 
             body: ImageBackground(

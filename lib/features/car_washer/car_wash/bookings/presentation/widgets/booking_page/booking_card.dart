@@ -10,18 +10,12 @@ import 'booking_details_content.dart';
 import 'booking_status_chips.dart';
 
 class BookingCard extends StatelessWidget {
-  const BookingCard({
-    super.key,
-    required this.booking,
-  });
+  const BookingCard({super.key, required this.booking});
 
   final BookingsEntity booking;
 
   Future<void> _openDetails(BuildContext context) async {
-    final changed = await context.push(
-      Routes.bookingDetails,
-      extra: booking,
-    );
+    final changed = await context.push(Routes.bookingDetails, extra: booking);
     if (changed == true && context.mounted) {
       context.read<CustomerBookingsCubit>().fetchBookings(status: null);
     }
@@ -29,8 +23,6 @@ class BookingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusChips = <String>[booking.statusText];
-
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -47,7 +39,10 @@ class BookingCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              BookingStatusChips(statusChips: statusChips),
+              BookingStatusChips(
+                status: booking.status,
+                label: booking.statusText,
+              ),
               SizedBox(height: 8.h),
               BookingDetailsContent(
                 booking: booking,

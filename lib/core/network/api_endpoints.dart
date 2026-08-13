@@ -71,6 +71,9 @@ class ApiEndpoints {
 
   // Statistics
   static const String washerStatistics = '/car_washer/statistics';
+
+  // Availability
+  static const String washerAvailability = '/car_washer/availability';
   //sos
   static const String sos = '/sos';
 

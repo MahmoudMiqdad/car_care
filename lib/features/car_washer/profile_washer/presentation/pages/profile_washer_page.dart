@@ -5,6 +5,7 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
+import 'package:car_care/features/car_washer/washers/washers_availability/presentation/cubit/availability_cubit.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/cubit/profile_washer_cubit.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/cubit/profile_washer_state.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/pages/create_profile_washer_page.dart';
@@ -22,8 +23,11 @@ class ProfileWasherPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return BlocProvider(
-      create: (_) => getIt<ProfileWasherCubit>()..load(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => getIt<ProfileWasherCubit>()..load()),
+        BlocProvider(create: (_) => getIt<AvailabilityCubit>()),
+      ],
       child: Scaffold(
         backgroundColor: AppColors.lightScaffold,
         appBar: CustomAppBar(
@@ -67,10 +71,12 @@ class ProfileWasherPage extends StatelessWidget {
                 final profile = state.profile;
                 final effectiveStatus =
                     (profile.status != null && profile.status!.isNotEmpty)
-                        ? profile.status
-                        : (profile.isVerified ? null : 'pending');
+                    ? profile.status
+                    : (profile.isVerified ? null : 'pending');
                 final gate = buildProviderStatusGate(
-                    effectiveStatus, profile.rejectionReason);
+                  effectiveStatus,
+                  profile.rejectionReason,
+                );
                 if (gate != null) return gate;
                 return ProfileWasherBody(profile: profile);
               }

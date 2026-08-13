@@ -7,11 +7,48 @@ class CarWasherRatingsCubit extends Cubit<CarWasherRatingsState> {
   final ICarWasherRatingsRepository _repo;
 
   Future<void> fetchRatings(int carWasherId) async {
+    if (state is CarWasherRatingsLoading) return;
+
     emit(CarWasherRatingsLoading());
-    final result = await _repo.getRatings(carWasherId);
+    final result = await _repo.getRatings(carWasherId, page: 1);
+
     result.fold(
-      (failure) => emit(CarWasherRatingsError(failure.message)),
-      (ratings) => emit(CarWasherRatingsLoaded(ratings)),
+      (failure) => emit(CarWasherRatingsError(failure.displayMessage)),
+      (page) => emit(
+        CarWasherRatingsLoaded(
+          ratings: page.ratings,
+          averageRating: page.averageRating,
+          totalRatings: page.totalRatings,
+          currentPage: page.currentPage,
+          perPage: page.perPage,
+        ),
+      ),
+    );
+  }
+
+  Future<void> loadMore(int carWasherId) async {
+    final current = state;
+    if (current is! CarWasherRatingsLoaded) return;
+    if (current.isLoadingMore || !current.hasMore) return;
+
+    emit(current.copyWith(isLoadingMore: true));
+    final result = await _repo.getRatings(
+      carWasherId,
+      page: current.currentPage + 1,
+    );
+
+    result.fold(
+      (failure) => emit(current.copyWith(isLoadingMore: false)),
+      (page) => emit(
+        current.copyWith(
+          ratings: [...current.ratings, ...page.ratings],
+          averageRating: page.averageRating,
+          totalRatings: page.totalRatings,
+          currentPage: page.currentPage,
+          perPage: page.perPage,
+          isLoadingMore: false,
+        ),
+      ),
     );
   }
 }

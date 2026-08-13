@@ -20,6 +20,10 @@ import 'package:car_care/features/car_washer/washers/washers_profile/data/data_s
 import 'package:car_care/features/car_washer/washers/washers_profile/data/repositories/profile_washer_repository_impl.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/domain/repositories/i_profile_washer_repository.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/cubit/profile_washer_cubit.dart';
+import 'package:car_care/features/car_washer/washers/washers_availability/data/data_sources/availability_remote_data_source.dart';
+import 'package:car_care/features/car_washer/washers/washers_availability/data/repositories/availability_repository_impl.dart';
+import 'package:car_care/features/car_washer/washers/washers_availability/domain/repositories/i_availability_repository.dart';
+import 'package:car_care/features/car_washer/washers/washers_availability/presentation/cubit/availability_cubit.dart';
 import 'package:car_care/features/car_washer/car_wash/ratings/data/data_sources/ratings_remote_data_source.dart';
 import 'package:car_care/features/car_washer/car_wash/ratings/data/repositories/ratings_repository_impl.dart';
 import 'package:car_care/features/car_washer/car_wash/ratings/domain/repositories/i_ratings_repository.dart';
@@ -407,6 +411,15 @@ Future<void> setupServiceLocator() async {
     )
     ..registerFactory<ProfileWasherCubit>(
       () => ProfileWasherCubit(getIt<IProfileWasherRepository>()),
+    )
+    ..registerLazySingleton<AvailabilityRemoteDataSource>(
+      () => AvailabilityRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<IAvailabilityRepository>(
+      () => AvailabilityRepositoryImpl(getIt<AvailabilityRemoteDataSource>()),
+    )
+    ..registerFactory<AvailabilityCubit>(
+      () => AvailabilityCubit(getIt<IAvailabilityRepository>()),
     )
     ..registerLazySingleton<SosRemoteDataSource>(
       () => SosRemoteDataSource(getIt<ApiService>()),

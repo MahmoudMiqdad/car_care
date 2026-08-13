@@ -10,7 +10,7 @@ import 'package:car_care/features/car_washer/car_wash/washers_browse/domain/enti
 import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/cubit/washers/washers_cubit.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/cubit/washers/washers_state.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/widgets/washers_page/washer_listing_card.dart';
-import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/widgets/washers_page/washers_city_filter_bar.dart';
+import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/widgets/washers_page/washers_governorate_filter.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,13 +25,12 @@ class WashersPage extends StatefulWidget {
 }
 
 class _WashersPageState extends State<WashersPage> {
-  late final TextEditingController _cityController;
   late final WashersCubit _cubit;
+  String? _selectedGovernorate;
 
   @override
   void initState() {
     super.initState();
-    _cityController = TextEditingController();
 
     _cubit = getIt<WashersCubit>();
     _cubit.fetchWashers();
@@ -39,7 +38,6 @@ class _WashersPageState extends State<WashersPage> {
 
   @override
   void dispose() {
-    _cityController.dispose();
     _cubit.close();
     super.dispose();
   }
@@ -74,15 +72,19 @@ class _WashersPageState extends State<WashersPage> {
               children: [
                 SizedBox(height: 16.h),
 
-                WashersCityFilterBar(
-                  controller: _cityController,
-                  onChanged: (value) {
-                    _cubit.onCityChanged(value);
-                  },
-                  onClear: () {
-                    _cityController.clear();
-                    _cubit.clearCity();
-                  },
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: WashersGovernorateFilter(
+                    selectedGovernorate: _selectedGovernorate,
+                    onChanged: (value) {
+                      setState(() => _selectedGovernorate = value);
+                      if (value == null) {
+                        _cubit.clearCity();
+                      } else {
+                        _cubit.fetchWashers(city: value);
+                      }
+                    },
+                  ),
                 ),
 
                 Expanded(

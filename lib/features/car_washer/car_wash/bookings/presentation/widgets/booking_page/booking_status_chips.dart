@@ -1,52 +1,48 @@
-import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/l10n.dart';
+import 'package:car_care/features/car_washer/shared/presentation/widgets/carwash_booking_status_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+({Color background, Color border}) customerBookingChipStyleFor(String status) =>
+    carwashBookingStatusStyleFor(status);
+
 class BookingStatusChips extends StatelessWidget {
-  const BookingStatusChips({required this.statusChips, super.key});
+  const BookingStatusChips({
+    required this.status,
+    required this.label,
+    super.key,
+  });
 
-  final List<String> statusChips;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(children: [...statusChips.map(BookingStatusChip.new)]);
-  }
-}
-
-class BookingStatusChip extends StatelessWidget {
-  const BookingStatusChip(this.label, {super.key});
-
+  final String status;
   final String label;
 
   @override
   Widget build(BuildContext context) {
-    final acceptedLabel = context.l10n.bookingStatusAccepted;
-    final progressLabel = context.l10n.bookingStatusProgress;
+    return Row(
+      children: [BookingStatusChip(status: status, label: label)],
+    );
+  }
+}
 
-    final color = switch (label) {
-      _ when label == acceptedLabel => AppColors.serviceTierSelectedBackground,
-      _ when label == progressLabel => const Color(0xFFBCE5F8),
-      _ => const Color(0xFFD1EAF8),
-    };
+class BookingStatusChip extends StatelessWidget {
+  const BookingStatusChip({
+    required this.status,
+    required this.label,
+    super.key,
+  });
 
+  final String status;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 6.w),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(999.r),
-          border: Border.all(color: AppColors.primary, width: 0.8),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 15.sp,
-            fontWeight: FontWeight.w500,
-            color: AppColors.black,
-          ),
-        ),
+      child: CarwashBookingStatusBadge(
+        status: status,
+        label: label,
+        fontSize: 15,
+        verticalPadding: 4,
+        horizontalPadding: 10,
       ),
     );
   }

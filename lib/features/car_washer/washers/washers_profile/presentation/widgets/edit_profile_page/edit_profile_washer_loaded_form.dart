@@ -111,8 +111,6 @@ class _EditProfileWasherLoadedFormState
     return {'sat': range, 'sun': range};
   }
 
-  // ── Actions ──
-
   Future<void> _pickAndUploadLogo() async {
     final file = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (file == null || !mounted) return;
