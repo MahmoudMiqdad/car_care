@@ -6,6 +6,7 @@ import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/utils/location_helper.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
+import 'package:car_care/features/user_fuel/domain/entities/user_fuel_order_entity.dart';
 import 'package:car_care/features/user_fuel/presentation/cubit/user_fuel_cubit/user_fuel_cubit.dart';
 import 'package:car_care/features/user_fuel/presentation/cubit/user_fuel_cubit/user_fuel_state.dart';
 import 'package:car_care/features/user_fuel/presentation/widgets/fuel_sos_create/fuel_sos_create_body.dart';
@@ -16,6 +17,20 @@ import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+/// Pushes the details page for a just-created order, then pops this create
+/// page too once the user comes back — net effect of pushReplacement, but
+/// via two real pops so the list page's awaited push (which triggered this
+/// whole flow) resolves and can refresh itself exactly once.
+Future<void> _goToDetailsThenBack(
+  BuildContext context,
+  UserFuelOrderEntity order,
+) async {
+  await context.push(Routes.fuel_order_details, extra: order);
+  if (context.mounted) {
+    context.safePopOrGo(Routes.fuelorderslist, result: true);
+  }
+}
 
 class FuelSosCreatePage extends StatefulWidget {
   const FuelSosCreatePage({super.key});
@@ -249,12 +264,12 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
           listener: (context, state) {
             if (state is UserFuelOrderCreated) {
               AppSnackBar.success(context, 'تم إرسال طلب الوقود بنجاح');
-              // Replace the form so back doesn't return to a filled page.
-              // Tracking stays reachable from the details page.
-              context.pushReplacement(
-                Routes.fuel_order_details,
-                extra: state.order,
-              );
+              // Show the details page, then pop this form too on the way
+              // back so back doesn't return to a filled page — same net
+              // effect as pushReplacement, but as two real pops so the
+              // originating list page's awaited push resolves and can
+              // refresh itself exactly once.
+              _goToDetailsThenBack(context, state.order);
             }
             if (state is UserFuelError) {
               final msg =

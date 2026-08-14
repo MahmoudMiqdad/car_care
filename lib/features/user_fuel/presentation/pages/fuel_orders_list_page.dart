@@ -41,7 +41,12 @@ class _FuelOrdersListPageState extends State<FuelOrdersListPage> {
         floatingActionButton: Padding(
   padding: EdgeInsets.only(bottom: 16.h, left: 16.w),
   child: FloatingAddButton(
-    onTap: () => context.push(Routes.add_user_fuel),
+    onTap: () async {
+      final refreshNeeded = await context.push<bool>(Routes.add_user_fuel);
+      if (refreshNeeded == true && context.mounted) {
+        context.read<UserFuelCubit>().getAllOrders();
+      }
+    },
   ),
 ),
 floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
@@ -99,11 +104,14 @@ floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
                         final order = state.orders[index];
                         return FuelOrderCard(
                           order: order,
-                          onTap: () {
-                            context.push(
+                          onTap: () async {
+                            final refreshNeeded = await context.push<bool>(
                               Routes.fuel_order_details,
                               extra: order, // ← Entity مباشرة
                             );
+                            if (refreshNeeded == true && context.mounted) {
+                              context.read<UserFuelCubit>().getAllOrders();
+                            }
                           },
                         );
                       },
