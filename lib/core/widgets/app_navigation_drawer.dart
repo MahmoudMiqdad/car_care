@@ -1,8 +1,8 @@
+// مسؤول عن عرض قائمة التنقل الجانبية وربط عناصرها بالصفحات وتسجيل الخروج.
 import 'package:car_care/core/constants/app_constants.dart';
-import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/core/routing/routes.dart';
-import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/features/auth/presentation/widgets/logout_action.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,33 +16,6 @@ class AppNavigationDrawer extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (context.mounted) action();
     });
-  }
-
-  Future<void> _confirmLogout(BuildContext context) async {
-    final strings = context.l10n;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(strings.logout),
-        content: Text(strings.logoutConfirmation),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(false),
-            child: Text(strings.cancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(true),
-            style: TextButton.styleFrom(foregroundColor: AppColors.error),
-            child: Text(strings.logout),
-          ),
-        ],
-      ),
-    );
-    if (confirmed != true || !context.mounted) return;
-    Scaffold.maybeOf(context)?.closeEndDrawer();
-    await getIt<SecureStorage>().clearAuth();
-    if (!context.mounted) return;
-    context.go(Routes.login);
   }
 
   @override
@@ -67,16 +40,12 @@ class AppNavigationDrawer extends StatelessWidget {
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   end: Alignment.bottomLeft,
-                  colors: [
-                    AppColors.primary,
-                    Color(0xFF004D63),
-                  ],
+                  colors: [AppColors.primary, Color(0xFF004D63)],
                 ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                 
                   SizedBox(height: 16.h),
                   Text(
                     AppConstants.appName,
@@ -101,28 +70,29 @@ class AppNavigationDrawer extends StatelessWidget {
               icon: Icons.person_outline_rounded,
               label: strings.profile,
               iconColor: AppColors.primary,
-              onTap: () => _closeThen(
-                context,
-                () => context.go(Routes.user_profile),
-              ),
+              onTap: () =>
+                  _closeThen(context, () => context.go(Routes.user_profile)),
             ),
             _DrawerTile(
               icon: Icons.notifications_outlined,
               label: strings.notifications,
               iconColor: AppColors.orange,
-              onTap: () => _closeThen(context, () => context.go(Routes.notifications)),
+              onTap: () =>
+                  _closeThen(context, () => context.go(Routes.notifications)),
             ),
             const Spacer(),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-              child: Divider(color: AppColors.lightBorder.withValues(alpha: 0.6)),
+              child: Divider(
+                color: AppColors.lightBorder.withValues(alpha: 0.6),
+              ),
             ),
             _DrawerTile(
               icon: Icons.logout_rounded,
               label: strings.logout,
               iconColor: AppColors.error,
               dense: true,
-              onTap: () => _confirmLogout(context),
+              onTap: () => confirmAndLogout(context),
             ),
             SizedBox(height: 12.h),
           ],
@@ -176,9 +146,9 @@ class _DrawerTile extends StatelessWidget {
                   child: Text(
                     label,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.lightTextPrimary,
-                        ),
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.lightTextPrimary,
+                    ),
                   ),
                 ),
               ],

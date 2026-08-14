@@ -17,7 +17,7 @@ class WasherBookingInfoColumn extends StatelessWidget {
       children: [
         WasherBookingInfoLine(
           label: l10n.washerBookingCustomerNameLabel,
-          value: booking.vehicle.ownerName ?? '---', // اسم صاحب السيارة
+          value: booking.vehicle.ownerName ?? '---',
           boldValue: true,
         ),
         WasherBookingInfoLine(
@@ -47,6 +47,7 @@ class WasherBookingInfoColumn extends StatelessWidget {
     );
   }
 }
+
 class WasherBookingInfoLine extends StatelessWidget {
   const WasherBookingInfoLine({
     super.key,
@@ -61,25 +62,22 @@ class WasherBookingInfoLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  RichText(
-        text: TextSpan(
-          style: TextStyle(
-            fontSize: 18.sp,
-            color: AppColors.black,
-            fontWeight: FontWeight.w900,
-            height: 1.5,
-          ),
-          children: [
-            TextSpan(text: '$label '),
-            TextSpan(
-              text: value,
-              style: TextStyle(
-                fontWeight:  FontWeight.w600,
-              ),
-            ),
-          ],
+    return RichText(
+      text: TextSpan(
+        style: TextStyle(
+          fontSize: 18.sp,
+          color: AppColors.black,
+          fontWeight: FontWeight.w900,
+          height: 1.5,
         ),
-      
+        children: [
+          TextSpan(text: '$label '),
+          TextSpan(
+            text: value,
+            style: TextStyle(fontWeight: FontWeight.w600),
+          ),
+        ],
+      ),
     );
   }
 }

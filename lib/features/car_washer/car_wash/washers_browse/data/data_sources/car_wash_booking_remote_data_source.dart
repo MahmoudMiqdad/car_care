@@ -9,8 +9,8 @@ class CarWashBookingRemoteDataSource {
   Future<CarWashBookingModel> createBooking({
     required int vehicleId,
     required int carWasherId,
-    required String scheduledAt, // "YYYY-MM-DD HH:mm:ss"
-    required String serviceType, // basic|vip|premium
+    required String scheduledAt,
+    required String serviceType,
     String? notes,
   }) async {
     final response = await _apiService.post(

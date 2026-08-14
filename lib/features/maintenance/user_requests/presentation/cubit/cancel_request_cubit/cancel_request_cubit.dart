@@ -15,7 +15,7 @@ class CancelRequestCubit extends Cubit<CancelRequestState> {
     emit(CancelRequestLoading());
     final result = await _repository.cancelRequest(reason, id);
     result.fold(
-      (failure) => emit(CancelRequestError(failure.message)),
+      (failure) => emit(CancelRequestError(failure.displayMessage)),
       (request) => emit(CancelRequestSuccess(request)),
     );
   }
@@ -24,7 +24,7 @@ class CancelRequestCubit extends Cubit<CancelRequestState> {
     emit(CancelRequestLoading());
     final result = await _repository.deleteRequest(id);
     result.fold(
-      (failure) => emit(CancelRequestError(failure.message)),
+      (failure) => emit(CancelRequestError(failure.displayMessage)),
       (request) => emit(DeleteRequestSuccess(request)),
     );
   }

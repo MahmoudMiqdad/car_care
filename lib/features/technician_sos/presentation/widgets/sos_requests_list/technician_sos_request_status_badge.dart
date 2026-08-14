@@ -2,7 +2,25 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-enum TechnicianSosRequestStatusBadgeStyle { outlineOnWhite, softSuccess }
+enum TechnicianSosRequestStatusBadgeStyle {
+  outlineOnWhite,
+  softSuccess,
+  softError,
+}
+
+/// Only the final states read as a status color — completed is green,
+/// cancelled is red — everything else stays neutral so it's never mistaken
+/// for "done" or "failed". Top-level so it's directly unit-testable without
+/// pumping the card widget.
+TechnicianSosRequestStatusBadgeStyle technicianSosRequestStatusBadgeStyleFor(
+  String? status,
+) {
+  return switch (status) {
+    'completed' => TechnicianSosRequestStatusBadgeStyle.softSuccess,
+    'cancelled' => TechnicianSosRequestStatusBadgeStyle.softError,
+    _ => TechnicianSosRequestStatusBadgeStyle.outlineOnWhite,
+  };
+}
 
 class _SosRequestStatusBadgeLayout {
   _SosRequestStatusBadgeLayout._();
@@ -23,7 +41,10 @@ class SosTechnicianRequestStatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool outline = style == TechnicianSosRequestStatusBadgeStyle.outlineOnWhite;
+    final bool outline =
+        style == TechnicianSosRequestStatusBadgeStyle.outlineOnWhite;
+    final bool isError =
+        style == TechnicianSosRequestStatusBadgeStyle.softError;
     return Container(
       width: _SosRequestStatusBadgeLayout.width,
       height: _SosRequestStatusBadgeLayout.height,
@@ -32,10 +53,16 @@ class SosTechnicianRequestStatusBadge extends StatelessWidget {
       decoration: BoxDecoration(
         color: outline
             ? AppColors.white
+            : isError
+            ? AppColors.errorBannerSurface
             : AppColors.serviceTierSelectedBackground,
         borderRadius: BorderRadius.circular(6.r),
         border: Border.all(
-          color: outline ? AppColors.carWashTeal : AppColors.success,
+          color: outline
+              ? AppColors.carWashTeal
+              : isError
+              ? AppColors.error
+              : AppColors.success,
           width: 1,
         ),
       ),

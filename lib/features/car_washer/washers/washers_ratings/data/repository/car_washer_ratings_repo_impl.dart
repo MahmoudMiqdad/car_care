@@ -10,10 +10,13 @@ class CarWasherRatingsRepoImpl implements ICarWasherRatingsRepository {
   final CarWasherRatingsRemoteDataSource _remote;
 
   @override
-  Future<Either<Failure, List<CarWasherRatingEntity>>> getRatings(int carWasherId) async {
+  Future<Either<Failure, CarWasherRatingsPageEntity>> getRatings(
+    int carWasherId, {
+    int page = 1,
+  }) async {
     try {
-      final items = await _remote.getRatings(carWasherId);
-      return Right(items);
+      final result = await _remote.getRatings(carWasherId, page: page);
+      return Right(result);
     } on ServerExpcptions catch (e) {
       return Left(e.error);
     } catch (_) {

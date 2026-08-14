@@ -94,7 +94,7 @@ class FuelOrderCard extends StatelessWidget {
                     children: [
                       SosRequestStatusBadge(
                         label: order.statusText ?? '-',
-                        style: SosRequestStatusBadgeStyle.softSuccess,
+                        style: sosRequestStatusBadgeStyleFor(order.status),
                       ),
                     ],
                   ),

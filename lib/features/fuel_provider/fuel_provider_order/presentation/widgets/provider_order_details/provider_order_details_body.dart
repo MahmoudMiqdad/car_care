@@ -12,12 +12,16 @@ class ProviderOrderDetailsBody extends StatefulWidget {
     super.key,
     required this.order,
     this.onAcceptOrder,
+    this.onStartOrder,
     this.onCompleteOrder,
+    this.onCancelOrder,
   });
 
   final FuelOrderEntity order;
   final VoidCallback? onAcceptOrder;
+  final VoidCallback? onStartOrder;
   final VoidCallback? onCompleteOrder;
+  final VoidCallback? onCancelOrder;
 
   @override
   State<ProviderOrderDetailsBody> createState() =>
@@ -25,17 +29,15 @@ class ProviderOrderDetailsBody extends StatefulWidget {
 }
 
 class _ProviderOrderDetailsBodyState extends State<ProviderOrderDetailsBody> {
-  bool _isSharingLocation = true;
-
   bool get isPending => widget.order.status == 'pending';
   bool get isAccepted => widget.order.status == 'accepted';
+  bool get isInProgress => widget.order.status == 'in_progress';
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
     return SafeArea(
-      bottom: false,
       child: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(
           AppConstants.pageHorizontal,
@@ -79,6 +81,16 @@ class _ProviderOrderDetailsBodyState extends State<ProviderOrderDetailsBody> {
 
             if (isAccepted)
               AppButton(
+                onPressed: widget.onStartOrder ?? () {},
+                text: 'بدء التنفيذ',
+                backgroundColor: AppColors.carWashTeal,
+                textColor: AppColors.white,
+                borderRadius: 14.r,
+                height: 52.h,
+              ),
+
+            if (isInProgress)
+              AppButton(
                 onPressed: widget.onCompleteOrder ?? () {},
                 text: 'إكمال الطلب',
                 backgroundColor: AppColors.carWashTeal,
@@ -86,6 +98,21 @@ class _ProviderOrderDetailsBodyState extends State<ProviderOrderDetailsBody> {
                 borderRadius: 14.r,
                 height: 52.h,
               ),
+
+            // Only accepted/in_progress orders can be cancelled by the
+            // provider (they revert to pending) — confirmed contract.
+            if ((isAccepted || isInProgress) &&
+                widget.onCancelOrder != null) ...[
+              SizedBox(height: 10.h),
+              AppButton(
+                onPressed: widget.onCancelOrder,
+                text: 'إلغاء الطلب',
+                backgroundColor: Colors.red.shade600,
+                textColor: AppColors.white,
+                borderRadius: 14.r,
+                height: 52.h,
+              ),
+            ],
           ],
         ),
       ),

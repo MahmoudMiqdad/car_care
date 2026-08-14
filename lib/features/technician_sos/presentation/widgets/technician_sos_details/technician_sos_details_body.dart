@@ -1,19 +1,20 @@
 // ignore_for_file: deprecated_member_use
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/routing/navigation_x.dart';
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
-import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/technician_sos/domain/entities/technician_sos_entity.dart';
 import 'package:car_care/features/technician_sos/presentation/cubit/share_technician_location_cubit/share_technician_location_sos_cubit.dart';
 import 'package:car_care/features/technician_sos/presentation/cubit/technician_sos_cubit/technician_sos_cubit.dart';
 import 'package:car_care/features/technician_sos/presentation/cubit/technician_sos_cubit/technician_sos_state.dart';
+import 'package:car_care/features/technician_sos/presentation/widgets/sos_requests_list/technician_cancel_response_dialog.dart';
 import 'package:car_care/features/technician_sos/presentation/widgets/technician_sos_details/technician_sos_details_request_card.dart';
 import 'package:car_care/features/technician_sos/presentation/widgets/technician_sos_details/technician_sos_details_section_card.dart';
 import 'package:car_care/features/technician_sos/presentation/widgets/technician_sos_details/technician_sos_details_status_banner.dart';
 import 'package:car_care/features/technician_sos/presentation/widgets/technician_sos_map_widget.dart';
-import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -28,12 +29,14 @@ class SosTechnicianDetailsBody extends StatefulWidget {
     required this.plateNumber,
     required this.ownerName,
     required this.description,
+    this.vehicleImageUrl,
     this.onCancelTapped,
     this.isMyRequest = false,
   });
 
   final TechnicianSosEntity sos;
   final String vehicleTitle;
+  final String? vehicleImageUrl;
   final String plateNumber;
   final String ownerName;
   final String description;
@@ -48,12 +51,38 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
   bool _acceptedLocally = false;
   bool _mapOpened = false; // ← منع فتح الخريطة مرتين
 
-  bool get _isAccepted =>
-      _acceptedLocally ||
-      widget.sos.status == 'accepted' ||
-      widget.sos.status == 'in_progress';
+  String? get _status => widget.sos.status;
 
-  void _openTechnicianMap() {
+  bool get _isAccepted =>
+      _acceptedLocally || _status == 'accepted' || _status == 'in_progress';
+
+  bool get _isFinished =>
+      _status == 'completed' || _status == 'cancelled' || _status == 'canceled';
+
+  /// "ابدأ التوجه للعميل": a request that is still `accepted` must first be
+  /// moved to `in_progress` before any location may be shared.
+  Future<void> _onNavigateTapped() async {
+    if (_isFinished) return;
+
+    if (_status == 'accepted') {
+      final cubit = context.read<TechnicianSosCubit>();
+      await cubit.changeStatus(widget.sos.id!, 'in_progress');
+      if (!mounted) return;
+      // changeStatus emits an error state when the backend refuses.
+      if (cubit.state is TechnicianError) return;
+    }
+
+    if (mounted) _openTechnicianMap(status: 'in_progress');
+  }
+
+  Future<void> _onCancelResponse(BuildContext context) async {
+    final cubit = context.read<TechnicianSosCubit>();
+    final reason = await showTechnicianCancelResponseDialog(context);
+    if (reason == null) return;
+    await cubit.cancelResponse(widget.sos.id!, reason);
+  }
+
+  void _openTechnicianMap({String? status}) {
     if (_mapOpened) return; // ← منع التكرار
     _mapOpened = true;
     Navigator.of(context).push(
@@ -71,6 +100,7 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
               sosId: widget.sos.id!,
               userLat: widget.sos.lat,
               userLng: widget.sos.lng,
+              sosStatus: status ?? _status,
             ),
           ),
         ),
@@ -83,19 +113,32 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
     return BlocListener<TechnicianSosCubit, TechnicianSosState>(
       listener: (context, state) {
         if (state is TechnicianError) {
-          AppSnackBar.error(context, state.message);
+          final msg = state.message.isEmpty ||
+                  state.message.startsWith('Instance of')
+              ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
+              : state.message;
+          AppSnackBar.error(context, msg);
         }
         if (state is TechnicianAccepted) {
           setState(() => _acceptedLocally = true);
-          _openTechnicianMap();
+          _openTechnicianMap(status: 'accepted');
         }
-        // ← لما يجي TechnicianRequestLoaded بعد القبول
-        // الـ _acceptedLocally بيبقى true فالواجهة بتبقى صح
+        if (state is TechnicianStatusChanged) {
+          AppSnackBar.success(
+            context,
+            state.request.statusText?.trim().isNotEmpty == true
+                ? 'تم تحديث الحالة: ${state.request.statusText}'
+                : 'تم تحديث حالة الطلب',
+          );
+        }
+        // بعد إلغاء الاستجابة يرجع الطلب مفتوحاً ونغادر صفحة التفاصيل
+        if (state is TechnicianResponseCancelled) {
+          AppSnackBar.success(context, state.message);
+          context.safePopOrGo(Routes.technician_sos_requests);
+        }
       },
       child: SafeArea(
         bottom: false,
@@ -114,53 +157,86 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
 
               SosTechnicianDetailsRequestCard(
                 vehicleTitle: widget.vehicleTitle,
+                vehicleImageUrl: widget.vehicleImageUrl,
                 plateNumber: widget.plateNumber,
                 technicianName: widget.ownerName,
                 description: widget.description,
               ),
               SizedBox(height: 14.h),
 
-              if (!widget.isMyRequest) ...[
+              // خريطة موقع العميل — التوجه متاح فقط قبل إنهاء/إلغاء الطلب
+              if (!_isFinished) ...[
                 _LocationPreviewCard(
                   sosId: widget.sos.id!,
                   lat: widget.sos.lat,
                   lng: widget.sos.lng,
                   isAccepted: _isAccepted,
-                  onNavigateTap: _openTechnicianMap,
+                  onNavigateTap: _onNavigateTapped,
                 ),
                 SizedBox(height: 22.h),
+              ],
 
-                if (!_isAccepted)
-                  BlocBuilder<TechnicianSosCubit, TechnicianSosState>(
-                    builder: (context, state) {
-                      final isLoading = state is TechnicianLoading;
-                      return AppButton(
-                        onPressed: isLoading
+              // الأزرار حسب الحالة الحقيقية
+              BlocBuilder<TechnicianSosCubit, TechnicianSosState>(
+                builder: (context, state) {
+                  final isBusy = state is TechnicianActionLoading &&
+                      state.sosId == widget.sos.id;
+
+                  if (_status == 'open' && !_acceptedLocally) {
+                    return AppButton(
+                      onPressed: isBusy
+                          ? null
+                          : () => context
+                              .read<TechnicianSosCubit>()
+                              .acceptRequest(widget.sos.id!),
+                      text: isBusy ? 'جاري القبول...' : 'قبول الطلب',
+                      backgroundColor: AppColors.carWashTeal,
+                      textColor: AppColors.white,
+                      borderRadius: 14.r,
+                      height: 52.h,
+                    );
+                  }
+
+                  if (_status != 'accepted' && _status != 'in_progress') {
+                    return const SizedBox.shrink();
+                  }
+
+                  final isAccepted = _status == 'accepted';
+                  return Column(
+                    children: [
+                      AppButton(
+                        onPressed: isBusy
                             ? null
                             : () => context
                                 .read<TechnicianSosCubit>()
-                                .acceptRequest(widget.sos.id!),
-                        text: isLoading ? 'جاري القبول...' : 'قبول الطلب',
+                                .changeStatus(
+                                  widget.sos.id!,
+                                  isAccepted ? 'in_progress' : 'completed',
+                                ),
+                        text: isBusy
+                            ? 'جاري التنفيذ...'
+                            : (isAccepted ? 'بدء التنفيذ' : 'إنهاء الطلب'),
                         backgroundColor: AppColors.carWashTeal,
                         textColor: AppColors.white,
                         borderRadius: 14.r,
                         height: 52.h,
-                      );
-                    },
-                  ),
-
-                SizedBox(height: 12.h),
-              ],
-
-              // if (widget.sos.canCancel == true)
-              //   AppButton(
-              //     onPressed: widget.onCancelTapped ?? () {},
-              //     text: l10n.sosDetailsCancelRequest,
-              //     backgroundColor: AppColors.reservationConfirmOrange,
-              //     textColor: AppColors.white,
-              //     borderRadius: 14.r,
-              //     height: 52.h,
-              //   ),
+                      ),
+                      SizedBox(height: 12.h),
+                      AppButton(
+                        onPressed: isBusy
+                            ? null
+                            : () => _onCancelResponse(context),
+                        text: 'إلغاء الاستجابة',
+                        backgroundColor: AppColors.error,
+                        textColor: AppColors.white,
+                        borderRadius: 14.r,
+                        height: 52.h,
+                      ),
+                    ],
+                  );
+                },
+              ),
+              SizedBox(height: 12.h),
             ],
           ),
         ),

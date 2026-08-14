@@ -2,128 +2,147 @@
 class UpdateJobStatusModel {
     bool success;
     String message;
-    Data data;
+    // Nullable and tolerant: only success/message are actually used
+    // (see TechnicianJobsRepositoryImpl._mapUpdate). The backend response
+    // shape for `data` also varies by status (e.g. maintenance_record and
+    // completed_at are only present once status is "completed"), so this
+    // must never throw on a valid 200/success:true response.
+    Data? data;
 
     UpdateJobStatusModel({
         required this.success,
         required this.message,
-        required this.data,
+        this.data,
     });
 
     factory UpdateJobStatusModel.fromJson(Map<String, dynamic> json) => UpdateJobStatusModel(
-        success: json["success"],
-        message: json["message"],
-        data: Data.fromJson(json["data"]),
+        success: json["success"] as bool? ?? true,
+        message: json["message"]?.toString() ?? '',
+        data: json["data"] is Map<String, dynamic>
+            ? Data.fromJson(json["data"] as Map<String, dynamic>)
+            : null,
     );
 
 }
 
 class Data {
-    int id;
-    int maintenanceRequestId;
-    int quotationId;
-    int technicianId;
-    String status;
-    DateTime scheduledDate;
-    String notes;
+    int? id;
+    int? maintenanceRequestId;
+    int? quotationId;
+    int? technicianId;
+    String? status;
+    DateTime? scheduledDate;
+    String? notes;
     dynamic startedAt;
-    DateTime completedAt;
-    DateTime createdAt;
-    DateTime updatedAt;
-    MaintenanceRequest maintenanceRequest;
-    MaintenanceRecord maintenanceRecord;
+    DateTime? completedAt;
+    DateTime? createdAt;
+    DateTime? updatedAt;
+    MaintenanceRequest? maintenanceRequest;
+    MaintenanceRecord? maintenanceRecord;
 
     Data({
-        required this.id,
-        required this.maintenanceRequestId,
-        required this.quotationId,
-        required this.technicianId,
-        required this.status,
-        required this.scheduledDate,
-        required this.notes,
-        required this.startedAt,
-        required this.completedAt,
-        required this.createdAt,
-        required this.updatedAt,
-        required this.maintenanceRequest,
-        required this.maintenanceRecord,
+        this.id,
+        this.maintenanceRequestId,
+        this.quotationId,
+        this.technicianId,
+        this.status,
+        this.scheduledDate,
+        this.notes,
+        this.startedAt,
+        this.completedAt,
+        this.createdAt,
+        this.updatedAt,
+        this.maintenanceRequest,
+        this.maintenanceRecord,
     });
 
+    // Every field parsed leniently: fields such as maintenance_record and
+    // completed_at only appear once the job is completed, and the
+    // in_progress response legitimately omits them.
     factory Data.fromJson(Map<String, dynamic> json) => Data(
-        id: json["id"],
-        maintenanceRequestId: json["maintenance_request_id"],
-        quotationId: json["quotation_id"],
-        technicianId: json["technician_id"],
-        status: json["status"],
-        scheduledDate: DateTime.parse(json["scheduled_date"]),
-        notes: json["notes"],
+        id: json["id"] as int?,
+        maintenanceRequestId: json["maintenance_request_id"] as int?,
+        quotationId: json["quotation_id"] as int?,
+        technicianId: json["technician_id"] as int?,
+        status: json["status"]?.toString(),
+        scheduledDate: DateTime.tryParse(json["scheduled_date"]?.toString() ?? ''),
+        notes: json["notes"]?.toString(),
         startedAt: json["started_at"],
-        completedAt: DateTime.parse(json["completed_at"]),
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        maintenanceRequest: MaintenanceRequest.fromJson(json["maintenance_request"]),
-        maintenanceRecord: MaintenanceRecord.fromJson(json["maintenance_record"]),
+        completedAt: DateTime.tryParse(json["completed_at"]?.toString() ?? ''),
+        createdAt: DateTime.tryParse(json["created_at"]?.toString() ?? ''),
+        updatedAt: DateTime.tryParse(json["updated_at"]?.toString() ?? ''),
+        maintenanceRequest: json["maintenance_request"] is Map<String, dynamic>
+            ? MaintenanceRequest.fromJson(json["maintenance_request"] as Map<String, dynamic>)
+            : null,
+        maintenanceRecord: json["maintenance_record"] is Map<String, dynamic>
+            ? MaintenanceRecord.fromJson(json["maintenance_record"] as Map<String, dynamic>)
+            : null,
     );
 
 
 }
 
 class MaintenanceRecord {
-    int id;
-    int serviceJobId;
-    int vehicleId;
-    int maintenanceRequestId;
-    String details;
+    int? id;
+    int? serviceJobId;
+    int? vehicleId;
+    int? maintenanceRequestId;
+    String? details;
     List<PartsUsed> partsUsed;
-    String completionNotes;
+    String? completionNotes;
     dynamic recommendations;
-    DateTime completedAt;
-    DateTime createdAt;
-    DateTime updatedAt;
+    DateTime? completedAt;
+    DateTime? createdAt;
+    DateTime? updatedAt;
 
     MaintenanceRecord({
-        required this.id,
-        required this.serviceJobId,
-        required this.vehicleId,
-        required this.maintenanceRequestId,
-        required this.details,
-        required this.partsUsed,
-        required this.completionNotes,
-        required this.recommendations,
-        required this.completedAt,
-        required this.createdAt,
-        required this.updatedAt,
+        this.id,
+        this.serviceJobId,
+        this.vehicleId,
+        this.maintenanceRequestId,
+        this.details,
+        this.partsUsed = const [],
+        this.completionNotes,
+        this.recommendations,
+        this.completedAt,
+        this.createdAt,
+        this.updatedAt,
     });
 
     factory MaintenanceRecord.fromJson(Map<String, dynamic> json) => MaintenanceRecord(
-        id: json["id"],
-        serviceJobId: json["service_job_id"],
-        vehicleId: json["vehicle_id"],
-        maintenanceRequestId: json["maintenance_request_id"],
-        details: json["details"],
-        partsUsed: List<PartsUsed>.from(json["parts_used"].map((x) => PartsUsed.fromJson(x))),
-        completionNotes: json["completion_notes"],
+        id: json["id"] as int?,
+        serviceJobId: json["service_job_id"] as int?,
+        vehicleId: json["vehicle_id"] as int?,
+        maintenanceRequestId: json["maintenance_request_id"] as int?,
+        details: json["details"]?.toString(),
+        partsUsed: json["parts_used"] is List
+            ? (json["parts_used"] as List)
+                .whereType<Map<String, dynamic>>()
+                .map(PartsUsed.fromJson)
+                .toList()
+            : const [],
+        completionNotes: json["completion_notes"]?.toString(),
         recommendations: json["recommendations"],
-        completedAt: DateTime.parse(json["completed_at"]),
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        completedAt: DateTime.tryParse(json["completed_at"]?.toString() ?? ''),
+        createdAt: DateTime.tryParse(json["created_at"]?.toString() ?? ''),
+        updatedAt: DateTime.tryParse(json["updated_at"]?.toString() ?? ''),
     );
 
 
 }
 
 class PartsUsed {
-    String name;
-    int quantity;
+    String? name;
+    int? quantity;
 
     PartsUsed({
-        required this.name,
-        required this.quantity,
+        this.name,
+        this.quantity,
     });
 
     factory PartsUsed.fromJson(Map<String, dynamic> json) => PartsUsed(
-        name: json["name"],
-        quantity: json["quantity"],
+        name: json["name"]?.toString(),
+        quantity: json["quantity"] as int?,
     );
 
     Map<String, dynamic> toJson() => {
@@ -133,37 +152,37 @@ class PartsUsed {
 }
 
 class MaintenanceRequest {
-    int id;
-    int userId;
-    int vehicleId;
-    String description;
-    String priority;
-    DateTime preferredDate;
-    String status;
-    DateTime createdAt;
-    DateTime updatedAt;
+    int? id;
+    int? userId;
+    int? vehicleId;
+    String? description;
+    String? priority;
+    DateTime? preferredDate;
+    String? status;
+    DateTime? createdAt;
+    DateTime? updatedAt;
 
     MaintenanceRequest({
-        required this.id,
-        required this.userId,
-        required this.vehicleId,
-        required this.description,
-        required this.priority,
-        required this.preferredDate,
-        required this.status,
-        required this.createdAt,
-        required this.updatedAt,
+        this.id,
+        this.userId,
+        this.vehicleId,
+        this.description,
+        this.priority,
+        this.preferredDate,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
     });
     factory MaintenanceRequest.fromJson(Map<String, dynamic> json) => MaintenanceRequest(
-        id: json["id"],
-        userId: json["user_id"],
-        vehicleId: json["vehicle_id"],
-        description: json["description"],
-        priority: json["priority"],
-        preferredDate: DateTime.parse(json["preferred_date"]),
-        status: json["status"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        id: json["id"] as int?,
+        userId: json["user_id"] as int?,
+        vehicleId: json["vehicle_id"] as int?,
+        description: json["description"]?.toString(),
+        priority: json["priority"]?.toString(),
+        preferredDate: DateTime.tryParse(json["preferred_date"]?.toString() ?? ''),
+        status: json["status"]?.toString(),
+        createdAt: DateTime.tryParse(json["created_at"]?.toString() ?? ''),
+        updatedAt: DateTime.tryParse(json["updated_at"]?.toString() ?? ''),
     );
 
 }

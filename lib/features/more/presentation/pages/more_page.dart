@@ -1,8 +1,13 @@
+// مسؤول عن عرض صفحة الخيارات الإضافية للعميل وإعلانات موضع "عام".
 import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
+import 'package:car_care/features/advertisements/domain/entities/advertisement_entity.dart';
+import 'package:car_care/features/advertisements/presentation/widgets/advertisement_section.dart';
+import 'package:car_care/features/auth/presentation/widgets/logout_action.dart';
+import 'package:car_care/features/technician_sos/presentation/technician_sos_request_type.dart';
 import 'package:car_care/features/user_profile/data/data_sources/profile_remote_data_source.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +17,6 @@ import 'package:go_router/go_router.dart';
 class MorePage extends StatelessWidget {
   const MorePage({super.key});
 
-  /// Refreshes roles from /auth/me so a provider role gained mid-session
-  /// (e.g. right after creating a provider profile) shows up without
-  /// re-login. Falls back to cached roles when the request fails.
   Future<List<String>> _loadRoles() async {
     final storage = getIt<SecureStorage>();
     try {
@@ -24,9 +26,7 @@ class MorePage extends StatelessWidget {
         await storage.setRoles(fresh);
         return fresh;
       }
-    } catch (_) {
-      // Network/server failure — cached roles below.
-    }
+    } catch (_) {}
     return storage.getRoles();
   }
 
@@ -53,7 +53,6 @@ class _MoreContent extends StatelessWidget {
 
   final List<String> roles;
 
-  // No priority between provider roles — fixed display order only.
   static const _providerRoles = [
     'technician',
     'car-washer',
@@ -91,11 +90,21 @@ class _MoreContent extends StatelessWidget {
         backgroundColor: AppColors.primary,
       ),
       body: ListView(
-        padding:
-            EdgeInsets.fromLTRB(16.w, 20.h, 16.w, MediaQuery.paddingOf(context).bottom + 20.h),
+        padding: EdgeInsets.fromLTRB(
+          16.w,
+          20.h,
+          16.w,
+          MediaQuery.paddingOf(context).bottom + 20.h,
+        ),
         children: [
           _RoleHeader(roleLabel: _roleLabel),
           SizedBox(height: 20.h),
+          const AdvertisementSection(
+            placement: AdvertisementPlacement.general,
+            height: 110,
+            borderRadius: 14,
+            bottomSpacing: 16,
+          ),
           ..._buildItems(context),
           SizedBox(height: 8.h),
           _LogoutTile(),
@@ -120,10 +129,6 @@ class _MoreContent extends StatelessWidget {
     ];
   }
 
-  // Existing role-specific menus, kept intact per owned role. Each
-  // destination page already applies the provider status gate
-  // (pending / rejected / suspended) and redirects to create-profile
-  // when no profile exists.
   List<Widget> _ownedProviderItems(BuildContext context, String role) {
     final items = switch (role) {
       'technician' => _technicianItems(context),
@@ -133,40 +138,36 @@ class _MoreContent extends StatelessWidget {
       _ => const <Widget>[],
     };
     if (items.isEmpty) return items;
-    // Sub-label only needed to tell sections apart with multiple roles.
     if (_ownedProviders.length == 1) return items;
-    return [
-      _SectionHeader(label: _providerLabels[role] ?? role),
-      ...items,
-    ];
+    return [_SectionHeader(label: _providerLabels[role] ?? role), ...items];
   }
 
   Widget _joinTile(BuildContext context, String role) {
     return switch (role) {
       'technician' => _MoreTile(
-          icon: Icons.engineering_outlined,
-          label: 'التقديم كفني',
-          iconColor: const Color(0xFF6366F1),
-          onTap: () => context.push(Routes.inserttechnicianprofile),
-        ),
+        icon: Icons.engineering_outlined,
+        label: 'التقديم كفني',
+        iconColor: const Color(0xFF6366F1),
+        onTap: () => context.push(Routes.inserttechnicianprofile),
+      ),
       'car-washer' => _MoreTile(
-          icon: Icons.local_car_wash_outlined,
-          label: 'تسجيل مغسلة سيارات',
-          iconColor: const Color(0xFF14B8A6),
-          onTap: () => context.push(Routes.create_profile_washer),
-        ),
+        icon: Icons.local_car_wash_outlined,
+        label: 'تسجيل مغسلة سيارات',
+        iconColor: const Color(0xFF14B8A6),
+        onTap: () => context.push(Routes.create_profile_washer),
+      ),
       'fuel-provider' => _MoreTile(
-          icon: Icons.local_gas_station_outlined,
-          label: 'التسجيل كمزود وقود',
-          iconColor: const Color(0xFFF59E0B),
-          onTap: () => context.push(Routes.provider_create_profile),
-        ),
+        icon: Icons.local_gas_station_outlined,
+        label: 'التسجيل كمزود وقود',
+        iconColor: const Color(0xFFF59E0B),
+        onTap: () => context.push(Routes.provider_create_profile),
+      ),
       'shop-owner' => _MoreTile(
-          icon: Icons.store_outlined,
-          label: 'فتح متجر قطع غيار',
-          iconColor: const Color(0xFFEC4899),
-          onTap: () => context.push(Routes.ownerProfile),
-        ),
+        icon: Icons.store_outlined,
+        label: 'فتح متجر قطع غيار',
+        iconColor: const Color(0xFFEC4899),
+        onTap: () => context.push(Routes.ownerProfile),
+      ),
       _ => const SizedBox.shrink(),
     };
   }
@@ -203,10 +204,28 @@ class _MoreContent extends StatelessWidget {
         onTap: () => context.push(Routes.technicianProfileViewBody),
       ),
       _MoreTile(
+        icon: Icons.build_circle_outlined,
+        label: 'أعمالي',
+        iconColor: AppColors.primary,
+        onTap: () => context.push(Routes.technician_jobs),
+      ),
+      _MoreTile(
         icon: Icons.emergency_outlined,
-        label: 'طلبات SOS الفني',
+        label: 'طلبات الطوارئ المتاحة',
         iconColor: AppColors.error,
-        onTap: () => context.push(Routes.technician_sos_requests),
+        onTap: () => context.push(
+          Routes.technician_sos_requests,
+          extra: SosRequestType.available,
+        ),
+      ),
+      _MoreTile(
+        icon: Icons.assignment_turned_in_outlined,
+        label: 'طلبات الطوارئ المقبولة',
+        iconColor: AppColors.error,
+        onTap: () => context.push(
+          Routes.technician_sos_requests,
+          extra: SosRequestType.myRequests,
+        ),
       ),
       _MoreTile(
         icon: Icons.bar_chart_outlined,
@@ -232,12 +251,11 @@ class _MoreContent extends StatelessWidget {
         onTap: () => context.push(Routes.washerBookings),
       ),
       _MoreTile(
-        icon: Icons.toggle_on_outlined,
-        label: 'التوفر',
+        icon: Icons.bar_chart_outlined,
+        label: 'الإحصائيات',
         iconColor: AppColors.carWashTeal,
-        onTap: () => context.push(Routes.availability),
+        onTap: () => context.push(Routes.washer_statistics),
       ),
-      // washer_statistics GoRoute is commented out in app_router — omitted
     ];
   }
 
@@ -290,7 +308,11 @@ class _RoleHeader extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.15),
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.person_outline_rounded, color: Colors.white, size: 28.sp),
+            child: Icon(
+              Icons.person_outline_rounded,
+              color: Colors.white,
+              size: 28.sp,
+            ),
           ),
           SizedBox(width: 14.w),
           Column(
@@ -299,9 +321,9 @@ class _RoleHeader extends StatelessWidget {
               Text(
                 'الخيارات',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                    ),
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               SizedBox(height: 4.h),
               Container(
@@ -339,10 +361,10 @@ class _SectionHeader extends StatelessWidget {
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: AppColors.lightTextSecondary,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.3,
-            ),
+          color: AppColors.lightTextSecondary,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.3,
+        ),
       ),
     );
   }
@@ -388,9 +410,9 @@ class _MoreTile extends StatelessWidget {
                   child: Text(
                     label,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.lightTextPrimary,
-                        ),
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.lightTextPrimary,
+                    ),
                   ),
                 ),
                 Icon(
@@ -410,32 +432,6 @@ class _MoreTile extends StatelessWidget {
 class _LogoutTile extends StatelessWidget {
   const _LogoutTile();
 
-  Future<void> _confirmLogout(BuildContext context) async {
-    final strings = context.l10n;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(strings.logout),
-        content: Text(strings.logoutConfirmation),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(false),
-            child: Text(strings.cancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(true),
-            style: TextButton.styleFrom(foregroundColor: AppColors.error),
-            child: Text(strings.logout),
-          ),
-        ],
-      ),
-    );
-    if (confirmed != true || !context.mounted) return;
-    await getIt<SecureStorage>().clearAuth();
-    if (!context.mounted) return;
-    context.go(Routes.login);
-  }
-
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
@@ -446,7 +442,7 @@ class _LogoutTile extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(14.r),
         child: InkWell(
-          onTap: () => _confirmLogout(context),
+          onTap: () => confirmAndLogout(context),
           borderRadius: BorderRadius.circular(14.r),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 13.h),
@@ -458,16 +454,20 @@ class _LogoutTile extends StatelessWidget {
                     color: AppColors.error.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(10.r),
                   ),
-                  child: Icon(Icons.logout_rounded, color: AppColors.error, size: 21.sp),
+                  child: Icon(
+                    Icons.logout_rounded,
+                    color: AppColors.error,
+                    size: 21.sp,
+                  ),
                 ),
                 SizedBox(width: 14.w),
                 Expanded(
                   child: Text(
                     strings.logout,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.error,
-                        ),
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.error,
+                    ),
                   ),
                 ),
               ],

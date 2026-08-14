@@ -35,7 +35,7 @@ class FuelOrderDetailsPage extends StatelessWidget {
           listener: (context, state) {
             if (state is UserFuelOrderCancelled) {
               AppSnackBar.success (context,"تم إلغاء الطلب");
-              context.safePopOrGo(Routes.fuelorderslist);
+              context.safePopOrGo(Routes.fuelorderslist, result: true);
             }
             if (state is UserFuelError) {
                AppSnackBar.error(context, state.message);

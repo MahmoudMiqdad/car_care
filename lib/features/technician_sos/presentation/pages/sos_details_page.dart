@@ -4,7 +4,9 @@ import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
+import 'package:car_care/core/widgets/error_state_widget.dart';
 import 'package:car_care/core/widgets/loding.dart';
+import 'package:car_care/core/utils/media_url.dart';
 
 
 import 'package:car_care/features/technician_sos/presentation/cubit/technician_sos_cubit/technician_sos_cubit.dart';
@@ -54,16 +56,29 @@ Widget build(BuildContext context) {
               }
 
               if (state is TechnicianError) {
-                return Center(child: Text(state.message));
+                return ErrorStateWidget(
+                  message: state.message.isEmpty ||
+                          state.message.startsWith('Instance of')
+                      ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
+                      : state.message,
+                  onRetry: () =>
+                      context.read<TechnicianSosCubit>().getRequest(id),
+                );
               }
 
               if (state is TechnicianRequestLoaded) {
                 final item = state.request;
 
                 return SosTechnicianDetailsBody(
-                  sos:item ,
-                  vehicleTitle:
-                      "${item.vehicleBrand ?? ''} ${item.vehicleModel ?? ''}",
+                  sos: item,
+                  vehicleTitle: buildVehicleLabel(
+                    brand: item.vehicleBrand,
+                    model: item.vehicleModel,
+                    year: item.vehicleYear,
+                  ),
+                  vehicleImageUrl: resolveMediaUrl(
+                    item.vehicleImage ?? item.vehicleImagePath,
+                  ),
                   plateNumber: item.plateNumber?.toString() ?? '',
                   ownerName: item.ownerName ?? '',
                   description: item.description ?? '',

@@ -8,6 +8,7 @@ import 'package:car_care/features/car_washer/washers/washers_profile/presentatio
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/profile_page/profile_washer_header.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/profile_page/profile_washer_location_card.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/profile_page/profile_washer_services_section.dart';
+import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/profile_page/washer_availability_switch_card.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,86 +43,53 @@ class ProfileWasherBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 20.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          ProfileWasherHeader(profile: profile),
-          SizedBox(height: 5.h),
-          ProfileWasherContactCardsRow(
-            phone: profile.phone,
-            workStart: _firstStart(profile.workingHours),
-            workEnd: _firstEnd(profile.workingHours),
-          ),
-          SizedBox(height: 8.h),
-          ProfileWasherLocationCard(
-            address: profile.address.contains(profile.city)
-                ? profile.address
-                : '${profile.city} - ${profile.address}',
-          ),
-          SizedBox(height: 8.h),
-          ProfileWasherAboutSection(description: profile.description),
-          SizedBox(height: 8.h),
-          ProfileWasherServicesSection(
-            basicPrice: _price(profile.servicePrices, 'basic'),
-            vipPrice: _price(profile.servicePrices, 'vip'),
-            premiumPrice: _price(profile.servicePrices, 'premium'),
-          ),
-          SizedBox(height: 24.h),
-          // ── Row 1: حجوزاتي + الإحصائيات ──
-          Row(
-            children: [
-              Expanded(
-                child: AppButton(
-                  onPressed: () => context.push(Routes.washerBookings),
-                  text: 'حجوزاتي',
-                  backgroundColor: AppColors.carWashTeal,
-                  borderRadius: 28.r,
-                  height: 50.h,
-                  fontSize: 17.sp,
-                ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: AppButton(
-                  onPressed: () => context.push(Routes.washer_statistics),
-                  text: 'الإحصائيات',
-                  backgroundColor: AppColors.carWashTeal,
-                  borderRadius: 28.r,
-                  height: 50.h,
-                  fontSize: 17.sp,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 12.h),
-          // ── التقييمات ──
-          AppButton(
-            onPressed: () => context.push(Routes.carWasherRatings, extra: profile),
-            text: 'التقييمات',
-            backgroundColor: AppColors.primary,
-            borderRadius: 28.r,
-            height: 50.h,
-            fontSize: 17.sp,
-          ),
-          SizedBox(height: 12.h),
-          // ── تعديل الملف ──
-          AppButton(
-            onPressed: () async {
-              final result = await context.push(Routes.editProfileWasher);
-              if (result == true && context.mounted) {
-                context.read<ProfileWasherCubit>().load();
-              }
-            },
-            text: l10n.profileWasherEditProfile,
-            backgroundColor: AppColors.orange,
-            borderRadius: 28.r,
-            height: 54.h,
-            fontSize: 20.sp,
-          ),
-          SizedBox(height: 12.h),
-        ],
+    return SafeArea(
+      bottom: true,
+      child: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 20.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ProfileWasherHeader(profile: profile),
+            SizedBox(height: 5.h),
+            ProfileWasherContactCardsRow(
+              phone: profile.phone,
+              workStart: _firstStart(profile.workingHours),
+              workEnd: _firstEnd(profile.workingHours),
+            ),
+            SizedBox(height: 8.h),
+            ProfileWasherLocationCard(
+              address: profile.address.contains(profile.city)
+                  ? profile.address
+                  : '${profile.city} - ${profile.address}',
+            ),
+            SizedBox(height: 8.h),
+            ProfileWasherAboutSection(description: profile.description),
+            SizedBox(height: 8.h),
+            ProfileWasherServicesSection(
+              basicPrice: _price(profile.servicePrices, 'basic'),
+              vipPrice: _price(profile.servicePrices, 'vip'),
+              premiumPrice: _price(profile.servicePrices, 'premium'),
+            ),
+            SizedBox(height: 8.h),
+            WasherAvailabilitySwitchCard(initialValue: profile.isAvailable),
+            SizedBox(height: 16.h),
+            AppButton(
+              onPressed: () async {
+                final result = await context.push(Routes.editProfileWasher);
+                if (result == true && context.mounted) {
+                  context.read<ProfileWasherCubit>().load();
+                }
+              },
+              text: l10n.profileWasherEditProfile,
+              backgroundColor: AppColors.orange,
+              borderRadius: 28.r,
+              height: 54.h,
+              fontSize: 20.sp,
+            ),
+            SizedBox(height: 16.h),
+          ],
+        ),
       ),
     );
   }

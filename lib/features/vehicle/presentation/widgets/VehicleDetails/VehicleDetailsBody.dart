@@ -36,127 +36,126 @@ class VehicleDetailsBody extends StatelessWidget {
     return (o == null || o.isEmpty) ? 'غير معروف' : o;
   }
 
-@override
-Widget build(BuildContext context) {
-  final strings = context.l10n;
+  @override
+  Widget build(BuildContext context) {
+    final strings = context.l10n;
 
-  return SingleChildScrollView(
-    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        VehicleHeader(
-          imagePath: vehicle.image ?? '',
-          isNetworkImage: true,
-          title: vehicleName,
-          bottomChild: AppText.sectionTitle(
-            '${strings.owner}: $ownerName',
-            color: Colors.black87,
-            textAlign: TextAlign.center,
-            alignment: Alignment.center,
+    return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          VehicleHeader(
+            imagePath: vehicle.image ?? '',
+            isNetworkImage: true,
+            title: vehicleName,
+            bottomChild: AppText.sectionTitle(
+              '${strings.owner}: $ownerName',
+              color: Colors.black87,
+              textAlign: TextAlign.center,
+              alignment: Alignment.center,
+            ),
           ),
-        ),
 
-        Row(
-          children: [
-            Expanded(
-              child: VehicleInfoCardWidget(
-                title: strings.odometer,
-                value: '${vehicle.currentKm} ${strings.km}',
-                icon: Icon(
-                  Icons.speed_outlined,
-                  color: AppColors.primary,
-                  size: 28.sp,
+          Row(
+            children: [
+              Expanded(
+                child: VehicleInfoCardWidget(
+                  title: strings.odometer,
+                  value: '${vehicle.currentKm} ${strings.km}',
+                  icon: Icon(
+                    Icons.speed_outlined,
+                    color: AppColors.primary,
+                    size: 28.sp,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(width: 10.w),
-            Expanded(
-              child: VehicleInfoCardWidget(
-                title: strings.plateNumber,
-                value: vehicle.plateNumber,
-                icon: Image.asset(
-                  AppAssets.plateNumberIcon,
-                  width: 30.w,
-                  height: 30.h,
+              SizedBox(width: 10.w),
+              Expanded(
+                child: VehicleInfoCardWidget(
+                  title: strings.plateNumber,
+                  value: vehicle.plateNumber,
+                  icon: Image.asset(
+                    AppAssets.plateNumberIcon,
+                    width: 30.w,
+                    height: 30.h,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
 
-        SizedBox(height: 5.h),
-        AppText.sectionTitle(strings.serviceRecords),
+          SizedBox(height: 5.h),
+          AppText.sectionTitle(strings.serviceRecords),
 
-        SizedBox(height: 5.h),
-        ServiceRecordTile(
-          title: strings.maintenanceRecord,
-          icon: Icons.build_outlined,
-          onTap: () {
-            context.push(Routes.maintenanceHistory, extra: vehicle.id);
-          },
-        ),
+          SizedBox(height: 5.h),
+          ServiceRecordTile(
+            title: strings.maintenanceRecord,
+            icon: Icons.build_outlined,
+            onTap: () {
+              context.push(Routes.maintenanceHistory, extra: vehicle.id);
+            },
+          ),
 
-        SizedBox(height: 5.h),
-        ServiceRecordTile(
-          title: strings.fuelRecord,
-          icon: Icons.local_gas_station_outlined,
-          onTap: () {},
-        ),
+          SizedBox(height: 5.h),
+          ServiceRecordTile(
+            title: strings.fuelRecord,
+            icon: Icons.local_gas_station_outlined,
+            onTap: () {
+              context.push(Routes.vehicleFuelLogs, extra: vehicle.id);
+            },
+          ),
 
-        SizedBox(height: 5.h),
-        AppText.sectionTitle(strings.quickActions),
+          SizedBox(height: 5.h),
+          AppText.sectionTitle(strings.quickActions),
 
-        SizedBox(height: 5.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            QuickActionButton(
-              label: strings.delete,
-              iconPath: AppAssets.deleteIcon,
-              color: const Color(0xFFA12323),
-              onTap: () {
-                showCustomDeleteDialog(
-                  context: context,
-                  vehicleId: vehicle.id,
-                  vehicleName: vehicleName,
-                );
-              },
-            ),
-            QuickActionButton(
-              label: strings.edit,
-              iconPath: AppAssets.editIcon,
-              color: AppColors.primary,
-              onTap: () async {
-                final updated = await context.push<bool>(
-                  Routes.updateVehicle,
-                  extra: vehicle.id,
-                );
+          SizedBox(height: 5.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              QuickActionButton(
+                label: strings.delete,
+                iconPath: AppAssets.deleteIcon,
+                color: const Color(0xFFA12323),
+                onTap: () {
+                  showCustomDeleteDialog(
+                    context: context,
+                    vehicleId: vehicle.id,
+                    vehicleName: vehicleName,
+                  );
+                },
+              ),
+              QuickActionButton(
+                label: strings.edit,
+                iconPath: AppAssets.editIcon,
+                color: AppColors.primary,
+                onTap: () async {
+                  final updated = await context.push<bool>(
+                    Routes.updateVehicle,
+                    extra: vehicle.id,
+                  );
 
-                if (updated == true && context.mounted) {
-                  context
-                      .read<VehicleDetailsCubit>()
-                      .fetchVehicleDetails(vehicle.id);
-                }
-              },
-            ),
-            QuickActionButton(
-              label: strings.maintenance,
-              iconPath: AppAssets.maintenanceIcon,
-              color: AppColors.primary,
-              onTap: () {
-                  context.push(
-                      Routes.addRequest,
-                     extra:vehicle.id 
+                  if (updated == true && context.mounted) {
+                    context.read<VehicleDetailsCubit>().fetchVehicleDetails(
+                      vehicle.id,
                     );
-              },
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
-}
+                  }
+                },
+              ),
+              QuickActionButton(
+                label: strings.maintenance,
+                iconPath: AppAssets.maintenanceIcon,
+                color: AppColors.primary,
+                onTap: () {
+                  context.push(Routes.addRequest, extra: vehicle.id);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 void showCustomDeleteDialog({
@@ -184,9 +183,9 @@ void showCustomDeleteDialog({
               }
             }
             if (state is VehicleDeleteError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.message)));
             }
           },
           builder: (ctx, state) {
@@ -197,7 +196,7 @@ void showCustomDeleteDialog({
               onDelete: isLoading
                   ? null
                   : () =>
-                      ctx.read<VehicleDeleteCubit>().deleteVehicle(vehicleId),
+                        ctx.read<VehicleDeleteCubit>().deleteVehicle(vehicleId),
             );
           },
         ),

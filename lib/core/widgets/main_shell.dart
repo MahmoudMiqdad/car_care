@@ -11,10 +11,14 @@ class MainAppShell extends StatefulWidget {
     super.key,
     required this.child,
     this.bottomNavigationBar,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
   });
 
   final Widget child;
   final Widget? bottomNavigationBar;
+  final Widget? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
 
   @override
   State<MainAppShell> createState() => _MainAppShellState();
@@ -23,26 +27,31 @@ class MainAppShell extends StatefulWidget {
 class _MainAppShellState extends State<MainAppShell> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // صفحات بدون BottomNav + Drawer (Full Screen)
-  final List<String> fullScreenRoutes = [
-    Routes.washerDetails,
-    Routes.technician_location,
-    Routes.technician_sos_requests,
-    Routes.washerBookingsDetails,
+  // Exact allowlist: the bottom bar/AI FAB/drawer only ever show on these 4
+  // customer root-tab routes. Every other route is registered with
+  // `parentNavigatorKey: rootNavigatorKey` in app_router.dart so it never
+  // even reaches this shell — this list is the explicit safety net on top
+  // of that structural guarantee.
+  static const List<String> _rootTabRoutes = [
+    Routes.home,
+    Routes.notifications,
+    Routes.create_sos,
+    Routes.more,
   ];
 
   @override
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
+    final isRootTab = _rootTabRoutes.contains(location);
 
     // AppBar الأساسي فقط في Home
     final showShellAppBar = location == Routes.home;
 
     //  صفحات بدون BottomNav
-    final hideShellBottomNav = fullScreenRoutes.contains(location);
+    final hideShellBottomNav = !isRootTab;
 
     //  صفحات بدون Drawer
-    final hideShellDrawer = fullScreenRoutes.contains(location);
+    final hideShellDrawer = !isRootTab;
 
     final menuAction = IconButton(
       onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
@@ -59,9 +68,7 @@ class _MainAppShellState extends State<MainAppShell> {
         key: _scaffoldKey,
 
         // Drawer
-        endDrawer: hideShellDrawer
-            ? null
-            : const AppNavigationDrawer(),
+        endDrawer: hideShellDrawer ? null : const AppNavigationDrawer(),
 
         backgroundColor: context.colorScheme.surface,
 
@@ -78,9 +85,21 @@ class _MainAppShellState extends State<MainAppShell> {
         //الصفحة
         body: widget.child,
 
+        // Lets the body paint behind the floating pill bar/notch so the
+        // page's own background shows through instead of a Scaffold-colored
+        // strip appearing around/below it.
+        extendBody: !hideShellBottomNav,
+
         // Bottom Navigation
-        bottomNavigationBar:
-            hideShellBottomNav ? null : widget.bottomNavigationBar,
+        bottomNavigationBar: hideShellBottomNav
+            ? null
+            : widget.bottomNavigationBar,
+
+        // AI Assistant floating action button
+        floatingActionButton: hideShellBottomNav
+            ? null
+            : widget.floatingActionButton,
+        floatingActionButtonLocation: widget.floatingActionButtonLocation,
       ),
     );
   }

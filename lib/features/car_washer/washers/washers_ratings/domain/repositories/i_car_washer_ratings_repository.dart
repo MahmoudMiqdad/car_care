@@ -3,5 +3,8 @@ import 'package:car_care/features/car_washer/washers/washers_ratings/domain/enti
 import 'package:dartz/dartz.dart';
 
 abstract class ICarWasherRatingsRepository {
-  Future<Either<Failure, List<CarWasherRatingEntity>>> getRatings(int carWasherId);
+  Future<Either<Failure, CarWasherRatingsPageEntity>> getRatings(
+    int carWasherId, {
+    int page = 1,
+  });
 }

@@ -13,6 +13,8 @@ class ApiEndpoints {
   static String vehicleMaintenanceHistory(int id) =>
       '${vehicleById(id)}/maintenance';
 
+  static String vehicleFuelLogs(int id) => '${vehicleById(id)}/fuel-logs';
+
   //profile
   static const String updateprofile = '/profile';
   static const String updatepassword = '/profile/password';
@@ -46,17 +48,21 @@ class ApiEndpoints {
   static const String ratejob = '/rate-job';
   // car-washer (customer)
   static const String customerCarWashers = '/customer/car_washers';
-  static String customerCarWasherRatings(int id) => '/customer/car_washers/$id/ratings';
+  static String customerCarWasherRatings(int id) =>
+      '/customer/car_washers/$id/ratings';
   static const String customerCarwashBookings = '/customer/carwash_bookings';
   static String customerRateBooking(int bookingId) =>
       '/customer/carwash_bookings/$bookingId/rate';
-static String customerCancelBooking(int bookingId) =>
-    '/customer/carwash_bookings/$bookingId/cancel';
+  static String customerCancelBooking(int bookingId) =>
+      '/customer/carwash_bookings/$bookingId/cancel';
   // car-washer (washer side)
   static const String washerMyBookings = '/car_washer/my_bookings';
-  static String washerAcceptBooking(int id) => '/car_washer/bookings/$id/accept';
-  static String washerRejectBooking(int id) => '/car_washer/bookings/$id/reject';
-  static String washerUpdateBookingStatus(int id) => '/car_washer/bookings/$id/status';
+  static String washerAcceptBooking(int id) =>
+      '/car_washer/bookings/$id/accept';
+  static String washerRejectBooking(int id) =>
+      '/car_washer/bookings/$id/reject';
+  static String washerUpdateBookingStatus(int id) =>
+      '/car_washer/bookings/$id/status';
 
   // Profile (Car Washer Owner)
   static const String washerMyProfile = '/car_washer/my_profile';
@@ -65,17 +71,21 @@ static String customerCancelBooking(int bookingId) =>
 
   // Statistics
   static const String washerStatistics = '/car_washer/statistics';
+
+  // Availability
+  static const String washerAvailability = '/car_washer/availability';
   //sos
-   static const String sos = '/sos';
-  
-//technician sos
- static const String technicianSosAvailable = '/technician/sos/available';
- static const String technicianSosRequests = '/technician/sos/requests';
-  static const String  technicianSosStatistics =  '/technician/sos/statistics';
-   static const String technicianSosMyRequests = '/technician/sos/my_requests';
-   ///fuel_provider
-     static const String fuelProvider = '/fuel_provider';
-       static const String userFuel = '/customer/fuel_orders';
+  static const String sos = '/sos';
+
+  //technician sos
+  static const String technicianSosAvailable = '/technician/sos/available';
+  static const String technicianSosRequests = '/technician/sos/requests';
+  static const String technicianSosStatistics = '/technician/sos/statistics';
+  static const String technicianSosMyRequests = '/technician/sos/my_requests';
+
+  ///fuel_provider
+  static const String fuelProvider = '/fuel_provider';
+  static const String userFuel = '/customer/fuel_orders';
 
   // spare-parts-store (customer)
   static const String customerSpareProducts = '/customer/products';
@@ -107,4 +117,7 @@ static String customerCancelBooking(int bookingId) =>
 
   // spare-parts-store (customer) - delivery tracking
   static String customerTrackSpareOrder(int id) => '$customerOrders/$id/track';
+
+  // Advertisements (public, unauthenticated)
+  static const String activeAdvertisements = '/advertisements/active';
 }

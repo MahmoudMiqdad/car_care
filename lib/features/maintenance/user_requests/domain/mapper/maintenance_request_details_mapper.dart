@@ -49,6 +49,7 @@ MaintenanceRequestDetailsEntity mapMaintenanceRequestDetails(
               year: d.vehicle!.year,
               plateNumber: d.vehicle!.plateNumber,
               currentKm: d.vehicle!.currentKm,
+              image: d.vehicle!.image,
               imagePath: d.vehicle!.imagePath,
             ),
       images: d.images

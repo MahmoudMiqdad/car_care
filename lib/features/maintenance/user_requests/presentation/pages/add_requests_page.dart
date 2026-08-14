@@ -6,8 +6,8 @@ import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
-import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
 import 'package:car_care/features/maintenance/user_requests/domain/repositories/i_requests_repository.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/add_maintenance_request_cubit/add_maintenance_request_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/add_maintenance_request_cubit/add_maintenance_request_state.dart';
@@ -19,11 +19,13 @@ import 'package:car_care/features/maintenance/user_requests/presentation/widgets
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/add_requests/requests_action_buttons.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/add_requests/vehicle_info_section.dart';
 import 'package:car_care/features/technician/technician_quotations/presentation/widgets/price_offer_page/requests_flow_shared.dart';
+import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
+import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_cubit.dart';
+import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_state.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddRequestsPage extends StatelessWidget {
@@ -31,8 +33,14 @@ class AddRequestsPage extends StatelessWidget {
   final String vehicleId;
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => AddMaintenanceRequestCubit(getIt<IRequestsRepository>()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) =>
+              AddMaintenanceRequestCubit(getIt<IRequestsRepository>()),
+        ),
+        BlocProvider(create: (_) => getIt<VehicleCubit>()..getAllVehicles()),
+      ],
       child: _RequestsPageBody(vehicleId: vehicleId),
     );
   }
@@ -56,6 +64,80 @@ class _RequestsPageState extends State<_RequestsPageBody> {
   // Backend requires preferred_date strictly after today.
   DateTime selectedDate = DateTime.now().add(const Duration(days: 1));
   MaintenancePriority _priority = MaintenancePriority.medium;
+
+  /// Chosen from the user's own vehicles — the id is never typed manually.
+  VehicleEntity? _selectedVehicle;
+
+  /// Preselect the vehicle passed in from the vehicle details screen.
+  void _syncPreselectedVehicle(List<VehicleEntity> vehicles) {
+    if (_selectedVehicle != null || vehicles.isEmpty) return;
+    final preselectedId = int.tryParse(widget.vehicleId.trim());
+    if (preselectedId == null) return;
+    for (final v in vehicles) {
+      if (v.id == preselectedId) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) setState(() => _selectedVehicle = v);
+        });
+        return;
+      }
+    }
+  }
+
+  Future<void> _pickVehicle() async {
+    final cubit = context.read<VehicleCubit>();
+    var state = cubit.state;
+
+    if (state is VehicleLoading) {
+      await cubit.stream.firstWhere((s) => s is! VehicleLoading);
+    }
+    if (!mounted) return;
+    state = cubit.state;
+
+    if (state is VehicleError) {
+      AppSnackBar.error(context, state.message);
+      return;
+    }
+
+    if (state is VehicleEmpty ||
+        (state is VehicleLoaded && state.vehicles.isEmpty)) {
+      AppSnackBar.error(
+        context,
+        'لا توجد مركبات لديك، يرجى إضافة مركبة أولاً من صفحة مركباتي',
+      );
+      return;
+    }
+
+    if (state is! VehicleLoaded) return;
+    final vehicles = state.vehicles;
+
+    final choice = await showModalBottomSheet<VehicleEntity>(
+      context: context,
+      builder: (sheetContext) => SafeArea(
+        child: ListView(
+          shrinkWrap: true,
+          children: vehicles.map((v) {
+            return ListTile(
+              leading: CircleAvatar(
+                radius: 20,
+                backgroundImage: v.image != null && v.image!.isNotEmpty
+                    ? NetworkImage(v.image!)
+                    : null,
+                child: v.image == null || v.image!.isEmpty
+                    ? const Icon(Icons.directions_car, size: 18)
+                    : null,
+              ),
+              title: Text('${v.brand} ${v.model}'),
+              subtitle: Text('${v.year} • ${v.plateNumber}'),
+              onTap: () => Navigator.pop(sheetContext, v),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+
+    if (!mounted || choice == null) return;
+    setState(() => _selectedVehicle = choice);
+  }
 
   @override
   void dispose() {
@@ -82,7 +164,6 @@ class _RequestsPageState extends State<_RequestsPageBody> {
 
     setState(() => _images.addAll(picked));
   }
-  
 
   Future<void> _pickDate() async {
     // Backend rejects dates that are not after today.
@@ -100,14 +181,14 @@ class _RequestsPageState extends State<_RequestsPageBody> {
   }
 
   void _submitRequest() async {
-    final vehicleId = widget.vehicleId.trim();
-    if (vehicleId.isEmpty || int.tryParse(vehicleId) == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('يرجى اختيار مركبة أولاً من صفحة مركباتي'),
-          backgroundColor: Colors.red,
-        ),
-      );
+    final vehicle = _selectedVehicle;
+    if (vehicle == null) {
+      AppSnackBar.error(context, 'يرجى اختيار المركبة أولاً');
+      return;
+    }
+
+    if (_problemController.text.trim().isEmpty) {
+      AppSnackBar.error(context, 'يرجى وصف المشكلة');
       return;
     }
 
@@ -115,8 +196,8 @@ class _RequestsPageState extends State<_RequestsPageBody> {
       final formData = FormData();
 
       formData.fields.addAll([
-        MapEntry('vehicle_id', vehicleId),
-        MapEntry('description', _problemController.text),
+        MapEntry('vehicle_id', vehicle.id.toString()),
+        MapEntry('description', _problemController.text.trim()),
         MapEntry('preferred_date', selectedDate.toIso8601String()),
         MapEntry('priority', _priority.name),
       ]);
@@ -140,18 +221,12 @@ class _RequestsPageState extends State<_RequestsPageBody> {
     return BlocConsumer<AddMaintenanceRequestCubit, AddMaintenanceRequestState>(
       listener: (context, state) {
         if (state is AddMaintenanceRequestSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('تم إرسال الطلب بنجاح'),
-              backgroundColor: Colors.green,
-            ),
-          );
+          AppSnackBar.success(context, 'تم إرسال الطلب بنجاح');
+          context.safePopOrGo(Routes.all_requests);
         }
 
         if (state is AddMaintenanceRequestError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
-          );
+          AppSnackBar.error(context, state.message);
         }
       },
       builder: (context, state) {
@@ -166,19 +241,26 @@ class _RequestsPageState extends State<_RequestsPageBody> {
               title: 'طلب صيانة',
               showBackButton: true,
             ),
-            bottomNavigationBar: HomeBottomNavBar(
-              onItemSelected: (index) {
-                if (index == 0) context.go(Routes.home);
-              },
-            ),
             body: RequestsFlowStyles.backgroundStack(
               child: SingleChildScrollView(
                 padding: EdgeInsets.fromLTRB(18.w, 12.h, 16.w, 24.h),
                 child: Column(
                   children: [
-                    VehicleInfoSection(cardRadius: cardR),
+                    BlocConsumer<VehicleCubit, VehicleState>(
+                      listener: (context, vehicleState) {
+                        if (vehicleState is VehicleLoaded) {
+                          _syncPreselectedVehicle(vehicleState.vehicles);
+                        }
+                      },
+                      builder: (context, vehicleState) => VehicleInfoSection(
+                        cardRadius: cardR,
+                        vehicle: _selectedVehicle,
+                        onPickVehicle: _pickVehicle,
+                        isLoading: isLoading,
+                      ),
+                    ),
                     ProblemDescriptionField(controller: _problemController),
-                  SizedBox(height: 8.h),
+                    SizedBox(height: 8.h),
                     PhotoAttachmentSection(
                       cardRadius: cardR,
                       images: _images,
@@ -191,12 +273,12 @@ class _RequestsPageState extends State<_RequestsPageBody> {
                       formattedDate: selectedDate,
                       onPickDate: _pickDate,
                     ),
-                   SizedBox(height: 8.h),
+                    SizedBox(height: 8.h),
                     PrioritySelector(
                       selected: _priority,
                       onChanged: (p) => setState(() => _priority = p),
                     ),
-                     SizedBox(height: 8.h),
+                    SizedBox(height: 8.h),
                     RequestsActionButtons(
                       cardRadius: cardR,
                       onSubmit: isLoading ? null : _submitRequest,

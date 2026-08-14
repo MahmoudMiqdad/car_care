@@ -1,4 +1,3 @@
-
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
@@ -44,7 +43,9 @@ class _MaintenanceRequestDetailsPageState
   }
 
   void _showFullMapDialog(
-      BuildContext context, RequestCurrentLocationEntity location) {
+    BuildContext context,
+    RequestCurrentLocationEntity location,
+  ) {
     showDialog(
       context: context,
       barrierColor: Colors.black87,
@@ -59,8 +60,7 @@ class _MaintenanceRequestDetailsPageState
               ),
               children: [
                 TileLayer(
-                  urlTemplate:
-                      'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                   userAgentPackageName: 'com.car_care.app',
                   maxNativeZoom: 19,
                 ),
@@ -90,7 +90,9 @@ class _MaintenanceRequestDetailsPageState
                   decoration: BoxDecoration(
                     color: AppColors.white,
                     shape: BoxShape.circle,
-                    boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 6.r)],
+                    boxShadow: [
+                      BoxShadow(color: Colors.black26, blurRadius: 6.r),
+                    ],
                   ),
                   child: Icon(Icons.close, color: AppColors.black, size: 22.r),
                 ),
@@ -107,11 +109,24 @@ class _MaintenanceRequestDetailsPageState
     return BlocListener<CancelRequestCubit, CancelRequestState>(
       listener: (context, state) {
         if (state is CancelRequestSuccess) {
-          AppSnackBar.success(context, 'تم إلغاء الطلب بنجاح');
+          // Prefer the backend message over a hardcoded one.
+          final message = state.request.message?.trim();
+          AppSnackBar.success(
+            context,
+            message == null || message.isEmpty
+                ? 'تم إلغاء الطلب بنجاح'
+                : message,
+          );
+          // Returning to the list re-fetches it, so the cancelled request
+          // shows its new status.
           context.safePopOrGo(Routes.all_requests);
         }
         if (state is CancelRequestError) {
-          AppSnackBar.error(context, state.message);
+          final msg =
+              state.message.isEmpty || state.message.startsWith('Instance of')
+              ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
+              : state.message;
+          AppSnackBar.error(context, msg);
         }
       },
       child: Directionality(
@@ -119,14 +134,13 @@ class _MaintenanceRequestDetailsPageState
         child: Scaffold(
           backgroundColor: AppColors.lightScaffold,
           appBar: CustomAppBar(
-            title: 'تفاصيل الطلب',
+            title: 'تفاصيل طلب صيانة',
             showBackButton: true,
             backgroundColor: AppColors.carWashTeal,
             onBackTapped: () => context.safePopOrGo(Routes.all_requests),
           ),
           body: ImageBackground(
             child: SafeArea(
-              bottom: false,
               child: BlocBuilder<ShowRequestCubit, ShowRequestState>(
                 builder: (context, state) {
                   if (state is ShowRequestLoading ||
@@ -171,7 +185,9 @@ class _MaintenanceRequestDetailsPageState
   }
 
   Widget _buildContent(
-      BuildContext context, MaintenanceRequestDetailsEntity request) {
+    BuildContext context,
+    MaintenanceRequestDetailsEntity request,
+  ) {
     final assigned = request.data.assignedTechnician;
 
     return SingleChildScrollView(
@@ -203,10 +219,8 @@ class _MaintenanceRequestDetailsPageState
           if (assigned != null) ...[
             TechnicianCard(
               technician: assigned,
-              onMapTap: () => _showFullMapDialog(
-                context,
-                assigned.currentLocation!,
-              ),
+              onMapTap: () =>
+                  _showFullMapDialog(context, assigned.currentLocation!),
             ),
             SizedBox(height: 14.h),
           ],

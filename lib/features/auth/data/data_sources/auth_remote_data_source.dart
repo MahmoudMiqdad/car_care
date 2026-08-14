@@ -1,7 +1,7 @@
+// مسؤول عن تنفيذ طلبات تسجيل الدخول والتسجيل وتسجيل الخروج عبر واجهة API.
 import 'package:car_care/core/network/api_endpoints.dart';
 import 'package:car_care/core/network/api_service.dart';
 import 'package:car_care/features/auth/domain/model/auth_model.dart';
-
 
 class AuthRemoteDataSource {
   const AuthRemoteDataSource(this._apiService);
@@ -23,5 +23,9 @@ class AuthRemoteDataSource {
     );
 
     return AuthResponseModel.fromJson(response);
+  }
+
+  Future<void> logout() async {
+    await _apiService.post(endPoint: ApiEndpoints.logout);
   }
 }

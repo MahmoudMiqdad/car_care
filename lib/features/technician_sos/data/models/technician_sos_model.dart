@@ -1,12 +1,14 @@
 class TechnicianSosModel {
   final bool? success;
+  final String? message;
   final TechnicianSosData? data;
 
-  TechnicianSosModel({this.success, this.data});
+  TechnicianSosModel({this.success, this.message, this.data});
 
   factory TechnicianSosModel.fromJson(Map<String, dynamic> json) {
     return TechnicianSosModel(
       success: json['success'],
+      message: json['message']?.toString(),
       data: json['data'] != null ? TechnicianSosData.fromJson(json['data']) : null,);
   }
 }

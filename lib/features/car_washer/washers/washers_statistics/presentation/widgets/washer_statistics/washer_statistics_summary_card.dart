@@ -1,11 +1,9 @@
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/widgets/app_headline.dart';
-import 'package:car_care/core/widgets/statistics/ring_card.dart';
-import 'package:car_care/core/widgets/statistics/stats_grid.dart';
+import 'package:car_care/core/widgets/statistics/stats_segmented_bar.dart';
+import 'package:car_care/core/widgets/statistics/stats_summary_card.dart';
 import 'package:car_care/features/car_washer/washers/washers_statistics/domain/entities/statistics_entity.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WasherStatisticsSummaryCard extends StatelessWidget {
   const WasherStatisticsSummaryCard({super.key, required this.statistics});
@@ -15,66 +13,44 @@ class WasherStatisticsSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
-    final total = statistics.totalBookings;
-    final completed = statistics.completedBookings;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        AppText.sectionTitle(
-          strings.showRatingTotalBookings,
-          fontSize: 24.sp,
-          fontWeight: FontWeight.w700,
-          color: AppColors.black,
-          textAlign: TextAlign.start,
+    return StatsSummaryCard(
+      title: strings.showRatingAllReserved,
+      valueLabel: strings.showRatingTotalBookings,
+      value: statistics.totalBookings,
+      icon: Icons.event_note_outlined,
+      segments: [
+        StatsSegment(
+          value: statistics.pendingBookings,
+          color: AppColors.orange,
         ),
-        SizedBox(height: 10.h),
-        RingCard(
-          data: RingCardData(
-            title: strings.showRatingAllReserved,
-            headerIcon: Icons.event_note_outlined,
-            accentColor: AppColors.primary,
-            mainValue: total,
-            mainLabel: 'الإجمالي',
-            progress: total == 0 ? 0.0 : completed / total,
-            indicators: [
-              RingIndicator(
-                label: strings.completed,
-                value: completed,
-                icon: Icons.check_circle_outline,
-                color: AppColors.primary,
-              ),
-            ],
-          ),
+        StatsSegment(
+          value: statistics.acceptedBookings,
+          color: AppColors.primary,
         ),
-        SizedBox(height: 14.h),
-        StatsGrid(
-          items: [
-            StatTileData(
-              title: strings.pending,
-              value: '${statistics.pendingBookings}',
-              icon: Icons.hourglass_top_outlined,
-              color: AppColors.orange,
-            ),
-            StatTileData(
-              title: strings.bookingStatusAccepted,
-              value: '${statistics.acceptedBookings}',
-              icon: Icons.verified_outlined,
-              color: AppColors.primary,
-            ),
-            StatTileData(
-              title: strings.bookingStatusProgress,
-              value: '${statistics.inProgressBookings}',
-              icon: Icons.timelapse_outlined,
-              color: AppColors.primary,
-            ),
-            StatTileData(
-              title: strings.cancelled,
-              value: '${statistics.cancelledBookings}',
-              icon: Icons.cancel_outlined,
-              color: AppColors.orange,
-            ),
-          ],
+        StatsSegment(
+          value: statistics.inProgressBookings,
+          color: AppColors.carWashTeal,
+        ),
+        StatsSegment(
+          value: statistics.completedBookings,
+          color: AppColors.success,
+        ),
+        StatsSegment(
+          value: statistics.cancelledBookings,
+          color: AppColors.error,
+        ),
+      ],
+      legendItems: [
+        StatsLegendItem(
+          label: strings.completed,
+          value: statistics.completedBookings,
+          color: AppColors.success,
+        ),
+        StatsLegendItem(
+          label: strings.cancelled,
+          value: statistics.cancelledBookings,
+          color: AppColors.error,
         ),
       ],
     );

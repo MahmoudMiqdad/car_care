@@ -5,6 +5,7 @@ import 'package:car_care/features/fuel_provider/fuel_provider_statistics/present
 import 'package:car_care/features/fuel_provider/fuel_provider_statistics/presentation/cubit/provider_statistics_state.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_statistics/presentation/widgets/provider_statistics/provider_statistics_orders_card.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_statistics/presentation/widgets/provider_statistics/provider_statistics_profits_card.dart';
+import 'package:car_care/features/fuel_provider/fuel_provider_statistics/presentation/widgets/provider_statistics/provider_statistics_status_indicators_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,17 +52,28 @@ class ProviderStatisticsBody extends StatelessWidget {
 
         if (state is FuelProviderStatisticsLoaded) {
           final stats = state.statistics;
+          final bottomSafeSpace = MediaQuery.viewPaddingOf(context).bottom;
 
-          return SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ProviderStatisticsOrdersCard(statistics: stats),
-                SizedBox(height: 16.h),
-                ProviderStatisticsProfitsCard(statistics: stats),
-                SizedBox(height: 24.h),
-              ],
+          return SafeArea(
+            bottom: false,
+            child: SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(
+                20.w,
+                20.h,
+                20.w,
+                20.h + bottomSafeSpace,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  ProviderStatisticsOrdersCard(statistics: stats),
+                  SizedBox(height: 12.h),
+                  ProviderStatisticsStatusIndicatorsCard(statistics: stats),
+                  SizedBox(height: 12.h),
+                  ProviderStatisticsProfitsCard(statistics: stats),
+                  SizedBox(height: 24.h),
+                ],
+              ),
             ),
           );
         }

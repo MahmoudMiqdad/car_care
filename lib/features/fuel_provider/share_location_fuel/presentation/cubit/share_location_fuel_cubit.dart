@@ -17,7 +17,7 @@ class ShareFuelProviderLocationCubit
     emit(ShareFuelProviderLocationLoading());
     final res = await _repo.shareLocation(orderId: orderId, lat: lat, lng: lng);
     res.fold(
-      (l) => emit(ShareFuelProviderLocationError(l.message)),
+      (l) => emit(ShareFuelProviderLocationError(l.displayMessage)),
       (_) => emit(ShareFuelProviderLocationSuccess()),
     );
   }

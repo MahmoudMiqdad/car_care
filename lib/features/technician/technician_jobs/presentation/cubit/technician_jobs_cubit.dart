@@ -14,7 +14,7 @@ class TechnicianJobsCubit extends Cubit<TechnicianJobsState> {
     final result = await _repository.fetchMyJobs();
 
     result.fold(
-      (failure) => emit(TechnicianJobsError(failure.message)),
+      (failure) => emit(TechnicianJobsError(failure.displayMessage)),
       (data) => emit(TechnicianJobsLoaded(data)),
     );
   }
@@ -25,19 +25,19 @@ class TechnicianJobsCubit extends Cubit<TechnicianJobsState> {
     final result = await _repository.fetchAcceptedJobs();
 
     result.fold(
-      (failure) => emit(TechnicianJobsError(failure.message)),
+      (failure) => emit(TechnicianJobsError(failure.displayMessage)),
       (data) => emit(TechnicianJobsLoaded(data)),
     );
   }
 
   Future<void> updateJobStatus(
       Map<String, dynamic> data, String jobId) async {
-    emit(JobStatusLoading());
+    emit(JobStatusLoading(jobId));
 
     final result = await _repository.updateJobStatus(data, jobId);
 
     result.fold(
-      (failure) => emit(JobStatusError(failure.message)),
+      (failure) => emit(JobStatusError(failure.displayMessage)),
       (data) => emit(JobStatusUpdated(data)),
     );
   }

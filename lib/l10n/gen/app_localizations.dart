@@ -3372,6 +3372,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All Reserved'**
   String get providerStatisticsAllOrders;
+
+  /// Accessibility label for an advertisement card with no title
+  ///
+  /// In en, this message translates to:
+  /// **'Advertisement'**
+  String get advertisementSemanticLabel;
+
+  /// Accessibility label for an advertisement card, including its title
+  ///
+  /// In en, this message translates to:
+  /// **'Advertisement: {title}'**
+  String advertisementSemanticLabelWithTitle(String title);
+
+  /// Shown when tapping an advertisement fails to open its link
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t open the advertisement link'**
+  String get advertisementLinkOpenFailed;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

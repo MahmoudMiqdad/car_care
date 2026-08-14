@@ -1,7 +1,6 @@
 import 'package:car_care/core/constants/app_assets.dart';
-import 'package:car_care/core/constants/appbox_container.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/widgets/app_headline.dart';
+import 'package:car_care/core/widgets/statistics/stats_section_card.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_statistics/domain/entities/provider_statistics_entity.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -16,65 +15,49 @@ class ProviderStatisticsProfitsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final formattedProfits =
-        NumberFormat('#,###').format(statistics.totalOrders);
+    final formattedProfits = NumberFormat(
+      '#,###',
+    ).format(statistics.totalRevenue);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        AppText.sectionTitle(
-          l10n.providerStatisticsTotalProfitsTitle,
-          fontSize: 24.sp,
-          fontWeight: FontWeight.w700,
-          color: AppColors.black,
-          textAlign: TextAlign.start,
-        ),
-        SizedBox(height: 10.h),
-        AppBoxContainer(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
-            child: Row(
+    return StatsSectionCard(
+      title: l10n.providerStatisticsTotalProfitsTitle,
+      icon: Icons.payments_outlined,
+      child: Row(
+        textDirection: TextDirection.rtl,
+        children: [
+          Container(
+            width: 48.w,
+            height: 48.w,
+            padding: EdgeInsets.all(10.w),
+            decoration: BoxDecoration(
+              color: AppColors.orange.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(14.r),
+            ),
+            child: Image.asset(AppAssets.fuelOrderMoneyIcon, fit: BoxFit.contain),
+          ),
+          SizedBox(width: 12.w),
+          Expanded(
+            child: Text(
+              'الإجمالي',
               textDirection: TextDirection.rtl,
-              children: [
-                Container(
-                  width: 48.w,
-                  height: 48.w,
-                  padding: EdgeInsets.all(10.w),
-                  decoration: BoxDecoration(
-                    color: AppColors.orange.withOpacity(0.12),
-                    borderRadius: BorderRadius.circular(14.r),
-                  ),
-                  child: Image.asset(
-                    AppAssets.fuelOrderMoneyIcon,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                SizedBox(width: 12.w),
-                Expanded(
-                  child: Text(
-                    'الإجمالي',
-                    textDirection: TextDirection.rtl,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
-                    ),
-                  ),
-                ),
-                Text(
-                  '\$ $formattedProfits',
-                  textDirection: TextDirection.ltr,
-                  style: TextStyle(
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.orange,
-                  ),
-                ),
-              ],
+              style: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
             ),
           ),
-        ),
-      ],
+          Text(
+            '\$ $formattedProfits',
+            textDirection: TextDirection.ltr,
+            style: TextStyle(
+              fontSize: 22.sp,
+              fontWeight: FontWeight.w900,
+              color: AppColors.orange,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

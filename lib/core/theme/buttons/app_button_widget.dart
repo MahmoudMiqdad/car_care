@@ -3,7 +3,6 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 
-import 'package:car_care/core/widgets/loding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -21,6 +20,7 @@ class AppButton extends StatelessWidget {
     this.isOutline = false,
     this.borderRadius,
     this.fontSize,
+
     /// When [isOutline] is true, fills the button (e.g. white) instead of a tinted primary.
     this.outlineSurfaceColor,
     super.key,
@@ -45,8 +45,8 @@ class AppButton extends StatelessWidget {
     final isActionDisabled = isDisabled || isLoading || onPressed == null;
 
     return SizedBox(
-      width: width ?? double.infinity, 
-      height: height ?? 50.h,         
+      width: width ?? double.infinity,
+      height: height ?? 50.h,
       child: isOutline
           ? _buildOutlineButton(context, isActionDisabled)
           : _buildElevatedButton(context, isActionDisabled),
@@ -62,7 +62,9 @@ class AppButton extends StatelessWidget {
         backgroundColor: primaryColor,
         foregroundColor: textColor ?? AppColors.white,
         disabledBackgroundColor: isLoading ? primaryColor : null,
-        disabledForegroundColor: isLoading ? (textColor ?? AppColors.white) : null,
+        disabledForegroundColor: isLoading
+            ? (textColor ?? AppColors.white)
+            : null,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
@@ -73,28 +75,39 @@ class AppButton extends StatelessWidget {
   }
 
   Widget _buildOutlineButton(BuildContext context, bool disabled) {
-  final color = backgroundColor ?? context.colorScheme.primary;
+    final color = backgroundColor ?? context.colorScheme.primary;
 
-  return OutlinedButton(
-    onPressed: disabled ? null : onPressed,
-    style: OutlinedButton.styleFrom(
-      backgroundColor: outlineSurfaceColor ?? color.withOpacity(0.1),
-      
-      foregroundColor: color,
-      side: BorderSide(
-        color: disabled && !isLoading ? color.withOpacity(0.5) : color, 
-        width: 1.5.w,
+    return OutlinedButton(
+      onPressed: disabled ? null : onPressed,
+      style: OutlinedButton.styleFrom(
+        backgroundColor: outlineSurfaceColor ?? color.withOpacity(0.1),
+
+        foregroundColor: color,
+        side: BorderSide(
+          color: disabled && !isLoading ? color.withOpacity(0.5) : color,
+          width: 1.5.w,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
+        ),
       ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
-      ),
-    ),
-    child: _buildButtonContent(context),
-  );
-}
+      child: _buildButtonContent(context),
+    );
+  }
+
   Widget _buildButtonContent(BuildContext context) {
     if (isLoading) {
-      return AppLoadingWidget(
+      // AppLoadingWidget is a full-page/section loader (~150+ logical px
+      // tall) — using it here overflowed the button's own fixed height.
+      // A small inline spinner is the correct loading affordance for a
+      // button-sized area.
+      final spinnerColor = isOutline
+          ? (backgroundColor ?? context.colorScheme.primary)
+          : (textColor ?? AppColors.white);
+      return SizedBox(
+        height: 22.r,
+        width: 22.r,
+        child: CircularProgressIndicator(strokeWidth: 2.5, color: spinnerColor),
       );
     }
 
@@ -102,10 +115,7 @@ class AppButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (icon != null) ...[
-          icon!,
-          8.horizontalSpace,
-        ],
+        if (icon != null) ...[icon!, 8.horizontalSpace],
         Text(
           text,
           style: context.textTheme.labelLarge?.copyWith(

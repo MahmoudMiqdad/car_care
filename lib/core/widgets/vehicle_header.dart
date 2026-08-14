@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:car_care/core/widgets/vehicle_image_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,7 +19,7 @@ class VehicleHeader extends StatelessWidget {
     required this.title,
     this.titleStyle,
     this.bottomChild,
-    this.imageHeight = 130, 
+    this.imageHeight = 130,
   });
 
   @override
@@ -28,23 +29,14 @@ class VehicleHeader extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 10.h),
       child: Column(
         children: [
-          Container(
-            height: imageHeight.h,
-            width: 200.w,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.r), 
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20.r),
-              child: _imageContent(),
-            ),
-          ),
-          
+          VehicleImageBox(imageUrl: imagePath.isEmpty ? null : imagePath),
+
           SizedBox(height: 8.h),
-                    Text(
+          Text(
             title,
             textAlign: TextAlign.center,
-            style: titleStyle ??
+            style:
+                titleStyle ??
                 TextStyle(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.w700,
@@ -52,39 +44,9 @@ class VehicleHeader extends StatelessWidget {
                   letterSpacing: 0.5,
                 ),
           ),
-          
-          if (bottomChild != null) ...[
-            bottomChild!,
-          ],
+
+          if (bottomChild != null) ...[bottomChild!],
         ],
-      ),
-    );
-  }
-
-  Widget _imageContent() {
-    if (imagePath.isEmpty) return _placeholder();
-        return isNetworkImage
-        ? Image.network(
-            imagePath,
-            fit: BoxFit.cover, 
-            errorBuilder: (_, _, _) => _placeholder(),
-          )
-        : Image.asset(
-            imagePath,
-            fit: BoxFit.cover,
-            errorBuilder: (_, _, _) => _placeholder(),
-          );
-  }
-
-  Widget _placeholder() {
-    return Container(
-      color: const Color(0xFFF5F7F9),
-      child: Center(
-        child: Icon(
-          Icons.directions_car_filled_rounded,
-          size: 50.sp,
-          color: const Color(0xFF0C5D6E).withOpacity(0.2),
-        ),
       ),
     );
   }

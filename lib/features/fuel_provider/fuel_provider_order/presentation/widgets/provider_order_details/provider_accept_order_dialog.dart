@@ -14,6 +14,29 @@ class ProviderAcceptOrderDialogResult {
   final String notes;
 }
 
+/// Backend contract: estimated_arrival_minutes is nullable int, min:1, max:120.
+/// Empty is allowed (means "not provided"); top-level so it's directly
+/// unit-testable without pumping the dialog widget.
+String? validateProviderEstimatedArrivalMinutes(String? value) {
+  final trimmed = value?.trim() ?? '';
+  if (trimmed.isEmpty) return null;
+  final minutes = int.tryParse(trimmed);
+  if (minutes == null) return 'يرجى إدخال رقم صحيح';
+  if (minutes < 1 || minutes > 120) {
+    return 'المدة يجب أن تكون بين 1 و 120 دقيقة';
+  }
+  return null;
+}
+
+/// Backend contract: notes is nullable string, max:500.
+String? validateProviderNotes(String? value) {
+  final trimmed = value?.trim() ?? '';
+  if (trimmed.length > 500) {
+    return 'الملاحظات يجب ألا تتجاوز 500 حرف';
+  }
+  return null;
+}
+
 class ProviderAcceptOrderDialog extends StatefulWidget {
   const ProviderAcceptOrderDialog({
     super.key,
@@ -36,6 +59,7 @@ class ProviderAcceptOrderDialog extends StatefulWidget {
 }
 
 class _ProviderAcceptOrderDialogState extends State<ProviderAcceptOrderDialog> {
+  final _formKey = GlobalKey<FormState>();
   late final TextEditingController _minutesController;
   late final TextEditingController _notesController;
 
@@ -54,6 +78,7 @@ class _ProviderAcceptOrderDialogState extends State<ProviderAcceptOrderDialog> {
   }
 
   void _onConfirm() {
+    if (_formKey.currentState?.validate() != true) return;
     Navigator.of(context).pop(
       ProviderAcceptOrderDialogResult(
         minutes: _minutesController.text.trim(),
@@ -94,23 +119,29 @@ class _ProviderAcceptOrderDialogState extends State<ProviderAcceptOrderDialog> {
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 14.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _DialogField(
-                    label: widget.durationLabel,
-                    controller: _minutesController,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  ),
-                  SizedBox(height: 14.h),
-                  _DialogField(
-                    label: widget.notesLabel,
-                    controller: _notesController,
-                    maxLines: 3,
-                    minLines: 2,
-                  ),
-                ],
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _DialogField(
+                      label: widget.durationLabel,
+                      controller: _minutesController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      validator: validateProviderEstimatedArrivalMinutes,
+                    ),
+                    SizedBox(height: 14.h),
+                    _DialogField(
+                      label: widget.notesLabel,
+                      controller: _notesController,
+                      maxLines: 3,
+                      minLines: 2,
+                      maxLength: 500,
+                      validator: validateProviderNotes,
+                    ),
+                  ],
+                ),
               ),
             ),
             Container(
@@ -154,6 +185,8 @@ class _DialogField extends StatelessWidget {
     this.inputFormatters,
     this.maxLines = 1,
     this.minLines = 1,
+    this.maxLength,
+    this.validator,
   });
 
   final String label;
@@ -162,6 +195,8 @@ class _DialogField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final int maxLines;
   final int minLines;
+  final int? maxLength;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +214,7 @@ class _DialogField extends StatelessWidget {
           ),
         ),
         SizedBox(height: 10.h),
-        TextField(
+        TextFormField(
           controller: controller,
           textDirection: TextDirection.rtl,
           textAlign: TextAlign.right,
@@ -187,6 +222,8 @@ class _DialogField extends StatelessWidget {
           inputFormatters: inputFormatters,
           maxLines: maxLines,
           minLines: minLines,
+          maxLength: maxLength,
+          validator: validator,
           style: TextStyle(
             fontSize: 15.sp,
             fontWeight: FontWeight.w500,
@@ -213,6 +250,7 @@ class _DialogField extends StatelessWidget {
                 width: 1.5,
               ),
             ),
+            errorMaxLines: 2,
           ),
         ),
       ],

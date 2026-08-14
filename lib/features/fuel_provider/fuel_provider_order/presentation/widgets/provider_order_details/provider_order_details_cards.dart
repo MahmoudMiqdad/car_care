@@ -1,6 +1,7 @@
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/media_url.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_order/domain/entities/provider_order_entity.dart';
 import 'package:car_care/features/fuel_provider/share_location_fuel/presentation/cubit/share_location_fuel_cubit.dart';
 import 'package:car_care/features/fuel_provider/share_location_fuel/presentation/widgets/fuel_provider_map_widget.dart';
@@ -31,7 +32,11 @@ class ProviderOrderDetailsPendingBanner extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         textDirection: TextDirection.rtl,
         children: [
-          Icon(Icons.hourglass_empty_rounded, color: AppColors.warning, size: 22.sp),
+          Icon(
+            Icons.hourglass_empty_rounded,
+            color: AppColors.warning,
+            size: 22.sp,
+          ),
           SizedBox(width: 8.w),
           Flexible(
             child: Text(
@@ -58,7 +63,8 @@ class ProviderOrderDetailsOrderCard extends StatelessWidget {
     final l10n = context.l10n;
     final vehicle = order.vehicle;
     final vehicleTitle = vehicle != null
-        ? '${vehicle.brand ?? ''} ${vehicle.model ?? ''} ${vehicle.year ?? ''}'.trim()
+        ? '${vehicle.brand ?? ''} ${vehicle.model ?? ''} ${vehicle.year ?? ''}'
+              .trim()
         : '-';
 
     return SosDetailsSectionCard(
@@ -99,13 +105,47 @@ class ProviderOrderDetailsOrderCard extends StatelessWidget {
             ),
           ),
           SizedBox(width: 12.w),
-          CircleAvatar(
-            radius: 44.r,
-            backgroundColor: AppColors.lightSurface,
-            backgroundImage: const AssetImage(AppAssets.technicianJobVehicleIcon),
+          _ProviderOrderVehicleAvatar(
+            imageUrl: resolveMediaUrl(vehicle?.image ?? vehicle?.imagePath),
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Shows the real vehicle image from the API — same resolveMediaUrl() helper
+/// and network-with-fallback pattern already used for the customer-side fuel
+/// order details and the maintenance request details' vehicle card. Falls
+/// back to the placeholder asset only when there is no image or it fails to
+/// load.
+class _ProviderOrderVehicleAvatar extends StatelessWidget {
+  const _ProviderOrderVehicleAvatar({this.imageUrl});
+
+  final String? imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    final url = imageUrl;
+
+    if (url == null) return _placeholder();
+
+    return ClipOval(
+      child: Image.network(
+        url,
+        width: 88.r,
+        height: 88.r,
+        fit: BoxFit.cover,
+        errorBuilder: (_, _, _) => _placeholder(),
+      ),
+    );
+  }
+
+  Widget _placeholder() {
+    return CircleAvatar(
+      radius: 44.r,
+      backgroundColor: AppColors.lightSurface,
+      backgroundImage: const AssetImage(AppAssets.technicianJobVehicleIcon),
     );
   }
 }
@@ -165,11 +205,9 @@ class ProviderOrderDetailsCustomerCard extends StatelessWidget {
     );
   }
 }
+
 class ProviderOrderDetailsNotesCard extends StatelessWidget {
-  const ProviderOrderDetailsNotesCard({
-    super.key,
-    required this.order,
-  });
+  const ProviderOrderDetailsNotesCard({super.key, required this.order});
 
   final FuelOrderEntity order;
 
@@ -183,7 +221,7 @@ class ProviderOrderDetailsNotesCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.asset(
-            AppAssets.NotesIcon, 
+            AppAssets.NotesIcon,
             width: 20.w,
             height: 20.w,
             fit: BoxFit.contain,
@@ -212,10 +250,7 @@ class ProviderOrderDetailsNotesCard extends StatelessWidget {
 }
 
 class ProviderOrderDetailsLocationCard extends StatelessWidget {
-  const ProviderOrderDetailsLocationCard({
-    super.key,
-    required this.order,
-  });
+  const ProviderOrderDetailsLocationCard({super.key, required this.order});
 
   final FuelOrderEntity order;
 
@@ -281,7 +316,9 @@ class ProviderOrderDetailsLocationCard extends StatelessWidget {
                 right: 8,
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 6),
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.black54,
                     borderRadius: BorderRadius.circular(8),
@@ -315,6 +352,7 @@ class ProviderOrderDetailsLocationCard extends StatelessWidget {
               orderId: order.id ?? 0,
               userLat: order.deliveryLatitude,
               userLng: order.deliveryLongitude,
+              orderStatus: order.status,
             ),
           ),
         ),

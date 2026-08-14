@@ -11,7 +11,7 @@ class UserFuelCubit extends Cubit<UserFuelState> {
     emit(UserFuelLoading());
     final res = await _repo.getAllOrders();
     res.fold(
-      (l) => emit(UserFuelError(l.message)),
+      (l) => emit(UserFuelError(l.displayMessage)),
       (r) => emit(UserFuelOrdersLoaded(r)),
     );
   }
@@ -20,7 +20,7 @@ class UserFuelCubit extends Cubit<UserFuelState> {
     emit(UserFuelLoading());
     final res = await _repo.getOrder(id);
     res.fold(
-      (l) => emit(UserFuelError(l.message)),
+      (l) => emit(UserFuelError(l.displayMessage)),
       (r) => emit(UserFuelOrderLoaded(r)),
     );
   }
@@ -29,7 +29,7 @@ class UserFuelCubit extends Cubit<UserFuelState> {
     emit(UserFuelLoading());
     final res = await _repo.addEmergencyOrder(data);
     res.fold(
-      (l) => emit(UserFuelError(l.message)),
+      (l) => emit(UserFuelError(l.displayMessage)),
       (r) => emit(UserFuelOrderCreated(r)),
     );
   }
@@ -38,7 +38,7 @@ class UserFuelCubit extends Cubit<UserFuelState> {
     emit(UserFuelLoading());
     final res = await _repo.cancelOrder(id, reason);
     res.fold(
-      (l) => emit(UserFuelError(l.message)),
+      (l) => emit(UserFuelError(l.displayMessage)),
       (_) => emit(UserFuelOrderCancelled()),
     );
   }
@@ -47,7 +47,7 @@ class UserFuelCubit extends Cubit<UserFuelState> {
     emit(UserFuelLoading());
     final res = await _repo.trackOrder(id);
     res.fold(
-      (l) => emit(UserFuelError(l.message)),
+      (l) => emit(UserFuelError(l.displayMessage)),
       (r) => emit(UserFuelTrackLoaded(r)),
     );
   }

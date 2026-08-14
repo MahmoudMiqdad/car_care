@@ -20,6 +20,7 @@ class Routes {
   static const String deleteconfirmationdialog = '/delete_confirmation_dialog';
 
   static const String maintenanceHistory = '/maintenanceHistory';
+  static const String vehicleFuelLogs = '/vehicle_fuel_logs';
   static const String quotation_details = '/quotation_details';
   static const String inserttechnicianprofile = '/insert_technician_profile';
   static const String availability = '/availability';
@@ -27,7 +28,8 @@ class Routes {
   static const String jobs = '/jobs';
   static const String statistics = '/statistics';
   static const String addRequest = '/add_requests_page.dart';
-   static const String maintenance_request_details = '/maintenance_request_details.dart';
+  static const String maintenance_request_details =
+      '/maintenance_request_details.dart';
   static const String all_requests = '/all_requests_stats_page';
 
   static const String rate_job = '/rate_job';
@@ -77,7 +79,7 @@ class Routes {
   static const String userfuel_orders = '/userfuel_orders';
   static const String add_user_fuel = '/fuel_sos_create_page';
   static const String user_fuel_orders = '/user_fuel_orders';
-   static const String fuelorderslist = '/fuel_orders_list_page';
+  static const String fuelorderslist = '/fuel_orders_list_page';
   static const String fuel_order_details = '/fuel_order_details';
   static const String provider_order = '/provider_order';
   static const String provider_order_details = '/provider_order_details_page';
@@ -87,13 +89,16 @@ class Routes {
   static String customerProductDetailsPreviewPath(int productId) =>
       '$customerProductDetailsPreview/$productId';
 
-  static const String customerAllProducts = '/spare-parts/customer/all-products';
+  static const String customerAllProducts =
+      '/spare-parts/customer/all-products';
 
   static const String customerShopsList = '/spare-parts/customer/shops';
-  static const String customerShopDetails = '/spare-parts/customer/shop-details';
+  static const String customerShopDetails =
+      '/spare-parts/customer/shop-details';
   static String customerShopDetailsPath(int shopId) =>
       '$customerShopDetails/$shopId';
-  static const String customerShopProducts = '/spare-parts/customer/shop-products';
+  static const String customerShopProducts =
+      '/spare-parts/customer/shop-products';
   static String customerShopProductsPath(int shopId) =>
       '$customerShopProducts/$shopId';
 

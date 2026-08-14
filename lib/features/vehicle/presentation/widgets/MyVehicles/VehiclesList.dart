@@ -13,7 +13,11 @@ class VehiclesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       itemCount: items.length,
-      physics: const BouncingScrollPhysics(),
+      // Always-scrollable so RefreshIndicator's pull gesture works even
+      // when the list is short enough to fit on screen.
+      physics: const AlwaysScrollableScrollPhysics(
+        parent: BouncingScrollPhysics(),
+      ),
       separatorBuilder: (context, index) => SizedBox(height: 16.h),
       itemBuilder: (context, index) {
         return VehicleCard(item: items[index]);

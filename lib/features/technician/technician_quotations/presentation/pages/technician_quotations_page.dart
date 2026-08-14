@@ -4,20 +4,31 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
-import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
-import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/add_requests/requests_action_buttons.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/widgets/add_requests/requests_form_card.dart';
 import 'package:car_care/features/technician/technician_quotations/domain/repositories/i_technician_quotations_repository.dart';
 import 'package:car_care/features/technician/technician_quotations/presentation/cubit/technician_quotations_cubit.dart';
 import 'package:car_care/features/technician/technician_quotations/presentation/cubit/technician_quotations_state.dart';
 import 'package:car_care/features/technician/technician_quotations/presentation/widgets/price_offer_page/parts_mode_section.dart';
 import 'package:car_care/features/technician/technician_quotations/presentation/widgets/price_offer_page/requests_flow_shared.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+String? validateEstimatedDays(String? value) {
+  final trimmed = value?.trim() ?? '';
+  if (trimmed.isEmpty) return 'يرجى إدخال المدة المتوقعة';
+  final days = int.tryParse(trimmed);
+  if (days == null) return 'يرجى إدخال رقم صحيح';
+  if (days < 1 || days > 30) {
+    return 'المدة يجب أن تكون بين 1 و 30 يومًا';
+  }
+  return null;
+}
 
 class TechnicianQuotationsPage extends StatefulWidget {
   final String requestId;
@@ -29,6 +40,7 @@ class TechnicianQuotationsPage extends StatefulWidget {
 }
 
 class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _durationController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
@@ -53,9 +65,13 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
       child: BlocConsumer<SubmitQuotationCubit, SubmitQuotationState>(
         listener: (context, state) {
           if (state is SubmitQuotationSuccess) {
-         AppSnackBar.success(context, "تم إرسال العرض بنجاح");
-
-       
+            // Return to Technician Order Details, which refetches and then
+            // shows the success confirmation there.
+            if (context.canPop()) {
+              context.pop(true);
+            } else {
+              context.go(Routes.orderdetails, extra: widget.requestId);
+            }
           }
 
           if (state is SubmitQuotationError) {
@@ -78,100 +94,130 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
                 title: 'تقديم عرض سعر',
                 showBackButton: true,
               ),
-              bottomNavigationBar: HomeBottomNavBar(
-                activeIndex: -1,
-                onItemSelected: (index) {
-                  if (index == 0) context.go(Routes.home);
-                },
-              ),
               body: ImageBackground(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      /// صورة
-                      Center(
-                        child: Image.asset(
-                          AppAssets.carFinanceAmico,
-                          height: 180.h,
-                          width: 180.w,
-                        ),
-                      ),
+                child: SafeArea(
+                  top: false,
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          /// صورة
+                          Center(
+                            child: Image.asset(
+                              AppAssets.carFinanceAmico,
+                              height: 180.h,
+                              width: 180.w,
+                            ),
+                          ),
 
-                      SizedBox(height: 10.h),
+                          SizedBox(height: 10.h),
 
-                      /// السعر
-                      RequestsFlowStyles.formTextFieldCard(
-                        title: 'السعر',
-                        icon: Icons.payments_outlined,
-                        hintText: 'يرجى كتابة السعر المتوقع...',
-                        controller: _priceController,
-                        keyboardType: TextInputType.number,
-                      ),
+                          /// السعر
+                          RequestsFlowStyles.formTextFieldCard(
+                            title: 'السعر',
+                            icon: Icons.payments_outlined,
+                            hintText: 'يرجى كتابة السعر المتوقع...',
+                            controller: _priceController,
+                            keyboardType: TextInputType.number,
+                          ),
 
-                      SizedBox(height: 8.h),
+                          SizedBox(height: 8.h),
 
-                      /// قطع
-                      PartsModeSection(
-                        withinPrice: partsWithinPrice,
-                        onChanged: (v) =>
-                            setState(() => partsWithinPrice = v),
-                      ),
+                          /// قطع
+                          PartsModeSection(
+                            withinPrice: partsWithinPrice,
+                            onChanged: (v) =>
+                                setState(() => partsWithinPrice = v),
+                          ),
 
-                      SizedBox(height: 12.h),
+                          SizedBox(height: 12.h),
 
-                      /// المدة
-                      RequestsFlowStyles.formTextFieldCard(
-                        title: 'المدة',
-                        keyboardType: TextInputType.number,
-                        icon: Icons.schedule,
-                        hintText: 'يرجى كتابة المدة المتوقعة...',
-                        controller: _durationController,
-                      ),
+                          /// المدة (بالأيام، من 1 إلى 30)
+                          RequestsFormCard(
+                            cardRadius: _cardR,
+                            title: 'المدة (بالأيام)',
+                            icon: Icons.schedule,
+                            iconColor: AppColors.primary,
+                            child: TextFormField(
+                              controller: _durationController,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
+                              textAlign: TextAlign.right,
+                              style: TextStyle(fontSize: 14.sp, height: 1.2),
+                              validator: validateEstimatedDays,
+                              decoration: InputDecoration(
+                                hintText: 'من 1 إلى 30 يومًا',
+                                hintStyle: TextStyle(
+                                  color: AppColors.lightTextSecondary
+                                      .withValues(alpha: 0.7),
+                                  fontSize: 13.sp,
+                                ),
+                                border: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                isDense: true,
+                                contentPadding: EdgeInsets.zero,
+                              ),
+                            ),
+                          ),
 
-                      SizedBox(height: 8.h),
+                          SizedBox(height: 8.h),
 
-                      /// ملاحظات
-                      RequestsFlowStyles.formTextFieldCard(
-                        title: 'ملاحظات',
-                        icon: Icons.edit_note,
-                        hintText: 'كتابة أي ملاحظات إضافية...',
-                        controller: _notesController,
-                      ),
+                          /// ملاحظات
+                          RequestsFlowStyles.formTextFieldCard(
+                            title: 'ملاحظات',
+                            icon: Icons.edit_note,
+                            hintText: 'كتابة أي ملاحظات إضافية...',
+                            controller: _notesController,
+                          ),
 
-                      SizedBox(height: 20.h),
+                          SizedBox(height: 20.h),
 
-                      /// 🔥 زر الإرسال فقط
-                      RequestsActionButtons(
-                        cardRadius: _cardR,
-                        layout: RequestsActionButtonsLayout.column,
-                        submitLabel: isLoading
-                            ? 'جارٍ الإرسال...'
-                            : 'إرسال العرض',
-                        onSubmit: isLoading
-                            ? () {}
-                            : () {
-                                final data = {
-                                  "price": _priceController.text,
-                                  "estimated_days":
-                                      _durationController.text,
-                                  "notes": _notesController.text,
-                                  "parts_included":
-                                      partsWithinPrice ? "1" : "0",
-                                };
+                          ///  زر الإرسال فقط
+                          RequestsActionButtons(
+                            cardRadius: _cardR,
+                            layout: RequestsActionButtonsLayout.column,
+                            submitLabel: isLoading
+                                ? 'جارٍ الإرسال...'
+                                : 'إرسال العرض',
+                            onSubmit: isLoading
+                                ? () {}
+                                : () {
+                                    if (_formKey.currentState?.validate() !=
+                                        true) {
+                                      return;
+                                    }
 
-                                context
-                                    .read<SubmitQuotationCubit>()
-                                    .submitQuotation(
-                                      data,
-                                      widget.requestId,
+                                    final estimatedDays = int.parse(
+                                      _durationController.text.trim(),
                                     );
-                                    
-                              },
-                               onCancel: () => context.safePopOrGo(Routes.orders),
+
+                                    final data = {
+                                      "price": _priceController.text,
+                                      "estimated_days": estimatedDays,
+                                      "notes": _notesController.text,
+                                      "parts_included": partsWithinPrice
+                                          ? "1"
+                                          : "0",
+                                    };
+
+                                    context
+                                        .read<SubmitQuotationCubit>()
+                                        .submitQuotation(
+                                          data,
+                                          widget.requestId,
+                                        );
+                                  },
+                            onCancel: () => context.safePopOrGo(Routes.orders),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
@@ -182,6 +228,7 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
     );
   }
 }
+
 class ModeChip extends StatelessWidget {
   const ModeChip({
     super.key,

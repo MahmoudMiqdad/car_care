@@ -6,6 +6,7 @@ import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/floating_add_button.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
+import 'package:car_care/features/maintenance/user_requests/domain/entities/maintenance_request_entity.dart';
 import 'package:car_care/features/maintenance/user_requests/domain/request_status.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/show/show_requests_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/show/show_requests_state.dart';
@@ -26,36 +27,45 @@ class _AllRequestsPageState extends State<AllRequestsPage>
   late final TabController _tabController;
   int _currentIndex = 0;
 
+  /// Last loaded response per tab, so a pull-to-refresh or return-refresh
+  /// never blanks an already loaded tab back to a full-page loader.
+  final Map<RequestStatus, MaintenanceRequestEntity> _cache = {};
+
+  static RequestStatus _statusForIndex(int index) {
+    switch (index) {
+      case 1:
+        return RequestStatus.accepted;
+      case 2:
+        return RequestStatus.completed;
+      case 3:
+        return RequestStatus.all;
+      case 0:
+      default:
+        return RequestStatus.pending;
+    }
+  }
+
+  RequestStatus get _currentStatus => _statusForIndex(_currentIndex);
+
+  Future<void> _refreshCurrentTab() {
+    return context.read<RequestsCubit>().fetch(_currentStatus);
+  }
+
   @override
   void initState() {
     super.initState();
 
     _tabController = TabController(length: 4, vsync: this);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final cubit = context.read<RequestsCubit>();
-      cubit.fetch(RequestStatus.pending);
-      _tabController.addListener(() {
-        if (_tabController.indexIsChanging) return;
+    // The BlocProvider that creates RequestsCubit already fires the single
+    // initial pending fetch, so this listener only reacts to tab changes.
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) return;
 
-        switch (_tabController.index) {
-          case 0:
-            cubit.fetch(RequestStatus.pending);
-            break;
-          case 1:
-            cubit.fetch(RequestStatus.accepted);
-            break;
-          case 2:
-            cubit.fetch(RequestStatus.completed);
-            break;
-          case 3:
-            cubit.fetch(RequestStatus.all);
-            break;
-        }
-        setState(() {
-          _currentIndex = _tabController.index;
-        });
+      setState(() {
+        _currentIndex = _tabController.index;
       });
+      context.read<RequestsCubit>().fetch(_currentStatus);
     });
   }
 
@@ -65,7 +75,11 @@ class _AllRequestsPageState extends State<AllRequestsPage>
      floatingActionButton: Padding(
   padding: EdgeInsets.only(bottom: 16.h, left: 16.w),
   child: FloatingAddButton(
-    onTap: () => context.push(Routes.addRequest),
+    onTap: () async {
+      await context.push(Routes.addRequest);
+      if (!mounted) return;
+      _refreshCurrentTab();
+    },
   ),
 ),
 floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
@@ -112,32 +126,53 @@ floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
   Widget _buildBody() {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child: BlocBuilder<RequestsCubit, RequestsState>(
+      child: BlocConsumer<RequestsCubit, RequestsState>(
         key: ValueKey(_currentIndex),
+        listener: (context, state) {
+          if (state is RequestsLoaded) {
+            _cache[state.status] = state.response;
+          }
+        },
         builder: (context, state) {
-          if (state is RequestsLoading) {
+          final cached = _cache[_currentStatus];
+
+          // Only the very first load of a tab (no cached data yet) shows the
+          // full-page loader/error state; a pull-to-refresh or return-refresh
+          // keeps the previously loaded list visible while it runs.
+          if (state is RequestsLoading && cached == null) {
             return const Center(child: AppLoadingWidget());
           }
 
-          if (state is RequestsError) {
-            return Center(child: Text( state.message),);
-// return ErrorStateWidget(
-//     message: state.message,
-//     onRetry: () => context.read<RequestsCubit>().add(FetchSosEvent()),
-//   );       
-   }
-
-          if (state is RequestsLoaded) {
-            final jobs = state.response.data;
-
-            if (jobs.isEmpty) {
-              return const EmptyStateWidget();
-            }
-
-            return AllRequestsTabContent(jobs: jobs);
+          if (state is RequestsError && cached == null) {
+            return ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: [
+                SizedBox(
+                  height: 300.h,
+                  child: Center(child: Text(state.message)),
+                ),
+              ],
+            );
           }
 
-          return const SizedBox();
+          final jobs = state is RequestsLoaded
+              ? state.response.data
+              : cached?.data ?? const [];
+
+          return RefreshIndicator(
+            onRefresh: _refreshCurrentTab,
+            child: jobs.isEmpty
+                ? ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children: [
+                      SizedBox(height: 300.h, child: const EmptyStateWidget()),
+                    ],
+                  )
+                : AllRequestsTabContent(
+                    jobs: jobs,
+                    onReturnFromDetails: _refreshCurrentTab,
+                  ),
+          );
         },
       ),
     );

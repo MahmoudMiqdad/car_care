@@ -1,3 +1,4 @@
+// مسؤول عن تنفيذ عمليات المصادقة وحفظ بيانات الجلسة محليًا بعد نجاحها.
 import 'package:car_care/core/errors/excptions.dart';
 import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/core/local_storage/secure_storage.dart';
@@ -7,10 +8,7 @@ import 'package:car_care/features/auth/domain/repositories/i_auth_repository.dar
 import 'package:dartz/dartz.dart';
 
 class AuthRepositoryImpl implements IAuthRepository {
-  AuthRepositoryImpl(
-    this._authRemoteDataSource,
-    this._secureStorage,
-  );
+  AuthRepositoryImpl(this._authRemoteDataSource, this._secureStorage);
 
   final AuthRemoteDataSource _authRemoteDataSource;
   final SecureStorage _secureStorage;
@@ -74,10 +72,26 @@ class AuthRepositoryImpl implements IAuthRepository {
         await _saveAuthData(result);
         return Right(result);
       } else {
-        return Left(Failure(message: 'حدث خطأ أثناء التسجيل، تحقق من البيانات'));
+        return Left(
+          Failure(message: 'حدث خطأ أثناء التسجيل، تحقق من البيانات'),
+        );
       }
     } on ServerExpcptions catch (e) {
       return Left(e.error);
+    }
+  }
+
+  // Best-effort: any failure (network, expired token, server error) must
+  // never block the caller's local logout/session cleanup.
+  @override
+  Future<Either<Failure, Unit>> logout() async {
+    try {
+      await _authRemoteDataSource.logout();
+      return const Right(unit);
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
+    } catch (_) {
+      return const Left(Failure(message: 'تعذر تسجيل الخروج من الخادم'));
     }
   }
 }
