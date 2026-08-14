@@ -14,12 +14,14 @@ class ProviderOrderDetailsBody extends StatefulWidget {
     this.onAcceptOrder,
     this.onStartOrder,
     this.onCompleteOrder,
+    this.onCancelOrder,
   });
 
   final FuelOrderEntity order;
   final VoidCallback? onAcceptOrder;
   final VoidCallback? onStartOrder;
   final VoidCallback? onCompleteOrder;
+  final VoidCallback? onCancelOrder;
 
   @override
   State<ProviderOrderDetailsBody> createState() =>
@@ -96,6 +98,21 @@ class _ProviderOrderDetailsBodyState extends State<ProviderOrderDetailsBody> {
                 borderRadius: 14.r,
                 height: 52.h,
               ),
+
+            // Only accepted/in_progress orders can be cancelled by the
+            // provider (they revert to pending) — confirmed contract.
+            if ((isAccepted || isInProgress) &&
+                widget.onCancelOrder != null) ...[
+              SizedBox(height: 10.h),
+              AppButton(
+                onPressed: widget.onCancelOrder,
+                text: 'إلغاء الطلب',
+                backgroundColor: Colors.red.shade600,
+                textColor: AppColors.white,
+                borderRadius: 14.r,
+                height: 52.h,
+              ),
+            ],
           ],
         ),
       ),

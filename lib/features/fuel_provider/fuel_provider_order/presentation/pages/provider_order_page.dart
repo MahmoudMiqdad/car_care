@@ -38,11 +38,14 @@ class ProviderOrderPage extends StatelessWidget {
                 }
                 return ProviderOrderBody(
                   orders: state.orders,
-                   onViewDetails: (order) {
-                    context.pushNamed(
+                   onViewDetails: (order) async {
+                    final changed = await context.pushNamed<bool>(
                       'providerOrderDetailsPage',
                       pathParameters: {'id': order.id.toString()},
                     );
+                    if (changed == true && context.mounted) {
+                      context.read<FuelProviderOrderCubit>().getMyOrders();
+                    }
                   },
                 );
               }

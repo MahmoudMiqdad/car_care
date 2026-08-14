@@ -54,6 +54,7 @@ class FuelProviderOrderCubit extends Cubit<FuelProviderOrderState> {
   }
 
   Future<void> cancelOrder(int id, String reason) async {
+    emit(FuelProviderOrderLoading());
     final res = await _repo.cancelOrder(id, reason);
     res.fold(
       (l) => emit(FuelProviderOrderError(l.displayMessage)),
