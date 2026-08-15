@@ -1,4 +1,3 @@
-
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/routing/navigation_x.dart';
@@ -69,9 +68,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           (showBackButton
               ? InkWell(
                   borderRadius: BorderRadius.circular(8.r),
-                  onTap: onBackTapped ?? () => context.safePopOrGo(fallbackRoute),
+                  onTap:
+                      onBackTapped ?? () => context.safePopOrGo(fallbackRoute),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -81,12 +81,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           size: 18.sp,
                         ),
                         SizedBox(width: 4.w),
-                        Text(
-                          context.l10n.back,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w900,
+                        Flexible(
+                          child: Text(
+                            context.l10n.back,
+                            maxLines: 1,
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w900,
+                            ),
                           ),
                         ),
                       ],

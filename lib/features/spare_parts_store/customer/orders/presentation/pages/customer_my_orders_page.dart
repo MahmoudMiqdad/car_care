@@ -13,6 +13,7 @@ import 'package:car_care/features/spare_parts_store/customer/orders/presentation
 import 'package:car_care/features/spare_parts_store/customer/orders/presentation/cubit/customer_orders/customer_orders_state.dart';
 import 'package:car_care/features/spare_parts_store/customer/orders/presentation/widgets/cancel_order_bottom_sheet.dart';
 import 'package:car_care/features/spare_parts_store/customer/orders/presentation/widgets/order_card.dart';
+import 'package:car_care/features/spare_parts_store/customer/shared/presentation/widgets/customer_store_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,6 +33,11 @@ class _CustomerMyOrdersPageState extends State<CustomerMyOrdersPage> {
   static const _filters = [
     (label: 'الكل', status: null),
     (label: 'قيد الانتظار', status: 'pending'),
+    (label: 'مقبول', status: 'accepted'),
+    (label: 'قيد التجهيز', status: 'processing'),
+    (label: 'قيد التوصيل', status: 'out_for_delivery'),
+    (label: 'تم التسليم', status: 'delivered'),
+    (label: 'مرفوض', status: 'rejected'),
     (label: 'ملغي', status: 'cancelled'),
   ];
 
@@ -45,6 +51,12 @@ class _CustomerMyOrdersPageState extends State<CustomerMyOrdersPage> {
   void dispose() {
     _cubit.close();
     super.dispose();
+  }
+
+  void _onStatusChanged(String? status) {
+    if (status == _activeStatus) return;
+    setState(() => _activeStatus = status);
+    _cubit.fetchOrders(status: status);
   }
 
   Future<void> _handleCancel(int orderId) async {
@@ -62,16 +74,16 @@ class _CustomerMyOrdersPageState extends State<CustomerMyOrdersPage> {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: const CustomAppBar(title: 'طلباتي'),
+          bottomNavigationBar: const CustomerStoreBottomNavBar(
+            current: CustomerStoreSection.orders,
+          ),
           body: ImageBackground(
             child: Column(
               children: [
                 _StatusFilterRow(
                   activeStatus: _activeStatus,
                   filters: _filters,
-                  onChanged: (status) {
-                    setState(() => _activeStatus = status);
-                    _cubit.fetchOrders(status: status);
-                  },
+                  onChanged: _onStatusChanged,
                 ),
                 Expanded(
                   child: BlocConsumer<CustomerOrdersCubit, CustomerOrdersState>(
@@ -94,32 +106,43 @@ class _CustomerMyOrdersPageState extends State<CustomerMyOrdersPage> {
                         );
                       }
                       if (state is CustomerOrdersEmpty) {
-                        return const EmptyStateWidget();
+                        return RefreshIndicator(
+                          onRefresh: () =>
+                              _cubit.fetchOrders(status: _activeStatus),
+                          child: ListView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            children: const [EmptyStateWidget()],
+                          ),
+                        );
                       }
                       if (state is CustomerOrdersLoaded) {
-                        return ListView.separated(
-                          padding:
-                              EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 20.h),
-                          itemCount: state.orders.length,
-                          separatorBuilder: (_, _) =>
-                              SizedBox(height: 12.h),
-                          itemBuilder: (context, index) {
-                            final order = state.orders[index];
-                            return OrderCard(
-                              order: order,
-                              isCancelling:
-                                  state.cancellingIds.contains(order.id),
-                              onTap: () async {
-                                await context.push(
-                                  Routes.customerOrderDetailsPath(order.id),
-                                );
-                                if (mounted) {
-                                  _cubit.fetchOrders(status: _activeStatus);
-                                }
-                              },
-                              onCancel: () => _handleCancel(order.id),
-                            );
-                          },
+                        return RefreshIndicator(
+                          onRefresh: () =>
+                              _cubit.fetchOrders(status: _activeStatus),
+                          child: ListView.separated(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 20.h),
+                            itemCount: state.orders.length,
+                            separatorBuilder: (_, _) => SizedBox(height: 12.h),
+                            itemBuilder: (context, index) {
+                              final order = state.orders[index];
+                              return OrderCard(
+                                order: order,
+                                isCancelling: state.cancellingIds.contains(
+                                  order.id,
+                                ),
+                                onTap: () async {
+                                  final result = await context.push(
+                                    Routes.customerOrderDetailsPath(order.id),
+                                  );
+                                  if (mounted && result == true) {
+                                    _cubit.fetchOrders(status: _activeStatus);
+                                  }
+                                },
+                                onCancel: () => _handleCancel(order.id),
+                              );
+                            },
+                          ),
                         );
                       }
                       return const SizedBox.shrink();
@@ -148,40 +171,32 @@ class _StatusFilterRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
       padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 4.h),
       child: Row(
         children: filters.map((f) {
           final isActive = activeStatus == f.status;
           return Padding(
             padding: EdgeInsets.only(left: 8.w),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              child: GestureDetector(
-                onTap: () => onChanged(f.status),
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.w,
-                    vertical: 8.h,
+            child: GestureDetector(
+              onTap: () => onChanged(f.status),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                decoration: BoxDecoration(
+                  color: isActive ? AppColors.primary : AppColors.white,
+                  borderRadius: BorderRadius.circular(20.r),
+                  border: Border.all(
+                    color: isActive ? AppColors.primary : AppColors.lightBorder,
                   ),
-                  decoration: BoxDecoration(
-                    color:
-                        isActive ? AppColors.primary : AppColors.white,
-                    borderRadius: BorderRadius.circular(20.r),
-                    border: Border.all(
-                      color: isActive
-                          ? AppColors.primary
-                          : AppColors.lightBorder,
-                    ),
-                  ),
-                  child: Text(
-                    f.label,
-                    style: AppTypography.labelSmall.copyWith(
-                      color: isActive
-                          ? AppColors.white
-                          : AppColors.lightTextSecondary,
-                      fontWeight: FontWeight.w600,
-                    ),
+                ),
+                child: Text(
+                  f.label,
+                  style: AppTypography.labelSmall.copyWith(
+                    color: isActive
+                        ? AppColors.white
+                        : AppColors.lightTextSecondary,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),

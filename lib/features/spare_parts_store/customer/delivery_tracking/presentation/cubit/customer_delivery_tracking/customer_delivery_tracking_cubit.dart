@@ -5,14 +5,15 @@ import 'package:car_care/features/spare_parts_store/customer/delivery_tracking/p
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:latlong2/latlong.dart';
 
-class CustomerDeliveryTrackingCubit extends Cubit<CustomerDeliveryTrackingState> {
+class CustomerDeliveryTrackingCubit
+    extends Cubit<CustomerDeliveryTrackingState> {
   final ISpareOrderTrackRepository _repo;
   Timer? _timer;
   bool _isFetching = false;
   bool _hasData = false;
 
   CustomerDeliveryTrackingCubit(this._repo)
-      : super(CustomerDeliveryTrackingLoading());
+    : super(CustomerDeliveryTrackingLoading());
 
   Future<void> loadTracking(int orderId) async {
     await _fetch(orderId);
@@ -34,7 +35,8 @@ class CustomerDeliveryTrackingCubit extends Cubit<CustomerDeliveryTrackingState>
         },
         (entity) {
           final status = entity.orderStatus ?? '';
-          if (status == 'delivered' || status == 'cancelled') {
+          const finalStatuses = {'delivered', 'cancelled', 'rejected'};
+          if (finalStatuses.contains(status)) {
             _timer?.cancel();
             emit(CustomerDeliveryTrackingEnded(status));
             return;
@@ -42,14 +44,18 @@ class CustomerDeliveryTrackingCubit extends Cubit<CustomerDeliveryTrackingState>
           final loc = entity.lastLocation;
           final deliveryLocation =
               (loc?.latitude != null && loc?.longitude != null)
-                  ? LatLng(loc!.latitude!, loc.longitude!)
-                  : null;
+              ? LatLng(loc!.latitude!, loc.longitude!)
+              : null;
           if (deliveryLocation == null && entity.trackingPoints.isEmpty) {
             if (!_hasData) emit(CustomerDeliveryTrackingWaiting());
           } else {
             _hasData = true;
-            emit(CustomerDeliveryTrackingLoaded(entity,
-                deliveryLocation: deliveryLocation));
+            emit(
+              CustomerDeliveryTrackingLoaded(
+                entity,
+                deliveryLocation: deliveryLocation,
+              ),
+            );
           }
         },
       );

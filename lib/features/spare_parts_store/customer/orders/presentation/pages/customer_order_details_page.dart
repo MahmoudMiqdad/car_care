@@ -1,4 +1,5 @@
 // شاشة تفاصيل طلب قطع الغيار لعميل
+import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
@@ -34,6 +35,12 @@ class _CustomerOrderDetailsPageState extends State<CustomerOrderDetailsPage> {
   // Staggered entrance flags for each card section
   bool _s0 = false, _s1 = false, _s2 = false, _s3 = false, _s4 = false;
 
+  /// True فقط بعد نجاح إلغاء فعلي أثناء هذه الزيارة — تُعاد لقائمة الطلبات
+  /// عند الرجوع كي تُحدَّث مرة واحدة فقط عند تغيّر حقيقي، وصفر Refresh عند
+  /// مجرد فتح التفاصيل والرجوع دون أي إجراء.
+  bool _mutated = false;
+  bool _wasCancelling = false;
+
   @override
   void initState() {
     super.initState();
@@ -47,16 +54,21 @@ class _CustomerOrderDetailsPageState extends State<CustomerOrderDetailsPage> {
   }
 
   void _triggerEntrance() {
-    Future.delayed(const Duration(milliseconds: 50),
-        () { if (mounted) setState(() => _s0 = true); });
-    Future.delayed(const Duration(milliseconds: 150),
-        () { if (mounted) setState(() => _s1 = true); });
-    Future.delayed(const Duration(milliseconds: 240),
-        () { if (mounted) setState(() => _s2 = true); });
-    Future.delayed(const Duration(milliseconds: 320),
-        () { if (mounted) setState(() => _s3 = true); });
-    Future.delayed(const Duration(milliseconds: 400),
-        () { if (mounted) setState(() => _s4 = true); });
+    Future.delayed(const Duration(milliseconds: 50), () {
+      if (mounted) setState(() => _s0 = true);
+    });
+    Future.delayed(const Duration(milliseconds: 150), () {
+      if (mounted) setState(() => _s1 = true);
+    });
+    Future.delayed(const Duration(milliseconds: 240), () {
+      if (mounted) setState(() => _s2 = true);
+    });
+    Future.delayed(const Duration(milliseconds: 320), () {
+      if (mounted) setState(() => _s3 = true);
+    });
+    Future.delayed(const Duration(milliseconds: 400), () {
+      if (mounted) setState(() => _s4 = true);
+    });
   }
 
   Widget _fadeSlide({required bool visible, required Widget child}) {
@@ -75,35 +87,51 @@ class _CustomerOrderDetailsPageState extends State<CustomerOrderDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: BlocProvider.value(
-        value: _cubit,
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: const CustomAppBar(title: 'تفاصيل الطلب'),
-          body: ImageBackground(
-            child: BlocConsumer<OrderDetailsCubit, OrderDetailsState>(
-              listener: (context, state) {
-                if (state is OrderDetailsLoaded) {
-                  _triggerEntrance();
-                  if (state.cancelError != null) {
-                    AppSnackBar.error(context, state.cancelError!);
-                    _cubit.clearCancelError();
+    return PopScope<Object?>(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        context.safePopOrGo(Routes.customerOrders, result: _mutated);
+      },
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: BlocProvider.value(
+          value: _cubit,
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: CustomAppBar(
+              title: 'تفاصيل الطلب',
+              onBackTapped: () =>
+                  context.safePopOrGo(Routes.customerOrders, result: _mutated),
+            ),
+            body: ImageBackground(
+              child: BlocConsumer<OrderDetailsCubit, OrderDetailsState>(
+                listener: (context, state) {
+                  if (state is OrderDetailsLoaded) {
+                    _triggerEntrance();
+                    if (state.cancelError != null) {
+                      AppSnackBar.error(context, state.cancelError!);
+                      _cubit.clearCancelError();
+                    } else if (_wasCancelling && !state.isCancelling) {
+                      _mutated = true;
+                    }
+                    _wasCancelling = state.isCancelling;
                   }
-                }
-              },
-              builder: (context, state) {
-                if (state is OrderDetailsLoading) return const AppLoadingWidget();
-                if (state is OrderDetailsError) {
-                  return ErrorStateWidget(
-                    message: state.message,
-                    onRetry: () => _cubit.fetchOrderDetails(widget.orderId),
-                  );
-                }
-                if (state is OrderDetailsLoaded) return _buildLoaded(state);
-                return const SizedBox.shrink();
-              },
+                },
+                builder: (context, state) {
+                  if (state is OrderDetailsLoading) {
+                    return const AppLoadingWidget();
+                  }
+                  if (state is OrderDetailsError) {
+                    return ErrorStateWidget(
+                      message: state.message,
+                      onRetry: () => _cubit.fetchOrderDetails(widget.orderId),
+                    );
+                  }
+                  if (state is OrderDetailsLoaded) return _buildLoaded(state);
+                  return const SizedBox.shrink();
+                },
+              ),
             ),
           ),
         ),
@@ -124,15 +152,30 @@ class _CustomerOrderDetailsPageState extends State<CustomerOrderDetailsPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _fadeSlide(visible: _s0, child: _HeroHeaderCard(order: order)),
+          _fadeSlide(
+            visible: _s0,
+            child: _HeroHeaderCard(order: order),
+          ),
           SizedBox(height: 12.h),
-          _fadeSlide(visible: _s1, child: _ShopCard(order: order)),
+          _fadeSlide(
+            visible: _s1,
+            child: _ShopCard(order: order),
+          ),
           SizedBox(height: 12.h),
-          _fadeSlide(visible: _s2, child: _ItemsList(items: order.items)),
+          _fadeSlide(
+            visible: _s2,
+            child: _ItemsList(items: order.items),
+          ),
           SizedBox(height: 12.h),
-          _fadeSlide(visible: _s3, child: _DeliveryCard(order: order)),
+          _fadeSlide(
+            visible: _s3,
+            child: _DeliveryCard(order: order),
+          ),
           SizedBox(height: 12.h),
-          _fadeSlide(visible: _s4, child: _TotalCard(totalPrice: order.totalPrice)),
+          _fadeSlide(
+            visible: _s4,
+            child: _TotalCard(totalPrice: order.totalPrice),
+          ),
           if (order.status == 'out_for_delivery') ...[
             SizedBox(height: 16.h),
             _fadeSlide(
@@ -221,24 +264,30 @@ class _HeroHeaderCard extends StatelessWidget {
                     builder: (_, scale, child) =>
                         Transform.scale(scale: scale, child: child),
                     child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                    decoration: BoxDecoration(
-                      color: AppColors.accent,
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                    child: Text(
-                      order.statusText,
-                      style: AppTypography.labelSmall.copyWith(
-                        color: AppColors.white,
-                        fontWeight: FontWeight.w700,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.w,
+                        vertical: 5.h,
                       ),
-                    ),
-                  ),   // close Container (child of TweenAnimationBuilder)
-                  ),   // close TweenAnimationBuilder
+                      decoration: BoxDecoration(
+                        color: AppColors.accent,
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
+                      child: Text(
+                        order.statusText,
+                        style: AppTypography.labelSmall.copyWith(
+                          color: AppColors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ), // close Container (child of TweenAnimationBuilder)
+                  ), // close TweenAnimationBuilder
                   if (order.canCancel) ...[
                     SizedBox(height: 6.h),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 3.h,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.white.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(20.r),
@@ -292,21 +341,13 @@ class _ShopCard extends StatelessWidget {
       icon: Icons.storefront_outlined,
       title: 'المتجر',
       color: AppColors.primary,
-      child: Column(
-        children: [
-          _DetailRow(
-            icon: Icons.store_outlined,
-            text: shop.name,
-            textStyle: AppTypography.labelLarge.copyWith(
-              color: AppColors.lightTextPrimary,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          if (shop.city != null)
-            _DetailRow(icon: Icons.location_city_outlined, text: shop.city!),
-          if (shop.phone != null)
-            _DetailRow(icon: Icons.phone_outlined, text: shop.phone!),
-        ],
+      child: _DetailRow(
+        icon: Icons.store_outlined,
+        text: shop.name,
+        textStyle: AppTypography.labelLarge.copyWith(
+          color: AppColors.lightTextPrimary,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
@@ -404,7 +445,8 @@ class _DeliveryCard extends StatelessWidget {
                 color: AppColors.lightTextPrimary,
               ),
             ),
-          if (order.customerLatitude != null && order.customerLongitude != null) ...[
+          if (order.customerLatitude != null &&
+              order.customerLongitude != null) ...[
             SizedBox(height: 8.h),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
@@ -415,8 +457,11 @@ class _DeliveryCard extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.location_on_outlined,
-                      size: 13.sp, color: AppColors.lightTextSecondary),
+                  Icon(
+                    Icons.location_on_outlined,
+                    size: 13.sp,
+                    color: AppColors.lightTextSecondary,
+                  ),
                   SizedBox(width: 4.w),
                   Text(
                     '${order.customerLatitude!.toStringAsFixed(5)}, '
@@ -459,17 +504,27 @@ class _TotalCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'الإجمالي الكلي',
-            style: AppTypography.labelLarge.copyWith(
-              color: AppColors.lightTextSecondary,
+          Flexible(
+            child: Text(
+              'الإجمالي الكلي',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTypography.labelLarge.copyWith(
+                color: AppColors.lightTextSecondary,
+              ),
             ),
           ),
-          Text(
-            '${totalPrice.toStringAsFixed(0)} ل.س',
-            style: AppTypography.headlineMedium.copyWith(
-              color: AppColors.accent,
-              fontWeight: FontWeight.w900,
+          SizedBox(width: 8.w),
+          Flexible(
+            child: Text(
+              '${totalPrice.toStringAsFixed(0)} ل.س',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.left,
+              style: AppTypography.headlineMedium.copyWith(
+                color: AppColors.accent,
+                fontWeight: FontWeight.w900,
+              ),
             ),
           ),
         ],
@@ -565,11 +620,7 @@ class _SectionCard extends StatelessWidget {
 }
 
 class _DetailRow extends StatelessWidget {
-  const _DetailRow({
-    required this.icon,
-    required this.text,
-    this.textStyle,
-  });
+  const _DetailRow({required this.icon, required this.text, this.textStyle});
 
   final IconData icon;
   final String text;
@@ -587,7 +638,8 @@ class _DetailRow extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: textStyle ??
+              style:
+                  textStyle ??
                   AppTypography.bodyMedium.copyWith(
                     color: AppColors.lightTextSecondary,
                   ),

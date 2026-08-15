@@ -7,12 +7,21 @@ import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/features/advertisements/domain/entities/advertisement_entity.dart';
 import 'package:car_care/features/advertisements/presentation/widgets/advertisement_section.dart';
 import 'package:car_care/features/auth/presentation/widgets/logout_action.dart';
+import 'package:car_care/features/spare_parts_store/owner/profile/presentation/cubit/owner_profile/owner_profile_cubit.dart';
+import 'package:car_care/features/spare_parts_store/owner/profile/presentation/cubit/owner_profile/owner_profile_state.dart';
 import 'package:car_care/features/technician_sos/presentation/technician_sos_request_type.dart';
 import 'package:car_care/features/user_profile/data/data_sources/profile_remote_data_source.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+/// The "إحصائياتي" tile inside the fuel-provider section of More is only
+/// ever shown to an account that actually holds the fuel-provider role.
+/// Top-level so it's directly unit-testable without pumping MorePage
+/// (which depends on ScreenUtil being initialized).
+bool showFuelProviderStatisticsTile(List<String> roles) =>
+    roles.contains('fuel-provider');
 
 class MorePage extends StatelessWidget {
   const MorePage({super.key});
@@ -130,11 +139,15 @@ class _MoreContent extends StatelessWidget {
   }
 
   List<Widget> _ownedProviderItems(BuildContext context, String role) {
+    if (role == 'shop-owner') {
+      const section = _ShopOwnerSection();
+      if (_ownedProviders.length == 1) return [section];
+      return [_SectionHeader(label: _providerLabels[role] ?? role), section];
+    }
     final items = switch (role) {
       'technician' => _technicianItems(context),
       'car-washer' => _carWasherItems(context),
       'fuel-provider' => _fuelProviderItems(context),
-      'shop-owner' => _shopOwnerItems(context),
       _ => const <Widget>[],
     };
     if (items.isEmpty) return items;
@@ -170,23 +183,6 @@ class _MoreContent extends StatelessWidget {
       ),
       _ => const SizedBox.shrink(),
     };
-  }
-
-  List<Widget> _shopOwnerItems(BuildContext context) {
-    return [
-      _MoreTile(
-        icon: Icons.store_outlined,
-        label: 'ملف المتجر',
-        iconColor: AppColors.primary,
-        onTap: () => context.push(Routes.ownerProfile),
-      ),
-      _MoreTile(
-        icon: Icons.receipt_long_outlined,
-        label: 'طلبات المتجر',
-        iconColor: AppColors.primary,
-        onTap: () => context.push(Routes.ownerOrders),
-      ),
-    ];
   }
 
   List<Widget> _technicianItems(BuildContext context) {
@@ -279,7 +275,89 @@ class _MoreContent extends StatelessWidget {
         iconColor: AppColors.primary,
         onTap: () => context.push(Routes.share_location_fuel),
       ),
+      if (showFuelProviderStatisticsTile(roles))
+        _MoreTile(
+          icon: Icons.bar_chart_outlined,
+          label: 'إحصائياتي',
+          iconColor: AppColors.primary,
+          onTap: () => context.push(Routes.provider_statistics),
+        ),
     ];
+  }
+}
+
+enum _ShopAccessLevel { noShop, restricted, approved }
+
+class _ShopOwnerSection extends StatelessWidget {
+  const _ShopOwnerSection();
+
+  Future<_ShopAccessLevel> _resolveAccess() async {
+    final cubit = getIt<OwnerProfileCubit>();
+    cubit.loadProfile();
+    final state = await cubit.stream.firstWhere(
+      (s) => s is OwnerProfileReady || s is OwnerProfileError,
+    );
+    await cubit.close();
+    if (state is OwnerProfileReady) {
+      final shop = state.shop;
+      if (shop == null) return _ShopAccessLevel.noShop;
+      return shop.status == 'approved'
+          ? _ShopAccessLevel.approved
+          : _ShopAccessLevel.restricted;
+    }
+    return _ShopAccessLevel.restricted;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<_ShopAccessLevel>(
+      future: _resolveAccess(),
+      builder: (context, snap) {
+        if (!snap.hasData) return const SizedBox.shrink();
+        return switch (snap.data!) {
+          _ShopAccessLevel.noShop => _MoreTile(
+            icon: Icons.store_outlined,
+            label: 'فتح متجر قطع غيار',
+            iconColor: const Color(0xFFEC4899),
+            onTap: () => context.push(Routes.ownerProfile),
+          ),
+          _ShopAccessLevel.restricted => _MoreTile(
+            icon: Icons.store_outlined,
+            label: 'ملف المتجر',
+            iconColor: AppColors.primary,
+            onTap: () => context.push(Routes.ownerProfile),
+          ),
+          _ShopAccessLevel.approved => Column(
+            children: [
+              _MoreTile(
+                icon: Icons.store_outlined,
+                label: 'ملف المتجر',
+                iconColor: AppColors.primary,
+                onTap: () => context.push(Routes.ownerProfile),
+              ),
+              _MoreTile(
+                icon: Icons.receipt_long_outlined,
+                label: 'طلبات المتجر',
+                iconColor: AppColors.primary,
+                onTap: () => context.push(Routes.ownerOrders),
+              ),
+              _MoreTile(
+                icon: Icons.inventory_2_outlined,
+                label: 'منتجات المتجر',
+                iconColor: AppColors.primary,
+                onTap: () => context.push(Routes.ownerProducts),
+              ),
+              _MoreTile(
+                icon: Icons.category_outlined,
+                label: 'تخصصات المتجر',
+                iconColor: AppColors.primary,
+                onTap: () => context.push(Routes.ownerSpecializations),
+              ),
+            ],
+          ),
+        };
+      },
+    );
   }
 }
 

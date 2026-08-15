@@ -2,28 +2,15 @@
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/features/spare_parts_store/customer/checkout/domain/entities/order_entity.dart';
+import 'package:car_care/features/spare_parts_store/shared/presentation/widgets/order_status_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OwnerOrderCard extends StatelessWidget {
-  const OwnerOrderCard({
-    super.key,
-    required this.order,
-    required this.onTap,
-  });
+  const OwnerOrderCard({super.key, required this.order, required this.onTap});
 
   final OrderEntity order;
   final VoidCallback onTap;
-
-  static Color _statusColor(String status) => switch (status) {
-        'pending' => AppColors.warning,
-        'accepted' => AppColors.info,
-        'processing' => AppColors.info,
-        'out_for_delivery' => AppColors.primary,
-        'delivered' => AppColors.success,
-        'cancelled' => AppColors.error,
-        _ => AppColors.lightTextSecondary,
-      };
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +18,6 @@ class OwnerOrderCard extends StatelessWidget {
         ? order.items.first.product.name
         : 'لا توجد منتجات';
     final itemCount = order.items.length;
-    final statusColor = _statusColor(order.status);
 
     return InkWell(
       onTap: onTap,
@@ -63,23 +49,7 @@ class OwnerOrderCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                  decoration: BoxDecoration(
-                    color: statusColor.withOpacity(0.12),
-                    borderRadius: BorderRadius.circular(20.r),
-                    border:
-                        Border.all(color: statusColor.withOpacity(0.3)),
-                  ),
-                  child: Text(
-                    order.statusText,
-                    style: AppTypography.labelSmall.copyWith(
-                      color: statusColor,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
+                OrderStatusBadge(status: order.status, label: order.statusText),
               ],
             ),
             SizedBox(height: 10.h),

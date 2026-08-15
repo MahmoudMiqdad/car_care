@@ -24,6 +24,7 @@ class OwnerProfileBody extends StatelessWidget {
     required this.isEnabled,
     required this.isSaving,
     this.unknownValues = const [],
+    this.status,
   });
 
   final TextEditingController nameCtrl;
@@ -41,6 +42,11 @@ class OwnerProfileBody extends StatelessWidget {
   final bool isSaving;
   final List<String> unknownValues;
 
+  /// حالة المتجر (تُعرض فقط عندما تكون approved أو غير محدّدة، لأن الحالات
+  /// الأخرى — pending/rejected/suspended — تُستبدل بالكامل بشاشة الحالة
+  /// عبر buildProviderStatusGate قبل الوصول إلى هذا الـWidget).
+  final String? status;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -48,7 +54,12 @@ class OwnerProfileBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _SectionLabel('معلومات المتجر'),
+          Row(
+            children: [
+              Expanded(child: _SectionLabel('معلومات المتجر')),
+              if (!isNew) _StatusChip(status: status),
+            ],
+          ),
           SizedBox(height: 12.h),
           OwnerBasicInfoSection(
             nameCtrl: nameCtrl,
@@ -56,35 +67,37 @@ class OwnerProfileBody extends StatelessWidget {
             cityCtrl: cityCtrl,
             isEnabled: isEnabled,
           ),
-          SizedBox(height: 28.h),
-          _SectionLabel('تفاصيل المتجر'),
-          SizedBox(height: 12.h),
-          OwnerSelectionCard(
-            title: 'نوع النشاط',
-            allOptions: SparePartsOptions.businessTypes,
-            selectedIds: selectedTypeIds,
-            isEnabled: isEnabled,
-            onChanged: onTypeIdsChanged,
-            chipColor: AppColors.accent,
-          ),
-          SizedBox(height: 12.h),
-          OwnerSelectionCard(
-            title: 'ماركات السيارات',
-            allOptions: SparePartsOptions.carBrands,
-            selectedIds: selectedBrandIds,
-            isEnabled: isEnabled,
-            onChanged: onBrandIdsChanged,
-            chipColor: AppColors.success,
-          ),
-          SizedBox(height: 12.h),
-          OwnerSelectionCard(
-            title: 'فئات القطع',
-            allOptions: SparePartsOptions.partCategories,
-            selectedIds: selectedCategoryIds,
-            isEnabled: isEnabled,
-            onChanged: onCategoryIdsChanged,
-            chipColor: AppColors.primary,
-          ),
+          if (isNew) ...[
+            SizedBox(height: 28.h),
+            _SectionLabel('تفاصيل المتجر'),
+            SizedBox(height: 12.h),
+            OwnerSelectionCard(
+              title: 'نوع النشاط',
+              allOptions: SparePartsOptions.businessTypes,
+              selectedIds: selectedTypeIds,
+              isEnabled: isEnabled,
+              onChanged: onTypeIdsChanged,
+              chipColor: AppColors.accent,
+            ),
+            SizedBox(height: 12.h),
+            OwnerSelectionCard(
+              title: 'ماركات السيارات',
+              allOptions: SparePartsOptions.carBrands,
+              selectedIds: selectedBrandIds,
+              isEnabled: isEnabled,
+              onChanged: onBrandIdsChanged,
+              chipColor: AppColors.success,
+            ),
+            SizedBox(height: 12.h),
+            OwnerSelectionCard(
+              title: 'فئات القطع',
+              allOptions: SparePartsOptions.partCategories,
+              selectedIds: selectedCategoryIds,
+              isEnabled: isEnabled,
+              onChanged: onCategoryIdsChanged,
+              chipColor: AppColors.primary,
+            ),
+          ],
           SizedBox(height: 24.h),
           if (unknownValues.isNotEmpty) ...[
             Container(
@@ -151,6 +164,33 @@ class OwnerProfileBody extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _StatusChip extends StatelessWidget {
+  const _StatusChip({required this.status});
+
+  final String? status;
+
+  @override
+  Widget build(BuildContext context) {
+    final isApproved = status == 'approved';
+    final color = isApproved ? AppColors.success : AppColors.lightTextSecondary;
+    final label = isApproved ? 'نشط' : (status ?? 'غير محدّد');
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.12),
+        borderRadius: BorderRadius.circular(20.r),
+      ),
+      child: Text(
+        label,
+        style: AppTypography.labelSmall.copyWith(
+          color: color,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }

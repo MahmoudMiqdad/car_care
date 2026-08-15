@@ -50,7 +50,7 @@ class HomeBody extends StatelessWidget {
         context.go(Routes.allUserSosRequests);
         break;
       case 4:
-        context.go(Routes.customerAllProducts);
+        context.go(Routes.customerShopsList);
         break;
       case 5:
         // "الوقود" -> customer fuel orders list (its FAB creates a new order)
