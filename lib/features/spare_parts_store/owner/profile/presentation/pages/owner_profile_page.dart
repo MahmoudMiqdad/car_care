@@ -6,13 +6,11 @@ import 'package:car_care/core/widgets/error_state_widget.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/core/widgets/provider_status_page.dart';
-import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/cubit/owner_profile/owner_profile_cubit.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/cubit/owner_profile/owner_profile_state.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/widgets/owner_profile_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class OwnerProfilePage extends StatefulWidget {
   const OwnerProfilePage({super.key});
@@ -88,14 +86,7 @@ class _OwnerProfilePageState extends State<OwnerProfilePage> {
         value: _cubit,
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: CustomAppBar(
-            title: 'ملف المتجر',
-            actionWidget: IconButton(
-              icon: const Icon(Icons.list_alt_outlined, color: Colors.white),
-              tooltip: 'الطلبات',
-              onPressed: () => context.push(Routes.ownerOrders),
-            ),
-          ),
+          appBar: const CustomAppBar(title: 'ملف المتجر'),
           body: ImageBackground(
             child: BlocConsumer<OwnerProfileCubit, OwnerProfileState>(
               listener: (context, state) {
@@ -151,6 +142,7 @@ class _OwnerProfilePageState extends State<OwnerProfilePage> {
                     isEnabled: !state.isSaving,
                     isSaving: state.isSaving,
                     unknownValues: state.unknownValues,
+                    status: state.shop?.status,
                   );
                 }
                 return const SizedBox.shrink();

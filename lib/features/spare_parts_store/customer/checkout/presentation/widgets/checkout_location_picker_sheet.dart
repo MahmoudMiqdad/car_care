@@ -18,9 +18,8 @@ class CheckoutLocationPickerSheet extends StatefulWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => CheckoutLocationPickerSheet(
-        initialLocation: initialLocation,
-      ),
+      builder: (_) =>
+          CheckoutLocationPickerSheet(initialLocation: initialLocation),
     );
   }
 
@@ -96,11 +95,15 @@ class _CheckoutLocationPickerSheetState
               children: [
                 Icon(Icons.location_on, color: AppColors.accent, size: 22.sp),
                 SizedBox(width: 8.w),
-                Text(
-                  'حدد موقع التوصيل',
-                  style: AppTypography.labelLarge.copyWith(
-                    color: AppColors.lightTextPrimary,
-                    fontWeight: FontWeight.w700,
+                Flexible(
+                  child: Text(
+                    'حدد موقع التوصيل',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.labelLarge.copyWith(
+                      color: AppColors.lightTextPrimary,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
                 const Spacer(),
@@ -115,8 +118,11 @@ class _CheckoutLocationPickerSheetState
                             color: AppColors.primary,
                           ),
                         )
-                      : Icon(Icons.my_location, size: 16.sp,
-                          color: AppColors.primary),
+                      : Icon(
+                          Icons.my_location,
+                          size: 16.sp,
+                          color: AppColors.primary,
+                        ),
                   label: Text(
                     'موقعي',
                     style: AppTypography.labelSmall.copyWith(
@@ -232,27 +238,31 @@ class _CheckoutLocationPickerSheetState
               ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(16.r),
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () => Navigator.pop(context, _pickedLocation),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.accent,
-                  foregroundColor: AppColors.white,
-                  padding: EdgeInsets.symmetric(vertical: 14.h),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r),
+          SafeArea(
+            top: false,
+            minimum: EdgeInsets.only(bottom: 16.r),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.r, vertical: 16.r),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () => Navigator.pop(context, _pickedLocation),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.accent,
+                    foregroundColor: AppColors.white,
+                    padding: EdgeInsets.symmetric(vertical: 14.h),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
                   ),
-                ),
-                icon: Icon(Icons.check_circle_outline, size: 20.sp),
-                label: Text(
-                  'تأكيد الموقع',
-                  style: AppTypography.labelLarge.copyWith(
-                    color: AppColors.white,
-                    fontWeight: FontWeight.w700,
+                  icon: Icon(Icons.check_circle_outline, size: 20.sp),
+                  label: Text(
+                    'تأكيد الموقع',
+                    style: AppTypography.labelLarge.copyWith(
+                      color: AppColors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),

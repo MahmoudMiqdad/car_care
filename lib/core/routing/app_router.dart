@@ -82,12 +82,15 @@ import 'package:car_care/features/spare_parts_store/customer/checkout/presentati
 import 'package:car_care/features/spare_parts_store/customer/orders/presentation/pages/customer_my_orders_page.dart';
 import 'package:car_care/features/spare_parts_store/customer/orders/presentation/pages/customer_order_details_page.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/pages/owner_profile_page.dart';
+import 'package:car_care/features/spare_parts_store/owner/specializations/presentation/pages/owner_specializations_page.dart';
+import 'package:car_care/features/spare_parts_store/owner/products/presentation/pages/owner_products_page.dart';
 import 'package:car_care/features/spare_parts_store/owner/orders/presentation/pages/owner_orders_page.dart';
 import 'package:car_care/features/spare_parts_store/owner/orders/presentation/pages/owner_order_details_page.dart';
 import 'package:car_care/features/spare_parts_store/owner/delivery/presentation/pages/owner_share_location_page.dart';
 import 'package:car_care/features/spare_parts_store/customer/delivery_tracking/presentation/pages/customer_delivery_tracking_page.dart';
 import 'package:car_care/features/spare_parts_store/customer/products/presentation/pages/all_products_page.dart';
 import 'package:car_care/features/spare_parts_store/customer/products/presentation/pages/customer_product_details_page.dart';
+import 'package:car_care/features/spare_parts_store/customer/shops/domain/entities/shop_entity.dart';
 import 'package:car_care/features/spare_parts_store/customer/shops/presentation/pages/shop_details_page.dart';
 import 'package:car_care/features/spare_parts_store/customer/shops/presentation/pages/shop_products_page.dart';
 import 'package:car_care/features/spare_parts_store/customer/shops/presentation/pages/shops_list_page.dart';
@@ -566,7 +569,11 @@ class AppRouter {
         name: 'customerShopProducts',
         builder: (context, state) {
           final shopId = int.parse(state.pathParameters['id']!);
-          return ShopProductsPage(shopId: shopId);
+          final extra = state.extra;
+          return ShopProductsPage(
+            shopId: shopId,
+            initialShop: extra is ShopEntity ? extra : null,
+          );
         },
       ),
       GoRoute(
@@ -604,6 +611,16 @@ class AppRouter {
         path: Routes.ownerProfile,
         name: 'ownerProfile',
         builder: (context, state) => const OwnerProfilePage(),
+      ),
+      GoRoute(
+        path: Routes.ownerSpecializations,
+        name: 'ownerSpecializations',
+        builder: (context, state) => const OwnerSpecializationsPage(),
+      ),
+      GoRoute(
+        path: Routes.ownerProducts,
+        name: 'ownerProducts',
+        builder: (context, state) => const OwnerProductsPage(),
       ),
       GoRoute(
         path: Routes.ownerOrders,

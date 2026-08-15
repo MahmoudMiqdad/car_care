@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 
 class AppSnackBar {
- //Success
-  static void success(BuildContext context, String message) {
+  //Success
+  static void success(
+    BuildContext context,
+    String message, {
+    SnackBarAction? action,
+  }) {
     _show(
       context,
       message: message,
       backgroundColor: Colors.green.shade600,
       icon: Icons.check_circle,
+      action: action,
     );
   }
 
@@ -21,31 +26,25 @@ class AppSnackBar {
     );
   }
 
-
   static void _show(
     BuildContext context, {
     required String message,
     required Color backgroundColor,
     required IconData icon,
+    SnackBarAction? action,
   }) {
     ScaffoldMessenger.of(context).showSnackBar(
-      
       SnackBar(
-        
         behavior: SnackBarBehavior.floating,
         backgroundColor: backgroundColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        action: action,
         content: Row(
           children: [
             Icon(icon, color: Colors.white),
             const SizedBox(width: 8),
             Expanded(
-              child: Text(
-                message,
-                style: const TextStyle(color: Colors.white),
-              ),
+              child: Text(message, style: const TextStyle(color: Colors.white)),
             ),
           ],
         ),

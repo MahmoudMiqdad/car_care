@@ -103,6 +103,10 @@ import 'package:car_care/features/spare_parts_store/owner/profile/data/data_sour
 import 'package:car_care/features/spare_parts_store/owner/profile/data/repositories/owner_profile_repository_impl.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/domain/repositories/i_owner_profile_repository.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/cubit/owner_profile/owner_profile_cubit.dart';
+import 'package:car_care/features/spare_parts_store/owner/products/data/data_sources/owner_products_remote_data_source.dart';
+import 'package:car_care/features/spare_parts_store/owner/products/data/repositories/owner_products_repository_impl.dart';
+import 'package:car_care/features/spare_parts_store/owner/products/domain/repositories/i_owner_products_repository.dart';
+import 'package:car_care/features/spare_parts_store/owner/products/presentation/cubit/owner_products/owner_products_cubit.dart';
 import 'package:car_care/features/spare_parts_store/owner/orders/data/data_sources/owner_orders_remote_data_source.dart';
 import 'package:car_care/features/spare_parts_store/owner/orders/data/repositories/owner_orders_repository_impl.dart';
 import 'package:car_care/features/spare_parts_store/owner/orders/domain/repositories/i_owner_orders_repository.dart';
@@ -609,6 +613,16 @@ Future<void> setupServiceLocator() async {
     )
     ..registerFactory<OwnerProfileCubit>(
       () => OwnerProfileCubit(getIt<IOwnerProfileRepository>()),
+    )
+    //SpareParts Store - Owner Products
+    ..registerLazySingleton<OwnerProductsRemoteDataSource>(
+      () => OwnerProductsRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<IOwnerProductsRepository>(
+      () => OwnerProductsRepositoryImpl(getIt<OwnerProductsRemoteDataSource>()),
+    )
+    ..registerFactory<OwnerProductsCubit>(
+      () => OwnerProductsCubit(getIt<IOwnerProductsRepository>()),
     )
     //SpareParts Store - Owner Orders
     ..registerLazySingleton<OwnerOrdersRemoteDataSource>(

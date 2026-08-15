@@ -114,6 +114,11 @@ class Routes {
 
   static const String ownerProfile = '/spare-parts/owner/profile';
 
+  static const String ownerSpecializations =
+      '/spare-parts/owner/specializations';
+
+  static const String ownerProducts = '/spare-parts/owner/products';
+
   static const String ownerOrders = '/spare-parts/owner/orders';
   static const String ownerOrderDetails = '/spare-parts/owner/order-details';
   static String ownerOrderDetailsPath(int orderId) =>

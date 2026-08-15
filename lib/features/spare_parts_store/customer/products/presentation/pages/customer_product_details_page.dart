@@ -1,4 +1,5 @@
 // شاشة تفاصيل المنتج لعميل متجر قطع الغيار، متصلة بـ API الحقيقي عبر productId
+import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -16,6 +17,7 @@ import 'package:car_care/features/spare_parts_store/customer/products/presentati
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomerProductDetailsPage extends StatefulWidget {
   const CustomerProductDetailsPage({super.key, required this.productId});
@@ -66,8 +68,7 @@ class _CustomerProductDetailsPageState
                 if (state is ProductDetailsError) {
                   return ErrorStateWidget(
                     message: state.message,
-                    onRetry: () =>
-                        _cubit.fetchProductDetails(widget.productId),
+                    onRetry: () => _cubit.fetchProductDetails(widget.productId),
                   );
                 }
                 if (state is ProductDetailsLoaded) {
@@ -79,38 +80,48 @@ class _CustomerProductDetailsPageState
           ),
           bottomNavigationBar:
               BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
-            builder: (context, state) {
-              if (state is! ProductDetailsLoaded) {
-                return const SizedBox.shrink();
-              }
-              final product = state.product;
-              return BlocConsumer<AddToCartCubit, AddToCartState>(
-                bloc: _addToCartCubit,
-                listener: (context, cartState) {
-                  if (cartState is AddToCartSuccess) {
-                    AppSnackBar.success(context, 'تمت إضافة المنتج إلى السلة');
+                builder: (context, state) {
+                  if (state is! ProductDetailsLoaded) {
+                    return const SizedBox.shrink();
                   }
-                  if (cartState is AddToCartError) {
-                    AppSnackBar.error(context, cartState.message);
-                  }
-                },
-                builder: (context, cartState) {
-                  return AddToCartBar(
-                    quantity: _quantity,
-                    maxQuantity: product.stockQuantity,
-                    totalPrice: product.finalPrice * _quantity,
-                    isLoading: cartState is AddToCartLoading,
-                    onQuantityChanged: (value) =>
-                        setState(() => _quantity = value),
-                    onAddToCart: () => _addToCartCubit.addToCart(
-                      productId: product.id,
-                      quantity: _quantity,
-                    ),
+                  final product = state.product;
+                  return BlocConsumer<AddToCartCubit, AddToCartState>(
+                    bloc: _addToCartCubit,
+                    listener: (context, cartState) {
+                      if (cartState is AddToCartSuccess) {
+                        ScaffoldMessenger.of(context).clearSnackBars();
+                        AppSnackBar.success(
+                          context,
+                          'تمت إضافة المنتج إلى السلة',
+                          action: SnackBarAction(
+                            label: 'عرض السلة',
+                            textColor: Colors.white,
+                            onPressed: () => context.push(Routes.customerCart),
+                          ),
+                        );
+                      }
+                      if (cartState is AddToCartError) {
+                        ScaffoldMessenger.of(context).clearSnackBars();
+                        AppSnackBar.error(context, cartState.message);
+                      }
+                    },
+                    builder: (context, cartState) {
+                      return AddToCartBar(
+                        quantity: _quantity,
+                        maxQuantity: product.stockQuantity,
+                        totalPrice: product.finalPrice * _quantity,
+                        isLoading: cartState is AddToCartLoading,
+                        onQuantityChanged: (value) =>
+                            setState(() => _quantity = value),
+                        onAddToCart: () => _addToCartCubit.addToCart(
+                          productId: product.id,
+                          quantity: _quantity,
+                        ),
+                      );
+                    },
                   );
                 },
-              );
-            },
-          ),
+              ),
         ),
       ),
     );
@@ -127,10 +138,7 @@ class _CustomerProductDetailsPageState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProductImageGallery(
-            images: galleryImages,
-            isNew: product.isNew,
-          ),
+          ProductImageGallery(images: galleryImages, isNew: product.isNew),
           SizedBox(height: 16.h),
           ProductInfoSection(product: product),
         ],

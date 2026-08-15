@@ -13,6 +13,8 @@ import 'package:car_care/features/spare_parts_store/owner/orders/presentation/cu
 import 'package:car_care/features/spare_parts_store/owner/orders/presentation/cubit/owner_order_details/owner_order_details_state.dart';
 import 'package:car_care/features/spare_parts_store/owner/orders/presentation/widgets/owner_order_actions_section.dart';
 import 'package:car_care/features/spare_parts_store/owner/orders/presentation/widgets/reject_order_bottom_sheet.dart';
+import 'package:car_care/features/spare_parts_store/shared/presentation/widgets/order_status_badge.dart';
+import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,11 +33,15 @@ class OwnerOrderDetailsPage extends StatefulWidget {
 class _OwnerOrderDetailsPageState extends State<OwnerOrderDetailsPage> {
   late final OwnerOrderDetailsCubit _cubit;
 
+  /// True فقط بعد نجاح Mutation فعلي أثناء هذه الزيارة — تُعاد لقائمة
+  /// الطلبات عند الرجوع كي تُحدَّث مرة واحدة فقط عند تغيّر حقيقي، وصفر
+  /// Refresh عند مجرد فتح التفاصيل والرجوع دون أي إجراء.
+  bool _mutated = false;
+
   @override
   void initState() {
     super.initState();
-    _cubit = getIt<OwnerOrderDetailsCubit>()
-      ..fetchOrderDetails(widget.orderId);
+    _cubit = getIt<OwnerOrderDetailsCubit>()..fetchOrderDetails(widget.orderId);
   }
 
   @override
@@ -52,42 +58,55 @@ class _OwnerOrderDetailsPageState extends State<OwnerOrderDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: BlocProvider.value(
-        value: _cubit,
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: const CustomAppBar(title: 'تفاصيل الطلب'),
-          body: ImageBackground(
-            child: BlocConsumer<OwnerOrderDetailsCubit, OwnerOrderDetailsState>(
-              listener: (context, state) {
-                if (state is! OwnerOrderDetailsLoaded) return;
-                if (state.successMessage != null) {
-                  AppSnackBar.success(context, state.successMessage!);
-                  _cubit.clearSuccessMessage();
-                }
-                if (state.actionError != null) {
-                  AppSnackBar.error(context, state.actionError!);
-                  _cubit.clearActionError();
-                }
-              },
-              builder: (context, state) {
-                if (state is OwnerOrderDetailsLoading) {
-                  return const AppLoadingWidget();
-                }
-                if (state is OwnerOrderDetailsError) {
-                  return ErrorStateWidget(
-                    message: state.message,
-                    onRetry: () =>
-                        _cubit.fetchOrderDetails(widget.orderId),
-                  );
-                }
-                if (state is OwnerOrderDetailsLoaded) {
-                  return _buildContent(state);
-                }
-                return const SizedBox.shrink();
-              },
+    return PopScope<Object?>(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        context.safePopOrGo(Routes.ownerOrders, result: _mutated);
+      },
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: BlocProvider.value(
+          value: _cubit,
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: CustomAppBar(
+              title: 'تفاصيل الطلب',
+              onBackTapped: () =>
+                  context.safePopOrGo(Routes.ownerOrders, result: _mutated),
+            ),
+            body: ImageBackground(
+              child:
+                  BlocConsumer<OwnerOrderDetailsCubit, OwnerOrderDetailsState>(
+                    listener: (context, state) {
+                      if (state is! OwnerOrderDetailsLoaded) return;
+                      if (state.successMessage != null) {
+                        AppSnackBar.success(context, state.successMessage!);
+                        _cubit.clearSuccessMessage();
+                        setState(() => _mutated = true);
+                      }
+                      if (state.actionError != null) {
+                        AppSnackBar.error(context, state.actionError!);
+                        _cubit.clearActionError();
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is OwnerOrderDetailsLoading) {
+                        return const AppLoadingWidget();
+                      }
+                      if (state is OwnerOrderDetailsError) {
+                        return ErrorStateWidget(
+                          message: state.message,
+                          onRetry: () =>
+                              _cubit.fetchOrderDetails(widget.orderId),
+                        );
+                      }
+                      if (state is OwnerOrderDetailsLoaded) {
+                        return _buildContent(state);
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
             ),
           ),
         ),
@@ -140,19 +159,8 @@ class _HeaderCard extends StatelessWidget {
 
   final OrderEntity order;
 
-  static Color _statusColor(String status) => switch (status) {
-        'pending' => AppColors.warning,
-        'accepted' => AppColors.info,
-        'processing' => AppColors.info,
-        'out_for_delivery' => AppColors.primary,
-        'delivered' => AppColors.success,
-        'cancelled' => AppColors.error,
-        _ => AppColors.lightTextSecondary,
-      };
-
   @override
   Widget build(BuildContext context) {
-    final statusColor = _statusColor(order.status);
     return _Card(
       child: Row(
         children: [
@@ -179,21 +187,7 @@ class _HeaderCard extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-            decoration: BoxDecoration(
-              color: statusColor.withOpacity(0.12),
-              borderRadius: BorderRadius.circular(20.r),
-              border: Border.all(color: statusColor.withOpacity(0.3)),
-            ),
-            child: Text(
-              order.statusText,
-              style: AppTypography.labelSmall.copyWith(
-                color: statusColor,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
+          OrderStatusBadge(status: order.status, label: order.statusText),
         ],
       ),
     );

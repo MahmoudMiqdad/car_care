@@ -11,6 +11,7 @@ import 'package:car_care/features/spare_parts_store/customer/cart/presentation/c
 import 'package:car_care/features/spare_parts_store/customer/cart/presentation/cubit/cart/cart_state.dart';
 import 'package:car_care/features/spare_parts_store/customer/cart/presentation/widgets/cart_item_card.dart';
 import 'package:car_care/features/spare_parts_store/customer/cart/presentation/widgets/cart_total_bar.dart';
+import 'package:car_care/features/spare_parts_store/customer/shared/presentation/widgets/customer_store_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,6 +48,9 @@ class _CartPageState extends State<CartPage> {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: const CustomAppBar(title: 'سلة المشتريات'),
+          bottomNavigationBar: const CustomerStoreBottomNavBar(
+            current: CustomerStoreSection.cart,
+          ),
           body: ImageBackground(
             child: BlocConsumer<CartCubit, CartState>(
               listener: (context, state) {
@@ -66,35 +70,56 @@ class _CartPageState extends State<CartPage> {
                   );
                 }
                 if (state is CartEmpty) {
-                  return const EmptyStateWidget();
+                  return RefreshIndicator(
+                    onRefresh: _cubit.fetchCart,
+                    child: ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: const [EmptyStateWidget()],
+                    ),
+                  );
                 }
                 if (state is CartLoaded) {
                   return Column(
                     children: [
                       Expanded(
-                        child: ListView.separated(
-                          padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 12.h),
-                          itemCount: state.cart.items.length,
-                          separatorBuilder: (_, _) => SizedBox(height: 12.h),
-                          itemBuilder: (context, index) {
-                            final item = state.cart.items[index];
-                            return CartItemCard(
-                              item: item,
-                              isQuantityUpdating:
-                                  state.quantityUpdatingItemIds.contains(item.id),
-                              isDeleting: state.deletingItemIds.contains(item.id),
-                              onQuantityChanged: (quantity) =>
-                                  _cubit.updateQuantity(item.id, quantity),
-                              onDelete: () => _cubit.removeItem(item.id),
-                            );
-                          },
+                        child: RefreshIndicator(
+                          onRefresh: _cubit.fetchCart,
+                          child: ListView.separated(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            padding: EdgeInsets.fromLTRB(
+                              16.w,
+                              12.h,
+                              16.w,
+                              12.h,
+                            ),
+                            itemCount: state.cart.items.length,
+                            separatorBuilder: (_, _) => SizedBox(height: 12.h),
+                            itemBuilder: (context, index) {
+                              final item = state.cart.items[index];
+                              return CartItemCard(
+                                item: item,
+                                isQuantityUpdating: state
+                                    .quantityUpdatingItemIds
+                                    .contains(item.id),
+                                isDeleting: state.deletingItemIds.contains(
+                                  item.id,
+                                ),
+                                onQuantityChanged: (quantity) =>
+                                    _cubit.updateQuantity(item.id, quantity),
+                                onDelete: () => _cubit.removeItem(item.id),
+                              );
+                            },
+                          ),
                         ),
                       ),
                       CartTotalBar(
                         total: state.cart.total,
                         onCheckout: () => context.push(
                           Routes.customerCheckout,
-                          extra: {'cartCubit': _cubit, 'total': state.cart.total},
+                          extra: {
+                            'cartCubit': _cubit,
+                            'total': state.cart.total,
+                          },
                         ),
                       ),
                     ],

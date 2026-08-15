@@ -52,118 +52,122 @@ class _SelectOptionsSheetState extends State<SelectOptionsSheet> {
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(maxHeight: 0.75.sh),
-      padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
+      padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 0),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Container(
-              width: 40.w,
-              height: 4.h,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(2.r),
+      child: SafeArea(
+        top: false,
+        minimum: EdgeInsets.only(bottom: 16.r),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 40.w,
+                height: 4.h,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(2.r),
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 16.h),
-          Text(
-            widget.title,
-            style: AppTypography.labelLarge.copyWith(
-              color: AppColors.lightTextPrimary,
-              fontWeight: FontWeight.w700,
+            SizedBox(height: 16.h),
+            Text(
+              widget.title,
+              style: AppTypography.labelLarge.copyWith(
+                color: AppColors.lightTextPrimary,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-          ),
-          SizedBox(height: 8.h),
-          Flexible(
-            child: ListView.separated(
-              shrinkWrap: true,
-              itemCount: widget.options.length,
-              separatorBuilder: (_, _) =>
-                  Divider(color: AppColors.lightBorder, height: 1),
-              itemBuilder: (_, index) {
-                final option = widget.options[index];
-                final isSelected = _selected.contains(option.id);
-                return InkWell(
-                  onTap: () => setState(() {
-                    if (isSelected) {
-                      _selected.remove(option.id);
-                    } else {
-                      _selected.add(option.id);
-                    }
-                  }),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12.h),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            option.name,
-                            style: AppTypography.bodyMedium.copyWith(
-                              color: AppColors.lightTextPrimary,
+            SizedBox(height: 8.h),
+            Flexible(
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: widget.options.length,
+                separatorBuilder: (_, _) =>
+                    Divider(color: AppColors.lightBorder, height: 1),
+                itemBuilder: (_, index) {
+                  final option = widget.options[index];
+                  final isSelected = _selected.contains(option.id);
+                  return InkWell(
+                    onTap: () => setState(() {
+                      if (isSelected) {
+                        _selected.remove(option.id);
+                      } else {
+                        _selected.add(option.id);
+                      }
+                    }),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              option.name,
+                              style: AppTypography.bodyMedium.copyWith(
+                                color: AppColors.lightTextPrimary,
+                              ),
                             ),
                           ),
-                        ),
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 150),
-                          width: 22.sp,
-                          height: 22.sp,
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? AppColors.primary
-                                : Colors.transparent,
-                            border: Border.all(
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 150),
+                            width: 22.sp,
+                            height: 22.sp,
+                            decoration: BoxDecoration(
                               color: isSelected
                                   ? AppColors.primary
-                                  : AppColors.lightBorder,
-                              width: 2,
+                                  : Colors.transparent,
+                              border: Border.all(
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : AppColors.lightBorder,
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(6.r),
                             ),
-                            borderRadius: BorderRadius.circular(6.r),
+                            child: isSelected
+                                ? Icon(
+                                    Icons.check,
+                                    size: 14.sp,
+                                    color: AppColors.white,
+                                  )
+                                : null,
                           ),
-                          child: isSelected
-                              ? Icon(
-                                  Icons.check,
-                                  size: 14.sp,
-                                  color: AppColors.white,
-                                )
-                              : null,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 16.h),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => Navigator.pop(context, _selected.toList()),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.accent,
+                  foregroundColor: AppColors.white,
+                  padding: EdgeInsets.symmetric(vertical: 14.h),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
-                );
-              },
-            ),
-          ),
-          SizedBox(height: 16.h),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () => Navigator.pop(context, _selected.toList()),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.accent,
-                foregroundColor: AppColors.white,
-                padding: EdgeInsets.symmetric(vertical: 14.h),
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.r),
                 ),
-              ),
-              child: Text(
-                'تأكيد الاختيار (${_selected.length})',
-                style: AppTypography.labelLarge.copyWith(
-                  color: AppColors.white,
-                  fontWeight: FontWeight.w700,
+                child: Text(
+                  'تأكيد الاختيار (${_selected.length})',
+                  style: AppTypography.labelLarge.copyWith(
+                    color: AppColors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

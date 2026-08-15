@@ -58,13 +58,20 @@ class _OwnerOrdersPageState extends State<OwnerOrdersPage> {
                   );
                 }
                 if (state is OwnerOrdersEmpty) {
-                  return const EmptyStateWidget();
+                  return RefreshIndicator(
+                    onRefresh: _cubit.fetchOrders,
+                    child: ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: const [EmptyStateWidget()],
+                    ),
+                  );
                 }
                 if (state is OwnerOrdersLoaded) {
                   return RefreshIndicator(
                     onRefresh: _cubit.fetchOrders,
                     color: Theme.of(context).primaryColor,
                     child: ListView.separated(
+                      physics: const AlwaysScrollableScrollPhysics(),
                       padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 24.h),
                       itemCount: state.orders.length,
                       separatorBuilder: (_, _) => SizedBox(height: 12.h),
@@ -73,10 +80,12 @@ class _OwnerOrdersPageState extends State<OwnerOrdersPage> {
                         return OwnerOrderCard(
                           order: order,
                           onTap: () async {
-                            await context.push(
+                            final result = await context.push(
                               Routes.ownerOrderDetailsPath(order.id),
                             );
-                            if (mounted) _cubit.fetchOrders();
+                            if (mounted && result == true) {
+                              _cubit.fetchOrders();
+                            }
                           },
                         );
                       },

@@ -2,6 +2,7 @@
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/features/spare_parts_store/customer/checkout/domain/entities/order_entity.dart';
+import 'package:car_care/features/spare_parts_store/shared/presentation/widgets/order_status_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -82,21 +83,7 @@ class OrderCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                  decoration: BoxDecoration(
-                    color: AppColors.warning.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(20.r),
-                    border: Border.all(color: AppColors.warning.withOpacity(0.3)),
-                  ),
-                  child: Text(
-                    order.statusText,
-                    style: AppTypography.labelSmall.copyWith(
-                      color: AppColors.warning,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
+                OrderStatusBadge(status: order.status, label: order.statusText),
               ],
             ),
             SizedBox(height: 10.h),
