@@ -60,6 +60,7 @@ class VehicleEntity {
   final String model;
   final String year;
   final String plateNumber;
+  final String? image;
 
   VehicleEntity({
     required this.id,
@@ -67,6 +68,7 @@ class VehicleEntity {
     required this.model,
     required this.year,
     required this.plateNumber,
+    this.image,
   });
 }
 

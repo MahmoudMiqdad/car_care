@@ -22,6 +22,7 @@ class EditProfileWasherActionsRow extends StatelessWidget {
     return Row(
       children: [
         Expanded(
+          flex: 2,
           child: AppButton(
             onPressed: onSave,
             text: saveLabel,
@@ -33,6 +34,7 @@ class EditProfileWasherActionsRow extends StatelessWidget {
         ),
         SizedBox(width: 12.w),
         Expanded(
+          flex: 1,
           child: AppButton(
             onPressed: onCancel,
             text: cancelLabel,
@@ -42,7 +44,7 @@ class EditProfileWasherActionsRow extends StatelessWidget {
             backgroundColor: AppColors.carWashTeal,
             outlineSurfaceColor: AppColors.white,
             textColor: AppColors.carWashTeal,
-            fontSize: 16.sp,
+            fontSize: 15.sp,
           ),
         ),
       ],

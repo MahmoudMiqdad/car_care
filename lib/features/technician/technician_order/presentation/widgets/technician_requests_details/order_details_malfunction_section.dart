@@ -1,6 +1,7 @@
-import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/models/maintenance_priority.dart';
 import 'package:car_care/features/technician/technician_order/domain/entities/request_entity.dart';
+import 'package:car_care/features/technician/technician_order/domain/maper/available_map.dart';
 import 'package:car_care/features/technician/technician_order/presentation/widgets/technician_requests_details/order_details_section_card.dart';
 import 'package:car_care/core/widgets/app_image_widget.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
@@ -16,6 +17,12 @@ class OrderDetailsMalfunctionSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final priority = model.priority.toPriority();
+    final priorityStyle = PriorityChipStyle.forState(
+      value: priority,
+      selected: priority,
+    );
+
     return OrderDetailsSectionCard(
       title: 'تفاصيل العطل',
       child: Column(
@@ -48,8 +55,8 @@ class OrderDetailsMalfunctionSection extends StatelessWidget {
           AppButton(
             text: model.priorityText,
             onPressed: () {},
-            backgroundColor: AppColors.error,
-            textColor: AppColors.error,
+            backgroundColor: priorityStyle.borderColor,
+            textColor: priorityStyle.textColor,
             isOutline: true,
             height: 45.h,
             fontSize: 15.sp,

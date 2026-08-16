@@ -53,7 +53,7 @@ class ServicesGrid extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 12.w,
         mainAxisSpacing: 12.h,
-        mainAxisExtent: 118.h,
+        mainAxisExtent: 136.h,
       ),
       itemBuilder: (context, index) {
         final item = items[index];

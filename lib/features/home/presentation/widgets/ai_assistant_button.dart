@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 /// notch. Purely visual until [onPressed] is wired up — never navigates or
 /// shows placeholder feedback on its own.
 class AiAssistantButton extends StatelessWidget {
-  const AiAssistantButton({super.key, this.onPressed, this.size = 62});
+  const AiAssistantButton({super.key, this.onPressed, this.size = 64});
 
   final VoidCallback? onPressed;
   final double size;

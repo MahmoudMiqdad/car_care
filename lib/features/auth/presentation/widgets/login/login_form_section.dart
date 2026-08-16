@@ -41,6 +41,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         LoginTextField(
+          innerBorderColor: Colors.transparent,
           controller: widget.accountController,
           hintText: strings.email,
           keyboardType: TextInputType.emailAddress,
@@ -57,6 +58,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
         ),
         SizedBox(height: 16.h),
         LoginTextField(
+          innerBorderColor: Colors.transparent,
           controller: widget.passwordController,
           hintText: strings.password,
           isPassword: true,

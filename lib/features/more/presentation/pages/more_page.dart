@@ -4,6 +4,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
+import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/advertisements/domain/entities/advertisement_entity.dart';
 import 'package:car_care/features/advertisements/presentation/widgets/advertisement_section.dart';
 import 'package:car_care/features/auth/presentation/widgets/logout_action.dart';
@@ -98,26 +99,28 @@ class _MoreContent extends StatelessWidget {
         showBackButton: false,
         backgroundColor: AppColors.primary,
       ),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(
-          16.w,
-          20.h,
-          16.w,
-          MediaQuery.paddingOf(context).bottom + 20.h,
-        ),
-        children: [
-          _RoleHeader(roleLabel: _roleLabel),
-          SizedBox(height: 20.h),
-          const AdvertisementSection(
-            placement: AdvertisementPlacement.general,
-            height: 110,
-            borderRadius: 14,
-            bottomSpacing: 16,
+      body: ImageBackground(
+        child: ListView(
+          padding: EdgeInsets.fromLTRB(
+            16.w,
+            20.h,
+            16.w,
+            MediaQuery.paddingOf(context).bottom + 20.h,
           ),
-          ..._buildItems(context),
-          SizedBox(height: 8.h),
-          _LogoutTile(),
-        ],
+          children: [
+            _RoleHeader(roleLabel: _roleLabel),
+            SizedBox(height: 20.h),
+            const AdvertisementSection(
+              placement: AdvertisementPlacement.general,
+              height: 110,
+              borderRadius: 14,
+              bottomSpacing: 16,
+            ),
+            ..._buildItems(context),
+            SizedBox(height: 8.h),
+            _LogoutTile(),
+          ],
+        ),
       ),
     );
   }
@@ -225,7 +228,7 @@ class _MoreContent extends StatelessWidget {
       ),
       _MoreTile(
         icon: Icons.bar_chart_outlined,
-        label: 'تقارير الأعمال',
+        label: 'إحصائياتي',
         iconColor: AppColors.primary,
         onTap: () => context.push(Routes.technician_statistics),
       ),

@@ -14,6 +14,8 @@ class LocationUpdateCard extends StatefulWidget {
     super.key,
     this.localOnly = false,
     this.onLocationPicked,
+    this.initialDescription,
+    this.initialButtonLabel,
   });
 
   /// When true (onboarding), the picker only returns the location locally —
@@ -23,6 +25,15 @@ class LocationUpdateCard extends StatefulWidget {
   /// Reports the picked location to the parent form.
   final ValueChanged<LatLng>? onLocationPicked;
 
+  /// Overrides the description shown before any location is picked in this
+  /// session. Used by Edit to avoid implying a saved location is known
+  /// (the profile response has no lat/lng) without changing Create's copy.
+  final String? initialDescription;
+
+  /// Overrides the button label shown before any location is picked in
+  /// this session (afterwards it always reads "تغيير الموقع").
+  final String? initialButtonLabel;
+
   @override
   State<LocationUpdateCard> createState() => _LocationUpdateCardState();
 }
@@ -31,8 +42,10 @@ class _LocationUpdateCardState extends State<LocationUpdateCard> {
   LatLng? _savedLocation;
 
   Future<void> _openPicker() async {
-    final picked =
-        await LocationPickerSheet.show(context, localOnly: widget.localOnly);
+    final picked = await LocationPickerSheet.show(
+      context,
+      localOnly: widget.localOnly,
+    );
     if (picked != null) {
       setState(() => _savedLocation = picked);
       widget.onLocationPicked?.call(picked);
@@ -89,19 +102,23 @@ class _LocationUpdateCardState extends State<LocationUpdateCard> {
                     ),
                   ),
                   const Spacer(),
-                  
+
                   if (isSuccess)
-                    Icon(Icons.check_circle,
-                        color: Colors.green.shade600, size: 18.r),
+                    Icon(
+                      Icons.check_circle,
+                      color: Colors.green.shade600,
+                      size: 18.r,
+                    ),
                 ],
               ),
               SizedBox(height: 8.h),
 
-              
               if (_savedLocation != null)
                 Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 6.h,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.green.shade50,
                     borderRadius: BorderRadius.circular(8.r),
@@ -109,8 +126,11 @@ class _LocationUpdateCardState extends State<LocationUpdateCard> {
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.check_circle_outline,
-                          color: Colors.green.shade600, size: 14.r),
+                      Icon(
+                        Icons.check_circle_outline,
+                        color: Colors.green.shade600,
+                        size: 14.r,
+                      ),
                       SizedBox(width: 6.w),
                       Text(
                         '${_savedLocation!.latitude.toStringAsFixed(4)}, '
@@ -126,7 +146,8 @@ class _LocationUpdateCardState extends State<LocationUpdateCard> {
                 )
               else
                 Text(
-                  'حدد موقع ورشتك حتى يظهر للعملاء القريبين منك',
+                  widget.initialDescription ??
+                      'حدد موقع ورشتك حتى يظهر للعملاء القريبين منك',
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: Colors.grey.shade600,
@@ -157,7 +178,8 @@ class _LocationUpdateCardState extends State<LocationUpdateCard> {
                   label: Text(
                     _savedLocation != null
                         ? 'تغيير الموقع'
-                        : 'تحديد الموقع على الخريطة',
+                        : (widget.initialButtonLabel ??
+                              'تحديد الموقع على الخريطة'),
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,

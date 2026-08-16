@@ -41,6 +41,7 @@ class TechnicianOrderRepositoryImpl implements ITechnicianOrderRepository {
           model: item.vehicle.model,
           year: item.vehicle.year,
           plateNumber: item.vehicle.plateNumber,
+          image: item.vehicle.image,
         ),
         images: item.images.map((img) => ImageEntity(id: img.id, url: img.url)).toList(),
         myQuotation: item.myQuotation,

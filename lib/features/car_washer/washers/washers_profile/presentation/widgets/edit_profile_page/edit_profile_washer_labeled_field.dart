@@ -40,20 +40,24 @@ class EditProfileWasherLabeledField extends StatelessWidget {
             label,
             style: AppTypography.labelLarge.copyWith(
               color: AppColors.black,
-              fontWeight: FontWeight.w800,
-              fontSize: 15.sp,
+              fontWeight: FontWeight.w700,
+              fontSize: 12.5.sp,
             ),
           ),
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: 6.h),
         AppTextField(
           controller: controller,
           hintText: hint,
-          borderColor: AppColors.carWashTeal,
+          borderColor: const Color(0xFFE3EBEA),
           hasShadow: false,
           keyboardType: keyboardType,
           maxLines: maxLines,
           minLines: minLines,
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 14.w,
+            vertical: 11.h,
+          ),
           prefixIcon: leadingIcon == null
               ? null
               : Padding(

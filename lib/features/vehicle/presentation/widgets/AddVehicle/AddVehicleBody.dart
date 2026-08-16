@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 import 'dart:typed_data';
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/theme/app_colors.dart';
 
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 
@@ -104,7 +105,10 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
         listener: (context, state) {
           if (state is VehicleAddSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(strings.vehicleAddedSuccess)),
+              SnackBar(
+                content: Text(strings.vehicleAddedSuccess),
+                backgroundColor: AppColors.success,
+              ),
             );
             context.pop(true);
           }
@@ -133,6 +137,7 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
                       onPickImage: _pickImage,
                     ),
                     LoginTextField(
+                      innerBorderColor: Colors.transparent,
                       controller: _kmController,
                       hintText: strings.odometer,
                       icon: Icons.speed_outlined,
@@ -142,6 +147,7 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
                     ),
                     SizedBox(height: 10.h),
                     LoginTextField(
+                      innerBorderColor: Colors.transparent,
                       controller: _plateController,
                       hintText: strings.plateNumber,
                       icon: Icons.sort_by_alpha,
@@ -150,6 +156,7 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
                     ),
                     SizedBox(height: 10.h),
                     LoginTextField(
+                      innerBorderColor: Colors.transparent,
                       controller: _brandController,
                       hintText: strings.brand,
                       icon: Icons.local_offer_outlined,
@@ -158,6 +165,7 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
                     ),
                     SizedBox(height: 10.h),
                     LoginTextField(
+                      innerBorderColor: Colors.transparent,
                       controller: _modelController,
                       hintText: strings.model,
                       icon: Icons.directions_car_filled_outlined,
@@ -166,6 +174,7 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
                     ),
                     SizedBox(height: 10.h),
                     LoginTextField(
+                      innerBorderColor: Colors.transparent,
                       controller: _yearController,
                       hintText: strings.year,
                       icon: Icons.calendar_month_outlined,

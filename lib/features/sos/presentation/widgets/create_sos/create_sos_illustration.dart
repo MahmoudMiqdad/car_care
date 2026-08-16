@@ -9,14 +9,14 @@ class CreateSosIllustration extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.only(top: 8.h, bottom: 12.h),
+        padding: EdgeInsets.only(top: 4.h, bottom: 8.h),
         child: Image.asset(
-          AppAssets.sosWarningRafiki,
-          height: 200.h,
+          AppAssets.sosCreateIcon,
+          height: 96.h,
           fit: BoxFit.contain,
           errorBuilder: (_, _, _) => Icon(
-            Icons.warning_amber_rounded,
-            size: 120.sp,
+            Icons.car_crash_outlined,
+            size: 72.sp,
             color: Theme.of(context).colorScheme.primary,
           ),
         ),

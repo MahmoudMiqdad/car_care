@@ -116,14 +116,20 @@ class AppButton extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (icon != null) ...[icon!, 8.horizontalSpace],
-        Text(
-          text,
-          style: context.textTheme.labelLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-            fontSize: fontSize ?? 16.sp, // استخدام الحجم الممرر أو الافتراضي
-            color: isOutline
-                ? (textColor ?? backgroundColor ?? context.colorScheme.primary)
-                : (textColor ?? AppColors.white),
+        Flexible(
+          child: Text(
+            text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: context.textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+              fontSize: fontSize ?? 16.sp, // استخدام الحجم الممرر أو الافتراضي
+              color: isOutline
+                  ? (textColor ??
+                        backgroundColor ??
+                        context.colorScheme.primary)
+                  : (textColor ?? AppColors.white),
+            ),
           ),
         ),
       ],

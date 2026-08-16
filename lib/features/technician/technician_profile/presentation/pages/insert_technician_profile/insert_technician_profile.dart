@@ -1,7 +1,7 @@
-import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
+import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/cubit/technician_location_cubit.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_cubit.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/widgets/insert_technician_profile_body.dart';
@@ -23,17 +23,7 @@ class InsertTechnicianProfile extends StatelessWidget {
         child: Scaffold(
           backgroundColor: AppColors.lightScaffold,
           appBar: const CustomAppBar(title: 'إضافة فني', showBackButton: true),
-          body: Stack(
-            fit: StackFit.expand,
-            children: [
-              Image.asset(
-                AppAssets.artboardBackground,
-                fit: BoxFit.cover,
-                errorBuilder: (_, _, _) => const SizedBox.shrink(),
-              ),
-              const InsertTechnicianProfileBody(),
-            ],
-          ),
+          body: const ImageBackground(child: InsertTechnicianProfileBody()),
         ),
       ),
     );

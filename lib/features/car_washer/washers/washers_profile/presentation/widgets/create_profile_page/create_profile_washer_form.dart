@@ -56,73 +56,84 @@ class CreateProfileWasherForm extends StatelessWidget {
 
     return Stack(
       children: [
-        SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 24.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              CreateProfileWasherLogoSection(
-                logoPath: logoPath,
-                onTap: isLoading ? null : onPickLogo,
-                uploadLabel: l10n.profileWasherUploadLogo,
+        Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.fromLTRB(18.w, 16.h, 18.w, 8.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    CreateProfileWasherLogoSection(
+                      logoPath: logoPath,
+                      onTap: isLoading ? null : onPickLogo,
+                      uploadLabel: l10n.profileWasherUploadLogo,
+                    ),
+                    SizedBox(height: 22.h),
+                    CreateProfileWasherBasicSection(
+                      shopNameLabel: l10n.profileWasherFieldWasherName,
+                      shopNameHint: l10n.profileWasherHintWasherName,
+                      phoneLabel: l10n.profileWasherFieldPhone,
+                      phoneHint: l10n.profileWasherHintPhone,
+                      cityLabel: l10n.profileWasherFieldCity,
+                      cityHint: l10n.profileWasherHintCity,
+                      addressLabel: l10n.profileWasherFieldStreetAddress,
+                      addressHint: l10n.profileWasherHintStreetAddress,
+                      shopController: shopController,
+                      phoneController: phoneController,
+                      cityController: cityController,
+                      addressController: addressController,
+                    ),
+                    SizedBox(height: 22.h),
+                    CreateProfileWasherServicesSection(
+                      servicesLabel: l10n.profileWasherFieldServicesList,
+                      servicesHint: l10n.profileWasherHintServicesList,
+                      sectionTitle: l10n.profileWasherChooseServicesTitle,
+                      descriptionLabel: l10n.profileWasherFieldDescription,
+                      descriptionHint: l10n.profileWasherHintDescription,
+                      basicTitle: l10n.profileWasherTierBasic,
+                      vipTitle: l10n.profileWasherTierVip,
+                      premiumTitle: l10n.profileWasherTierPremium,
+                      priceLabel: l10n.profileWasherFieldPrice,
+                      priceHint: l10n.profileWasherHintPrice,
+                      servicesController: servicesController,
+                      descriptionController: descriptionController,
+                      basicPriceController: basicController,
+                      vipPriceController: vipController,
+                      premiumPriceController: premiumController,
+                    ),
+                    SizedBox(height: 22.h),
+                    CreateProfileWasherWorkHoursSection(
+                      sectionTitle: l10n.profileWasherWorkingHoursTitle,
+                      startLabel: l10n.profileWasherFieldWorkStart,
+                      startHint: l10n.profileWasherHintWorkStart,
+                      endLabel: l10n.profileWasherFieldWorkEnd,
+                      endHint: l10n.profileWasherHintWorkEnd,
+                      startController: workStartController,
+                      endController: workEndController,
+                      onStartTimeTap: onWorkStartTimeTap,
+                      onEndTimeTap: onWorkEndTimeTap,
+                      enabled: !isLoading,
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 12.h),
-              CreateProfileWasherBasicSection(
-                shopNameLabel: l10n.profileWasherFieldWasherName,
-                shopNameHint: l10n.profileWasherHintWasherName,
-                phoneLabel: l10n.profileWasherFieldPhone,
-                phoneHint: l10n.profileWasherHintPhone,
-                cityLabel: l10n.profileWasherFieldCity,
-                cityHint: l10n.profileWasherHintCity,
-                addressLabel: l10n.profileWasherFieldStreetAddress,
-                addressHint: l10n.profileWasherHintStreetAddress,
-                shopController: shopController,
-                phoneController: phoneController,
-                cityController: cityController,
-                addressController: addressController,
+            ),
+            SafeArea(
+              top: false,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(18.w, 10.h, 18.w, 12.h),
+                child: EditProfileWasherActionsRow(
+                  saveLabel: l10n.profileWasherCreateSave,
+                  cancelLabel: l10n.cancel,
+                  onSave: isLoading ? null : onSave,
+                  onCancel: isLoading
+                      ? null
+                      : () => context.safePopOrGo(Routes.more),
+                ),
               ),
-              SizedBox(height: 10.h),
-              CreateProfileWasherServicesSection(
-                servicesLabel: l10n.profileWasherFieldServicesList,
-                servicesHint: l10n.profileWasherHintServicesList,
-                sectionTitle: l10n.profileWasherChooseServicesTitle,
-                descriptionLabel: l10n.profileWasherFieldDescription,
-                descriptionHint: l10n.profileWasherHintDescription,
-                basicTitle: l10n.profileWasherTierBasic,
-                vipTitle: l10n.profileWasherTierVip,
-                premiumTitle: l10n.profileWasherTierPremium,
-                priceLabel: l10n.profileWasherFieldPrice,
-                priceHint: l10n.profileWasherHintPrice,
-                servicesController: servicesController,
-                descriptionController: descriptionController,
-                basicPriceController: basicController,
-                vipPriceController: vipController,
-                premiumPriceController: premiumController,
-              ),
-              SizedBox(height: 10.h),
-              CreateProfileWasherWorkHoursSection(
-                sectionTitle: l10n.profileWasherWorkingHoursTitle,
-                startLabel: l10n.profileWasherFieldWorkStart,
-                startHint: l10n.profileWasherHintWorkStart,
-                endLabel: l10n.profileWasherFieldWorkEnd,
-                endHint: l10n.profileWasherHintWorkEnd,
-                startController: workStartController,
-                endController: workEndController,
-                onStartTimeTap: onWorkStartTimeTap,
-                onEndTimeTap: onWorkEndTimeTap,
-                enabled: !isLoading,
-              ),
-              SizedBox(height: 24.h),
-              EditProfileWasherActionsRow(
-                saveLabel: l10n.profileWasherCreateSave,
-                cancelLabel: l10n.cancel,
-                onSave: isLoading ? null : onSave,
-                onCancel: isLoading
-                    ? null
-                    : () => context.safePopOrGo(Routes.more),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
         if (isLoading)
           const Positioned.fill(

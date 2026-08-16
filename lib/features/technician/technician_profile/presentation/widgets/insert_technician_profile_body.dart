@@ -7,16 +7,17 @@ import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
-import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_cubit.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_state.dart';
+import 'package:car_care/features/technician/technician_profile/presentation/widgets/technician_certificate_picker.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/widgets/technician_location_card.dart';
+import 'package:car_care/features/technician/technician_profile/presentation/widgets/technician_profile_form_fields.dart';
+import 'package:car_care/features/technician/technician_profile/presentation/widgets/technician_profile_section.dart';
 import 'package:car_care/features/user_profile/data/data_sources/profile_remote_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -24,7 +25,8 @@ class InsertTechnicianProfileBody extends StatefulWidget {
   const InsertTechnicianProfileBody({super.key});
 
   @override
-  State<InsertTechnicianProfileBody> createState() => _TechnicianProfileBodyState();
+  State<InsertTechnicianProfileBody> createState() =>
+      _TechnicianProfileBodyState();
 }
 
 class _TechnicianProfileBodyState extends State<InsertTechnicianProfileBody> {
@@ -35,8 +37,7 @@ class _TechnicianProfileBodyState extends State<InsertTechnicianProfileBody> {
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _hourlyRateController = TextEditingController();
 
-  final List<XFile> _certificationImages = [];
-  final ImagePicker _picker = ImagePicker();
+  List<XFile> _certificationImages = [];
 
   // Picked locally during onboarding — sent with the profile save request,
   // never through the protected /technician/location endpoint.
@@ -50,19 +51,6 @@ class _TechnicianProfileBodyState extends State<InsertTechnicianProfileBody> {
     _cityController.dispose();
     _hourlyRateController.dispose();
     super.dispose();
-  }
-
-  Future<void> _pickCertificationImages() async {
-    final List<XFile> images = await _picker.pickMultiImage(imageQuality: 80);
-    if (images.isEmpty) return;
-
-    if (images.length + _certificationImages.length > 3) {
-      // ignore: use_build_context_synchronously
-      AppSnackBar.error(context, 'يمكنك اختيار 3 صور كحد أقصى');
-      return;
-    }
-
-    setState(() => _certificationImages.addAll(images));
   }
 
   void _submit() {
@@ -110,163 +98,75 @@ class _TechnicianProfileBodyState extends State<InsertTechnicianProfileBody> {
           _refreshRolesAndExit();
         }
         if (state is TechnicianProfileError) {
-         AppSnackBar.error(context, state.message);
+          AppSnackBar.error(context, state.message);
         }
       },
       builder: (context, state) {
         final isLoading = state is TechnicianProfileLoading;
 
-        return SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 10.h),
+        return Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 8.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TechnicianProfileFormFields(
+                      phoneController: _phoneController,
+                      cityController: _cityController,
+                      specializationController: _specializationController,
+                      experienceController: _experienceController,
+                      hourlyRateController: _hourlyRateController,
+                    ),
+                    SizedBox(height: 14.h),
 
-              LoginTextField(
-                controller: _specializationController,
-                hintText: 'التخصص',
-                iconPath: 'assets/images/icons8-work-50.png',
-              ),
-              SizedBox(height: 12.h),
+                    LocationUpdateCard(
+                      localOnly: true,
+                      onLocationPicked: (picked) =>
+                          setState(() => _pickedLocation = picked),
+                    ),
+                    SizedBox(height: 14.h),
 
-              LoginTextField(
-                controller: _experienceController,
-                hintText: 'سنوات الخبرة',
-                iconPath: 'assets/images/icons8-certificate-72.png',
-                keyboardType: TextInputType.number,
-              ),
-              SizedBox(height: 12.h),
-
-              LoginTextField(
-                controller: _phoneController,
-                hintText: 'رقم الهاتف',
-                icon: IconsaxPlusLinear.call,
-                keyboardType: TextInputType.phone,
-              ),
-              SizedBox(height: 12.h),
-
-              LoginTextField(
-                controller: _cityController,
-                hintText: 'المدينة',
-                iconPath: 'assets/images/icons8-location-50.png',
-              ),
-              SizedBox(height: 12.h),
-
-              LoginTextField(
-                controller: _hourlyRateController,
-                hintText: 'الأجر بالساعة',
-                iconPath: 'assets/images/icons8-money-64.png',
-                keyboardType: const TextInputType.numberWithOptions(
-                  decimal: true,
-                ),
-              ),
-              SizedBox(height: 16.h),
-
-              LocationUpdateCard(
-                localOnly: true,
-                onLocationPicked: (picked) =>
-                    setState(() => _pickedLocation = picked),
-              ),
-              SizedBox(height: 20.h),
-
-              Text(
-                'الشهادات (حد أقصى 3 صور)',
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(height: 10.h),
-
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: [
-                  ..._certificationImages.map((image) {
-                    return Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8.r),
-                          child: Image.file(
-                            File(image.path),
-                            width: 80.w,
-                            height: 80.h,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: GestureDetector(
-                            onTap: () => setState(
-                              () => _certificationImages.remove(image),
-                            ),
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                color: Colors.red,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                Icons.close,
-                                color: Colors.white,
-                                size: 16.r,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  }),
-
-                  if (_certificationImages.length < 3)
-                    GestureDetector(
-                      onTap: _pickCertificationImages,
-                      child: Container(
-                        width: 80.w,
-                        height: 80.h,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade100,
-                          borderRadius: BorderRadius.circular(8.r),
-                          border: Border.all(color: Colors.grey.shade300),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.add_photo_alternate_outlined,
-                              color: Colors.grey.shade500,
-                              size: 24.r,
-                            ),
-                            SizedBox(height: 4.h),
-                            Text(
-                              'إضافة',
-                              style: TextStyle(
-                                fontSize: 10.sp,
-                                color: Colors.grey.shade500,
-                              ),
-                            ),
-                          ],
+                    TechnicianProfileSection(
+                      title: 'الشهادات',
+                      icon: Icons.workspace_premium_outlined,
+                      color: AppColors.primary,
+                      trailing: Text(
+                        'حد أقصى 3 صور',
+                        style: TextStyle(
+                          fontSize: 11.sp,
+                          color: Colors.grey.shade500,
                         ),
                       ),
+                      child: TechnicianCertificatePicker(
+                        images: _certificationImages,
+                        onImagesChanged: (updated) =>
+                            setState(() => _certificationImages = updated),
+                      ),
                     ),
-                ],
-              ),
-              SizedBox(height: 24.h),
-
-              // ─── زر الإضافة ───────────────────────────────────────────
-              SizedBox(
-                height: AppConstants.buttonHeight.h,
-                child: AppButton(
-                  text: isLoading ? 'جارٍ الحفظ...' : 'إضافة فني',
-                  backgroundColor: AppColors.orange,
-                  borderRadius: 20.r,
-                  onPressed: isLoading ? null : _submit,
+                  ],
                 ),
               ),
-              SizedBox(height: 16.h),
-            ],
-          ),
+            ),
+
+            // ─── زر الإضافة (فوق الشريط الآمن دائمًا) ────────────────────
+            SafeArea(
+              top: false,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 12.h),
+                child: SizedBox(
+                  height: AppConstants.buttonHeight.h,
+                  child: AppButton(
+                    text: isLoading ? 'جارٍ الحفظ...' : 'إضافة فني',
+                    backgroundColor: AppColors.orange,
+                    borderRadius: 20.r,
+                    onPressed: isLoading ? null : _submit,
+                  ),
+                ),
+              ),
+            ),
+          ],
         );
       },
     );

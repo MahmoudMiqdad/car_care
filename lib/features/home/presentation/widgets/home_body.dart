@@ -3,6 +3,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/features/advertisements/domain/entities/advertisement_entity.dart';
 import 'package:car_care/features/advertisements/presentation/widgets/advertisement_section.dart';
 import 'package:car_care/features/home/presentation/widgets/ServicesGrid.dart';
+import 'package:car_care/features/home/presentation/widgets/home_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -10,20 +11,34 @@ import 'package:go_router/go_router.dart';
 class HomeBody extends StatelessWidget {
   const HomeBody({super.key});
 
+  static const double _advertisementHeight = 185;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const AdvertisementSection(
               placement: AdvertisementPlacement.home,
-              height: 160,
-              borderRadius: 16,
+              height: _advertisementHeight,
+              borderRadius: 20,
               bottomSpacing: 24,
             ),
+            Center(
+              child: Text(
+                
+              '-'   'كيف نساعدك اليوم؟'  '-',
+                style: TextStyle(
+                  color: HomePalette.primaryTeal,
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            SizedBox(height: 14.h),
             ServicesGrid(
               onItemPressed: (index) => onServicePressed(context, index),
             ),

@@ -56,7 +56,7 @@ class VehicleInfoSection extends StatelessWidget {
                   ],
                 ),
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: 14.h),
         OutlinedButton.icon(
           onPressed: isLoading ? null : onPickVehicle,
           icon: Icon(

@@ -1,9 +1,6 @@
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/widgets/loding.dart';
-import 'package:car_care/core/widgets/statistics/ring_card.dart';
-import 'package:car_care/core/widgets/statistics/stats_grid.dart';
-import 'package:car_care/core/widgets/statistics/stats_rings_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,10 +9,12 @@ import '../cubit/technician_statistics_cubit.dart';
 import '../cubit/technician_statistics_state.dart';
 import 'earnings_card.dart';
 import 'rating_card.dart';
+import 'technician_indicators_card.dart';
+import 'technician_jobs_summary_card.dart';
+import 'technician_quotations_summary_card.dart';
 
 class TechnicianStatisticsBody extends StatelessWidget {
   const TechnicianStatisticsBody({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -56,104 +55,35 @@ class TechnicianStatisticsBody extends StatelessWidget {
 
         if (state is TechnicianStatisticsLoaded) {
           final d = state.data.data;
+          final bottomSafeSpace = MediaQuery.viewPaddingOf(context).bottom;
 
-          return SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
-            child: Column(
-              children: [
-                StatsRingsRow(
-                  cards: [
-                    RingCardData(
-                      title: 'الأعمال',
-                      headerIcon: Icons.work_outline,
-                      accentColor: AppColors.orange, 
-                      mainValue: d.totalJobs,
-                      mainLabel: 'الإجمالي',
-                      progress: d.totalJobs == 0
-                          ? 0.0
-                          : d.completedJobs / d.totalJobs,
-                      indicators: [
-                        RingIndicator(
-                          label: 'المكتملة',
-                          value: d.completedJobs,
-                          icon: Icons.check_circle_outline,
-                          color: AppColors.orange,
-                        ),
-                      ],
-                    ),
-                    RingCardData(
-                      title: 'العروض',
-                      headerIcon: Icons.description_outlined,
-                      accentColor: AppColors.primary, 
-                      mainValue: d.totalQuotations,
-                      mainLabel: 'الإجمالي',
-                      progress: d.totalQuotations == 0
-                          ? 0.0
-                          : d.acceptedQuotations / d.totalQuotations,
-                      indicators: [
-                        RingIndicator(
-                          label: 'المقبولة',
-                          value: d.acceptedQuotations,
-                          icon: Icons.verified_outlined,
-                          color: AppColors.primary,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 14.h),
-
-                StatsGrid(
-                  items: [
-                    StatTileData(
-                      title: 'المعينة',
-                      value: '${d.assignedJobs}',
-                      icon: Icons.assignment_ind_outlined,
-                      color: AppColors.primary,
-                    ),
-                    StatTileData(
-                      title: 'قيد التنفيذ',
-                      value: '${d.inProgressJobs}',
-                      icon: Icons.timelapse_outlined,
-                      color: AppColors.primary,
-                    ),
-                    StatTileData(
-                      title: 'العروض المعلقة',
-                      value: '${d.pendingQuotations}',
-                      icon: Icons.hourglass_top_outlined,
-                      color: AppColors.orange,
-                    ),
-                    StatTileData(
-                      title: 'المكتملة',
-                      value: '${d.completedJobs}',
-                      icon: Icons.check_circle_outline,
-                      color: AppColors.primary,
-                    ),
-                    StatTileData(
-                      title: 'عدد التقييمات',
-                      value: '${d.totalRatings}',
-                      icon: Icons.star_border_rounded,
-                      color: AppColors.orange,
-                    ),
-                    StatTileData(
-                      title: 'العروض المقبولة',
-                      value: '${d.acceptedQuotations}',
-                      icon: Icons.verified_outlined,
-                      color: AppColors.orange,
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 16.h),
-                EarningsCard(totalEarnings: d.totalEarnings),
-                SizedBox(height: 16.h),
-                RatingCard(
-                  averageRating: d.averageRating,
-                  totalRatings: d.totalRatings,
-                ),
-                SizedBox(height: 24.h),
-              ],
+          return SafeArea(
+            bottom: false,
+            child: SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(
+                20.w,
+                20.h,
+                20.w,
+                20.h + bottomSafeSpace,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TechnicianJobsSummaryCard(data: d),
+                  SizedBox(height: 12.h),
+                  TechnicianQuotationsSummaryCard(data: d),
+                  SizedBox(height: 12.h),
+                  TechnicianIndicatorsCard(data: d),
+                  SizedBox(height: 12.h),
+                  EarningsCard(totalEarnings: d.totalEarnings),
+                  SizedBox(height: 12.h),
+                  RatingCard(
+                    averageRating: d.averageRating,
+                    totalRatings: d.totalRatings,
+                  ),
+                  SizedBox(height: 24.h),
+                ],
+              ),
             ),
           );
         }

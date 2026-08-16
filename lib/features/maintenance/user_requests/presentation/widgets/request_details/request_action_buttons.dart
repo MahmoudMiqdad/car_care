@@ -41,21 +41,27 @@ class RequestActionButtons extends StatelessWidget {
         builder: (context, cancelState) {
           final isLoading = cancelState is CancelRequestLoading;
 
+          // Once work has actually started (or finished), offering more
+          // quotations or deleting the request no longer makes sense.
+          final hideQuotationsAndDelete =
+              data.status == 'in_progress' || data.status == 'completed';
+
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // زر عروض الأسعار
-              AppButton(
-                onPressed: () => context.push(
-                  Routes.quotations,
-                  extra: data.id.toString(),
+              if (!hideQuotationsAndDelete)
+                AppButton(
+                  onPressed: () => context.push(
+                    Routes.quotations,
+                    extra: data.id.toString(),
+                  ),
+                  text: 'عروض الأسعار (${data.quotations.length})',
+                  backgroundColor: AppColors.primary,
+                  textColor: AppColors.white,
+                  borderRadius: 14.r,
+                  height: 52.h,
                 ),
-                text: 'عروض الأسعار (${data.quotations.length})',
-                backgroundColor: AppColors.primary,
-                textColor: AppColors.white,
-                borderRadius: 14.r,
-                height: 52.h,
-              ),
 
               // زر إلغاء الطلب
               if (data.canCancel) ...[
@@ -81,24 +87,28 @@ class RequestActionButtons extends StatelessWidget {
               ],
 
               // زر حذف الطلب
-              SizedBox(height: 12.h),
-              AppButton(
-                onPressed: isLoading
-                    ? null
-                    : () async {
-                        final confirmed = await showDeleteRequestDialog(context);
-                        if (confirmed != true) return;
-                        if (!context.mounted) return;
-                        context
-                            .read<CancelRequestCubit>()
-                            .deleteRequest(id: requestId);
-                      },
-                text: isLoading ? 'جاري الحذف...' : 'حذف الطلب',
-                backgroundColor: Colors.red.shade600,
-                textColor: AppColors.white,
-                borderRadius: 14.r,
-                height: 52.h,
-              ),
+              if (!hideQuotationsAndDelete) ...[
+                SizedBox(height: 12.h),
+                AppButton(
+                  onPressed: isLoading
+                      ? null
+                      : () async {
+                          final confirmed = await showDeleteRequestDialog(
+                            context,
+                          );
+                          if (confirmed != true) return;
+                          if (!context.mounted) return;
+                          context.read<CancelRequestCubit>().deleteRequest(
+                            id: requestId,
+                          );
+                        },
+                  text: isLoading ? 'جاري الحذف...' : 'حذف الطلب',
+                  backgroundColor: Colors.red.shade600,
+                  textColor: AppColors.white,
+                  borderRadius: 14.r,
+                  height: 52.h,
+                ),
+              ],
             ],
           );
         },

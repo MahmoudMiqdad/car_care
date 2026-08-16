@@ -1,4 +1,5 @@
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/edit_profile_page/edit_profile_washer_labeled_field.dart';
 import 'package:flutter/material.dart';
@@ -36,12 +37,6 @@ class EditProfileWasherServicesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final priceIcon = Icon(
-      Icons.payments_outlined,
-      color: AppColors.carWashTeal,
-      size: 22.sp,
-    );
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -57,7 +52,7 @@ class EditProfileWasherServicesSection extends StatelessWidget {
             size: 22.sp,
           ),
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: 14.h),
         AppText.sectionTitle(
           priceLabel,
           color: AppColors.black,
@@ -65,29 +60,116 @@ class EditProfileWasherServicesSection extends StatelessWidget {
           fontSize: 17.sp,
           fontWeight: FontWeight.w800,
         ),
-        SizedBox(height: 12.h),
-        EditProfileWasherLabeledField(
-          label: basicTitle,
-          hint: priceHint,
-          controller: basicPriceController,
-          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          leadingIcon: priceIcon,
+        SizedBox(height: 10.h),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: _PriceTierField(
+                label: basicTitle,
+                hint: priceHint,
+                controller: basicPriceController,
+                accentColor: AppColors.carWashTeal,
+              ),
+            ),
+            SizedBox(width: 8.w),
+            Expanded(
+              child: _PriceTierField(
+                label: vipTitle,
+                hint: priceHint,
+                controller: vipPriceController,
+                accentColor: AppColors.orange,
+              ),
+            ),
+            SizedBox(width: 8.w),
+            Expanded(
+              child: _PriceTierField(
+                label: premiumTitle,
+                hint: priceHint,
+                controller: premiumPriceController,
+                accentColor: AppColors.success,
+              ),
+            ),
+          ],
         ),
-        SizedBox(height: 14.h),
-        EditProfileWasherLabeledField(
-          label: vipTitle,
-          hint: priceHint,
-          controller: vipPriceController,
-          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          leadingIcon: priceIcon,
+      ],
+    );
+  }
+}
+
+/// Compact price box for one tier. Wraps a plain [TextField] directly
+/// (rather than the shared [AppTextField]) purely for a tighter visual
+/// footprint — the controller/keyboardType/parsing contract at submit time
+/// (`int.tryParse(...) ?? 0` in create_profile_washer_page.dart) is
+/// untouched.
+class _PriceTierField extends StatelessWidget {
+  const _PriceTierField({
+    required this.label,
+    required this.hint,
+    required this.controller,
+    required this.accentColor,
+  });
+
+  final String label;
+  final String hint;
+  final TextEditingController? controller;
+  final Color accentColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          label,
+          textAlign: TextAlign.center,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: AppTypography.labelLarge.copyWith(
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w700,
+            color: accentColor,
+          ),
         ),
-        SizedBox(height: 14.h),
-        EditProfileWasherLabeledField(
-          label: premiumTitle,
-          hint: priceHint,
-          controller: premiumPriceController,
+        SizedBox(height: 6.h),
+        TextField(
+          controller: controller,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          leadingIcon: priceIcon,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w700,
+            color: AppColors.black,
+          ),
+          decoration: InputDecoration(
+            isDense: true,
+            hintText: hint,
+            hintStyle: TextStyle(fontSize: 11.sp, color: Colors.grey.shade400),
+            filled: true,
+            fillColor: Colors.white,
+            prefixIcon: Icon(
+              Icons.payments_outlined,
+              size: 14.sp,
+              color: accentColor,
+            ),
+            prefixIconConstraints: BoxConstraints(minWidth: 26.w),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 6.w,
+              vertical: 10.h,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(color: accentColor.withValues(alpha: 0.4)),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(color: accentColor.withValues(alpha: 0.4)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(color: accentColor, width: 1.5),
+            ),
+          ),
         ),
       ],
     );

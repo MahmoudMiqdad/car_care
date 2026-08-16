@@ -53,6 +53,13 @@ class _MainAppShellState extends State<MainAppShell> {
     //  صفحات بدون Drawer
     final hideShellDrawer = !isRootTab;
 
+    // إخفاء زر المساعد الذكي فقط أثناء ظهور لوحة المفاتيح في صفحة إنشاء
+    // طلب النجدة، حتى لا يظهر فوق الحقول أو لوحة المفاتيح. يعود تلقائيًا
+    // عند إغلاقها لأن هذا القيم يُعاد حسابه مع كل rebuild تابع لـMediaQuery.
+    final isKeyboardVisible = MediaQuery.viewInsetsOf(context).bottom > 0;
+    final hideFabForKeyboard =
+        location == Routes.create_sos && isKeyboardVisible;
+
     final menuAction = IconButton(
       onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
       icon: Icon(
@@ -96,7 +103,7 @@ class _MainAppShellState extends State<MainAppShell> {
             : widget.bottomNavigationBar,
 
         // AI Assistant floating action button
-        floatingActionButton: hideShellBottomNav
+        floatingActionButton: (hideShellBottomNav || hideFabForKeyboard)
             ? null
             : widget.floatingActionButton,
         floatingActionButtonLocation: widget.floatingActionButtonLocation,

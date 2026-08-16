@@ -71,6 +71,7 @@ class _RegisterContentState extends State<RegisterContent> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   LoginTextField(
+                    innerBorderColor: Colors.transparent,
                     controller: widget.firstNameController,
                     hintText: strings.fullName,
                     keyboardType: TextInputType.name,
@@ -87,6 +88,7 @@ class _RegisterContentState extends State<RegisterContent> {
                   ),
                   SizedBox(height: 16.h),
                   LoginTextField(
+                    innerBorderColor: Colors.transparent,
                     controller: widget.accountController,
                     hintText: strings.email,
                     keyboardType: TextInputType.emailAddress,
@@ -103,6 +105,7 @@ class _RegisterContentState extends State<RegisterContent> {
                   ),
                   SizedBox(height: 16.h),
 LoginTextField(
+  innerBorderColor: Colors.transparent,
   controller: widget.phoneController,
   hintText: strings.enterphone,
   isPassword: false,
@@ -125,6 +128,7 @@ LoginTextField(
 ),
                   SizedBox(height: 16.h),
                   LoginTextField(
+                    innerBorderColor: Colors.transparent,
                     controller: widget.passwordController,
                     hintText: strings.password,
                     isPassword: true,
@@ -145,6 +149,7 @@ LoginTextField(
                   ),
                   SizedBox(height: 16.h),
                   LoginTextField(
+                    innerBorderColor: Colors.transparent,
                     controller: widget.confirmPasswordController,
                     hintText: strings.confirmPassword,
                     isPassword: true,

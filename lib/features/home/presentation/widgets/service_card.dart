@@ -1,13 +1,12 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/features/home/presentation/widgets/ServicesGrid.dart';
+import 'package:car_care/features/home/presentation/widgets/home_palette.dart';
 import 'package:car_care/features/home/presentation/widgets/service_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class ServiceCard extends StatelessWidget {
-  const ServiceCard({super.key, 
-    required this.item,
-    this.onPressed,
-  });
+  const ServiceCard({super.key, required this.item, this.onPressed});
 
   final ServiceItemData item;
   final VoidCallback? onPressed;
@@ -15,61 +14,69 @@ class ServiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = context.colorScheme;
-
+    final borderRadius = BorderRadius.circular(10.r); // قمنا بتوحيد الرياديوس هنا منعا للتكرار
     return Material(
       color: Colors.transparent,
+      borderRadius: borderRadius,
+      clipBehavior: Clip.antiAlias,
       child: InkWell(
-        borderRadius: BorderRadius.circular(18.r),
-        splashColor: scheme.primary.withValues(alpha: 0.08),
-        highlightColor: scheme.primary.withValues(alpha: 0.05),
+ borderRadius: borderRadius,  
+       splashColor: HomePalette.primaryTeal.withValues(alpha: 0.08),
+        highlightColor: HomePalette.primaryTeal.withValues(alpha: 0.05),
         onTap: onPressed,
         child: Ink(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18.r),
-            gradient: LinearGradient(
+            borderRadius: borderRadius,
+            gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                const Color.fromARGB(255, 172, 164, 164).withValues(alpha: 0.55),
-                scheme.surface.withValues(alpha: 0.92),
-                Color.lerp(scheme.surface, scheme.primary, 0.06)!,
-              ],
-              stops: const [0.0, 0.55, 1.0],
-            ),
-            border: Border.all(
-              color: scheme.primary.withValues(alpha: 0.11),
-              width: 1,
+              colors: HomePalette.cardGradient,
             ),
             boxShadow: [
               BoxShadow(
-                color: scheme.shadow.withValues(alpha: 0.07),
-                blurRadius: 14,
-                offset: const Offset(0, 5),
+                color: scheme.shadow.withValues(alpha: 0.10),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
               ),
             ],
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 14.h),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+            child: Stack(
               children: [
-                ServiceImage(
-                  path: item.imagePath,
-                  width: 58.w,
-                  height: 46.h,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: ServiceImage(
+                        path: item.imagePath,
+                        width: 80.w,
+                        height: 80.h,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    Text(
+                      item.title,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: HomePalette.textDark,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13.sp,
+                        height: 1.25,
+                        letterSpacing: 0.15,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 10.h),
-                Text(
-                  item.title,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: scheme.onSurface.withValues(alpha: 0.9),
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13.sp,
-                    height: 1.25,
-                    letterSpacing: 0.15,
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  child: Icon(
+                    Icons.chevron_left_rounded,
+                    color: HomePalette.accentOrange,
+                    size: 18.sp,
                   ),
                 ),
               ],

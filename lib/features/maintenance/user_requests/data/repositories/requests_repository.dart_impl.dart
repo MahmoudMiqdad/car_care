@@ -24,6 +24,8 @@ class RequestsRepositoryImpl implements IRequestsRepository {
     try {
       final model = await remoteDataSource.getAllMaintenance();
       return Right(_map(model));
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
     } catch (_) {
       return const Left(Failure(message: 'حدث خطأ أثناء جلب الصيانات'));
     }
@@ -84,6 +86,8 @@ Future<Either<Failure, BaseResponseEntity>> addMaintenanceRequest(
     try {
           final model = await remoteDataSource.pendingRequests();
           return Right(_map(model));
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
     } catch (_) {
       return const Left(Failure(message: 'حدث خطأ أثناء جلب الطلبات المعلقة'));
     }
@@ -94,6 +98,8 @@ Future<Either<Failure, BaseResponseEntity>> addMaintenanceRequest(
     try {
       final model = await remoteDataSource.completedRequests();
       return Right(_map(model));
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
     } catch (_) {
       return const Left(Failure(message: 'حدث خطأ أثناء جلب الطلبات المكتملة'));
     }
@@ -104,6 +110,8 @@ Future<Either<Failure, BaseResponseEntity>> addMaintenanceRequest(
     try {
       final model = await remoteDataSource.acceptedRequests();
       return Right(_map(model));
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
     } catch (_) {
       return const Left(Failure(message: 'حدث خطأ أثناء جلب الطلبات المقبولة'));
     }
