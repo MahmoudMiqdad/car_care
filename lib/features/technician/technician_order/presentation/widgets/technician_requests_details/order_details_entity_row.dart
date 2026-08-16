@@ -1,5 +1,6 @@
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/app_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -7,6 +8,10 @@ class OrderDetailsEntityRow extends StatelessWidget {
   /// Optional avatar asset. When null/empty, [placeholderIcon] is rendered —
   /// used by the vehicle card, which has no image to show.
   final String? imageAsset;
+
+  /// Optional network image (e.g. the vehicle's real photo). Takes priority
+  /// over [imageAsset] when both are provided.
+  final String? imageUrl;
   final IconData placeholderIcon;
   final double avatarSize;
   final String title;
@@ -15,6 +20,7 @@ class OrderDetailsEntityRow extends StatelessWidget {
   const OrderDetailsEntityRow({
     super.key,
     this.imageAsset,
+    this.imageUrl,
     required this.placeholderIcon,
     required this.avatarSize,
     required this.title,
@@ -23,6 +29,8 @@ class OrderDetailsEntityRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final url = imageUrl;
+    final hasUrl = url != null && url.isNotEmpty;
     final asset = imageAsset;
     final hasAsset = asset != null && asset.isNotEmpty;
 
@@ -33,7 +41,16 @@ class OrderDetailsEntityRow extends StatelessWidget {
         CircleAvatar(
           radius: avatarSize / 2,
           backgroundColor: AppColors.lightBorder,
-          child: hasAsset
+          child: hasUrl
+              ? ClipOval(
+                  child: AppImageWidget(
+                    path: url,
+                    width: avatarSize,
+                    height: avatarSize,
+                    fit: BoxFit.cover,
+                  ),
+                )
+              : hasAsset
               ? ClipOval(
                   child: Image.asset(
                     asset,

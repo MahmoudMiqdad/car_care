@@ -211,12 +211,13 @@ class _MaintenanceRequestDetailsPageState
             SizedBox(height: 14.h),
           ],
 
-          if (request.data.images.isNotEmpty) ...[
+          if (request.data.images.isNotEmpty &&
+              request.data.status != 'completed') ...[
             RequestImagesSection(images: request.data.images),
             SizedBox(height: 14.h),
           ],
 
-          if (assigned != null) ...[
+          if (assigned != null && request.data.status != 'completed') ...[
             TechnicianCard(
               technician: assigned,
               onMapTap: () =>

@@ -243,7 +243,12 @@ class _RequestsPageState extends State<_RequestsPageBody> {
             ),
             body: RequestsFlowStyles.backgroundStack(
               child: SingleChildScrollView(
-                padding: EdgeInsets.fromLTRB(18.w, 12.h, 16.w, 24.h),
+                padding: EdgeInsets.fromLTRB(
+                  18.w,
+                  12.h,
+                  16.w,
+                  24.h + MediaQuery.paddingOf(context).bottom,
+                ),
                 child: Column(
                   children: [
                     BlocConsumer<VehicleCubit, VehicleState>(

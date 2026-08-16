@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_state.dart';
@@ -40,7 +41,7 @@ class VehiclesBody extends StatelessWidget {
                 physics: const AlwaysScrollableScrollPhysics(),
                 children: [
                   SizedBox(height: 120.h),
-                  Center(child: Text(strings.noCarsYet)),
+                  Center(child: EmptyStateWidget()),
                 ],
               ),
               VehicleLoaded(:final vehicles) => VehiclesList(items: vehicles),

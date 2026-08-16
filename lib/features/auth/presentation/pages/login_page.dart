@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
               AppSnackBar.success(context, strings.loginSuccess);
               _navigateHome(context);
             } else if (state is AuthFailure) {
-             AppSnackBar.error(context, state.message);
+             AppSnackBar.error(context, 'إدخال بيانات خاطئة');
             }
           },
           builder: (context, state) {

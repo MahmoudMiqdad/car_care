@@ -26,6 +26,7 @@ class AppTextField extends StatefulWidget {
     this.minLines,
     this.hasShadow = true,
     this.borderColor,
+    this.errorBorderColor,
   });
 
   final TextEditingController? controller;
@@ -45,6 +46,7 @@ class AppTextField extends StatefulWidget {
   final int? minLines;
   final bool hasShadow;
   final Color? borderColor;
+  final Color? errorBorderColor;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -62,6 +64,7 @@ class _AppTextFieldState extends State<AppTextField> {
   @override
   Widget build(BuildContext context) {
     final border = widget.borderColor ?? AppColors.primary;
+    final errorBorder = widget.errorBorderColor ?? Colors.red;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
@@ -113,11 +116,11 @@ class _AppTextFieldState extends State<AppTextField> {
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.r),
-            borderSide: const BorderSide(color: Colors.red, width: 1.5),
+            borderSide: BorderSide(color: errorBorder, width: 1.5),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.r),
-            borderSide: const BorderSide(color: Colors.red, width: 2),
+            borderSide: BorderSide(color: errorBorder, width: 2),
           ),
           
           suffixIcon: widget.isPassword

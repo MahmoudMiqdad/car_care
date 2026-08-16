@@ -15,6 +15,7 @@ class LoginTextField extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     this.onChanged,
     this.errorText,
+    this.innerBorderColor,
   });
 
   final TextEditingController controller;
@@ -26,6 +27,9 @@ class LoginTextField extends StatefulWidget {
   final void Function(String)? onChanged;
   final String? errorText;
   final String? Function(String?)? validator;
+
+ 
+  final Color? innerBorderColor;
 
   @override
   State<LoginTextField> createState() => _LoginTextFieldState();
@@ -66,6 +70,8 @@ class _LoginTextFieldState extends State<LoginTextField> {
           onChanged: widget.onChanged,
           validator: widget.validator,
           errorText: widget.errorText,
+          borderColor: widget.innerBorderColor,
+          errorBorderColor: widget.innerBorderColor,
           prefixIcon: Padding(
             padding: EdgeInsets.symmetric(horizontal: 14.w),
             child: widget.iconPath != null

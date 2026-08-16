@@ -17,73 +17,63 @@ class CreateProfileWasherLogoSection extends StatelessWidget {
   final VoidCallback? onTap;
   final String uploadLabel;
 
+  static const double _size = 104;
+  static const Color _dashColor = Color(0xFFBFD8D6);
+
   @override
   Widget build(BuildContext context) {
     final hasLogo = logoPath != null && logoPath!.isNotEmpty;
+    final diameter = _size.r;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Align(
-          alignment: AlignmentDirectional.centerStart,
-          child: Text(
-            uploadLabel,
-            style: AppTypography.labelLarge.copyWith(
-              color: AppColors.black,
-              fontWeight: FontWeight.w800,
-              fontSize: 15.sp,
-            ),
-          ),
-        ),
-        SizedBox(height: 8.h),
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(12.r),
-            child: DashedBorderBox(
-              color: hasLogo ? AppColors.carWashTeal : AppColors.carWashTeal.withValues(alpha: 0.55),
-              borderRadius: 12.r,
-              child: Container(
-                height: 110.h,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-                child: hasLogo
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(12.r),
-                        child: Image.file(
-                          File(logoPath!),
-                          fit: BoxFit.cover,
-                          width: double.infinity,
+    return Center(
+      child: Column(
+        children: [
+          Material(
+            color: Colors.transparent,
+            shape: const CircleBorder(),
+            child: InkWell(
+              onTap: onTap,
+              customBorder: const CircleBorder(),
+              child: DashedBorderBox(
+                color: _dashColor,
+                borderRadius: diameter / 2,
+                strokeWidth: 2,
+                child: Container(
+                  width: diameter,
+                  height: diameter,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: hasLogo
+                      ? ClipOval(
+                          child: Image.file(
+                            File(logoPath!),
+                            fit: BoxFit.cover,
+                            width: diameter,
+                            height: diameter,
+                          ),
+                        )
+                      : Icon(
+                          Icons.cloud_upload_outlined,
+                          size: 34.sp,
+                          color: AppColors.carWashTeal,
                         ),
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.cloud_upload_outlined,
-                            size: 36.sp,
-                            color: AppColors.carWashTeal,
-                          ),
-                          SizedBox(height: 6.h),
-                          Text(
-                            uploadLabel,
-                            style: AppTypography.bodyMedium.copyWith(
-                              fontSize: 14.sp,
-                              color: AppColors.black,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
+                ),
               ),
             ),
           ),
-        ),
-      ],
+          SizedBox(height: 8.h),
+          Text(
+            uploadLabel,
+            style: AppTypography.bodyMedium.copyWith(
+              fontSize: 13.sp,
+              color: AppColors.black,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

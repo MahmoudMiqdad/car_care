@@ -38,7 +38,6 @@ class LocationPickerSheet extends StatefulWidget {
 class _LocationPickerSheetState extends State<LocationPickerSheet> {
   final MapController _mapController = MapController();
 
-
   LatLng _pickedLocation = const LatLng(33.3152, 44.3661);
   bool _loadingCurrentLocation = false;
 
@@ -48,7 +47,6 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
     _goToCurrentLocation();
   }
 
- 
   Future<void> _goToCurrentLocation() async {
     setState(() => _loadingCurrentLocation = true);
     try {
@@ -78,9 +76,9 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
       return;
     }
     context.read<TechnicianLocationCubit>().technicianLocation(
-          lat: _pickedLocation.latitude,
-          lng: _pickedLocation.longitude,
-        );
+      lat: _pickedLocation.latitude,
+      lng: _pickedLocation.longitude,
+    );
   }
 
   @override
@@ -88,11 +86,11 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
     return BlocListener<TechnicianLocationCubit, TechnicianLocationState>(
       listener: (context, state) {
         if (state is UpdateLocationSuccess) {
-          Navigator.pop(context, _pickedLocation); 
-        AppSnackBar.success(context, 'تم تحديد موقع الورشة');
+          Navigator.pop(context, _pickedLocation);
+          AppSnackBar.success(context, 'تم تحديد موقع الورشة');
         }
         if (state is UpdateLocationError) {
-        AppSnackBar.error(context, state.message);
+          AppSnackBar.error(context, state.message);
         }
       },
       child: Container(
@@ -144,12 +142,17 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                               color: AppColors.orange,
                             ),
                           )
-                        : Icon(Icons.my_location,
-                            size: 16.r, color: AppColors.orange),
+                        : Icon(
+                            Icons.my_location,
+                            size: 16.r,
+                            color: AppColors.orange,
+                          ),
                     label: Text(
                       'موقعي',
                       style: TextStyle(
-                          color: AppColors.orange, fontSize: 12.sp),
+                        color: AppColors.orange,
+                        fontSize: 12.sp,
+                      ),
                     ),
                   ),
                 ],
@@ -160,10 +163,7 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Text(
                 'حرّك الخريطة لتحديد الموقع الصحيح',
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  color: Colors.grey.shade600,
-                ),
+                style: TextStyle(fontSize: 12.sp, color: Colors.grey.shade600),
               ),
             ),
             SizedBox(height: 12.h),
@@ -242,7 +242,9 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                     top: 12,
                     child: Container(
                       padding: EdgeInsets.symmetric(
-                          horizontal: 12.w, vertical: 6.h),
+                        horizontal: 12.w,
+                        vertical: 6.h,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20.r),
@@ -268,40 +270,43 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
               ),
             ),
 
-            // ─── زر التأكيد ───────────────────────────────────────────
+            // ─── زر التأكيد (فوق الشريط الآمن دائمًا) ────────────────
             BlocBuilder<TechnicianLocationCubit, TechnicianLocationState>(
               builder: (context, state) {
                 final isLoading = state is UpdateLocationLoading;
-                return Padding(
-                  padding: EdgeInsets.all(16.r),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      onPressed: isLoading ? null : _confirmLocation,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.orange,
-                        foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(vertical: 14.h),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.r),
+                return SafeArea(
+                  top: false,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 12.h),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: isLoading ? null : _confirmLocation,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.orange,
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(vertical: 14.h),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          disabledBackgroundColor: Colors.grey.shade300,
                         ),
-                        disabledBackgroundColor: Colors.grey.shade300,
-                      ),
-                      icon: isLoading
-                          ? SizedBox(
-                              width: 18.r,
-                              height: 18.r,
-                              child: const CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
-                            )
-                          : Icon(Icons.check_circle_outline, size: 20.r),
-                      label: Text(
-                        isLoading ? 'جاري الحفظ...' : 'تأكيد الموقع',
-                        style: TextStyle(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.bold,
+                        icon: isLoading
+                            ? SizedBox(
+                                width: 18.r,
+                                height: 18.r,
+                                child: const CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Icon(Icons.check_circle_outline, size: 20.r),
+                        label: Text(
+                          isLoading ? 'جاري الحفظ...' : 'تأكيد الموقع',
+                          style: TextStyle(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),

@@ -1,5 +1,5 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
-import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/features/home/presentation/widgets/home_palette.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,14 +16,13 @@ class HomeBottomNavBar extends StatelessWidget {
   final int activeIndex;
 
   /// Compact colored-bar height, excluding the device bottom safe inset.
-  /// Matches the reference design's short, tight pill rather than a tall bar.
-  static const double _barHeight = 60;
+  static const double _barHeight = 44;
 
   /// Horizontal floating margin applied to both sides of the pill.
   static const double _horizontalMargin = 16;
 
-  /// Corner radius — a light rounding like the reference, not a full stadium.
-  static const double _cornerRadius = 22;
+  /// Corner radius matching the reference design's rounder pill.
+  static const double _cornerRadius = 28;
 
   /// Small, shallow gap between the notch curve and the assistant button.
   static const double _notchMargin = 8;
@@ -36,7 +35,6 @@ class HomeBottomNavBar extends StatelessWidget {
     final strings = context.l10n;
     final bottomInset = MediaQuery.paddingOf(context).bottom;
 
-    // Floating pill: horizontal margin + rounded corners live on this outer
     // Padding/ClipRRect layer so the BottomAppBar's own notched background
     // never has to paint square/full-width, and nothing opaque sits behind
     // the notch. The device bottom safe-area inset is applied exactly once,
@@ -71,7 +69,7 @@ class HomeBottomNavBar extends StatelessWidget {
             context: context,
             removeBottom: true,
             child: BottomAppBar(
-              color: AppColors.primary,
+              color: HomePalette.primaryTeal,
               elevation: 0,
               height: _barHeight.h,
               padding: EdgeInsets.zero,
@@ -93,17 +91,21 @@ class HomeBottomNavBar extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          HomeBottomNavItem(
-                            icon: Icons.home_filled,
-                            label: strings.home,
-                            isActive: activeIndex == 0,
-                            onTap: () => onItemSelected?.call(0),
+                          Flexible(
+                            child: HomeBottomNavItem(
+                              icon: Icons.home_filled,
+                              label: strings.home,
+                              isActive: activeIndex == 0,
+                              onTap: () => onItemSelected?.call(0),
+                            ),
                           ),
-                          HomeBottomNavItem(
-                            icon: Icons.notifications,
-                            label: strings.notification,
-                            isActive: activeIndex == 1,
-                            onTap: () => onItemSelected?.call(1),
+                          Flexible(
+                            child: HomeBottomNavItem(
+                              icon: Icons.notifications,
+                              label: strings.notification,
+                              isActive: activeIndex == 1,
+                              onTap: () => onItemSelected?.call(1),
+                            ),
                           ),
                         ],
                       ),
@@ -114,17 +116,21 @@ class HomeBottomNavBar extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          HomeBottomNavItem(
-                            icon: Icons.sos_rounded,
-                            label: strings.sos,
-                            isActive: activeIndex == 2,
-                            onTap: () => onItemSelected?.call(2),
+                          Flexible(
+                            child: HomeBottomNavItem(
+                              icon: Icons.sos_rounded,
+                              label: strings.sos,
+                              isActive: activeIndex == 2,
+                              onTap: () => onItemSelected?.call(2),
+                            ),
                           ),
-                          HomeBottomNavItem(
-                            icon: Icons.engineering_outlined,
-                            label: strings.more,
-                            isActive: activeIndex == 3,
-                            onTap: () => onItemSelected?.call(3),
+                          Flexible(
+                            child: HomeBottomNavItem(
+                              icon: Icons.engineering_outlined,
+                              label: strings.more,
+                              isActive: activeIndex == 3,
+                              onTap: () => onItemSelected?.call(3),
+                            ),
                           ),
                         ],
                       ),
@@ -175,7 +181,7 @@ class HomeBottomNavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color iconColor = isActive ? AppColors.orange : Colors.white;
+    final Color iconColor = isActive ? HomePalette.accentOrange : Colors.white;
 
     return InkWell(
       borderRadius: BorderRadius.circular(16.r),
@@ -197,7 +203,7 @@ class HomeBottomNavItem extends StatelessWidget {
                       vertical: 1,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.orange,
+                      color: HomePalette.accentOrange,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
@@ -215,8 +221,11 @@ class HomeBottomNavItem extends StatelessWidget {
           SizedBox(height: 2.h),
           Text(
             label,
+            maxLines: 1,
+            softWrap: false,
+            overflow: TextOverflow.ellipsis,
             style: context.textTheme.bodySmall?.copyWith(
-              color: isActive ? AppColors.orange : Colors.white,
+              color: isActive ? HomePalette.accentOrange : Colors.white,
               fontSize: 11.sp,
               fontWeight: FontWeight.w500,
             ),

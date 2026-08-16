@@ -36,7 +36,6 @@ class _CreateSosPageState extends State<CreateSosPage> {
     super.initState();
     _descriptionController = TextEditingController();
 
-  
     Future.microtask(() {
       if (mounted) context.read<VehicleCubit>().getAllVehicles();
     });
@@ -81,28 +80,50 @@ class _CreateSosPageState extends State<CreateSosPage> {
 
     final vehicles = state.vehicles;
 
+    // إغلاق لوحة المفاتيح قبل فتح القائمة لضمان ظهورها كاملة وبوضوح فوق
+    // المساحة الآمنة، دون تغيير آلية الاختيار أو البيانات المعروضة.
+    FocusScope.of(context).unfocus();
+
     final choice = await showModalBottomSheet<VehicleEntity>(
       context: context,
+      isScrollControlled: true,
       builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: vehicles.map((v) {
-            return ListTile(
-              leading: CircleAvatar(
-                radius: 20,
-                backgroundImage: v.image != null && v.image!.isNotEmpty
-                    ? NetworkImage(v.image!)
-                    : null,
-                child: v.image == null || v.image!.isEmpty
-                    ? const Icon(Icons.directions_car, size: 18)
-                    : null,
-              ),
-
-              title: Text('${v.brand} ${v.model}'),
-              subtitle: Text('${v.year} • ${v.plateNumber}'),
-              onTap: () => Navigator.pop(context, v),
-            );
-          }).toList(),
+        return SafeArea(
+          child: DraggableScrollableSheet(
+            expand: false,
+            initialChildSize: vehicles.length > 4 ? 0.5 : 0.35,
+            minChildSize: 0.25,
+            maxChildSize: 0.85,
+            builder: (context, scrollController) {
+              return ListView(
+                controller: scrollController,
+                children: vehicles.map((v) {
+                  final isSelected = _selectedVehicle?.id == v.id;
+                  return ListTile(
+                    leading: CircleAvatar(
+                      radius: 20,
+                      backgroundImage: v.image != null && v.image!.isNotEmpty
+                          ? NetworkImage(v.image!)
+                          : null,
+                      child: v.image == null || v.image!.isEmpty
+                          ? const Icon(Icons.directions_car, size: 18)
+                          : null,
+                    ),
+                    title: Text('${v.brand} ${v.model}'),
+                    subtitle: Text('${v.year} • ${v.plateNumber}'),
+                    trailing: isSelected
+                        ? Icon(
+                            Icons.check_circle,
+                            color: Theme.of(context).colorScheme.primary,
+                          )
+                        : null,
+                    selected: isSelected,
+                    onTap: () => Navigator.pop(context, v),
+                  );
+                }).toList(),
+              );
+            },
+          ),
         );
       },
     );
@@ -217,33 +238,33 @@ class _CreateSosPageState extends State<CreateSosPage> {
     final l10n = context.l10n;
 
     return BlocListener<SosCubit, SosState>(
-     listener: (context, state) {
-  if (state is SosCreated) {
-    final sos = state.sos;
-    final id = sos.id;
+      listener: (context, state) {
+        if (state is SosCreated) {
+          final sos = state.sos;
+          final id = sos.id;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        backgroundColor: Colors.green,
-        content: Text('تم إرسال الطلب ✓'),
-      ),
-    );
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: Colors.green,
+              content: Text('تم إرسال الطلب ✓'),
+            ),
+          );
 
-    if (id != null) {
-      // Replace the form so back from details returns to the list.
-      context.pushReplacementNamed(
-        'sosDetails',
-        pathParameters: {'id': id.toString()},
-      );
-    } else {
-      context.safePopOrGo(Routes.allUserSosRequests);
-    }
-  }
+          if (id != null) {
+            // Replace the form so back from details returns to the list.
+            context.pushReplacementNamed(
+              'sosDetails',
+              pathParameters: {'id': id.toString()},
+            );
+          } else {
+            context.safePopOrGo(Routes.allUserSosRequests);
+          }
+        }
 
-  if (state is SosError) {
-    AppSnackBar.error(context, state.message);
-  }
-},
+        if (state is SosError) {
+          AppSnackBar.error(context, state.message);
+        }
+      },
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(

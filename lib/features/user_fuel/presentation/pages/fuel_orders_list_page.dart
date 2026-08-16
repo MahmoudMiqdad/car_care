@@ -2,6 +2,7 @@ import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/floating_add_button.dart';
 import 'package:car_care/core/widgets/image_background.dart';
@@ -82,7 +83,7 @@ floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
 
               if (state is UserFuelOrdersLoaded) {
                 if (state.orders.isEmpty) {
-                  return const Center(child: Text('لا توجد طلبات'));
+                  return const Center(child: EmptyStateWidget());
                 }
 
                 return RefreshIndicator(

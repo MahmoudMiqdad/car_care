@@ -1,3 +1,4 @@
+import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -16,27 +17,10 @@ class NotificationsPage extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
           child: Column(
             children: [
-              Icon(
-                Icons.notifications_none_rounded,
-                size: 72.sp,
-                color: Colors.black26,
-              ),
-              SizedBox(height: 16.h),
-              Text(
-                strings.notifications,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-                textAlign: TextAlign.center,
-              ),
+             
               SizedBox(height: 8.h),
-              Text(
-                strings.noData,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.black45,
-                    ),
-                textAlign: TextAlign.center,
-              ),
+                EmptyStateWidget(),
+               
             ],
           ),
         ),

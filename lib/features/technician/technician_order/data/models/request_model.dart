@@ -111,6 +111,7 @@ class Vehicle {
     String model;
     String year;
     String plateNumber;
+    String? image;
 
     Vehicle({
         required this.id,
@@ -118,6 +119,7 @@ class Vehicle {
         required this.model,
         required this.year,
         required this.plateNumber,
+        this.image,
     });
 
     factory Vehicle.fromJson(Map<String, dynamic> json) => Vehicle(
@@ -126,6 +128,7 @@ class Vehicle {
         model: json["model"],
         year: json["year"],
         plateNumber: json["plate_number"],
+        image: json["image"],
     );
 
 

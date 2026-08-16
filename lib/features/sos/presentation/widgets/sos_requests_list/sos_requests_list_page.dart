@@ -78,13 +78,7 @@ class SosRequestsListPage extends StatelessWidget {
                             SizedBox(height: 60.h),
                             const EmptyStateWidget(),
                             SizedBox(height: 16.h),
-                            Center(
-                              child: TextButton.icon(
-                                onPressed: () => _openCreateSos(context),
-                                icon: const Icon(Icons.add),
-                                label: const Text('إنشاء طلب طوارئ'),
-                              ),
-                            ),
+                            
                           ],
                         )
                       : ListView.separated(

@@ -1,7 +1,5 @@
-// ignore_for_file: deprecated_member_use
-
-import 'package:car_care/core/constants/appbox_container.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/statistics/stats_section_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,33 +9,47 @@ class EarningsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBoxContainer(
-      child: Padding(
-        padding: EdgeInsets.all(14.w),
-        child: Row(
-          children: [
-            Container(
-              width: 42.w,
-              height: 42.w,
-              decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(.12),
-                borderRadius: BorderRadius.circular(12.r),
+    return StatsSectionCard(
+      title: 'صافي الأرباح',
+      icon: Icons.payments_outlined,
+      child: Row(
+        textDirection: TextDirection.rtl,
+        children: [
+          Container(
+            width: 48.w,
+            height: 48.w,
+            decoration: BoxDecoration(
+              color: AppColors.orange.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(14.r),
+            ),
+            child: Icon(
+              Icons.payments_outlined,
+              color: AppColors.orange,
+              size: 22.sp,
+            ),
+          ),
+          SizedBox(width: 12.w),
+          Expanded(
+            child: Text(
+              'الإجمالي',
+              textDirection: TextDirection.rtl,
+              style: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
               ),
-              child: const Icon(Icons.payments_outlined, color: AppColors.primary),
             ),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: Text(
-                'صافي الأرباح:',
-                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
-              ),
+          ),
+          Text(
+            '\$$totalEarnings',
+            textDirection: TextDirection.ltr,
+            style: TextStyle(
+              fontSize: 22.sp,
+              fontWeight: FontWeight.w900,
+              color: AppColors.orange,
             ),
-            Text(
-              '\$$totalEarnings',
-              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

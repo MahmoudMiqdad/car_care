@@ -491,6 +491,7 @@ class AppRouter {
         builder: (context, state) =>
             const TechnicianStatusGate(child: TechnicianProfileViewPage()),
       ),
+
       GoRoute(
         path: Routes.maintenance_request_details,
         builder: (context, state) {
