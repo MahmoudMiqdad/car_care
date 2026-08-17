@@ -2477,6 +2477,63 @@
   "advertisementLinkOpenFailed": "تعذر فتح رابط الإعلان",
   "@advertisementLinkOpenFailed": {
     "description": "رسالة تظهر عند فشل فتح رابط الإعلان بعد النقر عليه"
+  },
+
+  "forgotPasswordTitle": "نسيت كلمة المرور",
+  "@forgotPasswordTitle": {
+    "description": "عنوان صفحة نسيان كلمة المرور"
+  },
+  "enterYourEmailHint": "أدخل بريدك الإلكتروني",
+  "@enterYourEmailHint": {
+    "description": "نص حقل البريد الإلكتروني في صفحة نسيان كلمة المرور"
+  },
+  "sendVerificationCode": "إرسال رمز التحقق",
+  "@sendVerificationCode": {
+    "description": "زر طلب رمز التحقق لإعادة تعيين كلمة المرور"
+  },
+  "otpCardTitle": "التحقق من الرمز",
+  "@otpCardTitle": {
+    "description": "عنوان بطاقة التحقق من الرمز"
+  },
+  "otpSentDescription": "لقد أرسلنا رمز تحقق من 6 أرقام إلى",
+  "@otpSentDescription": {
+    "description": "الوصف فوق البريد الإلكتروني المخفي في بطاقة التحقق"
+  },
+  "confirmOtp": "تأكيد",
+  "@confirmOtp": {
+    "description": "الزر الرئيسي في بطاقة التحقق من الرمز"
+  },
+  "resetPasswordTitle": "إعادة تعيين كلمة المرور",
+  "@resetPasswordTitle": {
+    "description": "عنوان صفحة إعادة تعيين كلمة المرور"
+  },
+  "resetPasswordButton": "تغيير كلمة المرور",
+  "@resetPasswordButton": {
+    "description": "زر الإرسال في صفحة إعادة تعيين كلمة المرور"
+  },
+  "invalidVerificationCode": "رمز التحقق غير صحيح",
+  "@invalidVerificationCode": {
+    "description": "رسالة خطأ افتراضية عند فشل التحقق من الرمز دون رسالة من الخادم"
+  },
+  "verificationCodeExpired": "انتهت صلاحية رمز التحقق",
+  "@verificationCodeExpired": {
+    "description": "رسالة خطأ افتراضية عند انتهاء صلاحية رمز التحقق"
+  },
+  "tooManyAttempts": "عدد المحاولات كثير جدًا",
+  "@tooManyAttempts": {
+    "description": "رسالة خطأ افتراضية عند استنفاد محاولات التحقق"
+  },
+  "passwordChangedSuccessfully": "تم تغيير كلمة المرور بنجاح",
+  "@passwordChangedSuccessfully": {
+    "description": "رسالة نجاح افتراضية بعد إعادة تعيين كلمة المرور"
+  },
+  "otpExpiresIn": "تنتهي صلاحية الرمز خلال",
+  "@otpExpiresIn": {
+    "description": "التسمية قبل عداد صلاحية الرمز (5 دقائق)، مختلفة عن مهلة إعادة الإرسال"
+  },
+  "otpExpiredNotice": "انتهت صلاحية الرمز، يرجى طلب رمز جديد.",
+  "@otpExpiredNotice": {
+    "description": "تظهر عند انتهاء نافذة صلاحية الرمز (5 دقائق) وتمنع إرسال التحقق"
   }
 }
 

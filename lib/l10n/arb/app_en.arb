@@ -2474,6 +2474,63 @@
   "advertisementLinkOpenFailed": "Couldn't open the advertisement link",
   "@advertisementLinkOpenFailed": {
     "description": "Shown when tapping an advertisement fails to open its link"
+  },
+
+  "forgotPasswordTitle": "Forgot Password",
+  "@forgotPasswordTitle": {
+    "description": "Forgot password page title"
+  },
+  "enterYourEmailHint": "Enter your email",
+  "@enterYourEmailHint": {
+    "description": "Email field hint on forgot password page"
+  },
+  "sendVerificationCode": "Send verification code",
+  "@sendVerificationCode": {
+    "description": "Button to request an OTP for password reset"
+  },
+  "otpCardTitle": "Verification Code",
+  "@otpCardTitle": {
+    "description": "Title of the OTP verification card"
+  },
+  "otpSentDescription": "We sent a 6-digit verification code to",
+  "@otpSentDescription": {
+    "description": "Description above the masked email on the OTP card"
+  },
+  "confirmOtp": "Confirm",
+  "@confirmOtp": {
+    "description": "Primary button on the OTP verification card"
+  },
+  "resetPasswordTitle": "Reset Password",
+  "@resetPasswordTitle": {
+    "description": "Reset password page title"
+  },
+  "resetPasswordButton": "Change Password",
+  "@resetPasswordButton": {
+    "description": "Submit button on reset password page"
+  },
+  "invalidVerificationCode": "Invalid verification code",
+  "@invalidVerificationCode": {
+    "description": "Fallback error when OTP verification fails without a server message"
+  },
+  "verificationCodeExpired": "Verification code expired",
+  "@verificationCodeExpired": {
+    "description": "Fallback error when the OTP has expired"
+  },
+  "tooManyAttempts": "Too many attempts",
+  "@tooManyAttempts": {
+    "description": "Fallback error when OTP verification attempts are exhausted"
+  },
+  "passwordChangedSuccessfully": "Password changed successfully",
+  "@passwordChangedSuccessfully": {
+    "description": "Fallback success message after resetting the password"
+  },
+  "otpExpiresIn": "Code expires in",
+  "@otpExpiresIn": {
+    "description": "Label before the OTP expiry countdown (5 minutes), distinct from the resend cooldown"
+  },
+  "otpExpiredNotice": "The code has expired, please request a new one.",
+  "@otpExpiredNotice": {
+    "description": "Shown once the 5-minute OTP validity window ends, and blocks verify submission"
   }
 }
 

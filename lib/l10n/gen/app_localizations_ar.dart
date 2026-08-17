@@ -1683,4 +1683,46 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get advertisementLinkOpenFailed => 'تعذر فتح رابط الإعلان';
+
+  @override
+  String get forgotPasswordTitle => 'نسيت كلمة المرور';
+
+  @override
+  String get enterYourEmailHint => 'أدخل بريدك الإلكتروني';
+
+  @override
+  String get sendVerificationCode => 'إرسال رمز التحقق';
+
+  @override
+  String get otpCardTitle => 'التحقق من الرمز';
+
+  @override
+  String get otpSentDescription => 'لقد أرسلنا رمز تحقق من 6 أرقام إلى';
+
+  @override
+  String get confirmOtp => 'تأكيد';
+
+  @override
+  String get resetPasswordTitle => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get resetPasswordButton => 'تغيير كلمة المرور';
+
+  @override
+  String get invalidVerificationCode => 'رمز التحقق غير صحيح';
+
+  @override
+  String get verificationCodeExpired => 'انتهت صلاحية رمز التحقق';
+
+  @override
+  String get tooManyAttempts => 'عدد المحاولات كثير جدًا';
+
+  @override
+  String get passwordChangedSuccessfully => 'تم تغيير كلمة المرور بنجاح';
+
+  @override
+  String get otpExpiresIn => 'تنتهي صلاحية الرمز خلال';
+
+  @override
+  String get otpExpiredNotice => 'انتهت صلاحية الرمز، يرجى طلب رمز جديد.';
 }

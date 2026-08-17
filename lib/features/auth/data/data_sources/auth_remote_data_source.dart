@@ -28,4 +28,45 @@ class AuthRemoteDataSource {
   Future<void> logout() async {
     await _apiService.post(endPoint: ApiEndpoints.logout);
   }
+
+  Future<String> requestPasswordReset(String email) async {
+    final response = await _apiService.post(
+      endPoint: ApiEndpoints.forgotPassword,
+      data: {'email': email},
+    );
+
+    return (response['message'] as String?) ?? '';
+  }
+
+  Future<ResetOtpVerification> verifyResetOtp({
+    required String email,
+    required String otp,
+  }) async {
+    final response = await _apiService.post(
+      endPoint: ApiEndpoints.verifyResetOtp,
+      data: {'email': email, 'otp': otp},
+    );
+
+    final data = response['data'] as Map<String, dynamic>? ?? {};
+    return ResetOtpVerification.fromJson(data);
+  }
+
+  Future<String> resetPassword({
+    required String email,
+    required String resetToken,
+    required String password,
+    required String passwordConfirmation,
+  }) async {
+    final response = await _apiService.post(
+      endPoint: ApiEndpoints.resetPassword,
+      data: {
+        'email': email,
+        'reset_token': resetToken,
+        'password': password,
+        'password_confirmation': passwordConfirmation,
+      },
+    );
+
+    return (response['message'] as String?) ?? '';
+  }
 }

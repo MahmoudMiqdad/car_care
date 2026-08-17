@@ -66,7 +66,9 @@ class _LoginPageState extends State<LoginPage> {
                             onLogin: () => context.read<AuthBloc>().add(
                                   SubmitLogin(),
                                 ),
-                            onForgotPassword: null,
+                            onForgotPassword: () {
+                              GoRouter.of(context).push(Routes.forget_password);
+                            },
                             onRegister: () {
                               GoRouter.of(context).go(Routes.signup);
                             },

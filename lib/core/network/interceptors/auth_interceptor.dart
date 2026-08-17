@@ -34,6 +34,9 @@ class AuthInterceptor extends Interceptor {
       ApiEndpoints.login,
       ApiEndpoints.refresh,
       ApiEndpoints.register,
+      ApiEndpoints.forgotPassword,
+      ApiEndpoints.verifyResetOtp,
+      ApiEndpoints.resetPassword,
     ];
 
     return authPaths.any((p) => path.contains(p));

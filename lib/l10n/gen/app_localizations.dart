@@ -3390,6 +3390,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t open the advertisement link'**
   String get advertisementLinkOpenFailed;
+
+  /// Forgot password page title
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password'**
+  String get forgotPasswordTitle;
+
+  /// Email field hint on forgot password page
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email'**
+  String get enterYourEmailHint;
+
+  /// Button to request an OTP for password reset
+  ///
+  /// In en, this message translates to:
+  /// **'Send verification code'**
+  String get sendVerificationCode;
+
+  /// Title of the OTP verification card
+  ///
+  /// In en, this message translates to:
+  /// **'Verification Code'**
+  String get otpCardTitle;
+
+  /// Description above the masked email on the OTP card
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a 6-digit verification code to'**
+  String get otpSentDescription;
+
+  /// Primary button on the OTP verification card
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirmOtp;
+
+  /// Reset password page title
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get resetPasswordTitle;
+
+  /// Submit button on reset password page
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get resetPasswordButton;
+
+  /// Fallback error when OTP verification fails without a server message
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid verification code'**
+  String get invalidVerificationCode;
+
+  /// Fallback error when the OTP has expired
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code expired'**
+  String get verificationCodeExpired;
+
+  /// Fallback error when OTP verification attempts are exhausted
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts'**
+  String get tooManyAttempts;
+
+  /// Fallback success message after resetting the password
+  ///
+  /// In en, this message translates to:
+  /// **'Password changed successfully'**
+  String get passwordChangedSuccessfully;
+
+  /// Label before the OTP expiry countdown (5 minutes), distinct from the resend cooldown
+  ///
+  /// In en, this message translates to:
+  /// **'Code expires in'**
+  String get otpExpiresIn;
+
+  /// Shown once the 5-minute OTP validity window ends, and blocks verify submission
+  ///
+  /// In en, this message translates to:
+  /// **'The code has expired, please request a new one.'**
+  String get otpExpiredNotice;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

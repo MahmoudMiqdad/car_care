@@ -10,6 +10,7 @@ class Routes {
   static const String forget_password = '/forget_password';
   static const String changepasswordpage = '/change_password_page';
   static const String otp = '/otp';
+  static const String resetPassword = '/reset_password';
   static const String home = '/home';
   static const String notifications = '/notifications';
   static const String more = '/more';
