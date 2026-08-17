@@ -104,6 +104,13 @@ class _ProviderOrderDetailsPageState extends State<ProviderOrderDetailsPage> {
                 if (state is FuelProviderOrderError) {
                   AppSnackBar.error(context, state.message);
                 }
+
+                // Accept/start/complete/cancel failed — the builder below
+                // keeps showing the last loaded details, so only a snackbar
+                // reports the failure.
+                if (state is FuelProviderOrderActionError) {
+                  AppSnackBar.error(context, state.message);
+                }
               },
               child: ImageBackground(
                 child:
@@ -113,9 +120,16 @@ class _ProviderOrderDetailsPageState extends State<ProviderOrderDetailsPage> {
                           return const Center(child: AppLoadingWidget());
                         }
 
-                        if (state is FuelProviderOrderDetailsLoaded) {
-                          final order = state.order;
+                        // Keeps the last loaded details on screen when any
+                        // action fails, instead of falling through to the
+                        // blank SizedBox below.
+                        final order = state is FuelProviderOrderDetailsLoaded
+                            ? state.order
+                            : (state is FuelProviderOrderActionError
+                                  ? state.order
+                                  : null);
 
+                        if (order != null) {
                           return ProviderOrderDetailsBody(
                             order: order,
                             onAcceptOrder: _acceptInFlight

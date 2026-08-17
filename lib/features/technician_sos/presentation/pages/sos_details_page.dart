@@ -55,20 +55,15 @@ Widget build(BuildContext context) {
                 return const Center(child: AppLoadingWidget());
               }
 
-              if (state is TechnicianError) {
-                return ErrorStateWidget(
-                  message: state.message.isEmpty ||
-                          state.message.startsWith('Instance of')
-                      ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
-                      : state.message,
-                  onRetry: () =>
-                      context.read<TechnicianSosCubit>().getRequest(id),
-                );
-              }
+              // Keeps the last loaded SOS details on screen when an
+              // accept/status/cancel action fails, instead of falling back
+              // to a full-page ErrorStateWidget — the action's own snackbar
+              // (shown by SosTechnicianDetailsBody) already reports it.
+              final item = state is TechnicianRequestLoaded
+                  ? state.request
+                  : (state is TechnicianActionError ? state.request : null);
 
-              if (state is TechnicianRequestLoaded) {
-                final item = state.request;
-
+              if (item != null) {
                 return SosTechnicianDetailsBody(
                   sos: item,
                   vehicleTitle: buildVehicleLabel(
@@ -82,6 +77,23 @@ Widget build(BuildContext context) {
                   plateNumber: item.plateNumber?.toString() ?? '',
                   ownerName: item.ownerName ?? '',
                   description: item.description ?? '',
+                );
+              }
+
+              // Initial load failure with no data to show, or an action
+              // error that (unexpectedly) has no prior request — full-page
+              // error is the only sensible fallback.
+              if (state is TechnicianError || state is TechnicianActionError) {
+                final message = state is TechnicianError
+                    ? state.message
+                    : (state as TechnicianActionError).message;
+                return ErrorStateWidget(
+                  message: message.isEmpty ||
+                          message.startsWith('Instance of')
+                      ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
+                      : message,
+                  onRetry: () =>
+                      context.read<TechnicianSosCubit>().getRequest(id),
                 );
               }
 

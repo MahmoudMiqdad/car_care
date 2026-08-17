@@ -69,7 +69,9 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
       await cubit.changeStatus(widget.sos.id!, 'in_progress');
       if (!mounted) return;
       // changeStatus emits an error state when the backend refuses.
-      if (cubit.state is TechnicianError) return;
+      if (cubit.state is TechnicianError || cubit.state is TechnicianActionError) {
+        return;
+      }
     }
 
     if (mounted) _openTechnicianMap(status: 'in_progress');
@@ -116,6 +118,15 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
     return BlocListener<TechnicianSosCubit, TechnicianSosState>(
       listener: (context, state) {
         if (state is TechnicianError) {
+          final msg = state.message.isEmpty ||
+                  state.message.startsWith('Instance of')
+              ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
+              : state.message;
+          AppSnackBar.error(context, msg);
+        }
+        // Accept/status/cancel failed — the page keeps showing the last
+        // loaded SOS details, so only a snackbar reports the failure here.
+        if (state is TechnicianActionError) {
           final msg = state.message.isEmpty ||
                   state.message.startsWith('Instance of')
               ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'

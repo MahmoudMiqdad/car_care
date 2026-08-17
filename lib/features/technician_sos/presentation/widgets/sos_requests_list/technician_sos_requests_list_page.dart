@@ -79,10 +79,20 @@ class _SosRequestsListPageState extends State<TechnicianSosRequestsListPage> {
         child: BlocConsumer<TechnicianSosCubit, TechnicianSosState>(
           listenWhen: (_, current) =>
               current is TechnicianError ||
+              current is TechnicianActionError ||
               current is TechnicianResponseCancelled ||
               current is TechnicianStatusChanged,
           listener: (context, state) {
             if (state is TechnicianError) {
+              final msg = state.message.isEmpty ||
+                      state.message.startsWith('Instance of')
+                  ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
+                  : state.message;
+              AppSnackBar.error(context, msg);
+            }
+            // Accept failed — the list stays on screen (buildWhen below
+            // excludes this state), only a snackbar reports the failure.
+            if (state is TechnicianActionError) {
               final msg = state.message.isEmpty ||
                       state.message.startsWith('Instance of')
                   ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'

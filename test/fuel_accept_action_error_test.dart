@@ -1,0 +1,131 @@
+// اختبارات Minimal UX Fix: فشل قبول طلب وقود محلياً (action error) يجب ألا
+// يفرّغ صفحة التفاصيل (SizedBox) — يبقى آخر تفاصيل محملة ظاهرة مع Snackbar
+// فقط، دون optimistic update.
+import 'package:car_care/core/errors/filuar.dart';
+import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/features/fuel_provider/fuel_provider_order/domain/entities/provider_order_entity.dart';
+import 'package:car_care/features/fuel_provider/fuel_provider_order/domain/repositories/i_provider_order_repository.dart';
+import 'package:car_care/features/fuel_provider/fuel_provider_order/presentation/cubit/provider_order_cubit.dart';
+import 'package:car_care/features/fuel_provider/fuel_provider_order/presentation/pages/provider_order_details_page.dart';
+import 'package:car_care/features/fuel_provider/fuel_provider_order/presentation/widgets/provider_order_details/provider_order_details_body.dart';
+import 'package:car_care/l10n/gen/app_localizations.dart';
+import 'package:dartz/dartz.dart' hide State;
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mocktail/mocktail.dart';
+
+class MockFuelProviderOrderRepository extends Mock
+    implements IFuelProviderOrderRepository {}
+
+FuelOrderEntity _fakeProviderOrder({int id = 1, String status = 'pending'}) {
+  return FuelOrderEntity(
+    id: id,
+    fuelType: '95',
+    amount: 10,
+    status: status,
+    statusText: status,
+    totalPrice: '25',
+  );
+}
+
+void _ignoreKnownAppBarOverflowInTests() {
+  final original = FlutterError.onError;
+  FlutterError.onError = (details) {
+    if (details.exception.toString().contains('A RenderFlex overflowed')) {
+      return;
+    }
+    original?.call(details);
+  };
+}
+
+Future<void> _pumpRouter(WidgetTester tester, GoRouter router) async {
+  _ignoreKnownAppBarOverflowInTests();
+  tester.view.physicalSize = const Size(1125, 2436);
+  tester.view.devicePixelRatio = 3.0;
+  addTearDown(tester.view.resetPhysicalSize);
+  addTearDown(tester.view.resetDevicePixelRatio);
+
+  await tester.pumpWidget(
+    ScreenUtilInit(
+      designSize: const Size(375, 812),
+      builder: (context, _) => MaterialApp.router(
+        routerConfig: router,
+        locale: const Locale('ar'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+      ),
+    ),
+  );
+  await tester.pumpAndSettle();
+}
+
+void main() {
+  group('Fuel provider accept action-error minimal UX fix', () {
+    testWidgets(
+      'accept failure keeps the loaded order details on screen (no blank '
+      'SizedBox) and shows a snackbar',
+      (tester) async {
+        final repo = MockFuelProviderOrderRepository();
+        when(
+          () => repo.getOrder(1),
+        ).thenAnswer((_) async => Right(_fakeProviderOrder()));
+        when(
+          () => repo.acceptOrder(
+            1,
+            estimatedArrivalMinutes: any(named: 'estimatedArrivalMinutes'),
+            notes: any(named: 'notes'),
+          ),
+        ).thenAnswer(
+          (_) async => const Left(Failure(message: 'فشل قبول الطلب')),
+        );
+
+        if (getIt.isRegistered<FuelProviderOrderCubit>()) {
+          getIt.unregister<FuelProviderOrderCubit>();
+        }
+        getIt.registerFactory<FuelProviderOrderCubit>(
+          () => FuelProviderOrderCubit(repo),
+        );
+        addTearDown(() {
+          if (getIt.isRegistered<FuelProviderOrderCubit>()) {
+            getIt.unregister<FuelProviderOrderCubit>();
+          }
+        });
+
+        final router = GoRouter(
+          initialLocation: '/provider_order_details/1',
+          routes: [
+            GoRoute(
+              path: '/provider_order_details/1',
+              builder: (context, state) =>
+                  const ProviderOrderDetailsPage(id: 1),
+            ),
+          ],
+        );
+
+        await _pumpRouter(tester, router);
+
+        // Initial details loaded.
+        expect(find.byType(ProviderOrderDetailsBody), findsOneWidget);
+
+        await tester.ensureVisible(find.text('قبول الطلب'));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('قبول الطلب'));
+        await tester.pumpAndSettle();
+
+        // Fill the accept dialog and confirm (both fields are optional).
+        await tester.tap(find.text('تأكيد'));
+        await tester.pumpAndSettle();
+
+        // Details remain visible — the page did not fall back to a blank
+        // SizedBox.
+        expect(find.byType(ProviderOrderDetailsBody), findsOneWidget);
+        expect(find.byType(ProviderOrderDetailsPage), findsOneWidget);
+
+        // The failure is still surfaced via a snackbar.
+        expect(find.text('فشل قبول الطلب'), findsOneWidget);
+      },
+    );
+  });
+}
