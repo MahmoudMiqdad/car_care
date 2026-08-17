@@ -1,3 +1,4 @@
+import 'package:car_care/features/technician_sos/domain/entities/technician_sos_entity.dart';
 import 'package:car_care/features/technician_sos/domain/repositories/i_technician_sos_repository.dart';
 import 'package:car_care/features/technician_sos/presentation/technician_sos_request_type.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +11,11 @@ class TechnicianSosCubit extends Cubit<TechnicianSosState> {
 
   /// Remembers which list is on screen so actions can reload the right one.
   SosRequestType _listType = SosRequestType.available;
+
+  /// Last successfully loaded request details, kept so a failed
+  /// accept/status/cancel action can restore them instead of leaving the
+  /// details page blank or full-page-error.
+  TechnicianSosEntity? _lastRequest;
 
   Future<void> getAvailableRequests() async {
     _listType = SosRequestType.available;
@@ -43,7 +49,10 @@ class TechnicianSosCubit extends Cubit<TechnicianSosState> {
     final res = await _repo.getRequest(id);
     res.fold(
       (l) => emit(TechnicianError(l.displayMessage)),
-      (r) => emit(TechnicianRequestLoaded(r)),
+      (r) {
+        _lastRequest = r;
+        emit(TechnicianRequestLoaded(r));
+      },
     );
   }
 
@@ -51,13 +60,19 @@ class TechnicianSosCubit extends Cubit<TechnicianSosState> {
     emit(TechnicianActionLoading(id));
     final res = await _repo.acceptRequest(id);
     await res.fold(
-      (l) async => emit(TechnicianError(l.displayMessage)),
+      (l) async =>
+          emit(TechnicianActionError(l.displayMessage, request: _lastRequest)),
       (r) async {
         emit(TechnicianAccepted(r));
         final requestRes = await _repo.getRequest(id);
         requestRes.fold(
-          (l) => emit(TechnicianError(l.displayMessage)),
-          (updated) => emit(TechnicianRequestLoaded(updated)),
+          (l) => emit(
+            TechnicianActionError(l.displayMessage, request: _lastRequest),
+          ),
+          (updated) {
+            _lastRequest = updated;
+            emit(TechnicianRequestLoaded(updated));
+          },
         );
       },
     );
@@ -71,13 +86,19 @@ class TechnicianSosCubit extends Cubit<TechnicianSosState> {
     final updateRes = await _repo.updateStatus(sosId, newStatus);
 
     await updateRes.fold(
-      (l) async => emit(TechnicianError(l.displayMessage)),
+      (l) async =>
+          emit(TechnicianActionError(l.displayMessage, request: _lastRequest)),
       (updated) async {
         emit(TechnicianStatusChanged(updated));
         final requestRes = await _repo.getRequest(sosId);
         requestRes.fold(
-          (l) => emit(TechnicianError(l.displayMessage)),
-          (r) => emit(TechnicianRequestLoaded(r)),
+          (l) => emit(
+            TechnicianActionError(l.displayMessage, request: _lastRequest),
+          ),
+          (r) {
+            _lastRequest = r;
+            emit(TechnicianRequestLoaded(r));
+          },
         );
       },
     );
@@ -90,7 +111,9 @@ class TechnicianSosCubit extends Cubit<TechnicianSosState> {
     final res = await _repo.cancelResponse(sosId, reason);
 
     res.fold(
-      (l) => emit(TechnicianError(l.displayMessage)),
+      (l) => emit(
+        TechnicianActionError(l.displayMessage, request: _lastRequest),
+      ),
       (message) => emit(TechnicianResponseCancelled(message)),
     );
   }

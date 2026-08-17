@@ -67,6 +67,8 @@ import 'package:car_care/features/vehicle/presentation/pages/vehicle_details_pag
 import 'package:car_care/features/vehicle/presentation/pages/add_vehicle_page.dart';
 import 'package:car_care/features/vehicle/presentation/pages/my_vehicles_page_page.dart';
 import 'package:car_care/features/auth/presentation/pages/login_page.dart';
+import 'package:car_care/features/auth/presentation/pages/forgot_password_page.dart';
+import 'package:car_care/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/features/more/presentation/pages/more_page.dart';
 import 'package:car_care/features/auth/presentation/pages/register_page.dart';
@@ -126,6 +128,24 @@ class AppRouter {
         path: Routes.signup,
         name: '/signup',
         builder: (context, state) => const RegisterPage(),
+      ),
+      GoRoute(
+        path: Routes.forget_password,
+        name: '/forget_password',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => const ForgotPasswordPage(),
+      ),
+      GoRoute(
+        path: Routes.resetPassword,
+        name: '/reset_password',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return ResetPasswordPage(
+            email: extra?['email'] as String? ?? '',
+            resetToken: extra?['resetToken'] as String? ?? '',
+          );
+        },
       ),
       ShellRoute(
         navigatorKey: shellNavigatorKey,

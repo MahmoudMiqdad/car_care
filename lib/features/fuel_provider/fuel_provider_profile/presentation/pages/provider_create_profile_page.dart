@@ -69,19 +69,29 @@ class _ProviderCreateProfilePageState
     setState(() => _governorateValue = choice);
   }
 
-  Future<void> _onFuelTypeTap(String fuelType) async {
+  Future<void> _onFuelTypeTap(String apiValue, String label) async {
+    // fuelType shown in the dialog is the display label; the price is
+    // stored/looked-up under the backend apiValue.
     final price = await showProviderFuelPriceDialog(
       context,
-      fuelType: fuelType,
-      initialPrice: _fuelPrices[fuelType],
+      fuelType: label,
+      initialPrice: _fuelPrices[apiValue],
     );
     if (!mounted || price == null) return;
-    setState(() => _fuelPrices[fuelType] = price);
+    setState(() {
+      if (price.isEmpty) {
+        _fuelPrices.remove(apiValue);
+      } else {
+        _fuelPrices[apiValue] = price;
+      }
+    });
   }
 
   void _onCreate() {
     FocusScope.of(context).unfocus();
 
+    // _fuelPrices is keyed by backend apiValue (e.g. "90"), never by label.
+    final fuelTypes = _fuelPrices.keys.toList();
     final prices = _fuelPrices.map(
       (k, v) => MapEntry(k, double.tryParse(v) ?? 0.0),
     );
@@ -91,6 +101,7 @@ class _ProviderCreateProfilePageState
       'phone': _phoneController.text.trim(),
       'city': _governorateValue ?? '',
       'address': _addressController.text.trim(),
+      'fuel_types': fuelTypes,
       'prices': prices,
     });
   }

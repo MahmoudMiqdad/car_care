@@ -11,6 +11,17 @@ class TechnicianError extends TechnicianSosState {
   TechnicianError(this.message);
 }
 
+/// Emitted when an accept/status/cancel action fails while a list/details
+/// screen is already showing data, so the UI can surface a snackbar
+/// without replacing that content with a full-page error state.
+/// [request] carries the last successfully loaded SOS details (if any), so
+/// the details page can keep rendering them instead of going blank.
+class TechnicianActionError extends TechnicianSosState {
+  final String message;
+  final TechnicianSosEntity? request;
+  TechnicianActionError(this.message, {this.request});
+}
+
 class TechnicianAvailableLoaded extends TechnicianSosState {
   final List<TechnicianSosEntity> list;
   TechnicianAvailableLoaded(this.list);

@@ -33,7 +33,7 @@ class ProviderEditProfileBody extends StatelessWidget {
   final VoidCallback onSave;
   final VoidCallback onCancel;
   final Map<String, String> fuelPrices;
-  final void Function(String fuelType)? onFuelTypeTap;
+  final void Function(String apiValue, String label)? onFuelTypeTap;
   final String? personalInfoTitle;
   final String? saveLabel;
 

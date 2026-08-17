@@ -1683,4 +1683,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get advertisementLinkOpenFailed => 'Couldn\'t open the advertisement link';
+
+  @override
+  String get forgotPasswordTitle => 'Forgot Password';
+
+  @override
+  String get enterYourEmailHint => 'Enter your email';
+
+  @override
+  String get sendVerificationCode => 'Send verification code';
+
+  @override
+  String get otpCardTitle => 'Verification Code';
+
+  @override
+  String get otpSentDescription => 'We sent a 6-digit verification code to';
+
+  @override
+  String get confirmOtp => 'Confirm';
+
+  @override
+  String get resetPasswordTitle => 'Reset Password';
+
+  @override
+  String get resetPasswordButton => 'Change Password';
+
+  @override
+  String get invalidVerificationCode => 'Invalid verification code';
+
+  @override
+  String get verificationCodeExpired => 'Verification code expired';
+
+  @override
+  String get tooManyAttempts => 'Too many attempts';
+
+  @override
+  String get passwordChangedSuccessfully => 'Password changed successfully';
+
+  @override
+  String get otpExpiresIn => 'Code expires in';
+
+  @override
+  String get otpExpiredNotice => 'The code has expired, please request a new one.';
 }

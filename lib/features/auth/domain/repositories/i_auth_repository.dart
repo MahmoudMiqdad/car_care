@@ -12,4 +12,18 @@ abstract class IAuthRepository {
     Map<String, dynamic> data,
   );
   Future<Either<Failure, Unit>> logout();
+
+  Future<Either<Failure, String>> requestPasswordReset(String email);
+
+  Future<Either<Failure, ResetOtpVerification>> verifyResetOtp({
+    required String email,
+    required String otp,
+  });
+
+  Future<Either<Failure, String>> resetPassword({
+    required String email,
+    required String resetToken,
+    required String password,
+    required String passwordConfirmation,
+  });
 }

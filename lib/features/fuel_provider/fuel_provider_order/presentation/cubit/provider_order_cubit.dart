@@ -1,3 +1,4 @@
+import 'package:car_care/features/fuel_provider/fuel_provider_order/domain/entities/provider_order_entity.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_order/domain/repositories/i_provider_order_repository.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_order/presentation/cubit/provider_order_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,11 @@ class FuelProviderOrderCubit extends Cubit<FuelProviderOrderState> {
 
   FuelProviderOrderCubit(this._repo) : super(FuelProviderOrderInitial());
 
+  /// Last successfully loaded order details, kept so a failed action
+  /// (accept/start/complete/cancel) can restore them instead of leaving
+  /// the details page blank.
+  FuelOrderEntity? _lastOrder;
+
   Future<void> getOrder(int id) async {
     emit(FuelProviderOrderLoading());
 
@@ -14,7 +20,10 @@ class FuelProviderOrderCubit extends Cubit<FuelProviderOrderState> {
 
     res.fold(
       (l) => emit(FuelProviderOrderError(l.displayMessage)),
-      (r) => emit(FuelProviderOrderDetailsLoaded(r)),
+      (r) {
+        _lastOrder = r;
+        emit(FuelProviderOrderDetailsLoaded(r));
+      },
     );
   }
 
@@ -30,7 +39,7 @@ class FuelProviderOrderCubit extends Cubit<FuelProviderOrderState> {
       notes: notes,
     );
     res.fold(
-      (l) => emit(FuelProviderOrderError(l.displayMessage)),
+      (l) => emit(FuelProviderOrderActionError(l.displayMessage, _lastOrder)),
       (r) => emit(FuelProviderOrderAccepted(r)),
     );
   }
@@ -39,7 +48,7 @@ class FuelProviderOrderCubit extends Cubit<FuelProviderOrderState> {
     emit(FuelProviderOrderLoading());
     final res = await _repo.startOrder(id);
     res.fold(
-      (l) => emit(FuelProviderOrderError(l.displayMessage)),
+      (l) => emit(FuelProviderOrderActionError(l.displayMessage, _lastOrder)),
       (r) => emit(FuelProviderOrderStarted(r)),
     );
   }
@@ -48,7 +57,7 @@ class FuelProviderOrderCubit extends Cubit<FuelProviderOrderState> {
     emit(FuelProviderOrderLoading());
     final res = await _repo.completeOrder(id);
     res.fold(
-      (l) => emit(FuelProviderOrderError(l.displayMessage)),
+      (l) => emit(FuelProviderOrderActionError(l.displayMessage, _lastOrder)),
       (r) => emit(FuelProviderOrderCompleted(r)),
     );
   }
@@ -57,7 +66,7 @@ class FuelProviderOrderCubit extends Cubit<FuelProviderOrderState> {
     emit(FuelProviderOrderLoading());
     final res = await _repo.cancelOrder(id, reason);
     res.fold(
-      (l) => emit(FuelProviderOrderError(l.displayMessage)),
+      (l) => emit(FuelProviderOrderActionError(l.displayMessage, _lastOrder)),
       (r) => emit(FuelProviderOrderCancelled(r)),
     );
   }

@@ -5,6 +5,9 @@ class ApiEndpoints {
   static const String refresh = '/auth/refresh';
   static const String register = '/auth/register';
   static const String logout = '/auth/logout';
+  static const String forgotPassword = '/auth/forgot-password';
+  static const String verifyResetOtp = '/auth/verify-reset-otp';
+  static const String resetPassword = '/auth/reset-password';
   // Vehicle
   static const String vehicles = '/vehicles';
 

@@ -9,6 +9,7 @@ import 'package:car_care/core/network/api_service.dart';
 import 'package:car_care/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:car_care/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:car_care/features/auth/data/repositories/auth_repo_impl.dart';
+import 'package:car_care/features/auth/presentation/cubit/password_reset/password_reset_cubit.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/data/data_sources/bookings_remote_data_source.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/data/data_sources/customer_bookings_remote_data_source.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/data/repository/customer_bookings_repository_impl.dart';
@@ -211,6 +212,9 @@ Future<void> setupServiceLocator() async {
         getIt<AuthRemoteDataSource>(),
         getIt<SecureStorage>(),
       ),
+    )
+    ..registerFactory<PasswordResetCubit>(
+      () => PasswordResetCubit(getIt<IAuthRepository>()),
     )
     // Vehicle
     ..registerLazySingleton<VehicleRemoteDataSource>(

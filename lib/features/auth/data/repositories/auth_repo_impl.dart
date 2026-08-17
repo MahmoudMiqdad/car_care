@@ -94,4 +94,52 @@ class AuthRepositoryImpl implements IAuthRepository {
       return const Left(Failure(message: 'تعذر تسجيل الخروج من الخادم'));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> requestPasswordReset(String email) async {
+    try {
+      final message = await _authRemoteDataSource.requestPasswordReset(
+        email.trim(),
+      );
+      return Right(message);
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, ResetOtpVerification>> verifyResetOtp({
+    required String email,
+    required String otp,
+  }) async {
+    try {
+      final result = await _authRemoteDataSource.verifyResetOtp(
+        email: email.trim(),
+        otp: otp.trim(),
+      );
+      return Right(result);
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> resetPassword({
+    required String email,
+    required String resetToken,
+    required String password,
+    required String passwordConfirmation,
+  }) async {
+    try {
+      final message = await _authRemoteDataSource.resetPassword(
+        email: email.trim(),
+        resetToken: resetToken,
+        password: password,
+        passwordConfirmation: passwordConfirmation,
+      );
+      return Right(message);
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
+    }
+  }
 }

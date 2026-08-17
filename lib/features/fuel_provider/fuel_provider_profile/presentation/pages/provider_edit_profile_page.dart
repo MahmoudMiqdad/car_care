@@ -44,11 +44,16 @@ class _ProviderEditProfilePageState extends State<ProviderEditProfilePage> {
     _addressController = TextEditingController(text: p?.address ?? '');
     _governorateValue = p?.city ?? kCreateSosProvinceOptions.first;
 
-    // حوّل الـ prices من Map<String, double> لـ Map<String, String>
-    _fuelPrices = p?.prices?.map(
-          (k, v) => MapEntry(k, v.toString()),
-        ) ??
-        {};
+    // Seed from the backend truth only: an entry exists here (keyed by
+    // apiValue, e.g. "90") only if it's both present in fuelTypes AND has a
+    // price — never from a static/preview default.
+    final activeTypes = p?.fuelTypes ?? const <String>[];
+    final backendPrices = p?.prices ?? const <String, double>{};
+    _fuelPrices = {
+      for (final apiValue in activeTypes)
+        if (backendPrices.containsKey(apiValue))
+          apiValue: backendPrices[apiValue].toString(),
+    };
   }
 
   @override
@@ -81,20 +86,30 @@ class _ProviderEditProfilePageState extends State<ProviderEditProfilePage> {
     setState(() => _governorateValue = choice);
   }
 
-  Future<void> _onFuelTypeTap(String fuelType) async {
+  Future<void> _onFuelTypeTap(String apiValue, String label) async {
+    // fuelType shown in the dialog is the display label; the price is
+    // stored/looked-up under the backend apiValue.
     final price = await showProviderFuelPriceDialog(
       context,
-      fuelType: fuelType,
-      initialPrice: _fuelPrices[fuelType],
+      fuelType: label,
+      initialPrice: _fuelPrices[apiValue],
     );
     if (!mounted || price == null) return;
-    setState(() => _fuelPrices[fuelType] = price);
+    setState(() {
+      if (price.isEmpty) {
+        // Explicit clear on an already-active type = deactivate it.
+        _fuelPrices.remove(apiValue);
+      } else {
+        _fuelPrices[apiValue] = price;
+      }
+    });
   }
 
   void _onSave() {
     FocusScope.of(context).unfocus();
 
-    // حوّل الـ fuelPrices من String لـ double وابعت للـ API
+    // _fuelPrices is keyed by backend apiValue (e.g. "90"), never by label.
+    final fuelTypes = _fuelPrices.keys.toList();
     final prices = _fuelPrices.map(
       (k, v) => MapEntry(k, double.tryParse(v) ?? 0.0),
     );
@@ -104,6 +119,7 @@ class _ProviderEditProfilePageState extends State<ProviderEditProfilePage> {
       'phone': _phoneController.text.trim(),
       'city': _governorateValue ?? '',
       'address': _addressController.text.trim(),
+      'fuel_types': fuelTypes,
       'prices': prices,
     });
   }

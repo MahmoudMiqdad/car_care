@@ -89,3 +89,19 @@ class UserModel {
       };
 }
 
+class ResetOtpVerification {
+  final String resetToken;
+  final int expiresInMinutes;
+
+  ResetOtpVerification({
+    required this.resetToken,
+    required this.expiresInMinutes,
+  });
+
+  factory ResetOtpVerification.fromJson(Map<String, dynamic> json) =>
+      ResetOtpVerification(
+        resetToken: json['reset_token'] ?? '',
+        expiresInMinutes: json['expires_in_minutes'] ?? 0,
+      );
+}
+
