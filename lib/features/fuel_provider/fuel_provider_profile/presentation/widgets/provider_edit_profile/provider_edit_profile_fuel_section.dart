@@ -74,7 +74,10 @@ class _ProviderFuelPriceSheetState extends State<_ProviderFuelPriceSheet> {
   void _save() {
     final price = _priceController.text.trim();
     final l10n = context.l10n;
-    if (price.isEmpty) {
+    // Empty price is only allowed when clearing an already-active fuel type
+    // (widget.initialPrice != null) — that clears/deactivates it. Empty
+    // price on a fresh (inactive) type is still rejected as required.
+    if (price.isEmpty && widget.initialPrice == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.providerEditProfileSetPriceRequired)),
       );
@@ -154,8 +157,11 @@ class ProviderEditProfileFuelServicesSection extends StatelessWidget {
     this.onFuelTypeTap,
   });
 
+  /// Keyed by backend `apiValue` (e.g. "90"), NOT by the display label.
   final Map<String, String> fuelPrices;
-  final void Function(String fuelType)? onFuelTypeTap;
+
+  /// Called with (apiValue, label) when a fuel-type card is tapped.
+  final void Function(String apiValue, String label)? onFuelTypeTap;
 
   @override
   Widget build(BuildContext context) {
@@ -178,10 +184,13 @@ class ProviderEditProfileFuelServicesSection extends StatelessWidget {
                   fuelType: fuelTypes[i].fuelType,
                   subtitle: _subtitleFor(
                     context,
-                    fuelType: fuelTypes[i].fuelType,
+                    apiValue: fuelTypes[i].apiValue,
                     fuelPrices: fuelPrices,
                   ),
-                  onTap: () => onFuelTypeTap?.call(fuelTypes[i].fuelType),
+                  onTap: () => onFuelTypeTap?.call(
+                    fuelTypes[i].apiValue,
+                    fuelTypes[i].fuelType,
+                  ),
                 ),
               ),
             ],
@@ -193,11 +202,11 @@ class ProviderEditProfileFuelServicesSection extends StatelessWidget {
 
   String _subtitleFor(
     BuildContext context, {
-    required String fuelType,
+    required String apiValue,
     required Map<String, String> fuelPrices,
   }) {
     final l10n = context.l10n;
-    final price = fuelPrices[fuelType];
+    final price = fuelPrices[apiValue];
     if (price != null && price.isNotEmpty) {
       return l10n.providerProfilePriceLine(price);
     }
