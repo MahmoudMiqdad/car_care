@@ -1,4 +1,4 @@
-import 'package:car_care/core/widgets/filters/generic_dropdown_filter.dart';
+import 'package:car_care/core/widgets/filters/status_filter_tabs.dart';
 import 'package:car_care/l10n.dart';
 import 'package:car_care/l10n/gen/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ const List<String?> carwashBookingFilterStatusKeys = [
 
 Map<String?, String> carwashBookingFilterLabels(AppLocalizations l10n) {
   return {
-    null: 'الكل',
+    null: l10n.bookingStatusAll,
     'pending': l10n.bookingStatusPending,
     'accepted': l10n.bookingStatusAccepted,
     'in_progress': l10n.bookingStatusProgress,
@@ -23,9 +23,8 @@ Map<String?, String> carwashBookingFilterLabels(AppLocalizations l10n) {
   };
 }
 
-/// [GenericDropdownFilter] treats a null `selectedValue` as "nothing
-/// selected" regardless of the options list, so "all" needs this non-null
-/// stand-in to remain selectable/highlightable.
+/// [StatusFilterTabs] compares tab values with `==`, so "all" needs this
+/// non-null stand-in to remain a selectable/highlightable tab value.
 const String _kAllStatusValue = '__all__';
 
 class CarwashBookingFilter extends StatelessWidget {
@@ -43,19 +42,18 @@ class CarwashBookingFilter extends StatelessWidget {
     final l10n = context.l10n;
     final labelsByKey = carwashBookingFilterLabels(l10n);
 
-    String labelOf(String value) =>
-        labelsByKey[value == _kAllStatusValue ? null : value] ?? 'الكل';
-
-    final options = carwashBookingFilterStatusKeys
-        .map((key) => key ?? _kAllStatusValue)
+    final items = carwashBookingFilterStatusKeys
+        .map(
+          (key) => StatusFilterTabItem<String>(
+            value: key ?? _kAllStatusValue,
+            label: labelsByKey[key] ?? l10n.bookingStatusAll,
+          ),
+        )
         .toList();
-    final selectedValue = selectedStatus ?? _kAllStatusValue;
 
-    return GenericDropdownFilter<String>(
-      options: options,
-      labelBuilder: labelOf,
-      selectedValue: selectedValue,
-      triggerLabel: labelOf(selectedValue),
+    return StatusFilterTabs<String>(
+      items: items,
+      selected: selectedStatus ?? _kAllStatusValue,
       onChanged: (value) {
         onChanged(value == _kAllStatusValue ? null : value);
       },

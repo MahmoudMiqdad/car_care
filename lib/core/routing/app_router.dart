@@ -1,4 +1,6 @@
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/features/notifications/presentation/cubit/notifications_cubit.dart';
+import 'package:car_care/features/notifications/presentation/cubit/notifications_state.dart';
 import 'package:car_care/features/car_washer/washers/washers_statistics/presentation/pages/statistics_page.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_order/presentation/pages/provider_available_orders_page_wrapper.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/domain/entities/provider_profile_entity.dart';
@@ -159,26 +161,30 @@ class AppRouter {
             _ => -1,
           };
           return MainAppShell(
-            bottomNavigationBar: HomeBottomNavBar(
-              activeIndex: bottomNavIndex,
-              onItemSelected: (index) {
-                switch (index) {
-                  case 0:
-                    context.go(Routes.home);
-                    break;
-                  case 1:
-                    context.go(Routes.notifications);
-                    break;
-                  case 2:
-                    context.go(Routes.create_sos);
-                    break;
-                  case 3:
-                    context.go(Routes.more);
-                    break;
-                  default:
-                    break;
-                }
-              },
+            bottomNavigationBar: BlocBuilder<NotificationsCubit, NotificationsState>(
+              bloc: getIt<NotificationsCubit>(),
+              builder: (context, notificationsState) => HomeBottomNavBar(
+                activeIndex: bottomNavIndex,
+                notificationsBadgeCount: notificationsState.unreadCount,
+                onItemSelected: (index) {
+                  switch (index) {
+                    case 0:
+                      context.go(Routes.home);
+                      break;
+                    case 1:
+                      context.go(Routes.notifications);
+                      break;
+                    case 2:
+                      context.go(Routes.create_sos);
+                      break;
+                    case 3:
+                      context.go(Routes.more);
+                      break;
+                    default:
+                      break;
+                  }
+                },
+              ),
             ),
             // Visual-only for now: no callback wired, no navigation added.
             floatingActionButton: const AiAssistantButton(),

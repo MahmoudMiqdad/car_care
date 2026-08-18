@@ -252,6 +252,45 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pending => 'قيد الانتظار';
 
   @override
+  String get requestStatusPending => 'قيد الانتظار';
+
+  @override
+  String get requestStatusAccepted => 'تم القبول';
+
+  @override
+  String get requestStatusCompleted => 'مكتمل';
+
+  @override
+  String get requestStatusAll => 'الكل';
+
+  @override
+  String get orderStatusAll => 'الكل';
+
+  @override
+  String get orderStatusPending => 'قيد الانتظار';
+
+  @override
+  String get orderStatusAccepted => 'مقبول';
+
+  @override
+  String get orderStatusProcessing => 'قيد التجهيز';
+
+  @override
+  String get orderStatusOutForDelivery => 'قيد التوصيل';
+
+  @override
+  String get orderStatusDelivered => 'تم التسليم';
+
+  @override
+  String get orderStatusRejected => 'مرفوض';
+
+  @override
+  String get orderStatusCancelled => 'ملغي';
+
+  @override
+  String get bookingStatusAll => 'الكل';
+
+  @override
   String get inProgress => 'قيد التنفيذ';
 
   @override
@@ -1142,12 +1181,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bookingsFilterByStatus => 'حسب الحالة';
 
   @override
-  String get bookingStatusProgress => 'قيد التنفيذ';
-
-  @override
-  String get bookingStatusAccepted => 'تم القبول';
-
-  @override
   String get bookingStatusPinding => 'انتظار';
 
   @override
@@ -1373,6 +1406,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get bookingStatusPending => 'قيد الانتظار';
+
+  @override
+  String get bookingStatusAccepted => 'تم القبول';
+
+  @override
+  String get bookingStatusProgress => 'قيد التنفيذ';
 
   @override
   String get bookingStatusCompleted => 'مكتمل';
@@ -1725,4 +1764,43 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get otpExpiredNotice => 'انتهت صلاحية الرمز، يرجى طلب رمز جديد.';
+
+  @override
+  String get orContinueWith => 'أو تابع باستخدام';
+
+  @override
+  String get continueWithGoogle => 'المتابعة باستخدام Google';
+
+  @override
+  String get notificationsAllFilter => 'الكل';
+
+  @override
+  String get notificationsUnreadFilter => 'غير مقروءة';
+
+  @override
+  String get markAllAsRead => 'تحديد الكل كمقروء';
+
+  @override
+  String get deleteNotification => 'حذف';
+
+  @override
+  String get notificationJustNow => 'الآن';
+
+  @override
+  String notificationMinutesAgo(int minutes) {
+    return 'منذ $minutes د';
+  }
+
+  @override
+  String notificationHoursAgo(int hours) {
+    return 'منذ $hours س';
+  }
+
+  @override
+  String get notificationYesterday => 'أمس';
+
+  @override
+  String notificationDaysAgo(int days) {
+    return 'منذ $days يوم';
+  }
 }

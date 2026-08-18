@@ -1,12 +1,18 @@
+import 'package:car_care/features/notifications/data/data_sources/notifications_remote_data_source.dart';
+import 'package:car_care/features/notifications/data/repositories/notifications_repository_impl.dart';
+import 'package:car_care/features/notifications/domain/repositories/i_notifications_repository.dart';
+import 'package:car_care/features/notifications/presentation/cubit/notifications_cubit.dart';
 import 'package:car_care/features/advertisements/data/data_sources/advertisement_remote_data_source.dart';
 import 'package:car_care/features/advertisements/data/repositories/advertisement_repository_impl.dart';
 import 'package:car_care/features/advertisements/domain/repositories/i_advertisement_repository.dart';
 import 'package:car_care/features/advertisements/presentation/cubit/advertisement_cubit.dart';
+import 'package:car_care/core/config/env.dart';
 import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/core/locale/locale_cubit.dart';
 import 'package:car_care/core/network/api_client.dart';
 import 'package:car_care/core/network/api_service.dart';
 import 'package:car_care/features/auth/data/data_sources/auth_remote_data_source.dart';
+import 'package:car_care/features/auth/data/services/google_sign_in_service.dart';
 import 'package:car_care/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:car_care/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:car_care/features/auth/presentation/cubit/password_reset/password_reset_cubit.dart';
@@ -207,10 +213,14 @@ Future<void> setupServiceLocator() async {
     ..registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSource(getIt<ApiService>()),
     )
+    ..registerLazySingleton<GoogleSignInService>(
+      () => GoogleSignInService(serverClientId: Env.googleWebClientId),
+    )
     ..registerLazySingleton<IAuthRepository>(
       () => AuthRepositoryImpl(
         getIt<AuthRemoteDataSource>(),
         getIt<SecureStorage>(),
+        googleSignInService: getIt<GoogleSignInService>(),
       ),
     )
     ..registerFactory<PasswordResetCubit>(
@@ -436,6 +446,19 @@ Future<void> setupServiceLocator() async {
       () => SosRepositoryImpl(getIt<SosRemoteDataSource>()),
     )
     ..registerFactory<SosCubit>(() => SosCubit(getIt<ISosRepository>()))
+    //notifications
+    ..registerLazySingleton<NotificationsRemoteDataSource>(
+      () => NotificationsRemoteDataSource(getIt<ApiService>()),
+    )
+    ..registerLazySingleton<INotificationsRepository>(
+      () => NotificationsRepositoryImpl(getIt<NotificationsRemoteDataSource>()),
+    )
+    // Lazy singleton (not a per-page factory): the unread badge in
+    // HomeBottomNavBar and the NotificationsPage list both read the same
+    // instance so the count/list survive tab navigation without a refetch.
+    ..registerLazySingleton<NotificationsCubit>(
+      () => NotificationsCubit(getIt<INotificationsRepository>()),
+    )
     //
     ..registerLazySingleton<TechnicianSosRemoteDataSource>(
       () => TechnicianSosRemoteDataSource(getIt<ApiService>()),

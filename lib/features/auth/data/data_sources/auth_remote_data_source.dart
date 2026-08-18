@@ -29,6 +29,15 @@ class AuthRemoteDataSource {
     await _apiService.post(endPoint: ApiEndpoints.logout);
   }
 
+  Future<AuthResponseModel> loginWithGoogle(String idToken) async {
+    final response = await _apiService.post(
+      endPoint: ApiEndpoints.googleLogin,
+      data: {'id_token': idToken},
+    );
+
+    return AuthResponseModel.fromJson(response);
+  }
+
   Future<String> requestPasswordReset(String email) async {
     final response = await _apiService.post(
       endPoint: ApiEndpoints.forgotPassword,

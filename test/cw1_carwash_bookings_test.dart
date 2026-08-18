@@ -3,7 +3,7 @@
 // وتهجئة cancelled في الفلترين، وfallback صورة المركبة.
 import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/core/utils/media_url.dart';
-import 'package:car_care/core/widgets/filters/generic_dropdown_filter.dart';
+import 'package:car_care/core/widgets/filters/status_filter_tabs.dart';
 import 'package:car_care/core/widgets/vehicle_image_box.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/repositories/i_customer_bookings_repository.dart';
@@ -595,91 +595,78 @@ void main() {
     },
   );
 
-  group(
-    'CarwashBookingFilter — shared widget behavior (GenericDropdownFilter)',
-    () {
-      testWidgets(
-        'opens a bottom sheet showing all six statuses in canonical order, '
-        'shows a check mark for the selected status only, and calls '
-        'onChanged with the tapped status key exactly once',
-        (tester) async {
-          String? received;
-          var callCount = 0;
+  group('CarwashBookingFilter — shared widget behavior (StatusFilterTabs)', () {
+    testWidgets(
+      'renders all six statuses as tabs in canonical order and calls '
+      'onChanged with the tapped status key exactly once',
+      (tester) async {
+        String? received;
+        var callCount = 0;
 
-          await _pumpWithApp(
-            tester,
-            CarwashBookingFilter(
-              selectedStatus: 'accepted',
-              onChanged: (status) {
-                received = status;
-                callCount++;
-              },
-            ),
-          );
+        await _pumpWithApp(
+          tester,
+          CarwashBookingFilter(
+            selectedStatus: 'accepted',
+            onChanged: (status) {
+              received = status;
+              callCount++;
+            },
+          ),
+        );
 
-          expect(find.byType(GenericDropdownFilter<String>), findsOneWidget);
+        expect(find.byType(StatusFilterTabs<String>), findsOneWidget);
+        expect(find.text('الكل'), findsOneWidget);
+        expect(find.text('تم القبول'), findsOneWidget);
 
-          await tester.tap(find.byType(GenericDropdownFilter<String>));
-          await tester.pumpAndSettle();
+        await tester.ensureVisible(find.text('مكتمل'));
+        await tester.tap(find.text('مكتمل'));
+        await tester.pumpAndSettle();
 
-          // The closed trigger also shows the selected label ("تم القبول" —
-          // bookingStatusAccepted), so at least one match is expected there
-          // plus the sheet item; the check mark itself must appear exactly
-          // once (next to the selected item only).
-          expect(find.text('الكل'), findsOneWidget);
-          expect(find.text('تم القبول'), findsWidgets);
-          expect(find.byIcon(Icons.check_rounded), findsOneWidget);
+        expect(callCount, 1);
+        expect(received, 'completed');
+      },
+    );
 
-          await tester.tap(find.text('مكتمل'));
-          await tester.pumpAndSettle();
+    testWidgets(
+      'picking "الكل" calls onChanged(null) exactly once — the sentinel '
+      'never leaks out to the caller',
+      (tester) async {
+        final picked = <String?>[];
 
-          expect(callCount, 1);
-          expect(received, 'completed');
-        },
+        await _pumpWithApp(
+          tester,
+          CarwashBookingFilter(
+            selectedStatus: 'accepted',
+            onChanged: picked.add,
+          ),
+        );
+
+        await tester.tap(find.text('الكل'));
+        await tester.pumpAndSettle();
+
+        expect(picked, [null]);
+      },
+    );
+
+    testWidgets('with no status selected, "الكل" itself is the selected tab', (
+      tester,
+    ) async {
+      await _pumpWithApp(
+        tester,
+        CarwashBookingFilter(selectedStatus: null, onChanged: (_) {}),
       );
 
-      testWidgets(
-        'picking "الكل" calls onChanged(null) exactly once — the sentinel '
-        'never leaks out to the caller',
-        (tester) async {
-          final picked = <String?>[];
-
-          await _pumpWithApp(
-            tester,
-            CarwashBookingFilter(
-              selectedStatus: 'accepted',
-              onChanged: picked.add,
-            ),
-          );
-
-          await tester.tap(find.byType(GenericDropdownFilter<String>));
-          await tester.pumpAndSettle();
-          await tester.tap(find.text('الكل'));
-          await tester.pumpAndSettle();
-
-          expect(picked, [null]);
-        },
+      final widget = tester.widget<StatusFilterTabs<String>>(
+        find.byType(StatusFilterTabs<String>),
       );
+      final allItem = widget.items.firstWhere((i) => i.label == 'الكل');
 
-      testWidgets(
-        'with no status selected, "الكل" itself shows the check mark',
-        (tester) async {
-          await _pumpWithApp(
-            tester,
-            CarwashBookingFilter(selectedStatus: null, onChanged: (_) {}),
-          );
-
-          await tester.tap(find.byType(GenericDropdownFilter<String>));
-          await tester.pumpAndSettle();
-
-          expect(find.byIcon(Icons.check_rounded), findsOneWidget);
-        },
-      );
-    },
-  );
+      expect(widget.selected, allItem.value);
+    });
+  });
 
   group('CustomerBookingFilter / WasherBookingFilter — wrappers still work '
-      'after the GenericDropdownFilter migration', () {
+      'after the tabs migration', () {
     testWidgets('CustomerBookingFilter renders through CustomerBookingsCubit', (
       tester,
     ) async {
@@ -698,7 +685,7 @@ void main() {
         ),
       );
 
-      expect(find.byType(GenericDropdownFilter<String>), findsOneWidget);
+      expect(find.byType(StatusFilterTabs<String>), findsOneWidget);
       expect(find.text('الكل'), findsOneWidget);
       await cubit.close();
     });
@@ -721,7 +708,7 @@ void main() {
         ),
       );
 
-      expect(find.byType(GenericDropdownFilter<String>), findsOneWidget);
+      expect(find.byType(StatusFilterTabs<String>), findsOneWidget);
       expect(find.text('الكل'), findsOneWidget);
       await cubit.close();
     });
@@ -745,8 +732,7 @@ void main() {
           ),
         );
 
-        await tester.tap(find.byType(GenericDropdownFilter<String>));
-        await tester.pumpAndSettle();
+        await tester.ensureVisible(find.text('مكتمل'));
         await tester.tap(find.text('مكتمل'));
         await tester.pumpAndSettle();
 
@@ -772,8 +758,7 @@ void main() {
         ),
       );
 
-      await tester.tap(find.byType(GenericDropdownFilter<String>));
-      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.text('مكتمل'));
       await tester.tap(find.text('مكتمل'));
       await tester.pumpAndSettle();
 

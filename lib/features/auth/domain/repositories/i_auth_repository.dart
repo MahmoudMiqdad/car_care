@@ -13,6 +13,8 @@ abstract class IAuthRepository {
   );
   Future<Either<Failure, Unit>> logout();
 
+  Future<Either<Failure, AuthResponseModel>> loginWithGoogle(String idToken);
+
   Future<Either<Failure, String>> requestPasswordReset(String email);
 
   Future<Either<Failure, ResetOtpVerification>> verifyResetOtp({

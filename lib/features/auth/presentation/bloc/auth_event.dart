@@ -28,4 +28,6 @@ class SubmitLogin extends AuthEvent {}
 
 class SubmitRegister extends AuthEvent {}
 
+class GoogleSignInRequested extends AuthEvent {}
+
 class ForceLogout extends AuthEvent {}

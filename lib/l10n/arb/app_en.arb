@@ -398,7 +398,62 @@
   "@pending": {
     "description": "Complaint status: Pending"
   },
-  
+
+  "requestStatusPending": "Pending",
+  "@requestStatusPending": {
+    "description": "Maintenance request status filter tab: pending"
+  },
+  "requestStatusAccepted": "Accepted",
+  "@requestStatusAccepted": {
+    "description": "Maintenance request status filter tab: accepted"
+  },
+  "requestStatusCompleted": "Completed",
+  "@requestStatusCompleted": {
+    "description": "Maintenance request status filter tab: completed"
+  },
+  "requestStatusAll": "All",
+  "@requestStatusAll": {
+    "description": "Maintenance request status filter tab: all"
+  },
+
+  "orderStatusAll": "All",
+  "@orderStatusAll": {
+    "description": "Spare parts order status filter tab: all"
+  },
+  "orderStatusPending": "Pending",
+  "@orderStatusPending": {
+    "description": "Spare parts order status filter tab: pending"
+  },
+  "orderStatusAccepted": "Accepted",
+  "@orderStatusAccepted": {
+    "description": "Spare parts order status filter tab: accepted"
+  },
+  "orderStatusProcessing": "Processing",
+  "@orderStatusProcessing": {
+    "description": "Spare parts order status filter tab: processing"
+  },
+  "orderStatusOutForDelivery": "Out for Delivery",
+  "@orderStatusOutForDelivery": {
+    "description": "Spare parts order status filter tab: out for delivery"
+  },
+  "orderStatusDelivered": "Delivered",
+  "@orderStatusDelivered": {
+    "description": "Spare parts order status filter tab: delivered"
+  },
+  "orderStatusRejected": "Rejected",
+  "@orderStatusRejected": {
+    "description": "Spare parts order status filter tab: rejected"
+  },
+  "orderStatusCancelled": "Cancelled",
+  "@orderStatusCancelled": {
+    "description": "Spare parts order status filter tab: cancelled"
+  },
+
+  "bookingStatusAll": "All",
+  "@bookingStatusAll": {
+    "description": "Booking status filter tab: all"
+  },
+
   "inProgress": "In Progress",
   "@inProgress": {
     "description": "Complaint status: In progress"
@@ -1731,14 +1786,6 @@
   "@bookingsFilterByStatus": {
     "description": "Bookings filter label"
   },
-  "bookingStatusProgress": "progress",
-  "@bookingStatusProgress": {
-    "description": "Booking status chip: progress"
-  },
-  "bookingStatusAccepted": "accepted",
-  "@bookingStatusAccepted": {
-    "description": "Booking status chip: accepted"
-  },
   "bookingStatusPinding": "pinding",
   "@bookingStatusPinding": {
     "description": "Booking status chip: pinding"
@@ -2531,6 +2578,60 @@
   "otpExpiredNotice": "The code has expired, please request a new one.",
   "@otpExpiredNotice": {
     "description": "Shown once the 5-minute OTP validity window ends, and blocks verify submission"
+  },
+  "orContinueWith": "Or continue with",
+  "@orContinueWith": {
+    "description": "Divider label on the login screen, above the Google sign-in button"
+  },
+  "continueWithGoogle": "Continue with Google",
+  "@continueWithGoogle": {
+    "description": "Button label for Google Sign-In on the login screen"
+  },
+
+  "notificationsAllFilter": "All",
+  "@notificationsAllFilter": {
+    "description": "Notifications list filter tab: show all notifications"
+  },
+  "notificationsUnreadFilter": "Unread",
+  "@notificationsUnreadFilter": {
+    "description": "Notifications list filter tab: show only unread notifications"
+  },
+  "markAllAsRead": "Mark all as read",
+  "@markAllAsRead": {
+    "description": "Action in the notifications app bar to mark every notification as read"
+  },
+  "deleteNotification": "Delete",
+  "@deleteNotification": {
+    "description": "Tooltip/label for the delete action on a single notification"
+  },
+  "notificationJustNow": "Just now",
+  "@notificationJustNow": {
+    "description": "Relative time label for a notification created less than a minute ago"
+  },
+  "notificationMinutesAgo": "{minutes}m ago",
+  "@notificationMinutesAgo": {
+    "description": "Relative time label for a notification created minutes ago",
+    "placeholders": {
+      "minutes": { "type": "int" }
+    }
+  },
+  "notificationHoursAgo": "{hours}h ago",
+  "@notificationHoursAgo": {
+    "description": "Relative time label for a notification created hours ago",
+    "placeholders": {
+      "hours": { "type": "int" }
+    }
+  },
+  "notificationYesterday": "Yesterday",
+  "@notificationYesterday": {
+    "description": "Relative time label for a notification created yesterday"
+  },
+  "notificationDaysAgo": "{days}d ago",
+  "@notificationDaysAgo": {
+    "description": "Relative time label for a notification created a few days ago",
+    "placeholders": {
+      "days": { "type": "int" }
+    }
   }
 }
 

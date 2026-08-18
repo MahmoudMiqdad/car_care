@@ -9,11 +9,15 @@ class HomeBottomNavBar extends StatelessWidget {
     super.key,
     this.onItemSelected,
     this.activeIndex = 0,
+    this.notificationsBadgeCount,
   });
 
   final ValueChanged<int>? onItemSelected;
 
   final int activeIndex;
+
+  /// Unread notifications count shown on the notifications tab badge.
+  final int? notificationsBadgeCount;
 
   /// Compact colored-bar height, excluding the device bottom safe inset.
   static const double _barHeight = 44;
@@ -104,6 +108,7 @@ class HomeBottomNavBar extends StatelessWidget {
                               icon: Icons.notifications,
                               label: strings.notification,
                               isActive: activeIndex == 1,
+                              badgeCount: notificationsBadgeCount,
                               onTap: () => onItemSelected?.call(1),
                             ),
                           ),

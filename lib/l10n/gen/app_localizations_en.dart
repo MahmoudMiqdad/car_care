@@ -252,6 +252,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pending => 'Pending';
 
   @override
+  String get requestStatusPending => 'Pending';
+
+  @override
+  String get requestStatusAccepted => 'Accepted';
+
+  @override
+  String get requestStatusCompleted => 'Completed';
+
+  @override
+  String get requestStatusAll => 'All';
+
+  @override
+  String get orderStatusAll => 'All';
+
+  @override
+  String get orderStatusPending => 'Pending';
+
+  @override
+  String get orderStatusAccepted => 'Accepted';
+
+  @override
+  String get orderStatusProcessing => 'Processing';
+
+  @override
+  String get orderStatusOutForDelivery => 'Out for Delivery';
+
+  @override
+  String get orderStatusDelivered => 'Delivered';
+
+  @override
+  String get orderStatusRejected => 'Rejected';
+
+  @override
+  String get orderStatusCancelled => 'Cancelled';
+
+  @override
+  String get bookingStatusAll => 'All';
+
+  @override
   String get inProgress => 'In Progress';
 
   @override
@@ -1142,12 +1181,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bookingsFilterByStatus => 'By status';
 
   @override
-  String get bookingStatusProgress => 'In Progress';
-
-  @override
-  String get bookingStatusAccepted => 'Accepted';
-
-  @override
   String get bookingStatusPinding => 'pinding';
 
   @override
@@ -1373,6 +1406,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bookingStatusPending => 'Pending';
+
+  @override
+  String get bookingStatusAccepted => 'Accepted';
+
+  @override
+  String get bookingStatusProgress => 'In Progress';
 
   @override
   String get bookingStatusCompleted => 'Completed';
@@ -1725,4 +1764,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get otpExpiredNotice => 'The code has expired, please request a new one.';
+
+  @override
+  String get orContinueWith => 'Or continue with';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get notificationsAllFilter => 'All';
+
+  @override
+  String get notificationsUnreadFilter => 'Unread';
+
+  @override
+  String get markAllAsRead => 'Mark all as read';
+
+  @override
+  String get deleteNotification => 'Delete';
+
+  @override
+  String get notificationJustNow => 'Just now';
+
+  @override
+  String notificationMinutesAgo(int minutes) {
+    return '${minutes}m ago';
+  }
+
+  @override
+  String notificationHoursAgo(int hours) {
+    return '${hours}h ago';
+  }
+
+  @override
+  String get notificationYesterday => 'Yesterday';
+
+  @override
+  String notificationDaysAgo(int days) {
+    return '${days}d ago';
+  }
 }

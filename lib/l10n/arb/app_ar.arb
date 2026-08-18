@@ -387,6 +387,61 @@
     "description": "تصنيف المشكلة: أخرى"
   },
   
+  "requestStatusPending": "قيد الانتظار",
+  "@requestStatusPending": {
+    "description": "Maintenance request status filter tab: pending"
+  },
+  "requestStatusAccepted": "تم القبول",
+  "@requestStatusAccepted": {
+    "description": "Maintenance request status filter tab: accepted"
+  },
+  "requestStatusCompleted": "مكتمل",
+  "@requestStatusCompleted": {
+    "description": "Maintenance request status filter tab: completed"
+  },
+  "requestStatusAll": "الكل",
+  "@requestStatusAll": {
+    "description": "Maintenance request status filter tab: all"
+  },
+
+  "orderStatusAll": "الكل",
+  "@orderStatusAll": {
+    "description": "Spare parts order status filter tab: all"
+  },
+  "orderStatusPending": "قيد الانتظار",
+  "@orderStatusPending": {
+    "description": "Spare parts order status filter tab: pending"
+  },
+  "orderStatusAccepted": "مقبول",
+  "@orderStatusAccepted": {
+    "description": "Spare parts order status filter tab: accepted"
+  },
+  "orderStatusProcessing": "قيد التجهيز",
+  "@orderStatusProcessing": {
+    "description": "Spare parts order status filter tab: processing"
+  },
+  "orderStatusOutForDelivery": "قيد التوصيل",
+  "@orderStatusOutForDelivery": {
+    "description": "Spare parts order status filter tab: out for delivery"
+  },
+  "orderStatusDelivered": "تم التسليم",
+  "@orderStatusDelivered": {
+    "description": "Spare parts order status filter tab: delivered"
+  },
+  "orderStatusRejected": "مرفوض",
+  "@orderStatusRejected": {
+    "description": "Spare parts order status filter tab: rejected"
+  },
+  "orderStatusCancelled": "ملغي",
+  "@orderStatusCancelled": {
+    "description": "Spare parts order status filter tab: cancelled"
+  },
+
+  "bookingStatusAll": "الكل",
+  "@bookingStatusAll": {
+    "description": "Booking status filter tab: all"
+  },
+
   "pending": "قيد الانتظار",
   "@pending": {
     "description": "حالة المشكلة: قيد الانتظار"
@@ -1734,14 +1789,6 @@
   "@bookingsFilterByStatus": {
     "description": "عنوان فلتر الحجوزات"
   },
-  "bookingStatusProgress": "قيد التنفيذ",
-  "@bookingStatusProgress": {
-    "description": "حالة الحجز: قيد التنفيذ"
-  },
-  "bookingStatusAccepted": "مقبول",
-  "@bookingStatusAccepted": {
-    "description": "حالة الحجز: مقبول"
-  },
   "bookingStatusPinding": "انتظار",
   "@bookingStatusPinding": {
     "description": "حالة الحجز: انتظار"
@@ -2534,6 +2581,60 @@
   "otpExpiredNotice": "انتهت صلاحية الرمز، يرجى طلب رمز جديد.",
   "@otpExpiredNotice": {
     "description": "تظهر عند انتهاء نافذة صلاحية الرمز (5 دقائق) وتمنع إرسال التحقق"
+  },
+  "orContinueWith": "أو تابع باستخدام",
+  "@orContinueWith": {
+    "description": "نص الفاصل في شاشة تسجيل الدخول، فوق زر المتابعة عبر Google"
+  },
+  "continueWithGoogle": "المتابعة باستخدام Google",
+  "@continueWithGoogle": {
+    "description": "نص زر تسجيل الدخول عبر Google في شاشة تسجيل الدخول"
+  },
+
+  "notificationsAllFilter": "الكل",
+  "@notificationsAllFilter": {
+    "description": "تبويب فلترة قائمة الإشعارات: عرض كل الإشعارات"
+  },
+  "notificationsUnreadFilter": "غير مقروءة",
+  "@notificationsUnreadFilter": {
+    "description": "تبويب فلترة قائمة الإشعارات: عرض غير المقروءة فقط"
+  },
+  "markAllAsRead": "تحديد الكل كمقروء",
+  "@markAllAsRead": {
+    "description": "إجراء في شريط تطبيق الإشعارات لتحديد جميع الإشعارات كمقروءة"
+  },
+  "deleteNotification": "حذف",
+  "@deleteNotification": {
+    "description": "نص/تلميح إجراء حذف إشعار واحد"
+  },
+  "notificationJustNow": "الآن",
+  "@notificationJustNow": {
+    "description": "وقت نسبي لإشعار تم إنشاؤه قبل أقل من دقيقة"
+  },
+  "notificationMinutesAgo": "منذ {minutes} د",
+  "@notificationMinutesAgo": {
+    "description": "وقت نسبي لإشعار تم إنشاؤه قبل عدة دقائق",
+    "placeholders": {
+      "minutes": { "type": "int" }
+    }
+  },
+  "notificationHoursAgo": "منذ {hours} س",
+  "@notificationHoursAgo": {
+    "description": "وقت نسبي لإشعار تم إنشاؤه قبل عدة ساعات",
+    "placeholders": {
+      "hours": { "type": "int" }
+    }
+  },
+  "notificationYesterday": "أمس",
+  "@notificationYesterday": {
+    "description": "وقت نسبي لإشعار تم إنشاؤه بالأمس"
+  },
+  "notificationDaysAgo": "منذ {days} يوم",
+  "@notificationDaysAgo": {
+    "description": "وقت نسبي لإشعار تم إنشاؤه قبل عدة أيام",
+    "placeholders": {
+      "days": { "type": "int" }
+    }
   }
 }
 

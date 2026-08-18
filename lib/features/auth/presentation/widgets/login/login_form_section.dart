@@ -18,6 +18,7 @@ class LoginFormSection extends StatefulWidget {
     required this.passwordController,
     this.onForgotPassword,
     required this.onRegister,
+    this.onGoogleSignIn,
     VoidCallback? onLogin, required this.formKey,
   }) : _onLogin = onLogin;
 
@@ -26,6 +27,7 @@ class LoginFormSection extends StatefulWidget {
   final VoidCallback? _onLogin;
   final VoidCallback? onForgotPassword;
   final VoidCallback? onRegister;
+  final VoidCallback? onGoogleSignIn;
 final GlobalKey<FormState> formKey;
   @override
   State<LoginFormSection> createState() => _LoginFormSectionState();
@@ -105,6 +107,20 @@ class _LoginFormSectionState extends State<LoginFormSection> {
           ),
         ),
         SizedBox(height: 20.h),
+        _OrContinueWithDivider(label: strings.orContinueWith),
+        SizedBox(height: 16.h),
+        SizedBox(
+          height: AppConstants.buttonHeight.h,
+          child: AppButton(
+            onPressed: widget.onGoogleSignIn,
+            isOutline: true,
+            outlineSurfaceColor: AppColors.white,
+            backgroundColor: AppColors.lightPrimary,
+            icon: const _GoogleGlyph(),
+            text: strings.continueWithGoogle,
+          ),
+        ),
+        SizedBox(height: 20.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -129,6 +145,56 @@ class _LoginFormSectionState extends State<LoginFormSection> {
           ],
         ),
       ],
+    );
+  }
+}
+
+class _OrContinueWithDivider extends StatelessWidget {
+  const _OrContinueWithDivider({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(child: Divider(color: Colors.grey.shade300, thickness: 1)),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          child: Text(
+            label,
+            style: TextStyle(color: Colors.grey.shade600, fontSize: 12.sp),
+          ),
+        ),
+        Expanded(child: Divider(color: Colors.grey.shade300, thickness: 1)),
+      ],
+    );
+  }
+}
+
+// Minimal placeholder glyph — swap for the official multi-color Google "G"
+// asset when one is added to assets/images/.
+class _GoogleGlyph extends StatelessWidget {
+  const _GoogleGlyph();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 20.w,
+      height: 20.w,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Text(
+        'G',
+        style: TextStyle(
+          fontSize: 13.sp,
+          fontWeight: FontWeight.w800,
+          color: const Color(0xFF4285F4),
+        ),
+      ),
     );
   }
 }

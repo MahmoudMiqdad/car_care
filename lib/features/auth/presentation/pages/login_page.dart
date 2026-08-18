@@ -2,6 +2,7 @@ import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/features/auth/data/services/google_sign_in_service.dart';
 import 'package:car_care/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_event.dart';
@@ -21,8 +22,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // Multi-provider accounts: every user is a customer, so login always
-  // lands on Home. Provider flows are reached from the More page.
   void _navigateHome(BuildContext context) {
     GoRouter.of(context).go(Routes.home);
   }
@@ -37,14 +36,17 @@ class _LoginPageState extends State<LoginPage> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: BlocProvider(
-        create: (_) => AuthBloc(getIt<IAuthRepository>()),
+        create: (_) => AuthBloc(
+          getIt<IAuthRepository>(),
+          googleSignInService: getIt<GoogleSignInService>(),
+        ),
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthSuccess) {
               AppSnackBar.success(context, strings.loginSuccess);
               _navigateHome(context);
             } else if (state is AuthFailure) {
-             AppSnackBar.error(context, 'إدخال بيانات خاطئة');
+              AppSnackBar.error(context, state.message);
             }
           },
           builder: (context, state) {
@@ -72,6 +74,9 @@ class _LoginPageState extends State<LoginPage> {
                             onRegister: () {
                               GoRouter.of(context).go(Routes.signup);
                             },
+                            onGoogleSignIn: () => context.read<AuthBloc>().add(
+                                  GoogleSignInRequested(),
+                                ),
                           ),
                         ),
                       ],

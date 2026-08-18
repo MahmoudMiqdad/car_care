@@ -5,6 +5,7 @@ import 'package:car_care/core/service/pusher_service.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/auth/domain/repositories/i_auth_repository.dart';
+import 'package:car_care/features/notifications/presentation/cubit/notifications_cubit.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -50,6 +51,11 @@ Future<void> confirmAndLogout(BuildContext context) async {
     }
 
     await getIt<SecureStorage>().clearAuth();
+
+    // Notifications is a lazy singleton fed at the app root for the nav
+    // badge; without this the next signed-in user would briefly inherit
+    // the previous account's unread count/list until their own fetch lands.
+    getIt<NotificationsCubit>().reset();
 
     router.go(Routes.login);
   } finally {

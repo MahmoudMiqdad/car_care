@@ -3,6 +3,7 @@ import 'package:car_care/core/locale/locale_cubit.dart';
 import 'package:car_care/core/routing/app_router.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_theme.dart';
+import 'package:car_care/features/notifications/presentation/cubit/notifications_cubit.dart';
 import 'package:car_care/l10n/gen/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,8 +15,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LocaleCubit>.value(
-      value: getIt<LocaleCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<LocaleCubit>.value(value: getIt<LocaleCubit>()),
+        // Provided at the app root (not per-page) so the unread badge in
+        // HomeBottomNavBar keeps working across tab navigation.
+        BlocProvider<NotificationsCubit>.value(value: getIt<NotificationsCubit>()),
+      ],
       child: const _AppView(),
     );
   }

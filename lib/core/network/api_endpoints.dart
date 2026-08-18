@@ -8,6 +8,7 @@ class ApiEndpoints {
   static const String forgotPassword = '/auth/forgot-password';
   static const String verifyResetOtp = '/auth/verify-reset-otp';
   static const String resetPassword = '/auth/reset-password';
+  static const String googleLogin = '/auth/google';
   // Vehicle
   static const String vehicles = '/vehicles';
 
@@ -125,4 +126,16 @@ class ApiEndpoints {
 
   // Advertisements (public, unauthenticated)
   static const String activeAdvertisements = '/advertisements/active';
+
+  // Notifications
+  static const String notifications = '/notifications';
+  static const String notificationsUnreadCount = '$notifications/unread-count';
+  static const String notificationsMarkAllAsRead =
+      '$notifications/mark-all-as-read';
+  static String notificationMarkAsRead(String id) =>
+      '$notifications/$id/mark-as-read';
+  static String notificationById(String id) => '$notifications/$id';
+
+  // Broadcasting (Reverb/Pusher private-channel auth)
+  static const String broadcastingAuth = '/broadcasting/auth';
 }

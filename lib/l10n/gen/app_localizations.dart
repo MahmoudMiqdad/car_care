@@ -577,6 +577,84 @@ abstract class AppLocalizations {
   /// **'Pending'**
   String get pending;
 
+  /// Maintenance request status filter tab: pending
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get requestStatusPending;
+
+  /// Maintenance request status filter tab: accepted
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get requestStatusAccepted;
+
+  /// Maintenance request status filter tab: completed
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get requestStatusCompleted;
+
+  /// Maintenance request status filter tab: all
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get requestStatusAll;
+
+  /// Spare parts order status filter tab: all
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get orderStatusAll;
+
+  /// Spare parts order status filter tab: pending
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get orderStatusPending;
+
+  /// Spare parts order status filter tab: accepted
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get orderStatusAccepted;
+
+  /// Spare parts order status filter tab: processing
+  ///
+  /// In en, this message translates to:
+  /// **'Processing'**
+  String get orderStatusProcessing;
+
+  /// Spare parts order status filter tab: out for delivery
+  ///
+  /// In en, this message translates to:
+  /// **'Out for Delivery'**
+  String get orderStatusOutForDelivery;
+
+  /// Spare parts order status filter tab: delivered
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get orderStatusDelivered;
+
+  /// Spare parts order status filter tab: rejected
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get orderStatusRejected;
+
+  /// Spare parts order status filter tab: cancelled
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get orderStatusCancelled;
+
+  /// Booking status filter tab: all
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get bookingStatusAll;
+
   /// Complaint status: In progress
   ///
   /// In en, this message translates to:
@@ -2329,18 +2407,6 @@ abstract class AppLocalizations {
   /// **'By status'**
   String get bookingsFilterByStatus;
 
-  /// Status label when the service has started
-  ///
-  /// In en, this message translates to:
-  /// **'In Progress'**
-  String get bookingStatusProgress;
-
-  /// Status label when a booking is accepted by the washer
-  ///
-  /// In en, this message translates to:
-  /// **'Accepted'**
-  String get bookingStatusAccepted;
-
   /// Booking status chip: pinding
   ///
   /// In en, this message translates to:
@@ -2790,6 +2856,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pending'**
   String get bookingStatusPending;
+
+  /// Status label when a booking is accepted by the washer
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get bookingStatusAccepted;
+
+  /// Status label when the service has started
+  ///
+  /// In en, this message translates to:
+  /// **'In Progress'**
+  String get bookingStatusProgress;
 
   /// Status label when the service is finished
   ///
@@ -3474,6 +3552,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The code has expired, please request a new one.'**
   String get otpExpiredNotice;
+
+  /// Divider label on the login screen, above the Google sign-in button
+  ///
+  /// In en, this message translates to:
+  /// **'Or continue with'**
+  String get orContinueWith;
+
+  /// Button label for Google Sign-In on the login screen
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get continueWithGoogle;
+
+  /// Notifications list filter tab: show all notifications
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get notificationsAllFilter;
+
+  /// Notifications list filter tab: show only unread notifications
+  ///
+  /// In en, this message translates to:
+  /// **'Unread'**
+  String get notificationsUnreadFilter;
+
+  /// Action in the notifications app bar to mark every notification as read
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all as read'**
+  String get markAllAsRead;
+
+  /// Tooltip/label for the delete action on a single notification
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get deleteNotification;
+
+  /// Relative time label for a notification created less than a minute ago
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get notificationJustNow;
+
+  /// Relative time label for a notification created minutes ago
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes}m ago'**
+  String notificationMinutesAgo(int minutes);
+
+  /// Relative time label for a notification created hours ago
+  ///
+  /// In en, this message translates to:
+  /// **'{hours}h ago'**
+  String notificationHoursAgo(int hours);
+
+  /// Relative time label for a notification created yesterday
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get notificationYesterday;
+
+  /// Relative time label for a notification created a few days ago
+  ///
+  /// In en, this message translates to:
+  /// **'{days}d ago'**
+  String notificationDaysAgo(int days);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

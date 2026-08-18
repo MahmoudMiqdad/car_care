@@ -3,15 +3,21 @@ import 'package:car_care/core/errors/excptions.dart';
 import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/features/auth/data/data_sources/auth_remote_data_source.dart';
+import 'package:car_care/features/auth/data/services/google_sign_in_service.dart';
 import 'package:car_care/features/auth/domain/model/auth_model.dart';
 import 'package:car_care/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:dartz/dartz.dart';
 
 class AuthRepositoryImpl implements IAuthRepository {
-  AuthRepositoryImpl(this._authRemoteDataSource, this._secureStorage);
+  AuthRepositoryImpl(
+    this._authRemoteDataSource,
+    this._secureStorage, {
+    GoogleSignInService? googleSignInService,
+  }) : _googleSignInService = googleSignInService;
 
   final AuthRemoteDataSource _authRemoteDataSource;
   final SecureStorage _secureStorage;
+  final GoogleSignInService? _googleSignInService;
 
   // Role priority: first match wins
   static const _rolePriority = [
@@ -81,10 +87,10 @@ class AuthRepositoryImpl implements IAuthRepository {
     }
   }
 
-  // Best-effort: any failure (network, expired token, server error) must
-  // never block the caller's local logout/session cleanup.
   @override
   Future<Either<Failure, Unit>> logout() async {
+    await _googleSignInService?.signOut();
+
     try {
       await _authRemoteDataSource.logout();
       return const Right(unit);
@@ -92,6 +98,24 @@ class AuthRepositoryImpl implements IAuthRepository {
       return Left(e.error);
     } catch (_) {
       return const Left(Failure(message: 'تعذر تسجيل الخروج من الخادم'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AuthResponseModel>> loginWithGoogle(
+    String idToken,
+  ) async {
+    try {
+      final result = await _authRemoteDataSource.loginWithGoogle(idToken);
+
+      if (result.token != null && result.token!.isNotEmpty) {
+        await _saveAuthData(result);
+        return Right(result);
+      } else {
+        return Left(Failure(message: 'تعذر تسجيل الدخول عبر Google'));
+      }
+    } on ServerExpcptions catch (e) {
+      return Left(e.error);
     }
   }
 

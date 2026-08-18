@@ -1,12 +1,11 @@
 // شاشة قائمة طلبات العميل مع فلتر الحالة وإمكانية الإلغاء
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
-import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/error_state_widget.dart';
+import 'package:car_care/core/widgets/filters/status_filter_tabs.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/spare_parts_store/customer/orders/presentation/cubit/customer_orders/customer_orders_cubit.dart';
@@ -14,6 +13,7 @@ import 'package:car_care/features/spare_parts_store/customer/orders/presentation
 import 'package:car_care/features/spare_parts_store/customer/orders/presentation/widgets/cancel_order_bottom_sheet.dart';
 import 'package:car_care/features/spare_parts_store/customer/orders/presentation/widgets/order_card.dart';
 import 'package:car_care/features/spare_parts_store/customer/shared/presentation/widgets/customer_store_bottom_nav_bar.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,20 +26,13 @@ class CustomerMyOrdersPage extends StatefulWidget {
   State<CustomerMyOrdersPage> createState() => _CustomerMyOrdersPageState();
 }
 
+/// [StatusFilterTabs] compares tab values with `==`, so "all" needs this
+/// non-null stand-in to remain a selectable/highlightable tab value.
+const String _kAllStatusValue = '__all__';
+
 class _CustomerMyOrdersPageState extends State<CustomerMyOrdersPage> {
   late final CustomerOrdersCubit _cubit;
   String? _activeStatus;
-
-  static const _filters = [
-    (label: 'الكل', status: null),
-    (label: 'قيد الانتظار', status: 'pending'),
-    (label: 'مقبول', status: 'accepted'),
-    (label: 'قيد التجهيز', status: 'processing'),
-    (label: 'قيد التوصيل', status: 'out_for_delivery'),
-    (label: 'تم التسليم', status: 'delivered'),
-    (label: 'مرفوض', status: 'rejected'),
-    (label: 'ملغي', status: 'cancelled'),
-  ];
 
   @override
   void initState() {
@@ -65,6 +58,39 @@ class _CustomerMyOrdersPageState extends State<CustomerMyOrdersPage> {
     _cubit.cancelOrder(orderId, reason);
   }
 
+  Widget _buildStatusTabs(BuildContext context) {
+    final l10n = context.l10n;
+    final items = [
+      StatusFilterTabItem(value: _kAllStatusValue, label: l10n.orderStatusAll),
+      StatusFilterTabItem(value: 'pending', label: l10n.orderStatusPending),
+      StatusFilterTabItem(value: 'accepted', label: l10n.orderStatusAccepted),
+      StatusFilterTabItem(
+        value: 'processing',
+        label: l10n.orderStatusProcessing,
+      ),
+      StatusFilterTabItem(
+        value: 'out_for_delivery',
+        label: l10n.orderStatusOutForDelivery,
+      ),
+      StatusFilterTabItem(
+        value: 'delivered',
+        label: l10n.orderStatusDelivered,
+      ),
+      StatusFilterTabItem(value: 'rejected', label: l10n.orderStatusRejected),
+      StatusFilterTabItem(
+        value: 'cancelled',
+        label: l10n.orderStatusCancelled,
+      ),
+    ];
+
+    return StatusFilterTabs<String>(
+      items: items,
+      selected: _activeStatus ?? _kAllStatusValue,
+      onChanged: (value) =>
+          _onStatusChanged(value == _kAllStatusValue ? null : value),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -80,10 +106,9 @@ class _CustomerMyOrdersPageState extends State<CustomerMyOrdersPage> {
           body: ImageBackground(
             child: Column(
               children: [
-                _StatusFilterRow(
-                  activeStatus: _activeStatus,
-                  filters: _filters,
-                  onChanged: _onStatusChanged,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 4.h),
+                  child: _buildStatusTabs(context),
                 ),
                 Expanded(
                   child: BlocConsumer<CustomerOrdersCubit, CustomerOrdersState>(
@@ -153,56 +178,6 @@ class _CustomerMyOrdersPageState extends State<CustomerMyOrdersPage> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _StatusFilterRow extends StatelessWidget {
-  const _StatusFilterRow({
-    required this.activeStatus,
-    required this.filters,
-    required this.onChanged,
-  });
-
-  final String? activeStatus;
-  final List<({String label, String? status})> filters;
-  final ValueChanged<String?> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 4.h),
-      child: Row(
-        children: filters.map((f) {
-          final isActive = activeStatus == f.status;
-          return Padding(
-            padding: EdgeInsets.only(left: 8.w),
-            child: GestureDetector(
-              onTap: () => onChanged(f.status),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                decoration: BoxDecoration(
-                  color: isActive ? AppColors.primary : AppColors.white,
-                  borderRadius: BorderRadius.circular(20.r),
-                  border: Border.all(
-                    color: isActive ? AppColors.primary : AppColors.lightBorder,
-                  ),
-                ),
-                child: Text(
-                  f.label,
-                  style: AppTypography.labelSmall.copyWith(
-                    color: isActive
-                        ? AppColors.white
-                        : AppColors.lightTextSecondary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-          );
-        }).toList(),
       ),
     );
   }

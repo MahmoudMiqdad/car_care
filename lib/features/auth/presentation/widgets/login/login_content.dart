@@ -13,12 +13,14 @@ class LoginContent extends StatelessWidget {
     VoidCallback? onLogin,
     VoidCallback? onForgotPassword,
     VoidCallback? onRegister,
+    VoidCallback? onGoogleSignIn,
   })  : _formKey = formKey,
         _accountController = accountController,
         _passwordController = passwordController,
         _onLogin = onLogin,
         _onForgotPassword = onForgotPassword,
-        _onRegister = onRegister;
+        _onRegister = onRegister,
+        _onGoogleSignIn = onGoogleSignIn;
 
   final GlobalKey<FormState> _formKey;
   final TextEditingController _accountController;
@@ -27,6 +29,7 @@ class LoginContent extends StatelessWidget {
   final VoidCallback? _onLogin;
   final VoidCallback? _onForgotPassword;
   final VoidCallback? _onRegister;
+  final VoidCallback? _onGoogleSignIn;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +60,7 @@ class LoginContent extends StatelessWidget {
                 onLogin: _onLogin,
                 onForgotPassword: _onForgotPassword,
                 onRegister: _onRegister,
+                onGoogleSignIn: _onGoogleSignIn,
               ),
             ),
           ],
