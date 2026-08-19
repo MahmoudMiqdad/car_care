@@ -87,7 +87,7 @@ class RequestActionButtons extends StatelessWidget {
                 ),
               ],
 
-              // زر حذف الطلب
+            
               if (!hideQuotationsAndDelete) ...[
                 SizedBox(height: 12.h),
                 AppButton(
