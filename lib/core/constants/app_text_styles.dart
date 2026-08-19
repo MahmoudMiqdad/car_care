@@ -21,15 +21,17 @@ class AppTextStyles {
     color: Colors.black,
   );
 
-  static TextStyle font15LightTextPrimarySemiBold = TextStyle(
+  // ⬅️ تحولت من static field ثابت لدالة تاخد context، لأنها بتعتمد
+  // على الثيم الحالي (لايت/دارك) — الحقول الثابتة ما بتقدر تعمل هيك.
+  static TextStyle font15TextPrimarySemiBold(BuildContext context) => TextStyle(
     fontSize: 15.sp,
     fontWeight: FontWeight.w600,
-    color: AppColors.lightTextPrimary,
+    color: AppColors.textPrimary(context),
   );
 
-  static TextStyle font13LightTextPrimarySemiBold = TextStyle(
+  static TextStyle font13TextPrimarySemiBold(BuildContext context) => TextStyle(
     fontSize: 13.sp,
     fontWeight: FontWeight.w600,
-    color: AppColors.lightTextPrimary,
+    color: AppColors.textPrimary(context),
   );
 }

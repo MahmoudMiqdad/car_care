@@ -14,6 +14,7 @@ import 'package:car_care/features/technician/technician_profile/presentation/wid
 import 'package:car_care/features/technician/technician_profile/presentation/widgets/technician_profile_form_fields.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/widgets/technician_profile_section.dart';
 import 'package:car_care/features/user_profile/data/data_sources/profile_remote_data_source.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,9 +39,6 @@ class _TechnicianProfileBodyState extends State<InsertTechnicianProfileBody> {
   final TextEditingController _hourlyRateController = TextEditingController();
 
   List<XFile> _certificationImages = [];
-
-  // Picked locally during onboarding — sent with the profile save request,
-  // never through the protected /technician/location endpoint.
   LatLng? _pickedLocation;
 
   @override
@@ -73,9 +71,6 @@ class _TechnicianProfileBodyState extends State<InsertTechnicianProfileBody> {
     context.read<TechnicianProfileCubit>().insertTechnicianProfile(params);
   }
 
-  /// After the profile is created the backend assigns the technician role.
-  /// Refresh /auth/me and stored roles so More shows it immediately, then
-  /// return to More (the technician entries are status-gated from there).
   Future<void> _refreshRolesAndExit() async {
     try {
       final model = await getIt<ProfileRemoteDataSource>().showprofile();
@@ -83,18 +78,18 @@ class _TechnicianProfileBodyState extends State<InsertTechnicianProfileBody> {
       if (roles.isNotEmpty) {
         await getIt<SecureStorage>().setRoles(roles);
       }
-    } catch (_) {
-      // Roles will still refresh next time More opens.
-    }
+    } catch (_) {}
     if (mounted) context.go(Routes.more);
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return BlocConsumer<TechnicianProfileCubit, TechnicianProfileState>(
       listener: (context, state) {
         if (state is TechnicianProfileLoaded) {
-          AppSnackBar.success(context, 'تم إرسال طلب الانضمام كفني بنجاح');
+          AppSnackBar.success(context, l10n.technicianJoinRequestSuccess);
           _refreshRolesAndExit();
         }
         if (state is TechnicianProfileError) {
@@ -120,23 +115,21 @@ class _TechnicianProfileBodyState extends State<InsertTechnicianProfileBody> {
                       hourlyRateController: _hourlyRateController,
                     ),
                     SizedBox(height: 14.h),
-
                     LocationUpdateCard(
                       localOnly: true,
                       onLocationPicked: (picked) =>
                           setState(() => _pickedLocation = picked),
                     ),
                     SizedBox(height: 14.h),
-
                     TechnicianProfileSection(
-                      title: 'الشهادات',
+                      title: l10n.certificationsSectionTitle,
                       icon: Icons.workspace_premium_outlined,
                       color: AppColors.primary,
                       trailing: Text(
-                        'حد أقصى 3 صور',
+                        l10n.maxThreeImagesHint,
                         style: TextStyle(
                           fontSize: 11.sp,
-                          color: Colors.grey.shade500,
+                          color: AppColors.textSecondary(context),
                         ),
                       ),
                       child: TechnicianCertificatePicker(
@@ -149,8 +142,6 @@ class _TechnicianProfileBodyState extends State<InsertTechnicianProfileBody> {
                 ),
               ),
             ),
-
-            // ─── زر الإضافة (فوق الشريط الآمن دائمًا) ────────────────────
             SafeArea(
               top: false,
               child: Padding(
@@ -158,7 +149,7 @@ class _TechnicianProfileBodyState extends State<InsertTechnicianProfileBody> {
                 child: SizedBox(
                   height: AppConstants.buttonHeight.h,
                   child: AppButton(
-                    text: isLoading ? 'جارٍ الحفظ...' : 'إضافة فني',
+                    text: isLoading ? l10n.updatingProgress : l10n.addTechnicianLabel,
                     backgroundColor: AppColors.orange,
                     borderRadius: 20.r,
                     onPressed: isLoading ? null : _submit,

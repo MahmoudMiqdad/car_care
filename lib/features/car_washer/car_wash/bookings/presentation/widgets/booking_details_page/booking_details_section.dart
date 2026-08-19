@@ -1,4 +1,5 @@
-import 'package:car_care/core/widgets/app_headline.dart';
+
+import 'package:car_care/core/widgets/app_headline.dart'; 
 import 'package:car_care/features/car_washer/car_wash/bookings/presentation/widgets/booking_details_page/details_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,8 +20,8 @@ class BookingDetailsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppText.sectionTitle(
+          context,
           title,
-          fontSize: 19.sp,
           fontWeight: FontWeight.w800,
         ),
         SizedBox(height: 6.h),

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/add_requests/add_photo_tile.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/add_requests/requests_form_card.dart';
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,14 +23,15 @@ class PhotoAttachmentSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return RequestsFormCard(
       cardRadius: cardRadius,
-      title: 'إرفاق صور',
+      title: l10n.attachPhotos,
       icon: Icons.camera_alt,
       iconColor: AppColors.primary,
       child: Column(
         children: [
-          /// الصف الأساسي (نفس تصميمك)
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -38,7 +40,7 @@ class PhotoAttachmentSection extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.lightTextSecondary,
+                  color: AppColors.textSecondary(context),
                 ),
               ),
               const Spacer(),
@@ -50,7 +52,6 @@ class PhotoAttachmentSection extends StatelessWidget {
             ],
           ),
 
-          /// 👇 عرض الصور بدون ما نغير التصميم الأساسي
           if (images.isNotEmpty) ...[
             SizedBox(height: 12.h),
             Wrap(
@@ -75,13 +76,13 @@ class PhotoAttachmentSection extends StatelessWidget {
                         onTap: () => onRemove(image),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.black54,
+                            color: AppColors.black.withValues(alpha: 0.54), 
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.close,
                             size: 16,
-                            color: Colors.white,
+                            color: AppColors.white,
                           ),
                         ),
                       ),

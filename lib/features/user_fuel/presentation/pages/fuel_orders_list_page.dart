@@ -34,96 +34,93 @@ class _FuelOrdersListPageState extends State<FuelOrdersListPage> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        
-        backgroundColor: AppColors.lightScaffold,
-        floatingActionButton: Padding(
-  padding: EdgeInsets.only(bottom: 16.h, left: 16.w),
-  child: FloatingAddButton(
-    onTap: () async {
-      final refreshNeeded = await context.push<bool>(Routes.add_user_fuel);
-      if (refreshNeeded == true && context.mounted) {
-        context.read<UserFuelCubit>().getAllOrders();
-      }
-    },
-  ),
-),
-floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-        appBar: CustomAppBar(
-          title: l10n.fuelOrdersListTitle,
-          showBackButton: true,
-          backgroundColor: AppColors.carWashTeal,
-          onBackTapped: () => context.safePopOrGo(Routes.home),
-        ),
-        body: ImageBackground(
-          child: BlocBuilder<UserFuelCubit, UserFuelState>(
-            builder: (context, state) {
-              if (state is UserFuelLoading) {
-                return const Center(child: AppLoadingWidget());
-              }
-
-              if (state is UserFuelError) {
-                return Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(state.message),
-                      SizedBox(height: 12.h),
-                      TextButton(
-                        onPressed: () =>
-                            context.read<UserFuelCubit>().getAllOrders(),
-                        child: const Text('إعادة المحاولة'),
-                      ),
-                    ],
-                  ),
-                );
-              }
-
-              if (state is UserFuelOrdersLoaded) {
-                if (state.orders.isEmpty) {
-                  return const Center(child: EmptyStateWidget());
-                }
-
-                return RefreshIndicator(
-                onRefresh: () async {
-                context.read<UserFuelCubit>().getAllOrders();
-              },
-
-                  child: SafeArea(
-                    child: ListView.separated(
-                      padding: EdgeInsets.fromLTRB(
-                        AppConstants.pageHorizontal,
-                        30.h,
-                        AppConstants.pageHorizontal,
-                        16.h,
-                      ),
-                      itemCount: state.orders.length,
-                      separatorBuilder: (_, _) => SizedBox(height: 16.h),
-                      itemBuilder: (_, index) {
-                        final order = state.orders[index];
-                        return FuelOrderCard(
-                          order: order,
-                          onTap: () async {
-                            final refreshNeeded = await context.push<bool>(
-                              Routes.fuel_order_details,
-                              extra: order, // ← Entity مباشرة
-                            );
-                            if (refreshNeeded == true && context.mounted) {
-                              context.read<UserFuelCubit>().getAllOrders();
-                            }
-                          },
-                        );
-                      },
+    return Scaffold(
+      
+      backgroundColor: AppColors.scaffoldBackground(context),
+      floatingActionButton: Padding(
+      padding: EdgeInsets.only(bottom: 16.h, left: 16.w),
+      child: FloatingAddButton(
+        onTap: () async {
+    final refreshNeeded = await context.push<bool>(Routes.add_user_fuel);
+    if (refreshNeeded == true && context.mounted) {
+      context.read<UserFuelCubit>().getAllOrders();
+    }
+        },
+      ),
+    ),
+    floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      appBar: CustomAppBar(
+        title: l10n.fuelOrdersListTitle,
+        showBackButton: true,
+        backgroundColor: AppColors.carWashTeal,
+        onBackTapped: () => context.safePopOrGo(Routes.home),
+      ),
+      body: ImageBackground(
+        child: BlocBuilder<UserFuelCubit, UserFuelState>(
+          builder: (context, state) {
+            if (state is UserFuelLoading) {
+              return const Center(child: AppLoadingWidget());
+            }
+    
+            if (state is UserFuelError) {
+              return Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(state.message),
+                    SizedBox(height: 12.h),
+                    TextButton(
+                      onPressed: () =>
+                          context.read<UserFuelCubit>().getAllOrders(),
+                      child:  Text(l10n.retry),
                     ),
-                  ),
-                );
+                  ],
+                ),
+              );
+            }
+    
+            if (state is UserFuelOrdersLoaded) {
+              if (state.orders.isEmpty) {
+                return const Center(child: EmptyStateWidget());
               }
-
-              return const SizedBox();
+    
+              return RefreshIndicator(
+              onRefresh: () async {
+              context.read<UserFuelCubit>().getAllOrders();
             },
-          ),
+    
+                child: SafeArea(
+                  child: ListView.separated(
+                    padding: EdgeInsets.fromLTRB(
+                      AppConstants.pageHorizontal,
+                      30.h,
+                      AppConstants.pageHorizontal,
+                      16.h,
+                    ),
+                    itemCount: state.orders.length,
+                    separatorBuilder: (_, _) => SizedBox(height: 16.h),
+                    itemBuilder: (_, index) {
+                      final order = state.orders[index];
+                      return FuelOrderCard(
+                        order: order,
+                        onTap: () async {
+                          final refreshNeeded = await context.push<bool>(
+                            Routes.fuel_order_details,
+                            extra: order, // ← Entity مباشرة
+                          );
+                          if (refreshNeeded == true && context.mounted) {
+                            context.read<UserFuelCubit>().getAllOrders();
+                          }
+                        },
+                      );
+                    },
+                  ),
+                ),
+              );
+            }
+    
+            return const SizedBox();
+          },
         ),
       ),
     );

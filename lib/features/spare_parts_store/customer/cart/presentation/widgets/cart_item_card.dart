@@ -1,5 +1,6 @@
 // بطاقة عنصر داخل سلة المشتريات
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/features/spare_parts_store/customer/cart/domain/entities/cart_item_entity.dart';
@@ -33,7 +34,7 @@ class CartItemCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: AppColors.lightBorder),
+        border: Border.all(color: AppColors.border(context)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,8 +55,8 @@ class CartItemCard extends StatelessWidget {
                         product.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: AppTypography.labelLarge.copyWith(
-                          color: AppColors.lightTextPrimary,
+                        style:  context.textTheme.labelLarge!.copyWith(
+                          color: AppColors.textPrimary(context),
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -72,8 +73,8 @@ class CartItemCard extends StatelessWidget {
                     ].join(' | '),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTypography.labelSmall.copyWith(
-                      color: AppColors.lightTextSecondary,
+                    style:context.textTheme.labelSmall!.copyWith(
+                      color: AppColors.textSecondary(context),
                     ),
                   ),
                 ],
@@ -89,7 +90,7 @@ class CartItemCard extends StatelessWidget {
                     ),
                     Text(
                       '${item.subtotal.toStringAsFixed(0)} ل.س',
-                      style: AppTypography.labelLarge.copyWith(
+                      style:context.textTheme.labelLarge!.copyWith(
                         color: AppColors.accent,
                         fontWeight: FontWeight.w800,
                       ),
@@ -105,8 +106,7 @@ class CartItemCard extends StatelessWidget {
   }
 }
 
-// زر حذف بحدود ضغط محددة 36x36 فقط حول الأيقونة، بدون أي امتداد لمساحة الكارد
-// أثناء isDeleting فقط يتعطّل الزر ويظهر loader صغير مكان الأيقونة، دون التأثير على أزرار الكمية أو الكارد
+
 class _CartDeleteButton extends StatelessWidget {
   const _CartDeleteButton({required this.isDeleting, required this.onTap});
 
@@ -130,13 +130,13 @@ class _CartDeleteButton extends StatelessWidget {
                     height: 16.sp,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      color: AppColors.error,
+                      color: AppColors.red,
                     ),
                   )
                 : Icon(
                     Icons.delete_outline,
                     size: 20.sp,
-                    color: AppColors.error,
+                    color: AppColors.red,
                   ),
           ),
         ),
@@ -145,9 +145,7 @@ class _CartDeleteButton extends StatelessWidget {
   }
 }
 
-// أزرار تحكم بالكمية خاصة بكارد السلة فقط (مستقلة عن QuantitySelector المستخدم في Product Details)،
-// كل زر بحدود ضغط محددة 32x32 بدون padding أو إطار يوسّع منطقة اللمس
-// أثناء isUpdating (تحديث الكمية فقط) تتعطّل الأزرار ويظهر loader صغير مكان الرقم، دون التأثير على زر الحذف أو الكارد
+
 class _CartQuantityControls extends StatelessWidget {
   const _CartQuantityControls({
     required this.quantity,
@@ -197,8 +195,8 @@ class _CartQuantityControls extends StatelessWidget {
                       '$quantity',
                       key: ValueKey(quantity),
                       textAlign: TextAlign.center,
-                      style: AppTypography.labelLarge.copyWith(
-                        color: AppColors.lightTextPrimary,
+                      style: context.textTheme.labelLarge!.copyWith(
+                        color: AppColors.textPrimary(context),
                       ),
                     ),
                   ),
@@ -238,7 +236,7 @@ class _CartQtyButton extends StatelessWidget {
             child: Icon(
               icon,
               size: 16.sp,
-              color: isEnabled ? AppColors.primary : AppColors.lightBorder,
+              color: isEnabled ? AppColors.primary : AppColors.border(context),
             ),
           ),
         ),
@@ -280,7 +278,7 @@ class _ItemImage extends StatelessWidget {
         child: Icon(
           Icons.broken_image_outlined,
           size: 22.sp,
-          color: AppColors.lightTextSecondary,
+          color: AppColors.textSecondary(context),
         ),
       ),
     );

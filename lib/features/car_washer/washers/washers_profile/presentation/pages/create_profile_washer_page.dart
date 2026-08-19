@@ -1,6 +1,7 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
@@ -51,12 +52,23 @@ class _CreateProfileWasherViewState extends State<_CreateProfileWasherView> {
   final _basic = TextEditingController();
   final _vip = TextEditingController();
   final _premium = TextEditingController();
-  final _services = TextEditingController(text: 'غسيل عادي, غسيل ممتاز, تلميع');
+  final _services = TextEditingController();
   final _workStart = TextEditingController(text: '11:00');
   final _workEnd = TextEditingController(text: '16:00');
 
   String? _logoPath;
   bool _waitingForSave = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _services.text = context.l10n.profileWasherDefaultServices;
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -74,17 +86,7 @@ class _CreateProfileWasherViewState extends State<_CreateProfileWasherView> {
     super.dispose();
   }
 
-  void _snack(String msg, {Color? backgroundColor}) {
-    ScaffoldMessenger.of(context)
-      ..clearSnackBars()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(msg),
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: backgroundColor,
-        ),
-      );
-  }
+
 
   List<String> _parseServices() => _services.text
       .split(',')
@@ -120,16 +122,18 @@ class _CreateProfileWasherViewState extends State<_CreateProfileWasherView> {
   }
 
   void _save() {
+    final l10n = context.l10n;
+
     if (_shop.text.trim().isEmpty) {
-      _snack('يرجى إدخال اسم المغسلة');
+       AppSnackBar.error(context, l10n.pleaseEnterShopName);
       return;
     }
     if (_phone.text.trim().isEmpty) {
-      _snack('يرجى إدخال رقم الهاتف');
+      AppSnackBar.error(context, l10n.pleaseEnterPhoneNumber);
       return;
     }
     if (_city.text.trim().isEmpty) {
-      _snack('يرجى إدخال المدينة');
+       AppSnackBar.error(context, l10n.pleaseEnterCity);
       return;
     }
 
@@ -155,9 +159,9 @@ class _CreateProfileWasherViewState extends State<_CreateProfileWasherView> {
         if (state is ProfileWasherLoaded) {
           if (_waitingForSave) {
             _waitingForSave = false;
-            _snack(
-              'تم إنشاء بروفايل المغسلة بنجاح',
-              backgroundColor: Colors.green,
+            AppSnackBar.success(
+              context,
+              l10n.profileWasherCreateSuccessMessage,
             );
             if (_logoPath != null) {
               context.read<ProfileWasherCubit>().uploadLogo(_logoPath!);
@@ -169,55 +173,49 @@ class _CreateProfileWasherViewState extends State<_CreateProfileWasherView> {
 
         if (state is ProfileWasherError) {
           _waitingForSave = false;
-          _snack(state.message, backgroundColor: Colors.red);
+          AppSnackBar.error(context, state.message);
         }
       },
       builder: (context, state) {
         if (state is ProfileWasherLoading || state is ProfileWasherInitial) {
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: Scaffold(
-              backgroundColor: AppColors.lightScaffold,
-              body: const ImageBackground(
-                child: Center(child: AppLoadingWidget()),
-              ),
+          return Scaffold(
+            backgroundColor: AppColors.scaffoldBackground(context),
+            body: const ImageBackground(
+              child: Center(child: AppLoadingWidget()),
             ),
           );
         }
 
         final loading = state is ProfileWasherSaving;
 
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: Scaffold(
-            backgroundColor: AppColors.lightScaffold,
-            appBar: CustomAppBar(
-              title: l10n.profileWasherCreatePageTitle,
-              showBackButton: true,
-              backgroundColor: AppColors.carWashTeal,
-              onBackTapped: () => _profileWasherBack(context),
-            ),
+        return Scaffold(
+          backgroundColor: AppColors.scaffoldBackground(context),
+          appBar: CustomAppBar(
+            title: l10n.profileWasherCreatePageTitle,
+            showBackButton: true,
+            backgroundColor: AppColors.carWashTeal,
+            onBackTapped: () => _profileWasherBack(context),
+          ),
 
-            body: ImageBackground(
-              child: CreateProfileWasherForm(
-                isLoading: loading,
-                logoPath: _logoPath,
-                shopController: _shop,
-                phoneController: _phone,
-                cityController: _city,
-                addressController: _address,
-                descriptionController: _desc,
-                servicesController: _services,
-                basicController: _basic,
-                vipController: _vip,
-                premiumController: _premium,
-                workStartController: _workStart,
-                workEndController: _workEnd,
-                onWorkStartTimeTap: _pickWorkStart,
-                onWorkEndTimeTap: _pickWorkEnd,
-                onPickLogo: _pickLogo,
-                onSave: _save,
-              ),
+          body: ImageBackground(
+            child: CreateProfileWasherForm(
+              isLoading: loading,
+              logoPath: _logoPath,
+              shopController: _shop,
+              phoneController: _phone,
+              cityController: _city,
+              addressController: _address,
+              descriptionController: _desc,
+              servicesController: _services,
+              basicController: _basic,
+              vipController: _vip,
+              premiumController: _premium,
+              workStartController: _workStart,
+              workEndController: _workEnd,
+              onWorkStartTimeTap: _pickWorkStart,
+              onWorkEndTimeTap: _pickWorkEnd,
+              onPickLogo: _pickLogo,
+              onSave: _save,
             ),
           ),
         );

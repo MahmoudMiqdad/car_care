@@ -1,7 +1,9 @@
 import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
+
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_edit_profile/provider_edit_profile_fields.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_profile/provider_profile_cards.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_profile/provider_profile_ui_model.dart';
@@ -9,6 +11,7 @@ import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 Future<String?> showProviderFuelPriceDialog(
   BuildContext context, {
@@ -75,9 +78,7 @@ class _ProviderFuelPriceSheetState extends State<_ProviderFuelPriceSheet> {
     final price = _priceController.text.trim();
     final l10n = context.l10n;
     if (price.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.providerEditProfileSetPriceRequired)),
-      );
+      AppSnackBar.error(context, l10n.providerEditProfileSetPriceRequired);
       return;
     }
     Navigator.pop(context, price);
@@ -88,60 +89,54 @@ class _ProviderFuelPriceSheetState extends State<_ProviderFuelPriceSheet> {
     final l10n = context.l10n;
     final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 16.h + bottomInset),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              l10n.providerEditProfileSetPriceTitle(widget.fuelType),
-              textAlign: TextAlign.center,
-              style: AppTypography.bodyMedium.copyWith(
-                fontWeight: FontWeight.w800,
-                fontSize: 18.sp,
-              ),
+    return Padding(
+      padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 16.h + bottomInset),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            l10n.providerEditProfileSetPriceTitle(widget.fuelType),
+            textAlign: TextAlign.center,
+            style: context.textTheme.bodyMedium!.copyWith(
+              fontWeight: FontWeight.w800,
             ),
-            SizedBox(height: 16.h),
-            ProviderEditProfileInputField(
-              label: l10n.price,
-              hint: l10n.providerEditProfileSetPriceHint,
-              controller: _priceController,
-              focusNode: _focusNode,
-              autofocus: true,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'[\d.]')),
-              ],
-              leading: ProviderEditProfileFieldIcon(
-                assetPath: AppAssets.fuelOrderMoneyIcon,
-              ),
+          ),
+          SizedBox(height: 16.h),
+          ProviderEditProfileInputField(
+            label: l10n.price,
+            hint: l10n.providerEditProfileSetPriceHint,
+            controller: _priceController,
+            focusNode: _focusNode,
+            autofocus: true,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[\d.]')),
+            ],
+            leading: ProviderEditProfileFieldIcon(
+              assetPath: AppAssets.fuelOrderMoneyIcon,
             ),
-            SizedBox(height: 20.h),
-            AppButton(
-              onPressed: _save,
-              text: l10n.save,
-              backgroundColor: AppColors.orange,
-              borderRadius: 28.r,
-              height: 52.h,
-              fontSize: 18.sp,
-            ),
-            SizedBox(height: 10.h),
-            AppButton(
-              onPressed: () => Navigator.pop(context),
-              text: l10n.cancel,
-              isOutline: true,
-              backgroundColor: AppColors.carWashTeal,
-              outlineSurfaceColor: AppColors.white,
-              textColor: AppColors.carWashTeal,
-              borderRadius: 28.r,
-              height: 52.h,
-              fontSize: 18.sp,
-            ),
-          ],
-        ),
+          ),
+          SizedBox(height: 20.h),
+          AppButton(
+            onPressed: _save,
+            text: l10n.save,
+            backgroundColor: AppColors.orange,
+            borderRadius: 28.r,
+            height: 52.h,
+          ),
+          SizedBox(height: 10.h),
+          AppButton(
+            onPressed: () => Navigator.pop(context),
+            text: l10n.cancel,
+            isOutline: true,
+            backgroundColor: AppColors.carWashTeal,
+            outlineSurfaceColor: AppColors.white,
+            textColor: AppColors.carWashTeal,
+            borderRadius: 28.r,
+            height: 52.h,
+          ),
+        ],
       ),
     );
   }
@@ -221,7 +216,7 @@ class _FuelServiceCard extends StatelessWidget {
     final borderColor = AppColors.carWashTeal;
 
     return Material(
-      color: Colors.transparent,
+      color: AppColors.transparent,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12.r),
@@ -239,10 +234,9 @@ class _FuelServiceCard extends StatelessWidget {
                 Text(
                   fuelType,
                   textAlign: TextAlign.center,
-                  style: AppTypography.bodyMedium.copyWith(
+                  style: context.textTheme.bodyMedium!.copyWith(
                     color: AppColors.black,
                     fontWeight: FontWeight.w800,
-                    fontSize: 14.sp,
                   ),
                 ),
                 SizedBox(height: 8.h),
@@ -255,10 +249,9 @@ class _FuelServiceCard extends StatelessWidget {
                 Text(
                   subtitle,
                   textAlign: TextAlign.center,
-                  style: AppTypography.bodySmall.copyWith(
+                  style: context.textTheme.bodySmall!.copyWith(
                     color: AppColors.black,
                     fontWeight: FontWeight.w600,
-                    fontSize: 11.sp,
                     height: 1.3,
                   ),
                 ),

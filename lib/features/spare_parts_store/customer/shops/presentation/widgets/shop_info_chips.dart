@@ -1,6 +1,7 @@
 // قائمة Chips لعرض مجموعة قيم نصية (نوع النشاط، ماركات السيارات، فئات القطع) مع عنوان
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
+
 import 'package:car_care/features/spare_parts_store/shared/presentation/widgets/store_attribute_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,7 +35,7 @@ class ShopInfoChips extends StatelessWidget {
             ],
             Text(
               title,
-              style: AppTypography.labelLarge.copyWith(
+              style: context.textTheme.labelLarge!.copyWith(
                 color: AppColors.primary,
                 fontWeight: FontWeight.w700,
               ),

@@ -34,23 +34,23 @@ class WasherStatisticsSummaryCard extends StatelessWidget {
         ),
         StatsSegment(
           value: statistics.completedBookings,
-          color: AppColors.success,
+          color: AppColors.green,
         ),
         StatsSegment(
           value: statistics.cancelledBookings,
-          color: AppColors.error,
+          color: AppColors.red,
         ),
       ],
       legendItems: [
         StatsLegendItem(
           label: strings.completed,
           value: statistics.completedBookings,
-          color: AppColors.success,
+          color: AppColors.green,
         ),
         StatsLegendItem(
           label: strings.cancelled,
           value: statistics.cancelledBookings,
-          color: AppColors.error,
+          color: AppColors.green,
         ),
       ],
     );

@@ -1,5 +1,6 @@
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,8 +10,11 @@ void showReservationVehiclePicker({
   required VehicleEntity? selectedVehicle,
   required ValueChanged<VehicleEntity> onSelect,
 }) {
+      final string = context.l10n;
   showModalBottomSheet<void>(
+    
     context: context,
+    
     backgroundColor: Colors.transparent,
     isScrollControlled: true,
     builder: (_) => DraggableScrollableSheet(
@@ -38,7 +42,7 @@ void showReservationVehiclePicker({
               ),
             ),
             Text(
-              'اختر مركبتك',
+              string.selectYourVehicle,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 17.sp,
@@ -49,6 +53,7 @@ void showReservationVehiclePicker({
             SizedBox(height: 12.h),
             Expanded(
               child: ListView.builder(
+
                 controller: scrollController,
                 itemCount: vehicles.length,
                 itemBuilder: (_, i) {

@@ -1,3 +1,8 @@
+import 'package:car_care/features/home/presentation/pages/settings_page.dart';
+import 'package:car_care/features/provider_invoices/presentation/cubit/list/provider_invoices_cubit.dart';
+import 'package:car_care/features/provider_invoices/presentation/cubit/show/show_provider_invoice_cubit.dart';
+import 'package:car_care/features/provider_invoices/presentation/pages/provider_invoice_details_page.dart';
+import 'package:car_care/features/provider_invoices/presentation/pages/provider_invoices_page.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/features/car_washer/washers/washers_statistics/presentation/pages/statistics_page.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_order/presentation/pages/provider_available_orders_page_wrapper.dart';
@@ -12,7 +17,9 @@ import 'package:car_care/features/maintenance/user_requests/presentation/pages/m
 import 'package:car_care/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:car_care/features/onboarding/presentation/pages/splash_screen.dart';
 import 'package:car_care/features/technician_sos/presentation/pages/all_technician_sos_requests.dart';
-import 'package:car_care/features/technician_sos/presentation/technician_sos_request_type.dart';
+//  أضف هذا السطر لتوحيد مراجع الـ enum في مشروعك
+import 'package:car_care/features/technician_sos/presentation/widgets/sos_requests_list/technician_sos_requests_list_page.dart';
+
 import 'package:car_care/features/user_fuel/domain/entities/user_fuel_order_entity.dart';
 import 'package:car_care/features/user_fuel/presentation/cubit/user_fuel_cubit/user_fuel_cubit.dart';
 import 'package:car_care/features/user_fuel/presentation/pages/fuel_orders_list_page.dart';
@@ -53,7 +60,7 @@ import 'package:car_care/features/technician/technician_profile/presentation/wid
 import 'package:car_care/features/technician/technician_statistics/presentation/pages/technician_statistics_page.dart';
 import 'package:car_care/features/technician/technician_jobs/presentation/pages/technician_jobs_page.dart';
 import 'package:car_care/features/technician/technician_quotations/presentation/pages/technician_quotations_page.dart';
-import 'package:car_care/features/maintenance/user_rate_job/presentation/pages/rate_job_page.dart';
+
 import 'package:car_care/features/maintenance/user_requests/presentation/pages/add_requests_page.dart';
 import 'package:car_care/features/maintenance/user_statistics/presentation/pages/statistics_page.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/pages/quotations_page.dart';
@@ -109,7 +116,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.splash,
+    initialLocation: Routes.home,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(path: Routes.splash, builder: (_, _) => const SplashScreen()),
@@ -127,6 +134,10 @@ class AppRouter {
         name: '/signup',
         builder: (context, state) => const RegisterPage(),
       ),
+      GoRoute(
+  path: Routes.settings,
+  builder: (context, state) => const SettingsPage(),
+),
       ShellRoute(
         navigatorKey: shellNavigatorKey,
         builder: (context, state, child) {
@@ -193,7 +204,12 @@ class AppRouter {
             name: '/more',
             builder: (context, state) => const MorePage(),
           ),
-        ],
+              GoRoute(
+        path: Routes.provider_invoices,
+        name: '/provider_invoices',
+        builder: (context, state) => const ProviderInvoicesPage(),
+      ),
+      ],
       ),
       // The routes below are true top-level siblings of ShellRoute inside
       // GoRouter.routes — they must NOT be physically nested inside
@@ -720,11 +736,7 @@ class AppRouter {
         },
       ),
 
-      GoRoute(
-        path: Routes.rate_job,
-        name: '/rate_job',
-        builder: (context, state) => const RateJobPage(),
-      ),
+    
       GoRoute(
         path: Routes.technician_jobs,
         name: '/technician_jobs',
@@ -756,6 +768,22 @@ class AppRouter {
         name: '/washer_statistics',
         builder: (context, state) => const CarWasherStatisticsPage(),
       ),
+      GoRoute(
+  path: Routes.providerInvoices,
+  name: Routes.providerInvoices,
+  builder: (context, state) => BlocProvider(
+    create: (_) => ProviderInvoicesCubit(getIt()),
+    child: const ProviderInvoicesPage(),
+  ),
+),
+GoRoute(
+  path: Routes.providerInvoiceDetails,
+  name: Routes.providerInvoiceDetails,
+  builder: (context, state) => BlocProvider(
+    create: (_) => ShowProviderInvoiceCubit(getIt()),
+    child: ProviderInvoiceDetailsPage(invoiceId: (state.extra as int).toString()),
+  ),
+),
     ],
   );
 }

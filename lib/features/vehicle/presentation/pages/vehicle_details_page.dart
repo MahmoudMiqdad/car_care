@@ -20,31 +20,28 @@ class VehicleDetailsPage extends StatelessWidget {
     return BlocProvider(
       create: (_) =>
           getIt<VehicleDetailsCubit>()..fetchVehicleDetails(vehicleId),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          backgroundColor: context.colorScheme.surface,
-          appBar: CustomAppBar(title: strings.vehicleDetails),
-          body: ImageBackground(
-            child: BlocBuilder<VehicleDetailsCubit, VehicleDetailsState>(
-              builder: (context, state) {
-                if (state is VehicleDetailsLoading) {
-                  return const Center(child: AppLoadingWidget());
-                }
-                if (state is VehicleDetailsLoaded) {
-                  return VehicleDetailsBody(vehicle: state.vehicle);
-                }
-                if (state is VehicleDetailsError) {
-                  return Center(
-                    child: Text(
-                      state.message,
-                      style: context.textTheme.titleMedium,
-                    ),
-                  );
-                }
-                return const SizedBox.shrink();
-              },
-            ),
+      child: Scaffold(
+        backgroundColor: context.colorScheme.surface,
+        appBar: CustomAppBar(title: strings.vehicleDetails),
+        body: ImageBackground(
+          child: BlocBuilder<VehicleDetailsCubit, VehicleDetailsState>(
+            builder: (context, state) {
+              if (state is VehicleDetailsLoading) {
+                return const Center(child: AppLoadingWidget());
+              }
+              if (state is VehicleDetailsLoaded) {
+                return VehicleDetailsBody(vehicle: state.vehicle);
+              }
+              if (state is VehicleDetailsError) {
+                return Center(
+                  child: Text(
+                    state.message,
+                    style: context.textTheme.titleMedium,
+                  ),
+                );
+              }
+              return const SizedBox.shrink();
+            },
           ),
         ),
       ),

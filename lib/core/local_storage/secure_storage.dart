@@ -14,6 +14,7 @@ enum DbKeys {
   logged,
   local,
   firstOpen,
+  themeMode, // ⬅️ جديد: لتخزين وضع الثيم (light / dark / system)
 }
 
 class SecureStorage {
@@ -67,6 +68,11 @@ class SecureStorage {
       setValue(DbKeys.local, languageCode);
   Future<String?> getLocalizedValue() => getValue(DbKeys.local);
 
+  // ⬅️ جديد: تخزين/قراءة وضع الثيم كنص ('light' | 'dark' | 'system')
+  Future<void> setThemeModeValue(String themeMode) =>
+      setValue(DbKeys.themeMode, themeMode);
+  Future<String?> getThemeModeValue() => getValue(DbKeys.themeMode);
+
   Future<void> setAdminStatus(bool isAdmin) =>
       setBoolValue(DbKeys.admin, isAdmin);
   Future<bool?> getAdminStatus() => getBoolValue(DbKeys.admin);
@@ -87,7 +93,6 @@ class SecureStorage {
       setValue(DbKeys.password, password);
   Future<String?> getPassword() => getValue(DbKeys.password);
   /////////
-  //Future<void> setToken(String token) => setValue(DbKeys.token, token);
   Future<void> setToken(String token) => setValue(DbKeys.token, token);
   Future<String?> getToken() => getValue(DbKeys.token);
   Future<void> deleteToken() => deleteValue(DbKeys.token);

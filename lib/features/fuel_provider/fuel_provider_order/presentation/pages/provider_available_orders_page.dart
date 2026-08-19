@@ -20,41 +20,38 @@ class ProviderAvailableOrdersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
-   
-        body: ImageBackground(
-          child: BlocBuilder<FuelProviderOrderCubit, FuelProviderOrderState>(
-            builder: (context, state) {
-              if (state is FuelProviderOrderLoading) {
-                return const Center(child: AppLoadingWidget());
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground(context),
+       
+      body: ImageBackground(
+        child: BlocBuilder<FuelProviderOrderCubit, FuelProviderOrderState>(
+          builder: (context, state) {
+            if (state is FuelProviderOrderLoading) {
+              return const Center(child: AppLoadingWidget());
+            }
+            if (state is FuelProviderOrderError) {
+      AppSnackBar.error(context, state.message);
+            }
+            if (state is FuelProviderOrdersListLoaded) {
+              if (state.orders.isEmpty) {
+                return const Center(child:  EmptyStateWidget() );
+    
               }
-              if (state is FuelProviderOrderError) {
-        AppSnackBar.error(context, state.message);
-              }
-              if (state is FuelProviderOrdersListLoaded) {
-                if (state.orders.isEmpty) {
-                  return const Center(child:  EmptyStateWidget() );
-
-                }
-                return ProviderAvailableOrdersBody(
-                  orders: state.orders,
-                    onViewDetails: (order) async {
-                    final accepted = await context.pushNamed<bool>(
-                      'providerOrderDetailsPage',
-                      pathParameters: {'id': order.id.toString()},
-                    );
-                    if (accepted == true && context.mounted) {
-                      context.read<FuelProviderOrderCubit>().getAvailableOrders();
-                    }
-                  },
-                );
-              }
-              return const SizedBox();
-            },
-          ),
+              return ProviderAvailableOrdersBody(
+                orders: state.orders,
+                  onViewDetails: (order) async {
+                  final accepted = await context.pushNamed<bool>(
+                    'providerOrderDetailsPage',
+                    pathParameters: {'id': order.id.toString()},
+                  );
+                  if (accepted == true && context.mounted) {
+                    context.read<FuelProviderOrderCubit>().getAvailableOrders();
+                  }
+                },
+              );
+            }
+            return const SizedBox();
+          },
         ),
       ),
     );

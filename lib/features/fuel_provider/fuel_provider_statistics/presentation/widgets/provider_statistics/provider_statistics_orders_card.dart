@@ -31,20 +31,20 @@ class ProviderStatisticsOrdersCard extends StatelessWidget {
         ),
         StatsSegment(
           value: statistics.completedOrders,
-          color: AppColors.success,
+          color: AppColors.green,
         ),
-        StatsSegment(value: statistics.cancelledOrders, color: AppColors.error),
+        StatsSegment(value: statistics.cancelledOrders, color: AppColors.red),
       ],
       legendItems: [
         StatsLegendItem(
           label: l10n.completed,
           value: statistics.completedOrders,
-          color: AppColors.success,
+          color: AppColors.green,
         ),
         StatsLegendItem(
           label: l10n.cancelled,
           value: statistics.cancelledOrders,
-          color: AppColors.error,
+          color: AppColors.red,
         ),
       ],
     );

@@ -1,8 +1,6 @@
 import 'package:car_care/features/car_washer/shared/presentation/widgets/carwash_booking_status_badge.dart';
 import 'package:flutter/material.dart';
 
-({Color background, Color border}) washerBookingChipStyleFor(String status) =>
-    carwashBookingStatusStyleFor(status);
 
 class WasherBookingStatusChipsRow extends StatelessWidget {
   const WasherBookingStatusChipsRow({

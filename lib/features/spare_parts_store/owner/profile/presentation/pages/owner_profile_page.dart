@@ -1,5 +1,6 @@
 // صفحة ملف متجر المالك — التنسيق والتحكم.
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/error_state_widget.dart';
@@ -9,6 +10,7 @@ import 'package:car_care/core/widgets/provider_status_page.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/cubit/owner_profile/owner_profile_cubit.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/cubit/owner_profile/owner_profile_state.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/widgets/owner_profile_body.dart';
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -61,11 +63,12 @@ class _OwnerProfilePageState extends State<OwnerProfilePage> {
   }
 
   void _onSave() {
+    final l10n = context.l10n;
     final name = _nameCtrl.text.trim();
     final phone = _phoneCtrl.text.trim();
     final city = _cityCtrl.text.trim();
     if (name.isEmpty || phone.isEmpty || city.isEmpty) {
-      AppSnackBar.error(context, 'يرجى تعبئة جميع الحقول المطلوبة');
+      AppSnackBar.error(context, l10n.fillAllFieldsRequiredError); 
       return;
     }
     _cubit.saveProfile(
@@ -80,74 +83,73 @@ class _OwnerProfilePageState extends State<OwnerProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: BlocProvider.value(
-        value: _cubit,
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: const CustomAppBar(title: 'ملف المتجر'),
-          body: ImageBackground(
-            child: BlocConsumer<OwnerProfileCubit, OwnerProfileState>(
-              listener: (context, state) {
-                if (state is! OwnerProfileReady) return;
-                _initFromState(state);
-                if (state.justSaved) {
-                  setState(() {
-                    _selectedTypeIds = List.of(state.selectedTypeIds);
-                    _selectedBrandIds = List.of(state.selectedBrandIds);
-                    _selectedCategoryIds = List.of(state.selectedCategoryIds);
-                  });
-                  AppSnackBar.success(context, 'تم حفظ المتجر بنجاح');
-                  _cubit.clearJustSaved();
-                }
-                if (state.saveError != null) {
-                  AppSnackBar.error(context, state.saveError!);
-                  _cubit.clearSaveError();
-                }
-              },
-              builder: (context, state) {
-                if (state is OwnerProfileLoading) {
-                  return const AppLoadingWidget();
-                }
-                if (state is OwnerProfileError) {
-                  return ErrorStateWidget(
-                    message: state.message,
-                    onRetry: _cubit.loadProfile,
+    final l10n = context.l10n; 
+
+    return BlocProvider.value(
+      value: _cubit,
+      child: Scaffold(
+        backgroundColor: AppColors.transparent, 
+        appBar: CustomAppBar(title: l10n.shopProfilePageTitle), 
+        body: ImageBackground(
+          child: BlocConsumer<OwnerProfileCubit, OwnerProfileState>(
+            listener: (context, state) {
+              if (state is! OwnerProfileReady) return;
+              _initFromState(state);
+              if (state.justSaved) {
+                setState(() {
+                  _selectedTypeIds = List.of(state.selectedTypeIds);
+                  _selectedBrandIds = List.of(state.selectedBrandIds);
+                  _selectedCategoryIds = List.of(state.selectedCategoryIds);
+                });
+                AppSnackBar.success(context, l10n.shopSavedSuccess); 
+                _cubit.clearJustSaved();
+              }
+              if (state.saveError != null) {
+                AppSnackBar.error(context, state.saveError!);
+                _cubit.clearSaveError();
+              }
+            },
+            builder: (context, state) {
+              if (state is OwnerProfileLoading) {
+                return const AppLoadingWidget();
+              }
+              if (state is OwnerProfileError) {
+                return ErrorStateWidget(
+                  message: state.message,
+                  onRetry: _cubit.loadProfile,
+                );
+              }
+              if (state is OwnerProfileReady) {
+                if (state.shop != null) {
+                  final gate = buildProviderStatusGate(
+                    state.shop!.status,
+                    state.shop!.rejectionReason,
                   );
+                  if (gate != null) return gate;
                 }
-                if (state is OwnerProfileReady) {
-                  if (state.shop != null) {
-                    final gate = buildProviderStatusGate(
-                      state.shop!.status,
-                      state.shop!.rejectionReason,
-                    );
-                    if (gate != null) return gate;
-                  }
-                  return OwnerProfileBody(
-                    nameCtrl: _nameCtrl,
-                    phoneCtrl: _phoneCtrl,
-                    cityCtrl: _cityCtrl,
-                    selectedTypeIds: _selectedTypeIds,
-                    selectedBrandIds: _selectedBrandIds,
-                    selectedCategoryIds: _selectedCategoryIds,
-                    onTypeIdsChanged: (ids) =>
-                        setState(() => _selectedTypeIds = ids),
-                    onBrandIdsChanged: (ids) =>
-                        setState(() => _selectedBrandIds = ids),
-                    onCategoryIdsChanged: (ids) =>
-                        setState(() => _selectedCategoryIds = ids),
-                    onSave: _onSave,
-                    isNew: state.shop == null,
-                    isEnabled: !state.isSaving,
-                    isSaving: state.isSaving,
-                    unknownValues: state.unknownValues,
-                    status: state.shop?.status,
-                  );
-                }
-                return const SizedBox.shrink();
-              },
-            ),
+                return OwnerProfileBody(
+                  nameCtrl: _nameCtrl,
+                  phoneCtrl: _phoneCtrl,
+                  cityCtrl: _cityCtrl,
+                  selectedTypeIds: _selectedTypeIds,
+                  selectedBrandIds: _selectedBrandIds,
+                  selectedCategoryIds: _selectedCategoryIds,
+                  onTypeIdsChanged: (ids) =>
+                      setState(() => _selectedTypeIds = ids),
+                  onBrandIdsChanged: (ids) =>
+                      setState(() => _selectedBrandIds = ids),
+                  onCategoryIdsChanged: (ids) =>
+                      setState(() => _selectedCategoryIds = ids),
+                  onSave: _onSave,
+                  isNew: state.shop == null,
+                  isEnabled: !state.isSaving,
+                  isSaving: state.isSaving,
+                  unknownValues: state.unknownValues,
+                  status: state.shop?.status,
+                );
+              }
+              return const SizedBox.shrink();
+            },
           ),
         ),
       ),

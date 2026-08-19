@@ -5,6 +5,7 @@ import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_availability_cubit/technician_availability_cubit.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_cubit.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/widgets/technician_profile_view_body%20.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,6 +14,7 @@ class TechnicianProfileViewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      final string = context.l10n;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -22,8 +24,8 @@ class TechnicianProfileViewPage extends StatelessWidget {
         BlocProvider(create: (_) => getIt<TechnicianAvailabilityCubit>()),
       ],
       child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
-        appBar: const CustomAppBar(title: 'الملف الفني', showBackButton: true),
+        backgroundColor: AppColors.scaffoldBackground(context),
+        appBar:  CustomAppBar(title: string.technicianProfile, showBackButton: true),
         body: const ImageBackground(child: TechnicianProfileViewBody()),
       ),
     );

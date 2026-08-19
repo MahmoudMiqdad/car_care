@@ -6,6 +6,7 @@ import 'package:car_care/features/fuel_provider/fuel_provider_statistics/present
 import 'package:car_care/features/fuel_provider/fuel_provider_statistics/presentation/widgets/provider_statistics/provider_statistics_orders_card.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_statistics/presentation/widgets/provider_statistics/provider_statistics_profits_card.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_statistics/presentation/widgets/provider_statistics/provider_statistics_status_indicators_card.dart';
+import 'package:car_care/l10n.dart'; // 🎯 استيراد امتداد l10n لمشروعك
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +16,8 @@ class ProviderStatisticsBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.l10n; // 🎯 جلب كائن الترجمة
+
     return BlocBuilder<FuelProviderStatisticsCubit, FuelProviderStatisticsState>(
       builder: (context, state) {
         if (state is FuelProviderStatisticsLoading) {
@@ -35,7 +38,7 @@ class ProviderStatisticsBody extends StatelessWidget {
                   ),
                   SizedBox(height: 12.h),
                   AppButton(
-                    text: 'حاول مرة أخرى',
+                    text: strings.retry,
                     backgroundColor: AppColors.primary,
                     height: 52.h,
                     borderRadius: 14.r,

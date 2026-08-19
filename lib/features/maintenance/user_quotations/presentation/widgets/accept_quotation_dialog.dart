@@ -1,13 +1,9 @@
-// accept_quotation_dialog.dart
-
 import 'package:car_care/core/theme/app_colors.dart';
+
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Backend requires `scheduled_date` to be strictly `after:today`, so the
-/// earliest pickable day is tomorrow. Computed from the date components only
-/// (not `DateTime.now()` directly) so the current time-of-day can never push
-/// this to the wrong calendar day. Top-level so it's directly unit-testable.
 DateTime firstSelectableQuotationDate() {
   final now = DateTime.now();
   return DateTime(now.year, now.month, now.day).add(const Duration(days: 1));
@@ -76,6 +72,7 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final radius = BorderRadius.circular(14.r);
 
     return ClipRRect(
@@ -92,7 +89,7 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
               padding: EdgeInsets.symmetric(vertical: 12.h),
               color: AppColors.carWashTeal,
               child: Text(
-                'قبول عرض السعر',
+                l10n.acceptQuotationTitle,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppColors.white,
@@ -109,7 +106,7 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
                 children: [
                   // Scheduled Date
                   Text(
-                    'التاريخ المحدد',
+                    l10n.selectedDateLabel,
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       fontSize: 17.sp,
@@ -144,13 +141,13 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
                           Text(
                             _selectedDate != null
                                 ? _formatDate(_selectedDate!)
-                                : 'اختر التاريخ',
+                                : l10n.chooseDateLabel,
                             textDirection: TextDirection.rtl,
                             style: TextStyle(
                               fontSize: 15.sp,
                               color: _selectedDate != null
                                   ? AppColors.black
-                                  : Colors.grey,
+                                  : AppColors.gray,
                             ),
                           ),
                         ],
@@ -162,7 +159,7 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
 
                   // Notes
                   Text(
-                    'ملاحظات',
+                    l10n.notesLabel,
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       fontSize: 17.sp,
@@ -187,14 +184,14 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.r),
-                        borderSide: const BorderSide(
+                        borderSide: BorderSide(
                           color: AppColors.carWashTeal,
                           width: 1.2,
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.r),
-                        borderSide: const BorderSide(
+                        borderSide: BorderSide(
                           color: AppColors.carWashTeal,
                           width: 1.5,
                         ),
@@ -214,12 +211,12 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
                 children: [
                   Expanded(
                     child: Material(
-                      color: Colors.transparent,
+                      color: AppColors.transparent,
                       child: InkWell(
                         onTap: _selectedDate != null ? _onConfirm : null,
                         child: Center(
                           child: Text(
-                            'تأكيد',
+                            l10n.confirmLabel,
                             style: TextStyle(
                               color: _selectedDate != null
                                   ? AppColors.white
@@ -239,12 +236,12 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
                   ),
                   Expanded(
                     child: Material(
-                      color: Colors.transparent,
+                      color: AppColors.transparent,
                       child: InkWell(
                         onTap: _onCancel,
                         child: Center(
                           child: Text(
-                            'إلغاء',
+                            l10n.cancelLabel,
                             style: TextStyle(
                               color: AppColors.white,
                               fontSize: 17.sp,
@@ -272,7 +269,7 @@ Future<AcceptQuotationDialogResult?> showAcceptQuotationDialog(
     context: context,
     barrierDismissible: true,
     builder: (_) => Dialog(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       insetPadding: EdgeInsets.symmetric(horizontal: 28.w),
       child: const AcceptQuotationDialog(),
     ),

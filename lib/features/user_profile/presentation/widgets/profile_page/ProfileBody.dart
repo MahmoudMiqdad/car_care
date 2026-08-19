@@ -34,88 +34,85 @@ class ProfileBody extends StatelessWidget {
         //  success
         if (state is ShowProfileLoaded) {
           final profile = state.profile;
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: RefreshIndicator(
-               onRefresh: () async {
-                context.read<ShowProfileCubit>().getProfile();},
-              child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: 60.r,
-                        backgroundColor: Colors.grey.shade300,
-                        backgroundImage:
-                            profile.avatar != null && profile.avatar!.isNotEmpty
-                            ? NetworkImage(profile.avatar!)
-                            : null,
-                        child: (profile.avatar == null || profile.avatar!.isEmpty)
-                            ? Icon(
-                                Icons.person,
-                                size: 100.sp,
-                                color: Colors.grey.shade400,
-                              )
-                            : null,
+          return RefreshIndicator(
+             onRefresh: () async {
+              context.read<ShowProfileCubit>().getProfile();},
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 60.r,
+                      backgroundColor: Colors.grey.shade300,
+                      backgroundImage:
+                          profile.avatar != null && profile.avatar!.isNotEmpty
+                          ? NetworkImage(profile.avatar!)
+                          : null,
+                      child: (profile.avatar == null || profile.avatar!.isEmpty)
+                          ? Icon(
+                              Icons.person,
+                              size: 100.sp,
+                              color: Colors.grey.shade400,
+                            )
+                          : null,
+                    ),
+                    SizedBox(height: 8.h),
+                              
+                    Text(
+                      profile.name,
+                      style: TextStyle(
+                        fontSize: 27.sp,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.black,
                       ),
-                      SizedBox(height: 8.h),
-                                
-                      Text(
-                        profile.name,
-                        style: TextStyle(
-                          fontSize: 27.sp,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.black,
-                        ),
-                      ),
-                      SizedBox(height: 30.h),
-                      ProfileInfoCard(
-                        title: strings.phoneNumber,
-                        value: profile.phone,
-                        icon: Icons.phone_in_talk_outlined,
-                      ),
-                      SizedBox(height: 16.h),
-                      ProfileInfoCard(
-                        title: strings.email,
-                        value: profile.email,
-                        icon: Icons.email_outlined,
-                      ),
-                      SizedBox(height: 30.h),
-                      AppButton(
-                        text: strings.editProfile,
-                        backgroundColor: AppColors.orange,
-                        onPressed: () async {
-                          await context.push(Routes.profile_setup);
-                          if (context.mounted) {
-                            context.read<ShowProfileCubit>().getProfile();
-                          }
-                        },
-                      ),
-                      SizedBox(height: 16.h),
-                      AppButton(
-                        text: strings.editPassword,
-                        backgroundColor: AppColors.orange,
-                        onPressed: () => context.push(Routes.changepasswordpage),
-                      ),
-                      SizedBox(height: 16.h),
-                      AppButton(
-                        text: strings.delete,
-                        isOutline: true,
-                        backgroundColor: const Color(0xFFA12323),
-                        onPressed: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            builder: (context) => const DeleteProfileDialog(),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: 30.h),
+                    ProfileInfoCard(
+                      title: strings.phoneNumber,
+                      value: profile.phone,
+                      icon: Icons.phone_in_talk_outlined,
+                    ),
+                    SizedBox(height: 16.h),
+                    ProfileInfoCard(
+                      title: strings.email,
+                      value: profile.email,
+                      icon: Icons.email_outlined,
+                    ),
+                    SizedBox(height: 30.h),
+                    AppButton(
+                      text: strings.editProfile,
+                      backgroundColor: AppColors.orange,
+                      onPressed: () async {
+                        await context.push(Routes.profile_setup);
+                        if (context.mounted) {
+                          context.read<ShowProfileCubit>().getProfile();
+                        }
+                      },
+                    ),
+                    SizedBox(height: 16.h),
+                    AppButton(
+                      text: strings.editPassword,
+                      backgroundColor: AppColors.orange,
+                      onPressed: () => context.push(Routes.changepasswordpage),
+                    ),
+                    SizedBox(height: 16.h),
+                    AppButton(
+                      text: strings.delete,
+                      isOutline: true,
+                      backgroundColor: const Color(0xFFA12323),
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          builder: (context) => const DeleteProfileDialog(),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),

@@ -30,11 +30,11 @@ class AppImageWidget extends StatelessWidget {
       errorBuilder: (context, error, stackTrace) => Container(
         width: width,
         height: height,
-        color: AppColors.lightBorder,
+        color: AppColors.border(context),
         child: Icon(
           Icons.image_not_supported_outlined,
           size: (width != null ? width! * 0.4 : 30).sp,
-          color: AppColors.lightTextSecondary,
+          color: AppColors.textSecondary(context),
         ),
       ),
     );

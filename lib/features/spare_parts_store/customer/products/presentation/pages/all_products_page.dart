@@ -1,5 +1,6 @@
 // شاشة عرض جميع منتجات متجر قطع الغيار لعميل (الصفحة الأولى فقط حاليًا، بدون Pagination)
 import 'package:car_care/core/routing/routes.dart';
+import 'package:car_care/core/theme/app_colors.dart'; // 🎯 استيراد AppColors للألوان الموحدة
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -10,6 +11,7 @@ import 'package:car_care/features/spare_parts_store/customer/products/presentati
 import 'package:car_care/features/spare_parts_store/customer/products/presentation/cubit/all_products/all_products_state.dart';
 import 'package:car_care/features/spare_parts_store/customer/products/presentation/widgets/product_card.dart';
 import 'package:car_care/features/spare_parts_store/customer/shared/presentation/widgets/customer_store_bottom_nav_bar.dart';
+import 'package:car_care/l10n.dart'; // 🎯 استيراد امتداد l10n للترجمة الديناميكية
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,67 +41,66 @@ class _AllProductsPageState extends State<AllProductsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: BlocProvider.value(
-        value: _cubit,
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: const CustomAppBar(title: 'كل المنتجات'),
-          bottomNavigationBar: const CustomerStoreBottomNavBar(
-            current: CustomerStoreSection.allProducts,
-          ),
-          body: ImageBackground(
-            child: BlocBuilder<AllProductsCubit, AllProductsState>(
-              builder: (context, state) {
-                if (state is AllProductsLoading) {
-                  return const AppLoadingWidget();
-                }
-                if (state is AllProductsError) {
-                  return ErrorStateWidget(
-                    message: state.message,
-                    onRetry: () => _cubit.fetchAllProducts(),
-                  );
-                }
-                if (state is AllProductsEmpty) {
-                  return RefreshIndicator(
-                    onRefresh: _cubit.fetchAllProducts,
-                    child: ListView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      children: const [EmptyStateWidget()],
+    final l10n = context.l10n; // 🎯 جلب كائن الترجمة داخل الواجهة
+
+    return BlocProvider.value(
+      value: _cubit,
+      child: Scaffold(
+        backgroundColor: AppColors.transparent, // 🎯 الاعتماد على AppColors بدلاً من الألوان الثابتة
+        appBar: CustomAppBar(title: l10n.allProductsPageTitle), // 🎯 "كل المنتجات" مترجم ديناميكياً
+        bottomNavigationBar: const CustomerStoreBottomNavBar(
+          current: CustomerStoreSection.allProducts,
+        ),
+        body: ImageBackground(
+          child: BlocBuilder<AllProductsCubit, AllProductsState>(
+            builder: (context, state) {
+              if (state is AllProductsLoading) {
+                return const AppLoadingWidget();
+              }
+              if (state is AllProductsError) {
+                return ErrorStateWidget(
+                  message: state.message,
+                  onRetry: () => _cubit.fetchAllProducts(),
+                );
+              }
+              if (state is AllProductsEmpty) {
+                return RefreshIndicator(
+                  onRefresh: _cubit.fetchAllProducts,
+                  child: ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children: const [EmptyStateWidget()],
+                  ),
+                );
+              }
+              if (state is AllProductsLoaded) {
+                return RefreshIndicator(
+                  onRefresh: _cubit.fetchAllProducts,
+                  child: GridView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: EdgeInsets.all(16.w),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12.w,
+                      mainAxisSpacing: 12.h,
+                      mainAxisExtent: 232.h,
                     ),
-                  );
-                }
-                if (state is AllProductsLoaded) {
-                  return RefreshIndicator(
-                    onRefresh: _cubit.fetchAllProducts,
-                    child: GridView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      padding: EdgeInsets.all(16.w),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 12.w,
-                        mainAxisSpacing: 12.h,
-                        mainAxisExtent: 232.h,
-                      ),
-                      itemCount: state.products.length,
-                      itemBuilder: (context, index) {
-                        final product = state.products[index];
-                        return ProductCard(
-                          product: product,
-                          onTap: () => context.push(
-                            Routes.customerProductDetailsPreviewPath(
-                              product.id,
-                            ),
+                    itemCount: state.products.length,
+                    itemBuilder: (context, index) {
+                      final product = state.products[index];
+                      return ProductCard(
+                        product: product,
+                        onTap: () => context.push(
+                          Routes.customerProductDetailsPreviewPath(
+                            product.id,
                           ),
-                        );
-                      },
-                    ),
-                  );
-                }
-                return const SizedBox.shrink();
-              },
-            ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }
+              return const SizedBox.shrink();
+            },
           ),
         ),
       ),

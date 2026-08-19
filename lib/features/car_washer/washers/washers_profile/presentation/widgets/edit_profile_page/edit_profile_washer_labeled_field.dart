@@ -1,5 +1,5 @@
+import 'package:car_care/core/extensions/theme_extension.dart'; // 🎯 استيراد امتداد الثيم لقراءة الخطوط الذكية
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/widgets/app_text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,7 +14,6 @@ class EditProfileWasherLabeledField extends StatelessWidget {
     this.keyboardType,
     this.maxLines = 1,
     this.minLines,
-    this.alignLabelToDirectionalStart = true,
   });
 
   final String label;
@@ -25,23 +24,18 @@ class EditProfileWasherLabeledField extends StatelessWidget {
   final int maxLines;
   final int? minLines;
 
-  final bool alignLabelToDirectionalStart;
-
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Align(
-          alignment: alignLabelToDirectionalStart
-              ? AlignmentDirectional.centerStart
-              : AlignmentDirectional.centerEnd,
+          alignment: AlignmentDirectional.centerStart, 
           child: Text(
             label,
-            style: AppTypography.labelLarge.copyWith(
+            style: context.textTheme.labelLarge!.copyWith( 
               color: AppColors.black,
               fontWeight: FontWeight.w700,
-              fontSize: 12.5.sp,
             ),
           ),
         ),
@@ -49,7 +43,7 @@ class EditProfileWasherLabeledField extends StatelessWidget {
         AppTextField(
           controller: controller,
           hintText: hint,
-          borderColor: const Color(0xFFE3EBEA),
+          borderColor: AppColors.border(context),
           hasShadow: false,
           keyboardType: keyboardType,
           maxLines: maxLines,

@@ -31,7 +31,7 @@ class FuelSosCreateSelectField extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         child: Ink(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(12.r),
             border: Border.all(color: AppColors.primary, width: 1.5),
           ),
@@ -60,10 +60,10 @@ class FuelSosCreateSelectField extends StatelessWidget {
                         hasValue ? value! : hint,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: hasValue
-                              ? AppColors.lightTextSecondary.withValues(
+                              ? AppColors.textSecondary(context).withValues(
                                   alpha: 0.85,
                                 )
-                              : AppColors.lightTextSecondary.withValues(
+                              : AppColors.textSecondary(context).withValues(
                                   alpha: 0.55,
                                 ),
                           fontSize: 14.sp,

@@ -1,8 +1,9 @@
 // كارد طلب يُستخدم داخل شاشة طلبات المتجر.
+import 'package:car_care/core/extensions/theme_extension.dart'; // 🎯 استيراد امتداد الثيم لقراءة الخطوط الذكية
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/features/spare_parts_store/customer/checkout/domain/entities/order_entity.dart';
 import 'package:car_care/features/spare_parts_store/shared/presentation/widgets/order_status_badge.dart';
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,10 +15,13 @@ class OwnerOrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
+
     final firstItemName = order.items.isNotEmpty
         ? order.items.first.product.name
-        : 'لا توجد منتجات';
+        : l10n.noProductsAvailable; 
     final itemCount = order.items.length;
+    final formattedPrice = order.totalPrice.toStringAsFixed(0);
 
     return InkWell(
       onTap: onTap,
@@ -29,7 +33,7 @@ class OwnerOrderCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(14.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: AppColors.black.withValues(alpha: 0.04), 
               blurRadius: 6,
               offset: const Offset(0, 2),
             ),
@@ -42,8 +46,8 @@ class OwnerOrderCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'طلب رقم #${order.id}',
-                    style: AppTypography.labelLarge.copyWith(
+                    l10n.orderNumberLabel(order.id.toString()),
+                    style: context.textTheme.labelLarge!.copyWith( 
                       color: AppColors.primary,
                       fontWeight: FontWeight.w800,
                     ),
@@ -53,7 +57,7 @@ class OwnerOrderCard extends StatelessWidget {
               ],
             ),
             SizedBox(height: 10.h),
-            Divider(color: AppColors.lightBorder, height: 1),
+            Divider(color: AppColors.border(context), height: 1),
             SizedBox(height: 10.h),
             Row(
               children: [
@@ -65,17 +69,17 @@ class OwnerOrderCard extends StatelessWidget {
                         firstItemName,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: AppTypography.labelSmall.copyWith(
-                          color: AppColors.lightTextPrimary,
+                        style: context.textTheme.labelSmall!.copyWith(
+                          color: AppColors.textPrimary(context),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       if (itemCount > 1) ...[
                         SizedBox(height: 2.h),
                         Text(
-                          '+${itemCount - 1} منتج آخر',
-                          style: AppTypography.labelSmall.copyWith(
-                            color: AppColors.lightTextSecondary,
+                          l10n.plusMoreProductsLabel(itemCount - 1),
+                          style: context.textTheme.labelSmall!.copyWith(
+                            color: AppColors.textSecondary(context),
                           ),
                         ),
                       ],
@@ -83,22 +87,24 @@ class OwnerOrderCard extends StatelessWidget {
                   ),
                 ),
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start, 
                   children: [
                     Text(
-                      '${order.totalPrice.toStringAsFixed(0)} ل.س',
-                      style: AppTypography.labelLarge.copyWith(
+                      l10n.currencyFormat(formattedPrice),
+                      style: context.textTheme.labelLarge!.copyWith(
                         color: AppColors.primary,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    if (order.createdAt != null)
+                    if (order.createdAt != null) ...[
+                      SizedBox(height: 2.h),
                       Text(
                         order.createdAt!.toLocal().toString().substring(0, 10),
-                        style: AppTypography.labelSmall.copyWith(
-                          color: AppColors.lightTextSecondary,
+                        style: context.textTheme.labelSmall!.copyWith(
+                          color: AppColors.textSecondary(context),
                         ),
                       ),
+                    ],
                   ],
                 ),
               ],

@@ -11,6 +11,7 @@ import 'package:car_care/features/technician/technician_profile/presentation/wid
 import 'package:car_care/features/technician/technician_profile/presentation/widgets/technician_location_card.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/widgets/technician_profile_form_fields.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/widgets/technician_profile_section.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -91,110 +92,97 @@ class _TechnicianProfileEditBodyContentState
     _isSubmittingUpdate = true;
     context.read<TechnicianProfileCubit>().updateTechnicianProfile(params);
   }
+@override
+Widget build(BuildContext context) {
+  final l10n = context.l10n;
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<TechnicianProfileCubit, TechnicianProfileState>(
-      listener: (context, state) {
-        // Only a Loaded/Error that followed THIS screen's own update
-        // request counts as an update result — never a generic Loaded
-        // (e.g. from a GET) mistaken for update success.
-        if (state is TechnicianProfileLoaded && _isSubmittingUpdate) {
-          _isSubmittingUpdate = false;
-          context.pop(true);
-        }
-        if (state is TechnicianProfileError && _isSubmittingUpdate) {
-          _isSubmittingUpdate = false;
-          AppSnackBar.error(context, state.message);
-        }
-      },
-      builder: (context, state) {
-        final isLoading = state is TechnicianProfileLoading;
+  return BlocConsumer<TechnicianProfileCubit, TechnicianProfileState>(
+    listener: (context, state) {
+      if (state is TechnicianProfileLoaded && _isSubmittingUpdate) {
+        _isSubmittingUpdate = false;
+        context.pop(true);
+      }
+      if (state is TechnicianProfileError && _isSubmittingUpdate) {
+        _isSubmittingUpdate = false;
+        AppSnackBar.error(context, state.message);
+      }
+    },
+    builder: (context, state) {
+      final isLoading = state is TechnicianProfileLoading;
 
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 8.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      TechnicianProfileFormFields(
-                        phoneController: _phoneController,
-                        cityController: _cityController,
-                        specializationController: _specializationController,
-                        experienceController: _experienceController,
-                        hourlyRateController: _hourlyRateController,
+      return Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 8.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TechnicianProfileFormFields(
+                    phoneController: _phoneController,
+                    cityController: _cityController,
+                    specializationController: _specializationController,
+                    experienceController: _experienceController,
+                    hourlyRateController: _hourlyRateController,
+                  ),
+                  SizedBox(height: 14.h),
+                  LocationUpdateCard(
+                    initialDescription: l10n.updateWorkshopLocationDescription,
+                    initialButtonLabel: l10n.changeLocationButton,
+                  ),
+                  SizedBox(height: 14.h),
+                  TechnicianProfileSection(
+                    title: l10n.certificationsSectionTitle,
+                    icon: Icons.workspace_premium_outlined,
+                    color: AppColors.primary,
+                    trailing: Text(
+                      l10n.maxThreeImagesHint,
+                      style: TextStyle(
+                        fontSize: 11.sp,
+                        color: AppColors.textSecondary(context),
                       ),
-                      SizedBox(height: 14.h),
-
-                      // لا نعرض إحداثيات محفوظة وهمية: استجابة الملف الفني
-                      // لا تتضمّن lat/lng محفوظة أصلًا.
-                      const LocationUpdateCard(
-                        initialDescription:
-                            'يمكنك تحديث موقع الورشة عند الحاجة',
-                        initialButtonLabel: 'تغيير الموقع',
-                      ),
-                      SizedBox(height: 14.h),
-
-                      TechnicianProfileSection(
-                        title: 'الشهادات',
-                        icon: Icons.workspace_premium_outlined,
-                        color: AppColors.primary,
-                        trailing: Text(
-                          'حد أقصى 3 صور',
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          l10n.addNewCertificationsHint,
                           style: TextStyle(
-                            fontSize: 11.sp,
-                            color: Colors.grey.shade500,
+                            fontSize: 11.5.sp,
+                            color: AppColors.textSecondary(context),
                           ),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
-                              'يمكنك إضافة شهادات جديدة',
-                              style: TextStyle(
-                                fontSize: 11.5.sp,
-                                color: Colors.grey.shade500,
-                              ),
-                            ),
-                            SizedBox(height: 10.h),
-                            TechnicianCertificatePicker(
-                              images: _certificationImages,
-                              onImagesChanged: (updated) => setState(
-                                () => _certificationImages = updated,
-                              ),
-                            ),
-                          ],
+                        SizedBox(height: 10.h),
+                        TechnicianCertificatePicker(
+                          images: _certificationImages,
+                          onImagesChanged: (updated) => setState(
+                            () => _certificationImages = updated,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              // ─── زر الحفظ (فوق الشريط الآمن دائمًا) ────────────────────
-              SafeArea(
-                top: false,
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 12.h),
-                  child: SizedBox(
-                    height: AppConstants.buttonHeight.h,
-                    child: AppButton(
-                      text: isLoading ? 'جارٍ الحفظ...' : 'حفظ التعديلات',
-                      backgroundColor: AppColors.orange,
-                      borderRadius: 20.r,
-                      onPressed: isLoading ? null : _submit,
+                      ],
                     ),
                   ),
+                ],
+              ),
+            ),
+          ),
+          SafeArea(
+            top: false,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 12.h),
+              child: SizedBox(
+                height: AppConstants.buttonHeight.h,
+                child: AppButton(
+                  text: isLoading ? l10n.updatingProgress : l10n.saveChangesButtonLabel,
+                  backgroundColor: AppColors.orange,
+                  borderRadius: 20.r,
+                  onPressed: isLoading ? null : _submit,
                 ),
               ),
-            ],
+            ),
           ),
-        );
-      },
-    );
-  }
-}
+        ],
+      );
+    },
+  );
+}}

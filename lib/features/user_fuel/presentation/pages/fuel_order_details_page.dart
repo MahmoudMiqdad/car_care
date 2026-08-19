@@ -21,35 +21,32 @@ class FuelOrderDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
-        appBar: CustomAppBar(
-          title: l10n.fuelOrderDetailsTitle,
-          showBackButton: true,
-          backgroundColor: AppColors.carWashTeal,
-          onBackTapped: () => context.safePopOrGo(Routes.fuelorderslist),
-        ),
-        body: BlocListener<UserFuelCubit, UserFuelState>(
-          listener: (context, state) {
-            if (state is UserFuelOrderCancelled) {
-              AppSnackBar.success (context,"تم إلغاء الطلب");
-              context.safePopOrGo(Routes.fuelorderslist, result: true);
-            }
-            if (state is UserFuelError) {
-               AppSnackBar.error(context, state.message);
-            }
-          },
-          child: ImageBackground(
-            child: FuelOrderDetailsBody(
-              order: order,
-              onCancel: (reason) {
-                if (order.id != null) {
-                  context.read<UserFuelCubit>().cancelOrder(order.id!, reason);
-                }
-              },
-            ),
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground(context),
+      appBar: CustomAppBar(
+        title: l10n.fuelOrderDetailsTitle,
+        showBackButton: true,
+        backgroundColor: AppColors.carWashTeal,
+        onBackTapped: () => context.safePopOrGo(Routes.fuelorderslist),
+      ),
+      body: BlocListener<UserFuelCubit, UserFuelState>(
+        listener: (context, state) {
+          if (state is UserFuelOrderCancelled) {
+            AppSnackBar.success(context, l10n.orderCancelledSuccessMessage);
+            context.safePopOrGo(Routes.fuelorderslist, result: true);
+          }
+          if (state is UserFuelError) {
+             AppSnackBar.error(context, state.message);
+          }
+        },
+        child: ImageBackground(
+          child: FuelOrderDetailsBody(
+            order: order,
+            onCancel: (reason) {
+              if (order.id != null) {
+                context.read<UserFuelCubit>().cancelOrder(order.id!, reason);
+              }
+            },
           ),
         ),
       ),

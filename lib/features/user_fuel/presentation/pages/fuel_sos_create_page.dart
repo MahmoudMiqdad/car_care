@@ -18,10 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-/// Pushes the details page for a just-created order, then pops this create
-/// page too once the user comes back — net effect of pushReplacement, but
-/// via two real pops so the list page's awaited push (which triggered this
-/// whole flow) resolves and can refresh itself exactly once.
+
 Future<void> _goToDetailsThenBack(
   BuildContext context,
   UserFuelOrderEntity order,
@@ -71,6 +68,7 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
   }
 
   Future<void> _pickVehicle() async {
+    final l10n = context.l10n;
     final cubit = context.read<VehicleCubit>();
     var state = cubit.state;
 
@@ -87,7 +85,7 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
     }
 
     if (state is VehicleEmpty) {
-      AppSnackBar.error(context, 'لا توجد سيارات مضافة');
+      AppSnackBar.error(context, l10n.noVehiclesAdded);
       return;
     }
 
@@ -140,7 +138,7 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
     final l10n = context.l10n;
     return [
       (label: l10n.gasoline95, apiValue: '95'),
-      (label: 'بنزين 98', apiValue: '98'),
+      (label: l10n.gasoline98, apiValue: '98'),
       (label: l10n.diesel, apiValue: 'diesel'),
     ];
   }
@@ -206,6 +204,7 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
   }
 
   Future<void> _onSubmit() async {
+    final l10n = context.l10n;
     // Prevent duplicate taps while the GPS fix is in flight.
     if (_resolvingLocation) return;
 
@@ -217,7 +216,7 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
         fuelTypeApiValue == null ||
         _quantityController.text.isEmpty ||
         _provinceValue == null) {
-      AppSnackBar.error(context, 'من فضلك أكمل جميع الحقول');
+      AppSnackBar.error(context, l10n.completeAllFieldsError);
       return;
     }
 
@@ -251,47 +250,44 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
-        appBar: CustomAppBar(
-          title: l10n.fuelSosCreateTitle,
-          showBackButton: true,
-          onBackTapped: () => context.safePopOrGo(Routes.home),
-        ),
-        body: BlocListener<UserFuelCubit, UserFuelState>(
-          listener: (context, state) {
-            if (state is UserFuelOrderCreated) {
-              AppSnackBar.success(context, 'تم إرسال طلب الوقود بنجاح');
-              // Show the details page, then pop this form too on the way
-              // back so back doesn't return to a filled page — same net
-              // effect as pushReplacement, but as two real pops so the
-              // originating list page's awaited push resolves and can
-              // refresh itself exactly once.
-              _goToDetailsThenBack(context, state.order);
-            }
-            if (state is UserFuelError) {
-              final msg =
-                  state.message.isEmpty ||
-                      state.message.startsWith('Instance of')
-                  ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
-                  : state.message;
-              AppSnackBar.error(context, msg);
-            }
-          },
-          child: ImageBackground(
-            child: FuelSosCreateBody(
-              vehicleValue: _vehicleValue,
-              fuelTypeValue: _fuelTypeValue,
-              provinceValue: _provinceValue,
-              quantityController: _quantityController,
-              notesController: _notesController,
-              onPickVehicle: _pickVehicle,
-              onPickFuelType: _pickFuelType,
-              onPickProvince: _pickProvince,
-              onSubmit: _onSubmit,
-            ),
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground(context),
+      appBar: CustomAppBar(
+        title: l10n.fuelSosCreateTitle,
+        showBackButton: true,
+        onBackTapped: () => context.safePopOrGo(Routes.home),
+      ),
+      body: BlocListener<UserFuelCubit, UserFuelState>(
+        listener: (context, state) {
+          if (state is UserFuelOrderCreated) {
+            AppSnackBar.success(context, l10n.fuelOrderSentSuccessfully);
+            // Show the details page, then pop this form too on the way
+            // back so back doesn't return to a filled page — same net
+            // effect as pushReplacement, but as two real pops so the
+            // originating list page's awaited push resolves and can
+            // refresh itself exactly once.
+            _goToDetailsThenBack(context, state.order);
+          }
+          if (state is UserFuelError) {
+            final msg =
+                state.message.isEmpty ||
+                    state.message.startsWith('Instance of')
+                ? l10n.sosGenericActionError
+                : state.message;
+            AppSnackBar.error(context, msg);
+          }
+        },
+        child: ImageBackground(
+          child: FuelSosCreateBody(
+            vehicleValue: _vehicleValue,
+            fuelTypeValue: _fuelTypeValue,
+            provinceValue: _provinceValue,
+            quantityController: _quantityController,
+            notesController: _notesController,
+            onPickVehicle: _pickVehicle,
+            onPickFuelType: _pickFuelType,
+            onPickProvince: _pickProvince,
+            onSubmit: _onSubmit,
           ),
         ),
       ),

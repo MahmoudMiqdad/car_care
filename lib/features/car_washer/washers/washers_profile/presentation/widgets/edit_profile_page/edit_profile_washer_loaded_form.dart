@@ -1,4 +1,5 @@
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/domain/entities/washer_profile_entity.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/cubit/profile_washer_cubit.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/cubit/profile_washer_state.dart';
@@ -119,9 +120,7 @@ class _EditProfileWasherLoadedFormState
 
   void _save() {
     if (_name.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context)
-        ..clearSnackBars()
-        ..showSnackBar(const SnackBar(content: Text('يرجى إدخال اسم المغسلة')));
+      AppSnackBar.error(context, 'يرجى إدخال اسم المغسلة');
       return;
     }
 
@@ -232,7 +231,7 @@ class _EditProfileWasherLoadedFormState
         if (isSaving)
           const Positioned.fill(
             child: ColoredBox(
-              color: Color(0x33000000),
+              color: AppColors.black,
               child: Center(child: CircularProgressIndicator()),
             ),
           ),

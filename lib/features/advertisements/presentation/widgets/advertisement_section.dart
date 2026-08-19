@@ -1,5 +1,6 @@
 // مسؤول عن تحميل إعلانات موضع محدد وعرضها أو إخفاء القسم بالكامل بأمان.
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/advertisements/domain/entities/advertisement_entity.dart';
 import 'package:car_care/features/advertisements/presentation/cubit/advertisement_cubit.dart';
 import 'package:car_care/features/advertisements/presentation/cubit/advertisement_state.dart';
@@ -68,7 +69,7 @@ class _LoadingPlaceholder extends StatelessWidget {
       child: Container(
         height: height.h,
         width: double.infinity,
-        color: Colors.black.withValues(alpha: 0.04),
+        color: AppColors.black,
       ),
     );
   }

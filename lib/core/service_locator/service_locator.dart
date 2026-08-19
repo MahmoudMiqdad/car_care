@@ -1,3 +1,4 @@
+import 'package:car_care/core/theme/theme_cubit.dart';
 import 'package:car_care/features/advertisements/data/data_sources/advertisement_remote_data_source.dart';
 import 'package:car_care/features/advertisements/data/repositories/advertisement_repository_impl.dart';
 import 'package:car_care/features/advertisements/domain/repositories/i_advertisement_repository.dart';
@@ -78,6 +79,11 @@ import 'package:car_care/features/maintenance/user_statistics/data/data_sources/
 import 'package:car_care/features/maintenance/user_statistics/data/repositories/statistics_impl.dart';
 import 'package:car_care/features/maintenance/user_statistics/domain/repositories/i_statistics.dart';
 import 'package:car_care/features/maintenance/user_statistics/presentation/cubit/statistics_cubit.dart';
+import 'package:car_care/features/provider_invoices/data/data_sources/provider_invoices_remote_data_source.dart';
+import 'package:car_care/features/provider_invoices/data/repositories/provider_invoices_repository_impl.dart';
+import 'package:car_care/features/provider_invoices/domain/repositories/i_provider_invoices_repository.dart';
+import 'package:car_care/features/provider_invoices/presentation/cubit/list/provider_invoices_cubit.dart';
+import 'package:car_care/features/provider_invoices/presentation/cubit/show/show_provider_invoice_cubit.dart';
 import 'package:car_care/features/sos/data/data_sources/sos_remote_data_source.dart';
 import 'package:car_care/features/sos/data/repositories/sos_repository_impl.dart';
 import 'package:car_care/features/sos/domain/repositories/i_sos_repository.dart';
@@ -197,6 +203,9 @@ Future<void> setupServiceLocator() async {
     ..registerLazySingleton<LocaleCubit>(
       () => LocaleCubit(getIt<SecureStorage>()),
     )
+    ..registerLazySingleton<ThemeCubit>(
+  () => ThemeCubit(getIt<SecureStorage>()),
+)
     // Networking
     ..registerLazySingleton<ApiClient>(
       () => ApiClient(secureStorage: getIt<SecureStorage>()),
@@ -670,5 +679,17 @@ Future<void> setupServiceLocator() async {
     )
     ..registerFactory<AdvertisementCubit>(
       () => AdvertisementCubit(getIt<IAdvertisementRepository>()),
-    );
+    )
+    ..registerLazySingleton<ProviderInvoicesRemoteDataSource>(
+  () => ProviderInvoicesRemoteDataSource(getIt()),
+)
+..registerLazySingleton<IProviderInvoicesRepository>(
+  () => ProviderInvoicesRepositoryImpl(getIt()),
+)
+..registerFactory<ProviderInvoicesCubit>(
+  () => ProviderInvoicesCubit(getIt()),
+)
+..registerFactory<ShowProviderInvoiceCubit>(
+  () => ShowProviderInvoiceCubit(getIt()),
+);
 }

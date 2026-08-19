@@ -69,45 +69,42 @@ class _MainAppShellState extends State<MainAppShell> {
       ),
     );
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        key: _scaffoldKey,
-
-        // Drawer
-        endDrawer: hideShellDrawer ? null : const AppNavigationDrawer(),
-
-        backgroundColor: context.colorScheme.surface,
-
-        // AppBar فقط في Home
-        appBar: showShellAppBar
-            ? CustomAppBar(
-                title: AppConstants.appName,
-                showBackButton: false,
-                useMainBranding: true,
-                actionWidget: menuAction,
-              )
-            : null,
-
-        //الصفحة
-        body: widget.child,
-
-        // Lets the body paint behind the floating pill bar/notch so the
-        // page's own background shows through instead of a Scaffold-colored
-        // strip appearing around/below it.
-        extendBody: !hideShellBottomNav,
-
-        // Bottom Navigation
-        bottomNavigationBar: hideShellBottomNav
-            ? null
-            : widget.bottomNavigationBar,
-
-        // AI Assistant floating action button
-        floatingActionButton: (hideShellBottomNav || hideFabForKeyboard)
-            ? null
-            : widget.floatingActionButton,
-        floatingActionButtonLocation: widget.floatingActionButtonLocation,
-      ),
+    return Scaffold(
+      key: _scaffoldKey,
+    
+      // Drawer
+      endDrawer: hideShellDrawer ? null : const AppNavigationDrawer(),
+    
+      backgroundColor: context.colorScheme.surface,
+    
+      // AppBar فقط في Home
+      appBar: showShellAppBar
+          ? CustomAppBar(
+              title: AppConstants.appName,
+              showBackButton: false,
+              useMainBranding: true,
+              actionWidget: menuAction,
+            )
+          : null,
+    
+      //الصفحة
+      body: widget.child,
+    
+      // Lets the body paint behind the floating pill bar/notch so the
+      // page's own background shows through instead of a Scaffold-colored
+      // strip appearing around/below it.
+      extendBody: !hideShellBottomNav,
+    
+      // Bottom Navigation
+      bottomNavigationBar: hideShellBottomNav
+          ? null
+          : widget.bottomNavigationBar,
+    
+      // AI Assistant floating action button
+      floatingActionButton: (hideShellBottomNav || hideFabForKeyboard)
+          ? null
+          : widget.floatingActionButton,
+      floatingActionButtonLocation: widget.floatingActionButtonLocation,
     );
   }
 }

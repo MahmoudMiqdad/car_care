@@ -7,6 +7,7 @@ import 'package:car_care/core/widgets/app_image_widget.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/add_requests/request_priority_chip.dart';
 import 'package:car_care/features/technician/technician_order/domain/entities/available_requests_entity.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,14 +15,15 @@ class OrderCard extends StatelessWidget {
   const OrderCard({super.key, required this.item, required this.onTap});
 
   final AvailableRequestDataEntity item;
-
   final VoidCallback onTap;
 
   static String _formatDate(DateTime d) => '${d.year}/${d.month}/${d.day}';
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final radius = AppConstants.maintenanceRequestCardRadius.r;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     return Card(
       elevation: 0,
@@ -39,7 +41,7 @@ class OrderCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.08),
+                color: AppColors.black.withValues(alpha: 0.08),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -60,37 +62,39 @@ class OrderCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     AppInfoRow(
-                      label: 'وصف',
+                      label: l10n.descriptionLabel,
                       value: item.description,
                       labelFontSize: 16.sp,
                     ),
-                    AppInfoRow(label: 'العميل', value: item.customer.name),
+                    AppInfoRow(
+                      label: l10n.clientLabel,
+                      value: item.customer.name,
+                    ),
                     Row(
                       children: [
                         Expanded(
                           flex: 1,
                           child: AppInfoRow(
-                            label: 'المركبة',
+                            label: l10n.vehicleLabel,
                             value: item.vehicle.brand,
                           ),
                         ),
-                        // SizedBox(width: 5.w),
                         Expanded(
                           flex: 1,
                           child: Text(
                             item.vehicle.model,
-                            textAlign: TextAlign.right,
-                            style: TextStyle(fontSize: 14.sp),
+                            textAlign: isRtl ? TextAlign.right : TextAlign.left,
+                            style: TextStyle(fontSize: 14.sp, color: AppColors.textPrimary(context)),
                           ),
                         ),
                       ],
                     ),
                     AppInfoRow(
-                      label: 'التاريخ',
+                      label: l10n.dateLabel,
                       value: _formatDate(item.createdAt),
                     ),
                     SizedBox(height: 4.h),
-                    _buildFooter(),
+                    _buildFooter(context, isRtl),
                   ],
                 ),
               ),
@@ -99,27 +103,26 @@ class OrderCard extends StatelessWidget {
         ),
       ),
     );
-  }
+  }Widget _buildFooter(BuildContext context, bool isRtl) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      RequestPriorityChip(
+        label: item.priority.localizedLabel(context),
+        style: PriorityChipStyle.forState(
+          context: context, // 💡 أضفنا تمرير الـ context هنا لحل المشكلة
+          value: item.priority,
+          selected: item.priority,
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 3.h),
+      ),
+      Icon(
+        isRtl ? Icons.keyboard_double_arrow_left : Icons.keyboard_double_arrow_right,
+        size: 22.sp,
+        color: AppColors.textSecondary(context).withValues(alpha: 0.6),
+      ),
+    ],
+  );
+}
 
-  Widget _buildFooter() {
-    return Row(
-      textDirection: TextDirection.rtl,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        RequestPriorityChip(
-          label: item.priority.labelAr,
-          style: PriorityChipStyle.forState(
-            value: item.priority,
-            selected: item.priority,
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 3.h),
-        ),
-        Icon(
-          Icons.keyboard_double_arrow_left,
-          size: 22.sp,
-          color: AppColors.lightTextSecondary.withOpacity(0.6),
-        ),
-      ],
-    );
-  }
 }

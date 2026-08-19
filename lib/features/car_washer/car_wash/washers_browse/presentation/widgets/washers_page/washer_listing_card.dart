@@ -59,7 +59,7 @@ class WasherListingCard extends StatelessWidget {
                           l10n.washersCityWithName(washer.city),
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: AppColors.lightTextSecondary,
+                            color: AppColors.textSecondary(context),
                             fontSize: 17.sp,
                             fontWeight: FontWeight.w700,
                           ),
@@ -68,7 +68,7 @@ class WasherListingCard extends StatelessWidget {
                           l10n.washersRatingsWithCount(washer.ratingsCount),
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: AppColors.lightTextSecondary,
+                            color: AppColors.textSecondary(context),
                             fontSize: 17.sp,
                             fontWeight: FontWeight.w700,
                           ),

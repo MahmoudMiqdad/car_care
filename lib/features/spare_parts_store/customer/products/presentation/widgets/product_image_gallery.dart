@@ -1,9 +1,11 @@
 // معرض صور المنتج بصورة رئيسية وصور مصغّرة (أو Placeholder واحد عند غياب الصور)
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/widgets/app_network_image_widget.dart';
 import 'package:car_care/features/spare_parts_store/customer/products/presentation/widgets/condition_badge.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -62,7 +64,7 @@ class _ProductImageGalleryState extends State<ProductImageGallery> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.r),
                       border: Border.all(
-                        color: isSelected ? AppColors.primary : AppColors.lightBorder,
+                        color: isSelected ? AppColors.primary : AppColors.border(context),
                         width: isSelected ? 2 : 1,
                       ),
                     ),
@@ -100,7 +102,7 @@ class _ThumbnailImage extends StatelessWidget {
           child: Icon(
             Icons.broken_image_outlined,
             size: 18.sp,
-            color: AppColors.lightTextSecondary,
+            color: AppColors.textSecondary(context),
           ),
         ),
       ),
@@ -113,8 +115,8 @@ class _EmptyImageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconColor = AppColors.lightTextSecondary;
-
+    final iconColor = AppColors.textSecondary(context);
+final string =context.l10n;
     return Container(
       width: double.infinity,
       height: 200.h,
@@ -126,8 +128,8 @@ class _EmptyImageContent extends StatelessWidget {
           Icon(Icons.build_circle_outlined, size: 72.sp, color: iconColor),
           SizedBox(height: 8.h),
           Text(
-            'صورة المنتج',
-            style: AppTypography.labelSmall.copyWith(color: iconColor),
+            string.productImageLabel,
+            style: context.textTheme.labelSmall!.copyWith(color: iconColor),
           ),
         ],
       ),

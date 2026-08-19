@@ -24,6 +24,7 @@ class WasherStatisticsRatingsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AppText.sectionTitle(
+             context,
           strings.showRatingAverageRatings,
           fontSize: 24.sp,
           fontWeight: FontWeight.w700,
@@ -65,7 +66,7 @@ class WasherStatisticsRatingsSection extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.lightTextSecondary,
+                    color: AppColors.textSecondary(context),
                   ),
                 ),
               ],

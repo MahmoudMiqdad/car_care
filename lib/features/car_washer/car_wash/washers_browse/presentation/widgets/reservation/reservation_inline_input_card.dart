@@ -1,5 +1,5 @@
+import 'package:car_care/core/extensions/theme_extension.dart'; // 🎯 استيراد امتداد الثيم لقراءة الخطوط الذكية
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -37,7 +37,7 @@ class ReservationInlineInputCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Align(
-            alignment: Alignment.centerRight,
+            alignment: AlignmentDirectional.centerStart, // 🎯 محاذاة ذكية تدعم الانعكاس التلقائي للغات
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -45,11 +45,10 @@ class ReservationInlineInputCard extends StatelessWidget {
                 SizedBox(width: 4.w),
                 Text(
                   label,
-                  textAlign: TextAlign.right,
-                  style: AppTypography.bodySmall.copyWith(
+                  textAlign: TextAlign.start,
+                  style: context.textTheme.bodySmall!.copyWith(
                     color: AppColors.black,
                     fontWeight: FontWeight.w800,
-                    fontSize: 15.sp,
                   ),
                 ),
               ],
@@ -58,21 +57,19 @@ class ReservationInlineInputCard extends StatelessWidget {
           SizedBox(height: 2.h),
           TextField(
             controller: controller,
-            textAlign: TextAlign.right,
+            textAlign: TextAlign.start, // 🎯 يكتب العميل ويتحرك المؤشر بحسب لغة الكتابة الطبيعية
             keyboardType: keyboardType,
             minLines: minLines,
             maxLines: maxLines,
-            style: AppTypography.bodySmall.copyWith(
+            style: context.textTheme.bodySmall!.copyWith(
               color: AppColors.black,
               fontWeight: FontWeight.w600,
-              fontSize: 13.sp,
             ),
             decoration: InputDecoration(
               hintText: hintText,
-              hintStyle: AppTypography.bodySmall.copyWith(
-                color: const Color.fromARGB(255, 114, 106, 108),
+              hintStyle: context.textTheme.bodySmall!.copyWith(
+                color: AppColors.gray,
                 fontWeight: FontWeight.w500,
-                fontSize: 13.sp,
               ),
               border: InputBorder.none,
               enabledBorder: InputBorder.none,

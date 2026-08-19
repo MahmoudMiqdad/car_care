@@ -2,8 +2,7 @@ import 'package:car_care/features/car_washer/shared/presentation/widgets/carwash
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-({Color background, Color border}) customerBookingChipStyleFor(String status) =>
-    carwashBookingStatusStyleFor(status);
+// تم حذف الدالة السطرية لأن الكود بالأسفل يعتمد مباشرة على CarwashBookingStatusBadge
 
 class BookingStatusChips extends StatelessWidget {
   const BookingStatusChips({
@@ -18,7 +17,9 @@ class BookingStatusChips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: [BookingStatusChip(status: status, label: label)],
+      children: [
+        BookingStatusChip(status: status, label: label),
+      ],
     );
   }
 }

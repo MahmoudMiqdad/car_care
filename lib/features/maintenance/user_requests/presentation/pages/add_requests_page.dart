@@ -2,6 +2,7 @@
 
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/functions/upload_file_to_api.dart';
+
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
@@ -22,6 +23,7 @@ import 'package:car_care/features/technician/technician_quotations/presentation/
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_state.dart';
+import 'package:car_care/l10n.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,6 +86,7 @@ class _RequestsPageState extends State<_RequestsPageBody> {
   }
 
   Future<void> _pickVehicle() async {
+    final l10n = context.l10n;
     final cubit = context.read<VehicleCubit>();
     var state = cubit.state;
 
@@ -100,10 +103,7 @@ class _RequestsPageState extends State<_RequestsPageBody> {
 
     if (state is VehicleEmpty ||
         (state is VehicleLoaded && state.vehicles.isEmpty)) {
-      AppSnackBar.error(
-        context,
-        'لا توجد مركبات لديك، يرجى إضافة مركبة أولاً من صفحة مركباتي',
-      );
+      AppSnackBar.error(context, l10n.noVehiclesAddOneFirst);
       return;
     }
 
@@ -146,19 +146,13 @@ class _RequestsPageState extends State<_RequestsPageBody> {
   }
 
   Future<void> _pickImages() async {
+    final l10n = context.l10n;
     final picked = await _picker.pickMultiImage(imageQuality: 80);
 
     if (picked.isEmpty) return;
 
     if (picked.length + _images.length > 3) {
-      // ignore: duplicate_ignore
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('يمكنك اختيار 3 صور كحد أقصى'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      AppSnackBar.error(context, l10n.maxThreeImagesAllowed);
       return;
     }
 
@@ -181,14 +175,15 @@ class _RequestsPageState extends State<_RequestsPageBody> {
   }
 
   void _submitRequest() async {
+    final l10n = context.l10n;
     final vehicle = _selectedVehicle;
     if (vehicle == null) {
-      AppSnackBar.error(context, 'يرجى اختيار المركبة أولاً');
+      AppSnackBar.error(context, l10n.pleaseSelectVehicleFirst);
       return;
     }
 
     if (_problemController.text.trim().isEmpty) {
-      AppSnackBar.error(context, 'يرجى وصف المشكلة');
+      AppSnackBar.error(context, l10n.pleaseDescribeProblem);
       return;
     }
 
@@ -210,18 +205,18 @@ class _RequestsPageState extends State<_RequestsPageBody> {
 
       context.read<AddMaintenanceRequestCubit>().addRequest(formData);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('خطأ داخلي: $e'), backgroundColor: Colors.red),
-      );
+      AppSnackBar.error(context, '${l10n.internalError}: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return BlocConsumer<AddMaintenanceRequestCubit, AddMaintenanceRequestState>(
       listener: (context, state) {
         if (state is AddMaintenanceRequestSuccess) {
-          AppSnackBar.success(context, 'تم إرسال الطلب بنجاح');
+          AppSnackBar.success(context, l10n.requestSentSuccessfully);
           context.safePopOrGo(Routes.all_requests);
         }
 
@@ -233,64 +228,67 @@ class _RequestsPageState extends State<_RequestsPageBody> {
         final isLoading = state is AddMaintenanceRequestLoading;
         final cardR = RequestsFlowStyles.formCardRadius;
 
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: Scaffold(
-            backgroundColor: AppColors.lightScaffold,
-            appBar: const CustomAppBar(
-              title: 'طلب صيانة',
-              showBackButton: true,
-            ),
-            body: RequestsFlowStyles.backgroundStack(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.fromLTRB(
-                  18.w,
-                  12.h,
-                  16.w,
-                  24.h + MediaQuery.paddingOf(context).bottom,
-                ),
-                child: Column(
-                  children: [
-                    BlocConsumer<VehicleCubit, VehicleState>(
-                      listener: (context, vehicleState) {
-                        if (vehicleState is VehicleLoaded) {
-                          _syncPreselectedVehicle(vehicleState.vehicles);
-                        }
-                      },
-                      builder: (context, vehicleState) => VehicleInfoSection(
-                        cardRadius: cardR,
-                        vehicle: _selectedVehicle,
-                        onPickVehicle: _pickVehicle,
-                        isLoading: isLoading,
-                      ),
-                    ),
-                    ProblemDescriptionField(controller: _problemController),
-                    SizedBox(height: 8.h),
-                    PhotoAttachmentSection(
+        return Scaffold(
+          backgroundColor: AppColors.scaffoldBackground(context),
+          appBar: CustomAppBar(
+            title: l10n.maintenanceRequestTitle,
+            showBackButton: true,
+          ),
+          body: RequestsFlowStyles.backgroundStack(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(
+                18.w,
+                12.h,
+                16.w,
+                24.h + MediaQuery.paddingOf(context).bottom,
+              ),
+              child: Column(
+                children: [
+                  BlocConsumer<VehicleCubit, VehicleState>(
+                    listener: (context, vehicleState) {
+                      if (vehicleState is VehicleLoaded) {
+                        _syncPreselectedVehicle(vehicleState.vehicles);
+                      }
+                    },
+                    builder: (context, vehicleState) => VehicleInfoSection(
                       cardRadius: cardR,
-                      images: _images,
-                      onAddPhoto: _pickImages,
-                      onRemove: (img) => setState(() => _images.remove(img)),
+                      vehicle: _selectedVehicle,
+                      onPickVehicle: _pickVehicle,
+                      isLoading: isLoading,
                     ),
-                    SizedBox(height: 8.h),
-                    PreferredDateSection(
-                      cardRadius: cardR,
-                      formattedDate: selectedDate,
-                      onPickDate: _pickDate,
-                    ),
-                    SizedBox(height: 8.h),
-                    PrioritySelector(
-                      selected: _priority,
-                      onChanged: (p) => setState(() => _priority = p),
-                    ),
-                    SizedBox(height: 8.h),
-                    RequestsActionButtons(
-                      cardRadius: cardR,
-                      onSubmit: isLoading ? null : _submitRequest,
-                      onCancel: () => context.safePopOrGo(Routes.home),
-                    ),
-                  ],
-                ),
+                  ),
+                  ProblemDescriptionField(controller: _problemController),
+                  SizedBox(height: 8.h),
+                  PhotoAttachmentSection(
+                    cardRadius: cardR,
+                    images: _images,
+                    onAddPhoto: _pickImages,
+                    onRemove: (img) => setState(() => _images.remove(img)),
+                  ),
+                  SizedBox(height: 8.h),
+                  PreferredDateSection(
+                    cardRadius: cardR,
+                    formattedDate: selectedDate,
+                    onPickDate: _pickDate,
+                  ),
+                  SizedBox(height: 8.h),
+                  PrioritySelector(
+                    selected: _priority,
+                    onChanged: (p) => setState(() => _priority = p),
+                  ),
+                  SizedBox(height: 8.h),
+                  RequestsActionButtons(
+                    cardRadius: cardR,
+        
+                    submitLabel: isLoading
+                        ? l10n.updatingProgress
+                        : l10n.maintenanceRequestTitle,
+        
+                    cancelLabel: l10n.backButton,
+                    onSubmit: isLoading ? null : _submitRequest,
+                    onCancel: () => context.safePopOrGo(Routes.home),
+                  ),
+                ],
               ),
             ),
           ),

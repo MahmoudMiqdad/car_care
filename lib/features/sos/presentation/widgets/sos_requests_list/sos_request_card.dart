@@ -1,7 +1,7 @@
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/constants/app_assets.dart';
-
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/sos/domain/entities/sos_entity.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/request_detail_row.dart';
@@ -19,16 +19,22 @@ class SosRequestCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final currentLang = Localizations.localeOf(context).languageCode;
+    final fontFamily = AppTypography.getFontFamily(currentLang);
     final radius = AppConstants.maintenanceRequestCardRadius.r;
+
+    final String brand = item.vehicleBrand ?? '';
+    final String model = item.vehicleModel ?? '';
+    final String createdAgoStr = item.createdAgo ?? '';
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: AppColors.cardBackground(context),
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(color: AppColors.carWashTeal, width: 1),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
+            color: AppColors.black.withValues(alpha: 0.06),
             blurRadius: 10.r,
             offset: Offset(0, 4.h),
           ),
@@ -43,7 +49,6 @@ class SosRequestCard extends StatelessWidget {
             child: IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                textDirection: TextDirection.rtl,
                 children: [
                   Expanded(
                     child: Column(
@@ -51,22 +56,21 @@ class SosRequestCard extends StatelessWidget {
                       children: [
                         RequestDetailRow(
                           label: l10n.sosRequestIdLabel,
-                          leading: SosRequestRowAssetIcon(
+                          leading: const SosRequestRowAssetIcon(
                             assetPath: AppAssets.editIcon,
                           ),
                           value: item.plateNumber.toString(),
                         ),
                         RequestDetailRow(
                           label: l10n.sosRequestVehicleLabel,
-                          leading: SosRequestRowAssetIcon(
+                          leading: const SosRequestRowAssetIcon(
                             assetPath: AppAssets.sosRequestVehicleRowIcon,
                           ),
-                          value:
-                              '${item.vehicleBrand ?? ''} ${item.vehicleModel ?? ''}',
+                          value: l10n.vehicleLabelWithParam(brand, model),
                         ),
                         RequestDetailRow(
                           label: l10n.sosRequestShortDescriptionLabel,
-                          leading: SosRequestRowAssetIcon(
+                          leading: const SosRequestRowAssetIcon(
                             assetPath: AppAssets.technicianJobNotesIcon,
                           ),
                           multilineBelow: item.description,
@@ -77,7 +81,6 @@ class SosRequestCard extends StatelessWidget {
                   SizedBox(width: 12.w),
                   Container(width: 1, color: AppColors.carWashTeal),
                   SizedBox(width: 12.w),
-                  // Real backend status only — no static three-state list.
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,16 +121,25 @@ class SosRequestCard extends StatelessWidget {
           SizedBox(height: 12.h),
           Container(
             width: double.infinity,
-            height: 35.h,
-            padding: EdgeInsets.symmetric(vertical: 8.h),
+            // ⬅️ شلنا height الثابت (35.h) يلي كان بيقص النص المترجم الطويل.
+            // بدلها: حد أدنى بس (constraints) + padding، فيصير الارتفاع
+            // يكبر تلقائيًا لو النص لف سطرين، بدون ما ينقص ولا يتشوه.
+            constraints: BoxConstraints(minHeight: 35.h),
+            padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
             color: AppColors.carWashTeal,
+            alignment: Alignment.center,
             child: Text(
-              'created Ago ${item.createdAgo!}',
+              l10n.createdAgoLabel(createdAgoStr),
               textAlign: TextAlign.center,
+              softWrap: true,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: AppColors.white,
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
+                fontFamily: fontFamily,
+                height: 1.3,
               ),
             ),
           ),

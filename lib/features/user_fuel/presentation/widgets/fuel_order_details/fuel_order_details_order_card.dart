@@ -82,7 +82,16 @@ class _FuelOrderVehicleAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final url = imageUrl;
 
-    if (url == null) return _placeholder();
+    // 💡 قمنا بنقل دالة الـ placeholder إلى هنا لتصبح دالة داخلية ترى الـ context تلقائياً
+    Widget placeholder() {
+      return CircleAvatar(
+        radius: 44.r,
+        backgroundColor: AppColors.cardBackground(context), // سيعمل الآن بشكل صحيح تماماً
+        backgroundImage: const AssetImage(AppAssets.technicianJobVehicleIcon),
+      );
+    }
+
+    if (url == null) return placeholder();
 
     return ClipOval(
       child: Image.network(
@@ -90,16 +99,8 @@ class _FuelOrderVehicleAvatar extends StatelessWidget {
         width: 88.r,
         height: 88.r,
         fit: BoxFit.cover,
-        errorBuilder: (_, _, _) => _placeholder(),
+        errorBuilder: (_, _, _) => placeholder(),
       ),
-    );
-  }
-
-  Widget _placeholder() {
-    return CircleAvatar(
-      radius: 44.r,
-      backgroundColor: AppColors.lightSurface,
-      backgroundImage: const AssetImage(AppAssets.technicianJobVehicleIcon),
     );
   }
 }

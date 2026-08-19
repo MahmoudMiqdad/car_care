@@ -4,6 +4,7 @@ import 'package:car_care/features/car_washer/washers/washers_profile/presentatio
 import 'package:car_care/features/car_washer/washers/washers_ratings/domain/entities/car_washer_rating_entity.dart';
 import 'package:car_care/features/car_washer/washers/washers_ratings/presentation/cubit/car_washer_ratings_cubit.dart';
 import 'package:car_care/features/car_washer/washers/washers_ratings/presentation/cubit/car_washer_ratings_state.dart';
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,52 +36,55 @@ class _CarWasherRatingsSectionState extends State<CarWasherRatingsSection> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return BlocProvider.value(
       value: _cubit,
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.all(14.r),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16.r),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(14.r),
+        decoration: BoxDecoration(
+          color: AppColors.white, 
+          borderRadius: BorderRadius.circular(16.r),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.black.withValues(alpha: 0.05),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n.ratingsTitle, 
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w700,
+                color: AppColors.black,
               ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'التقييمات',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.black,
-                ),
-              ),
-              SizedBox(height: 10.h),
-              BlocBuilder<CarWasherRatingsCubit, CarWasherRatingsState>(
-                builder: (context, state) => _buildBody(context, state),
-              ),
-            ],
-          ),
+            ),
+            SizedBox(height: 10.h),
+            BlocBuilder<CarWasherRatingsCubit, CarWasherRatingsState>(
+              builder: (context, state) => _buildBody(context, state),
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget _buildBody(BuildContext context, CarWasherRatingsState state) {
+    final l10n = context.l10n;
+
     if (state is CarWasherRatingsInitial || state is CarWasherRatingsLoading) {
-      return const Center(
+      return Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 12),
-          child: CircularProgressIndicator(strokeWidth: 2),
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.carWashTeal),
+          ),
         ),
       );
     }
@@ -90,14 +94,17 @@ class _CarWasherRatingsSectionState extends State<CarWasherRatingsSection> {
         children: [
           Text(
             state.message,
-            style: TextStyle(fontSize: 13.sp, color: AppColors.error),
+            style: TextStyle(fontSize: 13.sp, color: AppColors.red),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 8.h),
           TextButton.icon(
             onPressed: () => _cubit.fetchRatings(widget.carWasherId),
-            icon: const Icon(Icons.refresh),
-            label: const Text('إعادة المحاولة'),
+            icon: Icon(Icons.refresh, color: AppColors.primary),
+            label: Text(
+              l10n.retry, 
+              style: const TextStyle(color: AppColors.primary),
+            ),
           ),
         ],
       );
@@ -115,11 +122,12 @@ class _CarWasherRatingsSectionState extends State<CarWasherRatingsSection> {
             ),
             SizedBox(width: 8.w),
             Text(
-              '${loaded.averageRating.toStringAsFixed(1)} (${loaded.totalRatings} تقييمًا)',
+       
+              '${loaded.averageRating.toStringAsFixed(1)} ${l10n.ratingsCountLabel(loaded.totalRatings)}',
               style: TextStyle(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
-                color: AppColors.lightTextSecondary,
+                color: AppColors.textSecondary(context),
               ),
             ),
           ],
@@ -129,10 +137,10 @@ class _CarWasherRatingsSectionState extends State<CarWasherRatingsSection> {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 8.h),
             child: Text(
-              'لا توجد تقييمات بعد',
+              l10n.noRatingsYet,
               style: TextStyle(
                 fontSize: 13.sp,
-                color: AppColors.lightTextSecondary,
+                color: AppColors.textSecondary(context),
               ),
             ),
           )
@@ -145,11 +153,17 @@ class _CarWasherRatingsSectionState extends State<CarWasherRatingsSection> {
                   ? SizedBox(
                       width: 18.w,
                       height: 18.w,
-                      child: const CircularProgressIndicator(strokeWidth: 2),
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.carWashTeal),
+                      ),
                     )
                   : TextButton(
                       onPressed: () => _cubit.loadMore(widget.carWasherId),
-                      child: const Text('عرض المزيد'),
+                      child: Text(
+                        l10n.showMore,
+                        style: const TextStyle(color: AppColors.primary),
+                      ),
                     ),
             ),
           ],
@@ -166,6 +180,8 @@ class _ReviewTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.h),
       child: Column(
@@ -175,7 +191,8 @@ class _ReviewTile extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  rating.userName.isNotEmpty ? rating.userName : 'مستخدم',
+                
+                  rating.userName.isNotEmpty ? rating.userName : l10n.defaultUserName,
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
@@ -195,7 +212,7 @@ class _ReviewTile extends StatelessWidget {
               rating.review,
               style: TextStyle(
                 fontSize: 13.sp,
-                color: AppColors.lightTextPrimary,
+                color: AppColors.textPrimary(context),
               ),
             ),
           ],
@@ -207,11 +224,11 @@ class _ReviewTile extends StatelessWidget {
                   : rating.createdAt,
               style: TextStyle(
                 fontSize: 11.sp,
-                color: AppColors.lightTextSecondary,
+                color: AppColors.textSecondary(context),
               ),
             ),
           ],
-          const Divider(height: 16),
+          Divider(height: 16, color: AppColors.border(context)),
         ],
       ),
     );

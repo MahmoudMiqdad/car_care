@@ -1,4 +1,5 @@
 import 'package:car_care/core/routing/routes.dart';
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -20,6 +21,8 @@ class CustomerStoreBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return BottomNavigationBar(
       currentIndex: CustomerStoreSection.values.indexOf(current),
       type: BottomNavigationBarType.fixed,
@@ -28,22 +31,22 @@ class CustomerStoreBottomNavBar extends StatelessWidget {
         if (target == current) return;
         context.go(target.route);
       },
-      items: const [
+      items: [ 
         BottomNavigationBarItem(
-          icon: Icon(Icons.storefront_outlined),
-          label: 'المتاجر',
+          icon: const Icon(Icons.storefront_outlined),
+          label: l10n.shopsTitle, 
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.grid_view_outlined),
-          label: 'كل المنتجات',
+          icon: const Icon(Icons.grid_view_outlined),
+          label: l10n.allProductsPageTitle,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart_outlined),
-          label: 'السلة',
+          icon: const Icon(Icons.shopping_cart_outlined),
+          label: l10n.cartLabel, 
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.receipt_long_outlined),
-          label: 'طلباتي',
+          icon: const Icon(Icons.receipt_long_outlined),
+          label: l10n.allRequestsTitle, 
         ),
       ],
     );

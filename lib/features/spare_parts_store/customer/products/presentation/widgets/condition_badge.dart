@@ -1,6 +1,8 @@
 // شارة تعرض حالة المنتج: جديد أو مستعمل
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
+import 'package:car_care/l10n.dart'; // 🎯 استيراد امتداد l10n للترجمة الديناميكية
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,18 +13,19 @@ class ConditionBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isNew ? AppColors.success : AppColors.accent;
+    final l10n = context.l10n; 
+    final color = isNew ? AppColors.green : AppColors.accent;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.15),
+        color: color.withValues(alpha: 0.15), 
         border: Border.all(color: color),
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Text(
-        isNew ? 'جديد' : 'مستعمل',
-        style: AppTypography.labelSmall.copyWith(
+        isNew ? l10n.conditionNew : l10n.conditionUsed,
+        style: context.textTheme.labelSmall!.copyWith(
           color: color,
           fontWeight: FontWeight.w700,
         ),

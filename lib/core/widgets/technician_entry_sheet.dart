@@ -44,13 +44,13 @@ void showTechnicianEntrySheet(BuildContext context) {
                     label,
                     style: Theme.of(sheetContext).textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
-                          color: AppColors.lightTextPrimary,
+                          color: AppColors.textPrimary(context),
                         ),
                   ),
                 ),
                 Icon(
                   Icons.chevron_left_rounded,
-                  color: AppColors.lightTextSecondary.withValues(alpha: 0.6),
+                  color: AppColors.textSecondary(context).withValues(alpha: 0.6),
                   size: 22.sp,
                 ),
               ],

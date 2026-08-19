@@ -26,7 +26,7 @@ class MaintenanceHistoryBody extends StatelessWidget {
           final entries = state.items;
 
           if (entries.isEmpty) {
-            return const Center(child: Text('لا يوجد سجلات صيانة'));
+           
           }
 
           return CustomScrollView(

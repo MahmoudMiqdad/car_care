@@ -21,13 +21,13 @@ class CreateSosSelectRow extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Material(
-      color: Colors.transparent,
+      color: AppColors.transparent,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12.r),
         child: Ink(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(12.r),
             border: Border.all(color: AppColors.primary, width: 1.5),
           ),
@@ -44,7 +44,7 @@ class CreateSosSelectRow extends StatelessWidget {
                       Text(
                         label,
                         style: theme.textTheme.titleSmall?.copyWith(
-                          color: AppColors.lightTextPrimary,
+                          color: AppColors.textPrimary(context),
                           fontWeight: FontWeight.w700,
                           fontSize: 15.sp,
                         ),
@@ -53,10 +53,10 @@ class CreateSosSelectRow extends StatelessWidget {
                         value.isEmpty ? '\u2014' : value,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: value.isEmpty
-                              ? AppColors.lightTextSecondary.withValues(
+                              ? AppColors.textSecondary(context).withValues(
                                   alpha: 0.45,
                                 )
-                              : AppColors.lightTextSecondary.withValues(
+                              : AppColors.textSecondary(context).withValues(
                                   alpha: 0.85,
                                 ),
                           fontSize: 14.sp,

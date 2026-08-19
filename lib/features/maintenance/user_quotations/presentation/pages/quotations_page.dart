@@ -8,6 +8,7 @@ import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/cubit/quotations_cubit.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/cubit/quotations_state.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/widgets/quotation_card.dart';
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,83 +32,84 @@ class _QuotationsPageState extends State<QuotationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
-        appBar: CustomAppBar(
-          title: 'عروض الأسعار',
-          showBackButton: true,
-          backgroundColor: AppColors.carWashTeal,
-          onBackTapped: () => context.safePopOrGo(Routes.all_requests),
-        ),
-        body: ImageBackground(
-          child: BlocBuilder<QuotationsCubit, QuotationsState>(
-            builder: (context, state) {
-              if (state is QuotationsLoading) {
-                return const Center(child: AppLoadingWidget());
-              }
+    final l10n = context.l10n;
 
-              if (state is QuotationsError) {
-                return Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(state.message),
-                      SizedBox(height: 12.h),
-                      TextButton(
-                        onPressed: () => context
-                            .read<QuotationsCubit>()
-                            .fetchQuotations(widget.requestId),
-                        child: const Text('إعادة المحاولة'),
-                      ),
-                    ],
-                  ),
-                );
-              }
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground(context),
+      appBar: CustomAppBar(
+        title: l10n.quotationsTitle, 
+        showBackButton: true,
+        backgroundColor: AppColors.carWashTeal,
+        onBackTapped: () => context.safePopOrGo(Routes.all_requests),
+      ),
+      body: ImageBackground(
+        child: BlocBuilder<QuotationsCubit, QuotationsState>(
+          builder: (context, state) {
+            if (state is QuotationsLoading) {
+              return const Center(child: AppLoadingWidget());
+            }
 
-              if (state is QuotationsLoaded) {
-                if (state.quotations.data.isEmpty) {
-                  return const Center(child: Text('لا توجد عروض أسعار'));
-                }
-
-                return RefreshIndicator(
-                  onRefresh: () async => context
-                      .read<QuotationsCubit>()
-                      .fetchQuotations(widget.requestId),
-                  child: SafeArea(
-                    child: ListView.separated(
-                      padding: EdgeInsets.fromLTRB(
-                        AppConstants.pageHorizontal,
-                        30.h,
-                        AppConstants.pageHorizontal,
-                        16.h,
-                      ),
-                      itemCount: state.quotations.data.length,
-                      separatorBuilder: (_, _) => SizedBox(height: 16.h),
-                      itemBuilder: (_, index) {
-                        final quotation = state.quotations.data[index];
-                        return QuotationCard(
-                          quotation: quotation,
-                          onTap: () {
-                           context.push(
-  Routes.quotation_details,
-  extra: {
-    'quotation': quotation,
-    'requestId':widget. requestId,
-  },
-);
-                          },
-                        );
-                      },
+            if (state is QuotationsError) {
+              return Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(state.message),
+                    SizedBox(height: 12.h),
+                    TextButton(
+                      onPressed: () => context
+                          .read<QuotationsCubit>()
+                          .fetchQuotations(widget.requestId),
+                      child: Text(l10n.retry), 
                     ),
-                  ),
+                  ],
+                ),
+              );
+            }
+
+            if (state is QuotationsLoaded) {
+              if (state.quotations.data.isEmpty) {
+                return Center(
+                  child: Text(l10n.noQuotationsAvailable), 
                 );
               }
 
-              return const SizedBox();
-            },
-          ),
+              return RefreshIndicator(
+                onRefresh: () async => context
+                    .read<QuotationsCubit>()
+                    .fetchQuotations(widget.requestId),
+                child: SafeArea(
+                  child: ListView.separated(
+                    padding: EdgeInsets.fromLTRB(
+                      AppConstants.pageHorizontal,
+                      30.h,
+                      AppConstants.pageHorizontal,
+                      16.h,
+                    ),
+                    itemCount: state.quotations.data.length,
+                    separatorBuilder: (_, _) => SizedBox(height: 16.h),
+                    itemBuilder: (_, index) {
+                      final quotation = state.quotations.data[index];
+                      return QuotationCard(
+                        quotation: quotation,
+                        onTap: () {
+                          context.push(
+                            Routes.quotation_details,
+                            extra: {
+                              'quotation': quotation,
+                              'requestId': widget.requestId,
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              );
+            }
+
+            return const SizedBox();
+          },
         ),
       ),
     );

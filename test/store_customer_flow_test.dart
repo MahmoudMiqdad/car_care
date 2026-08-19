@@ -160,16 +160,13 @@ void main() {
 
       await pumpWithApp(
         tester,
-        Directionality(
-          textDirection: TextDirection.rtl,
-          child: Scaffold(
-            body: ShopsGovernorateFilter(
-              selectedGovernorate: null,
-              onChanged: (value) {
-                received = value;
-                callCount++;
-              },
-            ),
+        Scaffold(
+          body: ShopsGovernorateFilter(
+            selectedGovernorate: null,
+            onChanged: (value) {
+              received = value;
+              callCount++;
+            },
           ),
         ),
       );
@@ -192,16 +189,13 @@ void main() {
 
       await pumpWithApp(
         tester,
-        Directionality(
-          textDirection: TextDirection.rtl,
-          child: Scaffold(
-            body: ShopsGovernorateFilter(
-              selectedGovernorate: 'دمشق',
-              onChanged: (value) {
-                received = value;
-                callCount++;
-              },
-            ),
+        Scaffold(
+          body: ShopsGovernorateFilter(
+            selectedGovernorate: 'دمشق',
+            onChanged: (value) {
+              received = value;
+              callCount++;
+            },
           ),
         ),
       );

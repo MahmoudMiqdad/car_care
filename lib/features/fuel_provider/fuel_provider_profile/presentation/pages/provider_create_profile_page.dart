@@ -99,39 +99,36 @@ class _ProviderCreateProfilePageState
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
-        appBar: CustomAppBar(
-          title: l10n.providerCreateProfilePageTitle,
-          showBackButton: true,
-          backgroundColor: AppColors.carWashTeal,
-          onBackTapped: () => context.safePopOrGo(Routes.more),
-        ),
-        body: BlocListener<FuelProviderProfileCubit, FuelProviderProfileState>(
-          listener: (context, state) {
-            if (state is FuelProviderProfileLoaded) {
-          
-              context.go(Routes.provider_profile);
-            }
-            if (state is FuelProviderProfileError) {
-              AppSnackBar.error(context, state.message);
-            }
-          },
-          child: ImageBackground(
-            child: ProviderEditProfileBody(
-              nameController: _nameController,
-              phoneController: _phoneController,
-              addressController: _addressController,
-              governorateValue: _governorateValue,
-              onPickGovernorate: _pickGovernorate,
-              fuelPrices: _fuelPrices,
-              onSave: _onCreate,
-              onCancel: () => context.safePopOrGo(Routes.more),
-              saveLabel: l10n.providerCreateProfileSave,
-              onFuelTypeTap: _onFuelTypeTap,
-            ),
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground(context),
+      appBar: CustomAppBar(
+        title: l10n.providerCreateProfilePageTitle,
+        showBackButton: true,
+        backgroundColor: AppColors.carWashTeal,
+        onBackTapped: () => context.safePopOrGo(Routes.more),
+      ),
+      body: BlocListener<FuelProviderProfileCubit, FuelProviderProfileState>(
+        listener: (context, state) {
+          if (state is FuelProviderProfileLoaded) {
+        
+            context.go(Routes.provider_profile);
+          }
+          if (state is FuelProviderProfileError) {
+            AppSnackBar.error(context, state.message);
+          }
+        },
+        child: ImageBackground(
+          child: ProviderEditProfileBody(
+            nameController: _nameController,
+            phoneController: _phoneController,
+            addressController: _addressController,
+            governorateValue: _governorateValue,
+            onPickGovernorate: _pickGovernorate,
+            fuelPrices: _fuelPrices,
+            onSave: _onCreate,
+            onCancel: () => context.safePopOrGo(Routes.more),
+            saveLabel: l10n.providerCreateProfileSave,
+            onFuelTypeTap: _onFuelTypeTap,
           ),
         ),
       ),

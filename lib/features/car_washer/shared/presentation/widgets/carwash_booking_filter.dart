@@ -14,7 +14,7 @@ const List<String?> carwashBookingFilterStatusKeys = [
 
 Map<String?, String> carwashBookingFilterLabels(AppLocalizations l10n) {
   return {
-    null: 'الكل',
+    null: l10n.all,
     'pending': l10n.bookingStatusPending,
     'accepted': l10n.bookingStatusAccepted,
     'in_progress': l10n.bookingStatusProgress,

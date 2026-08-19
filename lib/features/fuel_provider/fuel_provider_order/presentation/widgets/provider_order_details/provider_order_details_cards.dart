@@ -128,7 +128,7 @@ class _ProviderOrderVehicleAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final url = imageUrl;
 
-    if (url == null) return _placeholder();
+    if (url == null) return _placeholder(context);
 
     return ClipOval(
       child: Image.network(
@@ -136,19 +136,19 @@ class _ProviderOrderVehicleAvatar extends StatelessWidget {
         width: 88.r,
         height: 88.r,
         fit: BoxFit.cover,
-        errorBuilder: (_, _, _) => _placeholder(),
+        errorBuilder: (_, _, _) => _placeholder(context),
       ),
     );
   }
 
-  Widget _placeholder() {
-    return CircleAvatar(
-      radius: 44.r,
-      backgroundColor: AppColors.lightSurface,
-      backgroundImage: const AssetImage(AppAssets.technicianJobVehicleIcon),
-    );
-  }
-}
+Widget _placeholder(BuildContext context) { 
+  return CircleAvatar(
+    radius: 44.r,
+    backgroundColor: AppColors.cardBackground(context), 
+    backgroundImage: const AssetImage(AppAssets.technicianJobVehicleIcon),
+  );
+}}
+
 
 class ProviderOrderDetailsCustomerCard extends StatelessWidget {
   const ProviderOrderDetailsCustomerCard({super.key, required this.order});

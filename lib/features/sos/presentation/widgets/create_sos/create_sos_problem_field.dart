@@ -38,7 +38,7 @@ class CreateSosProblemField extends StatelessWidget {
                 child: Text(
                   title,
                   style: context.textTheme.titleSmall?.copyWith(
-                    color: AppColors.lightTextPrimary,
+                    color: AppColors.textPrimary(context),
                     fontWeight: FontWeight.w700,
                     fontSize: 15.sp,
                     height: 1.35,
@@ -54,7 +54,7 @@ class CreateSosProblemField extends StatelessWidget {
             maxLines: 2,
             textAlign: TextAlign.start,
             style: context.textTheme.bodyMedium?.copyWith(
-              color: AppColors.lightTextSecondary,
+              color: AppColors.textSecondary(context),
               fontSize: 14.sp,
               height: 1.45,
               fontWeight: FontWeight.w500,
@@ -69,7 +69,7 @@ class CreateSosProblemField extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               hintText: hint,
               hintStyle: context.textTheme.bodyMedium?.copyWith(
-                color: AppColors.lightTextSecondary.withOpacity(0.55),
+                color: AppColors.textSecondary(context).withOpacity(0.55),
                 fontSize: 14.sp,
                 height: 1.45,
                 fontWeight: FontWeight.w500,

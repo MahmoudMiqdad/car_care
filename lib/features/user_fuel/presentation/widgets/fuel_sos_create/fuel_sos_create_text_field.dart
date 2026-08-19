@@ -29,7 +29,7 @@ class FuelSosCreateTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: AppColors.primary, width: 1.5),
       ),
@@ -61,7 +61,7 @@ class FuelSosCreateTextField extends StatelessWidget {
                   maxLines: maxLines,
                   textAlign: TextAlign.start,
                   style: context.textTheme.bodyMedium?.copyWith(
-                    color: AppColors.lightTextSecondary,
+                    color: AppColors.textSecondary(context),
                     fontSize: 14.sp,
                     height: 1.45,
                     fontWeight: FontWeight.w500,
@@ -76,7 +76,7 @@ class FuelSosCreateTextField extends StatelessWidget {
                     contentPadding: EdgeInsets.zero,
                     hintText: hint,
                     hintStyle: context.textTheme.bodyMedium?.copyWith(
-                      color: AppColors.lightTextSecondary.withValues(
+                      color: AppColors.textSecondary(context).withValues(
                         alpha: 0.55,
                       ),
                       fontSize: 14.sp,

@@ -14,11 +14,11 @@ class TechnicianIndicatorsCard extends StatelessWidget {
     final l10n = context.l10n;
 
     return StatsIndicatorsSection(
-      title: 'تفاصيل الحالات',
+      title: l10n.statusDetailsTitle,
       icon: Icons.checklist_outlined,
       items: [
         StatsIndicatorData(
-          label: 'المعينة',
+          label: l10n.assignedStatusLabel,
           value: data.assignedJobs,
           icon: Icons.assignment_ind_outlined,
           color: AppColors.primary,
@@ -33,7 +33,7 @@ class TechnicianIndicatorsCard extends StatelessWidget {
           label: l10n.completed,
           value: data.completedJobs,
           icon: Icons.check_circle_outline,
-          color: AppColors.success,
+          color: AppColors.green,
         ),
         StatsIndicatorData(
           label: l10n.pending,

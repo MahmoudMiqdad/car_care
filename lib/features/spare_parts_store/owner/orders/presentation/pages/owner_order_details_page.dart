@@ -1,4 +1,5 @@
 // شاشة تفاصيل الطلب للمالك مع إجراءات التحديث.
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
@@ -16,6 +17,7 @@ import 'package:car_care/features/spare_parts_store/owner/orders/presentation/wi
 import 'package:car_care/features/spare_parts_store/shared/presentation/widgets/order_status_badge.dart';
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -58,56 +60,54 @@ class _OwnerOrderDetailsPageState extends State<OwnerOrderDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final string = context.l10n;
     return PopScope<Object?>(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
         context.safePopOrGo(Routes.ownerOrders, result: _mutated);
       },
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: BlocProvider.value(
-          value: _cubit,
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: CustomAppBar(
-              title: 'تفاصيل الطلب',
-              onBackTapped: () =>
-                  context.safePopOrGo(Routes.ownerOrders, result: _mutated),
-            ),
-            body: ImageBackground(
-              child:
-                  BlocConsumer<OwnerOrderDetailsCubit, OwnerOrderDetailsState>(
-                    listener: (context, state) {
-                      if (state is! OwnerOrderDetailsLoaded) return;
-                      if (state.successMessage != null) {
-                        AppSnackBar.success(context, state.successMessage!);
-                        _cubit.clearSuccessMessage();
-                        setState(() => _mutated = true);
-                      }
-                      if (state.actionError != null) {
-                        AppSnackBar.error(context, state.actionError!);
-                        _cubit.clearActionError();
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is OwnerOrderDetailsLoading) {
-                        return const AppLoadingWidget();
-                      }
-                      if (state is OwnerOrderDetailsError) {
-                        return ErrorStateWidget(
-                          message: state.message,
-                          onRetry: () =>
-                              _cubit.fetchOrderDetails(widget.orderId),
-                        );
-                      }
-                      if (state is OwnerOrderDetailsLoaded) {
-                        return _buildContent(state);
-                      }
-                      return const SizedBox.shrink();
-                    },
-                  ),
-            ),
+      child: BlocProvider.value(
+        value: _cubit,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: CustomAppBar(
+            title:string.orderDetailsTitle,
+            onBackTapped: () =>
+                context.safePopOrGo(Routes.ownerOrders, result: _mutated),
+          ),
+          body: ImageBackground(
+            child:
+                BlocConsumer<OwnerOrderDetailsCubit, OwnerOrderDetailsState>(
+                  listener: (context, state) {
+                    if (state is! OwnerOrderDetailsLoaded) return;
+                    if (state.successMessage != null) {
+                      AppSnackBar.success(context, state.successMessage!);
+                      _cubit.clearSuccessMessage();
+                      setState(() => _mutated = true);
+                    }
+                    if (state.actionError != null) {
+                      AppSnackBar.error(context, state.actionError!);
+                      _cubit.clearActionError();
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is OwnerOrderDetailsLoading) {
+                      return const AppLoadingWidget();
+                    }
+                    if (state is OwnerOrderDetailsError) {
+                      return ErrorStateWidget(
+                        message: state.message,
+                        onRetry: () =>
+                            _cubit.fetchOrderDetails(widget.orderId),
+                      );
+                    }
+                    if (state is OwnerOrderDetailsLoaded) {
+                      return _buildContent(state);
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
           ),
         ),
       ),
@@ -161,6 +161,7 @@ class _HeaderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      final string = context.l10n;
     return _Card(
       child: Row(
         children: [
@@ -169,8 +170,8 @@ class _HeaderCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'طلب رقم #${order.id}',
-                  style: AppTypography.labelLarge.copyWith(
+                  '${string.orderNumberLabel}#${order.id}',
+                  style: context.textTheme.labelLarge!.copyWith(
                     color: AppColors.primary,
                     fontWeight: FontWeight.w800,
                   ),
@@ -179,8 +180,8 @@ class _HeaderCard extends StatelessWidget {
                   SizedBox(height: 4.h),
                   Text(
                     order.createdAt!.toLocal().toString().substring(0, 10),
-                    style: AppTypography.labelSmall.copyWith(
-                      color: AppColors.lightTextSecondary,
+                    style: context.textTheme.labelSmall!.copyWith(
+                      color: AppColors.textSecondary(context),
                     ),
                   ),
                 ],
@@ -201,14 +202,16 @@ class _ItemsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+          final string = context.l10n;
+
     return _Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'المنتجات',
-            style: AppTypography.labelMedium.copyWith(
-              color: AppColors.lightTextPrimary,
+            string.productsLabel,
+            style: context.textTheme.labelMedium!.copyWith(
+              color: AppColors.textPrimary(context),
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -237,15 +240,15 @@ class _ItemRow extends StatelessWidget {
               children: [
                 Text(
                   item.product.name,
-                  style: AppTypography.labelSmall.copyWith(
-                    color: AppColors.lightTextPrimary,
+                  style: context.textTheme.labelSmall!.copyWith(
+                    color: AppColors.textPrimary(context),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 Text(
                   '${item.quantity} × ${item.price.toStringAsFixed(0)} ل.س',
-                  style: AppTypography.labelSmall.copyWith(
-                    color: AppColors.lightTextSecondary,
+                  style: context.textTheme.labelSmall!.copyWith(
+                    color: AppColors.textSecondary(context),
                   ),
                 ),
               ],
@@ -253,7 +256,7 @@ class _ItemRow extends StatelessWidget {
           ),
           Text(
             '${item.subtotal.toStringAsFixed(0)} ل.س',
-            style: AppTypography.labelSmall.copyWith(
+            style: context.textTheme.labelSmall!.copyWith(
               color: AppColors.primary,
               fontWeight: FontWeight.w700,
             ),
@@ -271,20 +274,22 @@ class _TotalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+          final string = context.l10n;
+
     return _Card(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             'الإجمالي',
-            style: AppTypography.labelMedium.copyWith(
-              color: AppColors.lightTextPrimary,
+            style: context.textTheme.labelMedium!.copyWith(
+              color: AppColors.textPrimary(context),
               fontWeight: FontWeight.w700,
             ),
           ),
           Text(
             '${totalPrice.toStringAsFixed(0)} ل.س',
-            style: AppTypography.labelLarge.copyWith(
+            style: context.textTheme.labelLarge!.copyWith(
               color: AppColors.primary,
               fontWeight: FontWeight.w800,
             ),
@@ -308,8 +313,8 @@ class _DeliveryCard extends StatelessWidget {
         children: [
           Text(
             'معلومات التوصيل',
-            style: AppTypography.labelMedium.copyWith(
-              color: AppColors.lightTextPrimary,
+            style: context.textTheme.labelMedium!.copyWith(
+              color: AppColors.textPrimary(context),
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -327,8 +332,8 @@ class _DeliveryCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     order.deliveryAddressNote!,
-                    style: AppTypography.labelSmall.copyWith(
-                      color: AppColors.lightTextPrimary,
+                    style: context.textTheme.labelSmall!.copyWith(
+                      color: AppColors.textPrimary(context),
                     ),
                   ),
                 ),
@@ -343,13 +348,13 @@ class _DeliveryCard extends StatelessWidget {
                 Icon(
                   Icons.my_location_outlined,
                   size: 14.sp,
-                  color: AppColors.lightTextSecondary,
+                  color: AppColors.textSecondary(context),
                 ),
                 SizedBox(width: 6.w),
                 Text(
                   '${order.customerLatitude!.toStringAsFixed(5)}, ${order.customerLongitude!.toStringAsFixed(5)}',
-                  style: AppTypography.labelSmall.copyWith(
-                    color: AppColors.lightTextSecondary,
+                  style: context.textTheme.labelSmall!.copyWith(
+                    color: AppColors.textSecondary(context),
                   ),
                 ),
               ],

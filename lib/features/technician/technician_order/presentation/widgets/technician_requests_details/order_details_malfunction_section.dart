@@ -5,6 +5,7 @@ import 'package:car_care/features/technician/technician_order/domain/maper/avail
 import 'package:car_care/features/technician/technician_order/presentation/widgets/technician_requests_details/order_details_section_card.dart';
 import 'package:car_care/core/widgets/app_image_widget.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -12,44 +13,48 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 class OrderDetailsMalfunctionSection extends StatelessWidget {
   const OrderDetailsMalfunctionSection({super.key, required this.model});
   final RequestDataEntity model;
+  
   static String _formatDate(DateTime d) =>
-      '${d.year}/${d.month}/${d.day}  ';
+      '${d.year}/${d.month.toString().padLeft(2, '0')}/${d.day.toString().padLeft(2, '0')}';
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final priority = model.priority.toPriority();
+    
+    // 💡 قمنا بتمرير الـ context هنا لحل المشكلة
     final priorityStyle = PriorityChipStyle.forState(
+      context: context,
       value: priority,
       selected: priority,
     );
 
     return OrderDetailsSectionCard(
-      title: 'تفاصيل العطل',
+      title: l10n.malfunctionDetailsTitle,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           ImageGallery(images: model.images),
           SizedBox(height: 16.h),
           AppInfoRow(
-            label: 'وصف',
+            label: l10n.descriptionLabel,
             value: model.description,
-            icon: Icons.description_outlined,
+            leading: Icon(Icons.description_outlined, size: 18.sp, color: Theme.of(context).primaryColor),
           ),
           AppInfoRow(
-            label: 'الحالة',
+            label: l10n.statusLabel,
             value: model.statusText,
-
-            icon: IconsaxPlusLinear.status,
+            leading: Icon(IconsaxPlusLinear.status, size: 18.sp, color: Theme.of(context).primaryColor),
           ),
           AppInfoRow(
-            label: 'تاريخ الطلب',
+            label: l10n.requestDateLabel,
             value: _formatDate(model.createdAt),
-            icon: IconsaxPlusLinear.calendar_add,
+            leading: Icon(IconsaxPlusLinear.calendar_add, size: 18.sp, color: Theme.of(context).primaryColor),
           ),
           AppInfoRow(
-            label: 'التاريخ المفضل',
+            label: l10n.preferredDateLabel,
             value: _formatDate(model.preferredDate),
-            icon: IconsaxPlusLinear.calendar,
+            leading: Icon(IconsaxPlusLinear.calendar, size: 18.sp, color: Theme.of(context).primaryColor),
           ),
           SizedBox(height: 12.h),
           AppButton(
@@ -59,7 +64,6 @@ class OrderDetailsMalfunctionSection extends StatelessWidget {
             textColor: priorityStyle.textColor,
             isOutline: true,
             height: 45.h,
-            fontSize: 15.sp,
             borderRadius: 8.r,
           ),
         ],
@@ -94,8 +98,8 @@ class ImageGallery extends StatelessWidget {
               );
             },
             child: Container(
-              margin: EdgeInsets.only(
-                right: index == images.length - 1 ? 0 : 10.w,
+              margin: EdgeInsetsDirectional.only(
+                end: index == images.length - 1 ? 0 : 10.w,
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 3),

@@ -38,99 +38,96 @@ class SosDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
-        appBar: CustomAppBar(
-          title: l10n.sosDetailsTitle,
-          showBackButton: true,
-          backgroundColor: AppColors.carWashTeal,
-          onBackTapped: () {
-            if (context.canPop()) {
-              context.pop();
-            } else {
-              context.go(Routes.allUserSosRequests);
-            }
-          },
-        ),
-        body: ImageBackground(
-          child: BlocProvider(
-            create: (_) => getIt<SosCubit>()..getSosRequest(id),
-
-            child: BlocListener<SosCubit, SosState>(
-              listener: (context, state) {
-       
-                if (state is SosCansel) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Colors.green,
-                      content: Text(state.message),
-                    ),
-                  );
-
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground(context),
+      appBar: CustomAppBar(
+        title: l10n.sosDetailsTitle,
+        showBackButton: true,
+        backgroundColor: AppColors.carWashTeal,
+        onBackTapped: () {
+          if (context.canPop()) {
+            context.pop();
+          } else {
+            context.go(Routes.allUserSosRequests);
+          }
+        },
+      ),
+      body: ImageBackground(
+        child: BlocProvider(
+          create: (_) => getIt<SosCubit>()..getSosRequest(id),
+    
+          child: BlocListener<SosCubit, SosState>(
+            listener: (context, state) {
+     
+              if (state is SosCansel) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.green,
+                    content: Text(state.message),
+                  ),
+                );
+    
+              
+                context.read<SosCubit>().getSosRequest(id);
+              }
+    
+      
+              if (state is SosError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text(state.message),
+                  ),
+                );
+    
                 
-                  context.read<SosCubit>().getSosRequest(id);
+                if (state.message.toLowerCase().contains("not found")) {
+                  if (context.canPop()) {
+                    context.pop();
+                  } else {
+                    context.go(Routes.allUserSosRequests);
+                  }
                 }
-
-        
+              }
+            },
+    
+            child: BlocBuilder<SosCubit, SosState>(
+              builder: (context, state) {
+                if (state is SosLoading) {
+                  return const Center(child: AppLoadingWidget());
+                }
+    
                 if (state is SosError) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Colors.red,
-                      content: Text(state.message),
-                    ),
-                  );
-
-                  
-                  if (state.message.toLowerCase().contains("not found")) {
-                    if (context.canPop()) {
-                      context.pop();
-                    } else {
-                      context.go(Routes.allUserSosRequests);
-                    }
-                  }
+                  return Center(child: Text(state.message));
                 }
+    
+                if (state is SosRequestLoaded) {
+                  final item = state.sos;
+                  final cubit = context.read<SosCubit>();
+    
+                  // Tracking is only meaningful while the technician is
+                  // actively on the way; hidden for open / accepted /
+                  // completed / cancelled and any unknown status.
+                  final canTrack =
+                      item.id != null && item.status == 'in_progress';
+    
+                  return SosDetailsBody(
+                    sos: item,
+                    vehicleTitle:
+                        "${item.vehicleBrand ?? ''} ${item.vehicleModel ?? ''}",
+                    plateNumber: item.plateNumber?.toString() ?? '',
+                    technicianName: item.technicianName ?? '',
+                    description: item.description ?? '',
+                    onTrackTapped: canTrack
+                        ? () => showSosTrackingSheet(context, item.id!)
+                        : null,
+                    onCancelTapped: () =>
+                        _showCancelDialog(context, cubit, item.id!),
+                  );
+                }
+    
+                return const SizedBox();
               },
-
-              child: BlocBuilder<SosCubit, SosState>(
-                builder: (context, state) {
-                  if (state is SosLoading) {
-                    return const Center(child: AppLoadingWidget());
-                  }
-
-                  if (state is SosError) {
-                    return Center(child: Text(state.message));
-                  }
-
-                  if (state is SosRequestLoaded) {
-                    final item = state.sos;
-                    final cubit = context.read<SosCubit>();
-
-                    // Tracking is only meaningful while the technician is
-                    // actively on the way; hidden for open / accepted /
-                    // completed / cancelled and any unknown status.
-                    final canTrack =
-                        item.id != null && item.status == 'in_progress';
-
-                    return SosDetailsBody(
-                      sos: item,
-                      vehicleTitle:
-                          "${item.vehicleBrand ?? ''} ${item.vehicleModel ?? ''}",
-                      plateNumber: item.plateNumber?.toString() ?? '',
-                      technicianName: item.technicianName ?? '',
-                      description: item.description ?? '',
-                      onTrackTapped: canTrack
-                          ? () => showSosTrackingSheet(context, item.id!)
-                          : null,
-                      onCancelTapped: () =>
-                          _showCancelDialog(context, cubit, item.id!),
-                    );
-                  }
-
-                  return const SizedBox();
-                },
-              ),
             ),
           ),
         ),

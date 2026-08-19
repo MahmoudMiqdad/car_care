@@ -21,25 +21,22 @@ class UpdateVehiclePage extends StatelessWidget {
        final strings = context.l10n;
     return BlocProvider(
       create: (_) => getIt<VehicleDetailsCubit>()..fetchVehicleDetails(vehicleId),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          appBar: AppBar(title:  Text(strings.updateVehicle), centerTitle: true),
-          body: ImageBackground(
-            child: BlocBuilder<VehicleDetailsCubit, VehicleDetailsState>(
-              builder: (context, state) {
-                if (state is VehicleDetailsLoading) {
-                  return const Center(child: AppLoadingWidget());
-                }
-                if (state is VehicleDetailsLoaded) {
-                  return UpdateVehicleBody(vehicle: state.vehicle);
-                }
-                if (state is VehicleDetailsError) {
-                  return Center(child: Text(state.message));
-                }
-                return const SizedBox.shrink();
-              },
-            ),
+      child: Scaffold(
+        appBar: AppBar(title:  Text(strings.updateVehicle), centerTitle: true),
+        body: ImageBackground(
+          child: BlocBuilder<VehicleDetailsCubit, VehicleDetailsState>(
+            builder: (context, state) {
+              if (state is VehicleDetailsLoading) {
+                return const Center(child: AppLoadingWidget());
+              }
+              if (state is VehicleDetailsLoaded) {
+                return UpdateVehicleBody(vehicle: state.vehicle);
+              }
+              if (state is VehicleDetailsError) {
+                return Center(child: Text(state.message));
+              }
+              return const SizedBox.shrink();
+            },
           ),
         ),
       ),

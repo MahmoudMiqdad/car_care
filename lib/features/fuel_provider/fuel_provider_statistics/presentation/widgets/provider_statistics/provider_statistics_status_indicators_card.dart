@@ -17,7 +17,7 @@ class ProviderStatisticsStatusIndicatorsCard extends StatelessWidget {
     final l10n = context.l10n;
 
     return StatsIndicatorsSection(
-      title: 'حالات الطلبات',
+      title: l10n.orderStatusesTitle,
       icon: Icons.checklist_outlined,
       items: [
         StatsIndicatorData(

@@ -16,6 +16,17 @@
   "@appName": {
     "description": "اسم التطبيق"
   },
+    "uploadLogoLabel": "رفع الشعار"
+,  "vehicleOwnerWithParamLabel": "المالك: {name}",
+  "@vehicleOwnerWithParamLabel": {
+    "description": "Displays the vehicle owner name dynamically",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
+,
   
   "welcome": "مرحباً",
   "@welcome": {
@@ -77,10 +88,7 @@
     "description": "زر الإرسال"
   },
   
-  "cancel": "إلغاء",
-  "@cancel": {
-    "description": "زر الإلغاء"
-  },
+  
   
   "save": "حفظ",
   "@save": {
@@ -101,16 +109,139 @@
   "@close": {
     "description": "زر الإغلاق"
   },
-  
+    "cancellationReason": "سبب الإلغاء",
+  "@cancellationReason": {
+    "description": "Label for the cancellation reason field or section"
+  },
+    "add": "إضافة"
+,
+  "selectPreferredDateTitle": "اختيار التاريخ المفضل"
+,  "selectPriorityTitle": "اختيار الأولوية"
+,
+  "problemDescriptionTitle": "وصف المشكلة",
+  "problemDescriptionHint": "يرجى كتابة تفاصيل المشكلة هنا..."
+,  "noVehicleSelectedPrompt": "لم يتم اختيار مركبة",
+  "changeVehicleButton": "تغيير المركبة",
+  "kilometerCountLabel": "{count} كم",
+  "@kilometerCountLabel": {
+    "description": "Displays the vehicle mileage in kilometers",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+,
+  "descriptionLabel": "الوصف",
+  "vehicleLabel": "المركبة",
+  "appointmentLabel": "الموعد"
+,  "confirmCancellationButton": "تأكيد الإلغاء",
+  "backButton": "تراجع"
+,
+
+  "bookingsCancelReasonHint": "اكتب سبب الإلغاء...",
+  "@bookingsCancelReasonHint": {
+    "description": "Hint text inside the cancellation reason text field"
+  }
+,
+    "washerNoVehiclesMessage": "لا توجد مركبات لديك، يرجى إضافة مركبة أولاً من صفحة مركباتي",
+  "@washerNoVehiclesMessage": {
+    "description": "Message shown when a user tries to book but has no vehicles registered"
+  },
+  "washerSelectVehicleMessage": "الرجاء اختيار المركبة",
+  "@washerSelectVehicleMessage": {
+    "description": "Validation message when a user forgets to select a vehicle before booking"
+  },
+  "washerSelectDateTimeMessage": "الرجاء اختيار التاريخ والوقت",
+  "@washerSelectDateTimeMessage": {
+    "description": "Validation message when a user forgets to select date or time"
+  },
+  "washerBookingSuccessMessage": "تم الحجز بنجاح",
+  "@washerBookingSuccessMessage": {
+    "description": "Success message displayed after a successful booking completion"
+  },
+    "loadingYourVehicles": "جارٍ تحميل مركباتك...",
+  "@loadingYourVehicles": {
+    "description": "Text shown while the system is fetching the user's vehicles"
+  },
+  "noVehiclesAdded": "لا توجد مركبات مضافة",
+  "@noVehiclesAdded": {
+    "description": "Text shown when the user has not added any vehicles to their profile"
+  },
+  "selectYourVehicle": "اختر مركبتك",
+  "@selectYourVehicle": {
+    "description": "Label or title guiding the user to select one of their vehicles"
+  }
+,
+  "all": "الكل",
+  "pleaseEnterRejectionReason": "يرجى إدخال سبب الرفض",
+  "@pleaseEnterRejectionReason": {
+    "description": "Validation or hint text asking the user to provide a reason for rejecting a request"
+  },
+    "bookingStatusesTitle": "حالات الحجوزات"
+,
+  "pleaseEnterCancellationReason": "يرجى إدخال سبب الإلغاء",
+ 
+ 
+  "orderAcceptedSuccess": "تم قبول الطلب بنجاح",
+  "orderStartedSuccess": "تم بدء تنفيذ الطلب بنجاح",
+  "orderCompletedSuccess": "تم إكمال الطلب بنجاح",
+  "orderCancelledSuccess": "تم إلغاء الطلب بنجاح",
+  "cancelFuelOrderTitle": "إلغاء طلب الوقود"
+,
+    "ratingsTitle": "التقييمات",
+
+  "noRatingsYet": "لا توجد تقييمات بعد",
+  "showMore": "عرض المزيد",
+  "defaultUserName": "مستخدم",
+  "ratingsCountLabel": "({count} تقييمًا)",
+  "@ratingsCountLabel": {
+    "description": "Label displaying the total number of ratings",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+
+,  "profileWasherEditSuccessMessage": "تم حفظ التعديلات بنجاح",
+  "otherServices": "خدمات أخرى",
+  "washerAvailabilityUpdateSuccess": "تم تحديث حالة التوفر بنجاح",
+  "washerAvailabilityTitle": "متاح لاستقبال الحجوزات",
+  "washerAvailabilityStatusAvailable": "متاح حاليًا",
+  "washerAvailabilityStatusUnavailable": "غير متاح حاليًا"
+,
+  "send": "إرسال",
+  "profileWasherDefaultServices": "غسيل عادي, غسيل ممتاز, تلميع",
+  "pleaseEnterShopName": "يرجى إدخال اسم المغسلة",
+  "pleaseEnterPhoneNumber": "يرجى إدخال رقم الهاتف",
+  "pleaseEnterCity": "يرجى إدخال المدينة",
+  "profileWasherCreateSuccessMessage": "تم إنشاء بروفايل المغسلة بنجاح"
+,
+  "allGovernorates": "كل المحافظات",
+  "filterByGovernorate": "حسب المحافظة",
+  "damascus": "دمشق",
+  "rifDimashq": "ريف دمشق",
+  "aleppo": "حلب",
+  "homs": "حمص",
+  "hama": "حماة",
+  "latakia": "اللاذقية",
+  "tartus": "طرطوس",
+  "idlib": "إدلب",
+  "daraa": "درعا",
+  "asSuwayda": "السويداء",
+  "quneitra": "القنيطرة",
+  "deirEzZor": "دير الزور",
+  "raqqa": "الرقة",
+  "alHasakah": "الحسكة"
+
+,
   "back": "رجوع",
   "@back": {
     "description": "زر الرجوع"
   },
   
-  "next": "التالي",
-  "@next": {
-    "description": "زر التالي"
-  },
+ 
   
   "done": "تم",
   "@done": {
@@ -641,12 +772,83 @@
   "@passwordTooShort": {
     "description": "رسالة كلمة مرور قصيرة"
   },
-  
+    "maintenanceRequestsTitle": "طلبات الصيانة",
+  "totalRequestsLabel": "إجمالي الطلبات"
+,
+
+  "roleTechnician": "فني",
+  "roleCarWasher": "مغسلة",
+  "roleFuelProvider": "مزود وقود",
+  "roleShopOwner": "صاحب متجر",
+  "roleCustomer": "عميل",
+  "myServicesAsProvider": "خدماتي كمزود",
+  "joinAsServiceProvider": "انضم كمزود خدمة",
+  "applyAsTechnician": "التقديم كفني",
+  "registerCarWash": "تسجيل مغسلة سيارات",
+  "registerAsFuelProvider": "التسجيل كمزود وقود",
+  "openSparePartsShop": "فتح متجر قطع غيار",
+  "maintenanceRequests": "طلبات الصيانة",
+  "technicianProfile": "ملف الفني",
+  "myJobs": "أعمالي",
+  "availableSosRequests": "طلبات الطوارئ المتاحة",
+  "acceptedSosRequests": "طلبات الطوارئ المقبولة",
+  "myStatistics": "إحصائياتي",
+  "carWashProfile": "ملف المغسلة",
+  "bookings": "الحجوزات",
+ 
+  "fuelProviderProfile": "ملف مزود الوقود",
+  "fuelOrders": "طلبات الوقود",
+  "shareLocation": "مشاركة الموقع",
+  "shopProfile": "ملف المتجر",
+  "shopOrders": "طلبات المتجر",
+  "shopProducts": "منتجات المتجر",
+  "shopSpecializations": "تخصصات المتجر",
+  "optionsTitle": "الخيارات"
+
+  ,
   "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
   "@passwordsDoNotMatch": {
     "description": "رسالة كلمات مرور غير متطابقة"
   },
+    "skip": "تخطي",
+  "next": "التالي",
+  "getStarted": "ابدأ الآن",
+  "onboardingTitleMaintenance": "صيانة ذكية للسيارات",
+  "onboardingSubtitleMaintenance": "تتبع سجل صيانة مركبتك، واحصل على تذكيرات في الوقت المناسب، واطلب الصيانة بضغطة زر واحدة.",
+  "onboardingTitleEmergency": "المساعدة الطارئة على الطريق",
+  "onboardingSubtitleEmergency": "عالِق في الطريق؟ أرسل نداء استغاثة SOS واحصل على فني معتمد في موقعك خلال دقائق معدودة.",
+  "onboardingTitleAllInOne": "خدمات متكاملة لسيارتك",
+  "onboardingSubtitleAllInOne": "توصيل الوقود، غسيل السيارات، المتجر والمزيد — كل ما تحتاجه مركبتك في تطبيق واحد."
+,  "washerSelectProvinceMessage": "الرجاء اختيار المحافظة",
+  "enableLocationPrompt": "يرجى تفعيل الموقع",
+  "locationErrorPrefix": "خطأ بالموقع",
+  "requestSentSuccess": "تم إرسال الطلب ✓"
+,
+  "cancelSosQuestion": "ما سبب إلغاء الطلب ؟",
+  "cancelSosHint": "ادخل هنا سبب إلغاء طلب الطوارئ ..."
+,  "trackTechnician": "تتبع الفني"
+,  "searchingForTechnicianTitle": "جارٍ البحث عن فني",
+  "searchingForTechnicianSubtitle": "نبحث لك عن أقرب فني متاح، يرجى الانتظار قليلاً"
+,  "createdAgoLabel": "أنشئ منذ {time}",
+  "@createdAgoLabel": {
+    "description": "Displays when the request was created relative to now",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  }
+,
+
+
+
+ 
+  "technicianOnWayLiveTracking": "الفني في الطريق - تتبع مباشر",
+  "waitingForLocationUpdate": "انتظار تحديث الموقع...",
   
+  "distanceLabel": "المسافة",
+    "cartPageTitle": "سلة المشتريات"
+,
   "maxCharacters": "الحد الأقصى {max} حرف",
   "@maxCharacters": {
     "description": "رسالة الحد الأقصى للأحرف",
@@ -656,7 +858,252 @@
       }
     }
   },
+    "checkoutButton": "إتمام الطلب"
+,
+    "confirmOrderTitle": "تأكيد الطلب",
+  "orderCreatedSuccessfully": "تم إنشاء الطلب بنجاح",
+  "orderTotalLabel": "إجمالي الطلب",
+  "currencySyp": "ل.س",
+  "pleaseSelectDeliveryLocation": "يرجى اختيار موقع التوصيل من الخريطة",
+  "pleaseEnterAddressNote": "يرجى إدخال ملاحظة العنوان",
+  "confirmOrderButton": "تأكيد الطلب",
+    "addressNoteLabel": "ملاحظة العنوان",
+  "addressNoteHint": "مثال: بصرى الشام - الحي الغربي - قرب الصيدلية"
+,  "deliveryLocationLabel": "موقع التوصيل",
+  "selectLocationFromMapHint": "اختر الموقع من الخريطة",
+  "locationSelectedBadge": "تم التحديد",
+  "changeLocationButton": "تغيير الموقع"
+,  "deliveryTrackingTitle": "تتبع التوصيل"
+, "selectDeliveryLocationTitle": "حدد موقع التوصيل",
+  "myLocationLabel": "موقعي",
+  "moveMapToPickLocation": "حرّك الخريطة لتحديد موقع التوصيل",
+  "confirmLocationButton": "تأكيد الموقع",
+    "processingStatusLabel": "قيد التجهيز",
+  "outForDeliveryStatusLabel": "قيد التوصيل",
+  "deliveredStatusLabel": "تم التسليم",
+  "rejectedStatusLabel": "مرفوض"
+,  "allRequestsTitle": "طلباتي",
+  "@allRequestsTitle": {
+    "description": "General title for my requests or my orders screen across different sections"
+  }
+,   "shopLabel": "المتجر",
+  "@shopLabel": {
+    "description": "Label for the store or shop section"
+  }
+,  "noProductsAvailable": "لا توجد منتجات مضافة",
+  "@noProductsAvailable": {
+    "description": "Text shown when there are no items inside the order or list"
+  },
+  "plusMoreProductsLabel": "+{count} منتج آخر",
+  "@plusMoreProductsLabel": {
+    "description": "Displays how many additional products are in the order",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+    "quantityLabel": "الكمية",
+  "addToCartWithPriceLabel": "أضف إلى السلة — {price}",
+  "@addToCartWithPriceLabel": {
+    "description": "Text inside add to cart button containing the total formatted price",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+    "inStockStatus": "متوفر",
+  "outOfStockStatus": "غير متوفر"
+,  "productImageLabel": "صورة المنتج",
+  "@productImageLabel": {
+    "description": "Label or description for the product image asset"
+  }
+,  "productConditionLabel": "Condition: {condition}",
+  "@productConditionLabel": {
+    "placeholders": { "condition": { "type": "String" } }
+  },
+  "productCategoryLabel": "Category: {category}",
+  "@productCategoryLabel": {
+    "placeholders": { "category": { "type": "String" } }
+  },
+  "productCarBrandLabel": "Car Brand: {brand}",
+  "@productCarBrandLabel": {
+    "placeholders": { "brand": { "type": "String" } }
+  },
+  "discountPercentLabel": "{percent}% OFF",
+  "@discountPercentLabel": {
+    "placeholders": { "percent": { "type": "String" } }
+  },
+  "inStockWithCountLabel": "In Stock ({count} items)",
+  "@inStockWithCountLabel": {
+    "placeholders": { "count": { "type": "int" } }
+  }
+,  "shopsTitle": "المتاجر",
+  "cartLabel": "السلة"
+,  "shopDetailsPageTitle": "معلومات المتجر",
+  "businessTypeLabel": "نوع النشاط",
+  "carBrandsLabel": "ماركات السيارات",
+  "partCategoriesLabel": "فئات القطع"
+,  "shopStorefrontPageTitle": "واجهة المتجر"
+,  "sparePartsStoreTitle": "متاجر قطع الغيار"
+,  "shareDeliveryLocationTitle": "مشاركة موقع التوصيل"
+,
+
+
+  "allProductsPageTitle": "كل المنتجات"
+,  "productDetailsTitle": "تفاصيل المنتج",
+  "productAddedToCartSuccess": "تمت إضافة المنتج إلى السلة بنجاح",
+  "viewCartButton": "عرض السلة"
+,
+
+ "cancelOrderFormHint": "مثال: لم أعد بحاجة للطلب"
+, "orderDetailsTitle": "تفاصيل الطلب",
+  "orderNumberLabel1": "طلب رقم",
+  "cancellableLabel": "قابل للإلغاء",
+  "productsLabel": "المنتجات",
+  "deliveryLabel": "التوصيل",
+    "orderNumberLabel": "طلب رقم #{id}",
+  "@orderNumberLabel": {
+    "description": "Displays the order number with its ID",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  }
+  ,  "ownerProductsPageTitle": "منتجات المتجر"
+ , "settingsTitle": "الإعدادات",
+  "languageLabel": "اللغة",
+  "themeLabel": "المظهر",
+  "arabicLabel": "العربية",
+  "englishLabel": "English",
+  "lightModeLabel": "فاتح",
+  "darkModeLabel": "داكن",
+  "systemModeLabel": "حسب النظام"
+  ,  "rejectOrderFormHint": "مثال: المنتج غير متوفر حالياً",
+  "confirmRejectionButton": "تأكيد الرفض",
+  "editButtonLabel": "Edit",
+  "ownerStockCountLabel": "Stock: {count}",
+  "@ownerStockCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+ 
+
+ "addProduct": "إضافة منتج",
+  "basicInformation": "المعلومات الأساسية",
+  "productName": "اسم المنتج",
+  "productNameRequired": "اسم المنتج مطلوب",
   
+  "enterValidPrice": "أدخل سعرًا صالحًا",
+  "availableQuantity": "الكمية المتوفرة",
+  "enterValidQuantity": "أدخل كمية صالحة",
+  "classification": "التصنيف",
+  "productCondition": "حالة المنتج",
+  "conditionNew": "جديد",
+  "conditionUsed": "مستعمل",
+  "carBrand": "ماركة السيارة",
+  "partCategory": "فئة القطعة",
+  "noSelection": "بدون تحديد",
+  "productImages": "صور المنتج",
+  "addImages": "إضافة صور",
+  "imagesCount": "الصور ({count}/{max})",
+  "@imagesCount": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "max": { "type": "int" }
+    }
+  },
+    "currencySuffix": "ل.س",
+  "availableQuantityLabel": "الكمية المتوفرة",
+  "saveChangesButtonLabel": "حفظ التعديل",
+  "confirmSelectionButtonLabel": "تأكيد الاختيار"
+,  "shopProfilePageTitle": "ملف المتجر",
+  "fillAllFieldsRequiredError": "يرجى تعبئة جميع الحقول المطلوبة",
+  "shopSavedSuccess": "تم حفظ المتجر بنجاح"
+,  "shopNameLabel": "اسم المتجر",
+  "shopNameHint": "أدخل اسم المتجر",
+  "phoneNumberLabel": "رقم الهاتف",
+  "phoneNumberHint": "أدخل رقم الهاتف",
+  "cityLabel": "المدينة",
+  "cityHint": "أدخل اسم المدينة"
+,
+  "activeStatus": "نشط",
+  "unknownStatus": "غير محدّد",
+  "unknownProfileValuesError": "قيم غير معروفة في ملفك: {values}\nلا يمكن الحفظ حتى تتم مطابقة هذه القيم في النظام.",
+  "@unknownProfileValuesError": {
+    "placeholders": {
+      "values": {
+        "type": "String"
+      }
+    }
+  }
+
+,
+  "updateProduct": "تحديث المتجر",
+  "@updateProduct": {
+    "description": "Button text to save and update the store profile information"
+  }
+,  "confirmMultiSelectionCount": "تأكيد الاختيار ({count})",
+  "@confirmMultiSelectionCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+  ,  "inactiveStatus": "غير نشط",
+  "myJobsTitle": "أعمالي",
+  "jobAssignedStatusLabel": "مُسند",
+  "jobStatusUpdatedSuccess": "تم تحديث حالة المهمة بنجاح",
+  "jobLoadErrorLabel": "حدث خطأ أثناء تحميل الأعمال",
+  "refreshOrdersLogHint": "تحديث سجل الطلبات ..."
+,
+  "shopSpecializationsPageTitle": "تخصصات المتجر",
+  "specializationsUpdatedSuccess": "تم تحديث التخصصات بنجاح"
+,
+  "clientLabel": "العميل",
+  "appointmentNotesLabel": "ملاحظات الموعد",
+  "startWorkButtonLabel": "بدء العمل",
+  "endWorkButtonLabel": "إنهاء العمل"
+,
+  "completeJobTitle": "إنهاء المهمة",
+  "completionNotesLabel": "ملاحظات الإنجاز",
+  "completionNotesHint": "اكتب ما تم إنجازه...",
+  "completionNotesRequiredError": "ملاحظات الإنجاز مطلوبة",
+  "confirmCompletionButton": "تأكيد الإنهاء"
+,  "updatingProgress": "جارٍ التحديث...",
+  "quotationPriceLabel": "عرض السعر"
+,  "quotationSentWaitingApproval": "تم إرسال عرضك — بانتظار قبول العميل",
+  "submitQuotationButtonLabel": "تقديم عرض سعر",
+  "quotationSubmittedSuccess": "تم إرسال العرض بنجاح"
+,  "dateLabel": "التاريخ"
+,  "customerDataTitle": "بيانات العميل"
+,  "malfunctionDetailsTitle": "تفاصيل العطل",
+  "requestDateLabel": "تاريخ الطلب"
+,  "statusLabel": "الحالة",
+  "@statusLabel": {
+    "description": "Label for the current status of an order or request"
+  }
+,  "vehicleDataTitle": "بيانات المركبة"
+,
+  "chooseActionLabel": "اختيار",
+  "noSelectionMadeYet": "لم يتم الاختيار بعد"
+,
+  "productAddedSuccessfully": "تم إضافة المنتج بنجاح",
+  "saveProduct": "حفظ المنتج",
+  "grandTotalLabel": "الإجمالي الكلي",
+    "shopOrdersPageTitle": "طلبات المتجر"
+,  "startProcessingButton": "بدء التجهيز",
+  "startDeliveryButton": "بدء التوصيل",
+  "confirmDeliveryButton": "تأكيد التوصيل"
+,
+  "trackDeliveryButton": "تتبع التوصيل",
+  "cancelOrderButton": "إلغاء الطلب",
   "charactersRemaining": "باقي {count} حرف",
   "@charactersRemaining": {
     "description": "رسالة الأحرف المتبقية",
@@ -682,16 +1129,38 @@
     "description": "رسالة تأكيد تسجيل الخروج"
   },
   
-  "yes": "نعم",
-  "@yes": {
-    "description": "نعم"
-  },
-  
-  "no": "لا",
-  "@no": {
-    "description": "لا"
-  },
-  
+  "cancelRequestButton": "إلغاء الطلب",
+  "@cancelRequestButton": {
+    "description": "Text for the cancellation button or title in the dialog"
+  }
+,  "deleteRequestTitle": "حذف الطلب",
+  "deleteRequestConfirmation": "هل أنت متأكد من حذف هذا الطلب؟",
+  "cannotUndoActionWarning": "لا يمكن التراجع عن هذه العملية",
+  "yesDeleteButton": "نعم، احذف"
+,
+
+    "requestDeletedSuccess": "تم حذف الطلب بنجاح",
+  "cancellingProgress": "جاري الإلغاء...",
+  "deletingProgress": "جاري الحذف...",
+  "quotationsCountLabel": "عروض الأسعار ({count})",
+  "@quotationsCountLabel": {
+    "description": "Displays the quotations button text with its length",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+,  "requestImagesTitle": "صور الطلب"
+,  "requestInfoCardTitle": "بيانات الطلب",
+  "preferredDateLabel": "الموعد المفضل",
+  "priorityLabel": "الأولوية",
+  "creationDateLabel": "تاريخ الإنشاء"
+,  "technicianLocationTitle": "موقع الفني"
+,
+  "plateNumberLabel": "رقم اللوحة",
+  "mileageLabel": "الكيلومترات"
+,
   "confirm": "تأكيد",
   "@confirm": {
     "description": "تأكيد"
@@ -1280,7 +1749,175 @@
   "@rating": {
     "description": "التقييم"
   },
+    "statusDetailsTitle": "تفاصيل الحالات",
+  "assignedStatusLabel": "المعينة"
+,  "quotationsTitle": "العروض"
+,
+    "cancellationReasonRequired": "سبب الإلغاء مطلوب",
+  "cancellationReasonMinLengthError": "يرجى كتابة سبب لا يقل عن {count} أحرف",
+  "@cancellationReasonMinLengthError": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cancelResponseTitle": "إلغاء الاستجابة",
+  "cancelResponseLabel": "سبب إلغاء الاستجابة",
+  "cancelResponseHint": "اكتب سبب إلغاء الاستجابة..."
+,
+  "trackOrderWithIdLabel": "تتبع الطلب #{id}",
+  "@trackOrderWithIdLabel": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
   
+  "sosRequestCreatedAgo": "أُنشئ منذ {time}",
+  "@sosRequestCreatedAgo": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+    "statusUpdatedSuccessMessage": "تم تحديث حالة الطلب بنجاح",
+  "statusUpdatedWithDynamicLabel": "تم تحديث الحالة: {status}",
+  "@statusUpdatedWithDynamicLabel": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  }
+,
+
+  "sosGenericActionError": "حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى",
+  "sosStatusUpdatedWithLabel": "تم تحديث الحالة: {status}",
+  "@sosStatusUpdatedWithLabel": {
+    "placeholders": {
+      "status": { "type": "String" }
+    }
+  },
+  "sosStatusUpdated": "تم تحديث حالة الطلب",
+  "sosCustomerLocation": "موقع العميل",
+  "sosStartNavigateToCustomer": "ابدأ التوجه للعميل",
+  "sosAcceptToNavigateHint": "اقبل الطلب لتبدأ التوجه للعميل",
+
+  "locationPermissionDenied": "صلاحية الموقع مرفوضة",
+  "sosLocationSendError": "خطأ في إرسال الموقع: {message}",
+  "@sosLocationSendError": {
+    "placeholders": {
+      "message": { "type": "String" }
+    }
+  },
+  "customerLabel": "العميل",
+  "youLabel": "أنت",
+  "distanceInMeters": "{value} م",
+  "@distanceInMeters": {
+    "placeholders": {
+      "value": { "type": "String" }
+    }
+  },
+  "distanceInKm": "{value} كم",
+  "@distanceInKm": {
+    "placeholders": {
+      "value": { "type": "String" }
+    }
+  },
+  "sharingLocationActive": "يتم إرسال موقعك للعميل",
+  "locatingInProgress": "جاري تحديد الموقع...",
+  "calculatingRouteInProgress": "جاري حساب المسار...",
+  "distanceToCustomer": "المسافة للعميل: {distance}",
+  "@distanceToCustomer": {
+    "placeholders": {
+      "distance": { "type": "String" }
+    }
+  },
+  
+
+
+
+  "gasoline98": "بنزين 98",
+  "completeAllFieldsError": "من فضلك أكمل جميع الحقول",
+  "fuelOrderSentSuccessfully": "تم إرسال طلب الوقود بنجاح"
+,
+    "startHeadingButtonLabel": "ابدأ التوجه",
+  "acceptRequestToNavigateHint": "اقبل الطلب لتبدأ التوجه للعميل",
+  "headingToClientTitle": "التوجه للعميل"
+,  "orderCancelledSuccessMessage": "تم إلغاء الطلب بنجاح"
+,
+  "tapToTrackFuelProviderLive": "اضغط لتتبع مزود الوقود مباشرة",
+  "trackFuelProviderTitle": "تتبع مزود الوقود"
+,
+  "waitingFuelProviderAcceptance": "بانتظار قبول مزود الوقود",
+  "orderNotesTitle": "ملاحظات الطلب"
+,  "fuelProviderHasNotSharedLocationYet": "لم يشارك مزود الوقود موقعه بعد"
+,  "avatarUpdatedSuccess": "تم تحديث الصورة بنجاح"
+,
+  "accountDeletedSuccessMessage": "تم حذف الحساب بنجاح",
+  "@accountDeletedSuccessMessage": {
+    "description": "Success message displayed when the user permanently deletes their account"
+  }
+,  "fuelLogTitle": "سجل الوقود",
+  "costWithParamLabel": "التكلفة: {cost}",
+  "@costWithParamLabel": {
+    "placeholders": { "cost": { "type": "String" } }
+  },
+  "odometerReadingWithParamLabel": "قراءة العداد: {km} كم",
+  "@odometerReadingWithParamLabel": {
+    "placeholders": { "km": { "type": "String" } }
+  },
+  "fuelAmountDetailsLabel": "{type} — {amount} لتر",
+  "@fuelAmountDetailsLabel": {
+    "placeholders": {
+      "type": { "type": "String" },
+      "amount": { "type": "String" }
+    }
+  }
+,
+  "brandRequiredError": "يرجى إدخال الماركة",
+  "brandMinLengthError": "الماركة يجب أن تكون حرفين على الأقل",
+  "brandMaxLengthError": "الماركة طويلة جدًا (الحد الأقصى 50 حرفًا)",
+  "brandInvalidCharsError": "الماركة تحتوي على رموز غير مسموحة",
+  "modelRequiredError": "يرجى إدخال الطراز",
+  "modelMaxLengthError": "الطراز طويل جدًا (الحد الأقصى 50 حرفًا)",
+  "modelInvalidCharsError": "الطراز يحتوي على رموز غير مسموحة",
+  "plateNumberRequiredError": "يرجى إدخال رقم اللوحة",
+  "plateInvalidCharsError": "رقم اللوحة يحتوي على رموز غير مسموحة",
+  "plateLengthError": "رقم اللوحة يجب أن يكون بين 4 و 9 محارف",
+  "manufactureYearRequiredError": "يرجى إدخال سنة الصنع",
+  "invalidYearError": "يرجى إدخال سنة صحيحة",
+  "yearRangeError": "سنة الصنع يجب أن تكون بين 1900 و {maxYear}",
+  "@yearRangeError": {
+    "placeholders": { "maxYear": { "type": "int" } }
+  },
+  "odometerRequiredError": "يرجى إدخال قراءة العداد",
+  "odometerRangeError": "قراءة العداد يجب أن تكون بين 0 و 2000000",
+  "unsupportedImageFormatError": "صيغة الصورة غير مدعومة (jpg، jpeg، png أو webp فقط)",
+  "imageSizeExceededError": "حجم الصورة يجب ألا يتجاوز 5 ميجابايت"
+,  "pleaseSelectVehicleImageError": "الرجاء اختيار صورة للمركبة"
+,  "defaultVehicleLabel": "سيارة",
+  "vehicleDeletedSuccess": "تم حذف المركبة بنجاح"
+,
+  "sosAcceptingInProgress": "جاري القبول...",
+  "sosAcceptRequest": "قبول الطلب",
+  "sosProcessingInProgress": "جاري التنفيذ...",
+  "sosStartProgress": "بدء التنفيذ",
+  "sosFinishRequest": "إنهاء الطلب",
+  "sosCancelResponse": "إلغاء الاستجابة",
+  "sosChangeStatusTitle": "تغيير حالة الطلب",
+  "sosInProgressStatus": "قيد التنفيذ",
+  "sosCompletedStatus": "منتهي",
+  "cancel": "إلغاء",
+  "sosNavigateToCustomer": "التوجه للعميل",
+  "sosUpdatingInProgress": "جاري التحديث...",
+  "confirmExitTitle": "تأكيد الخروج",
+  "pressBackAgainToExit": "اضغط رجوع مرة ثانية للخروج",
+  "stopSharingLocationWarning": "سيتوقف إرسال موقعك للعميل. هل تريد الخروج؟",
+  "exitActionLabel": "خروج",
+  "jobCompletedSuccessMessage": "تم إنهاء الطلب بنجاح ✓"
+,
   "stars": "نجوم",
   "@stars": {
     "description": "نجوم"
@@ -1609,7 +2246,8 @@
 
 "pendingQuotations": "العروض المعلّقة",
 "@pendingQuotations": { "description": "عدد عروض الأسعار المعلقة" },
-
+  "vehicleLabelWithParam": "{brand} {model}"
+,
 "acceptedQuotations": "العروض المقبولة",
 "@acceptedQuotations": { "description": "عدد عروض الأسعار المقبولة" },
 
@@ -1903,14 +2541,84 @@
   "@profileWasherFieldWasherName": {
     "description": "تسمية حقل اسم المغسل في التعديل"
   },
+    "editTechnicianProfileLabel": "تعديل ملف الفني",
+  "@editTechnicianProfileLabel": {
+    "description": "Screen title or button text to edit the technician profile information"
+  }
+,
+  "technicianJoinRequestSuccess": "تم إرسال طلب الانضمام كفني بنجاح",
+  "certificationsSectionTitle": "الشهادات",
+  "maxThreeImagesHint": "حد أقصى 3 صور"
+,
+  "availabilityStatusLabel": "حالة التوفر",
+  "availableForWork": "متاح للعمل",
+  "unavailableForWork": "غير متاح للعمل"
+,
+
+  "workshopLocationSet": "تم تحديد موقع الورشة",
+  "selectWorkshopLocation": "حدد موقع الورشة",
+  "myLocation": "موقعي",
+  "moveMapToSelectLocation": "حرّك الخريطة لتحديد الموقع الصحيح",
+  "savingInProgress": "جاري الحفظ...",
+  "confirmLocationAction": "تأكيد الموقع",
   "profileWasherHintWasherName": "ادخل اسم المغسل",
   "@profileWasherHintWasherName": {
     "description": "تلميح حقل اسم المغسل"
   },
+  
   "profileWasherFieldPhone": "رقم الهاتف",
   "@profileWasherFieldPhone": {
     "description": "تسمية حقل الهاتف في تعديل الملف"
   },
+    "maxImagesLimitError": "يمكنك اختيار {count} صور كحد أقصى",
+  "@maxImagesLimitError": {
+    "description": "Error message when picking more images than the maximum allowed limit",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+,  "workshopLocationTitle": "موقع الورشة",
+  "workshopLocationDescriptionHint": "حدد موقع ورشتك حتى يظهر للعملاء القريبين منك"
+,  "personalDataTitle": "البيانات الشخصية",
+  "professionalDataTitle": "البيانات المهنية",
+  "hourlyRateLabel": "الأجر بالساعة",
+  "mechanicLabel": "ميكانيك",
+  "electricityLabel": "كهرباء",
+  "paintLabel": "دهان",
+  "tiresLabel": "إطارات",
+  "airConditioningLabel": "تكييف",
+  "plumbingLabel": "بنشر"
+,
+
+  "profileLoadError": "حدث خطأ أثناء تحميل الملف",
+  
+  "professionalInfo": "البيانات المهنية",
+  "specialization": "التخصص",
+  "experienceYears": "سنوات الخبرة",
+  "hourlyRate": "الأجر بالساعة",
+  "contactInfo": "بيانات التواصل",
+  "updateWorkshopLocationDescription": "يمكنك تحديث موقع الورشة عند الحاجة",
+  "addNewCertificationsHint": "يمكنك إضافة شهادات جديدة"
+,  "durationRequiredError": "يرجى إدخال المدة المتوقعة",
+  "invalidNumberError": "يرجى إدخال رقم صحيح",
+  "durationRangeError": "المدة يجب أن تكون بين 1 و 30 يومًا",
+  "enterExpectedPriceHint": "يرجى كتابة السعر المتوقع...",
+  "durationInDaysLabel": "المدة (بالأيام)",
+  "durationRangeHint": "من 1 إلى 30 يومًا",
+  "writeAdditionalNotesHint": "كتابة أي ملاحظات إضافية...",
+  "sendQuotationActionLabel": "إرسال العرض"
+,
+  "requiredPartsLabel": "القطع المطلوبة",
+  "includedInPriceLabel": "ضمن السعر",
+  "additionalPriceLabel": "سعر إضافي"
+,  "netEarningsLabel": "صافي الأرباح"
+,
+  "certifications": "الشهادات",
+ 
+  "profileUpdatedSuccessfully": "تم تحديث الملف الشخصي بنجاح ✓",
+  "noCertificatesUploaded": "لا توجد شهادات مرفوعة بعد",
   "profileWasherHintPhone": "ادخل رقم الهاتف للتواصل",
   "@profileWasherHintPhone": {
     "description": "تلميح حقل الهاتف"
@@ -2042,8 +2750,76 @@
  "bookingStatusPending": "قيد الانتظار",
 "@bookingStatusPending": {
   "description": "حالة الحجز عندما يكون في انتظار المراجعة"
+},"myInvoices": "فواتيري",
+"@myInvoices": {
+  "description": "Title for provider invoices list page"
 },
-
+"invoiceDetails": "تفاصيل الفاتورة",
+"@invoiceDetails": {
+  "description": "Title for invoice details page"
+},
+"invoiceNumber": "رقم الفاتورة",
+"@invoiceNumber": {
+  "description": "Label for invoice number"
+},
+"invoicePeriod": "الفترة",
+"@invoicePeriod": {
+  "description": "Label for invoice period"
+},
+"invoiceTotal": "الإجمالي",
+"@invoiceTotal": {
+  "description": "Label for invoice total amount"
+},
+"invoiceSubtotal": "الفرعي",
+"@invoiceSubtotal": {
+  "description": "Label for invoice subtotal"
+},
+"invoiceCommission": "العمولة",
+"@invoiceCommission": {
+  "description": "Label for invoice commission total"
+},
+"invoiceSubscription": "الاشتراك",
+"@invoiceSubscription": {
+  "description": "Label for invoice subscription total"
+},
+"invoiceStatus": "الحالة",
+"@invoiceStatus": {
+  "description": "Label for invoice status"
+},
+"invoicePaidAt": "تاريخ الدفع",
+"@invoicePaidAt": {
+  "description": "Label for invoice paid date"
+},
+"invoiceItems": "بنود الفاتورة",
+"@invoiceItems": {
+  "description": "Title for invoice items list"
+},
+"statusDraft": "مسودة",
+"@statusDraft": {
+  "description": "Invoice status: draft"
+},
+"statusIssued": "صادرة",
+"@statusIssued": {
+  "description": "Invoice status: issued"
+},
+"statusOverdue": "متأخرة",
+"@statusOverdue": {
+  "description": "Invoice status: overdue"
+},
+"statusPaid": "مدفوعة",
+"@statusPaid": {
+  "description": "Invoice status: paid"
+},
+  "failedToLoadAds": "Failed to load advertisements",
+  "@failedToLoadAds": {
+    "description": "Error message shown when ads cannot be loaded"
+  }
+,
+  "invalidInputData": "إدخال بيانات خاطئة",
+  "@invalidInputData": {
+    "description": "Error message when the user enters incorrect or invalid data in a form"
+  }
+,
 "bookingStatusAccepted": "تم القبول",
 "@bookingStatusAccepted": {
   "description": "حالة الحجز عندما يتم قبوله من قبل المغسلة"
@@ -2447,6 +3223,11 @@
   "@providerOrderDetailsEnterAdditionalNotes": {
     "description": "تسمية حقل الملاحظات الإضافية عند قبول الطلب"
   },
+    "addTechnicianLabel": "إضافة فني",
+  "@addTechnicianLabel": {
+    "description": "Button text or screen title to add or register a new technician"
+  }
+,
   "providerMyOrdersTitle": "طلباتي",
   "@providerMyOrdersTitle": {
     "description": "عنوان شريط التطبيق لقائمة طلبات مزود الوقود"
@@ -2477,6 +3258,117 @@
   "advertisementLinkOpenFailed": "تعذر فتح رابط الإعلان",
   "@advertisementLinkOpenFailed": {
     "description": "رسالة تظهر عند فشل فتح رابط الإعلان بعد النقر عليه"
+  },
+    "currencyFormat": "{amount} ل.س",
+  "@currencyFormat": {
+    "description": "Format for displaying currency in Arabic",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+    "shareLocationTitle": "مشاركة الموقع",
+  "shareLocationDescription": "اختر طلب وقود قيد التنفيذ من طلباتي لمشاركة موقعك",
+  "goToMyOrders": "الذهاب إلى طلباتي"
+,
+  "homeWelcomeGreeting": "- كيف نساعدك اليوم؟ -"
+,
+  "quotationDetailsTitle": "تفاصيل العرض",
+  "quotationAcceptedSuccess": "تم قبول العرض بنجاح",
+  "quotationRejectedSuccess": "تم رفض العرض"
+,  "quotationsTitle": "عروض الأسعار",
+  "noQuotationsAvailable": "لا توجد عروض أسعار"
+,
+
+  "acceptQuotationTitle": "قبول عرض السعر",
+  "selectedDateLabel": "التاريخ المحدد",
+  "chooseDateLabel": "اختر التاريخ",
+  "notesLabel": "ملاحظات",
+  "confirmLabel": "تأكيد",
+  "cancelLabel": "إلغاء"
+,
+  "technicianLabel": "الفني",
+  "repairDurationLabel": "مدة الإصلاح",
+  "partsIncludedLabel": "يشمل القطع",
+  "yes": "نعم",
+  "no": "لا",
+  "durationInDays": "{count} أيام",
+  "@durationInDays": {
+    "description": "Displays the estimated repair duration in days",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
+,
+  "technicianInfoCardTitle": "معلومات الفني",
+  "specializationLabel": "التخصص",
+  "experienceYearsLabel": "سنوات الخبرة",
+  "quotationDateLabel": "تاريخ العرض",
+  "technicianNotesCardTitle": "ملاحظات الفني",
+  "acceptQuotationButton": "قبول العرض",
+  "rejectQuotationButton": "رفض العرض",
+  "rejectQuotationReasonTitle": "سبب رفض العرض",
+  "durationInYears": "{count} سنوات",
+  "@durationInYears": {
+    "description": "Displays experience duration in years",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+,
+  "maintenanceRequestDetailsTitle": "تفاصيل طلب صيانة",
+  "unexpectedErrorTryAgain": "حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى"
+,
+  "priorityLow": "منخفضة",
+  "priorityMedium": "متوسطة",
+  "priorityHigh": "طارئة"
+,
+  "noVehiclesAddOneFirst": "لا توجد مركبات لديك، يرجى إضافة مركبة أولاً من صفحة مركباتي",
+  "maxThreeImagesAllowed": "يمكنك اختيار 3 صور كحد أقصى",
+  "pleaseSelectVehicleFirst": "يرجى اختيار المركبة أولاً",
+  "pleaseDescribeProblem": "يرجى وصف المشكلة",
+  "internalError": "خطأ داخلي",
+  "requestSentSuccessfully": "تم إرسال الطلب بنجاح",
+  "maintenanceRequestTitle": "طلب صيانة"
+,
+  "cannotShareLocationOrderFinished": "لا يمكن مشاركة الموقع لطلب منتهٍ أو ملغى",
+  "enableLocationServiceMessage": "يرجى تفعيل خدمة الموقع من إعدادات الجهاز",
+  "locationPermissionDeniedForever": "صلاحية الموقع مرفوضة نهائيًا، يرجى تفعيلها من إعدادات التطبيق",
+  "locationPermissionRequired": "صلاحية الموقع مطلوبة لمشاركة موقعك مع العميل",
+  "unableToDetermineLocation": "تعذر تحديد موقعك الحالي، حاول مرة أخرى",
+  "genericErrorTryAgain": "حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى",
+  "errorSendingLocation": "خطأ في إرسال الموقع",
+  "deliveryLocation": "موقع التوصيل",
+  "you": "أنت",
+  "sharingLocationWithCustomer": "يتم إرسال موقعك للعميل",
+  "determiningLocation": "جاري تحديد الموقع...",
+  "calculatingRoute": "جاري حساب المسار...",
+  "distanceToCustomer": "المسافة للعميل",
+  "meterUnit": "م",
+  "kmUnit": "كم"
+,
+    "orderStatusesTitle": "حالات الطلبات",
+  "@orderStatusesTitle": {
+    "description": "Title for the section displaying different order status indicators"
+  }
+,
+    "fuelAmountLabel": "{type} - {amount} لتر",
+  "@fuelAmountLabel": {
+    "description": "Displays the fuel type along with its amount in liters",
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "num"
+      }
+    }
+  }
+
 }
 

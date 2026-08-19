@@ -7,8 +7,6 @@ import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/error_state_widget.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/core/utils/media_url.dart';
-
-
 import 'package:car_care/features/technician_sos/presentation/cubit/technician_sos_cubit/technician_sos_cubit.dart';
 import 'package:car_care/features/technician_sos/presentation/cubit/technician_sos_cubit/technician_sos_state.dart';
 import 'package:car_care/features/technician_sos/presentation/widgets/technician_sos_details/technician_sos_details_body.dart';
@@ -17,21 +15,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-
 class SosTechnicianDetailsPage extends StatelessWidget {
   final int id;
 
-   const SosTechnicianDetailsPage({super.key, required this.id});
+  const SosTechnicianDetailsPage({super.key, required this.id});
 
   @override
-@override
-Widget build(BuildContext context) {
-  final l10n = context.l10n;
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
 
-  return Directionality(
-    textDirection: TextDirection.rtl,
-    child: Scaffold(
-      backgroundColor: AppColors.lightScaffold,
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground(context),
       appBar: CustomAppBar(
         title: l10n.sosDetailsTitle,
         showBackButton: true,
@@ -46,10 +40,8 @@ Widget build(BuildContext context) {
       ),
       body: ImageBackground(
         child: BlocProvider(
-          
-      create: (_) => getIt<TechnicianSosCubit>()..getRequest (id),
-          child: BlocBuilder<TechnicianSosCubit, TechnicianSosState
->(
+          create: (_) => getIt<TechnicianSosCubit>()..getRequest(id),
+          child: BlocBuilder<TechnicianSosCubit, TechnicianSosState>(
             builder: (context, state) {
               if (state is TechnicianLoading) {
                 return const Center(child: AppLoadingWidget());
@@ -59,7 +51,7 @@ Widget build(BuildContext context) {
                 return ErrorStateWidget(
                   message: state.message.isEmpty ||
                           state.message.startsWith('Instance of')
-                      ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
+                      ? l10n.unexpectedErrorTryAgain
                       : state.message,
                   onRetry: () =>
                       context.read<TechnicianSosCubit>().getRequest(id),
@@ -90,7 +82,6 @@ Widget build(BuildContext context) {
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

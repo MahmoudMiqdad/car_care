@@ -1,9 +1,11 @@
 import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
+
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/add_requests/requests_action_buttons.dart';
@@ -13,22 +15,12 @@ import 'package:car_care/features/technician/technician_quotations/presentation/
 import 'package:car_care/features/technician/technician_quotations/presentation/cubit/technician_quotations_state.dart';
 import 'package:car_care/features/technician/technician_quotations/presentation/widgets/price_offer_page/parts_mode_section.dart';
 import 'package:car_care/features/technician/technician_quotations/presentation/widgets/price_offer_page/requests_flow_shared.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-
-String? validateEstimatedDays(String? value) {
-  final trimmed = value?.trim() ?? '';
-  if (trimmed.isEmpty) return 'يرجى إدخال المدة المتوقعة';
-  final days = int.tryParse(trimmed);
-  if (days == null) return 'يرجى إدخال رقم صحيح';
-  if (days < 1 || days > 30) {
-    return 'المدة يجب أن تكون بين 1 و 30 يومًا';
-  }
-  return null;
-}
 
 class TechnicianQuotationsPage extends StatefulWidget {
   final String requestId;
@@ -57,16 +49,29 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
     super.dispose();
   }
 
+  String? _validateEstimatedDays(String? value) {
+    final l10n = context.l10n;
+    final trimmed = value?.trim() ?? '';
+    if (trimmed.isEmpty) return l10n.durationRequiredError;
+    final days = int.tryParse(trimmed);
+    if (days == null) return l10n.invalidNumberError;
+    if (days < 1 || days > 30) {
+      return l10n.durationRangeError;
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
     return BlocProvider(
       create: (_) =>
           SubmitQuotationCubit(getIt<ITechnicianQuotationsRepository>()),
       child: BlocConsumer<SubmitQuotationCubit, SubmitQuotationState>(
         listener: (context, state) {
           if (state is SubmitQuotationSuccess) {
-            // Return to Technician Order Details, which refetches and then
-            // shows the success confirmation there.
             if (context.canPop()) {
               context.pop(true);
             } else {
@@ -75,148 +80,125 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
           }
 
           if (state is SubmitQuotationError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
-              ),
-            );
+            AppSnackBar.error(context, state.message);
           }
         },
         builder: (context, state) {
           final isLoading = state is SubmitQuotationLoading;
 
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: Scaffold(
-              backgroundColor: AppColors.lightScaffold,
-              appBar: const CustomAppBar(
-                title: 'تقديم عرض سعر',
-                showBackButton: true,
-              ),
-              body: ImageBackground(
-                child: SafeArea(
-                  top: false,
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          /// صورة
-                          Center(
-                            child: Image.asset(
-                              AppAssets.carFinanceAmico,
-                              height: 180.h,
-                              width: 180.w,
-                            ),
+          return Scaffold(
+            backgroundColor: AppColors.scaffoldBackground(context),
+            appBar: CustomAppBar(
+              title: l10n.submitQuotationButtonLabel,
+              showBackButton: true,
+            ),
+            body: ImageBackground(
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Center(
+                          child: Image.asset(
+                            AppAssets.carFinanceAmico,
+                            height: 180.h,
+                            width: 180.w,
                           ),
-
-                          SizedBox(height: 10.h),
-
-                          /// السعر
-                          RequestsFlowStyles.formTextFieldCard(
-                            title: 'السعر',
-                            icon: Icons.payments_outlined,
-                            hintText: 'يرجى كتابة السعر المتوقع...',
-                            controller: _priceController,
+                        ),
+                        SizedBox(height: 10.h),
+                        RequestsFlowStyles.formTextFieldCard(
+                        context: context,
+                          title: l10n.price,
+                          icon: Icons.payments_outlined,
+                          hintText: l10n.enterExpectedPriceHint,
+                          controller: _priceController,
+                          keyboardType: TextInputType.number,
+                        ),
+                        SizedBox(height: 8.h),
+                        PartsModeSection(
+                          withinPrice: partsWithinPrice,
+                          onChanged: (v) =>
+                              setState(() => partsWithinPrice = v),
+                        ),
+                        SizedBox(height: 12.h),
+                        RequestsFormCard(
+                          cardRadius: _cardR,
+                          title: l10n.durationInDaysLabel,
+                          icon: Icons.schedule,
+                          iconColor: AppColors.primary,
+                          child: TextFormField(
+                            controller: _durationController,
                             keyboardType: TextInputType.number,
-                          ),
-
-                          SizedBox(height: 8.h),
-
-                          /// قطع
-                          PartsModeSection(
-                            withinPrice: partsWithinPrice,
-                            onChanged: (v) =>
-                                setState(() => partsWithinPrice = v),
-                          ),
-
-                          SizedBox(height: 12.h),
-
-                          /// المدة (بالأيام، من 1 إلى 30)
-                          RequestsFormCard(
-                            cardRadius: _cardR,
-                            title: 'المدة (بالأيام)',
-                            icon: Icons.schedule,
-                            iconColor: AppColors.primary,
-                            child: TextFormField(
-                              controller: _durationController,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                              ],
-                              textAlign: TextAlign.right,
-                              style: TextStyle(fontSize: 14.sp, height: 1.2),
-                              validator: validateEstimatedDays,
-                              decoration: InputDecoration(
-                                hintText: 'من 1 إلى 30 يومًا',
-                                hintStyle: TextStyle(
-                                  color: AppColors.lightTextSecondary
-                                      .withValues(alpha: 0.7),
-                                  fontSize: 13.sp,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            textAlign: isRtl ? TextAlign.right : TextAlign.left,
+                            style: TextStyle(fontSize: 14.sp, height: 1.2),
+                            validator: _validateEstimatedDays,
+                            decoration: InputDecoration(
+                              hintText: l10n.durationRangeHint,
+                              hintStyle: TextStyle(
+                                color: AppColors.textSecondary(context).withValues(
+                                  alpha: 0.7,
                                 ),
-                                border: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                isDense: true,
-                                contentPadding: EdgeInsets.zero,
+                                fontSize: 13.sp,
                               ),
+                              border: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              isDense: true,
+                              contentPadding: EdgeInsets.zero,
                             ),
                           ),
+                        ),
+                        SizedBox(height: 8.h),
+                        RequestsFlowStyles.formTextFieldCard(
+                        context: context,
+                          title: l10n.notesLabel,
+                          icon: Icons.edit_note,
+                          hintText: l10n.writeAdditionalNotesHint,
+                          controller: _notesController,
+                        ),
+                        SizedBox(height: 20.h),
+                        RequestsActionButtons(
+                          cardRadius: _cardR,
+                          layout: RequestsActionButtonsLayout.column,
+                          submitLabel: isLoading
+                              ? l10n.updatingProgress
+                              : l10n.sendQuotationActionLabel,
+                      
+                          cancelLabel: l10n.backButton,
+                          onSubmit: isLoading
+                              ? () {}
+                              : () {
+                                  if (_formKey.currentState?.validate() !=
+                                      true) {
+                                    return;
+                                  }
 
-                          SizedBox(height: 8.h),
+                                  final estimatedDays = int.parse(
+                                    _durationController.text.trim(),
+                                  );
 
-                          /// ملاحظات
-                          RequestsFlowStyles.formTextFieldCard(
-                            title: 'ملاحظات',
-                            icon: Icons.edit_note,
-                            hintText: 'كتابة أي ملاحظات إضافية...',
-                            controller: _notesController,
-                          ),
+                                  final data = {
+                                    "price": _priceController.text,
+                                    "estimated_days": estimatedDays,
+                                    "notes": _notesController.text,
+                                    "parts_included": partsWithinPrice
+                                        ? "1"
+                                        : "0",
+                                  };
 
-                          SizedBox(height: 20.h),
-
-                          ///  زر الإرسال فقط
-                          RequestsActionButtons(
-                            cardRadius: _cardR,
-                            layout: RequestsActionButtonsLayout.column,
-                            submitLabel: isLoading
-                                ? 'جارٍ الإرسال...'
-                                : 'إرسال العرض',
-                            onSubmit: isLoading
-                                ? () {}
-                                : () {
-                                    if (_formKey.currentState?.validate() !=
-                                        true) {
-                                      return;
-                                    }
-
-                                    final estimatedDays = int.parse(
-                                      _durationController.text.trim(),
-                                    );
-
-                                    final data = {
-                                      "price": _priceController.text,
-                                      "estimated_days": estimatedDays,
-                                      "notes": _notesController.text,
-                                      "parts_included": partsWithinPrice
-                                          ? "1"
-                                          : "0",
-                                    };
-
-                                    context
-                                        .read<SubmitQuotationCubit>()
-                                        .submitQuotation(
-                                          data,
-                                          widget.requestId,
-                                        );
-                                  },
-                            onCancel: () => context.safePopOrGo(Routes.orders),
-                          ),
-                        ],
-                      ),
+                                  context
+                                      .read<SubmitQuotationCubit>()
+                                      .submitQuotation(data, widget.requestId);
+                                },
+                          onCancel: () => context.safePopOrGo(Routes.orders),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -244,13 +226,15 @@ class ModeChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color primary = AppColors.primary;
-    final Color success = AppColors.success;
-    final Color bg = selected ? const Color(0xFFE8F5E9) : AppColors.white;
+    final Color success = AppColors.green;
+    final Color bg = selected
+        ? AppColors.green.withValues(alpha: 0.12)
+        : AppColors.white;
     final Color borderColor = selected ? success : primary;
     final Color textColor = selected ? success : primary;
 
     return Material(
-      color: Colors.transparent,
+      color: AppColors.transparent,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12.r),
@@ -264,7 +248,7 @@ class ModeChip extends StatelessWidget {
           child: Center(
             child: Text(
               label,
-              style: AppTypography.labelMedium.copyWith(
+              style: context.textTheme.labelMedium!.copyWith(
                 color: textColor,
                 fontWeight: FontWeight.w800,
                 fontSize: 14.sp,

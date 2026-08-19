@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/vehicle_info_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,7 +27,7 @@ class VehicleInfoCardWidget extends StatelessWidget {
             title,
             style: TextStyle(
               fontSize: 14.sp,
-              color: Colors.black54,
+              color: AppColors.black,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -41,7 +42,7 @@ class VehicleInfoCardWidget extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w900,
-                  color: Colors.black,
+                  color: AppColors.black,
                 ),
               ),
                             SizedBox(width: 12,),

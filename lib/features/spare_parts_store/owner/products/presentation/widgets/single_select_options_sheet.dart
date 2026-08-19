@@ -1,8 +1,10 @@
 // نافذة اختيار مفرد — نفس نمط SelectOptionsSheet (تخصصات المتجر): مقبض
 // سحب، عنوان، قائمة قابلة للتمرير، زر «تأكيد الاختيار»، وSafeArea. الفرق أن
 // الاختيار هنا مفرد (قيمة واحدة) لا متعدد.
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
+
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -27,7 +29,7 @@ class SingleSelectOptionsSheet<T> extends StatefulWidget {
     return showModalBottomSheet<T>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (_) => SingleSelectOptionsSheet<T>(
         title: title,
         items: items,
@@ -53,6 +55,8 @@ class _SingleSelectOptionsSheetState<T>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
+
     return Container(
       constraints: BoxConstraints(maxHeight: 0.75.sh),
       padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 0),
@@ -72,7 +76,7 @@ class _SingleSelectOptionsSheetState<T>
                 width: 40.w,
                 height: 4.h,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
+                  color: AppColors.border(context), 
                   borderRadius: BorderRadius.circular(2.r),
                 ),
               ),
@@ -80,8 +84,8 @@ class _SingleSelectOptionsSheetState<T>
             SizedBox(height: 16.h),
             Text(
               widget.title,
-              style: AppTypography.labelLarge.copyWith(
-                color: AppColors.lightTextPrimary,
+              style: context.textTheme.labelLarge!.copyWith(
+                color: AppColors.textPrimary(context),
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -91,7 +95,7 @@ class _SingleSelectOptionsSheetState<T>
                 shrinkWrap: true,
                 itemCount: widget.items.length,
                 separatorBuilder: (_, _) =>
-                    Divider(color: AppColors.lightBorder, height: 1),
+                    Divider(color: AppColors.border(context), height: 1),
                 itemBuilder: (_, index) {
                   final item = widget.items[index];
                   final isSelected = item.$1 == _selected;
@@ -104,8 +108,8 @@ class _SingleSelectOptionsSheetState<T>
                           Expanded(
                             child: Text(
                               item.$2,
-                              style: AppTypography.bodyMedium.copyWith(
-                                color: AppColors.lightTextPrimary,
+                              style: context.textTheme.bodyMedium!.copyWith(
+                                color: AppColors.textPrimary(context),
                               ),
                             ),
                           ),
@@ -116,7 +120,7 @@ class _SingleSelectOptionsSheetState<T>
                             size: 22.sp,
                             color: isSelected
                                 ? AppColors.primary
-                                : AppColors.lightBorder,
+                                : AppColors.border(context),
                           ),
                         ],
                       ),
@@ -140,8 +144,8 @@ class _SingleSelectOptionsSheetState<T>
                   ),
                 ),
                 child: Text(
-                  'تأكيد الاختيار',
-                  style: AppTypography.labelLarge.copyWith(
+                  l10n.confirmSelectionButtonLabel, 
+                  style: context.textTheme.labelLarge!.copyWith(
                     color: AppColors.white,
                     fontWeight: FontWeight.w700,
                   ),

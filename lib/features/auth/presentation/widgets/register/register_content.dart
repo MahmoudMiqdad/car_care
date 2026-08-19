@@ -71,7 +71,7 @@ class _RegisterContentState extends State<RegisterContent> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   LoginTextField(
-                    innerBorderColor: Colors.transparent,
+                    innerBorderColor: AppColors.transparent,
                     controller: widget.firstNameController,
                     hintText: strings.fullName,
                     keyboardType: TextInputType.name,
@@ -88,7 +88,7 @@ class _RegisterContentState extends State<RegisterContent> {
                   ),
                   SizedBox(height: 16.h),
                   LoginTextField(
-                    innerBorderColor: Colors.transparent,
+                    innerBorderColor: AppColors.transparent,
                     controller: widget.accountController,
                     hintText: strings.email,
                     keyboardType: TextInputType.emailAddress,
@@ -128,7 +128,7 @@ LoginTextField(
 ),
                   SizedBox(height: 16.h),
                   LoginTextField(
-                    innerBorderColor: Colors.transparent,
+                    innerBorderColor: AppColors.transparent,
                     controller: widget.passwordController,
                     hintText: strings.password,
                     isPassword: true,
@@ -149,7 +149,7 @@ LoginTextField(
                   ),
                   SizedBox(height: 16.h),
                   LoginTextField(
-                    innerBorderColor: Colors.transparent,
+                    innerBorderColor: AppColors.transparent,
                     controller: widget.confirmPasswordController,
                     hintText: strings.confirmPassword,
                     isPassword: true,
@@ -183,7 +183,7 @@ LoginTextField(
                       text: widget.isLoading
                           ? strings.creating
                           : strings.createAccount,
-                      backgroundColor: AppColors.orange,
+                      backgroundColor: AppColors.accent,
                       textColor: AppColors.white,
                     ),
                   ),
@@ -203,7 +203,7 @@ LoginTextField(
                         child: Text(
                           strings.login,
                           style: context.textTheme.bodyMedium?.copyWith(
-                            color: AppColors.orange,
+                            color: AppColors.accent,
                             fontWeight: FontWeight.w600,
                             fontSize: 14.sp,
                           ),
@@ -236,7 +236,7 @@ class _RegisterTitle extends StatelessWidget {
           strings.createAccount,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: AppColors.orange,
+                color: AppColors.accent,
                 fontWeight: FontWeight.w700,
                 fontSize: 26.sp,
                 letterSpacing: 0.4,

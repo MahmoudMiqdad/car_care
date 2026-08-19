@@ -18,13 +18,10 @@ class UserStatisticsPage extends StatelessWidget {
 
     return BlocProvider(
       create: (_) => getIt<StatisticsCubit>()..fetchStatistics(),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          backgroundColor: AppColors.lightScaffold,
-          appBar: CustomAppBar(title: strings.statistics, showBackButton: true),
-          body: const ImageBackground(child: UserStatisticsBody()),
-        ),
+      child: Scaffold(
+        backgroundColor: AppColors.scaffoldBackground(context),
+        appBar: CustomAppBar(title: strings.statistics, showBackButton: true),
+        body: const ImageBackground(child: UserStatisticsBody()),
       ),
     );
   }

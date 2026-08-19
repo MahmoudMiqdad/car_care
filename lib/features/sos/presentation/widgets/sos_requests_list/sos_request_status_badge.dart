@@ -49,8 +49,8 @@ class SosRequestStatusBadge extends StatelessWidget {
           color: outline
               ? AppColors.carWashTeal
               : isError
-              ? AppColors.error
-              : AppColors.success,
+              ? AppColors.red
+              : AppColors.green,
           width: 1,
         ),
       ),

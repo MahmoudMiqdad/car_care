@@ -1,5 +1,6 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,7 +18,7 @@ class StoreAttributeChip extends StatelessWidget {
 
   Color get _color => switch (type) {
     StoreAttributeType.businessType => AppColors.orange,
-    StoreAttributeType.carBrand => AppColors.success,
+    StoreAttributeType.carBrand => AppColors.green,
     StoreAttributeType.partCategory => AppColors.accent,
   };
 
@@ -33,7 +34,7 @@ class StoreAttributeChip extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: AppTypography.labelSmall.copyWith(
+        style: context.textTheme.labelSmall!.copyWith(
           color: color,
           fontWeight: FontWeight.w700,
         ),

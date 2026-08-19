@@ -18,66 +18,67 @@ class CarWasherStatisticsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final strings = context.l10n;
+    final strings = context.l10n; 
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => getIt<CarWasherStatisticsCubit>()..load()),
         BlocProvider(create: (_) => getIt<ProfileWasherCubit>()..load()),
       ],
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          backgroundColor: AppColors.lightScaffold,
-          appBar: CustomAppBar(
-            title: strings.statistics,
-            showBackButton: true,
-            onBackTapped: () {
-              if (context.canPop()) {
-                context.pop();
-              } else {
-                context.go(Routes.profile_washer);
+      child: Scaffold(
+        backgroundColor: AppColors.scaffoldBackground(context),
+        appBar: CustomAppBar(
+          title: strings.statistics,
+          showBackButton: true,
+          onBackTapped: () {
+            if (context.canPop()) {
+              context.pop();
+            } else {
+              context.go(Routes.profile_washer);
+            }
+          },
+        ),
+        body: ImageBackground(
+          child: BlocBuilder<CarWasherStatisticsCubit, StatisticsState>(
+            builder: (context, state) {
+              if (state is StatisticsLoading || state is StatisticsInitial) {
+                return const Center(child: AppLoadingWidget());
               }
+
+              if (state is StatisticsLoaded) {
+                return WasherStatisticsBody(statistics: state.statistics);
+              }
+
+              if (state is StatisticsError) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.error_outline,
+                        size: 64,
+                        color: AppColors.red, 
+                      ),
+                      const SizedBox(height: 16),
+                      Text(state.message, textAlign: TextAlign.center),
+                      const SizedBox(height: 24),
+                      ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary, 
+                          foregroundColor: AppColors.white,
+                        ),
+                        onPressed: () =>
+                            context.read<CarWasherStatisticsCubit>().load(),
+                        icon: const Icon(Icons.refresh),
+                        label: Text(strings.retry), 
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              return const SizedBox.shrink();
             },
-          ),
-          body: ImageBackground(
-            child: BlocBuilder<CarWasherStatisticsCubit, StatisticsState>(
-              builder: (context, state) {
-                if (state is StatisticsLoading || state is StatisticsInitial) {
-                  return const Center(child: AppLoadingWidget());
-                }
-
-                if (state is StatisticsLoaded) {
-                  return WasherStatisticsBody(statistics: state.statistics);
-                }
-
-                if (state is StatisticsError) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.error_outline,
-                          size: 64,
-                          color: Colors.red.shade400,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(state.message, textAlign: TextAlign.center),
-                        const SizedBox(height: 24),
-                        ElevatedButton.icon(
-                          onPressed: () =>
-                              context.read<CarWasherStatisticsCubit>().load(),
-                          icon: const Icon(Icons.refresh),
-                          label: const Text('إعادة محاولة'),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-
-                return const SizedBox.shrink();
-              },
-            ),
           ),
         ),
       ),

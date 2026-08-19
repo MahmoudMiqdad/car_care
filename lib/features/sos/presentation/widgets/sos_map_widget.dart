@@ -1,15 +1,19 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/loding.dart';
+
 import 'package:car_care/features/sos/presentation/cubit/tracking_cubit/tracking_cubit.dart';
 import 'package:car_care/features/sos/presentation/cubit/tracking_cubit/tracking_state.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_waiting_technician_widget.dart';
+import 'package:car_care/l10n.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+
 final _osrmDio = Dio(BaseOptions(
   connectTimeout: const Duration(seconds: 10),
   receiveTimeout: const Duration(seconds: 10),
@@ -128,13 +132,14 @@ class _SosMapWidgetState extends State<SosMapWidget> {
   }
 
   Widget _buildErrorView(BuildContext context, String message) {
+    final l10n = context.l10n;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.location_off, size: 48, color: Colors.grey),
+            Icon(Icons.location_off, size: 48, color: AppColors.gray),
             const SizedBox(height: 12),
             Text(message, textAlign: TextAlign.center),
             const SizedBox(height: 12),
@@ -142,7 +147,7 @@ class _SosMapWidgetState extends State<SosMapWidget> {
               onPressed: () =>
                   context.read<TrackingCubit>().loadTracking(widget.sosId),
               icon: const Icon(Icons.refresh),
-              label: const Text('إعادة المحاولة'),
+              label: Text(l10n.retry),
             ),
           ],
         ),
@@ -183,7 +188,7 @@ class _SosMapWidgetState extends State<SosMapWidget> {
                   Polyline(
                     points:
                         data.path!.map((p) => LatLng(p.lat, p.lng)).toList(),
-                    color: Colors.grey.withOpacity(0.4),
+                    color: AppColors.gray.withOpacity(0.4),
                     strokeWidth: 3,
                     pattern: StrokePattern.dashed(segments: [8, 4]),
                   ),
@@ -194,9 +199,9 @@ class _SosMapWidgetState extends State<SosMapWidget> {
                 polylines: [
                   Polyline(
                     points: _routePoints,
-                    color: Colors.blue.shade600,
+                    color: AppColors.blue,
                     strokeWidth: 5,
-                    borderColor: Colors.blue.shade900,
+                    borderColor: AppColors.blueDark,
                     borderStrokeWidth: 1,
                   ),
                 ],
@@ -208,7 +213,7 @@ class _SosMapWidgetState extends State<SosMapWidget> {
                 polylines: [
                   Polyline(
                     points: [techLocation, userLocation],
-                    color: Colors.blue.withOpacity(0.5),
+                    color: AppColors.blue.withOpacity(0.5),
                     strokeWidth: 3,
                     pattern: StrokePattern.dashed(segments: [6, 4]),
                   ),
@@ -256,8 +261,8 @@ class _SosMapWidgetState extends State<SosMapWidget> {
                 FloatingActionButton.small(
                   heroTag: 'fit_route',
                   onPressed: () => _fitRoute(techLocation, userLocation),
-                  backgroundColor: Colors.white,
-                  child: Icon(Icons.route, color: Colors.blue.shade700),
+                  backgroundColor: AppColors.white,
+                  child: Icon(Icons.route, color: AppColors.blueDark),
                 ),
               const SizedBox(height: 8),
               FloatingActionButton.small(
@@ -292,6 +297,7 @@ class _UserMarker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: Column(
@@ -300,29 +306,29 @@ class _UserMarker extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: Colors.red,
+              color: AppColors.red,
               shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 2),
+              border: Border.all(color: AppColors.white, width: 2),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.red.withOpacity(0.4),
+                  color: AppColors.red.withOpacity(0.4),
                   blurRadius: 8,
                   spreadRadius: 2,
                 ),
               ],
             ),
-            child: const Icon(Icons.person_pin, color: Colors.white, size: 20),
+            child: Icon(Icons.person_pin, color: AppColors.white, size: 20),
           ),
           const SizedBox(height: 2),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
             decoration: BoxDecoration(
-              color: Colors.red,
+              color: AppColors.red,
               borderRadius: BorderRadius.circular(4),
             ),
-            child: const Text(
-              'أنت',
-              style: TextStyle(color: Colors.white, fontSize: 9),
+            child: Text(
+              l10n.you,
+              style: TextStyle(color: AppColors.white, fontSize: 9),
             ),
           ),
         ],
@@ -364,6 +370,7 @@ class _TechnicianMarkerState extends State<_TechnicianMarker>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return ScaleTransition(
       scale: _scaleAnim,
       child: FittedBox(
@@ -374,29 +381,29 @@ class _TechnicianMarkerState extends State<_TechnicianMarker>
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: Colors.blue.shade700,
+                color: AppColors.blueDark,
                 shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 2),
+                border: Border.all(color: AppColors.white, width: 2),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.blue.withOpacity(0.5),
+                    color: AppColors.blue.withOpacity(0.5),
                     blurRadius: 10,
                     spreadRadius: 3,
                   ),
                 ],
               ),
-              child: const Icon(Icons.build_circle, color: Colors.white, size: 22),
+              child: Icon(Icons.build_circle, color: AppColors.white, size: 22),
             ),
             const SizedBox(height: 2),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
               decoration: BoxDecoration(
-                color: Colors.blue.shade700,
+                color: AppColors.blueDark,
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: const Text(
-                'الفني',
-                style: TextStyle(color: Colors.white, fontSize: 9),
+              child: Text(
+                l10n.technician,
+                style: TextStyle(color: AppColors.white, fontSize: 9),
               ),
             ),
           ],
@@ -418,7 +425,8 @@ class _TechnicianInfoCard extends StatelessWidget {
     required this.isLoadingRoute,
   });
 
-  String _getRouteDistance() {
+  String _getRouteDistance(BuildContext context) {
+    final l10n = context.l10n;
     if (routePoints.length < 2) return '';
     double totalMeters = 0;
     final dist = Distance();
@@ -426,14 +434,17 @@ class _TechnicianInfoCard extends StatelessWidget {
       totalMeters +=
           dist.as(LengthUnit.Meter, routePoints[i], routePoints[i + 1]);
     }
-    if (totalMeters < 1000) return '${totalMeters.toStringAsFixed(0)} م';
-    return '${(totalMeters / 1000).toStringAsFixed(1)} كم';
+    if (totalMeters < 1000) {
+      return '${totalMeters.toStringAsFixed(0)} ${l10n.meterUnit}';
+    }
+    return '${(totalMeters / 1000).toStringAsFixed(1)} ${l10n.kmUnit}';
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final isLive = state.liveLocation != null;
-    final distance = _getRouteDistance();
+    final distance = _getRouteDistance(context);
 
     return Card(
       elevation: 4,
@@ -446,7 +457,7 @@ class _TechnicianInfoCard extends StatelessWidget {
               width: 10,
               height: 10,
               decoration: BoxDecoration(
-                color: isLive ? Colors.green : Colors.orange,
+                color: isLive ? AppColors.green : AppColors.orange,
                 shape: BoxShape.circle,
               ),
             ),
@@ -458,27 +469,28 @@ class _TechnicianInfoCard extends StatelessWidget {
                 children: [
                   Text(
                     isLive
-                        ? 'الفني في الطريق - تتبع مباشر'
-                        : 'انتظار تحديث الموقع...',
+                        ? l10n.technicianOnWayLiveTracking
+                        : l10n.waitingForLocationUpdate,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: isLive
-                          ? Colors.green.shade700
-                          : Colors.orange.shade700,
+                          ? AppColors.green
+                          : AppColors.orangeDark,
                       fontSize: 13,
                     ),
                   ),
                   if (isLoadingRoute)
                     Text(
-                      'جاري حساب المسار...',
-                      style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+                      l10n.calculatingRoute,
+                      style:
+                          TextStyle(fontSize: 11, color: AppColors.gray),
                     )
                   else if (distance.isNotEmpty)
                     Text(
-                      'المسافة: $distance',
+                      '${l10n.distanceLabel}: $distance',
                       style: TextStyle(
                         fontSize: 11,
-                        color: Colors.blue.shade700,
+                        color: AppColors.blueDark,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

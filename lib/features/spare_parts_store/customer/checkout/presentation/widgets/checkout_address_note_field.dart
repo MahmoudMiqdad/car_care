@@ -1,7 +1,9 @@
 // حقل ملاحظة العنوان (إلزامي) في شاشة Checkout — مع AnimatedContainer لتأثير Focus
 //إلزامي بناء عالباك
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -41,6 +43,8 @@ class _CheckoutAddressNoteFieldState extends State<CheckoutAddressNoteField> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -49,8 +53,8 @@ class _CheckoutAddressNoteFieldState extends State<CheckoutAddressNoteField> {
             Icon(Icons.edit_note_outlined, color: AppColors.primary, size: 18.sp),
             SizedBox(width: 6.w),
             Text(
-              'ملاحظة العنوان',
-              style: AppTypography.labelLarge.copyWith(
+              l10n.addressNoteLabel,
+              style: context.textTheme.labelLarge!.copyWith(
                 color: AppColors.primary,
                 fontWeight: FontWeight.w700,
               ),
@@ -58,8 +62,8 @@ class _CheckoutAddressNoteFieldState extends State<CheckoutAddressNoteField> {
             SizedBox(width: 4.w),
             Text(
               '*',
-              style: AppTypography.labelSmall.copyWith(
-                color: AppColors.error,
+              style:context.textTheme.labelSmall!.copyWith(
+                color: AppColors.red,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -74,7 +78,7 @@ class _CheckoutAddressNoteFieldState extends State<CheckoutAddressNoteField> {
             boxShadow: _isFocused
                 ? [
                     BoxShadow(
-                      color: AppColors.primary.withOpacity(0.18),
+                      color: AppColors.primary.withValues(alpha: 0.18), 
                       blurRadius: 8,
                       spreadRadius: 0,
                     ),
@@ -87,11 +91,11 @@ class _CheckoutAddressNoteFieldState extends State<CheckoutAddressNoteField> {
             onChanged: (_) => widget.onChanged(),
             maxLines: 3,
             minLines: 2,
-            textDirection: TextDirection.rtl,
+          
             decoration: InputDecoration(
-              hintText: 'مثال: بصرى الشام - الحي الغربي - قرب الصيدلية',
-              hintStyle: AppTypography.labelSmall.copyWith(
-                color: AppColors.lightTextSecondary,
+              hintText: l10n.addressNoteHint, 
+              hintStyle: context.textTheme.labelSmall!.copyWith(
+                color: AppColors.textSecondary(context),
               ),
               filled: true,
               fillColor: AppColors.secondary,
@@ -102,7 +106,7 @@ class _CheckoutAddressNoteFieldState extends State<CheckoutAddressNoteField> {
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.r),
                 borderSide: BorderSide(
-                  color: AppColors.primary.withOpacity(0.35),
+                  color: AppColors.primary.withValues(alpha: 0.35), 
                   width: 1.5,
                 ),
               ),
@@ -111,8 +115,8 @@ class _CheckoutAddressNoteFieldState extends State<CheckoutAddressNoteField> {
                 vertical: 10.h,
               ),
             ),
-            style: AppTypography.bodyMedium.copyWith(
-              color: AppColors.lightTextPrimary,
+            style:context.textTheme.bodyMedium!.copyWith(
+              color: AppColors.textPrimary(context),
             ),
           ),
         ),

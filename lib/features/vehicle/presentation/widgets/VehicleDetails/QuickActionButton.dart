@@ -1,4 +1,5 @@
 // ignore_for_file: deprecated_member_use, file_names
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,7 +27,7 @@ class QuickActionButton extends StatelessWidget {
           width: 60.w,
           height: 60.w,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(12.r),
             border: Border.all(color: color, width: 1.5),
             boxShadow: [
@@ -38,7 +39,7 @@ class QuickActionButton extends StatelessWidget {
             ],
           ),
           child: Material(
-            color: Colors.transparent,
+            color: AppColors.transparent,
             child: InkWell(
               onTap: onTap,
               borderRadius: BorderRadius.circular(12.r),
@@ -68,7 +69,7 @@ class QuickActionButton extends StatelessWidget {
           style: TextStyle(
             fontSize: 14.sp,
             fontWeight: FontWeight.bold,
-            color: Colors.black,
+            color: AppColors.black,
           ),
         ),
       ],

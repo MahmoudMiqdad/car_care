@@ -1,10 +1,11 @@
 // كرت يعرض موقع التوصيل المختار أو يدعو لاختياره
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
-
 class CheckoutLocationCard extends StatelessWidget {
   const CheckoutLocationCard({
     super.key,
@@ -17,6 +18,7 @@ class CheckoutLocationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
     final isSelected = selectedLocation != null;
 
     return AnimatedContainer(
@@ -25,12 +27,12 @@ class CheckoutLocationCard extends StatelessWidget {
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         color: isSelected
-            ? AppColors.primary.withOpacity(0.04)
+            ? AppColors.primary.withValues(alpha: 0.04)
             : AppColors.white,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: AppColors.black.withValues(alpha: 0.05), 
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -45,7 +47,7 @@ class CheckoutLocationCard extends StatelessWidget {
                 width: 36.w,
                 height: 36.w,
                 decoration: BoxDecoration(
-                  color: AppColors.accent.withOpacity(0.12),
+                  color: AppColors.accent.withValues(alpha: 0.12), 
                   shape: BoxShape.circle,
                 ),
                 alignment: Alignment.center,
@@ -61,9 +63,9 @@ class CheckoutLocationCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'موقع التوصيل',
-                      style: AppTypography.labelLarge.copyWith(
-                        color: AppColors.lightTextPrimary,
+                      l10n.deliveryLocationLabel, 
+                      style: context.textTheme.labelLarge!.copyWith(
+                        color: AppColors.textPrimary(context),
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -75,10 +77,10 @@ class CheckoutLocationCard extends StatelessWidget {
                       ),
                       child: !isSelected
                           ? Text(
-                              'اختر الموقع من الخريطة',
+                              l10n.selectLocationFromMapHint, 
                               key: const ValueKey('hint'),
-                              style: AppTypography.labelSmall.copyWith(
-                                color: AppColors.lightTextSecondary,
+                              style: context.textTheme.labelSmall!.copyWith(
+                                color: AppColors.textSecondary(context),
                               ),
                             )
                           : const SizedBox.shrink(key: ValueKey('empty')),
@@ -100,7 +102,7 @@ class CheckoutLocationCard extends StatelessWidget {
                           vertical: 4.h,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.success.withOpacity(0.12),
+                          color: AppColors.green.withValues(alpha: 0.12), 
                           borderRadius: BorderRadius.circular(20.r),
                         ),
                         child: Row(
@@ -108,14 +110,14 @@ class CheckoutLocationCard extends StatelessWidget {
                           children: [
                             Icon(
                               Icons.check_circle,
-                              color: AppColors.success,
+                              color: AppColors.green,
                               size: 12.sp,
                             ),
                             SizedBox(width: 3.w),
                             Text(
-                              'تم التحديد',
-                              style: AppTypography.labelSmall.copyWith(
-                                color: AppColors.success,
+                              l10n.locationSelectedBadge, 
+                              style:context.textTheme.labelSmall!.copyWith(
+                                color: AppColors.green,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -126,7 +128,6 @@ class CheckoutLocationCard extends StatelessWidget {
               ),
             ],
           ),
-          // الإحداثيات تظهر بانتقال ناعم عند اختيار الموقع
           AnimatedSize(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOut,
@@ -148,8 +149,8 @@ class CheckoutLocationCard extends StatelessWidget {
                         child: Text(
                           '${selectedLocation!.latitude.toStringAsFixed(5)}, '
                           '${selectedLocation!.longitude.toStringAsFixed(5)}',
-                          style: AppTypography.labelSmall.copyWith(
-                            color: AppColors.lightTextSecondary,
+                          style:context.textTheme.labelSmall!.copyWith(
+                            color: AppColors.textSecondary(context),
                             fontFamily: 'monospace',
                           ),
                         ),
@@ -164,7 +165,7 @@ class CheckoutLocationCard extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 10.h),
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.07),
+                color: AppColors.primary.withValues(alpha: 0.07), 
                 borderRadius: BorderRadius.circular(10.r),
               ),
               alignment: Alignment.center,
@@ -176,9 +177,9 @@ class CheckoutLocationCard extends StatelessWidget {
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 200),
                     child: Text(
-                      isSelected ? 'تغيير الموقع' : 'اختيار الموقع من الخريطة',
+                      isSelected ? l10n.changeLocationButton : l10n.selectLocationFromMapHint, 
                       key: ValueKey(isSelected),
-                      style: AppTypography.labelSmall.copyWith(
+                      style: context.textTheme.labelSmall!.copyWith(
                         color: AppColors.primary,
                         fontWeight: FontWeight.w700,
                       ),

@@ -102,7 +102,7 @@ class _ProviderOrdersTabsPageState extends State<ProviderOrdersTabsPage>
                     controller: _tabController,
                     isScrollable: true,
                     indicator: const BoxDecoration(),
-                    dividerColor: Colors.transparent,
+                    dividerColor: AppColors.transparent,
                     labelPadding: EdgeInsets.symmetric(horizontal: 4.w),
                     tabs: [
                       _buildTab(l10n.providerMyOrdersTitle, 0),
@@ -140,10 +140,10 @@ class _ProviderOrdersTabsPageState extends State<ProviderOrdersTabsPage>
             margin: EdgeInsets.symmetric(horizontal: 4.w),
             padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: selected ? AppColors.primary : Colors.white,
+              color: selected ? AppColors.primary : AppColors.white,
               borderRadius: BorderRadius.circular(20.r),
               border: Border.all(
-                color: selected ? AppColors.primary : AppColors.lightBorder,
+                color: selected ? AppColors.primary : AppColors.border(context),
               ),
               boxShadow: [
                 if (selected)
@@ -159,7 +159,7 @@ class _ProviderOrdersTabsPageState extends State<ProviderOrdersTabsPage>
               style: TextStyle(
                 fontSize: selected ? 15.sp : 14.sp,
                 fontWeight: FontWeight.w800,
-                color: selected ? Colors.white : AppColors.lightTextSecondary,
+                color: selected ? Colors.white : AppColors.textSecondary(context),
               ),
             ),
           ),

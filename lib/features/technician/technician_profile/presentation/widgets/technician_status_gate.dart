@@ -1,21 +1,15 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/core/widgets/provider_status_page.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_cubit.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_state.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-/// Gates any technician screen behind the technician profile status.
-/// Having the technician role does NOT mean approved — the profile
-/// status decides access:
-/// - no profile  -> redirect to create technician profile
-/// - pending     -> "حسابك قيد المراجعة"
-/// - rejected    -> rejection reason
-/// - suspended   -> suspended page
-/// - approved    -> [child]
 class TechnicianStatusGate extends StatelessWidget {
   const TechnicianStatusGate({super.key, required this.child});
 
@@ -23,6 +17,8 @@ class TechnicianStatusGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return BlocProvider(
       create: (_) => getIt<TechnicianProfileCubit>()..getTechnicianProfile(),
       child: BlocConsumer<TechnicianProfileCubit, TechnicianProfileState>(
@@ -62,8 +58,11 @@ class TechnicianStatusGate extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.error_outline,
-                        size: 48, color: Colors.red),
+                    Icon(
+                      Icons.error_outline,
+                      size: 48,
+                      color: AppColors.red,
+                    ),
                     const SizedBox(height: 12),
                     Text(state.message, textAlign: TextAlign.center),
                     const SizedBox(height: 16),
@@ -72,7 +71,7 @@ class TechnicianStatusGate extends StatelessWidget {
                           .read<TechnicianProfileCubit>()
                           .getTechnicianProfile(),
                       icon: const Icon(Icons.refresh),
-                      label: const Text('إعادة المحاولة'),
+                      label: Text(l10n.retry),
                     ),
                   ],
                 ),

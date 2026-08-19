@@ -13,6 +13,7 @@ class Routes {
   static const String home = '/home';
   static const String notifications = '/notifications';
   static const String more = '/more';
+  static const String settings = '/settings';
   static const String my_vehicles_page = '/my_vehicles_page';
   static const String add_vehicle = '/add_vehicle';
   static const String vehicle_details = '/vehicle_details';
@@ -132,4 +133,7 @@ class Routes {
       '/spare-parts/customer/track-delivery';
   static String customerTrackDeliveryPath(int orderId) =>
       '$customerTrackDelivery/$orderId';
+  static const String provider_invoices = '/provider_invoices';
+  static const providerInvoices = '/provider-invoices';
+static const providerInvoiceDetails = '/provider-invoice-details';
 }

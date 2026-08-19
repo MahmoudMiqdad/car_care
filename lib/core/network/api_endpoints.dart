@@ -122,4 +122,5 @@ class ApiEndpoints {
 
   // Advertisements (public, unauthenticated)
   static const String activeAdvertisements = '/advertisements/active';
+   static const String providerInvoices = '/provider/invoices';
 }

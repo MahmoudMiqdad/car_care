@@ -1,6 +1,7 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
-import 'package:car_care/core/widgets/app_headline.dart';
+
+import 'package:car_care/core/widgets/app_headline.dart'; 
 import 'package:car_care/core/widgets/app_outlined_select_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,14 +38,14 @@ class CreateProfileWasherWorkHoursSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AppText.sectionTitle(
+          context,
           sectionTitle,
           color: AppColors.black,
-          fontSize: 17.sp,
           fontWeight: FontWeight.w800,
         ),
         SizedBox(height: 10.h),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center, 
           children: [
             Expanded(
               child: _WorkTimeField(
@@ -92,10 +93,8 @@ class _WorkTimeField extends StatelessWidget {
           alignment: AlignmentDirectional.centerStart,
           child: Text(
             label,
-            style: AppTypography.labelLarge.copyWith(
-              color: AppColors.black,
+            style: context.textTheme.labelLarge!.copyWith( 
               fontWeight: FontWeight.w800,
-              fontSize: 15.sp,
             ),
           ),
         ),

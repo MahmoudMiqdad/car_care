@@ -5,6 +5,7 @@ import 'package:car_care/core/theme/app_colors.dart';
 
 import 'package:car_care/features/technician_sos/presentation/cubit/share_technician_location_cubit/share_technician_location_sos_cubit.dart';
 import 'package:car_care/features/technician_sos/presentation/cubit/share_technician_location_cubit/share_technician_location_sos_state.dart';
+import 'package:car_care/l10n.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -92,8 +93,9 @@ class _TechnicianMapWidgetState extends State<TechnicianMapWidget> {
     }
     if (permission == LocationPermission.deniedForever) {
       if (mounted) {
+        final l10n = context.l10n;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('صلاحية الموقع مرفوضة')),
+          SnackBar(content: Text(l10n.locationPermissionDenied)),
         );
       }
       return false;
@@ -211,6 +213,7 @@ class _TechnicianMapWidgetState extends State<TechnicianMapWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final userLocation = (widget.userLat != null && widget.userLng != null)
         ? LatLng(widget.userLat!, widget.userLng!)
         : null;
@@ -223,8 +226,8 @@ class _TechnicianMapWidgetState extends State<TechnicianMapWidget> {
         if (state is ShareLocationError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('خطأ في إرسال الموقع: ${state.message}'),
-              backgroundColor: Colors.red.shade600,
+              content: Text(l10n.sosLocationSendError(state.message)),
+              backgroundColor: AppColors.red600,
               behavior: SnackBarBehavior.floating,
             ),
           );
@@ -311,7 +314,7 @@ class _TechnicianMapWidgetState extends State<TechnicianMapWidget> {
                   FloatingActionButton.small(
                     heroTag: 'fit_route_tech',
                     onPressed: _fitRoute,
-                    backgroundColor: Colors.white,
+                    backgroundColor: AppColors.white,
                     child: Icon(Icons.route, color: AppColors.carWashTeal),
                   ),
                 const SizedBox(height: 8),
@@ -323,7 +326,7 @@ class _TechnicianMapWidgetState extends State<TechnicianMapWidget> {
                     }
                   },
                   backgroundColor: AppColors.carWashTeal,
-                  child: const Icon(Icons.my_location, color: Colors.white),
+                  child: Icon(Icons.my_location, color: AppColors.white),
                 ),
               ],
             ),
@@ -340,6 +343,7 @@ class _UserMarker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: Column(
@@ -348,29 +352,29 @@ class _UserMarker extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: Colors.red,
+              color: AppColors.red,
               shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 2),
+              border: Border.all(color: AppColors.white, width: 2),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.red.withOpacity(0.4),
+                  color: AppColors.red.withOpacity(0.4),
                   blurRadius: 8,
                   spreadRadius: 2,
                 ),
               ],
             ),
-            child: const Icon(Icons.person_pin, color: Colors.white, size: 20),
+            child: Icon(Icons.person_pin, color: AppColors.white, size: 20),
           ),
           const SizedBox(height: 2),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
             decoration: BoxDecoration(
-              color: Colors.red,
+              color: AppColors.red,
               borderRadius: BorderRadius.circular(4),
             ),
-            child: const Text(
-              'العميل',
-              style: TextStyle(color: Colors.white, fontSize: 9),
+            child: Text(
+              l10n.customerLabel,
+              style: TextStyle(color: AppColors.white, fontSize: 9),
             ),
           ),
         ],
@@ -412,6 +416,7 @@ class _TechnicianSelfMarkerState extends State<_TechnicianSelfMarker>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return ScaleTransition(
       scale: _scaleAnim,
       child: FittedBox(
@@ -424,7 +429,7 @@ class _TechnicianSelfMarkerState extends State<_TechnicianSelfMarker>
               decoration: BoxDecoration(
                 color: AppColors.carWashTeal,
                 shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 2),
+                border: Border.all(color: AppColors.white, width: 2),
                 boxShadow: [
                   BoxShadow(
                     color: AppColors.carWashTeal.withOpacity(0.5),
@@ -433,7 +438,7 @@ class _TechnicianSelfMarkerState extends State<_TechnicianSelfMarker>
                   ),
                 ],
               ),
-              child: const Icon(Icons.build_circle, color: Colors.white, size: 22),
+              child: Icon(Icons.build_circle, color: AppColors.white, size: 22),
             ),
             const SizedBox(height: 2),
             Container(
@@ -442,9 +447,9 @@ class _TechnicianSelfMarkerState extends State<_TechnicianSelfMarker>
                 color: AppColors.carWashTeal,
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: const Text(
-                'أنت',
-                style: TextStyle(color: Colors.white, fontSize: 9),
+              child: Text(
+                l10n.youLabel,
+                style: TextStyle(color: AppColors.white, fontSize: 9),
               ),
             ),
           ],
@@ -470,21 +475,27 @@ class _StatusCard extends StatelessWidget {
     required this.userLocation,
   });
 
-  String _getRouteDistance() {
-    if (routePoints.length < 2) return '';
+  /// Returns null when there aren't at least two route points yet.
+  double? _getRouteMeters() {
+    if (routePoints.length < 2) return null;
     double totalMeters = 0;
     final dist = Distance();
     for (int i = 0; i < routePoints.length - 1; i++) {
       totalMeters +=
           dist.as(LengthUnit.Meter, routePoints[i], routePoints[i + 1]);
     }
-    if (totalMeters < 1000) return '${totalMeters.toStringAsFixed(0)} م';
-    return '${(totalMeters / 1000).toStringAsFixed(1)} كم';
+    return totalMeters;
   }
 
   @override
   Widget build(BuildContext context) {
-    final distance = _getRouteDistance();
+    final l10n = context.l10n;
+    final totalMeters = _getRouteMeters();
+    final distanceLabel = totalMeters == null
+        ? null
+        : (totalMeters < 1000
+            ? l10n.distanceInMeters(totalMeters.toStringAsFixed(0))
+            : l10n.distanceInKm((totalMeters / 1000).toStringAsFixed(1)));
 
     return Card(
       elevation: 4,
@@ -497,7 +508,7 @@ class _StatusCard extends StatelessWidget {
               width: 10,
               height: 10,
               decoration: BoxDecoration(
-                color: isSharing ? Colors.green : Colors.grey,
+                color: isSharing ? AppColors.green : AppColors.grey,
                 shape: BoxShape.circle,
               ),
             ),
@@ -508,21 +519,25 @@ class _StatusCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    isSharing ? 'يتم إرسال موقعك للعميل' : 'جاري تحديد الموقع...',
+                    isSharing
+                        ? l10n.sharingLocationActive
+                        : l10n.locatingInProgress,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: isSharing ? Colors.green.shade700 : Colors.grey.shade600,
+                      color: isSharing
+                          ? AppColors.green700
+                          : AppColors.white,
                       fontSize: 13,
                     ),
                   ),
                   if (isLoadingRoute)
                     Text(
-                      'جاري حساب المسار...',
-                      style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+                      l10n.calculatingRouteInProgress,
+                      style: TextStyle(fontSize: 11, color: AppColors.white),
                     )
-                  else if (distance.isNotEmpty)
+                  else if (distanceLabel != null)
                     Text(
-                      'المسافة للعميل: $distance',
+                      l10n.distanceToCustomer(distanceLabel),
                       style: TextStyle(
                         fontSize: 11,
                         color: AppColors.carWashTeal,
@@ -546,7 +561,7 @@ class _StatusCard extends StatelessWidget {
                   );
                 }
                 if (state is ShareLocationSuccess) {
-                  return Icon(Icons.cloud_done, color: Colors.green.shade600, size: 18);
+                  return Icon(Icons.cloud_done, color: AppColors.green700, size: 18);
                 }
                 return const SizedBox.shrink();
               },

@@ -1,7 +1,8 @@
 import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/extensions/theme_extension.dart'; 
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
-import 'package:car_care/core/widgets/app_headline.dart';
+
+import 'package:car_care/core/widgets/app_headline.dart'; 
 import 'package:car_care/features/car_washer/car_wash/washers_browse/domain/entities/washers_entity.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/widgets/washer_service_tier.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/widgets/washer_details/washer_tier_l10n.dart';
@@ -45,9 +46,10 @@ class WasherDetailsServicesSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         AppText.sectionTitle(
+          context, 
           l10n.washerSectionServicesAndPrices,
-          color: AppColors.lightTextPrimary,
-          textAlign: TextAlign.right,
+          color: AppColors.textPrimary(context),
+          textAlign: TextAlign.start,
         ),
         SizedBox(height: 8.h),
         Row(
@@ -101,10 +103,9 @@ class ServicePackageCard extends StatelessWidget {
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: AppTypography.labelLarge.copyWith(
+              style: context.textTheme.labelLarge!.copyWith(
                 color: AppColors.primary,
                 fontWeight: FontWeight.w800,
-                fontSize: 12.sp,
               ),
             ),
             Divider(
@@ -118,10 +119,9 @@ class ServicePackageCard extends StatelessWidget {
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: AppTypography.labelSmall.copyWith(
-                color: AppColors.lightTextPrimary,
+              style: context.textTheme.labelSmall!.copyWith(
+                color: AppColors.textPrimary(context),
                 fontWeight: FontWeight.w700,
-                fontSize: 13.sp,
               ),
             ),
           ],
@@ -165,9 +165,8 @@ class CheckLine extends StatelessWidget {
             text,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: AppTypography.labelSmall.copyWith(
-              color: AppColors.lightTextPrimary,
-              fontSize: 11.sp,
+            style: context.textTheme.labelSmall!.copyWith(
+              color: AppColors.textPrimary(context),
               fontWeight: FontWeight.w600,
             ),
           ),

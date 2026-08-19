@@ -2,6 +2,7 @@ import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+
 import 'package:car_care/core/utils/media_url.dart';
 import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -23,21 +24,23 @@ class BookingDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    
     final vehicleImageUrl = resolveMediaUrl(
       vehicleImageRawValue(booking!.vehicle.image, booking!.vehicle.imagePath),
     );
 
     final serviceLines = [
-      '${context.l10n.bookingDetailsWasherNameLabel}:  ${booking!.vehicle.ownerName ?? '---'}',
-      '${context.l10n.bookingsServiceLabel}:  ${booking!.serviceType}',
-      '${context.l10n.bookingsPriceLabel}:  \$${booking!.price}',
-      '${context.l10n.status}:  ${booking!.statusText}',
+      '${l10n.bookingDetailsWasherNameLabel}:  ${booking!.vehicle.ownerName ?? l10n.unknownStatus}',
+      '${l10n.bookingsServiceLabel}:  ${booking!.serviceType}',
+      '${l10n.bookingsPriceLabel}:  ${l10n.currencyFormat(booking!.price.toString())}',
+      '${l10n.status}:  ${booking!.statusText}',
     ];
 
     final appointmentLines = [
-      '${context.l10n.bookingsDateTimeLabel}: ${booking!.scheduledAt}',
-      '${context.l10n.bookingDetailsVehicleLabel}: ${booking!.vehicle.brand} ${booking!.vehicle.model}',
-      '${context.l10n.plate}: ${booking!.vehicle.plateNumber}',
+      '${l10n.bookingsDateTimeLabel}: ${booking!.scheduledAt}',
+      '${l10n.bookingDetailsVehicleLabel}: ${booking!.vehicle.brand} ${booking!.vehicle.model}',
+      '${l10n.plate}: ${booking!.vehicle.plateNumber}',
     ];
 
     return BlocProvider(
@@ -51,7 +54,7 @@ class BookingDetailsPage extends StatelessWidget {
                 SnackBar(
                   content: Text(state.message),
                   behavior: SnackBarBehavior.floating,
-                  backgroundColor: Colors.green,
+                  backgroundColor: AppColors.green,
                 ),
               );
             context.safePopOrGo(Routes.bookings, result: true);
@@ -62,48 +65,47 @@ class BookingDetailsPage extends StatelessWidget {
                 SnackBar(
                   content: Text(state.message),
                   behavior: SnackBarBehavior.floating,
-                  backgroundColor: Colors.red,
+                  backgroundColor: AppColors.red,
                 ),
               );
           }
         },
-        child: Directionality(
-          textDirection: TextDirection.rtl,
-          child: Scaffold(
-            backgroundColor: AppColors.lightScaffold,
-            appBar: CustomAppBar(
-              title: context.l10n.bookingDetailsPageTitle,
-              showBackButton: true,
-              onBackTapped: () => context.safePopOrGo(Routes.bookings),
-            ),
-            body: ImageBackground(
-              child: SafeArea(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      VehicleImageBox(imageUrl: vehicleImageUrl),
-                      SizedBox(height: 14.h),
-                      AppText.sectionTitle(
-                        context.l10n.bookingDetailsServiceSectionTitle,
-                        fontSize: 19.sp,
-                        fontWeight: FontWeight.w800,
-                      ),
-                      SizedBox(height: 6.h),
-                      DetailsCard(lines: serviceLines),
-                      SizedBox(height: 12.h),
-                      AppText.sectionTitle(
-                        context.l10n.bookingDetailsAppointmentSectionTitle,
-                        fontSize: 19.sp,
-                        fontWeight: FontWeight.w800,
-                      ),
-                      SizedBox(height: 6.h),
-                      DetailsCard(lines: appointmentLines),
-                      SizedBox(height: 25.h),
-                      ActionButtons(booking: booking!),
-                    ],
-                  ),
+        child: Scaffold(
+          backgroundColor: AppColors.scaffoldBackground(context),
+          appBar: CustomAppBar(
+            title: l10n.bookingDetailsPageTitle,
+            showBackButton: true,
+            onBackTapped: () => context.safePopOrGo(Routes.bookings),
+          ),
+          body: ImageBackground(
+            child: SafeArea(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.fromLTRB(20.w, 14.h, 20.w, 24.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    VehicleImageBox(imageUrl: vehicleImageUrl),
+                    SizedBox(height: 14.h),
+                    AppText.sectionTitle(
+                      context,
+                      l10n.bookingDetailsServiceSectionTitle,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w800,
+                    ),
+                    SizedBox(height: 6.h),
+                    DetailsCard(lines: serviceLines),
+                    SizedBox(height: 12.h),
+                    AppText.sectionTitle(
+                      context,
+                      l10n.bookingDetailsAppointmentSectionTitle,
+                      fontSize: 19.sp,
+                      fontWeight: FontWeight.w800,
+                    ),
+                    SizedBox(height: 6.h),
+                    DetailsCard(lines: appointmentLines),
+                    SizedBox(height: 25.h),
+                    ActionButtons(booking: booking!),
+                  ],
                 ),
               ),
             ),

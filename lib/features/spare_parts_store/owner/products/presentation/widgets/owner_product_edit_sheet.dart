@@ -1,7 +1,9 @@
 // نافذة تعديل جزئي لمنتج المالك — السعر والمخزون فقط (الحقول المثبتة في العقد).
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/features/spare_parts_store/customer/products/domain/entities/product_entity.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +29,7 @@ class OwnerProductEditSheet extends StatefulWidget {
     return showModalBottomSheet<OwnerProductEditResult>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (_) => OwnerProductEditSheet(product: product),
     );
   }
@@ -72,6 +74,8 @@ class _OwnerProductEditSheetState extends State<OwnerProductEditSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return AnimatedPadding(
       duration: const Duration(milliseconds: 150),
       curve: Curves.easeOut,
@@ -100,7 +104,7 @@ class _OwnerProductEditSheetState extends State<OwnerProductEditSheet> {
                           width: 40.w,
                           height: 4.h,
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade300,
+                            color: AppColors.border(context),
                             borderRadius: BorderRadius.circular(2.r),
                           ),
                         ),
@@ -108,16 +112,16 @@ class _OwnerProductEditSheetState extends State<OwnerProductEditSheet> {
                       SizedBox(height: 16.h),
                       Text(
                         widget.product.name,
-                        style: AppTypography.labelLarge.copyWith(
-                          color: AppColors.lightTextPrimary,
+                        style: context.textTheme.labelLarge!.copyWith(
+                          color: AppColors.textPrimary(context),
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                       SizedBox(height: 16.h),
                       Text(
-                        'السعر',
-                        style: AppTypography.labelSmall.copyWith(
-                          color: AppColors.lightTextSecondary,
+                        l10n.price,
+                        style: context.textTheme.labelSmall!.copyWith(
+                          color: AppColors.textSecondary(context),
                         ),
                       ),
                       SizedBox(height: 6.h),
@@ -132,7 +136,7 @@ class _OwnerProductEditSheetState extends State<OwnerProductEditSheet> {
                           ),
                         ],
                         decoration: InputDecoration(
-                          suffixText: 'ل.س',
+                          suffixText: l10n.currencySuffix,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.r),
                           ),
@@ -144,9 +148,9 @@ class _OwnerProductEditSheetState extends State<OwnerProductEditSheet> {
                       ),
                       SizedBox(height: 14.h),
                       Text(
-                        'الكمية المتوفرة',
-                        style: AppTypography.labelSmall.copyWith(
-                          color: AppColors.lightTextSecondary,
+                        l10n.availableQuantityLabel,
+                        style: context.textTheme.labelSmall!.copyWith(
+                          color: AppColors.textSecondary(context),
                         ),
                       ),
                       SizedBox(height: 6.h),
@@ -159,7 +163,7 @@ class _OwnerProductEditSheetState extends State<OwnerProductEditSheet> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.r),
-                          ),
+          ),
                           contentPadding: EdgeInsets.symmetric(
                             horizontal: 12.w,
                             vertical: 10.h,
@@ -186,8 +190,8 @@ class _OwnerProductEditSheetState extends State<OwnerProductEditSheet> {
                       ),
                     ),
                     child: Text(
-                      'حفظ التعديل',
-                      style: AppTypography.labelLarge.copyWith(
+                      l10n.saveChangesButtonLabel,
+                      style: context.textTheme.labelLarge!.copyWith(
                         color: AppColors.white,
                         fontWeight: FontWeight.w700,
                       ),

@@ -14,7 +14,7 @@ class WasherStatisticsIndicatorsCard extends StatelessWidget {
     final strings = context.l10n;
 
     return StatsIndicatorsSection(
-      title: 'حالات الحجوزات',
+      title: strings.bookingStatusesTitle, 
       icon: Icons.checklist_outlined,
       items: [
         StatsIndicatorData(

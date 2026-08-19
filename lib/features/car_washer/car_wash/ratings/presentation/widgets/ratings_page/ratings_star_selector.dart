@@ -17,33 +17,30 @@ class RatingsStarSelector extends StatelessWidget {
     final int full = rating.floor();
     final bool half = (rating - full) >= 0.5;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List<Widget>.generate(5, (int i) {
-          late final IconData icon;
-          if (i < full) {
-            icon = Icons.star_rounded;
-          } else if (i == full && half) {
-            icon = Icons.star_half_rounded;
-          } else {
-            icon = Icons.star_border_rounded;
-          }
-
-          return GestureDetector(
-            onTap: () => onRatingChanged(i + 1),
-            child: Padding(
-              padding: EdgeInsetsDirectional.only(end: i == 4 ? 0 : 4.w),
-              child: Icon(
-                icon,
-                size: 56.sp,
-                color: AppColors.primary,
-              ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List<Widget>.generate(5, (int i) {
+        late final IconData icon;
+        if (i < full) {
+          icon = Icons.star_rounded;
+        } else if (i == full && half) {
+          icon = Icons.star_half_rounded;
+        } else {
+          icon = Icons.star_border_rounded;
+        }
+    
+        return GestureDetector(
+          onTap: () => onRatingChanged(i + 1),
+          child: Padding(
+            padding: EdgeInsetsDirectional.only(end: i == 4 ? 0 : 4.w),
+            child: Icon(
+              icon,
+              size: 56.sp,
+              color: AppColors.primary,
             ),
-          );
-        }),
-      ),
+          ),
+        );
+      }),
     );
   }
 }

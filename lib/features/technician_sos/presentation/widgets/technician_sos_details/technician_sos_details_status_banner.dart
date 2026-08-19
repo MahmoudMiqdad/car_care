@@ -15,7 +15,7 @@ class SosTechnicianDetailsStatusBanner extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.serviceTierSelectedBackground,
         borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: AppColors.success, width: 1.2),
+        border: Border.all(color: AppColors.green, width: 1.2),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -23,7 +23,7 @@ class SosTechnicianDetailsStatusBanner extends StatelessWidget {
         children: [
           Icon(
             Icons.check_circle_outline,
-            color: AppColors.success,
+            color: AppColors.green,
             size: 20.sp,
           ),
           SizedBox(width: 8.w),
@@ -32,7 +32,7 @@ class SosTechnicianDetailsStatusBanner extends StatelessWidget {
               label,
               textAlign: TextAlign.start,
               style: TextStyle(
-                color: AppColors.success,
+                color: AppColors.green,
                 fontSize: 20.sp,
                 fontWeight: FontWeight.w600,
               ),

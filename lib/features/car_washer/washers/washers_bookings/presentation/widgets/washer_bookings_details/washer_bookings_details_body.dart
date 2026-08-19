@@ -185,7 +185,7 @@ class _WasherBookingsDetailsBodyState extends State<WasherBookingsDetailsBody> {
                             onRejectSubmit: () {
                               final reason = _rejectController.text.trim();
                               if (reason.isEmpty) {
-                                _snack('يرجى إدخال سبب الرفض');
+                                _snack(l10n.pleaseEnterRejectionReason);
                                 return;
                               }
                               context.read<BookingsCubit>().rejectBooking(

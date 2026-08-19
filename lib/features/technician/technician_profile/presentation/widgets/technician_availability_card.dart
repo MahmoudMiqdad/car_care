@@ -3,14 +3,11 @@ import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_availability_cubit/technician_availability_cubit.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_availability_cubit/technician_availability_state.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_cubit.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Compact availability card for the read-only Technician Profile view.
-/// Presentation-only restyle of the previous `_AvailabilityToggle` —
-/// [TechnicianAvailabilityCubit] wiring (changeAvailability, the
-/// getTechnicianProfile() refresh on success) is unchanged.
 class TechnicianAvailabilityCard extends StatelessWidget {
   const TechnicianAvailabilityCard({super.key, required this.isAvailable});
 
@@ -18,6 +15,8 @@ class TechnicianAvailabilityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return BlocConsumer<
       TechnicianAvailabilityCubit,
       TechnicianAvailabilityState
@@ -26,7 +25,7 @@ class TechnicianAvailabilityCard extends StatelessWidget {
         if (state is TechnicianAvailabilityError) {
           AppSnackBar.error(context, state.message);
         }
-        // بعد نجاح التغيير، حدّث البروفايل عشان يتغير الـ Switch
+
         if (state is TechnicianAvailabilitySuccess) {
           context.read<TechnicianProfileCubit>().getTechnicianProfile();
         }
@@ -38,11 +37,11 @@ class TechnicianAvailabilityCard extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(16.r),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
+                color: AppColors.black.withValues(alpha: 0.05),
                 blurRadius: 10.r,
                 offset: const Offset(0, 3),
               ),
@@ -53,13 +52,13 @@ class TechnicianAvailabilityCard extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(8.r),
                 decoration: BoxDecoration(
-                  color: (isAvailable ? AppColors.success : Colors.grey)
+                  color: (isAvailable ? AppColors.green : AppColors.border(context))
                       .withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   isAvailable ? Icons.check_circle : Icons.pause_circle_outline,
-                  color: isAvailable ? AppColors.success : Colors.grey.shade500,
+                  color: isAvailable ? AppColors.green : AppColors.textSecondary(context),
                   size: 20.r,
                 ),
               ),
@@ -69,21 +68,21 @@ class TechnicianAvailabilityCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'حالة التوفر',
+                      l10n.availabilityStatusLabel,
                       style: TextStyle(
                         fontSize: 12.sp,
-                        color: Colors.grey.shade600,
+                        color: AppColors.textSecondary(context),
                       ),
                     ),
                     SizedBox(height: 2.h),
                     Text(
-                      isAvailable ? 'متاح للعمل' : 'غير متاح للعمل',
+                      isAvailable ? l10n.availableForWork : l10n.unavailableForWork,
                       style: TextStyle(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w700,
                         color: isAvailable
                             ? AppColors.primary
-                            : Colors.grey.shade600,
+                            : AppColors.textSecondary(context),
                       ),
                     ),
                   ],
@@ -101,8 +100,8 @@ class TechnicianAvailabilityCard extends StatelessWidget {
                   : Switch(
                       value: isAvailable,
                       activeThumbColor: AppColors.primary,
-                      inactiveThumbColor: Colors.grey.shade400,
-                      inactiveTrackColor: Colors.grey.shade200,
+                      inactiveThumbColor: AppColors.border(context),
+                      inactiveTrackColor: AppColors.secondary,
                       onChanged: (val) {
                         context
                             .read<TechnicianAvailabilityCubit>()

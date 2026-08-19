@@ -24,7 +24,7 @@ class BookingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color:AppColors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(16.r),
         onTap: () => _openDetails(context),
@@ -33,7 +33,7 @@ class BookingCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.white.withValues(alpha: 0.85),
             borderRadius: BorderRadius.circular(16.r),
-            border: Border.all(color: AppColors.lightBorder),
+            border: Border.all(color: AppColors.border(context)),
           ),
           padding: EdgeInsets.fromLTRB(12.w, 8.h, 12.w, 10.h),
           child: Column(

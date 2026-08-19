@@ -50,7 +50,7 @@ class LoginContent extends StatelessWidget {
             SizedBox(height: 24.h),
             Form(
               key: _formKey,
-              autovalidateMode: AutovalidateMode.disabled, // ⚡ زر يكون دائمًا مفعل
+              autovalidateMode: AutovalidateMode.disabled, 
               child: LoginFormSection( formKey: _formKey,
                 accountController: _accountController,
                 passwordController: _passwordController,
@@ -79,7 +79,7 @@ class _LoginTitle extends StatelessWidget {
          strings.welcomeBack,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: AppColors.orange,
+                color: AppColors.accent,
                 fontWeight: FontWeight.w700,
                 fontSize: 28.sp,
                 letterSpacing: 0.4,

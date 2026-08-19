@@ -14,6 +14,7 @@ import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehic
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -48,6 +49,7 @@ class _CreateSosPageState extends State<CreateSosPage> {
   }
 
   Future<void> _pickVehicle() async {
+    final l10n = context.l10n;
     final cubit = context.read<VehicleCubit>();
     var state = cubit.state;
 
@@ -60,19 +62,12 @@ class _CreateSosPageState extends State<CreateSosPage> {
     state = cubit.state;
 
     if (state is VehicleError) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(state.message)));
+     AppSnackBar.error(context, state.message);
       return;
     }
 
     if (state is VehicleEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Colors.red,
-          content: Text('لا توجد سيارات'),
-        ),
-      );
+    AppSnackBar.error(context, l10n.noVehiclesAdded);
       return;
     }
 
@@ -80,49 +75,55 @@ class _CreateSosPageState extends State<CreateSosPage> {
 
     final vehicles = state.vehicles;
 
-    // إغلاق لوحة المفاتيح قبل فتح القائمة لضمان ظهورها كاملة وبوضوح فوق
-    // المساحة الآمنة، دون تغيير آلية الاختيار أو البيانات المعروضة.
     FocusScope.of(context).unfocus();
 
     final choice = await showModalBottomSheet<VehicleEntity>(
       context: context,
       isScrollControlled: true,
+      backgroundColor: AppColors.transparent,
       builder: (context) {
         return SafeArea(
-          child: DraggableScrollableSheet(
-            expand: false,
-            initialChildSize: vehicles.length > 4 ? 0.5 : 0.35,
-            minChildSize: 0.25,
-            maxChildSize: 0.85,
-            builder: (context, scrollController) {
-              return ListView(
-                controller: scrollController,
-                children: vehicles.map((v) {
-                  final isSelected = _selectedVehicle?.id == v.id;
-                  return ListTile(
-                    leading: CircleAvatar(
-                      radius: 20,
-                      backgroundImage: v.image != null && v.image!.isNotEmpty
-                          ? NetworkImage(v.image!)
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(14.r)),
+            ),
+            child: DraggableScrollableSheet(
+              expand: false,
+              initialChildSize: vehicles.length > 4 ? 0.5 : 0.35,
+              minChildSize: 0.25,
+              maxChildSize: 0.85,
+              builder: (context, scrollController) {
+                return ListView(
+                  controller: scrollController,
+                  children: vehicles.map((v) {
+                    final isSelected = _selectedVehicle?.id == v.id;
+                    return ListTile(
+                      leading: CircleAvatar(
+                        radius: 20.r,
+                        backgroundColor: AppColors.cardBackground(context),
+                        backgroundImage: v.image != null && v.image!.isNotEmpty
+                            ? NetworkImage(v.image!)
+                            : null,
+                        child: v.image == null || v.image!.isEmpty
+                            ? Icon(Icons.directions_car, size: 18.sp, color: AppColors.primary)
+                            : null,
+                      ),
+                      title: Text('${v.brand} ${v.model}'),
+                      subtitle: Text('${v.year} • ${v.plateNumber}'),
+                      trailing: isSelected
+                          ? Icon(
+                              Icons.check_circle,
+                              color: AppColors.primary,
+                            )
                           : null,
-                      child: v.image == null || v.image!.isEmpty
-                          ? const Icon(Icons.directions_car, size: 18)
-                          : null,
-                    ),
-                    title: Text('${v.brand} ${v.model}'),
-                    subtitle: Text('${v.year} • ${v.plateNumber}'),
-                    trailing: isSelected
-                        ? Icon(
-                            Icons.check_circle,
-                            color: Theme.of(context).colorScheme.primary,
-                          )
-                        : null,
-                    selected: isSelected,
-                    onTap: () => Navigator.pop(context, v),
-                  );
-                }).toList(),
-              );
-            },
+                      selected: isSelected,
+                      onTap: () => Navigator.pop(context, v),
+                    );
+                  }).toList(),
+                );
+              },
+            ),
           ),
         );
       },
@@ -141,21 +142,28 @@ class _CreateSosPageState extends State<CreateSosPage> {
   Future<void> _pickProvince() async {
     final choice = await showModalBottomSheet<String>(
       context: context,
+      backgroundColor: AppColors.transparent,
       builder: (context) {
         return SafeArea(
-          child: DraggableScrollableSheet(
-            expand: false,
-            builder: (context, scrollController) {
-              return ListView(
-                controller: scrollController,
-                children: kCreateSosProvinceOptions.map((e) {
-                  return ListTile(
-                    title: Text(e),
-                    onTap: () => Navigator.pop(context, e),
-                  );
-                }).toList(),
-              );
-            },
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(14.r)),
+            ),
+            child: DraggableScrollableSheet(
+              expand: false,
+              builder: (context, scrollController) {
+                return ListView(
+                  controller: scrollController,
+                  children: kCreateSosProvinceOptions.map((e) {
+                    return ListTile(
+                      title: Text(e),
+                      onTap: () => Navigator.pop(context, e),
+                    );
+                  }).toList(),
+                );
+              },
+            ),
           ),
         );
       },
@@ -169,26 +177,21 @@ class _CreateSosPageState extends State<CreateSosPage> {
   }
 
   Future<void> _onSubmit() async {
+    final l10n = context.l10n;
     FocusScope.of(context).unfocus();
 
     if (_selectedVehicle == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('الرجاء اختيار السيارة')));
+    AppSnackBar.error(context, l10n.washerSelectVehicleMessage);
       return;
     }
 
     if (_provinceValue.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('الرجاء اختيار المحافظة')));
+    AppSnackBar.error(context, l10n.washerSelectProvinceMessage);
       return;
     }
 
     if (_descriptionController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('الرجاء وصف المشكلة')));
+     AppSnackBar.error(context, l10n.pleaseEnterRejectionReason);
       return;
     }
 
@@ -203,9 +206,7 @@ class _CreateSosPageState extends State<CreateSosPage> {
           permission == LocationPermission.deniedForever) {
         if (!mounted) return;
 
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('يرجى تفعيل الموقع')));
+      AppSnackBar.error(context, l10n.enableLocationPrompt);
         return;
       }
       final position = await Geolocator.getCurrentPosition(
@@ -227,9 +228,7 @@ class _CreateSosPageState extends State<CreateSosPage> {
     } catch (e) {
       if (!mounted) return;
 
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('خطأ بالموقع: $e')));
+    AppSnackBar.error(context, '${l10n.locationErrorPrefix}: $e');
     }
   }
 
@@ -243,15 +242,9 @@ class _CreateSosPageState extends State<CreateSosPage> {
           final sos = state.sos;
           final id = sos.id;
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              backgroundColor: Colors.green,
-              content: Text('تم إرسال الطلب ✓'),
-            ),
-          );
+       AppSnackBar.success(context, l10n.requestSentSuccess);
 
           if (id != null) {
-            // Replace the form so back from details returns to the list.
             context.pushReplacementNamed(
               'sosDetails',
               pathParameters: {'id': id.toString()},
@@ -265,29 +258,26 @@ class _CreateSosPageState extends State<CreateSosPage> {
           AppSnackBar.error(context, state.message);
         }
       },
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          backgroundColor: AppColors.lightScaffold,
-          appBar: CustomAppBar(
-            title: l10n.createSosTitle,
-            showBackButton: true,
-            onBackTapped: () => context.safePopOrGo(Routes.home),
-          ),
-          body: ImageBackground(
-            child: BlocBuilder<SosCubit, SosState>(
-              builder: (context, state) {
-                return CreateSosBody(
-                  descriptionController: _descriptionController,
-                  vehicleValue: _vehicleValue,
-                  provinceValue: _provinceValue,
-                  onPickVehicle: _pickVehicle,
-                  onPickProvince: _pickProvince,
-                  onSubmit: _onSubmit,
-                  isLoading: state is SosLoading,
-                );
-              },
-            ),
+      child: Scaffold(
+        backgroundColor: AppColors.scaffoldBackground(context),
+        appBar: CustomAppBar(
+          title: l10n.createSosTitle,
+          showBackButton: true,
+          onBackTapped: () => context.safePopOrGo(Routes.home),
+        ),
+        body: ImageBackground(
+          child: BlocBuilder<SosCubit, SosState>(
+            builder: (context, state) {
+              return CreateSosBody(
+                descriptionController: _descriptionController,
+                vehicleValue: _vehicleValue,
+                provinceValue: _provinceValue,
+                onPickVehicle: _pickVehicle,
+                onPickProvince: _pickProvince,
+                onSubmit: _onSubmit,
+                isLoading: state is SosLoading,
+              );
+            },
           ),
         ),
       ),

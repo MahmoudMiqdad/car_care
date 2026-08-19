@@ -6,16 +6,19 @@ import 'package:car_care/features/maintenance/user_statistics/presentation/cubit
 import 'package:car_care/core/widgets/statistics/ring_card.dart';
 import 'package:car_care/core/widgets/statistics/stats_grid.dart';
 import 'package:car_care/core/widgets/statistics/stats_rings_row.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+
 class UserStatisticsBody extends StatelessWidget {
   const UserStatisticsBody({super.key});
 
-
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
+
     return BlocBuilder<StatisticsCubit, StatisticsState>(
       builder: (context, state) {
         if (state is StatisticsLoading) {
@@ -36,7 +39,7 @@ class UserStatisticsBody extends StatelessWidget {
                   ),
                   SizedBox(height: 12.h),
                   AppButton(
-                    text: 'حاول مرة أخرى',
+                    text: l10n.retry, 
                     backgroundColor: AppColors.primary,
                     height: 52.h,
                     borderRadius: 14.r,
@@ -60,25 +63,24 @@ class UserStatisticsBody extends StatelessWidget {
                 StatsRingsRow(
                   cards: [
                     RingCardData(
-                      title: 'طلبات الصيانة',
+                      title: l10n.maintenanceRequestsTitle, 
                       headerIcon: Icons.build_outlined,
                       accentColor: AppColors.primary,
-                      layout: RingCardLayout
-                          .side, // ✅ نفس شكل الديزاينر (مؤشرات بجانب الدائرة)
+                      layout: RingCardLayout.side, 
                       mainValue: d.totalRequests,
-                      mainLabel: 'الإجمالي',
+                      mainLabel: l10n.invoiceTotal, 
                       progress: d.totalRequests == 0
                           ? 0.0
                           : d.completedRequests / d.totalRequests,
                       indicators: [
                         RingIndicator(
-                          label: 'المكتملة',
+                          label: l10n.bookingStatusCompleted, 
                           value: d.completedRequests,
                           icon: Icons.check_circle_outline,
                           color: AppColors.primary,
                         ),
                         RingIndicator(
-                          label: 'قيد الانتظار',
+                          label: l10n.pending, 
                           value: d.pendingRequests,
                           icon: Icons.hourglass_bottom_outlined,
                           color: AppColors.primary,
@@ -93,31 +95,31 @@ class UserStatisticsBody extends StatelessWidget {
                 StatsGrid(
                   items: [
                     StatTileData(
-                      title: 'قيد الانتظار',
+                      title: l10n.pending, 
                       value: '${d.pendingRequests}',
                       icon: Icons.hourglass_bottom_outlined,
                       color: AppColors.orange,
                     ),
                     StatTileData(
-                      title: 'إجمالي الطلبات',
+                      title: l10n.totalRequestsLabel, 
                       value: '${d.totalRequests}',
                       icon: Icons.list_alt_outlined,
                       color: AppColors.primary,
                     ),
                     StatTileData(
-                      title: 'المكتملة',
+                      title: l10n.bookingStatusCompleted, 
                       value: '${d.completedRequests}',
                       icon: Icons.check_circle_outline,
                       color: AppColors.primary,
                     ),
                     StatTileData(
-                      title: 'المقبولة',
+                      title: l10n.bookingStatusAccepted, 
                       value: '${d.acceptedRequests}',
                       icon: Icons.verified_outlined,
                       color: AppColors.primary,
                     ),
                     StatTileData(
-                      title: 'الملغاة',
+                      title: l10n.bookingStatusCanceled, 
                       value: '${d.cancelledRequests}',
                       icon: Icons.cancel_outlined,
                       color: AppColors.orange,

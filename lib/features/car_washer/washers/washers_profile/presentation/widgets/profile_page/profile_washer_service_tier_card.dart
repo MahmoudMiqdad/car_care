@@ -1,5 +1,5 @@
+import 'package:car_care/core/extensions/theme_extension.dart'; // 🎯 استيراد امتداد الثيم لقراءة الخطوط الذكية
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -31,10 +31,9 @@ class ProfileWasherServiceTierCard extends StatelessWidget {
             Text(
               packageName,
               textAlign: TextAlign.center,
-              style: AppTypography.bodyMedium.copyWith(
+              style: context.textTheme.bodyMedium!.copyWith( 
                 color: AppColors.black,
                 fontWeight: FontWeight.w800,
-                fontSize: 14.sp,
               ),
             ),
             SizedBox(height: 8.h),
@@ -43,10 +42,9 @@ class ProfileWasherServiceTierCard extends StatelessWidget {
             Text(
               priceLabel,
               textAlign: TextAlign.center,
-              style: AppTypography.bodySmall.copyWith(
+              style: context.textTheme.bodySmall!.copyWith(
                 color: AppColors.black,
                 fontWeight: FontWeight.w600,
-                fontSize: 14.sp,
               ),
             ),
           ],

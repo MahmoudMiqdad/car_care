@@ -112,38 +112,35 @@ class _ProviderEditProfilePageState extends State<ProviderEditProfilePage> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
-        appBar: CustomAppBar(
-          title: l10n.providerEditProfilePageTitle,
-          showBackButton: true,
-          backgroundColor: AppColors.carWashTeal,
-          onBackTapped: () => context.safePopOrGo(Routes.provider_profile),
-        ),
-        body: BlocListener<FuelProviderProfileCubit, FuelProviderProfileState>(
-          listener: (context, state) {
-            if (state is FuelProviderProfileLoaded) {
-               AppSnackBar.success(context, "تم حفظ البيانات");
-              context.safePopOrGo(Routes.provider_profile, result: true);
-            }
-            if (state is FuelProviderProfileError) {
-              AppSnackBar.error(context, state.message);
-            }
-          },
-          child: ImageBackground(
-            child: ProviderEditProfileBody(
-              nameController: _nameController,
-              phoneController: _phoneController,
-              addressController: _addressController,
-              governorateValue: _governorateValue,
-              onPickGovernorate: _pickGovernorate,
-              fuelPrices: _fuelPrices,
-              onSave: _onSave,
-              onCancel: () => context.safePopOrGo(Routes.provider_profile),
-              onFuelTypeTap: _onFuelTypeTap,
-            ),
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground(context),
+      appBar: CustomAppBar(
+        title: l10n.providerEditProfilePageTitle,
+        showBackButton: true,
+        backgroundColor: AppColors.carWashTeal,
+        onBackTapped: () => context.safePopOrGo(Routes.provider_profile),
+      ),
+      body: BlocListener<FuelProviderProfileCubit, FuelProviderProfileState>(
+        listener: (context, state) {
+          if (state is FuelProviderProfileLoaded) {
+             AppSnackBar.success(context, "تم حفظ البيانات");
+            context.safePopOrGo(Routes.provider_profile, result: true);
+          }
+          if (state is FuelProviderProfileError) {
+            AppSnackBar.error(context, state.message);
+          }
+        },
+        child: ImageBackground(
+          child: ProviderEditProfileBody(
+            nameController: _nameController,
+            phoneController: _phoneController,
+            addressController: _addressController,
+            governorateValue: _governorateValue,
+            onPickGovernorate: _pickGovernorate,
+            fuelPrices: _fuelPrices,
+            onSave: _onSave,
+            onCancel: () => context.safePopOrGo(Routes.provider_profile),
+            onFuelTypeTap: _onFuelTypeTap,
           ),
         ),
       ),

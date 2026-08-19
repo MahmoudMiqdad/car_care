@@ -1,9 +1,9 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-//// كتابة وجنبها >
-/// Label + outlined tap target (date/time and similar) so reservation screens stay DRY.
+
+/// حقل اختيار خارجي محاط بإطار قابل لإعادة الاستخدام (تاريخ/وقت وخلافه)
 class AppOutlinedSelectField extends StatelessWidget {
   const AppOutlinedSelectField({
     super.key,
@@ -18,6 +18,8 @@ class AppOutlinedSelectField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
     return Material(
       color: AppColors.white,
       borderRadius: BorderRadius.circular(12.r),
@@ -35,17 +37,18 @@ class AppOutlinedSelectField extends StatelessWidget {
               Expanded(
                 child: Text(
                   valueText,
-                  textAlign: TextAlign.right,
-                  style: AppTypography.bodyMedium.copyWith(
-                    color: AppColors.lightTextPrimary,
+                  textAlign: TextAlign.start, 
+                  style: context.textTheme.bodyMedium!.copyWith(
+                    color: AppColors.textPrimary(context),
                     fontWeight: FontWeight.w600,
-                    fontSize: 15.sp,
+                    fontSize: 15.sp, 
                   ),
                 ),
               ),
               SizedBox(width: 6.w),
               Icon(
-                Icons.keyboard_arrow_down_rounded,
+              
+                isRtl ? Icons.chevron_left_rounded : Icons.chevron_right_rounded,
                 color: borderColor,
                 size: 22.sp,
               ),

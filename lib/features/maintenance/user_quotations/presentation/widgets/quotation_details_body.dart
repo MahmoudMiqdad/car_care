@@ -7,6 +7,7 @@ import 'package:car_care/features/maintenance/user_quotations/domain/entities/qu
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_info_row.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_section_card.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_status_banner.dart';
+import 'package:car_care/l10n.dart'; // 🎯 استيراد امتداد l10n للترجمة الديناميكية
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -24,6 +25,7 @@ class QuotationDetailsBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; // 🎯 جلب كائن الترجمة
     final isPending = quotation.status == 'pending';
 
     return SafeArea(
@@ -43,11 +45,10 @@ class QuotationDetailsBody extends StatelessWidget {
 
             // بطاقة الفني
             SosDetailsSectionCard(
-              title: 'معلومات الفني',
+              title: l10n.technicianInfoCardTitle, // 🎯 "معلومات الفني" مترجم
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                textDirection: TextDirection.rtl,
-                children: [
+                children: [ // 🎯 حذفنا التوجيه القسري لتعمل الواجهة تلقائياً حسب اللغة
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -63,18 +64,19 @@ class QuotationDetailsBody extends StatelessWidget {
                         SizedBox(height: 8.h),
                         SosDetailsInfoRow(
                           iconAsset: AppAssets.iconPhoneCall,
-                          label: 'الهاتف',
+                          label: l10n.profileWasherFieldPhone, // 🎯 استخدام مفتاح الهاتف العام المجهز سابقاً
                           value: quotation.technician.phone,
                         ),
                         SosDetailsInfoRow(
                           iconAsset: AppAssets.technicianJobVehicleIcon,
-                          label: 'التخصص',
+                          label: l10n.specializationLabel, // 🎯 "التخصص" مترجم
                           value: quotation.technician.technicianProfile.specialization,
                         ),
                         SosDetailsInfoRow(
                           iconAsset: AppAssets.calendarIcon,
-                          label: 'سنوات الخبرة',
-                          value: '${quotation.technician.technicianProfile.experienceYears} سنوات',
+                          label: l10n.experienceYearsLabel, // 🎯 "سنوات الخبرة" مترجم
+                          // 🎯 تمرير عدد سنوات الخبرة برمجياً لدمجها مع صيغة القاموس (سنوات / Years)
+                          value: l10n.durationInYears(quotation.technician.technicianProfile.experienceYears),
                         ),
                       ],
                     ),
@@ -82,7 +84,7 @@ class QuotationDetailsBody extends StatelessWidget {
                   SizedBox(width: 12.w),
                   CircleAvatar(
                     radius: 40.r,
-                    backgroundColor: AppColors.lightSurface,
+                    backgroundColor: AppColors.cardBackground(context),
                     backgroundImage: const AssetImage(AppAssets.technicianJobVehicleIcon),
                   ),
                 ],
@@ -92,28 +94,28 @@ class QuotationDetailsBody extends StatelessWidget {
 
             // بطاقة تفاصيل العرض
             SosDetailsSectionCard(
-              title: 'تفاصيل العرض',
+              title: l10n.quotationDetailsTitle, // 🎯 استخدام مفتاح تفاصيل العرض العام
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SosDetailsInfoRow(
                     iconAsset: AppAssets.fuelOrderMoneyIcon,
-                    label: 'السعر',
+                    label: l10n.price, // 🎯 استخدام مفتاح السعر العام
                     value: quotation.priceFormatted,
                   ),
                   SosDetailsInfoRow(
                     iconAsset: AppAssets.calendarIcon,
-                    label: 'مدة الإصلاح',
-                    value: '${quotation.estimatedDays} أيام',
+                    label: l10n.repairDurationLabel, // 🎯 استخدام مفتاح مدة الإصلاح العام
+                    value: l10n.durationInDays(quotation.estimatedDays), // 🎯 استخدام دالة الأيام العامة
                   ),
                   SosDetailsInfoRow(
                     iconAsset: AppAssets.NotesIcon,
-                    label: 'يشمل قطع الغيار',
-                    value: quotation.partsIncluded ? 'نعم' : 'لا',
+                    label: l10n.partsIncludedLabel, // 🎯 استخدام مفتاح يشمل القطع العام
+                    value: quotation.partsIncluded ? l10n.yes : l10n.no, // 🎯 نعم / لا مترجمة
                   ),
                   SosDetailsInfoRow(
                     iconAsset: AppAssets.calendarIcon,
-                    label: 'تاريخ العرض',
+                    label: l10n.quotationDateLabel, // 🎯 "تاريخ العرض" مترجم
                     value: quotation.createdAgo,
                   ),
                 ],
@@ -123,7 +125,7 @@ class QuotationDetailsBody extends StatelessWidget {
 
             // ملاحظات الفني
             SosDetailsSectionCard(
-              title: 'ملاحظات الفني',
+              title: l10n.technicianNotesCardTitle, // 🎯 "ملاحظات الفني" مترجم
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -158,7 +160,7 @@ class QuotationDetailsBody extends StatelessWidget {
             if (isPending) ...[
               AppButton(
                 onPressed: onAccept ?? () {},
-                text: 'قبول العرض',
+                text: l10n.acceptQuotationButton, // 🎯 "قبول العرض" مترجم
                 backgroundColor: AppColors.carWashTeal,
                 textColor: AppColors.white,
                 borderRadius: 14.r,
@@ -169,13 +171,13 @@ class QuotationDetailsBody extends StatelessWidget {
                 onPressed: () async {
                   final reason = await showCancelReasonDialog(
                     context,
-                    title: 'سبب رفض العرض',
+                    title: l10n.rejectQuotationReasonTitle, // 🎯 "سبب رفض العرض" مترجم
                   );
                   if (reason != null && reason.isNotEmpty) {
                     onReject?.call(reason);
                   }
                 },
-                text: 'رفض العرض',
+                text: l10n.rejectQuotationButton, // 🎯 "رفض العرض" مترجم
                 backgroundColor: AppColors.reservationConfirmOrange,
                 textColor: AppColors.white,
                 borderRadius: 14.r,

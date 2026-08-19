@@ -1,4 +1,5 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/home/presentation/widgets/ServicesGrid.dart';
 import 'package:car_care/features/home/presentation/widgets/home_palette.dart';
 import 'package:car_care/features/home/presentation/widgets/service_image.dart';
@@ -16,7 +17,7 @@ class ServiceCard extends StatelessWidget {
     final scheme = context.colorScheme;
     final borderRadius = BorderRadius.circular(10.r); // قمنا بتوحيد الرياديوس هنا منعا للتكرار
     return Material(
-      color: Colors.transparent,
+      color: AppColors.transparent,
       borderRadius: borderRadius,
       clipBehavior: Clip.antiAlias,
       child: InkWell(

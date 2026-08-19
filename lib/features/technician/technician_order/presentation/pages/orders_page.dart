@@ -12,7 +12,7 @@ import 'package:car_care/features/technician/technician_order/presentation/cubit
 import 'package:car_care/features/technician/technician_order/presentation/widgets/technician_requests_details/orders_list_view.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_cubit.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_state.dart';
-
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -83,9 +83,11 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
-      backgroundColor: AppColors.lightScaffold,
-      appBar: AppBar(title: const Text("طلبات الصيانة")),
+      backgroundColor: AppColors.scaffoldBackground(context),
+      appBar: AppBar(title: Text(l10n.sparePartsStoreTitle)),
       body: ImageBackground(
         child: BlocConsumer<AvailableRequestsCubit, AvailableRequestsState>(
           listenWhen: (_, current) => current is AvailableRequestsError,
@@ -94,7 +96,7 @@ class _Body extends StatelessWidget {
               final msg =
                   state.message.isEmpty ||
                       state.message.startsWith('Instance of')
-                  ? 'حدث خطأ أثناء تحميل الطلبات'
+                  ? l10n.jobLoadErrorLabel
                   : state.message;
               AppSnackBar.error(context, msg);
             }
@@ -109,7 +111,7 @@ class _Body extends StatelessWidget {
                 message:
                     state.message.isEmpty ||
                         state.message.startsWith('Instance of')
-                    ? 'حدث خطأ أثناء تحميل الطلبات'
+                    ? l10n.jobLoadErrorLabel
                     : state.message,
                 onRetry: () => context
                     .read<AvailableRequestsCubit>()

@@ -1,14 +1,12 @@
 import 'dart:io';
 
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
-/// Certificate pick/cap/thumbnail/remove grid shared by Create and Edit.
-/// Controlled component: the parent owns the [XFile] list (needed for the
-/// multipart `certifications[i]` submit payload) and is notified of the
-/// full updated list on every pick/remove.
 class TechnicianCertificatePicker extends StatelessWidget {
   const TechnicianCertificatePicker({
     super.key,
@@ -22,13 +20,13 @@ class TechnicianCertificatePicker extends StatelessWidget {
   final int maxCount;
 
   Future<void> _pickImages(BuildContext context) async {
+    final l10n = context.l10n;
     final picker = ImagePicker();
     final picked = await picker.pickMultiImage(imageQuality: 80);
     if (picked.isEmpty) return;
 
     if (picked.length + images.length > maxCount) {
-      // ignore: use_build_context_synchronously
-      AppSnackBar.error(context, 'يمكنك اختيار $maxCount صور كحد أقصى');
+      AppSnackBar.error(context, l10n.maxImagesLimitError(maxCount));
       return;
     }
 
@@ -84,10 +82,10 @@ class _CertificateThumbnail extends StatelessWidget {
             onTap: onRemove,
             child: Container(
               decoration: const BoxDecoration(
-                color: Colors.red,
+                color: AppColors.red,
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.close, color: Colors.white, size: 16.r),
+              child: Icon(Icons.close, color: AppColors.white, size: 16.r),
             ),
           ),
         ),
@@ -103,28 +101,30 @@ class _AddCertificateTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 80.w,
         height: 80.h,
         decoration: BoxDecoration(
-          color: Colors.grey.shade100,
+          color: AppColors.secondary,
           borderRadius: BorderRadius.circular(10.r),
-          border: Border.all(color: Colors.grey.shade300),
+          border: Border.all(color: AppColors.border(context)),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.add_photo_alternate_outlined,
-              color: Colors.grey.shade500,
+              color: AppColors.textSecondary(context),
               size: 24.r,
             ),
             SizedBox(height: 4.h),
             Text(
-              'إضافة',
-              style: TextStyle(fontSize: 10.sp, color: Colors.grey.shade500),
+              l10n.chooseActionLabel,
+              style: TextStyle(fontSize: 10.sp, color: AppColors.textSecondary(context)),
             ),
           ],
         ),

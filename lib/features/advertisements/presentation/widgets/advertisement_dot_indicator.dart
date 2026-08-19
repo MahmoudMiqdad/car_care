@@ -1,4 +1,4 @@
-// مسؤول عن عرض مؤشر نقطي مضغوط لعدد شرائح الإعلانات الحالية.
+
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +25,7 @@ class AdvertisementDotIndicator extends StatelessWidget {
           width: isActive ? 18.w : 6.w,
           height: 6.h,
           decoration: BoxDecoration(
-            color: isActive ? AppColors.orange : AppColors.lightBorder,
+            color: isActive ? AppColors.accent : AppColors.border(context),
             borderRadius: BorderRadius.circular(4.r),
           ),
         );

@@ -1,6 +1,7 @@
-// cancel_request_dialog.dart
+
 
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -29,10 +30,9 @@ class _CancelRequestDialogState extends State<CancelRequestDialog> {
 
   void _onConfirm() {
     final reason = _reasonController.text.trim();
-    // The backend requires a non-empty cancellation_reason; returning null
-    // keeps the caller from submitting an invalid request.
     if (reason.isEmpty) {
-      setState(() => _error = 'يرجى كتابة سبب الإلغاء');
+   
+      setState(() => _error = context.l10n.pleaseEnterCancellationReason);
       return;
     }
     Navigator.of(context).pop(reason);
@@ -42,6 +42,8 @@ class _CancelRequestDialogState extends State<CancelRequestDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(14.r),
       child: Material(
@@ -55,7 +57,7 @@ class _CancelRequestDialogState extends State<CancelRequestDialog> {
               padding: EdgeInsets.symmetric(vertical: 12.h),
               color: AppColors.reservationConfirmOrange,
               child: Text(
-                'إلغاء الطلب',
+                l10n.cancelRequestButton, 
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppColors.white,
@@ -71,8 +73,7 @@ class _CancelRequestDialogState extends State<CancelRequestDialog> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'سبب الإلغاء',
-                    textAlign: TextAlign.right,
+                    l10n.cancellationReason, 
                     style: TextStyle(
                       fontSize: 17.sp,
                       fontWeight: FontWeight.w800,
@@ -82,8 +83,6 @@ class _CancelRequestDialogState extends State<CancelRequestDialog> {
                   SizedBox(height: 10.h),
                   TextField(
                     controller: _reasonController,
-                    textDirection: TextDirection.rtl,
-                    textAlign: TextAlign.right,
                     maxLines: 3,
                     minLines: 2,
                     onChanged: (_) {
@@ -92,8 +91,7 @@ class _CancelRequestDialogState extends State<CancelRequestDialog> {
                     style: TextStyle(fontSize: 15.sp, color: AppColors.black),
                     decoration: InputDecoration(
                       errorText: _error,
-                      hintText: 'اكتب سبب الإلغاء...',
-                      hintTextDirection: TextDirection.rtl,
+                      hintText: l10n.bookingsCancelReasonHint, 
                       filled: true,
                       fillColor: AppColors.white,
                       contentPadding: EdgeInsets.symmetric(
@@ -125,16 +123,15 @@ class _CancelRequestDialogState extends State<CancelRequestDialog> {
               height: 48.h,
               color: AppColors.reservationConfirmOrange,
               child: Row(
-                textDirection: TextDirection.rtl,
-                children: [
+                children: [ 
                   Expanded(
                     child: Material(
-                      color: Colors.transparent,
+                      color: AppColors.transparent, 
                       child: InkWell(
                         onTap: _onConfirm,
                         child: Center(
                           child: Text(
-                            'تأكيد الإلغاء',
+                            l10n.confirmCancellationButton, 
                             style: TextStyle(
                               color: AppColors.white,
                               fontSize: 17.sp,
@@ -152,12 +149,12 @@ class _CancelRequestDialogState extends State<CancelRequestDialog> {
                   ),
                   Expanded(
                     child: Material(
-                      color: Colors.transparent,
+                      color: AppColors.transparent, 
                       child: InkWell(
                         onTap: _onCancel,
                         child: Center(
                           child: Text(
-                            'تراجع',
+                            l10n.backButton,
                             style: TextStyle(
                               color: AppColors.white,
                               fontSize: 17.sp,
@@ -178,13 +175,12 @@ class _CancelRequestDialogState extends State<CancelRequestDialog> {
   }
 }
 
-
 Future<String?> showCancelRequestDialog(BuildContext context) {
   return showDialog<String>(
     context: context,
     barrierDismissible: true,
     builder: (_) => Dialog(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       insetPadding: EdgeInsets.symmetric(horizontal: 28.w),
       child: const CancelRequestDialog(),
     ),

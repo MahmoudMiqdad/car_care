@@ -38,7 +38,7 @@ class UpdateVehicleImage extends StatelessWidget {
                       ? Image.file(File(pickedImagePath!), fit: BoxFit.cover)
                       : (networkImage != null && networkImage!.isNotEmpty)
                           ? Image.network(networkImage!, fit: BoxFit.cover)
-                          : Icon(Icons.directions_car, size: 50.sp, color: Colors.grey),
+                          : Icon(Icons.directions_car, size: 50.sp, color: AppColors.grey),
                 ),
               ),
               Positioned(
@@ -47,7 +47,7 @@ class UpdateVehicleImage extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(10.r),
                   decoration: const BoxDecoration(color: AppColors.orange, shape: BoxShape.circle),
-                  child: Icon(Icons.camera_alt, color: Colors.white, size: 20.sp),
+                  child: Icon(Icons.camera_alt, color: AppColors.white, size: 20.sp),
                 ),
               ),
             ],

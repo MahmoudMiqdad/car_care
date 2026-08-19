@@ -9,64 +9,69 @@ import 'package:car_care/features/maintenance/user_quotations/presentation/cubit
 import 'package:car_care/features/maintenance/user_quotations/presentation/cubit/quotations_state.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/widgets/accept_quotation_dialog.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/widgets/quotation_details_body.dart';
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class QuotationDetailsPage extends StatelessWidget {
-  const QuotationDetailsPage({super.key, required this.quotation,required this.requestId});
- final String requestId;
+  const QuotationDetailsPage({
+    super.key, 
+    required this.quotation,
+    required this.requestId,
+  });
+  
+  final String requestId;
   final QuotationEntity quotation;
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
-        appBar: CustomAppBar(
-          title: 'تفاصيل العرض',
-          showBackButton: true,
-          backgroundColor: AppColors.carWashTeal,
-          onBackTapped: () => context.safePopOrGo(Routes.all_requests),
-        ),
-        body: BlocListener<QuotationsCubit, QuotationsState>(
-          listener: (context, state) {
-            if (state is QuotationAccepted) {
-              AppSnackBar.success(context, 'تم قبول العرض بنجاح');
-            context.safePopOrGo(Routes.all_requests);
-            }
-            if (state is QuotationRejected) {
-              AppSnackBar.success(context, 'تم رفض العرض');
-               context.safePopOrGo(Routes.all_requests);
-            }
-            if (state is QuotationsError) {
-              AppSnackBar.error(context, state.message);
-            }
-          },
-          child: ImageBackground(
-            child: QuotationDetailsBody(
-              quotation: quotation,
-              onAccept: () async {
-                final result = await showAcceptQuotationDialog(context);
-                if (result == null) return; 
+    final l10n = context.l10n; 
 
-                if (!context.mounted) return;
-                context.read<QuotationsCubit>().acceptQuotation(
-                  {
-                    'scheduled_date': result.scheduledDate,
-                    'notes': result.notes,
-                  },
-                 requestId.toString(), // requestId
-                  quotation.id.toString(), // quotationId
-                );
-              },
-              onReject: (reason) {
-                context.read<QuotationsCubit>().rejectQuotation(
-                  reason,
-                  quotation.id.toString(),
-                );
-              },
-            ),
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground(context),
+      appBar: CustomAppBar(
+        title: l10n.quotationDetailsTitle,
+        showBackButton: true,
+        backgroundColor: AppColors.carWashTeal,
+        onBackTapped: () => context.safePopOrGo(Routes.all_requests),
+      ),
+      body: BlocListener<QuotationsCubit, QuotationsState>(
+        listener: (context, state) {
+          if (state is QuotationAccepted) {
+            AppSnackBar.success(context, l10n.quotationAcceptedSuccess); 
+            context.safePopOrGo(Routes.all_requests);
+          }
+          if (state is QuotationRejected) {
+            AppSnackBar.success(context, l10n.quotationRejectedSuccess);
+            context.safePopOrGo(Routes.all_requests);
+          }
+          if (state is QuotationsError) {
+            AppSnackBar.error(context, state.message);
+          }
+        },
+        child: ImageBackground(
+          child: QuotationDetailsBody(
+            quotation: quotation,
+            onAccept: () async {
+              final result = await showAcceptQuotationDialog(context);
+              if (result == null) return; 
+
+              if (!context.mounted) return;
+              context.read<QuotationsCubit>().acceptQuotation(
+                {
+                  'scheduled_date': result.scheduledDate,
+                  'notes': result.notes,
+                },
+                requestId.toString(),
+                quotation.id.toString(),
+              );
+            },
+            onReject: (reason) {
+              context.read<QuotationsCubit>().rejectQuotation(
+                reason,
+                quotation.id.toString(),
+              );
+            },
           ),
         ),
       ),

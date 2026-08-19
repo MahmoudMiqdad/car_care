@@ -29,49 +29,48 @@ class _ActionButtonsState extends State<ActionButtons> {
   }
 
   void _showCancelDialog(BuildContext context) {
+    final string = context.l10n;
     _reasonController.clear();
     showDialog(
       context: context,
-      builder: (dialogContext) => Directionality(
-        textDirection: TextDirection.rtl,
-        child: AlertDialog(
-          title: const Text('إلغاء الحجز'),
-          content: TextField(
-            controller: _reasonController,
-            maxLines: 2,
-            decoration: const InputDecoration(
-              hintText: 'سبب الإلغاء',
-              border: OutlineInputBorder(),
+      builder: (dialogContext) => AlertDialog(
+        title: Text(string.bookingsMenuCancelBooking),
+        content: TextField(
+          controller: _reasonController,
+          maxLines: 2,
+          decoration: InputDecoration(
+            hintText: string.cancellationReason,
+            border: const OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(string.back),
+          ),
+          TextButton(
+            onPressed: () {
+              final reason = _reasonController.text.trim();
+              if (reason.isEmpty) return;
+              Navigator.pop(dialogContext);
+              context.read<CustomerBookingsCubit>().cancelBooking(
+                widget.booking.id,
+                reason,
+              );
+            },
+            child: Text(
+              string.confirm,
+              style: const TextStyle(color: AppColors.red),
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('رجوع'),
-            ),
-            TextButton(
-              onPressed: () {
-                final reason = _reasonController.text.trim();
-                if (reason.isEmpty) return;
-                Navigator.pop(dialogContext);
-                context.read<CustomerBookingsCubit>().cancelBooking(
-                  widget.booking.id,
-                  reason,
-                );
-              },
-              child: const Text(
-                'تأكيد',
-                style: TextStyle(color: Colors.red),
-              ),
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final string = context.l10n;
     final booking = widget.booking;
     final canCancel = booking.status == 'pending' && booking.canCancel;
     final canRate = booking.status == 'completed';
@@ -90,7 +89,7 @@ class _ActionButtonsState extends State<ActionButtons> {
                   context.safePopOrGo(Routes.bookings, result: true);
                 }
               },
-              text: context.l10n.bookingsMenuRateService,
+              text: string.bookingsMenuRateService,
               backgroundColor: AppColors.accent,
               textColor: AppColors.white,
               borderRadius: 12.r,
@@ -103,7 +102,7 @@ class _ActionButtonsState extends State<ActionButtons> {
           Expanded(
             child: AppButton(
               onPressed: () => _showCancelDialog(context),
-              text: context.l10n.bookingsMenuCancelBooking,
+              text: string.bookingsMenuCancelBooking,
               isOutline: true,
               backgroundColor: AppColors.primary,
               outlineSurfaceColor: AppColors.white,

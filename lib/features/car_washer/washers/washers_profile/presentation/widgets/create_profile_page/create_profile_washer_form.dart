@@ -1,5 +1,6 @@
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/create_profile_page/create_profile_washer_basic_section.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/create_profile_page/create_profile_washer_logo_section.dart';
@@ -138,7 +139,7 @@ class CreateProfileWasherForm extends StatelessWidget {
         if (isLoading)
           const Positioned.fill(
             child: ColoredBox(
-              color: Color(0x33000000),
+              color:AppColors.black,
               child: Center(child: AppLoadingWidget()),
             ),
           ),

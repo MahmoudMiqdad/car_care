@@ -104,7 +104,7 @@ class ProviderEditProfileInputField extends StatelessWidget {
                   maxLines: maxLines,
                   textAlign: TextAlign.start,
                   style: context.textTheme.bodyMedium?.copyWith(
-                    color: AppColors.lightTextSecondary,
+                    color: AppColors.textSecondary(context),
                     fontSize: 14.sp,
                     height: 1.45,
                     fontWeight: FontWeight.w500,
@@ -117,7 +117,7 @@ class ProviderEditProfileInputField extends StatelessWidget {
                     contentPadding: EdgeInsets.zero,
                     hintText: hint,
                     hintStyle: context.textTheme.bodyMedium?.copyWith(
-                      color: AppColors.lightTextSecondary.withValues(
+                      color: AppColors.textSecondary(context).withValues(
                         alpha: 0.55,
                       ),
                       fontSize: 14.sp,
@@ -155,7 +155,7 @@ class ProviderEditProfileSelectField extends StatelessWidget {
     final hasValue = value != null && value!.isNotEmpty;
 
     return Material(
-      color: Colors.transparent,
+      color: AppColors.transparent,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12.r),
@@ -194,10 +194,10 @@ class ProviderEditProfileSelectField extends StatelessWidget {
                         hasValue ? value! : hint,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: hasValue
-                              ? AppColors.lightTextSecondary.withValues(
+                              ? AppColors.textSecondary(context).withValues(
                                   alpha: 0.85,
                                 )
-                              : AppColors.lightTextSecondary.withValues(
+                              : AppColors.textSecondary(context).withValues(
                                   alpha: 0.55,
                                 ),
                           fontSize: 14.sp,
@@ -230,7 +230,7 @@ class ProviderEditProfileLocationNote extends StatelessWidget {
         text,
         textAlign: TextAlign.start,
         style: TextStyle(
-          color: AppColors.error,
+          color: AppColors.red,
           fontSize: 12.sp,
           fontWeight: FontWeight.w600,
           height: 1.4,

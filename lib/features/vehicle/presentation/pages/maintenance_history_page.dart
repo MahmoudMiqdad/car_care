@@ -15,19 +15,16 @@ class MaintenanceHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
-        appBar: CustomAppBar(
-          title: strings.maintenanceHistory,
-          showBackButton: true,
-        ),
-        body: BlocProvider(
-          create: (_) => getIt<MaintenanceHistoryCubit>()..fetch(vehicleId),
-          child: ImageBackground(
-            child: MaintenanceHistoryBody(vehicleId: vehicleId),
-          ),
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground(context),
+      appBar: CustomAppBar(
+        title: strings.maintenanceHistory,
+        showBackButton: true,
+      ),
+      body: BlocProvider(
+        create: (_) => getIt<MaintenanceHistoryCubit>()..fetch(vehicleId),
+        child: ImageBackground(
+          child: MaintenanceHistoryBody(vehicleId: vehicleId),
         ),
       ),
     );

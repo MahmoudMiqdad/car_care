@@ -11,10 +11,14 @@ import 'package:car_care/features/maintenance/user_requests/domain/request_statu
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/show/show_requests_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/show/show_requests_state.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/all_requests/all_requests_tab_content.dart';
+import 'package:car_care/l10n.dart';
+import 'package:car_care/l10n/gen/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+ // تأكد من المسار الصحيح للـ Entity
+
 
 class AllRequestsPage extends StatefulWidget {
   const AllRequestsPage({super.key});
@@ -27,8 +31,6 @@ class _AllRequestsPageState extends State<AllRequestsPage>
   late final TabController _tabController;
   int _currentIndex = 0;
 
-  /// Last loaded response per tab, so a pull-to-refresh or return-refresh
-  /// never blanks an already loaded tab back to a full-page loader.
   final Map<RequestStatus, MaintenanceRequestEntity> _cache = {};
 
   static RequestStatus _statusForIndex(int index) {
@@ -57,8 +59,6 @@ class _AllRequestsPageState extends State<AllRequestsPage>
 
     _tabController = TabController(length: 4, vsync: this);
 
-    // The BlocProvider that creates RequestsCubit already fires the single
-    // initial pending fetch, so this listener only reacts to tab changes.
     _tabController.addListener(() {
       if (_tabController.indexIsChanging) return;
 
@@ -71,20 +71,22 @@ class _AllRequestsPageState extends State<AllRequestsPage>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
+
     return Scaffold(
-     floatingActionButton: Padding(
-  padding: EdgeInsets.only(bottom: 16.h, left: 16.w),
-  child: FloatingAddButton(
-    onTap: () async {
-      await context.push(Routes.addRequest);
-      if (!mounted) return;
-      _refreshCurrentTab();
-    },
-  ),
-),
-floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: 16.h, left: 16.w),
+        child: FloatingAddButton(
+          onTap: () async {
+            await context.push(Routes.addRequest);
+            if (!mounted) return;
+            _refreshCurrentTab();
+          },
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       appBar: CustomAppBar(
-        title: 'All Requests',
+        title: l10n.providerMyOrdersTitle, 
         showBackButton: true,
         onBackTapped: () => context.go(Routes.home),
       ),
@@ -92,7 +94,7 @@ floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
         child: SafeArea(
           child: Column(
             children: [
-              _buildTabs(),
+              _buildTabs(l10n), 
               Expanded(child: _buildBody()),
             ],
           ),
@@ -101,7 +103,7 @@ floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 
-  Widget _buildTabs() {
+  Widget _buildTabs(AppLocalizations l10n) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.h),
       child: SizedBox(
@@ -110,13 +112,13 @@ floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
           controller: _tabController,
           isScrollable: true,
           indicator: const BoxDecoration(),
-          dividerColor: Colors.transparent,
+          dividerColor: AppColors.transparent, 
           labelPadding: EdgeInsets.symmetric(horizontal: 4.w),
           tabs: [
-            _buildTab('Pending', 0),
-            _buildTab('Accepted', 1),
-            _buildTab('Completed', 2),
-            _buildTab('All', 3),
+            _buildTab(l10n.pending, 0), 
+            _buildTab(l10n.bookingStatusAccepted, 1),
+            _buildTab(l10n.bookingStatusCompleted, 2), 
+            _buildTab(l10n.all, 3), 
           ],
         ),
       ),
@@ -136,9 +138,6 @@ floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
         builder: (context, state) {
           final cached = _cache[_currentStatus];
 
-          // Only the very first load of a tab (no cached data yet) shows the
-          // full-page loader/error state; a pull-to-refresh or return-refresh
-          // keeps the previously loaded list visible while it runs.
           if (state is RequestsLoading && cached == null) {
             return const Center(child: AppLoadingWidget());
           }
@@ -190,15 +189,15 @@ floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
             margin: EdgeInsets.symmetric(horizontal: 4.w),
             padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: selected ? AppColors.primary : Colors.white,
+              color: selected ? AppColors.primary : AppColors.white,
               borderRadius: BorderRadius.circular(20.r),
               border: Border.all(
-                color: selected ? AppColors.primary : AppColors.lightBorder,
+                color: selected ? AppColors.primary : AppColors.border(context),
               ),
               boxShadow: [
                 if (selected)
                   BoxShadow(
-                    color: AppColors.primary.withOpacity(0.2),
+                    color: AppColors.primary.withValues(alpha: 0.2), 
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
@@ -209,7 +208,7 @@ floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
               style: TextStyle(
                 fontSize: selected ? 15.sp : 14.sp,
                 fontWeight: FontWeight.w800,
-                color: selected ? Colors.white : AppColors.lightTextSecondary,
+                color: selected ? AppColors.white : AppColors.textSecondary(context), 
               ),
             ),
           ),

@@ -1,6 +1,7 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
-import 'package:car_care/core/widgets/app_headline.dart';
+
+import 'package:car_care/core/widgets/app_headline.dart'; 
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/edit_profile_page/edit_profile_washer_labeled_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -54,10 +55,10 @@ class EditProfileWasherServicesSection extends StatelessWidget {
         ),
         SizedBox(height: 14.h),
         AppText.sectionTitle(
+          context, // 🎯 تمرير الـ context لضمان مواءمة الحجم والمحاذاة ذاتياً
           priceLabel,
           color: AppColors.black,
-          textAlign: TextAlign.right,
-          fontSize: 17.sp,
+          textAlign: TextAlign.start,
           fontWeight: FontWeight.w800,
         ),
         SizedBox(height: 10.h),
@@ -87,7 +88,7 @@ class EditProfileWasherServicesSection extends StatelessWidget {
                 label: premiumTitle,
                 hint: priceHint,
                 controller: premiumPriceController,
-                accentColor: AppColors.success,
+                accentColor: AppColors.green,
               ),
             ),
           ],
@@ -97,11 +98,6 @@ class EditProfileWasherServicesSection extends StatelessWidget {
   }
 }
 
-/// Compact price box for one tier. Wraps a plain [TextField] directly
-/// (rather than the shared [AppTextField]) purely for a tighter visual
-/// footprint — the controller/keyboardType/parsing contract at submit time
-/// (`int.tryParse(...) ?? 0` in create_profile_washer_page.dart) is
-/// untouched.
 class _PriceTierField extends StatelessWidget {
   const _PriceTierField({
     required this.label,
@@ -125,8 +121,7 @@ class _PriceTierField extends StatelessWidget {
           textAlign: TextAlign.center,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: AppTypography.labelLarge.copyWith(
-            fontSize: 12.sp,
+          style: context.textTheme.labelLarge!.copyWith( // 🎯 استخدام امتداد الثيم لقراءة الخطوط الذكية منعاً لتشوه الإنجليزي
             fontWeight: FontWeight.w700,
             color: accentColor,
           ),
@@ -144,9 +139,9 @@ class _PriceTierField extends StatelessWidget {
           decoration: InputDecoration(
             isDense: true,
             hintText: hint,
-            hintStyle: TextStyle(fontSize: 11.sp, color: Colors.grey.shade400),
+            hintStyle: TextStyle(fontSize: 11.sp, color: AppColors.textSecondary(context).withValues(alpha: 0.6)),
             filled: true,
-            fillColor: Colors.white,
+            fillColor: AppColors.white,
             prefixIcon: Icon(
               Icons.payments_outlined,
               size: 14.sp,

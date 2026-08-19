@@ -15,7 +15,102 @@
   "@fuelProvider": {
     "description": "Fuel Provider"
   },
+    "maintenanceRequestsTitle": "Maintenance Requests",
+  "totalRequestsLabel": "Total Requests"
+,  "uploadLogoLabel": "Upload Logo"
+,  "vehicleOwnerWithParamLabel": "Owner: {name}",
+  "@vehicleOwnerWithParamLabel": {
+    "description": "Displays the vehicle owner name dynamically",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
+,
+
+  "roleTechnician": "Technician",
+  "roleCarWasher": "Car Wash",
+  "roleFuelProvider": "Fuel Provider",
+  "roleShopOwner": "Shop Owner",
+  "roleCustomer": "Customer",
+  "myServicesAsProvider": "My Services as Provider",
+  "joinAsServiceProvider": "Join as Service Provider",
+  "applyAsTechnician": "Apply as Technician",
+  "registerCarWash": "Register Car Wash",
+  "registerAsFuelProvider": "Register as Fuel Provider",
+  "openSparePartsShop": "Open Spare Parts Shop",
+  "maintenanceRequests": "Maintenance Requests",
+  "technicianProfile": "Technician Profile",
+  "myJobs": "My Jobs",
+  "availableSosRequests": "Available SOS Requests",
+  "acceptedSosRequests": "Accepted SOS Requests",
+  "myStatistics": "My Statistics",
+  "myInvoices": "My Invoices",
+  "carWashProfile": "Car Wash Profile",
+  "bookings": "Bookings",
+  "statistics": "Statistics",
+  "fuelProviderProfile": "Fuel Provider Profile",
+  "fuelOrders": "Fuel Orders",
+  "shareLocation": "Share Location",
+  "shopProfile": "Shop Profile",
+  "shopOrders": "Shop Orders",
+  "shopProducts": "Shop Products",
+  "shopSpecializations": "Shop Specializations",
+  "optionsTitle": "Options"
+,
+  "skip": "Skip",
+  "next": "Next",
+  "getStarted": "Get Started",
+  "onboardingTitleMaintenance": "Smart Car Maintenance",
+  "onboardingSubtitleMaintenance": "Track your vehicle's service history, get timely reminders, and request maintenance with just a tap.",
+  "onboardingTitleEmergency": "Emergency Roadside Help",
+  "onboardingSubtitleEmergency": "Stuck on the road? Send an SOS and get a certified technician to your location in minutes.",
+  "onboardingTitleAllInOne": "All-in-One Car Services",
+  "onboardingSubtitleAllInOne": "Fuel delivery, car wash, marketplace and more — everything your car needs, in one app."
+,
+    "washerSelectProvinceMessage": "Please select a province",
+  "enableLocationPrompt": "Please enable location services",
+  "locationErrorPrefix": "Location error",
+  "requestSentSuccess": "Request sent successfully ✓"
+,  "cancelSosQuestion": "What is the reason for cancelling the request?",
+  "cancelSosHint": "Enter the reason for cancelling the emergency request here..."
+,  "trackTechnician": "Track Technician"
+,  "searchingForTechnicianTitle": "Searching for Technician",
+  "searchingForTechnicianSubtitle": "Finding the nearest available technician for you, please wait a moment"
+,
+  "createdAgoLabel": "Created {time} ago",
+  "@createdAgoLabel": {
+    "description": "Displays when the request was created relative to now",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  }
+,
   
+
+  "technicianOnWayLiveTracking": "Technician is on the way - live tracking",
+  "waitingForLocationUpdate": "Waiting for location update...",
+ 
+  "distanceLabel": "Distance",
+    "cartPageTitle": "Shopping Cart"
+,  "checkoutButton": "Checkout"
+, "confirmOrderTitle": "Confirm Order",
+  "orderCreatedSuccessfully": "Order created successfully",
+  "orderTotalLabel": "Order Total",
+  "currencySyp": "SYP",
+  "pleaseSelectDeliveryLocation": "Please select the delivery location on the map",
+  "pleaseEnterAddressNote": "Please enter an address note",
+  "confirmOrderButton": "Confirm Order",
+  "addressNoteLabel": "Address Note",
+  "addressNoteHint": "e.g., street name, building number, apartment, or nearby landmark"
+,  "deliveryLocationLabel": "Delivery Location",
+  "selectLocationFromMapHint": "Select location from map",
+  "locationSelectedBadge": "Selected",
+  "changeLocationButton": "Change Location"
+,
   "appName": "CarCare",
   "@appName": {
     "description": "Application name"
@@ -1547,8 +1642,544 @@
 "deleteVehicle": "Delete Vehicle",
 "@deleteVehicle": {
   "description": "Button to delete a vehicle"
-},
+}
+,
+  "failedToLoadAds": "Failed to load advertisements",
+  "@failedToLoadAds": {
+    "description": "Error message shown when ads cannot be loaded"
+  }
 
+,
+  "invalidInputData": "Invalid data input",
+  "@invalidInputData": {
+    "description": "Error message when the user enters incorrect or invalid data in a form"
+  }
+,
+    "deliveryTrackingTitle": "Delivery Tracking"
+, "selectDeliveryLocationTitle": "Select Delivery Location",
+  "myLocationLabel": "My Location",
+  "moveMapToPickLocation": "Move the map to pick the delivery location",
+  "confirmLocationButton": "Confirm Location",
+  "invoiceDetails": "Invoice Details",
+  "@invoiceDetails": {
+    "description": "Title for invoice details page"
+  },
+    "processingStatusLabel": "Processing",
+  "outForDeliveryStatusLabel": "Out for Delivery",
+  "deliveredStatusLabel": "Delivered",
+  "rejectedStatusLabel": "Rejected"
+,
+  "allRequestsTitle": "My Orders",
+  "@allRequestsTitle": {
+    "description": "General title for my requests or my orders screen across different sections"
+  }
+,  "shopLabel": "Shop",
+  "@shopLabel": {
+    "description": "Label for the store or shop section"
+  }
+,   "noProductsAvailable": "No products available",
+  "@noProductsAvailable": {
+    "description": "Text shown when there are no items inside the order or list"
+  },
+  "plusMoreProductsLabel": "+{count} more items",
+  "@plusMoreProductsLabel": {
+    "description": "Displays how many additional products are in the order",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+    "quantityLabel": "Quantity",
+  "addToCartWithPriceLabel": "Add to Cart — {price}",
+  "@addToCartWithPriceLabel": {
+    "description": "Text inside add to cart button containing the total formatted price",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+    "inStockStatus": "In Stock",
+  "outOfStockStatus": "Out of Stock"
+,  "productConditionLabel": "Condition: {condition}",
+  "@productConditionLabel": {
+    "placeholders": { "condition": { "type": "String" } }
+  },
+  "productCategoryLabel": "Category: {category}",
+  "@productCategoryLabel": {
+    "placeholders": { "category": { "type": "String" } }
+  },
+  "productCarBrandLabel": "Car Brand: {brand}",
+  "@productCarBrandLabel": {
+    "placeholders": { "brand": { "type": "String" } }
+  },
+  "discountPercentLabel": "{percent}% OFF",
+  "@discountPercentLabel": {
+    "placeholders": { "percent": { "type": "String" } }
+  },
+  "inStockWithCountLabel": "In Stock ({count} items)",
+  "@inStockWithCountLabel": {
+    "placeholders": { "count": { "type": "int" } }
+  }
+,  "shopsTitle": "Shops",
+  "cartLabel": "Cart"
+,  "shopDetailsPageTitle": "Shop Information",
+  "businessTypeLabel": "Business Type",
+  "carBrandsLabel": "Car Brands",
+  "partCategoriesLabel": "Part Categories"
+,  "shopStorefrontPageTitle": "Shop Storefront"
+,  "sparePartsStoreTitle": "Spare Parts Store"
+,  "shareDeliveryLocationTitle": "Share Delivery Location"
+,  "startProcessingButton": "Start Processing",
+  "startDeliveryButton": "Start Delivery",
+  "confirmDeliveryButton": "Confirm Delivery"
+,  "orderNumberLabel": "Order #{id}",
+  "@orderNumberLabel": {
+    "description": "Displays the order number with its ID",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+    "orderCancelledSuccessMessage": "Order has been cancelled successfully"
+,
+  "tapToTrackFuelProviderLive": "Tap to track fuel provider live",
+  "trackFuelProviderTitle": "Track Fuel Provider"
+,  "waitingFuelProviderAcceptance": "Waiting for fuel provider acceptance",
+  "orderNotesTitle": "Order Notes"
+,  "fuelProviderHasNotSharedLocationYet": "The fuel provider has not shared their location yet"
+,  "avatarUpdatedSuccess": "Profile picture updated successfully"
+,  "accountDeletedSuccessMessage": "Account deleted successfully",
+  "@accountDeletedSuccessMessage": {
+    "description": "Success message displayed when the user permanently deletes their account"
+  }
+,
+  "fuelLogTitle": "Fuel Log",
+  "costWithParamLabel": "Cost: {cost}",
+  "@costWithParamLabel": {
+    "placeholders": { "cost": { "type": "String" } }
+  },
+  "odometerReadingWithParamLabel": "Odometer: {km} km",
+  "@odometerReadingWithParamLabel": {
+    "placeholders": { "km": { "type": "String" } }
+  },
+    "brandRequiredError": "Please enter the vehicle brand",
+  "brandMinLengthError": "Brand must be at least 2 characters long",
+  "brandMaxLengthError": "Brand is too long (maximum 50 characters)",
+  "brandInvalidCharsError": "Brand contains unallowed symbols",
+  "modelRequiredError": "Please enter the vehicle model",
+  "modelMaxLengthError": "Model is too long (maximum 50 characters)",
+  "modelInvalidCharsError": "Model contains unallowed symbols",
+  "plateNumberRequiredError": "Please enter the plate number",
+  "plateInvalidCharsError": "Plate number contains unallowed symbols",
+  "plateLengthError": "Plate number must be between 4 and 9 characters",
+  "manufactureYearRequiredError": "Please enter the manufacturing year",
+  "invalidYearError": "Please enter a valid year",
+  "yearRangeError": "Manufacturing year must be between 1900 and {maxYear}",
+  "@yearRangeError": {
+    "placeholders": { "maxYear": { "type": "int" } }
+  },
+  "odometerRequiredError": "Please enter the odometer reading",
+  "odometerRangeError": "Odometer reading must be between 0 and 2000000",
+  "unsupportedImageFormatError": "Unsupported image format (jpg, jpeg, png or webp only)",
+  "imageSizeExceededError": "Image size must not exceed 5 MB"
+,  "pleaseSelectVehicleImageError": "Please select a vehicle image"
+,  "defaultVehicleLabel": "Vehicle",
+  "vehicleDeletedSuccess": "Vehicle has been deleted successfully"
+,
+  "fuelAmountDetailsLabel": "{type} — {amount} Liters",
+  "@fuelAmountDetailsLabel": {
+    "placeholders": {
+      "type": { "type": "String" },
+      "amount": { "type": "String" }
+    }
+  }
+,
+  "gasoline98": "Gasoline 98",
+  "completeAllFieldsError": "Please complete all fields",
+  "fuelOrderSentSuccessfully": "Fuel order sent successfully",
+  "editButtonLabel": "Edit",
+  "ownerStockCountLabel": "Stock: {count}",
+  "@ownerStockCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+    "addProduct": "Add Product",
+  "basicInformation": "Basic Information",
+  "productName": "Product Name",
+  "productNameRequired": "Product name is required",
+  "description": "Description",
+  "price": "Price",
+  "enterValidPrice": "Enter a valid price",
+  "availableQuantity": "Available Quantity",
+  "enterValidQuantity": "Enter a valid quantity",
+  "classification": "Classification",
+  "productCondition": "Product Condition",
+ 
+  "carBrand": "Car Brand",
+  "partCategory": "Part Category",
+  "noSelection": "No selection",
+  "productImages": "Product Images",
+  "addImages": "Add Images",
+  "imagesCount": "Images ({count}/{max})",
+  "@imagesCount": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "max": { "type": "int" }
+    }
+  },
+    "confirmSelectionButtonLabel": "Confirm Selection"
+,  "shopProfilePageTitle": "Store Profile",
+  "fillAllFieldsRequiredError": "Please fill in all required fields",
+  "shopSavedSuccess": "Store saved successfully"
+,
+  "shopNameLabel": "Store Name",
+  "shopNameHint": "Enter store name",
+  "phoneNumberLabel": "Phone Number",
+  "phoneNumberHint": "Enter phone number",
+  "cityLabel": "City",
+  "cityHint": "Enter city name"
+,  "activeStatus": "Active",
+  "unknownStatus": "Unspecified",
+  "unknownProfileValuesError": "Unknown values in your profile: {values}\nCannot save until these values are matched in the system.",
+  "@unknownProfileValuesError": {
+    "placeholders": {
+      "values": {
+        "type": "String"
+      }
+    }
+  }
+,
+  "updateProduct": "Update Store",
+  "@updateProduct": {
+    "description": "Button text to save and update the store profile information"
+  }
+,  "chooseActionLabel": "Choose",
+  "noSelectionMadeYet": "No selection made yet"
+,  "confirmMultiSelectionCount": "Confirm Selection ({count})",
+  "@confirmMultiSelectionCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+,  "shopSpecializationsPageTitle": "Store Specializations",
+  "specializationsUpdatedSuccess": "Specializations updated successfully"
+,  "inactiveStatus": "Inactive"
+,  "myJobsTitle": "My Jobs",
+  "jobAssignedStatusLabel": "Assigned",
+  "jobStatusUpdatedSuccess": "Task status updated successfully",
+  "jobLoadErrorLabel": "An error occurred while loading jobs",
+  "refreshOrdersLogHint": "Updating requests log ..."
+,
+  "clientLabel": "Client",
+  "appointmentNotesLabel": "Appointment Notes",
+  "startWorkButtonLabel": "Start Work",
+  "endWorkButtonLabel": "End Work"
+,  "completeJobTitle": "Complete Task",
+  "completionNotesLabel": "Completion Notes",
+  "completionNotesHint": "Type what has been accomplished...",
+  "completionNotesRequiredError": "Completion notes are required",
+  "confirmCompletionButton": "Confirm Completion"
+,  "updatingProgress": "Updating...",
+  "quotationPriceLabel": "Price Offer"
+,  "quotationSentWaitingApproval": "Your offer has been sent — waiting for customer approval",
+  "submitQuotationButtonLabel": "Submit Price Offer",
+  "quotationSubmittedSuccess": "Offer submitted successfully"
+,  "dateLabel": "Date"
+,  "customerDataTitle": "Customer Information"
+,  "malfunctionDetailsTitle": "Malfunction Details",
+  "requestDateLabel": "Request Date"
+,  "statusLabel": "Status",
+  "@statusLabel": {
+    "description": "Label for the current status of an order or request"
+  }
+,  "vehicleDataTitle": "Vehicle Information"
+,  "addTechnicianLabel": "Add Technician",
+  "@addTechnicianLabel": {
+    "description": "Button text or screen title to add or register a new technician"
+  }
+,
+  "editTechnicianProfileLabel": "Edit Technician Profile",
+  "@editTechnicianProfileLabel": {
+    "description": "Screen title or button text to edit the technician profile information"
+  }
+,
+  "technicianJoinRequestSuccess": "Technician join request submitted successfully",
+  "certificationsSectionTitle": "Certifications",
+  "maxThreeImagesHint": "Maximum 3 images"
+,
+
+  "workshopLocationSet": "Workshop location set",
+  "selectWorkshopLocation": "Select Workshop Location",
+  "myLocation": "My Location",
+  "moveMapToSelectLocation": "Move the map to set the correct location",
+  "savingInProgress": "Saving...",
+  "confirmLocationAction": "Confirm Location",
+    "currencySuffix": "SYP",
+  "availableQuantityLabel": "Available Quantity",
+  "saveChangesButtonLabel": "Save Changes",
+  "availabilityStatusLabel": "Availability Status",
+  "availableForWork": "Available for Work",
+  "unavailableForWork": "Unavailable for Work"
+,  "maxImagesLimitError": "You can select a maximum of {count} images",
+  "@maxImagesLimitError": {
+    "description": "Error message when picking more images than the maximum allowed limit",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+,
+  "personalDataTitle": "Personal Information",
+  "professionalDataTitle": "Professional Information",
+  "hourlyRateLabel": "Hourly Rate",
+  "mechanicLabel": "Mechanic",
+  "electricityLabel": "Electrician",
+  "paintLabel": "Painting",
+  "tiresLabel": "Tires",
+  "airConditioningLabel": "Air Conditioning",
+  "plumbingLabel": "Plumbing"
+,
+
+  "profileLoadError": "An error occurred while loading the profile",
+   "updateWorkshopLocationDescription": "You can update the workshop location when needed",
+  "addNewCertificationsHint": "You can add new certifications"
+,
+  "professionalInfo": "Professional Information",
+  "specialization": "Specialization",
+  "experienceYears": "Years of Experience",
+  "hourlyRate": "Hourly Rate",
+  "contactInfo": "Contact Information",
+
+  "certifications": "Certifications",
+  "durationRequiredError": "Please enter the expected duration",
+  "invalidNumberError": "Please enter a valid number",
+  "durationRangeError": "Duration must be between 1 and 30 days",
+  "enterExpectedPriceHint": "Please enter the expected price...",
+  "durationInDaysLabel": "Duration (in Days)",
+  "durationRangeHint": "From 1 to 30 days",
+    "requiredPartsLabel": "Required Parts",
+  "includedInPriceLabel": "Included in Price",
+  "additionalPriceLabel": "Additional Price"
+,
+  "netEarningsLabel": "Net Earnings"
+,
+  "statusDetailsTitle": "Status Details",
+  "assignedStatusLabel": "Assigned"
+
+,
+  "cancellationReasonRequired": "Cancellation reason is required",
+  "cancellationReasonMinLengthError": "Please enter a reason with at least {count} characters",
+  "@cancellationReasonMinLengthError": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "sosGenericActionError": "An error occurred while performing the action, please try again",
+  "sosStatusUpdatedWithLabel": "Status updated: {status}",
+  "@sosStatusUpdatedWithLabel": {
+    "placeholders": {
+      "status": { "type": "String" }
+    }
+  },
+    "startHeadingButtonLabel": "Start Heading",
+  "acceptRequestToNavigateHint": "Accept the request to start heading to the customer",
+  "headingToClientTitle": "Heading to Customer"
+,
+  "cancelResponseTitle": "Cancel Response",
+  "cancelResponseLabel": "Reason for cancelling response",
+  "cancelResponseHint": "Type the reason for cancelling response..."
+,  "trackOrderWithIdLabel": "Tracking Order #{id}",
+  "@trackOrderWithIdLabel": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmExitTitle": "Confirm Exit",
+  "pressBackAgainToExit": "Press back again to exit",
+  "stopSharingLocationWarning": "Your location sharing will stop. Do you want to exit?",
+  "exitActionLabel": "Exit",
+  "jobCompletedSuccessMessage": "Order completed successfully ✓"
+,
+
+  "writeAdditionalNotesHint": "Write any additional notes...",
+  "sendQuotationActionLabel": "Send Offer"
+,
+  "profileUpdatedSuccessfully": "Profile updated successfully ✓",
+  "noCertificatesUploaded": "No certificates uploaded yet",
+  "workshopLocationTitle": "Workshop Location",
+  "workshopLocationDescriptionHint": "Select your workshop location to appear to nearby customers"
+,  "vehicleLabelWithParam": "{brand} {model}"
+,
+  "productAddedSuccessfully": "Product added successfully",
+  "saveProduct": "Save Product",
+  "ownerProductsPageTitle": "Store Products"
+
+,
+  "sosRequestCreatedAgo": "Created {time} ago",
+  "@sosRequestCreatedAgo": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "sosAcceptingInProgress": "Accepting...",
+  "sosAcceptRequest": "Accept Request",
+  "sosProcessingInProgress": "Processing...",
+  "sosStartProgress": "Start Progress",
+  "sosFinishRequest": "Finish Request",
+  "sosCancelResponse": "Cancel Response",
+  "sosChangeStatusTitle": "Change Request Status",
+  "sosInProgressStatus": "In Progress",
+  "sosCompletedStatus": "Completed",
+
+  "sosNavigateToCustomer": "Navigate to Customer",
+  "sosUpdatingInProgress": "Updating...",
+  "shopOrdersPageTitle": "Store Orders"
+,
+  "statusUpdatedSuccessMessage": "Request status updated successfully",
+  "statusUpdatedWithDynamicLabel": "Status updated: {status}",
+  "@statusUpdatedWithDynamicLabel": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  }
+,
+
+  "sosStatusUpdated": "Request status updated",
+  "sosCustomerLocation": "Customer Location",
+  "sosStartNavigateToCustomer": "Start navigating to customer",
+  "sosAcceptToNavigateHint": "Accept the request to start navigating to the customer",
+
+  "locationPermissionDenied": "Location permission denied",
+  "sosLocationSendError": "Error sending location: {message}",
+  "@sosLocationSendError": {
+    "placeholders": {
+      "message": { "type": "String" }
+    }
+  },
+  "customerLabel": "Customer",
+  "youLabel": "You",
+  "distanceInMeters": "{value} m",
+  "@distanceInMeters": {
+    "placeholders": {
+      "value": { "type": "String" }
+    }
+  },
+  "distanceInKm": "{value} km",
+  "@distanceInKm": {
+    "placeholders": {
+      "value": { "type": "String" }
+    }
+  },
+  "sharingLocationActive": "Sharing your location with the customer",
+  "locatingInProgress": "Locating...",
+  "calculatingRouteInProgress": "Calculating route...",
+  "distanceToCustomer": "Distance to customer: {distance}",
+  "@distanceToCustomer": {
+    "placeholders": {
+      "distance": { "type": "String" }
+    }
+  },
+  "conditionNew": "New",
+  "conditionUsed": "Used",
+  "productImageLabel": "Product Image",
+  "@productImageLabel": {
+    "description": "Label or description for the product image asset"
+  }
+
+,  "allProductsPageTitle": "All Products"
+,  "productDetailsTitle": "Product Details",
+  "productAddedToCartSuccess": "Product added to cart successfully",
+  "viewCartButton": "View Cart"
+,
+ "cancelOrderFormHint": "e.g., I no longer need this order"
+, "orderDetailsTitle": "Order Details",
+  "orderNumberLabel1": "Order Number",
+  "cancellableLabel": "Cancellable",
+    "rejectOrderFormHint": "e.g., Product is currently out of stock",
+  "confirmRejectionButton": "Confirm Rejection"
+,
+ "settingsTitle": "Settings",
+  "languageLabel": "Language",
+  "themeLabel": "Theme",
+  "arabicLabel": "العربية",
+  "englishLabel": "English",
+  "lightModeLabel": "Light",
+  "darkModeLabel": "Dark",
+  "systemModeLabel": "System",
+  "productsLabel": "Products",
+  "deliveryLabel": "Delivery",
+  "grandTotalLabel": "Grand Total",
+  "trackDeliveryButton": "Track Delivery",
+  "cancelOrderButton": "Cancel Order",
+  "invoiceNumber": "Invoice Number",
+  "@invoiceNumber": {
+    "description": "Label for invoice number"
+  },
+  "invoicePeriod": "Period",
+  "@invoicePeriod": {
+    "description": "Label for invoice period"
+  },
+  "invoiceTotal": "Total",
+  "@invoiceTotal": {
+    "description": "Label for invoice total amount"
+  },
+  "invoiceSubtotal": "Subtotal",
+  "@invoiceSubtotal": {
+    "description": "Label for invoice subtotal"
+  },
+  "invoiceCommission": "Commission",
+  "@invoiceCommission": {
+    "description": "Label for invoice commission total"
+  },
+  "invoiceSubscription": "Subscription",
+  "@invoiceSubscription": {
+    "description": "Label for invoice subscription total"
+  },
+  "invoiceStatus": "Status",
+  "@invoiceStatus": {
+    "description": "Label for invoice status"
+  },
+  "invoicePaidAt": "Payment Date",
+  "@invoicePaidAt": {
+    "description": "Label for invoice paid date"
+  },
+  "invoiceItems": "Invoice Items",
+  "@invoiceItems": {
+    "description": "Title for invoice items list"
+  },
+  "statusDraft": "Draft",
+  "@statusDraft": {
+    "description": "Invoice status: draft"
+  },
+  "statusIssued": "Issued",
+  "@statusIssued": {
+    "description": "Invoice status: issued"
+  },
+  "statusOverdue": "Overdue",
+  "@statusOverdue": {
+    "description": "Invoice status: overdue"
+  },
+  "statusPaid": "Paid",
+  "@statusPaid": {
+    "description": "Invoice status: paid"
+  }
+,
 "confirmDeleteTitle": "Confirm Deletion",
 "@confirmDeleteTitle": {
   "description": "Title of delete confirmation dialog"
@@ -1588,8 +2219,7 @@
   "description": "Title of alerts record"
 },
 
-"statistics": "Statistics",
-"@statistics": { "description": "Statistics page title" },
+
 
 "totalJobs": "Total jobs",
 "@totalJobs": { "description": "Total jobs count" },
@@ -1731,14 +2361,280 @@
   "@bookingsFilterByStatus": {
     "description": "Bookings filter label"
   },
-  "bookingStatusProgress": "progress",
-  "@bookingStatusProgress": {
-    "description": "Booking status chip: progress"
+ 
+
+  
+
+    "washerNoVehiclesMessage": "You don't have any vehicles. Please add a vehicle first from the My Vehicles page.",
+  "@washerNoVehiclesMessage": {
+    "description": "Message shown when a user tries to book but has no vehicles registered"
   },
-  "bookingStatusAccepted": "accepted",
-  "@bookingStatusAccepted": {
-    "description": "Booking status chip: accepted"
+  "washerSelectVehicleMessage": "Please select a vehicle",
+  "@washerSelectVehicleMessage": {
+    "description": "Validation message when a user forgets to select a vehicle before booking"
   },
+  "washerSelectDateTimeMessage": "Please select a date and time",
+  "@washerSelectDateTimeMessage": {
+    "description": "Validation message when a user forgets to select date or time"
+  },
+  "washerBookingSuccessMessage": "Booking completed successfully",
+  "@washerBookingSuccessMessage": {
+    "description": "Success message displayed after a successful booking completion"
+  }
+
+,
+  "loadingYourVehicles": "Loading your vehicles...",
+  "@loadingYourVehicles": {
+    "description": "Text shown while the system is fetching the user's vehicles"
+  },
+  "noVehiclesAdded": "No vehicles added",
+  "@noVehiclesAdded": {
+    "description": "Text shown when the user has not added any vehicles to their profile"
+  },
+  "selectYourVehicle": "Select your vehicle",
+  "@selectYourVehicle": {
+    "description": "Label or title guiding the user to select one of their vehicles"
+  },
+    "bookingStatusesTitle": "Booking Statuses"
+,  "pleaseEnterCancellationReason": "Please enter the reason for cancellation",
+  "cancellationReasonMinLengthError": "The cancellation reason must be at least 5 characters long",
+ 
+  "orderAcceptedSuccess": "Order accepted successfully",
+  "orderStartedSuccess": "Order execution started successfully",
+  "orderCompletedSuccess": "Order completed successfully",
+  "orderCancelledSuccess": "Order cancelled successfully",
+  "cancelFuelOrderTitle": "Cancel Fuel Order"
+,
+    "ratingsTitle": "Ratings",
+
+  "noRatingsYet": "No ratings yet",
+  "showMore": "Show More",
+  "defaultUserName": "User",
+  "ratingsCountLabel": "({count} reviews)",
+  "@ratingsCountLabel": {
+    "description": "Label displaying the total number of ratings",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+    "currencyFormat": "${amount}",
+  "@currencyFormat": {
+    "description": "Format for displaying currency in English",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
+,
+  "shareLocationTitle": "Share Location",
+  "shareLocationDescription": "Select an in-progress fuel order from my orders to share your location",
+  "goToMyOrders": "Go to My Orders"
+,
+  "orderStatusesTitle": "Order Statuses",
+  "@orderStatusesTitle": {
+    "description": "Title for the section displaying different order status indicators"
+  }
+,  "homeWelcomeGreeting": "- How can we help you today? -"
+,
+  "quotationDetailsTitle": "Offer Details",
+  "quotationAcceptedSuccess": "Offer accepted successfully",
+  "quotationRejectedSuccess": "Offer rejected"
+,
+  "quotationsTitle": "Price Quotations",
+  "noQuotationsAvailable": "No price quotations available"
+,
+  "acceptQuotationTitle": "Accept Quotation",
+  "selectedDateLabel": "Selected Date",
+  "chooseDateLabel": "Choose Date",
+  "notesLabel": "Notes",
+  "confirmLabel": "Confirm",
+  "cancelLabel": "Cancel"
+,
+  "technicianLabel": "Technician",
+  "repairDurationLabel": "Repair Duration",
+  "partsIncludedLabel": "Parts Included",
+  "yes": "Yes",
+  "no": "No",
+  "durationInDays": "{count} Days",
+  "@durationInDays": {
+    "description": "Displays the estimated repair duration in days",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+,
+  "cannotShareLocationOrderFinished": "Cannot share location for a finished or cancelled order",
+  "enableLocationServiceMessage": "Please enable location services in device settings",
+  "locationPermissionDeniedForever": "Location permission permanently denied, please enable it from app settings",
+  "locationPermissionRequired": "Location permission is required to share your location with the customer",
+  "unableToDetermineLocation": "Unable to determine your current location, please try again",
+  "genericErrorTryAgain": "An error occurred, please try again",
+  "errorSendingLocation": "Error sending location",
+  "deliveryLocation": "Delivery Location",
+  "you": "You",
+  "sharingLocationWithCustomer": "Sharing your location with the customer",
+  "determiningLocation": "Determining location...",
+  "calculatingRoute": "Calculating route...",
+  "distanceToCustomer": "Distance to customer",
+  "meterUnit": "m",
+  "kmUnit": "km"
+,
+  "technicianInfoCardTitle": "Technician Information",
+  "specializationLabel": "Specialization",
+  "experienceYearsLabel": "Years of Experience",
+  "quotationDateLabel": "Quotation Date",
+  "technicianNotesCardTitle": "Technician Notes",
+  "acceptQuotationButton": "Accept Offer",
+  "rejectQuotationButton": "Reject Offer",
+  "rejectQuotationReasonTitle": "Reason for Rejection",
+  "durationInYears": "{count} Years",
+  "@durationInYears": {
+    "description": "Displays experience duration in years",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+,
+  "maintenanceRequestDetailsTitle": "Maintenance Request Details",
+  "unexpectedErrorTryAgain": "An error occurred during execution, please try again"
+,
+  "add": "Add"
+,
+  "selectPreferredDateTitle": "Select Preferred Date"
+,  "selectPriorityTitle": "Select Priority"
+,  "problemDescriptionTitle": "Problem Description",
+  "problemDescriptionHint": "Please type the details of the problem here..."
+
+,
+  "noVehicleSelectedPrompt": "No vehicle selected",
+  "changeVehicleButton": "Change Vehicle",
+  "kilometerCountLabel": "{count} km",
+  "@kilometerCountLabel": {
+    "description": "Displays the vehicle mileage in kilometers",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+,  "descriptionLabel": "Description",
+  "vehicleLabel": "Vehicle",
+  "appointmentLabel": "Appointment"
+,
+  "confirmCancellationButton": "Confirm Cancellation",
+  "backButton": "Back"
+,
+  "cancellationReason": "Cancellation Reason",
+  "@cancellationReason": {
+    "description": "Label for the cancellation reason field"
+  },
+  "bookingsCancelReasonHint": "Type cancellation reason...",
+  "@bookingsCancelReasonHint": {
+    "description": "Hint text inside the cancellation reason text field"
+  }
+,
+  "cancelRequestButton": "Cancel Request",
+  "@cancelRequestButton": {
+    "description": "Text for the cancellation button or title in the dialog"
+  }
+,
+  "deleteRequestTitle": "Delete Request",
+  "deleteRequestConfirmation": "Are you sure you want to delete this request?",
+  "cannotUndoActionWarning": "This action cannot be undone",
+  "yesDeleteButton": "Yes, Delete"
+,  "requestDeletedSuccess": "Request deleted successfully",
+  "cancellingProgress": "Cancelling...",
+  "deletingProgress": "Deleting...",
+  "quotationsCountLabel": "Offers ({count})",
+  "@quotationsCountLabel": {
+    "description": "Displays the quotations button text with its length",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+,
+  "requestImagesTitle": "Request Images"
+,  "requestInfoCardTitle": "Request Data",
+  "preferredDateLabel": "Preferred Date",
+  "priorityLabel": "Priority",
+  "creationDateLabel": "Creation Date"
+,  "technicianLocationTitle": "Technician Location"
+,  "plateNumberLabel": "Plate Number",
+  "mileageLabel": "Mileage"
+,
+  "priorityLow": "Low",
+  "priorityMedium": "Medium",
+  "priorityHigh": "High"
+, 
+  "noVehiclesAddOneFirst": "You have no vehicles, please add one first from My Vehicles",
+  "maxThreeImagesAllowed": "You can select up to 3 images",
+  "pleaseSelectVehicleFirst": "Please select a vehicle first",
+  "pleaseDescribeProblem": "Please describe the problem",
+  "internalError": "Internal error",
+  "requestSentSuccessfully": "Request sent successfully",
+  "maintenanceRequestTitle": "Maintenance Request"
+,
+    "fuelAmountLabel": "{type} - {amount} Liters",
+  "@fuelAmountLabel": {
+    "description": "Displays the fuel type along with its amount in liters",
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "num"
+      }
+    }
+  }
+
+
+,
+  "all": "All",
+  "pleaseEnterRejectionReason": "Please enter the reason for rejection",
+  "@pleaseEnterRejectionReason": {
+    "description": "Validation or hint text asking the user to provide a reason for rejecting a request"
+  },
+    "otherServices": "Other Services",
+  "washerAvailabilityUpdateSuccess": "Availability status updated successfully",
+  "washerAvailabilityTitle": "Available for bookings",
+  "washerAvailabilityStatusAvailable": "Currently available",
+  "washerAvailabilityStatusUnavailable": "Currently unavailable"
+,
+    "send": "Send",
+  "profileWasherDefaultServices": "Normal Wash, Premium Wash, Polishing",
+  "pleaseEnterShopName": "Please enter the car wash name",
+  "pleaseEnterPhoneNumber": "Please enter the phone number",
+  "pleaseEnterCity": "Please enter the city",
+  "profileWasherCreateSuccessMessage": "Car wash profile created successfully"
+,  "profileWasherEditSuccessMessage": "Changes saved successfully",
+
+
+  "allGovernorates": "All Governorates",
+  "filterByGovernorate": "By Governorate",
+  "damascus": "Damascus",
+  "rifDimashq": "Rif Dimashq",
+  "aleppo": "Aleppo",
+  "homs": "Homs",
+  "hama": "Hama",
+  "latakia": "Latakia",
+  "tartus": "Tartus",
+  "idlib": "Idlib",
+  "daraa": "Daraa",
+  "asSuwayda": "As-Suwayda",
+  "quneitra": "Quneitra",
+  "deirEzZor": "Deir ez-Zor",
+  "raqqa": "Raqqa",
+  "alHasakah": "Al-Hasakah"
+,
   "bookingStatusPinding": "pinding",
   "@bookingStatusPinding": {
     "description": "Booking status chip: pinding"

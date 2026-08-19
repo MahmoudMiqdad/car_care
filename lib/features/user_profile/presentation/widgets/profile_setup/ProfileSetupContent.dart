@@ -18,37 +18,34 @@ class ProfileSetupContent extends StatelessWidget {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(32.r),
             topRight: Radius.circular(32.r),
           ),
         ),
-        child: Directionality(
-          textDirection: TextDirection.rtl,
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  strings.profileSetup,
-                  style: TextStyle(
-                    color: AppColors.orange,
-                    fontSize: 28.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                strings.profileSetup,
+                style: TextStyle(
+                  color: AppColors.orange,
+                  fontSize: 28.sp,
+                  fontWeight: FontWeight.bold,
                 ),
-                SizedBox(height: 22.h),
-                CircleAvatar(
-                  radius: 60.r,
-                  backgroundColor: Colors.grey.shade300,
-                  child: Icon(Icons.person, size: 60.sp, color: Colors.grey.shade400),
-                ),
-                SizedBox(height: 40.h),
-                const ProfileSetupForm(),
-              ],
-            ),
+              ),
+              SizedBox(height: 22.h),
+              CircleAvatar(
+                radius: 60.r,
+                backgroundColor: Colors.white,
+                child: Icon(Icons.person, size: 60.sp, color: Colors.grey.shade400),
+              ),
+              SizedBox(height: 40.h),
+              const ProfileSetupForm(),
+            ],
           ),
         ),
       ),

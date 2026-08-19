@@ -2,6 +2,7 @@
 import 'dart:typed_data';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 
@@ -16,6 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+
 
 class AddVehicleBody extends StatefulWidget {
   const AddVehicleBody({super.key});
@@ -56,12 +58,11 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
   }
 
   Future<void> _submit(BuildContext context, {required bool isLoading}) async {
+    final l10n = context.l10n;
     if (!canSubmitVehicleForm(isLoading: isLoading)) return;
 
     if (_pickedImage == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('الرجاء اختيار صورة للمركبة')),
-      );
+      AppSnackBar.error(context, l10n.pleaseSelectVehicleImageError);
       return;
     }
 
@@ -69,22 +70,22 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
 
     final String fileName = _pickedImage!.name;
     final size = await _pickedImage!.length();
+    
+    if (!mounted) return;
     final imageError = validateVehicleImageFile(
       fileName: fileName,
       sizeBytes: size,
+      l10n: l10n,
     );
-    if (!mounted) return;
+    
     if (imageError != null) {
-      // ignore: use_build_context_synchronously
-      final messenger = ScaffoldMessenger.of(context);
-      messenger.showSnackBar(SnackBar(content: Text(imageError)));
+      AppSnackBar.error(context, imageError);
       return;
     }
 
     final Uint8List bytes = await _pickedImage!.readAsBytes();
 
     if (!mounted) return;
-    // ignore: use_build_context_synchronously
     context.read<VehicleAddCubit>().addVehicle(
       brand: _brandController.text,
       model: _modelController.text,
@@ -104,25 +105,16 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
       child: BlocConsumer<VehicleAddCubit, VehicleAddState>(
         listener: (context, state) {
           if (state is VehicleAddSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(strings.vehicleAddedSuccess),
-                backgroundColor: AppColors.success,
-              ),
-            );
+            AppSnackBar.success(context, strings.vehicleAddedSuccess);
             context.pop(true);
           }
           if (state is VehicleAddError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
+            AppSnackBar.error(context, state.message);
           }
         },
         builder: (context, state) {
           final isLoading = state is VehicleAddLoading;
 
-          // Single loading source: the button's own spinner. No full-screen
-          // overlay loader is stacked on top of it anymore.
           return SafeArea(
             top: false,
             child: SingleChildScrollView(
@@ -137,50 +129,50 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
                       onPickImage: _pickImage,
                     ),
                     LoginTextField(
-                      innerBorderColor: Colors.transparent,
+                      innerBorderColor: AppColors.transparent,
                       controller: _kmController,
                       hintText: strings.odometer,
                       icon: Icons.speed_outlined,
                       keyboardType: TextInputType.number,
                       validator: (v) =>
-                          validateVehicleCurrentKm(v, isRequired: true),
+                          validateVehicleCurrentKm(v, isRequired: true, l10n: strings),
                     ),
                     SizedBox(height: 10.h),
                     LoginTextField(
-                      innerBorderColor: Colors.transparent,
+                      innerBorderColor: AppColors.transparent,
                       controller: _plateController,
                       hintText: strings.plateNumber,
                       icon: Icons.sort_by_alpha,
                       validator: (v) =>
-                          validateVehiclePlateNumber(v, isRequired: true),
+                          validateVehiclePlateNumber(v, isRequired: true, l10n: strings),
                     ),
                     SizedBox(height: 10.h),
                     LoginTextField(
-                      innerBorderColor: Colors.transparent,
+                      innerBorderColor: AppColors.transparent,
                       controller: _brandController,
                       hintText: strings.brand,
                       icon: Icons.local_offer_outlined,
                       validator: (v) =>
-                          validateVehicleBrand(v, isRequired: true),
+                          validateVehicleBrand(v, isRequired: true, l10n: strings),
                     ),
                     SizedBox(height: 10.h),
                     LoginTextField(
-                      innerBorderColor: Colors.transparent,
+                      innerBorderColor: AppColors.transparent,
                       controller: _modelController,
                       hintText: strings.model,
                       icon: Icons.directions_car_filled_outlined,
                       validator: (v) =>
-                          validateVehicleModel(v, isRequired: true),
+                          validateVehicleModel(v, isRequired: true, l10n: strings),
                     ),
                     SizedBox(height: 10.h),
                     LoginTextField(
-                      innerBorderColor: Colors.transparent,
+                      innerBorderColor: AppColors.transparent,
                       controller: _yearController,
                       hintText: strings.year,
                       icon: Icons.calendar_month_outlined,
                       keyboardType: TextInputType.number,
                       validator: (v) =>
-                          validateVehicleYear(v, isRequired: true),
+                          validateVehicleYear(v, isRequired: true, l10n: strings),
                     ),
                     SizedBox(height: 16.h),
                     SaveVehicleButton(
