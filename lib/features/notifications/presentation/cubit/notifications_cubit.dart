@@ -25,8 +25,6 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     return null;
   }
 
-  /// Lightweight background refresh used to feed the bottom-nav badge
-  /// without disturbing whatever list state is currently shown.
   Future<void> fetchUnreadCount() async {
     final result = await _repo.getUnreadCount();
     result.fold((_) {}, (count) => emit(_withUnreadCount(count)));
@@ -34,7 +32,8 @@ class NotificationsCubit extends Cubit<NotificationsState> {
 
   NotificationsState _withUnreadCount(int count) {
     final current = state;
-    if (current is NotificationsLoaded) return current.copyWith(unreadCount: count);
+    if (current is NotificationsLoaded)
+      return current.copyWith(unreadCount: count);
     if (current is NotificationsError) {
       return NotificationsError(count, current.message);
     }
@@ -42,9 +41,6 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     return NotificationsInitial(count);
   }
 
-  /// [silent] keeps the current list on screen during pull-to-refresh
-  /// instead of swapping it for a full-page loader; a failure while silent
-  /// is surfaced as an actionError, never as a full-page error.
   Future<void> getNotifications({
     bool silent = false,
     NotificationsFilter filter = NotificationsFilter.all,
@@ -66,7 +62,9 @@ class NotificationsCubit extends Cubit<NotificationsState> {
       (failure) {
         if (loadedForSilentRefresh != null) {
           emit(
-            loadedForSilentRefresh.copyWith(actionError: failure.displayMessage),
+            loadedForSilentRefresh.copyWith(
+              actionError: failure.displayMessage,
+            ),
           );
         } else {
           emit(NotificationsError(state.unreadCount, failure.displayMessage));
@@ -138,7 +136,10 @@ class NotificationsCubit extends Cubit<NotificationsState> {
 
     result.fold(
       (failure) => emit(
-        current.copyWith(isMarkingAll: false, actionError: failure.displayMessage),
+        current.copyWith(
+          isMarkingAll: false,
+          actionError: failure.displayMessage,
+        ),
       ),
       (_) {
         emit(
@@ -181,7 +182,9 @@ class NotificationsCubit extends Cubit<NotificationsState> {
         final wasUnread = target?.isUnread ?? false;
         emit(
           NotificationsLoaded(
-            wasUnread ? (current.unreadCount - 1).clamp(0, 1 << 30) : current.unreadCount,
+            wasUnread
+                ? (current.unreadCount - 1).clamp(0, 1 << 30)
+                : current.unreadCount,
             items: remaining,
             filter: current.filter,
             markingIds: current.markingIds,
@@ -198,39 +201,16 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     }
   }
 
-  /// Clears this singleton back to a clean slate: no items, no unread
-  /// count, no filter/action state, no errors. Must run on logout so the
-  /// next signed-in user never inherits the previous session's data.
   void reset() {
     unsubscribeRealtime();
     emit(const NotificationsInitial());
   }
 
-  // ─── Realtime (Phase 2) ───────────────────────────────────────────────
-  // REST stays the source of truth: realtime only inserts/increments on
-  // top of whatever REST last loaded, and never replaces a REST fetch.
-
   static const String _realtimeEvent = 'notification.created';
 
   String _channelNameFor(int userId) => 'private-notifications.$userId';
 
-  /// Subscribes this singleton to the current user's private notifications
-  /// channel. Safe to call every time Home loads: switching users tears
-  /// down the previous subscription first, and re-calling for the same
-  /// user always re-forwards to [PusherService], which is itself the
-  /// source of truth for whether a subscribe frame is actually needed.
-  ///
-  /// This must NOT early-return just because [userId] matches the last
-  /// call — a prior attempt may have registered the callbacks but never
-  /// actually reached `pusher_internal:subscription_succeeded` (e.g. a
-  /// one-off `/broadcasting/auth` failure), in which case the only way to
-  /// recover this session is for a later Home load to retry it.
-  /// [PusherService.subscribeToPrivateChannel] is safe to call repeatedly —
-  /// it never sends a duplicate `pusher:subscribe` frame once a channel is
-  /// actually subscribed.
   void subscribeRealtime(int userId) {
-    if (kDebugMode) debugPrint('🔔 subscribeRealtime called: userId=$userId');
-
     if (_realtimeUserId != userId) {
       unsubscribeRealtime();
       _realtimeUserId = userId;
@@ -252,8 +232,6 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     );
   }
 
-  /// Tears down the current realtime subscription, if any. Called on
-  /// logout/[reset] so a superseded session can never keep receiving events.
   void unsubscribeRealtime() {
     final userId = _realtimeUserId;
     if (userId != null) {
@@ -263,32 +241,20 @@ class NotificationsCubit extends Cubit<NotificationsState> {
   }
 
   void _handleRealtimeEvent(int forUserId, Map<String, dynamic> data) {
-    // The subscription this event arrived on has since been superseded
-    // (logout, or a different user) — drop it rather than mutate state.
     if (_realtimeUserId != forUserId) return;
 
     try {
       final entity = NotificationModel.fromJson(data).toEntity();
-      if (kDebugMode) {
-        debugPrint('📩 notification.created received: id=${entity.id}');
-      }
       insertRealtimeNotification(entity);
     } catch (e) {
-      // Malformed/unexpected realtime payload — ignore; REST remains the
-      // source of truth and the next refresh will still be correct.
       if (kDebugMode) debugPrint('Failed to parse realtime notification: $e');
     }
   }
 
-  /// Inserts a realtime notification into the current state, deduplicating
-  /// by id against whatever REST already loaded.
   @visibleForTesting
   void insertRealtimeNotification(NotificationEntity notification) {
     final current = state;
 
-    // No list loaded yet (Initial/Loading/Error) — only bump the badge and
-    // let the next REST fetch populate the list, so we never fabricate a
-    // partial/inconsistent Loaded state out of thin air.
     if (current is! NotificationsLoaded) {
       if (notification.isUnread) {
         emit(_withUnreadCount(state.unreadCount + 1));
@@ -308,6 +274,8 @@ class NotificationsCubit extends Cubit<NotificationsState> {
         ? current.unreadCount + 1
         : current.unreadCount;
 
-    emit(current.copyWith(items: updatedItems, unreadCount: updatedUnreadCount));
+    emit(
+      current.copyWith(items: updatedItems, unreadCount: updatedUnreadCount),
+    );
   }
 }

@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class UserFuelCubit extends Cubit<UserFuelState> {
   final IUserFuelRepository _repo;
 
+  bool _creatingEmergencyOrder = false;
+
   UserFuelCubit(this._repo) : super(UserFuelInitial());
 
   Future<void> getAllOrders() async {
@@ -26,8 +28,14 @@ class UserFuelCubit extends Cubit<UserFuelState> {
   }
 
   Future<void> addEmergencyOrder(Map<String, dynamic> data) async {
+    if (_creatingEmergencyOrder) return;
+    _creatingEmergencyOrder = true;
+
     emit(UserFuelLoading());
     final res = await _repo.addEmergencyOrder(data);
+
+    _creatingEmergencyOrder = false;
+
     res.fold(
       (l) => emit(UserFuelError(l.displayMessage)),
       (r) => emit(UserFuelOrderCreated(r)),

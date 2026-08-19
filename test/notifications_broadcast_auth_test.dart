@@ -139,6 +139,72 @@ void main() {
 
       expect(auth, isNull);
     });
+
+    test(
+      'a Map (not String) nested directly under "data" — e.g. '
+      '{"data": {"auth": "..."}} — is unwrapped without needing a JSON-decode step',
+      () async {
+        when(
+          () => api.post(endPoint: any(named: 'endPoint'), data: any(named: 'data')),
+        ).thenAnswer(
+          (_) async => {
+            'data': {'auth': 'app-key:nested-map'},
+          },
+        );
+
+        final auth = await dataSource.broadcastAuth(
+          socketId: 's',
+          channelName: 'private-notifications.27',
+        );
+
+        expect(auth, 'app-key:nested-map');
+      },
+    );
+
+    test(
+      'the app-response-envelope shape — {"data": {"data": {"auth": "..."}}}, '
+      'as if this route were (mis)wrapped one extra level by a shared '
+      'success-envelope helper — is still found',
+      () async {
+        when(
+          () => api.post(endPoint: any(named: 'endPoint'), data: any(named: 'data')),
+        ).thenAnswer(
+          (_) async => {
+            'data': {
+              'data': {'auth': 'app-key:double-wrapped'},
+            },
+          },
+        );
+
+        final auth = await dataSource.broadcastAuth(
+          socketId: 's',
+          channelName: 'private-notifications.27',
+        );
+
+        expect(auth, 'app-key:double-wrapped');
+      },
+    );
+
+    test(
+      'a JSON-string body wrapping a further-nested map — {"data": '
+      '"{\\"data\\":{\\"auth\\":\\"...\\"}}"} — is decoded and unwrapped',
+      () async {
+        when(
+          () => api.post(endPoint: any(named: 'endPoint'), data: any(named: 'data')),
+        ).thenAnswer(
+          (_) async => {
+            'data': '{"data":{"auth":"app-key:string-then-nested"}}',
+          },
+        );
+
+        final auth = await dataSource.broadcastAuth(
+          socketId: 's',
+          channelName: 'private-notifications.27',
+        );
+
+        expect(auth, 'app-key:string-then-nested');
+      },
+    );
   });
 
   group('NotificationsRepositoryImpl.getBroadcastAuth', () {

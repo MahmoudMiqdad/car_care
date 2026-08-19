@@ -1,4 +1,5 @@
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/car_washer/washers/washers_availability/presentation/cubit/availability_cubit.dart';
 import 'package:car_care/features/car_washer/washers/washers_availability/presentation/cubit/availability_state.dart';
 import 'package:flutter/material.dart';
@@ -32,23 +33,9 @@ class _WasherAvailabilitySwitchCardState
       listener: (context, state) {
         if (state is AvailabilitySuccess) {
           setState(() => _value = state.isAvailable);
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              const SnackBar(
-                content: Text('تم تحديث حالة التوفر بنجاح'),
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
+          AppSnackBar.success(context, 'تم تحديث حالة التوفر بنجاح');
         } else if (state is AvailabilityError) {
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
+          AppSnackBar.error(context, state.message);
         }
       },
       child: Directionality(

@@ -17,10 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-/// The "إحصائياتي" tile inside the fuel-provider section of More is only
-/// ever shown to an account that actually holds the fuel-provider role.
-/// Top-level so it's directly unit-testable without pumping MorePage
-/// (which depends on ScreenUtil being initialized).
 bool showFuelProviderStatisticsTile(List<String> roles) =>
     roles.contains('fuel-provider');
 

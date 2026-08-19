@@ -1,9 +1,9 @@
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
+import 'package:car_care/core/widgets/selection/select_trigger_field.dart';
 import 'package:car_care/features/sos/presentation/widgets/create_sos/create_sos_illustration.dart';
 import 'package:car_care/features/sos/presentation/widgets/create_sos/create_sos_location_hint.dart';
 import 'package:car_care/features/sos/presentation/widgets/create_sos/create_sos_problem_field.dart';
-import 'package:car_care/features/sos/presentation/widgets/create_sos/create_sos_select_row.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,17 +39,29 @@ class CreateSosBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const CreateSosIllustration(),
-            CreateSosSelectRow(
-              icon: Icons.directions_car_outlined,
+            SelectTriggerField(
+              leading: Icon(
+                Icons.directions_car_outlined,
+                color: AppColors.primary,
+                size: 26.sp,
+              ),
               label: l10n.createSosChooseVehicle,
-              value: vehicleValue,
+              value: vehicleValue.isEmpty ? null : vehicleValue,
+              placeholderAlpha: 0.45,
+              labelValueGap: 0,
               onTap: isLoading ? () {} : onPickVehicle,
             ),
             SizedBox(height: 8.h),
-            CreateSosSelectRow(
-              icon: Icons.location_on_outlined,
+            SelectTriggerField(
+              leading: Icon(
+                Icons.location_on_outlined,
+                color: AppColors.primary,
+                size: 26.sp,
+              ),
               label: l10n.createSosChooseProvince,
-              value: provinceValue,
+              value: provinceValue.isEmpty ? null : provinceValue,
+              placeholderAlpha: 0.45,
+              labelValueGap: 0,
               onTap: isLoading ? () {} : onPickProvince,
             ),
             CreateSosLocationHint(text: l10n.createSosLocationAutoHint),

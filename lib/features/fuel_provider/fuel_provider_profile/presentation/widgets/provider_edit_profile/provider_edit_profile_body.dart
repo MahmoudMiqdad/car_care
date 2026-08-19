@@ -1,5 +1,7 @@
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/selection/select_trigger_field.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_edit_profile/provider_edit_profile_actions.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_edit_profile/provider_edit_profile_fields.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_edit_profile/provider_edit_profile_fuel_section.dart';
@@ -77,11 +79,18 @@ class ProviderEditProfileBody extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10.h),
-            ProviderEditProfileSelectField(
+            SelectTriggerField(
               label: l10n.providerEditProfileGovernorateLabel,
-              hint: l10n.providerEditProfileGovernorateHint,
+              placeholder: l10n.providerEditProfileGovernorateHint,
               value: governorateValue,
               onTap: onPickGovernorate,
+              borderColor: AppColors.carWashTeal,
+              borderWidth: 1.2,
+              labelColor: AppColors.black,
+              labelFontSize: 16,
+              labelHeight: 1.35,
+              valueHeight: 1.45,
+              chevronLeading: true,
             ),
             SizedBox(height: 10.h),
             ProviderEditProfileInputField(

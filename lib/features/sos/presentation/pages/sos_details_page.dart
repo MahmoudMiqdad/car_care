@@ -2,6 +2,7 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
@@ -60,29 +61,14 @@ class SosDetailsPage extends StatelessWidget {
 
             child: BlocListener<SosCubit, SosState>(
               listener: (context, state) {
-       
                 if (state is SosCansel) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Colors.green,
-                      content: Text(state.message),
-                    ),
-                  );
-
-                
+                  AppSnackBar.success(context, state.message);
                   context.read<SosCubit>().getSosRequest(id);
                 }
 
-        
                 if (state is SosError) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Colors.red,
-                      content: Text(state.message),
-                    ),
-                  );
+                  AppSnackBar.error(context, state.message);
 
-                  
                   if (state.message.toLowerCase().contains("not found")) {
                     if (context.canPop()) {
                       context.pop();
@@ -107,9 +93,6 @@ class SosDetailsPage extends StatelessWidget {
                     final item = state.sos;
                     final cubit = context.read<SosCubit>();
 
-                    // Tracking is only meaningful while the technician is
-                    // actively on the way; hidden for open / accepted /
-                    // completed / cancelled and any unknown status.
                     final canTrack =
                         item.id != null && item.status == 'in_progress';
 

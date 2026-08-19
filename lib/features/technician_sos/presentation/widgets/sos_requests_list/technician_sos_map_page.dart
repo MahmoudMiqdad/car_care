@@ -2,6 +2,7 @@ import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/technician_sos/presentation/cubit/share_technician_location_cubit/share_technician_location_sos_cubit.dart';
 import 'package:car_care/features/technician_sos/presentation/cubit/technician_sos_cubit/technician_sos_cubit.dart';
 import 'package:car_care/features/technician_sos/presentation/cubit/technician_sos_cubit/technician_sos_state.dart';
@@ -78,12 +79,7 @@ class TechnicianSosMapPage extends StatelessWidget {
             listener: (context, state) {
               if (state is TechnicianRequestLoaded &&
                   state.request.status == 'completed') {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('تم إنهاء الطلب بنجاح ✓'),
-                    backgroundColor: Colors.green,
-                  ),
-                );
+                AppSnackBar.success(context, 'تم إنهاء الطلب بنجاح ✓');
                 Future.delayed(const Duration(seconds: 1), () {
                   if (context.mounted) {
                     context.safePopOrGo(Routes.technician_sos_requests);

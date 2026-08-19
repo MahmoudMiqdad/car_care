@@ -1,30 +1,16 @@
+import 'package:car_care/core/constants/list_province.dart';
 import 'package:car_care/core/widgets/filters/generic_dropdown_filter.dart';
 import 'package:flutter/material.dart';
 
 const List<String?> washersGovernorateFilterOptions = [
   null,
-  'دمشق',
-  'ريف دمشق',
-  'حلب',
-  'حمص',
-  'حماة',
-  'اللاذقية',
-  'طرطوس',
-  'إدلب',
-  'درعا',
-  'السويداء',
-  'القنيطرة',
-  'دير الزور',
-  'الرقة',
-  'الحسكة',
+  ...kCreateSosProvinceOptions,
 ];
 
 const String _kAllGovernoratesLabel = 'كل المحافظات';
 const String _kFilterTitle = 'حسب المحافظة';
 
-/// [GenericDropdownFilter] treats a null `selectedValue` as "nothing
-/// selected" regardless of the options list, so "all" needs this non-null
-/// stand-in to remain selectable/highlightable.
+
 const String _kAllGovernoratesValue = '__all__';
 
 class WashersGovernorateFilter extends StatelessWidget {

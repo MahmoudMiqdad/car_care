@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 import 'package:car_care/features/user_profile/domain/repositories/i_profile_repository.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/delete_profile_cubit/delete_profile_cubit.dart';
@@ -36,12 +37,7 @@ class _DeleteProfileDialogState extends State<DeleteProfileDialog> {
       child: BlocConsumer<DeleteProfileCubit, DeleteProfileState>(
         listener: (context, state) {
           if (state is DeleteProfileSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('تم حذف الحساب بنجاح'),
-                backgroundColor: Colors.green,
-              ),
-            );
+            AppSnackBar.success(context, 'تم حذف الحساب بنجاح');
             final navigator = Navigator.of(context, rootNavigator: true);
             final router = GoRouter.of(context);
             Future.delayed(const Duration(milliseconds: 1300), () {
@@ -49,12 +45,7 @@ class _DeleteProfileDialogState extends State<DeleteProfileDialog> {
               router.go(Routes.signup);
             });
           } else if (state is DeleteProfileError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
-              ),
-            );
+            AppSnackBar.error(context, state.message);
           }
         },
         builder: (context, state) {

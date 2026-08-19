@@ -6,6 +6,8 @@ class CarWashBookingCubit extends Cubit<CarWashBookingState> {
   CarWashBookingCubit(this._repo) : super(CarWashBookingInitial());
   final ICarWashBookingRepository _repo;
 
+  bool _submitting = false;
+
   Future<void> createBooking({
     required int vehicleId,
     required int carWasherId,
@@ -13,6 +15,9 @@ class CarWashBookingCubit extends Cubit<CarWashBookingState> {
     required String serviceType,
     String? notes,
   }) async {
+    if (_submitting) return;
+    _submitting = true;
+
     emit(CarWashBookingSubmitting());
 
     final result = await _repo.createBooking(
@@ -22,6 +27,8 @@ class CarWashBookingCubit extends Cubit<CarWashBookingState> {
       serviceType: serviceType,
       notes: notes,
     );
+
+    _submitting = false;
 
     result.fold(
       (f) => emit(CarWashBookingError(f.displayMessage)),

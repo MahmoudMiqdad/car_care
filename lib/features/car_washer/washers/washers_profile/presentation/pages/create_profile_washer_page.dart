@@ -1,6 +1,7 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
@@ -74,18 +75,6 @@ class _CreateProfileWasherViewState extends State<_CreateProfileWasherView> {
     super.dispose();
   }
 
-  void _snack(String msg, {Color? backgroundColor}) {
-    ScaffoldMessenger.of(context)
-      ..clearSnackBars()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(msg),
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: backgroundColor,
-        ),
-      );
-  }
-
   List<String> _parseServices() => _services.text
       .split(',')
       .map((e) => e.trim())
@@ -121,15 +110,15 @@ class _CreateProfileWasherViewState extends State<_CreateProfileWasherView> {
 
   void _save() {
     if (_shop.text.trim().isEmpty) {
-      _snack('يرجى إدخال اسم المغسلة');
+      AppSnackBar.error(context, 'يرجى إدخال اسم المغسلة');
       return;
     }
     if (_phone.text.trim().isEmpty) {
-      _snack('يرجى إدخال رقم الهاتف');
+      AppSnackBar.error(context, 'يرجى إدخال رقم الهاتف');
       return;
     }
     if (_city.text.trim().isEmpty) {
-      _snack('يرجى إدخال المدينة');
+      AppSnackBar.error(context, 'يرجى إدخال المدينة');
       return;
     }
 
@@ -155,10 +144,7 @@ class _CreateProfileWasherViewState extends State<_CreateProfileWasherView> {
         if (state is ProfileWasherLoaded) {
           if (_waitingForSave) {
             _waitingForSave = false;
-            _snack(
-              'تم إنشاء بروفايل المغسلة بنجاح',
-              backgroundColor: Colors.green,
-            );
+            AppSnackBar.success(context, 'تم إنشاء بروفايل المغسلة بنجاح');
             if (_logoPath != null) {
               context.read<ProfileWasherCubit>().uploadLogo(_logoPath!);
             }
@@ -169,7 +155,7 @@ class _CreateProfileWasherViewState extends State<_CreateProfileWasherView> {
 
         if (state is ProfileWasherError) {
           _waitingForSave = false;
-          _snack(state.message, backgroundColor: Colors.red);
+          AppSnackBar.error(context, state.message);
         }
       },
       builder: (context, state) {

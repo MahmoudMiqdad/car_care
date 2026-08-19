@@ -2,6 +2,7 @@
 // المنبثقة أصبحت Bottom Sheet مضغوط بارتفاع محدود وScroll بدل PopupMenuButton
 // غير المقيّد، مع الحفاظ على الـSentinel وسلوك "كل المحافظات"، وإثبات اختفاء
 // شارات BASIC/VIP/PREMIUM من بطاقة القائمة فقط.
+import 'package:car_care/core/constants/list_province.dart';
 import 'package:car_care/core/widgets/filters/generic_dropdown_filter.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/domain/entities/washers_entity.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/widgets/washers_page/washer_listing_card.dart';
@@ -47,24 +48,12 @@ WasherEntity fakeWasher({Map<String, int> servicePrices = const {}}) {
 
 void main() {
   group('washersGovernorateFilterOptions — the 14 governorates', () {
-    test('contains exactly the required governorates, in order, plus the '
-        'null "clear" entry first', () {
+    test('is the canonical kCreateSosProvinceOptions list, plus the null '
+        '"clear" entry first — a single shared source of truth, not a '
+        'locally duplicated list', () {
       expect(washersGovernorateFilterOptions, [
         null,
-        'دمشق',
-        'ريف دمشق',
-        'حلب',
-        'حمص',
-        'حماة',
-        'اللاذقية',
-        'طرطوس',
-        'إدلب',
-        'درعا',
-        'السويداء',
-        'القنيطرة',
-        'دير الزور',
-        'الرقة',
-        'الحسكة',
+        ...kCreateSosProvinceOptions,
       ]);
     });
   });

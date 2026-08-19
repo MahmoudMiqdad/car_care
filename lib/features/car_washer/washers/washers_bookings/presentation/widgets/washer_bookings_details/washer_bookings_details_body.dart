@@ -1,3 +1,4 @@
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/utils/media_url.dart';
 import 'package:car_care/core/widgets/vehicle_image_box.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
@@ -40,13 +41,6 @@ class _WasherBookingsDetailsBodyState extends State<WasherBookingsDetailsBody> {
     super.dispose();
   }
 
-  void _snack(String msg) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg), behavior: SnackBarBehavior.floating),
-    );
-  }
-
   BookingsEntity? _currentBooking(BookingsState state) {
     final pool = _itemsOf(state);
     if (pool == null) return null;
@@ -86,10 +80,10 @@ class _WasherBookingsDetailsBodyState extends State<WasherBookingsDetailsBody> {
           _lastSeenStatus = booking.status;
         }
         if (state is BookingActionSuccessMessage) {
-          _snack(state.message);
+          AppSnackBar.success(context, state.message);
         }
         if (state is BookingActionError) {
-          _snack(state.message);
+          AppSnackBar.error(context, state.message);
         }
       },
       builder: (context, state) {
@@ -185,7 +179,7 @@ class _WasherBookingsDetailsBodyState extends State<WasherBookingsDetailsBody> {
                             onRejectSubmit: () {
                               final reason = _rejectController.text.trim();
                               if (reason.isEmpty) {
-                                _snack('يرجى إدخال سبب الرفض');
+                                AppSnackBar.error(context, 'يرجى إدخال سبب الرفض');
                                 return;
                               }
                               context.read<BookingsCubit>().rejectBooking(

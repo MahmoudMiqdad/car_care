@@ -29,45 +29,50 @@ class QuotationDetailsPage extends StatelessWidget {
           backgroundColor: AppColors.carWashTeal,
           onBackTapped: () => context.safePopOrGo(Routes.all_requests),
         ),
-        body: BlocListener<QuotationsCubit, QuotationsState>(
+        body: BlocConsumer<QuotationsCubit, QuotationsState>(
           listener: (context, state) {
             if (state is QuotationAccepted) {
               AppSnackBar.success(context, 'تم قبول العرض بنجاح');
-            context.safePopOrGo(Routes.all_requests);
+              context.safePopOrGo(Routes.all_requests);
             }
             if (state is QuotationRejected) {
               AppSnackBar.success(context, 'تم رفض العرض');
-               context.safePopOrGo(Routes.all_requests);
+              context.safePopOrGo(Routes.all_requests);
             }
             if (state is QuotationsError) {
               AppSnackBar.error(context, state.message);
             }
           },
-          child: ImageBackground(
-            child: QuotationDetailsBody(
-              quotation: quotation,
-              onAccept: () async {
-                final result = await showAcceptQuotationDialog(context);
-                if (result == null) return; 
+          builder: (context, state) {
+            final isLoading = state is QuotationsLoading;
 
-                if (!context.mounted) return;
-                context.read<QuotationsCubit>().acceptQuotation(
-                  {
-                    'scheduled_date': result.scheduledDate,
-                    'notes': result.notes,
-                  },
-                 requestId.toString(), // requestId
-                  quotation.id.toString(), // quotationId
-                );
-              },
-              onReject: (reason) {
-                context.read<QuotationsCubit>().rejectQuotation(
-                  reason,
-                  quotation.id.toString(),
-                );
-              },
-            ),
-          ),
+            return ImageBackground(
+              child: QuotationDetailsBody(
+                quotation: quotation,
+                isLoading: isLoading,
+                onAccept: () async {
+                  final result = await showAcceptQuotationDialog(context);
+                  if (result == null) return;
+
+                  if (!context.mounted) return;
+                  context.read<QuotationsCubit>().acceptQuotation(
+                    {
+                      'scheduled_date': result.scheduledDate,
+                      'notes': result.notes,
+                    },
+                    requestId.toString(),
+                    quotation.id.toString(),
+                  );
+                },
+                onReject: (reason) {
+                  context.read<QuotationsCubit>().rejectQuotation(
+                    reason,
+                    quotation.id.toString(),
+                  );
+                },
+              ),
+            );
+          },
         ),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/error_state_widget.dart';
+import 'package:car_care/core/widgets/filters/status_filter_tabs.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/notifications/presentation/cubit/notifications_cubit.dart';
@@ -142,58 +143,23 @@ class _NotificationsFilterTabs extends StatelessWidget {
 
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Row(
-            children: [
-              _FilterChip(
+          child: StatusFilterTabs<NotificationsFilter>(
+            items: [
+              StatusFilterTabItem(
+                value: NotificationsFilter.all,
                 label: strings.notificationsAllFilter,
-                selected: currentFilter == NotificationsFilter.all,
-                onTap: () => context
-                    .read<NotificationsCubit>()
-                    .setFilter(NotificationsFilter.all),
               ),
-              SizedBox(width: 8.w),
-              _FilterChip(
+              StatusFilterTabItem(
+                value: NotificationsFilter.unread,
                 label: strings.notificationsUnreadFilter,
-                selected: currentFilter == NotificationsFilter.unread,
-                onTap: () => context
-                    .read<NotificationsCubit>()
-                    .setFilter(NotificationsFilter.unread),
               ),
             ],
+            selected: currentFilter,
+            onChanged: (filter) =>
+                context.read<NotificationsCubit>().setFilter(filter),
           ),
         );
       },
-    );
-  }
-}
-
-class _FilterChip extends StatelessWidget {
-  const _FilterChip({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return ChoiceChip(
-      label: Text(label),
-      selected: selected,
-      onSelected: (_) => onTap(),
-      selectedColor: Theme.of(context).primaryColor,
-      labelStyle: TextStyle(
-        color: selected ? Colors.white : Colors.black87,
-        fontWeight: FontWeight.w600,
-        fontSize: 12.5.sp,
-      ),
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.r),
-      ),
     );
   }
 }

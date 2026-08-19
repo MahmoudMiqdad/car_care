@@ -4,6 +4,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/add_requests/requests_action_buttons.dart';
@@ -65,8 +66,6 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
       child: BlocConsumer<SubmitQuotationCubit, SubmitQuotationState>(
         listener: (context, state) {
           if (state is SubmitQuotationSuccess) {
-            // Return to Technician Order Details, which refetches and then
-            // shows the success confirmation there.
             if (context.canPop()) {
               context.pop(true);
             } else {
@@ -75,12 +74,7 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
           }
 
           if (state is SubmitQuotationError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
-              ),
-            );
+            AppSnackBar.error(context, state.message);
           }
         },
         builder: (context, state) {
@@ -104,7 +98,6 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          /// صورة
                           Center(
                             child: Image.asset(
                               AppAssets.carFinanceAmico,
@@ -115,7 +108,6 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
 
                           SizedBox(height: 10.h),
 
-                          /// السعر
                           RequestsFlowStyles.formTextFieldCard(
                             title: 'السعر',
                             icon: Icons.payments_outlined,
@@ -126,7 +118,6 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
 
                           SizedBox(height: 8.h),
 
-                          /// قطع
                           PartsModeSection(
                             withinPrice: partsWithinPrice,
                             onChanged: (v) =>
@@ -135,7 +126,6 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
 
                           SizedBox(height: 12.h),
 
-                          /// المدة (بالأيام، من 1 إلى 30)
                           RequestsFormCard(
                             cardRadius: _cardR,
                             title: 'المدة (بالأيام)',
@@ -168,7 +158,6 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
 
                           SizedBox(height: 8.h),
 
-                          /// ملاحظات
                           RequestsFlowStyles.formTextFieldCard(
                             title: 'ملاحظات',
                             icon: Icons.edit_note,
@@ -178,7 +167,6 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
 
                           SizedBox(height: 20.h),
 
-                          ///  زر الإرسال فقط
                           RequestsActionButtons(
                             cardRadius: _cardR,
                             layout: RequestsActionButtonsLayout.column,

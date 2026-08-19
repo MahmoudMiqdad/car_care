@@ -1,9 +1,10 @@
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
+import 'package:car_care/core/widgets/selection/select_trigger_field.dart';
 import 'package:car_care/features/sos/presentation/widgets/create_sos/create_sos_location_hint.dart';
+import 'package:car_care/features/user_fuel/presentation/widgets/fuel_sos_create/fuel_sos_create_field_icon.dart';
 import 'package:car_care/features/user_fuel/presentation/widgets/fuel_sos_create/fuel_sos_create_illustration.dart';
-import 'package:car_care/features/user_fuel/presentation/widgets/fuel_sos_create/fuel_sos_create_select_field.dart';
 import 'package:car_care/features/user_fuel/presentation/widgets/fuel_sos_create/fuel_sos_create_text_field.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class FuelSosCreateBody extends StatelessWidget {
     required this.onPickFuelType,
     required this.onPickProvince,
     required this.onSubmit,
+    this.isLoading = false,
   });
 
   final String? vehicleValue;
@@ -33,6 +35,7 @@ class FuelSosCreateBody extends StatelessWidget {
   final VoidCallback onPickFuelType;
   final VoidCallback onPickProvince;
   final VoidCallback onSubmit;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -45,20 +48,30 @@ class FuelSosCreateBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const FuelSosCreateIllustration(),
-            FuelSosCreateSelectField(
-              iconAsset: AppAssets.fuelSosCreateVehicleIcon,
-              title: l10n.fuelSosCreateVehicleTitle,
-              hint: l10n.fuelSosCreateVehicleHint,
+            SelectTriggerField(
+              leading: const FuelSosCreateFieldIcon(
+                assetPath: AppAssets.fuelSosCreateVehicleIcon,
+              ),
+              label: l10n.fuelSosCreateVehicleTitle,
+              placeholder: l10n.fuelSosCreateVehicleHint,
+              labelColor: AppColors.primary,
+              labelHeight: 1.35,
+              valueHeight: 1.45,
               value: vehicleValue,
-              onTap: onPickVehicle,
+              onTap: isLoading ? () {} : onPickVehicle,
             ),
             SizedBox(height: 8.h),
-            FuelSosCreateSelectField(
-              iconAsset: AppAssets.fuelSosCreateFuelTypeIcon,
-              title: l10n.fuelSosCreateFuelTypeTitle,
-              hint: l10n.fuelSosCreateFuelTypeHint,
+            SelectTriggerField(
+              leading: const FuelSosCreateFieldIcon(
+                assetPath: AppAssets.fuelSosCreateFuelTypeIcon,
+              ),
+              label: l10n.fuelSosCreateFuelTypeTitle,
+              placeholder: l10n.fuelSosCreateFuelTypeHint,
+              labelColor: AppColors.primary,
+              labelHeight: 1.35,
+              valueHeight: 1.45,
               value: fuelTypeValue,
-              onTap: onPickFuelType,
+              onTap: isLoading ? () {} : onPickFuelType,
             ),
             SizedBox(height: 8.h),
             FuelSosCreateTextField(
@@ -80,19 +93,26 @@ class FuelSosCreateBody extends StatelessWidget {
               maxLines: 2,
             ),
             SizedBox(height: 8.h),
-            FuelSosCreateSelectField(
-              iconAsset: AppAssets.iconLocationPin,
-              title: l10n.fuelSosCreateProvinceTitle,
-              hint: l10n.fuelSosCreateProvinceHint,
+            SelectTriggerField(
+              leading: const FuelSosCreateFieldIcon(
+                assetPath: AppAssets.iconLocationPin,
+              ),
+              label: l10n.fuelSosCreateProvinceTitle,
+              placeholder: l10n.fuelSosCreateProvinceHint,
+              labelColor: AppColors.primary,
+              labelHeight: 1.35,
+              valueHeight: 1.45,
               value: provinceValue,
-              onTap: onPickProvince,
+              onTap: isLoading ? () {} : onPickProvince,
             ),
             CreateSosLocationHint(text: l10n.createSosLocationAutoHint),
             SizedBox(height: 10.h),
             AppButton(
-              text: l10n.createSosSendRequest,
-              onPressed: onSubmit,
-              backgroundColor: AppColors.orange,
+              text: isLoading ? 'جاري الإرسال...' : l10n.createSosSendRequest,
+              onPressed: isLoading ? null : onSubmit,
+              backgroundColor: isLoading
+                  ? AppColors.orange.withOpacity(0.6)
+                  : AppColors.orange,
               height: 52.h,
               borderRadius: 14.r,
             ),

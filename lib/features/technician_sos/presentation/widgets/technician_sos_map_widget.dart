@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 
 import 'package:car_care/features/technician_sos/presentation/cubit/share_technician_location_cubit/share_technician_location_sos_cubit.dart';
 import 'package:car_care/features/technician_sos/presentation/cubit/share_technician_location_cubit/share_technician_location_sos_state.dart';
@@ -22,8 +23,6 @@ class TechnicianMapWidget extends StatefulWidget {
   final double? userLat;
   final double? userLng;
 
-  /// Backend status of the SOS request. Location is only shared while the
-  /// request is still active (accepted / in_progress).
   final String? sosStatus;
 
   const TechnicianMapWidget({
@@ -69,7 +68,6 @@ class _TechnicianMapWidgetState extends State<TechnicianMapWidget> {
   }
 
   Future<void> _startSharingLocation() async {
-    // Never post a location for a finished/cancelled request.
     if (!widget.canShareLocation) return;
 
     final permission = await _requestPermission();
@@ -92,9 +90,7 @@ class _TechnicianMapWidgetState extends State<TechnicianMapWidget> {
     }
     if (permission == LocationPermission.deniedForever) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('صلاحية الموقع مرفوضة')),
-        );
+        AppSnackBar.error(context, 'صلاحية الموقع مرفوضة');
       }
       return false;
     }
@@ -221,13 +217,7 @@ class _TechnicianMapWidgetState extends State<TechnicianMapWidget> {
         ShareTechnicianLocationSosState>(
       listener: (context, state) {
         if (state is ShareLocationError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('خطأ في إرسال الموقع: ${state.message}'),
-              backgroundColor: Colors.red.shade600,
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
+          AppSnackBar.error(context, 'خطأ في إرسال الموقع: ${state.message}');
         }
       },
       child: Stack(
@@ -286,7 +276,6 @@ class _TechnicianMapWidgetState extends State<TechnicianMapWidget> {
             ],
           ),
 
-          // ─── كارد الحالة ──────────────────────────────────────────
           Positioned(
             top: 12,
             left: 12,
@@ -300,7 +289,6 @@ class _TechnicianMapWidgetState extends State<TechnicianMapWidget> {
             ),
           ),
 
-          // ─── أزرار التحكم ─────────────────────────────────────────
           Positioned(
             bottom: 16,
             right: 16,
@@ -334,7 +322,6 @@ class _TechnicianMapWidgetState extends State<TechnicianMapWidget> {
   }
 }
 
-// ─── User Marker (موقع المستخدم) ──────────────────────────────────────────
 class _UserMarker extends StatelessWidget {
   const _UserMarker();
 
@@ -379,7 +366,6 @@ class _UserMarker extends StatelessWidget {
   }
 }
 
-// ─── Technician Self Marker (موقع الفني نفسه) ─────────────────────────────
 class _TechnicianSelfMarker extends StatefulWidget {
   const _TechnicianSelfMarker();
 
@@ -454,7 +440,6 @@ class _TechnicianSelfMarkerState extends State<_TechnicianSelfMarker>
   }
 }
 
-// ─── Status Card ───────────────────────────────────────────────────────────
 class _StatusCard extends StatelessWidget {
   final bool isSharing;
   final bool isLoadingRoute;

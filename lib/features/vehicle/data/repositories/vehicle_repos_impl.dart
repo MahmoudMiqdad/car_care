@@ -33,8 +33,8 @@ class VehicleRepositoryImpl implements IVehicleRepository {
       return Right(vehicle);
     } on ServerExpcptions catch (e) {
       return Left(e.error);
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
+    } catch (_) {
+      return const Left(Failure(message: 'حدث خطأ غير متوقع'));
     }
   }
 

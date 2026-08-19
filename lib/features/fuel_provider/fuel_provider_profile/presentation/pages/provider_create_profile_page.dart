@@ -5,6 +5,8 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
+import 'package:car_care/core/widgets/selection/governorate_selection_tile.dart';
+import 'package:car_care/core/widgets/selection/shared_selection_bottom_sheet.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/cubit/provider_profile_cubit.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/cubit/provider_profile_state.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_edit_profile/provider_edit_profile_body.dart';
@@ -48,30 +50,19 @@ class _ProviderCreateProfilePageState
   }
 
   Future<void> _pickGovernorate() async {
-    final choice = await showModalBottomSheet<String>(
+    await SharedSelectionBottomSheet.show<String>(
       context: context,
-      builder: (context) => SafeArea(
-        child: DraggableScrollableSheet(
-          expand: false,
-          builder: (_, controller) => ListView(
-            controller: controller,
-            children: kCreateSosProvinceOptions
-                .map((e) => ListTile(
-                      title: Text(e),
-                      onTap: () => Navigator.pop(context, e),
-                    ))
-                .toList(),
-          ),
-        ),
+      title: 'اختر المحافظة',
+      items: kCreateSosProvinceOptions,
+      itemBuilder: (context, e) => GovernorateSelectionTile(
+        label: e,
+        isSelected: _governorateValue == e,
       ),
+      onSelected: (e) => setState(() => _governorateValue = e),
     );
-    if (!mounted || choice == null) return;
-    setState(() => _governorateValue = choice);
   }
 
   Future<void> _onFuelTypeTap(String apiValue, String label) async {
-    // fuelType shown in the dialog is the display label; the price is
-    // stored/looked-up under the backend apiValue.
     final price = await showProviderFuelPriceDialog(
       context,
       fuelType: label,
@@ -90,7 +81,6 @@ class _ProviderCreateProfilePageState
   void _onCreate() {
     FocusScope.of(context).unfocus();
 
-    // _fuelPrices is keyed by backend apiValue (e.g. "90"), never by label.
     final fuelTypes = _fuelPrices.keys.toList();
     final prices = _fuelPrices.map(
       (k, v) => MapEntry(k, double.tryParse(v) ?? 0.0),

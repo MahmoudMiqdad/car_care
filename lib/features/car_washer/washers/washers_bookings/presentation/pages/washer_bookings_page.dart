@@ -1,5 +1,6 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
@@ -45,22 +46,10 @@ class WasherBookingsPage extends StatelessWidget {
               child: BlocConsumer<BookingsCubit, BookingsState>(
                 listener: (context, state) {
                   if (state is BookingActionSuccessMessage) {
-                    ScaffoldMessenger.of(context).clearSnackBars();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(state.message),
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
+                    AppSnackBar.success(context, state.message);
                   }
                   if (state is BookingActionError) {
-                    ScaffoldMessenger.of(context).clearSnackBars();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(state.message),
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
+                    AppSnackBar.error(context, state.message);
                   }
                 },
                 builder: (context, state) {

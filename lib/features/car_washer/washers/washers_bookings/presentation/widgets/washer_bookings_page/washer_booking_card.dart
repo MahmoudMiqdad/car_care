@@ -1,5 +1,6 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/cubit/washer_bookings/bookings_cubit.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/widgets/washer_bookings_page/washer_booking_info_column.dart';
@@ -48,13 +49,6 @@ class _WasherBookingCardState extends State<WasherBookingCard> {
   void dispose() {
     _rejectController.dispose();
     super.dispose();
-  }
-
-  void _snack(String msg) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg), behavior: SnackBarBehavior.floating),
-    );
   }
 
   @override
@@ -115,7 +109,7 @@ class _WasherBookingCardState extends State<WasherBookingCard> {
                 onRejectSubmit: () {
                   final reason = _rejectController.text.trim();
                   if (reason.isEmpty) {
-                    _snack('يرجى إدخال سبب الرفض');
+                    AppSnackBar.error(context, 'يرجى إدخال سبب الرفض');
                     return;
                   }
                   context.read<BookingsCubit>().rejectBooking(

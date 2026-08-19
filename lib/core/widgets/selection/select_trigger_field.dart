@@ -1,28 +1,55 @@
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/features/user_fuel/presentation/widgets/fuel_sos_create/fuel_sos_create_field_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class FuelSosCreateSelectField extends StatelessWidget {
-  const FuelSosCreateSelectField({
+class SelectTriggerField extends StatelessWidget {
+  const SelectTriggerField({
     super.key,
-    required this.iconAsset,
-    required this.title,
-    required this.hint,
+    required this.label,
     required this.onTap,
     this.value,
+    this.placeholder = '—',
+    this.leading,
+    this.borderColor = AppColors.primary,
+    this.borderWidth = 1.5,
+    this.labelColor = AppColors.lightTextPrimary,
+    this.labelFontSize = 15,
+    this.chevronLeading = false,
+    this.placeholderAlpha = 0.55,
+    this.labelHeight,
+    this.valueHeight,
+    this.labelValueGap = 2,
   });
 
-  final String iconAsset;
-  final String title;
-  final String hint;
+  final String label;
   final VoidCallback onTap;
+
   final String? value;
+  final String placeholder;
+
+  final Widget? leading;
+
+  final Color borderColor;
+  final double borderWidth;
+  final Color labelColor;
+  final double labelFontSize;
+
+  final bool chevronLeading;
+
+  final double placeholderAlpha;
+  final double? labelHeight;
+  final double? valueHeight;
+  final double labelValueGap;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final hasValue = value != null && value!.isNotEmpty;
+    final chevron = Icon(
+      Icons.keyboard_arrow_down_rounded,
+      color: borderColor,
+      size: 28.sp,
+    );
 
     return Material(
       color: Colors.transparent,
@@ -33,52 +60,53 @@ class FuelSosCreateSelectField extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(color: AppColors.primary, width: 1.5),
+            border: Border.all(color: borderColor, width: borderWidth),
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                FuelSosCreateFieldIcon(assetPath: iconAsset),
-                SizedBox(width: 12.w),
+                if (chevronLeading) ...[
+                  chevron,
+                  SizedBox(width: 12.w),
+                ] else if (leading != null) ...[
+                  leading!,
+                  SizedBox(width: 12.w),
+                ],
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        title,
+                        label,
                         style: theme.textTheme.titleSmall?.copyWith(
-                          color: AppColors.primary,
+                          color: labelColor,
                           fontWeight: FontWeight.w700,
-                          fontSize: 15.sp,
-                          height: 1.35,
+                          fontSize: labelFontSize.sp,
+                          height: labelHeight,
                         ),
                       ),
-                      SizedBox(height: 2.h),
+                      if (labelValueGap > 0) SizedBox(height: labelValueGap.h),
                       Text(
-                        hasValue ? value! : hint,
+                        hasValue ? value! : placeholder,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: hasValue
                               ? AppColors.lightTextSecondary.withValues(
                                   alpha: 0.85,
                                 )
                               : AppColors.lightTextSecondary.withValues(
-                                  alpha: 0.55,
+                                  alpha: placeholderAlpha,
                                 ),
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
-                          height: 1.45,
+                          height: valueHeight,
                         ),
                       ),
                     ],
                   ),
                 ),
-                Icon(
-                  Icons.keyboard_arrow_down_rounded,
-                  color: AppColors.primary,
-                  size: 28.sp,
-                ),
+                if (!chevronLeading) chevron,
               ],
             ),
           ),

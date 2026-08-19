@@ -5,6 +5,9 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
+import 'package:car_care/core/widgets/selection/governorate_selection_tile.dart';
+import 'package:car_care/core/widgets/selection/shared_selection_bottom_sheet.dart';
+import 'package:car_care/core/widgets/selection/vehicle_selection_tile.dart';
 import 'package:car_care/features/sos/presentation/cubit/sos_cubit/sos_cubit.dart';
 import 'package:car_care/features/sos/presentation/cubit/sos_cubit/sos_state.dart';
 import 'package:car_care/features/sos/presentation/widgets/create_sos/create_sos_body.dart';
@@ -30,6 +33,7 @@ class _CreateSosPageState extends State<CreateSosPage> {
   String _vehicleValue = '';
   String _provinceValue = '';
   VehicleEntity? _selectedVehicle;
+  bool _isSubmitting = false;
 
   @override
   void initState() {
@@ -60,19 +64,12 @@ class _CreateSosPageState extends State<CreateSosPage> {
     state = cubit.state;
 
     if (state is VehicleError) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(state.message)));
+      AppSnackBar.error(context, state.message);
       return;
     }
 
     if (state is VehicleEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Colors.red,
-          content: Text('لا توجد سيارات'),
-        ),
-      );
+      AppSnackBar.error(context, 'لا توجد سيارات');
       return;
     }
 
@@ -80,117 +77,62 @@ class _CreateSosPageState extends State<CreateSosPage> {
 
     final vehicles = state.vehicles;
 
-    // إغلاق لوحة المفاتيح قبل فتح القائمة لضمان ظهورها كاملة وبوضوح فوق
-    // المساحة الآمنة، دون تغيير آلية الاختيار أو البيانات المعروضة.
     FocusScope.of(context).unfocus();
 
-    final choice = await showModalBottomSheet<VehicleEntity>(
+    await SharedSelectionBottomSheet.show<VehicleEntity>(
       context: context,
-      isScrollControlled: true,
-      builder: (context) {
-        return SafeArea(
-          child: DraggableScrollableSheet(
-            expand: false,
-            initialChildSize: vehicles.length > 4 ? 0.5 : 0.35,
-            minChildSize: 0.25,
-            maxChildSize: 0.85,
-            builder: (context, scrollController) {
-              return ListView(
-                controller: scrollController,
-                children: vehicles.map((v) {
-                  final isSelected = _selectedVehicle?.id == v.id;
-                  return ListTile(
-                    leading: CircleAvatar(
-                      radius: 20,
-                      backgroundImage: v.image != null && v.image!.isNotEmpty
-                          ? NetworkImage(v.image!)
-                          : null,
-                      child: v.image == null || v.image!.isEmpty
-                          ? const Icon(Icons.directions_car, size: 18)
-                          : null,
-                    ),
-                    title: Text('${v.brand} ${v.model}'),
-                    subtitle: Text('${v.year} • ${v.plateNumber}'),
-                    trailing: isSelected
-                        ? Icon(
-                            Icons.check_circle,
-                            color: Theme.of(context).colorScheme.primary,
-                          )
-                        : null,
-                    selected: isSelected,
-                    onTap: () => Navigator.pop(context, v),
-                  );
-                }).toList(),
-              );
-            },
-          ),
-        );
-      },
+      title: 'اختر مركبتك',
+      items: vehicles,
+      initialChildSize: vehicles.length > 4 ? 0.5 : 0.35,
+      minChildSize: 0.25,
+      maxChildSize: 0.85,
+      itemBuilder: (context, v) => VehicleSelectionTile(
+        vehicle: v,
+        isSelected: _selectedVehicle?.id == v.id,
+        showImage: true,
+        showPlateNumber: true,
+      ),
+      onSelected: (v) => setState(() {
+        _selectedVehicle = v;
+        _vehicleValue = '${v.brand} ${v.model}';
+      }),
     );
-
-    if (!mounted) return;
-
-    if (choice != null) {
-      setState(() {
-        _selectedVehicle = choice;
-        _vehicleValue = '${choice.brand} ${choice.model}';
-      });
-    }
   }
 
   Future<void> _pickProvince() async {
-    final choice = await showModalBottomSheet<String>(
+    await SharedSelectionBottomSheet.show<String>(
       context: context,
-      builder: (context) {
-        return SafeArea(
-          child: DraggableScrollableSheet(
-            expand: false,
-            builder: (context, scrollController) {
-              return ListView(
-                controller: scrollController,
-                children: kCreateSosProvinceOptions.map((e) {
-                  return ListTile(
-                    title: Text(e),
-                    onTap: () => Navigator.pop(context, e),
-                  );
-                }).toList(),
-              );
-            },
-          ),
-        );
-      },
+      title: 'اختر المحافظة',
+      items: kCreateSosProvinceOptions,
+      itemBuilder: (context, e) => GovernorateSelectionTile(
+        label: e,
+        isSelected: _provinceValue == e,
+      ),
+      onSelected: (e) => setState(() => _provinceValue = e),
     );
-
-    if (!mounted) return;
-
-    if (choice != null) {
-      setState(() => _provinceValue = choice);
-    }
   }
 
   Future<void> _onSubmit() async {
+    if (_isSubmitting) return;
+
     FocusScope.of(context).unfocus();
 
     if (_selectedVehicle == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('الرجاء اختيار السيارة')));
+      AppSnackBar.error(context, 'الرجاء اختيار السيارة');
       return;
     }
 
     if (_provinceValue.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('الرجاء اختيار المحافظة')));
+      AppSnackBar.error(context, 'الرجاء اختيار المحافظة');
       return;
     }
 
     if (_descriptionController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('الرجاء وصف المشكلة')));
+      AppSnackBar.error(context, 'الرجاء وصف المشكلة');
       return;
     }
+
+    setState(() => _isSubmitting = true);
 
     try {
       LocationPermission permission = await Geolocator.checkPermission();
@@ -203,9 +145,8 @@ class _CreateSosPageState extends State<CreateSosPage> {
           permission == LocationPermission.deniedForever) {
         if (!mounted) return;
 
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('يرجى تفعيل الموقع')));
+        setState(() => _isSubmitting = false);
+        AppSnackBar.error(context, 'يرجى تفعيل الموقع');
         return;
       }
       final position = await Geolocator.getCurrentPosition(
@@ -227,9 +168,8 @@ class _CreateSosPageState extends State<CreateSosPage> {
     } catch (e) {
       if (!mounted) return;
 
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('خطأ بالموقع: $e')));
+      setState(() => _isSubmitting = false);
+      AppSnackBar.error(context, 'تعذر تحديد الموقع، حاول مرة أخرى');
     }
   }
 
@@ -240,18 +180,14 @@ class _CreateSosPageState extends State<CreateSosPage> {
     return BlocListener<SosCubit, SosState>(
       listener: (context, state) {
         if (state is SosCreated) {
+          setState(() => _isSubmitting = false);
+
           final sos = state.sos;
           final id = sos.id;
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              backgroundColor: Colors.green,
-              content: Text('تم إرسال الطلب ✓'),
-            ),
-          );
+          AppSnackBar.success(context, 'تم إرسال الطلب ✓');
 
           if (id != null) {
-            // Replace the form so back from details returns to the list.
             context.pushReplacementNamed(
               'sosDetails',
               pathParameters: {'id': id.toString()},
@@ -262,6 +198,7 @@ class _CreateSosPageState extends State<CreateSosPage> {
         }
 
         if (state is SosError) {
+          setState(() => _isSubmitting = false);
           AppSnackBar.error(context, state.message);
         }
       },
@@ -275,18 +212,14 @@ class _CreateSosPageState extends State<CreateSosPage> {
             onBackTapped: () => context.safePopOrGo(Routes.home),
           ),
           body: ImageBackground(
-            child: BlocBuilder<SosCubit, SosState>(
-              builder: (context, state) {
-                return CreateSosBody(
-                  descriptionController: _descriptionController,
-                  vehicleValue: _vehicleValue,
-                  provinceValue: _provinceValue,
-                  onPickVehicle: _pickVehicle,
-                  onPickProvince: _pickProvince,
-                  onSubmit: _onSubmit,
-                  isLoading: state is SosLoading,
-                );
-              },
+            child: CreateSosBody(
+              descriptionController: _descriptionController,
+              vehicleValue: _vehicleValue,
+              provinceValue: _provinceValue,
+              onPickVehicle: _pickVehicle,
+              onPickProvince: _pickProvince,
+              onSubmit: _onSubmit,
+              isLoading: _isSubmitting,
             ),
           ),
         ),

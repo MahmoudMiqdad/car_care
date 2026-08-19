@@ -4,23 +4,26 @@ import 'sos_state.dart';
 class SosCubit extends Cubit<SosState> {
   final ISosRepository _repo;
 
+  bool _creatingSos = false;
+
   SosCubit(this._repo) : super(SosInitial());
 
   Future<void> createSos(Map<String, dynamic> data) async {
+    if (_creatingSos) return;
+    _creatingSos = true;
+
     emit(SosLoading());
 
     final result = await _repo.createSos(data);
 
+    _creatingSos = false;
+
     result.fold(
-      // displayMessage surfaces backend 422 field errors instead of the
-      // generic "بيانات الإدخال غير صحيحة".
       (l) => emit(SosError(l.displayMessage)),
       (r) => emit(SosCreated(r)),
     );
   }
 
-  /// [silent] keeps the current list on screen during pull-to-refresh
-  /// instead of swapping it for a full-page loader.
   Future<void> getAll({bool silent = false}) async {
     if (!silent) emit(SosLoading());
 

@@ -2,6 +2,7 @@
 
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/update_profile_cubit/update_profile_cubit.dart';
@@ -46,21 +47,11 @@ class _ProfileSetupFormState extends State<ProfileSetupForm> {
     return BlocConsumer<UpdateProfileCubit, UpdateProfileState>(
       listener: (context, state) {
         if (state is UpdateProfileSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.green,
-              content: Text(strings.profileUpdated),
-            ),
-          );
+          AppSnackBar.success(context, strings.profileUpdated);
           Navigator.of(context).pop();
         }
         if (state is UpdateProfileError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.red,
-              content: Text(state.message),
-            ),
-          );
+          AppSnackBar.error(context, state.message);
         }
       },
       builder: (context, state) {

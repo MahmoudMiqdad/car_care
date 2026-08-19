@@ -2,6 +2,7 @@ import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
@@ -44,28 +45,12 @@ class _RatingsPageState extends State<RatingsPage> {
                 child: BlocConsumer<RatingsCubit, RatingsState>(
                   listener: (context, state) {
                     if (state is RatingsSuccess) {
-                      ScaffoldMessenger.of(context)
-                        ..clearSnackBars()
-                        ..showSnackBar(
-                          SnackBar(
-                            content: Text(state.message),
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.green,
-                          ),
-                        );
+                      AppSnackBar.success(context, state.message);
                       context.safePopOrGo(Routes.bookings, result: true);
                     }
 
                     if (state is RatingsError) {
-                      ScaffoldMessenger.of(context)
-                        ..clearSnackBars()
-                        ..showSnackBar(
-                          SnackBar(
-                            content: Text(state.message),
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.red,
-                          ),
-                        );
+                      AppSnackBar.error(context, state.message);
                     }
                   },
                   builder: (context, state) {

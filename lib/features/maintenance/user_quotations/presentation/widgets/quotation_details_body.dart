@@ -16,11 +16,13 @@ class QuotationDetailsBody extends StatelessWidget {
     required this.quotation,
     this.onAccept,
     this.onReject,
+    this.isLoading = false,
   });
 
   final QuotationEntity quotation;
   final VoidCallback? onAccept;
   final void Function(String reason)? onReject;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,6 @@ class QuotationDetailsBody extends StatelessWidget {
             SosDetailsStatusBanner(label: quotation.statusText),
             SizedBox(height: 14.h),
 
-            // بطاقة الفني
             SosDetailsSectionCard(
               title: 'معلومات الفني',
               child: Row(
@@ -90,7 +91,6 @@ class QuotationDetailsBody extends StatelessWidget {
             ),
             SizedBox(height: 14.h),
 
-            // بطاقة تفاصيل العرض
             SosDetailsSectionCard(
               title: 'تفاصيل العرض',
               child: Column(
@@ -121,7 +121,6 @@ class QuotationDetailsBody extends StatelessWidget {
             ),
             SizedBox(height: 14.h),
 
-            // ملاحظات الفني
             SosDetailsSectionCard(
               title: 'ملاحظات الفني',
               child: Row(
@@ -154,10 +153,10 @@ class QuotationDetailsBody extends StatelessWidget {
             ),
             SizedBox(height: 22.h),
 
-            // أزرار القبول والرفض
             if (isPending) ...[
               AppButton(
-                onPressed: onAccept ?? () {},
+                onPressed: isLoading ? null : (onAccept ?? () {}),
+                isLoading: isLoading,
                 text: 'قبول العرض',
                 backgroundColor: AppColors.carWashTeal,
                 textColor: AppColors.white,
@@ -166,15 +165,18 @@ class QuotationDetailsBody extends StatelessWidget {
               ),
               SizedBox(height: 12.h),
               AppButton(
-                onPressed: () async {
-                  final reason = await showCancelReasonDialog(
-                    context,
-                    title: 'سبب رفض العرض',
-                  );
-                  if (reason != null && reason.isNotEmpty) {
-                    onReject?.call(reason);
-                  }
-                },
+                onPressed: isLoading
+                    ? null
+                    : () async {
+                        final reason = await showCancelReasonDialog(
+                          context,
+                          title: 'سبب رفض العرض',
+                        );
+                        if (reason != null && reason.isNotEmpty) {
+                          onReject?.call(reason);
+                        }
+                      },
+                isLoading: isLoading,
                 text: 'رفض العرض',
                 backgroundColor: AppColors.reservationConfirmOrange,
                 textColor: AppColors.white,

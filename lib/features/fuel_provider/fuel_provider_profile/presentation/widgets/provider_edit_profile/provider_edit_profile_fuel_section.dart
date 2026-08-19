@@ -2,6 +2,7 @@ import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_edit_profile/provider_edit_profile_fields.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_profile/provider_profile_cards.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_profile/provider_profile_ui_model.dart';
@@ -74,13 +75,8 @@ class _ProviderFuelPriceSheetState extends State<_ProviderFuelPriceSheet> {
   void _save() {
     final price = _priceController.text.trim();
     final l10n = context.l10n;
-    // Empty price is only allowed when clearing an already-active fuel type
-    // (widget.initialPrice != null) — that clears/deactivates it. Empty
-    // price on a fresh (inactive) type is still rejected as required.
     if (price.isEmpty && widget.initialPrice == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.providerEditProfileSetPriceRequired)),
-      );
+      AppSnackBar.error(context, l10n.providerEditProfileSetPriceRequired);
       return;
     }
     Navigator.pop(context, price);
@@ -157,10 +153,8 @@ class ProviderEditProfileFuelServicesSection extends StatelessWidget {
     this.onFuelTypeTap,
   });
 
-  /// Keyed by backend `apiValue` (e.g. "90"), NOT by the display label.
   final Map<String, String> fuelPrices;
 
-  /// Called with (apiValue, label) when a fuel-type card is tapped.
   final void Function(String apiValue, String label)? onFuelTypeTap;
 
   @override

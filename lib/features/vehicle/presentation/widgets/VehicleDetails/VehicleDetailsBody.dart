@@ -3,6 +3,7 @@ import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/core/widgets/vehicle_header.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
@@ -175,17 +176,13 @@ void showCustomDeleteDialog({
           listener: (ctx, state) {
             if (state is VehicleDeleteSuccess) {
               Navigator.of(dialogContext).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('تم حذف المركبة بنجاح')),
-              );
+              AppSnackBar.success(context, 'تم حذف المركبة بنجاح');
               if (context.mounted) {
                 context.pop(true);
               }
             }
             if (state is VehicleDeleteError) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.message)));
+              AppSnackBar.error(context, state.message);
             }
           },
           builder: (ctx, state) {

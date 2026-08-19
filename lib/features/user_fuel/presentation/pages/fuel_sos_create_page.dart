@@ -6,6 +6,9 @@ import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/utils/location_helper.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
+import 'package:car_care/core/widgets/selection/governorate_selection_tile.dart';
+import 'package:car_care/core/widgets/selection/shared_selection_bottom_sheet.dart';
+import 'package:car_care/core/widgets/selection/vehicle_selection_tile.dart';
 import 'package:car_care/features/user_fuel/domain/entities/user_fuel_order_entity.dart';
 import 'package:car_care/features/user_fuel/presentation/cubit/user_fuel_cubit/user_fuel_cubit.dart';
 import 'package:car_care/features/user_fuel/presentation/cubit/user_fuel_cubit/user_fuel_state.dart';
@@ -18,10 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-/// Pushes the details page for a just-created order, then pops this create
-/// page too once the user comes back — net effect of pushReplacement, but
-/// via two real pops so the list page's awaited push (which triggered this
-/// whole flow) resolves and can refresh itself exactly once.
+
 Future<void> _goToDetailsThenBack(
   BuildContext context,
   UserFuelOrderEntity order,
@@ -46,15 +46,12 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
   String? _vehicleValue;
   int? _vehicleId;
 
-  /// Label shown in the form.
   String? _fuelTypeValue;
 
-  /// Exact value sent as `fuel_type` — set only from the options list.
   String? _fuelTypeApiValue;
   String? _provinceValue;
 
-  /// True while the device GPS fix is being acquired, before the request.
-  bool _resolvingLocation = false;
+  bool _isSubmitting = false;
 
   @override
   void initState() {
@@ -95,45 +92,23 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
 
     final vehicles = state.vehicles;
 
-    final choice = await showModalBottomSheet<VehicleEntity>(
+    await SharedSelectionBottomSheet.show<VehicleEntity>(
       context: context,
-      useSafeArea: true,
-      isScrollControlled: true,
-      builder: (context) {
-        return SafeArea(
-          top: false,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: vehicles.map((v) {
-              return ListTile(
-                leading: CircleAvatar(
-                  radius: 20,
-                  backgroundImage: v.image != null && v.image!.isNotEmpty
-                      ? NetworkImage(v.image!)
-                      : null,
-                  child: v.image == null || v.image!.isEmpty
-                      ? const Icon(Icons.directions_car, size: 18)
-                      : null,
-                ),
-                title: Text('${v.brand} ${v.model}'),
-                subtitle: Text('${v.year} • ${v.plateNumber}'),
-                onTap: () => Navigator.pop(context, v),
-              );
-            }).toList(),
-          ),
-        );
-      },
+      title: 'اختر مركبتك',
+      items: vehicles,
+      itemBuilder: (context, v) => VehicleSelectionTile(
+        vehicle: v,
+        isSelected: _vehicleId == v.id,
+        showImage: true,
+        showPlateNumber: true,
+      ),
+      onSelected: (v) => setState(() {
+        _vehicleValue = '${v.brand} ${v.model}';
+        _vehicleId = v.id;
+      }),
     );
-
-    if (!mounted || choice == null) return;
-    setState(() {
-      _vehicleValue = '${choice.brand} ${choice.model}';
-      _vehicleId = choice.id;
-    });
   }
 
-  /// Fuel types accepted by the backend. 91 is intentionally absent — the
-  /// API rejects it with "The selected fuel type is invalid".
   List<({String label, String apiValue})> _fuelTypeOptions(
     BuildContext context,
   ) {
@@ -146,68 +121,40 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
   }
 
   Future<void> _pickFuelType() async {
+    final l10n = context.l10n;
     final options = _fuelTypeOptions(context);
 
-    final choice =
-        await showModalBottomSheet<({String label, String apiValue})>(
-          context: context,
-          useSafeArea: true,
-          isScrollControlled: true,
-          builder: (context) {
-            return SafeArea(
-              top: false,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: options.map((e) {
-                  return ListTile(
-                    title: Text(e.label),
-                    onTap: () => Navigator.pop(context, e),
-                  );
-                }).toList(),
-              ),
-            );
-          },
-        );
-
-    if (!mounted || choice == null) return;
-    // Store the API value alongside the label so submit never has to
-    // re-derive it from the displayed text.
-    setState(() {
-      _fuelTypeValue = choice.label;
-      _fuelTypeApiValue = choice.apiValue;
-    });
+    await SharedSelectionBottomSheet.show<({String label, String apiValue})>(
+      context: context,
+      title: l10n.fuelSosCreateFuelTypeHint,
+      items: options,
+      itemBuilder: (context, option) => GovernorateSelectionTile(
+        label: option.label,
+        isSelected: option.apiValue == _fuelTypeApiValue,
+      ),
+     
+      onSelected: (choice) => setState(() {
+        _fuelTypeValue = choice.label;
+        _fuelTypeApiValue = choice.apiValue;
+      }),
+    );
   }
 
   Future<void> _pickProvince() async {
-    final choice = await showModalBottomSheet<String>(
+    await SharedSelectionBottomSheet.show<String>(
       context: context,
-      builder: (context) {
-        return SafeArea(
-          child: DraggableScrollableSheet(
-            expand: false,
-            builder: (context, scrollController) {
-              return ListView(
-                controller: scrollController,
-                children: kCreateSosProvinceOptions.map((e) {
-                  return ListTile(
-                    title: Text(e),
-                    onTap: () => Navigator.pop(context, e),
-                  );
-                }).toList(),
-              );
-            },
-          ),
-        );
-      },
+      title: 'اختر المحافظة',
+      items: kCreateSosProvinceOptions,
+      itemBuilder: (context, e) => GovernorateSelectionTile(
+        label: e,
+        isSelected: _provinceValue == e,
+      ),
+      onSelected: (e) => setState(() => _provinceValue = e),
     );
-
-    if (!mounted || choice == null) return;
-    setState(() => _provinceValue = choice);
   }
 
   Future<void> _onSubmit() async {
-    // Prevent duplicate taps while the GPS fix is in flight.
-    if (_resolvingLocation) return;
+    if (_isSubmitting) return;
 
     FocusScope.of(context).unfocus();
 
@@ -221,21 +168,18 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
       return;
     }
 
-    // Real device GPS — the request is aborted rather than falling back to
-    // fake coordinates.
-    setState(() => _resolvingLocation = true);
+    setState(() => _isSubmitting = true);
     final location = await getCurrentLocation();
     if (!mounted) return;
-    setState(() => _resolvingLocation = false);
 
     if (!location.isSuccess) {
+      setState(() => _isSubmitting = false);
       AppSnackBar.error(context, location.errorMessage!);
       return;
     }
 
     final position = location.position!;
 
-    if (!mounted) return;
     context.read<UserFuelCubit>().addEmergencyOrder({
       'vehicle_id': _vehicleId,
       'fuel_type': fuelTypeApiValue,
@@ -263,15 +207,12 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
         body: BlocListener<UserFuelCubit, UserFuelState>(
           listener: (context, state) {
             if (state is UserFuelOrderCreated) {
+              setState(() => _isSubmitting = false);
               AppSnackBar.success(context, 'تم إرسال طلب الوقود بنجاح');
-              // Show the details page, then pop this form too on the way
-              // back so back doesn't return to a filled page — same net
-              // effect as pushReplacement, but as two real pops so the
-              // originating list page's awaited push resolves and can
-              // refresh itself exactly once.
               _goToDetailsThenBack(context, state.order);
             }
             if (state is UserFuelError) {
+              setState(() => _isSubmitting = false);
               final msg =
                   state.message.isEmpty ||
                       state.message.startsWith('Instance of')
@@ -291,6 +232,7 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
               onPickFuelType: _pickFuelType,
               onPickProvince: _pickProvince,
               onSubmit: _onSubmit,
+              isLoading: _isSubmitting,
             ),
           ),
         ),

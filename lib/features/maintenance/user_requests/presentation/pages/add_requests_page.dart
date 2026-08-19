@@ -8,6 +8,8 @@ import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
+import 'package:car_care/core/widgets/selection/shared_selection_bottom_sheet.dart';
+import 'package:car_care/core/widgets/selection/vehicle_selection_tile.dart';
 import 'package:car_care/features/maintenance/user_requests/domain/repositories/i_requests_repository.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/add_maintenance_request_cubit/add_maintenance_request_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/add_maintenance_request_cubit/add_maintenance_request_state.dart';
@@ -61,14 +63,11 @@ class _RequestsPageState extends State<_RequestsPageBody> {
   final List<XFile> _images = [];
   final ImagePicker _picker = ImagePicker();
 
-  // Backend requires preferred_date strictly after today.
   DateTime selectedDate = DateTime.now().add(const Duration(days: 1));
   MaintenancePriority _priority = MaintenancePriority.medium;
 
-  /// Chosen from the user's own vehicles — the id is never typed manually.
   VehicleEntity? _selectedVehicle;
 
-  /// Preselect the vehicle passed in from the vehicle details screen.
   void _syncPreselectedVehicle(List<VehicleEntity> vehicles) {
     if (_selectedVehicle != null || vehicles.isEmpty) return;
     final preselectedId = int.tryParse(widget.vehicleId.trim());
@@ -110,33 +109,18 @@ class _RequestsPageState extends State<_RequestsPageBody> {
     if (state is! VehicleLoaded) return;
     final vehicles = state.vehicles;
 
-    final choice = await showModalBottomSheet<VehicleEntity>(
+    await SharedSelectionBottomSheet.show<VehicleEntity>(
       context: context,
-      builder: (sheetContext) => SafeArea(
-        child: ListView(
-          shrinkWrap: true,
-          children: vehicles.map((v) {
-            return ListTile(
-              leading: CircleAvatar(
-                radius: 20,
-                backgroundImage: v.image != null && v.image!.isNotEmpty
-                    ? NetworkImage(v.image!)
-                    : null,
-                child: v.image == null || v.image!.isEmpty
-                    ? const Icon(Icons.directions_car, size: 18)
-                    : null,
-              ),
-              title: Text('${v.brand} ${v.model}'),
-              subtitle: Text('${v.year} • ${v.plateNumber}'),
-              onTap: () => Navigator.pop(sheetContext, v),
-            );
-          }).toList(),
-        ),
+      title: 'اختر مركبتك',
+      items: vehicles,
+      itemBuilder: (context, v) => VehicleSelectionTile(
+        vehicle: v,
+        isSelected: _selectedVehicle?.id == v.id,
+        showImage: true,
+        showPlateNumber: true,
       ),
+      onSelected: (v) => setState(() => _selectedVehicle = v),
     );
-
-    if (!mounted || choice == null) return;
-    setState(() => _selectedVehicle = choice);
   }
 
   @override
@@ -151,14 +135,7 @@ class _RequestsPageState extends State<_RequestsPageBody> {
     if (picked.isEmpty) return;
 
     if (picked.length + _images.length > 3) {
-      // ignore: duplicate_ignore
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('يمكنك اختيار 3 صور كحد أقصى'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      AppSnackBar.error(context, 'يمكنك اختيار 3 صور كحد أقصى');
       return;
     }
 
@@ -166,7 +143,6 @@ class _RequestsPageState extends State<_RequestsPageBody> {
   }
 
   Future<void> _pickDate() async {
-    // Backend rejects dates that are not after today.
     final tomorrow = DateTime.now().add(const Duration(days: 1));
     final firstDate = DateTime(tomorrow.year, tomorrow.month, tomorrow.day);
 
@@ -210,9 +186,7 @@ class _RequestsPageState extends State<_RequestsPageBody> {
 
       context.read<AddMaintenanceRequestCubit>().addRequest(formData);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('خطأ داخلي: $e'), backgroundColor: Colors.red),
-      );
+      AppSnackBar.error(context, 'تعذر إرسال الطلب، حاول مرة أخرى');
     }
   }
 

@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/update_vehicle/vehicle_update_cubit.dart';
@@ -87,11 +88,9 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
         fileName: _pickedImage!.name,
         sizeBytes: size,
       );
-      if (!mounted) return;
+      if (!context.mounted) return;
       if (imageError != null) {
-        // ignore: use_build_context_synchronously
-        final messenger = ScaffoldMessenger.of(context);
-        messenger.showSnackBar(SnackBar(content: Text(imageError)));
+        AppSnackBar.error(context, imageError);
         return;
       }
       bytes = await _pickedImage!.readAsBytes();
@@ -112,17 +111,12 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
     );
 
     if (changedFields.isEmpty && _pickedImage == null) {
-      if (!mounted) return;
-      // ignore: use_build_context_synchronously
-      final messenger = ScaffoldMessenger.of(context);
-      messenger.showSnackBar(
-        const SnackBar(content: Text('لم يتم إجراء أي تعديل')),
-      );
+      if (!context.mounted) return;
+      AppSnackBar.error(context, 'لم يتم إجراء أي تعديل');
       return;
     }
 
-    if (!mounted) return;
-    // ignore: use_build_context_synchronously
+    if (!context.mounted) return;
     context.read<VehicleUpdateCubit>().updateVehicle(
       id: widget.vehicle.id,
       changedFields: changedFields,
@@ -139,15 +133,11 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
       child: BlocConsumer<VehicleUpdateCubit, VehicleUpdateState>(
         listener: (context, state) {
           if (state is VehicleUpdateSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(strings.vehicleUpdatedSuccessfully)),
-            );
+            AppSnackBar.success(context, strings.vehicleUpdatedSuccessfully);
             Navigator.of(context).pop(true);
           }
           if (state is VehicleUpdateError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
+            AppSnackBar.error(context, state.message);
           }
         },
         builder: (context, state) {

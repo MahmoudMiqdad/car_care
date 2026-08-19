@@ -1,8 +1,7 @@
 // ignore_for_file: file_names
 import 'dart:typed_data';
 import 'package:car_care/core/service_locator/service_locator.dart';
-import 'package:car_care/core/theme/app_colors.dart';
-
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_add_cubit/vehicle_add_cubit.dart';
@@ -59,9 +58,7 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
     if (!canSubmitVehicleForm(isLoading: isLoading)) return;
 
     if (_pickedImage == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('الرجاء اختيار صورة للمركبة')),
-      );
+      AppSnackBar.error(context, 'الرجاء اختيار صورة للمركبة');
       return;
     }
 
@@ -73,18 +70,15 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
       fileName: fileName,
       sizeBytes: size,
     );
-    if (!mounted) return;
+    if (!context.mounted) return;
     if (imageError != null) {
-      // ignore: use_build_context_synchronously
-      final messenger = ScaffoldMessenger.of(context);
-      messenger.showSnackBar(SnackBar(content: Text(imageError)));
+      AppSnackBar.error(context, imageError);
       return;
     }
 
     final Uint8List bytes = await _pickedImage!.readAsBytes();
 
-    if (!mounted) return;
-    // ignore: use_build_context_synchronously
+    if (!context.mounted) return;
     context.read<VehicleAddCubit>().addVehicle(
       brand: _brandController.text,
       model: _modelController.text,
@@ -104,25 +98,16 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
       child: BlocConsumer<VehicleAddCubit, VehicleAddState>(
         listener: (context, state) {
           if (state is VehicleAddSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(strings.vehicleAddedSuccess),
-                backgroundColor: AppColors.success,
-              ),
-            );
+            AppSnackBar.success(context, strings.vehicleAddedSuccess);
             context.pop(true);
           }
           if (state is VehicleAddError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
+            AppSnackBar.error(context, state.message);
           }
         },
         builder: (context, state) {
           final isLoading = state is VehicleAddLoading;
 
-          // Single loading source: the button's own spinner. No full-screen
-          // overlay loader is stacked on top of it anymore.
           return SafeArea(
             top: false,
             child: SingleChildScrollView(

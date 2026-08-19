@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppSnackBar {
-  //Success
   static void success(
     BuildContext context,
     String message, {
@@ -16,7 +15,6 @@ class AppSnackBar {
     );
   }
 
-  //  Error
   static void error(BuildContext context, String message) {
     _show(
       context,
@@ -33,22 +31,29 @@ class AppSnackBar {
     required IconData icon,
     SnackBarAction? action,
   }) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: backgroundColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        action: action,
-        content: Row(
-          children: [
-            Icon(icon, color: Colors.white),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(message, style: const TextStyle(color: Colors.white)),
-            ),
-          ],
+    ScaffoldMessenger.of(context)
+      ..clearSnackBars()
+      ..showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: backgroundColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          action: action,
+          content: Row(
+            children: [
+              Icon(icon, color: Colors.white),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  message,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
   }
 }

@@ -3,6 +3,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
+import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/app_date_time_picker_row.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
@@ -113,21 +114,16 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
       final vehicleState = _vehicleCubit.state;
       final hasNoVehicles =
           vehicleState is VehicleLoaded && vehicleState.vehicles.isEmpty;
-      ScaffoldMessenger.of(ctx).showSnackBar(
-        SnackBar(
-          content: Text(
-            hasNoVehicles
-                ? 'لا توجد مركبات لديك، يرجى إضافة مركبة أولاً من صفحة مركباتي'
-                : 'الرجاء اختيار المركبة',
-          ),
-        ),
+      AppSnackBar.error(
+        ctx,
+        hasNoVehicles
+            ? 'لا توجد مركبات لديك، يرجى إضافة مركبة أولاً من صفحة مركباتي'
+            : 'الرجاء اختيار المركبة',
       );
       return;
     }
     if (_date == null || _time == null) {
-      ScaffoldMessenger.of(ctx).showSnackBar(
-        const SnackBar(content: Text('الرجاء اختيار التاريخ والوقت')),
-      );
+      AppSnackBar.error(ctx, 'الرجاء اختيار التاريخ والوقت');
       return;
     }
 
@@ -176,21 +172,11 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
           bloc: _bookingCubit,
           listener: (ctx, state) {
             if (state is CarWashBookingSuccess) {
-              ScaffoldMessenger.of(ctx).showSnackBar(
-                SnackBar(
-                  content: const Text('تم الحجز بنجاح'),
-                  backgroundColor: Colors.green.shade600,
-                ),
-              );
+              AppSnackBar.success(ctx, 'تم الحجز بنجاح');
               ctx.go(Routes.washers);
               ctx.push(Routes.bookings);
             } else if (state is CarWashBookingError) {
-              ScaffoldMessenger.of(ctx).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: Colors.red.shade600,
-                ),
-              );
+              AppSnackBar.error(ctx, state.message);
             }
           },
           builder: (ctx, bookingState) {
