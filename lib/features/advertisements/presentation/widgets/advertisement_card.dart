@@ -1,4 +1,4 @@
-// مسؤول عن عرض بطاقة إعلان واحدة وإتاحة فتح رابطها الخارجي عند صحته فقط.
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';

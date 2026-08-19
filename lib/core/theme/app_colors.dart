@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// ملاحظة: هاد الملف أساسًا منظم منيح ومافيه علاقة بمشكلة "تفكك الأسطر"
-/// (هاي كانت من AppTypography). ضفت بس شوية ثوابت ناقصة كانت مستخدمة
-/// بملف الثيم الجديد (لون النص فوق الأزرار بالدارك مود، ولون error بالثيم).
 
 class AppColors {
   static const Color primary = Color(0xFF006989);
@@ -59,17 +56,16 @@ class AppColors {
     return Theme.of(context).brightness == Brightness.dark ? darkSurface : white;
   }
 
-  /// جلب لون النصوص الأساسية والأسماء
+
   static Color textPrimary(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark ? darkTextPrimary : lightTextPrimary;
   }
 
-  /// جلب لون النصوص الثانوية والتلميحات
+
   static Color textSecondary(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark ? darkTextSecondary : lightTextSecondary;
   }
 
-  /// جلب لون الإطارات والحدود الفاصلة
   static Color border(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark ? darkBorder : lightBorder;
   }

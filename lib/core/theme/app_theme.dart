@@ -18,7 +18,6 @@ class AppTheme {
       fontFamily: fontFamily,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: colorScheme.surface,
-      // بيمنع أي splash/ripple ثقيل يأثر بصريًا على النصوص المترجمة الطويلة
       splashFactory: InkRipple.splashFactory,
       visualDensity: VisualDensity.standard,
 
@@ -33,7 +32,6 @@ class AppTheme {
           color: AppColors.white,
           fontFamily: fontFamily,
         ),
-        // يمنع تشوه العنوان إذا الترجمة طويلة
         toolbarTextStyle: AppTypography.bodyMedium(languageCode).copyWith(
           color: AppColors.white,
           fontFamily: fontFamily,
