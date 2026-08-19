@@ -32,7 +32,7 @@ class ProfileSetupContent extends StatelessWidget {
               Text(
                 strings.profileSetup,
                 style: TextStyle(
-                  color: AppColors.orange,
+                  color: AppColors.accent,
                   fontSize: 28.sp,
                   fontWeight: FontWeight.bold,
                 ),

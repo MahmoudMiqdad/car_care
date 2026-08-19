@@ -66,10 +66,10 @@ class PriorityChipStyle {
         );
       case MaintenancePriority.medium:
         return PriorityChipStyle(
-          background: AppColors.orange.withValues(alpha: 0.12),
-          borderColor: AppColors.orange, 
+          background: AppColors.accent.withValues(alpha: 0.12),
+          borderColor: AppColors.accent, 
           borderWidth: _selectedBorder,
-          textColor: AppColors.orange,
+          textColor: AppColors.accent,
         );
       case MaintenancePriority.high:
         return PriorityChipStyle(

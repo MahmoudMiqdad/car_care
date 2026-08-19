@@ -242,7 +242,7 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
                           _classificationRow(
                             label: l10n.productCondition,
                             value: _conditionLabel(l10n, _condition),
-                            color: AppColors.orange,
+                            color: AppColors.accent,
                             onTap: _pickCondition,
                           ),
                           SizedBox(height: 10.h),

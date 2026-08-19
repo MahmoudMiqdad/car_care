@@ -79,7 +79,7 @@ class EditProfileWasherServicesSection extends StatelessWidget {
                 label: vipTitle,
                 hint: priceHint,
                 controller: vipPriceController,
-                accentColor: AppColors.orange,
+                accentColor: AppColors.accent,
               ),
             ),
             SizedBox(width: 8.w),

@@ -42,19 +42,19 @@ class _Stars extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(5, (i) {
         if (i < full) {
-          return Icon(Icons.star_rounded, size: 26.sp, color: AppColors.orange);
+          return Icon(Icons.star_rounded, size: 26.sp, color: AppColors.accent);
         }
         if (i == full && half) {
           return Icon(
             Icons.star_half_rounded,
             size: 26.sp,
-            color: AppColors.orange,
+            color: AppColors.accent,
           );
         }
         return Icon(
           Icons.star_border_rounded,
           size: 26.sp,
-          color: AppColors.orange,
+          color: AppColors.accent,
         );
       }),
     );

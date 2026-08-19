@@ -21,7 +21,7 @@ class WasherStatisticsIndicatorsCard extends StatelessWidget {
           label: strings.pending,
           value: statistics.pendingBookings,
           icon: Icons.hourglass_top_outlined,
-          color: AppColors.orange,
+          color: AppColors.accent,
         ),
         StatsIndicatorData(
           label: strings.bookingStatusAccepted,

@@ -22,7 +22,7 @@ class WasherStatisticsSummaryCard extends StatelessWidget {
       segments: [
         StatsSegment(
           value: statistics.pendingBookings,
-          color: AppColors.orange,
+          color: AppColors.accent,
         ),
         StatsSegment(
           value: statistics.acceptedBookings,

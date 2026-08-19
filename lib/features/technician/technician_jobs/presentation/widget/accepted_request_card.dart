@@ -163,7 +163,7 @@ class AcceptedRequestCard extends StatelessWidget {
                   SizedBox(height: 8.h),
                   AppButton(
                     text: l10n.sosRequestViewDetails,
-                    backgroundColor: AppColors.orange,
+                    backgroundColor: AppColors.accent,
                     borderRadius: _cardR,
                     height: 50.h,
                     onPressed: onViewDetails ?? () {},

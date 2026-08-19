@@ -86,7 +86,7 @@ class TechnicianProfileViewBody extends StatelessWidget {
                         TechnicianProfileSection(
                           title: strings.professionalInfo,
                           icon: Icons.engineering_outlined,
-                          color: AppColors.orange,
+                          color: AppColors.accent,
                           child: Column(
                             children: [
                               TechnicianInfoRow(
@@ -210,7 +210,7 @@ class TechnicianProfileViewBody extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 12.h),
                     child: AppButton(
                       text: strings.editProfile,
-                      backgroundColor: AppColors.orange,
+                      backgroundColor: AppColors.accent,
                       onPressed: () async {
                         final updated = await context.push<bool>(
                           Routes.updateTechnicianProfile,

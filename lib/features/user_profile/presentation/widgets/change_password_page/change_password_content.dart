@@ -29,7 +29,7 @@ class ChangePasswordContent extends StatelessWidget {
               Text(
                 strings.editPassword,
                 style: TextStyle(
-                  color: AppColors.orange,
+                  color: AppColors.accent,
                   fontSize: 28.sp,
                   fontWeight: FontWeight.bold,
                 ),

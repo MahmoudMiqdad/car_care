@@ -21,12 +21,12 @@ class EarningsCard extends StatelessWidget {
             width: 48.w,
             height: 48.w,
             decoration: BoxDecoration(
-              color: AppColors.orange.withValues(alpha: 0.12),
+              color: AppColors.accent.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(14.r),
             ),
             child: Icon(
               Icons.payments_outlined,
-              color: AppColors.orange,
+              color: AppColors.accent,
               size: 22.sp,
             ),
           ),
@@ -46,7 +46,7 @@ class EarningsCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 22.sp,
               fontWeight: FontWeight.w900,
-              color: AppColors.orange,
+              color: AppColors.accent,
             ),
           ),
         ],

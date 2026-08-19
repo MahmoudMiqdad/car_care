@@ -20,7 +20,7 @@ class ProviderStatisticsOrdersCard extends StatelessWidget {
       value: statistics.totalOrders,
       icon: Icons.event_note_outlined,
       segments: [
-        StatsSegment(value: statistics.pendingOrders, color: AppColors.orange),
+        StatsSegment(value: statistics.pendingOrders, color: AppColors.accent),
         StatsSegment(
           value: statistics.acceptedOrders,
           color: AppColors.primary,

@@ -39,7 +39,7 @@ class TechnicianIndicatorsCard extends StatelessWidget {
           label: l10n.pending,
           value: data.pendingQuotations,
           icon: Icons.hourglass_top_outlined,
-          color: AppColors.orange,
+          color: AppColors.accent,
         ),
         StatsIndicatorData(
           label: l10n.bookingStatusAccepted,

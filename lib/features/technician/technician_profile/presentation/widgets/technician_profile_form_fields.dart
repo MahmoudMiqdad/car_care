@@ -71,7 +71,7 @@ class TechnicianProfileFormFields extends StatelessWidget {
         TechnicianProfileSection(
           title: l10n.professionalDataTitle,
           icon: Icons.engineering_outlined,
-          color: AppColors.orange,
+          color: AppColors.accent,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

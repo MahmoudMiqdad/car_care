@@ -121,7 +121,7 @@ class _ProviderFuelPriceSheetState extends State<_ProviderFuelPriceSheet> {
           AppButton(
             onPressed: _save,
             text: l10n.save,
-            backgroundColor: AppColors.orange,
+            backgroundColor: AppColors.accent,
             borderRadius: 28.r,
             height: 52.h,
           ),

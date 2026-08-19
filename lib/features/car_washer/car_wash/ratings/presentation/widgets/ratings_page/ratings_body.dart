@@ -56,7 +56,7 @@ class RatingsBody extends StatelessWidget {
           AppButton(
             text: isLoading ? '...' : strings.ratingsSendRating,
             onPressed: onSubmit,
-            backgroundColor: AppColors.orange,
+            backgroundColor: AppColors.accent,
             borderRadius: 14.r,
             height: 54.h,
           ),

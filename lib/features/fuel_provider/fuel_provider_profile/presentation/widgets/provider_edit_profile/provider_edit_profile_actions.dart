@@ -25,7 +25,7 @@ class ProviderEditProfileActions extends StatelessWidget {
         AppButton(
           onPressed: onSave,
           text: saveLabel,
-          backgroundColor: AppColors.orange,
+          backgroundColor: AppColors.accent,
           borderRadius: 28.r,
           height: 54.h,
           fontSize: 20.sp,

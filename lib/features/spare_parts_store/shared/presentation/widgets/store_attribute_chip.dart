@@ -17,7 +17,7 @@ class StoreAttributeChip extends StatelessWidget {
   final StoreAttributeType type;
 
   Color get _color => switch (type) {
-    StoreAttributeType.businessType => AppColors.orange,
+    StoreAttributeType.businessType => AppColors.accent,
     StoreAttributeType.carBrand => AppColors.green,
     StoreAttributeType.partCategory => AppColors.accent,
   };

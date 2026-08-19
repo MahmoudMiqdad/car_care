@@ -76,8 +76,7 @@ class AppNavigationDrawer extends StatelessWidget {
                     iconColor: AppColors.primary,
                     onTap: () => _closeThen(
                       context,
-                      // ⬅️ push بدل go: صفحة "الملف الشخصي" مش تاب رئيسي،
-                      // لازم يرجع منها المستخدم لمكانه بدل ما يطلع من التطبيق.
+                   
                       () => context.push(Routes.user_profile),
                     ),
                   ),
@@ -85,7 +84,7 @@ class AppNavigationDrawer extends StatelessWidget {
                   _DrawerTile(
                     icon: Icons.notifications_outlined,
                     label: strings.notifications,
-                    iconColor: AppColors.orange,
+                    iconColor: AppColors.accent,
                     onTap: () => _closeThen(
                       context,
                       () => context.go(Routes.notifications),

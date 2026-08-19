@@ -27,7 +27,7 @@ class ProviderStatisticsProfitsCard extends StatelessWidget {
             height: 48.w,
             padding: EdgeInsets.all(10.w),
             decoration: BoxDecoration(
-              color: AppColors.orange.withValues(alpha: 0.12),
+              color: AppColors.accent.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(14.r),
             ),
             child: Image.asset(AppAssets.fuelOrderMoneyIcon, fit: BoxFit.contain),
@@ -48,7 +48,7 @@ class ProviderStatisticsProfitsCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 22.sp,
               fontWeight: FontWeight.w900,
-              color: AppColors.orange,
+              color: AppColors.accent,
             ),
           ),
         ],

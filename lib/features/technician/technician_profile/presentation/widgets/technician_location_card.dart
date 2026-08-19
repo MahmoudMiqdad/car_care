@@ -75,12 +75,12 @@ class _LocationUpdateCardState extends State<LocationUpdateCard> {
                   Container(
                     padding: EdgeInsets.all(8.r),
                     decoration: BoxDecoration(
-                      color: AppColors.orange.withValues(alpha: 0.1),
+                      color: AppColors.accent.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: Icon(
                       Icons.location_on,
-                      color: AppColors.orange,
+                      color: AppColors.accent,
                       size: 20.r,
                     ),
                   ),
@@ -148,7 +148,7 @@ class _LocationUpdateCardState extends State<LocationUpdateCard> {
                 child: ElevatedButton.icon(
                   onPressed: _openPicker,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.orange,
+                    backgroundColor: AppColors.accent,
                     foregroundColor: AppColors.white,
                     padding: EdgeInsets.symmetric(vertical: 12.h),
                     shape: RoundedRectangleBorder(

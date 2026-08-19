@@ -98,7 +98,7 @@ AppSnackBar.error(context, state.message)  ;      }
                     child: AppButton(
                       onPressed: isLoading ? null : _submit,
                       text: strings.savePassword,
-                      backgroundColor: AppColors.orange,
+                      backgroundColor: AppColors.accent,
                       textColor: AppColors.white,
                     ),
                   ),

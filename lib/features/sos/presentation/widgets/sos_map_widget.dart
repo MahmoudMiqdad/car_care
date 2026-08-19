@@ -457,7 +457,7 @@ class _TechnicianInfoCard extends StatelessWidget {
               width: 10,
               height: 10,
               decoration: BoxDecoration(
-                color: isLive ? AppColors.green : AppColors.orange,
+                color: isLive ? AppColors.green : AppColors.accent,
                 shape: BoxShape.circle,
               ),
             ),
@@ -475,7 +475,7 @@ class _TechnicianInfoCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: isLive
                           ? AppColors.green
-                          : AppColors.orangeDark,
+                          : AppColors.accent,
                       fontSize: 13,
                     ),
                   ),

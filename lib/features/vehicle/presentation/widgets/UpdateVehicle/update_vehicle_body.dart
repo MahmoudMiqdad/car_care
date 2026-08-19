@@ -212,7 +212,7 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
                     AppButton(
                       text: strings.saveChanges,
                       isLoading: isLoading,
-                      backgroundColor: AppColors.orange,
+                      backgroundColor: AppColors.accent,
                       height: 54.h,
                       borderRadius: 15.r,
                       fontSize: 20.sp,

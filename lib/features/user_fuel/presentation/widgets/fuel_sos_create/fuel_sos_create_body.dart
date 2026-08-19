@@ -92,7 +92,7 @@ class FuelSosCreateBody extends StatelessWidget {
             AppButton(
               text: l10n.createSosSendRequest,
               onPressed: onSubmit,
-              backgroundColor: AppColors.orange,
+              backgroundColor: AppColors.accent,
               height: 52.h,
               borderRadius: 14.r,
             ),

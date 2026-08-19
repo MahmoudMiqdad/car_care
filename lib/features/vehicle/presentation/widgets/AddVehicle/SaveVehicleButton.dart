@@ -22,7 +22,7 @@ class SaveVehicleButton extends StatelessWidget {
       text: strings.savevehicle,
       onPressed: onPressed,
       isLoading: isLoading,
-      backgroundColor: AppColors.orange,
+      backgroundColor: AppColors.accent,
       height: 54.h,
       borderRadius: 15.r,
       fontSize: 20.sp,

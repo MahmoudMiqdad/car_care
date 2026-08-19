@@ -24,7 +24,7 @@ class ProviderStatisticsStatusIndicatorsCard extends StatelessWidget {
           label: l10n.pending,
           value: statistics.pendingOrders,
           icon: Icons.hourglass_top_outlined,
-          color: AppColors.orange,
+          color: AppColors.accent,
         ),
         StatsIndicatorData(
           label: l10n.bookingStatusAccepted,

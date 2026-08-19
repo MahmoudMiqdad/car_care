@@ -120,7 +120,7 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Row(
                 children: [
-                  Icon(Icons.location_on, color: AppColors.orange, size: 22.r),
+                  Icon(Icons.location_on, color: AppColors.accent, size: 22.r),
                   SizedBox(width: 8.w),
                   Text(
                     l10n.selectWorkshopLocation,
@@ -141,18 +141,18 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                             height: 14.r,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              color: AppColors.orange,
+                              color: AppColors.accent,
                             ),
                           )
                         : Icon(
                             Icons.my_location,
                             size: 16.r,
-                            color: AppColors.orange,
+                            color: AppColors.accent,
                           ),
                     label: Text(
                       l10n.myLocation,
                       style: TextStyle(
-                        color: AppColors.orange,
+                        color: AppColors.accent,
                         fontSize: 12.sp,
                       ),
                     ),
@@ -205,11 +205,11 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                         Container(
                           padding: EdgeInsets.all(6.r),
                           decoration: BoxDecoration(
-                            color: AppColors.orange,
+                            color: AppColors.accent,
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.orange.withOpacity(0.4),
+                                color: AppColors.accent.withOpacity(0.4),
                                 blurRadius: 10,
                                 spreadRadius: 2,
                               ),
@@ -225,13 +225,13 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                         Container(
                           width: 2.w,
                           height: 16.h,
-                          color: AppColors.orange,
+                          color: AppColors.accent,
                         ),
                         Container(
                           width: 8.w,
                           height: 8.w,
                           decoration: BoxDecoration(
-                            color: AppColors.orange,
+                            color: AppColors.accent,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -285,7 +285,7 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                       child: ElevatedButton.icon(
                         onPressed: isLoading ? null : _confirmLocation,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.orange,
+                          backgroundColor: AppColors.accent,
                           foregroundColor: AppColors.white,
                           padding: EdgeInsets.symmetric(vertical: 14.h),
                           shape: RoundedRectangleBorder(

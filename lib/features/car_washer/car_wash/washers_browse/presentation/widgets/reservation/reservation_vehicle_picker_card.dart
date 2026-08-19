@@ -42,11 +42,11 @@ class ReservationVehiclePickerCard extends StatelessWidget {
     } else if (vehicleState is VehicleEmpty) {
       content = Row(
         children: [
-          Icon(Icons.info_outline, size: 18.sp, color: AppColors.orange),
+          Icon(Icons.info_outline, size: 18.sp, color: AppColors.accent),
           SizedBox(width: 8.w),
           Text(
            string.noVehiclesAdded,
-            style: TextStyle(fontSize: 14.sp, color: AppColors.orange),
+            style: TextStyle(fontSize: 14.sp, color: AppColors.accent),
           ),
         ],
       );

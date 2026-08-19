@@ -339,9 +339,9 @@ class _TechnicianNavigationSheet extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.r),
                 ),
-                tileColor: AppColors.orange50,
+                tileColor: AppColors.accent50,
                 title: Text(l10n.sosInProgressStatus),
-                leading: Icon(Icons.play_circle, color: AppColors.orange),
+                leading: Icon(Icons.play_circle, color: AppColors.accent),
                 onTap: () {
                   Navigator.pop(dialogContext);
                   context.read<TechnicianSosCubit>().changeStatus(

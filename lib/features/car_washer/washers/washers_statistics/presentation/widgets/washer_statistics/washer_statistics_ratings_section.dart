@@ -43,7 +43,7 @@ class WasherStatisticsRatingsSection extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 34.sp,
                     fontWeight: FontWeight.w800,
-                    color: AppColors.orange,
+                    color: AppColors.accent,
                   ),
                 ),
                 SizedBox(height: 6.h),

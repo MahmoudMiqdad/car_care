@@ -94,7 +94,7 @@ class TechnicianAvailabilityCard extends StatelessWidget {
                       height: 22.r,
                       child: CircularProgressIndicator(
                         strokeWidth: 2.5,
-                        color: AppColors.orange,
+                        color: AppColors.accent,
                       ),
                     )
                   : Switch(

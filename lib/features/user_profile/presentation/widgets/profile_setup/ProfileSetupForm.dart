@@ -84,7 +84,7 @@ class _ProfileSetupFormState extends State<ProfileSetupForm> {
               child: AppButton(
                 onPressed: isLoading ? null : () => _submit(context),
                 text:strings.saveandfollow,
-                backgroundColor: AppColors.orange,
+                backgroundColor: AppColors.accent,
                 textColor: AppColors.white,
               ),
             ),

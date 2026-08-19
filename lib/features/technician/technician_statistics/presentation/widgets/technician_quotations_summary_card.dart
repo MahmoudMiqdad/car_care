@@ -20,7 +20,7 @@ class TechnicianQuotationsSummaryCard extends StatelessWidget {
       value: data.totalQuotations,
       icon: Icons.description_outlined,
       segments: [
-        StatsSegment(value: data.pendingQuotations, color: AppColors.orange),
+        StatsSegment(value: data.pendingQuotations, color: AppColors.accent),
         StatsSegment(value: data.acceptedQuotations, color: AppColors.primary),
       ],
       legendItems: [

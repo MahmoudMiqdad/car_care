@@ -96,7 +96,7 @@ class ProviderOrderCard extends StatelessWidget {
             child: AppButton(
               onPressed: onViewDetails ?? () {},
               text: l10n.sosRequestViewDetails,
-              backgroundColor: AppColors.orange,
+              backgroundColor: AppColors.accent,
               textColor: AppColors.white,
               borderRadius: 15.r,
               height: 45.h,

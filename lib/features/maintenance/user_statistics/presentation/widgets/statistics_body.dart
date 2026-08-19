@@ -98,7 +98,7 @@ class UserStatisticsBody extends StatelessWidget {
                       title: l10n.pending, 
                       value: '${d.pendingRequests}',
                       icon: Icons.hourglass_bottom_outlined,
-                      color: AppColors.orange,
+                      color: AppColors.accent,
                     ),
                     StatTileData(
                       title: l10n.totalRequestsLabel, 
@@ -122,7 +122,7 @@ class UserStatisticsBody extends StatelessWidget {
                       title: l10n.bookingStatusCanceled, 
                       value: '${d.cancelledRequests}',
                       icon: Icons.cancel_outlined,
-                      color: AppColors.orange,
+                      color: AppColors.accent,
                     ),
                   ],
                 ),

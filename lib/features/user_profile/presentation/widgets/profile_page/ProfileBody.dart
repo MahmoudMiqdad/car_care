@@ -84,7 +84,7 @@ class ProfileBody extends StatelessWidget {
                     SizedBox(height: 30.h),
                     AppButton(
                       text: strings.editProfile,
-                      backgroundColor: AppColors.orange,
+                      backgroundColor: AppColors.accent,
                       onPressed: () async {
                         await context.push(Routes.profile_setup);
                         if (context.mounted) {
@@ -95,7 +95,7 @@ class ProfileBody extends StatelessWidget {
                     SizedBox(height: 16.h),
                     AppButton(
                       text: strings.editPassword,
-                      backgroundColor: AppColors.orange,
+                      backgroundColor: AppColors.accent,
                       onPressed: () => context.push(Routes.changepasswordpage),
                     ),
                     SizedBox(height: 16.h),
