@@ -2,17 +2,18 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-({Color background, Color border}) carwashBookingStatusStyleFor(String status) {
+// 1. أضفنا BuildContext context هنا كـ Parameter
+({Color background, Color border}) carwashBookingStatusStyleFor(BuildContext context, String status) {
   switch (status) {
     case 'completed':
       return (
         background: AppColors.serviceTierSelectedBackground,
-        border: AppColors.success,
+        border: AppColors.green,
       );
     case 'cancelled':
-      return (background: const Color(0xFFF8D7DA), border: AppColors.error);
+      return (background: const Color(0xFFF8D7DA), border: AppColors.red);
     default:
-      return (background: Colors.transparent, border: AppColors.lightBorder);
+      return (background: Colors.transparent, border: AppColors.border(context));
   }
 }
 
@@ -35,7 +36,7 @@ class CarwashBookingStatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = carwashBookingStatusStyleFor(status);
+    final style = carwashBookingStatusStyleFor(context, status);
 
     return Container(
       padding: EdgeInsets.symmetric(

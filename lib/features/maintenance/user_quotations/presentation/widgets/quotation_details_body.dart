@@ -7,6 +7,7 @@ import 'package:car_care/features/maintenance/user_quotations/domain/entities/qu
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_info_row.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_section_card.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_status_banner.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,6 +27,7 @@ class QuotationDetailsBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final isPending = quotation.status == 'pending';
 
     return SafeArea(
@@ -44,10 +46,9 @@ class QuotationDetailsBody extends StatelessWidget {
             SizedBox(height: 14.h),
 
             SosDetailsSectionCard(
-              title: 'معلومات الفني',
+              title: l10n.technicianInfoCardTitle,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                textDirection: TextDirection.rtl,
                 children: [
                   Expanded(
                     child: Column(
@@ -64,18 +65,26 @@ class QuotationDetailsBody extends StatelessWidget {
                         SizedBox(height: 8.h),
                         SosDetailsInfoRow(
                           iconAsset: AppAssets.iconPhoneCall,
-                          label: 'الهاتف',
+                          label: l10n.profileWasherFieldPhone,
                           value: quotation.technician.phone,
                         ),
                         SosDetailsInfoRow(
                           iconAsset: AppAssets.technicianJobVehicleIcon,
-                          label: 'التخصص',
-                          value: quotation.technician.technicianProfile.specialization,
+                          label: l10n.specializationLabel,
+                          value: quotation
+                              .technician
+                              .technicianProfile
+                              .specialization,
                         ),
                         SosDetailsInfoRow(
                           iconAsset: AppAssets.calendarIcon,
-                          label: 'سنوات الخبرة',
-                          value: '${quotation.technician.technicianProfile.experienceYears} سنوات',
+                          label: l10n.experienceYearsLabel,
+                          value: l10n.durationInYears(
+                            quotation
+                                .technician
+                                .technicianProfile
+                                .experienceYears,
+                          ),
                         ),
                       ],
                     ),
@@ -83,8 +92,10 @@ class QuotationDetailsBody extends StatelessWidget {
                   SizedBox(width: 12.w),
                   CircleAvatar(
                     radius: 40.r,
-                    backgroundColor: AppColors.lightSurface,
-                    backgroundImage: const AssetImage(AppAssets.technicianJobVehicleIcon),
+                    backgroundColor: AppColors.cardBackground(context),
+                    backgroundImage: const AssetImage(
+                      AppAssets.technicianJobVehicleIcon,
+                    ),
                   ),
                 ],
               ),
@@ -92,28 +103,28 @@ class QuotationDetailsBody extends StatelessWidget {
             SizedBox(height: 14.h),
 
             SosDetailsSectionCard(
-              title: 'تفاصيل العرض',
+              title: l10n.quotationDetailsTitle,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SosDetailsInfoRow(
                     iconAsset: AppAssets.fuelOrderMoneyIcon,
-                    label: 'السعر',
+                    label: l10n.price,
                     value: quotation.priceFormatted,
                   ),
                   SosDetailsInfoRow(
                     iconAsset: AppAssets.calendarIcon,
-                    label: 'مدة الإصلاح',
-                    value: '${quotation.estimatedDays} أيام',
+                    label: l10n.repairDurationLabel,
+                    value: l10n.durationInDays(quotation.estimatedDays),
                   ),
                   SosDetailsInfoRow(
                     iconAsset: AppAssets.NotesIcon,
-                    label: 'يشمل قطع الغيار',
-                    value: quotation.partsIncluded ? 'نعم' : 'لا',
+                    label: l10n.partsIncludedLabel,
+                    value: quotation.partsIncluded ? l10n.yes : l10n.no,
                   ),
                   SosDetailsInfoRow(
                     iconAsset: AppAssets.calendarIcon,
-                    label: 'تاريخ العرض',
+                    label: l10n.quotationDateLabel,
                     value: quotation.createdAgo,
                   ),
                 ],
@@ -122,7 +133,7 @@ class QuotationDetailsBody extends StatelessWidget {
             SizedBox(height: 14.h),
 
             SosDetailsSectionCard(
-              title: 'ملاحظات الفني',
+              title: l10n.technicianNotesCardTitle,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -157,7 +168,7 @@ class QuotationDetailsBody extends StatelessWidget {
               AppButton(
                 onPressed: isLoading ? null : (onAccept ?? () {}),
                 isLoading: isLoading,
-                text: 'قبول العرض',
+                text: l10n.acceptQuotationButton,
                 backgroundColor: AppColors.carWashTeal,
                 textColor: AppColors.white,
                 borderRadius: 14.r,
@@ -170,14 +181,14 @@ class QuotationDetailsBody extends StatelessWidget {
                     : () async {
                         final reason = await showCancelReasonDialog(
                           context,
-                          title: 'سبب رفض العرض',
+                          title: l10n.rejectQuotationReasonTitle,
                         );
                         if (reason != null && reason.isNotEmpty) {
                           onReject?.call(reason);
                         }
                       },
                 isLoading: isLoading,
-                text: 'رفض العرض',
+                text: l10n.rejectQuotationButton,
                 backgroundColor: AppColors.reservationConfirmOrange,
                 textColor: AppColors.white,
                 borderRadius: 14.r,

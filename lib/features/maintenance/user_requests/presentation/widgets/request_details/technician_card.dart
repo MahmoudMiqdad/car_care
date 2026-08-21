@@ -3,6 +3,7 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/maintenance/user_requests/domain/entities/maintenance_request_details_entity.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_info_row.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_section_card.dart';
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,10 +21,11 @@ class TechnicianCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
     final location = technician.currentLocation;
 
     return SosDetailsSectionCard(
-      title: 'الفني ',
+      title: l10n.technicianLabel, 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -38,23 +40,24 @@ class TechnicianCard extends StatelessWidget {
           SizedBox(height: 8.h),
           SosDetailsInfoRow(
             iconAsset: AppAssets.iconPhoneCall,
-            label: 'الهاتف',
+            label: l10n.profileWasherFieldPhone, 
             value: technician.phone,
           ),
           SosDetailsInfoRow(
             iconAsset: AppAssets.technicianJobNotesIcon,
-            label: 'التخصص',
+            label: l10n.specializationLabel, 
             value: technician.specialization,
           ),
           SosDetailsInfoRow(
             iconAsset: AppAssets.calendarIcon,
-            label: 'سنوات الخبرة',
-            value: '${technician.experienceYears} سنوات',
+            label: l10n.experienceYearsLabel, 
+        
+            value: l10n.durationInYears(technician.experienceYears),
           ),
           if (location != null) ...[
             SizedBox(height: 12.h),
             Text(
-              'موقع الفني',
+              l10n.technicianLocationTitle, 
               style: TextStyle(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w700,
@@ -123,7 +126,9 @@ class _TechnicianMapPreview extends StatelessWidget {
               ),
               Positioned(
                 bottom: 8.h,
-                left: 8.w,
+           
+                left: Directionality.of(context) == TextDirection.rtl ? null : 8.w,
+                right: Directionality.of(context) == TextDirection.rtl ? 8.w : null,
                 child: Container(
                   padding: EdgeInsets.all(6.r),
                   decoration: BoxDecoration(

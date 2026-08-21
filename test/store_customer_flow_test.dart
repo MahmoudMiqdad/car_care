@@ -1,5 +1,3 @@
-// اختبارات فلو متجر قطع الغيار: غياب شريط التنقل من الشاشات الفرعية، فلتر
-// المحافظة (Request واحد)، وSnackbar إضافة المنتج للسلة.
 import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/features/spare_parts_store/customer/cart/domain/entities/cart_item_entity.dart';
@@ -160,16 +158,13 @@ void main() {
 
       await pumpWithApp(
         tester,
-        Directionality(
-          textDirection: TextDirection.rtl,
-          child: Scaffold(
-            body: ShopsGovernorateFilter(
-              selectedGovernorate: null,
-              onChanged: (value) {
-                received = value;
-                callCount++;
-              },
-            ),
+        Scaffold(
+          body: ShopsGovernorateFilter(
+            selectedGovernorate: null,
+            onChanged: (value) {
+              received = value;
+              callCount++;
+            },
           ),
         ),
       );
@@ -192,16 +187,13 @@ void main() {
 
       await pumpWithApp(
         tester,
-        Directionality(
-          textDirection: TextDirection.rtl,
-          child: Scaffold(
-            body: ShopsGovernorateFilter(
-              selectedGovernorate: 'دمشق',
-              onChanged: (value) {
-                received = value;
-                callCount++;
-              },
-            ),
+        Scaffold(
+          body: ShopsGovernorateFilter(
+            selectedGovernorate: 'دمشق',
+            onChanged: (value) {
+              received = value;
+              callCount++;
+            },
           ),
         ),
       );
@@ -338,7 +330,7 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 50));
 
-      expect(find.text('تمت إضافة المنتج إلى السلة'), findsOneWidget);
+      expect(find.text('تمت إضافة المنتج إلى السلة بنجاح'), findsOneWidget);
       expect(find.text('عرض السلة'), findsOneWidget);
 
       verify(() => cartRepo.addToCart(productId: 1, quantity: 1)).called(1);

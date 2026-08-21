@@ -63,7 +63,7 @@ class GenericDropdownFilter<T> extends StatelessWidget {
       child: Container(
         height: 52.h,
         decoration: BoxDecoration(
-          color: AppColors.lightSurface,
+          color: AppColors.cardBackground(context),
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(color: AppColors.primary, width: 1.3),
         ),
@@ -189,7 +189,7 @@ class _GenericFilterSheetState<T> extends State<_GenericFilterSheet<T>> {
               width: 40.w,
               height: 4.h,
               decoration: BoxDecoration(
-                color: AppColors.lightBorder,
+                color: AppColors.border(context),
                 borderRadius: BorderRadius.circular(999.r),
               ),
             ),

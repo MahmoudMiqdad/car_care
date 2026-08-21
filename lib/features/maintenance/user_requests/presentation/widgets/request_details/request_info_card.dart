@@ -2,6 +2,7 @@ import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/features/maintenance/user_requests/domain/entities/maintenance_request_details_entity.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_info_row.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_section_card.dart';
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 
 class RequestInfoCard extends StatelessWidget {
@@ -14,31 +15,33 @@ class RequestInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return SosDetailsSectionCard(
-      title: 'بيانات الطلب',
+      title: l10n.requestInfoCardTitle, 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SosDetailsInfoRow(
             iconAsset: AppAssets.technicianJobNotesIcon,
-            label: 'الوصف',
+            label: l10n.descriptionLabel, 
             value: data.description,
           ),
           SosDetailsInfoRow(
             iconAsset: AppAssets.calendarIcon,
-            label: 'الموعد المفضل',
+            label: l10n.preferredDateLabel, 
             value: data.preferredDate != null
                 ? _formatDate(data.preferredDate!)
                 : '-',
           ),
           SosDetailsInfoRow(
             iconAsset: AppAssets.technicianJobNotesIcon,
-            label: 'الأولوية',
+            label: l10n.priorityLabel, 
             value: data.priorityText,
           ),
           SosDetailsInfoRow(
             iconAsset: AppAssets.technicianJobNotesIcon,
-            label: 'تاريخ الإنشاء',
+            label: l10n.creationDateLabel, 
             value: data.createdAgo ?? '-',
           ),
         ],

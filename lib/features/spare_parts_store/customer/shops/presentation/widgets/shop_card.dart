@@ -1,4 +1,5 @@
 // بطاقة متجر تُستخدم داخل شاشة قائمة المتاجر
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/features/spare_parts_store/customer/shops/domain/entities/shop_entity.dart';
@@ -27,7 +28,7 @@ class ShopCard extends StatelessWidget {
           padding: EdgeInsets.all(14.w),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14.r),
-            border: Border.all(color: AppColors.lightBorder),
+            border: Border.all(color: AppColors.border(context)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,8 +58,8 @@ class ShopCard extends StatelessWidget {
                           shop.name,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: AppTypography.labelLarge.copyWith(
-                            color: AppColors.lightTextPrimary,
+                          style: context.textTheme.labelLarge!.copyWith(
+                            color: AppColors.textPrimary(context),
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -70,13 +71,13 @@ class ShopCard extends StatelessWidget {
                               Icon(
                                 Icons.location_on_outlined,
                                 size: 14.sp,
-                                color: AppColors.lightTextSecondary,
+                                color: AppColors.textSecondary(context),
                               ),
                               SizedBox(width: 3.w),
                               Text(
                                 shop.city!,
-                                style: AppTypography.labelSmall.copyWith(
-                                  color: AppColors.lightTextSecondary,
+                                style: context.textTheme.labelSmall!.copyWith(
+                                  color: AppColors.textSecondary(context),
                                 ),
                               ),
                             ],
@@ -90,7 +91,7 @@ class ShopCard extends StatelessWidget {
                   SizedBox(width: 6.w),
                   Icon(
                     Icons.chevron_left_rounded,
-                    color: AppColors.lightTextSecondary.withOpacity(0.6),
+                    color: AppColors.textSecondary(context).withOpacity(0.6),
                   ),
                 ],
               ),

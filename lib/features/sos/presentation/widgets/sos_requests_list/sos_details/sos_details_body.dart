@@ -55,16 +55,14 @@ class SosDetailsBody extends StatelessWidget {
             SizedBox(height: 14.h),
             SosDetailsLocationCard(
               sosId: sos.id!,
-              lat: sos.lat, // موقع الـ SOS
+              lat: sos.lat, 
               lng: sos.lng,
             ),
             SizedBox(height: 22.h),
-            // Only supplied when a technician is assigned, so tracking is
-            // never offered when there is no location to show.
             if (onTrackTapped != null) ...[
               AppButton(
                 onPressed: onTrackTapped,
-                text: 'تتبع الفني',
+                text: l10n.trackTechnician, // 🎯 تم التعديل للترجمة الديناميكية (تتبع الفني)
                 backgroundColor: AppColors.carWashTeal,
                 textColor: AppColors.white,
                 borderRadius: 14.r,
@@ -72,8 +70,6 @@ class SosDetailsBody extends StatelessWidget {
               ),
               SizedBox(height: 12.h),
             ],
-            // Cancelling is only allowed while the request is still open;
-            // the backend can_cancel flag is kept as an extra safety check.
             if (sos.status == 'open' && sos.canCancel == true)
               AppButton(
                 onPressed: onCancelTapped,

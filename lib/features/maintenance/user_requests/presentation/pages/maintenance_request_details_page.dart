@@ -16,8 +16,8 @@ import 'package:car_care/features/maintenance/user_requests/presentation/widgets
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/request_details/request_info_card.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/request_details/technician_card.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/request_details/vehicle_card.dart';
-
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_status_banner.dart';
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -48,9 +48,9 @@ class _MaintenanceRequestDetailsPageState
   ) {
     showDialog(
       context: context,
-      barrierColor: Colors.black87,
+      barrierColor: AppColors.black.withValues(alpha: 0.87), 
       builder: (_) => Dialog.fullscreen(
-        backgroundColor: Colors.black,
+        backgroundColor: AppColors.black,
         child: Stack(
           children: [
             FlutterMap(
@@ -91,7 +91,10 @@ class _MaintenanceRequestDetailsPageState
                     color: AppColors.white,
                     shape: BoxShape.circle,
                     boxShadow: [
-                      BoxShadow(color: Colors.black26, blurRadius: 6.r),
+                      BoxShadow(
+                        color: AppColors.black.withValues(alpha: 0.26), 
+                        blurRadius: 6.r,
+                      ),
                     ],
                   ),
                   child: Icon(Icons.close, color: AppColors.black, size: 22.r),
@@ -106,77 +109,77 @@ class _MaintenanceRequestDetailsPageState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
+
     return BlocListener<CancelRequestCubit, CancelRequestState>(
       listener: (context, state) {
         if (state is CancelRequestSuccess) {
-          // Prefer the backend message over a hardcoded one.
           final message = state.request.message?.trim();
           AppSnackBar.success(
             context,
             message == null || message.isEmpty
-                ? 'تم إلغاء الطلب بنجاح'
+                ? l10n.orderCancelledSuccess 
                 : message,
           );
-          // Returning to the list re-fetches it, so the cancelled request
-          // shows its new status.
           context.safePopOrGo(Routes.all_requests);
         }
         if (state is CancelRequestError) {
           final msg =
               state.message.isEmpty || state.message.startsWith('Instance of')
-              ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
+              ? l10n.unexpectedErrorTryAgain
               : state.message;
           AppSnackBar.error(context, msg);
         }
       },
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          backgroundColor: AppColors.lightScaffold,
-          appBar: CustomAppBar(
-            title: 'تفاصيل طلب صيانة',
-            showBackButton: true,
-            backgroundColor: AppColors.carWashTeal,
-            onBackTapped: () => context.safePopOrGo(Routes.all_requests),
-          ),
-          body: ImageBackground(
-            child: SafeArea(
-              child: BlocBuilder<ShowRequestCubit, ShowRequestState>(
-                builder: (context, state) {
-                  if (state is ShowRequestLoading ||
-                      state is ShowRequestInitial) {
-                    return const Center(child: AppLoadingWidget());
-                  }
+      child: Scaffold(
+        backgroundColor: AppColors.scaffoldBackground(context),
+        appBar: CustomAppBar(
+          title: l10n.maintenanceRequestDetailsTitle, 
+          showBackButton: true,
+          backgroundColor: AppColors.carWashTeal,
+          onBackTapped: () => context.safePopOrGo(Routes.all_requests),
+        ),
+        body: ImageBackground(
+          child: SafeArea(
+            child: BlocBuilder<ShowRequestCubit, ShowRequestState>(
+              builder: (context, state) {
+                if (state is ShowRequestLoading ||
+                    state is ShowRequestInitial) {
+                  return const Center(child: AppLoadingWidget());
+                }
 
-                  if (state is ShowRequestError) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            state.message,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 16.sp),
+                if (state is ShowRequestError) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          state.message,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 16.sp),
+                        ),
+                        SizedBox(height: 16.h),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            foregroundColor: AppColors.white,
                           ),
-                          SizedBox(height: 16.h),
-                          ElevatedButton(
-                            onPressed: () => context
-                                .read<ShowRequestCubit>()
-                                .fetchRequest(widget.requestId.toString()),
-                            child: const Text('إعادة المحاولة'),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
+                          onPressed: () => context
+                              .read<ShowRequestCubit>()
+                              .fetchRequest(widget.requestId.toString()),
+                          child: Text(l10n.retry), 
+                        ),
+                      ],
+                    ),
+                  );
+                }
 
-                  if (state is ShowRequestLoaded) {
-                    return _buildContent(context, state.request);
-                  }
+                if (state is ShowRequestLoaded) {
+                  return _buildContent(context, state.request);
+                }
 
-                  return const SizedBox.shrink();
-                },
-              ),
+                return const SizedBox.shrink();
+              },
             ),
           ),
         ),

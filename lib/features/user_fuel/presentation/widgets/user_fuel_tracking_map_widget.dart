@@ -1,16 +1,17 @@
 
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/utils/location_helper.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/user_fuel/presentation/cubit/user_fuel_tracking_cubit/user_fuel_tracking_cubit.dart';
 import 'package:car_care/features/user_fuel/presentation/cubit/user_fuel_tracking_cubit/user_fuel_tracking_state.dart';
-
+import 'package:car_care/l10n.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
-
 final _osrmDio = Dio(BaseOptions(
   connectTimeout: const Duration(seconds: 10),
   receiveTimeout: const Duration(seconds: 10),
@@ -47,8 +48,6 @@ class _UserFuelTrackingMapWidgetState
   }
 
   Future<void> _goToMyLocation() async {
-    // Uses the shared guard so GPS-off / denied permission surface a clear
-    // Arabic message instead of doing nothing.
     final location = await getCurrentLocation();
     if (!mounted) return;
 
@@ -106,6 +105,8 @@ class _UserFuelTrackingMapWidgetState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return BlocBuilder<UserFuelTrackingCubit, UserFuelTrackingState>(
       builder: (context, state) {
         if (state is UserFuelTrackingLoading) {
@@ -119,7 +120,7 @@ class _UserFuelTrackingMapWidgetState
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.location_off, size: 48, color: Colors.grey),
+                  Icon(Icons.location_off, size: 48, color: AppColors.textSecondary(context)),
                   const SizedBox(height: 12),
                   Text(state.message, textAlign: TextAlign.center),
                   const SizedBox(height: 12),
@@ -128,7 +129,7 @@ class _UserFuelTrackingMapWidgetState
                         .read<UserFuelTrackingCubit>()
                         .loadTracking(widget.orderId),
                     icon: const Icon(Icons.refresh),
-                    label: const Text('إعادة المحاولة'),
+                    label: Text(l10n.retry),
                   ),
                 ],
               ),
@@ -146,6 +147,7 @@ class _UserFuelTrackingMapWidgetState
   }
 
   Widget _buildMap(UserFuelTrackingLoaded state) {
+    final l10n = context.l10n;
     final userLocation = (widget.userLat != null && widget.userLng != null)
         ? LatLng(widget.userLat!, widget.userLng!)
         : null;
@@ -175,9 +177,9 @@ class _UserFuelTrackingMapWidgetState
                 polylines: [
                   Polyline(
                     points: _routePoints,
-                    color: Colors.blue.shade600,
+                    color: AppColors.primary,
                     strokeWidth: 5,
-                    borderColor: Colors.blue.shade900,
+                    borderColor: AppColors.primary.withValues(alpha: 0.5),
                     borderStrokeWidth: 1,
                   ),
                 ],
@@ -189,9 +191,9 @@ class _UserFuelTrackingMapWidgetState
                 polylines: [
                   Polyline(
                     points: [providerLocation, userLocation],
-                    color: Colors.blue.withOpacity(0.5),
+                    color: AppColors.primary.withValues(alpha: 0.5),
                     strokeWidth: 3,
-                    pattern: StrokePattern.dashed(segments: [6, 4]),
+                    pattern:  StrokePattern.dashed(segments: [6, 4]),
                   ),
                 ],
               ),
@@ -202,60 +204,56 @@ class _UserFuelTrackingMapWidgetState
                     point: userLocation,
                     width: 50,
                     height: 50,
-                    child: const Icon(Icons.location_pin,
-                        color: Colors.red, size: 40),
+                    child: Icon(Icons.location_pin, color: AppColors.red, size: 40),
                   ),
                 if (providerLocation != null)
                   Marker(
                     point: providerLocation,
                     width: 50,
                     height: 50,
-                    child: Icon(Icons.local_gas_station,
-                        color: Colors.blue.shade700, size: 36),
+                    child: Icon(Icons.local_gas_station, color: AppColors.carWashTeal, size: 36),
                   ),
               ],
             ),
           ],
         ),
-        // Successful response but the provider has not posted a location yet.
-        // This is not an error — polling continues and the banner disappears
-        // as soon as a location arrives.
         if (providerLocation == null)
-          Positioned(
-            top: 12,
-            left: 12,
-            right: 12,
+          PositionedDirectional(
+            top: 12.h,
+            start: 12.w,
+            end: 12.w,
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 10,
+              padding: EdgeInsets.symmetric(
+                horizontal: 12.w,
+                vertical: 10.h,
               ),
               decoration: BoxDecoration(
-                color: Colors.black54,
-                borderRadius: BorderRadius.circular(8),
+                color: AppColors.black.withValues(alpha: 0.54),
+                borderRadius: BorderRadius.circular(8.r),
               ),
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(Icons.location_searching,
-                      color: Colors.white, size: 18),
-                  SizedBox(width: 8),
+                  Icon(Icons.location_searching, color: AppColors.white, size: 18.sp),
+                  SizedBox(width: 8.w),
                   Expanded(
                     child: Text(
-                      'لم يشارك مزود الوقود موقعه بعد',
+                      l10n.fuelProviderHasNotSharedLocationYet,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white, fontSize: 13),
+                      style: TextStyle(color: AppColors.white, fontSize: 13.sp),
                     ),
                   ),
                 ],
               ),
             ),
           ),
-        Positioned(
-          bottom: 16,
-          right: 16,
+        PositionedDirectional(
+          bottom: 16.h,
+          end: 16.w,
           child: FloatingActionButton.small(
             heroTag: 'user_fuel_my_location',
             onPressed: _goToMyLocation,
+            backgroundColor: AppColors.white,
+            foregroundColor: AppColors.primary,
             child: const Icon(Icons.my_location),
           ),
         ),

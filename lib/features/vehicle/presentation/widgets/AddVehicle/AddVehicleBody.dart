@@ -1,9 +1,9 @@
 // ignore_for_file: file_names
 import 'dart:typed_data';
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
-
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_add_cubit/vehicle_add_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_add_cubit/vehicle_add_state.dart';
 import 'package:car_care/features/vehicle/presentation/utils/vehicle_validators.dart';
@@ -55,10 +55,11 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
   }
 
   Future<void> _submit(BuildContext context, {required bool isLoading}) async {
+    final l10n = context.l10n;
     if (!canSubmitVehicleForm(isLoading: isLoading)) return;
 
     if (_pickedImage == null) {
-      AppSnackBar.error(context, 'الرجاء اختيار صورة للمركبة');
+      AppSnackBar.error(context, l10n.pleaseSelectVehicleImageError);
       return;
     }
 
@@ -66,9 +67,12 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
 
     final String fileName = _pickedImage!.name;
     final size = await _pickedImage!.length();
+
+    if (!mounted) return;
     final imageError = validateVehicleImageFile(
       fileName: fileName,
       sizeBytes: size,
+      l10n: l10n,
     );
     if (!context.mounted) return;
     if (imageError != null) {
@@ -122,50 +126,65 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
                       onPickImage: _pickImage,
                     ),
                     LoginTextField(
-                      innerBorderColor: Colors.transparent,
+                      innerBorderColor: AppColors.transparent,
                       controller: _kmController,
                       hintText: strings.odometer,
                       icon: Icons.speed_outlined,
                       keyboardType: TextInputType.number,
-                      validator: (v) =>
-                          validateVehicleCurrentKm(v, isRequired: true),
+                      validator: (v) => validateVehicleCurrentKm(
+                        v,
+                        isRequired: true,
+                        l10n: strings,
+                      ),
                     ),
                     SizedBox(height: 10.h),
                     LoginTextField(
-                      innerBorderColor: Colors.transparent,
+                      innerBorderColor: AppColors.transparent,
                       controller: _plateController,
                       hintText: strings.plateNumber,
                       icon: Icons.sort_by_alpha,
-                      validator: (v) =>
-                          validateVehiclePlateNumber(v, isRequired: true),
+                      validator: (v) => validateVehiclePlateNumber(
+                        v,
+                        isRequired: true,
+                        l10n: strings,
+                      ),
                     ),
                     SizedBox(height: 10.h),
                     LoginTextField(
-                      innerBorderColor: Colors.transparent,
+                      innerBorderColor: AppColors.transparent,
                       controller: _brandController,
                       hintText: strings.brand,
                       icon: Icons.local_offer_outlined,
-                      validator: (v) =>
-                          validateVehicleBrand(v, isRequired: true),
+                      validator: (v) => validateVehicleBrand(
+                        v,
+                        isRequired: true,
+                        l10n: strings,
+                      ),
                     ),
                     SizedBox(height: 10.h),
                     LoginTextField(
-                      innerBorderColor: Colors.transparent,
+                      innerBorderColor: AppColors.transparent,
                       controller: _modelController,
                       hintText: strings.model,
                       icon: Icons.directions_car_filled_outlined,
-                      validator: (v) =>
-                          validateVehicleModel(v, isRequired: true),
+                      validator: (v) => validateVehicleModel(
+                        v,
+                        isRequired: true,
+                        l10n: strings,
+                      ),
                     ),
                     SizedBox(height: 10.h),
                     LoginTextField(
-                      innerBorderColor: Colors.transparent,
+                      innerBorderColor: AppColors.transparent,
                       controller: _yearController,
                       hintText: strings.year,
                       icon: Icons.calendar_month_outlined,
                       keyboardType: TextInputType.number,
-                      validator: (v) =>
-                          validateVehicleYear(v, isRequired: true),
+                      validator: (v) => validateVehicleYear(
+                        v,
+                        isRequired: true,
+                        l10n: strings,
+                      ),
                     ),
                     SizedBox(height: 16.h),
                     SaveVehicleButton(

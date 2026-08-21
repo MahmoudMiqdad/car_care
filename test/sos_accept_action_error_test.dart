@@ -1,6 +1,3 @@
-// اختبارات Minimal UX Fix: فشل قبول طلب SOS محلياً (action error) يجب ألا
-// يستبدل القائمة المحملة بـ ErrorStateWidget كامل الشاشة — فقط Snackbar،
-// مع الحفاظ على سلوك فشل التحميل الأولي (ErrorStateWidget) كما هو.
 import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/core/widgets/error_state_widget.dart';
 import 'package:car_care/features/technician_sos/domain/entities/technician_sos_entity.dart';
@@ -42,6 +39,7 @@ Future<void> _pumpPage(WidgetTester tester, Widget child) async {
     }
     original?.call(details);
   };
+  addTearDown(() => FlutterError.onError = original);
 
   tester.view.physicalSize = const Size(1125, 2436);
   tester.view.devicePixelRatio = 3.0;
@@ -88,18 +86,15 @@ void main() {
           ),
         );
 
-        // Initial list loaded.
         expect(find.text('قبول الطلب'), findsOneWidget);
         expect(find.byType(ErrorStateWidget), findsNothing);
 
         await tester.tap(find.text('قبول الطلب'));
         await tester.pumpAndSettle();
 
-        // The list stays visible — no full-page error state.
         expect(find.byType(ErrorStateWidget), findsNothing);
         expect(find.text('قبول الطلب'), findsOneWidget);
 
-        // The failure is still surfaced to the user via a snackbar.
         expect(find.text('فشل قبول الطلب'), findsOneWidget);
       },
     );
@@ -126,8 +121,6 @@ void main() {
         );
 
         expect(find.byType(ErrorStateWidget), findsOneWidget);
-        // The message is shown both on the error widget and (as before) via
-        // the existing snackbar for initial-load errors.
         expect(find.text('فشل تحميل الطلبات'), findsWidgets);
       },
     );

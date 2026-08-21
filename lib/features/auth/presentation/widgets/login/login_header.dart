@@ -23,7 +23,7 @@ class LoginHeader extends StatelessWidget {
                 ? context.pop(true)
                 : context.go(Routes.signup),
             style: TextButton.styleFrom(
-              foregroundColor: const Color.fromARGB(255, 255, 255, 255),
+              foregroundColor: AppColors.white,
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 10.h),
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
@@ -43,7 +43,7 @@ class LoginHeader extends StatelessWidget {
                   Shadow(
                     blurRadius: 10,
                     offset: Offset(0, 2),
-                    color: Colors.black26,
+                    color: AppColors.black,
                   ),
                 ],
               ),

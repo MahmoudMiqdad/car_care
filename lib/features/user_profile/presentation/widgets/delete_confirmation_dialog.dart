@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 import 'package:car_care/features/user_profile/domain/repositories/i_profile_repository.dart';
@@ -13,7 +14,7 @@ import 'package:go_router/go_router.dart';
 import 'package:car_care/core/routing/routes.dart';
 
 class DeleteProfileDialog extends StatefulWidget {
-  const DeleteProfileDialog({super.key,});
+  const DeleteProfileDialog({super.key});
 
   @override
   State<DeleteProfileDialog> createState() => _DeleteProfileDialogState();
@@ -37,7 +38,7 @@ class _DeleteProfileDialogState extends State<DeleteProfileDialog> {
       child: BlocConsumer<DeleteProfileCubit, DeleteProfileState>(
         listener: (context, state) {
           if (state is DeleteProfileSuccess) {
-            AppSnackBar.success(context, 'تم حذف الحساب بنجاح');
+            AppSnackBar.success(context, strings.accountDeletedSuccessMessage);
             final navigator = Navigator.of(context, rootNavigator: true);
             final router = GoRouter.of(context);
             Future.delayed(const Duration(milliseconds: 1300), () {
@@ -57,7 +58,7 @@ class _DeleteProfileDialogState extends State<DeleteProfileDialog> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24.r),
               ),
-              backgroundColor: Colors.white,
+              backgroundColor: AppColors.white,
               elevation: 0,
               child: Padding(
                 padding: EdgeInsets.all(24.w),
@@ -67,13 +68,13 @@ class _DeleteProfileDialogState extends State<DeleteProfileDialog> {
                     children: [
                       Container(
                         padding: EdgeInsets.all(16.w),
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFFFF1F1),
+                        decoration: BoxDecoration(
+                          color: AppColors.red600.withValues(alpha: 0.12),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
                           Icons.delete_outline_rounded,
-                          color: const Color(0xFFA12323),
+                          color: AppColors.red600,
                           size: 45.sp,
                         ),
                       ),
@@ -83,7 +84,7 @@ class _DeleteProfileDialogState extends State<DeleteProfileDialog> {
                         style: TextStyle(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: AppColors.black,
                         ),
                       ),
                       SizedBox(height: 12.h),
@@ -92,7 +93,7 @@ class _DeleteProfileDialogState extends State<DeleteProfileDialog> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 14.sp,
-                          color: Colors.grey[600],
+                          color: AppColors.gray,
                           height: 1.5,
                         ),
                       ),
@@ -120,7 +121,7 @@ class _DeleteProfileDialogState extends State<DeleteProfileDialog> {
                               child: Text(
                                 strings.cancel,
                                 style: TextStyle(
-                                  color: Colors.grey[700],
+                                  color: AppColors.gray,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16.sp,
                                 ),
@@ -140,7 +141,7 @@ class _DeleteProfileDialogState extends State<DeleteProfileDialog> {
                                           );
                                     },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFFA12323),
+                                backgroundColor: AppColors.red600,
                                 elevation: 0,
                                 padding: EdgeInsets.symmetric(vertical: 14.h),
                                 shape: RoundedRectangleBorder(
@@ -155,14 +156,14 @@ class _DeleteProfileDialogState extends State<DeleteProfileDialog> {
                                         strokeWidth: 2.5,
                                         valueColor:
                                             AlwaysStoppedAnimation<Color>(
-                                              Colors.white,
+                                              AppColors.white,
                                             ),
                                       ),
                                     )
                                   : Text(
                                       strings.confirmDeleteProfileTitle,
                                       style: TextStyle(
-                                        color: Colors.white,
+                                        color: AppColors.white,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16.sp,
                                       ),

@@ -1,5 +1,5 @@
+import 'package:car_care/core/extensions/theme_extension.dart'; // 🎯 استيراد امتداد الثيم لقراءة الخطوط الذكية
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,10 +47,9 @@ class ReservationServiceTierCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTypography.bodyMedium.copyWith(
+                  style: context.textTheme.bodyMedium!.copyWith(
                     color: AppColors.black,
                     fontWeight: FontWeight.w800,
-                    fontSize: 15.sp,
                   ),
                 ),
                 Padding(
@@ -64,10 +63,9 @@ class ReservationServiceTierCard extends StatelessWidget {
                 Text(
                   l10n.washerPackagePrice(priceAmount),
                   textAlign: TextAlign.center,
-                  style: AppTypography.bodySmall.copyWith(
-                    color: AppColors.lightTextPrimary,
+                  style: context.textTheme.bodySmall!.copyWith(
+                    color: AppColors.textPrimary(context),
                     fontWeight: FontWeight.w600,
-                    fontSize: 12.sp,
                   ),
                 ),
               ],

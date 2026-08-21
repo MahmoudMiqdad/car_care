@@ -4,6 +4,7 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/technician/technician_jobs/presentation/widget/accepted_request_status_column.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -45,6 +46,7 @@ class AcceptedRequestCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final double labelFs = 17.sp;
     final double valueFs = 16.sp;
 
@@ -62,7 +64,6 @@ class AcceptedRequestCard extends StatelessWidget {
             IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                textDirection: TextDirection.rtl,
                 children: [
                   Expanded(
                     child: Padding(
@@ -74,41 +75,43 @@ class AcceptedRequestCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           AppInfoRow(
-                        label: 'وصف',
-                        value: request.description,
-                        labelFontSize: labelFs,
-                        valueFontSize: valueFs,
-                        leading: Icon(
-                        Icons.note_alt_outlined,
-                       size: 22.sp, 
-                       color: AppColors.primary,
-  ),),
+                            label: l10n.descriptionLabel,
+                            value: request.description,
+                            labelFontSize: labelFs,
+                            valueFontSize: valueFs,
+                            leading: Icon(
+                              Icons.note_alt_outlined,
+                              size: 22.sp, 
+                              color: AppColors.primary,
+                            ),
+                          ),
                           AppInfoRow(
-                            label: 'العميل',
+                            label: l10n.clientLabel,
                             value: request.clientName,
                             labelFontSize: labelFs,
                             valueFontSize: valueFs,
                             leading: _rowAsset(AppAssets.technicianJobProfileIcon),
                           ),
                           AppInfoRow(
-                         label: 'المركبة',
-                         value: request.vehicle,
-                         labelFontSize: labelFs,
-                         valueFontSize: valueFs,
-                         leading: Icon(
-                         Icons.directions_car_outlined,
-                         size: 20.sp,
-                        color: AppColors.primary,
-                          ),),
+                            label: l10n.vehicleLabel,
+                            value: request.vehicle,
+                            labelFontSize: labelFs,
+                            valueFontSize: valueFs,
+                            leading: Icon(
+                              Icons.directions_car_outlined,
+                              size: 20.sp,
+                              color: AppColors.primary,
+                            ),
+                          ),
                           AppInfoRow(
-                            label: 'الموعد',
+                            label: l10n.appointmentLabel,
                             value: request.appointmentDate,
                             labelFontSize: labelFs,
                             valueFontSize: valueFs,
                             leading: _rowAsset(AppAssets.calendarIcon),
                           ),
                           AppInfoRow(
-                            label: 'ملاحظات الموعد',
+                            label: l10n.appointmentNotesLabel,
                             value: request.appointmentNotes,
                             labelFontSize: labelFs,
                             valueFontSize: valueFs,
@@ -118,7 +121,7 @@ class AcceptedRequestCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(width: 1,height: 100, color: AppColors.primary),
+                  Container(width: 1, height: 100, color: AppColors.primary),
                   AcceptedRequestStatusColumn(activePhase: request.activePhase),
                 ],
               ),
@@ -129,11 +132,10 @@ class AcceptedRequestCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Row(
-                    textDirection: TextDirection.rtl,
                     children: [
                       Expanded(
                         child: AppButton(
-                          text: 'بدء العمل',
+                          text: l10n.startWorkButtonLabel,
                           isOutline: true,
                           backgroundColor: AppColors.primary,
                           borderRadius: _cardR,
@@ -146,7 +148,7 @@ class AcceptedRequestCard extends StatelessWidget {
                       SizedBox(width: 8.w),
                       Expanded(
                         child: AppButton(
-                          text: 'إنهاء العمل',
+                          text: l10n.endWorkButtonLabel,
                           isOutline: true,
                           backgroundColor: AppColors.primary,
                           borderRadius: _cardR,
@@ -160,8 +162,8 @@ class AcceptedRequestCard extends StatelessWidget {
                   ),
                   SizedBox(height: 8.h),
                   AppButton(
-                    text: 'عرض التفاصيل',
-                    backgroundColor: AppColors.orange,
+                    text: l10n.sosRequestViewDetails,
+                    backgroundColor: AppColors.accent,
                     borderRadius: _cardR,
                     height: 50.h,
                     onPressed: onViewDetails ?? () {},

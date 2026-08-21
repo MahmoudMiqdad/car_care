@@ -15,6 +15,7 @@ import 'package:car_care/features/technician_sos/presentation/widgets/technician
 import 'package:car_care/features/technician_sos/presentation/widgets/technician_sos_details/technician_sos_details_section_card.dart';
 import 'package:car_care/features/technician_sos/presentation/widgets/technician_sos_details/technician_sos_details_status_banner.dart';
 import 'package:car_care/features/technician_sos/presentation/widgets/technician_sos_map_widget.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -87,6 +88,7 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
   void _openTechnicianMap({String? status}) {
     if (_mapOpened) return; // ← منع التكرار
     _mapOpened = true;
+    final l10n = context.l10n;
     Navigator.of(context).push(
       MaterialPageRoute(
         fullscreenDialog: true,
@@ -94,9 +96,9 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
           create: (_) => getIt<ShareTechnicianLocationSosCubit>(),
           child: Scaffold(
             appBar: AppBar(
-              title: const Text('التوجه للعميل'),
+              title: Text(l10n.sosNavigateToCustomer),
               backgroundColor: AppColors.carWashTeal,
-              foregroundColor: Colors.white,
+              foregroundColor: AppColors.white,
             ),
             body: TechnicianMapWidget(
               sosId: widget.sos.id!,
@@ -115,12 +117,13 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return BlocListener<TechnicianSosCubit, TechnicianSosState>(
       listener: (context, state) {
         if (state is TechnicianError) {
           final msg = state.message.isEmpty ||
                   state.message.startsWith('Instance of')
-              ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
+              ? l10n.sosGenericActionError
               : state.message;
           AppSnackBar.error(context, msg);
         }
@@ -141,8 +144,8 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
           AppSnackBar.success(
             context,
             state.request.statusText?.trim().isNotEmpty == true
-                ? 'تم تحديث الحالة: ${state.request.statusText}'
-                : 'تم تحديث حالة الطلب',
+                ? l10n.sosStatusUpdatedWithLabel(state.request.statusText!)
+                : l10n.sosStatusUpdated,
           );
         }
         // بعد إلغاء الاستجابة يرجع الطلب مفتوحاً ونغادر صفحة التفاصيل
@@ -200,7 +203,9 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
                           : () => context
                               .read<TechnicianSosCubit>()
                               .acceptRequest(widget.sos.id!),
-                      text: isBusy ? 'جاري القبول...' : 'قبول الطلب',
+                      text: isBusy
+                          ? l10n.sosAcceptingInProgress
+                          : l10n.sosAcceptRequest,
                       backgroundColor: AppColors.carWashTeal,
                       textColor: AppColors.white,
                       borderRadius: 14.r,
@@ -225,8 +230,10 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
                                   isAccepted ? 'in_progress' : 'completed',
                                 ),
                         text: isBusy
-                            ? 'جاري التنفيذ...'
-                            : (isAccepted ? 'بدء التنفيذ' : 'إنهاء الطلب'),
+                            ? l10n.sosProcessingInProgress
+                            : (isAccepted
+                                ? l10n.sosStartProgress
+                                : l10n.sosFinishRequest),
                         backgroundColor: AppColors.carWashTeal,
                         textColor: AppColors.white,
                         borderRadius: 14.r,
@@ -237,8 +244,8 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
                         onPressed: isBusy
                             ? null
                             : () => _onCancelResponse(context),
-                        text: 'إلغاء الاستجابة',
-                        backgroundColor: AppColors.error,
+                        text: l10n.sosCancelResponse,
+                        backgroundColor: AppColors.red,
                         textColor: AppColors.white,
                         borderRadius: 14.r,
                         height: 52.h,
@@ -273,13 +280,14 @@ class _LocationPreviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final hasLocation = lat != null && lng != null;
     final location = hasLocation
         ? LatLng(lat!, lng!)
         : const LatLng(33.3152, 44.3661);
 
     return SosTechnicianDetailsSectionCard(
-      title: 'موقع العميل',
+      title: l10n.sosCustomerLocation,
       bodyHeight: 200.h,
       clipBody: true,
       child: GestureDetector(
@@ -310,9 +318,9 @@ class _LocationPreviewCard extends StatelessWidget {
                           point: location,
                           width: 40,
                           height: 40,
-                          child: const Icon(
+                          child: Icon(
                             Icons.location_on,
-                            color: Colors.red,
+                            color: AppColors.red,
                             size: 36,
                           ),
                         ),
@@ -340,20 +348,20 @@ class _LocationPreviewCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
+                          color: AppColors.black.withOpacity(0.2),
                           blurRadius: 6,
                         ),
                       ],
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.navigation, color: Colors.white, size: 18),
-                        SizedBox(width: 8),
+                        Icon(Icons.navigation, color: AppColors.white, size: 18),
+                        const SizedBox(width: 8),
                         Text(
-                          'ابدأ التوجه للعميل',
+                          l10n.sosStartNavigateToCustomer,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppColors.white,
                             fontWeight: FontWeight.w700,
                             fontSize: 14,
                           ),
@@ -376,13 +384,13 @@ class _LocationPreviewCard extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.black54,
+                    color: AppColors.black,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Text(
-                    'اقبل الطلب لتبدأ التوجه للعميل',
+                  child: Text(
+                    l10n.sosAcceptToNavigateHint,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 12),
+                    style: TextStyle(color: AppColors.white, fontSize: 12),
                   ),
                 ),
               ),

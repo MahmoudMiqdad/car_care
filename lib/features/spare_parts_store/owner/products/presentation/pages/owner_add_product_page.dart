@@ -4,8 +4,13 @@
 // part_category_id, images[index]. لا تعديل/حذف صور بعد الإنشاء هنا.
 // UI فقط (STORE-OWNER-PRODUCTS-UI-01): بطاقات بيضاء + Bottom Sheet اختيار
 // مفرد للتصنيفات + زر حفظ ثابت يرتفع فوق الكيبورد — المنطق والعقد كما هما.
+//
+// تمت إضافة الدعم متعدد اللغات (context.l10n) لكل النصوص الظاهرة للمستخدم،
+// واستبدال أي لون مباشر (Colors.xxx) بمكافئه من AppColors.
+// عدّل مسار الاستيراد أدناه ليطابق مكان امتداد context.l10n في مشروعك.
 import 'dart:io';
 
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/functions/upload_file_to_api.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
@@ -16,6 +21,8 @@ import 'package:car_care/features/spare_parts_store/owner/profile/data/static/sp
 import 'package:car_care/features/spare_parts_store/owner/products/presentation/cubit/owner_products/owner_products_cubit.dart';
 import 'package:car_care/features/spare_parts_store/owner/products/presentation/cubit/owner_products/owner_products_state.dart';
 import 'package:car_care/features/spare_parts_store/owner/products/presentation/widgets/single_select_options_sheet.dart';
+import 'package:car_care/l10n.dart';
+import 'package:car_care/l10n/gen/app_localizations.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,8 +35,6 @@ const int _kMaxProductImages = 5;
 /// (تُعيد null) و«اختار المستخدم صراحةً بدون تحديد» (قيمة حقيقية غير null)
 /// — بما أن -1 ليس معرّف ماركة/فئة حقيقيًا أبدًا.
 const int _kNoSelection = -1;
-
-const Map<String, String> _kConditionLabels = {'new': 'جديد', 'used': 'مستعمل'};
 
 class OwnerAddProductPage extends StatefulWidget {
   const OwnerAddProductPage({super.key});
@@ -74,10 +79,15 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
   void _removeImage(XFile file) => setState(() => _images.remove(file));
 
   Future<void> _pickCondition() async {
+    final l10n = context.l10n;
+    final conditionLabels = <String, String>{
+      'new': l10n.conditionNew,
+      'used': l10n.conditionUsed,
+    };
     final result = await SingleSelectOptionsSheet.show<String>(
       context,
-      title: 'حالة المنتج',
-      items: _kConditionLabels.entries.map((e) => (e.key, e.value)).toList(),
+      title: l10n.productCondition,
+      items: conditionLabels.entries.map((e) => (e.key, e.value)).toList(),
       currentValue: _condition,
     );
     if (result != null && mounted) setState(() => _condition = result);
@@ -89,11 +99,12 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
     required int? currentId,
     required ValueChanged<int?> onPicked,
   }) async {
+    final l10n = context.l10n;
     final result = await SingleSelectOptionsSheet.show<int>(
       context,
       title: title,
       items: [
-        (_kNoSelection, 'بدون تحديد'),
+        (_kNoSelection, l10n.noSelection),
         ...options.map((o) => (o.id, o.name)),
       ],
       currentValue: currentId ?? _kNoSelection,
@@ -130,172 +141,185 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final cubit = context.read<OwnerProductsCubit>();
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: const CustomAppBar(title: 'إضافة منتج'),
-        body: ImageBackground(
-          child: BlocConsumer<OwnerProductsCubit, OwnerProductsState>(
-            listener: (context, state) {
-              if (!_submitting || state is! OwnerProductsLoaded) return;
-              if (state.isCreating) return;
-              setState(() => _submitting = false);
-              if (state.createError != null) {
-                AppSnackBar.error(context, state.createError!);
-                cubit.clearCreateError();
-              } else {
-                AppSnackBar.success(context, 'تم إضافة المنتج بنجاح');
-                Navigator.of(context).pop();
-              }
-            },
-            builder: (context, state) {
-              final isCreating =
-                  state is OwnerProductsLoaded && state.isCreating;
-              return Column(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _sectionTitle('المعلومات الأساسية'),
-                            SizedBox(height: 10.h),
-                            _labeledField(
-                              controller: _nameCtrl,
-                              label: 'اسم المنتج',
-                              fieldKey: const Key('add_product_name_field'),
-                              validator: (v) => (v == null || v.trim().isEmpty)
-                                  ? 'اسم المنتج مطلوب'
-                                  : null,
-                            ),
-                            SizedBox(height: 12.h),
-                            _labeledField(
-                              controller: _descCtrl,
-                              label: 'الوصف',
-                              maxLines: 2,
-                            ),
-                            SizedBox(height: 16.h),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: _labeledField(
-                                    controller: _priceCtrl,
-                                    label: 'السعر',
-                                    fieldKey: const Key(
-                                      'add_product_price_field',
-                                    ),
-                                    keyboardType:
-                                        const TextInputType.numberWithOptions(
-                                          decimal: true,
-                                        ),
-                                    validator: (v) {
-                                      final parsed = double.tryParse(
-                                        (v ?? '').trim(),
-                                      );
-                                      if (parsed == null || parsed < 0) {
-                                        return 'أدخل سعرًا صالحًا';
-                                      }
-                                      return null;
-                                    },
+    return Scaffold(
+      backgroundColor: AppColors.transparent,
+      appBar: CustomAppBar(title: l10n.addProduct),
+      body: ImageBackground(
+        child: BlocConsumer<OwnerProductsCubit, OwnerProductsState>(
+          listener: (context, state) {
+            if (!_submitting || state is! OwnerProductsLoaded) return;
+            if (state.isCreating) return;
+            setState(() => _submitting = false);
+            if (state.createError != null) {
+              AppSnackBar.error(context, state.createError!);
+              cubit.clearCreateError();
+            } else {
+              AppSnackBar.success(context, l10n.productAddedSuccessfully);
+              Navigator.of(context).pop();
+            }
+          },
+          builder: (context, state) {
+            final isCreating =
+                state is OwnerProductsLoaded && state.isCreating;
+            return Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _sectionTitle(l10n.basicInformation),
+                          SizedBox(height: 10.h),
+                          _labeledField(
+                            controller: _nameCtrl,
+                            label: l10n.productName,
+                            fieldKey: const Key('add_product_name_field'),
+                            validator: (v) => (v == null || v.trim().isEmpty)
+                                ? l10n.productNameRequired
+                                : null,
+                          ),
+                          SizedBox(height: 12.h),
+                          _labeledField(
+                            controller: _descCtrl,
+                            label: l10n.description,
+                            maxLines: 2,
+                          ),
+                          SizedBox(height: 16.h),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: _labeledField(
+                                  controller: _priceCtrl,
+                                  label: l10n.price,
+                                  fieldKey: const Key(
+                                    'add_product_price_field',
                                   ),
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                        decimal: true,
+                                      ),
+                                  validator: (v) {
+                                    final parsed = double.tryParse(
+                                      (v ?? '').trim(),
+                                    );
+                                    if (parsed == null || parsed < 0) {
+                                      return l10n.enterValidPrice;
+                                    }
+                                    return null;
+                                  },
                                 ),
-                                SizedBox(width: 12.w),
-                                Expanded(
-                                  child: _labeledField(
-                                    controller: _stockCtrl,
-                                    label: 'الكمية المتوفرة',
-                                    fieldKey: const Key(
-                                      'add_product_stock_field',
-                                    ),
-                                    keyboardType: TextInputType.number,
-                                    validator: (v) {
-                                      final parsed = int.tryParse(
-                                        (v ?? '').trim(),
-                                      );
-                                      if (parsed == null || parsed < 0) {
-                                        return 'أدخل كمية صالحة';
-                                      }
-                                      return null;
-                                    },
+                              ),
+                              SizedBox(width: 12.w),
+                              Expanded(
+                                child: _labeledField(
+                                  controller: _stockCtrl,
+                                  label: l10n.availableQuantity,
+                                  fieldKey: const Key(
+                                    'add_product_stock_field',
                                   ),
+                                  keyboardType: TextInputType.number,
+                                  validator: (v) {
+                                    final parsed = int.tryParse(
+                                      (v ?? '').trim(),
+                                    );
+                                    if (parsed == null || parsed < 0) {
+                                      return l10n.enterValidQuantity;
+                                    }
+                                    return null;
+                                  },
                                 ),
-                              ],
-                            ),
-                            SizedBox(height: 16.h),
-                            _sectionTitle('التصنيف'),
-                            SizedBox(height: 10.h),
-                            _classificationRow(
-                              label: 'حالة المنتج',
-                              value:
-                                  _kConditionLabels[_condition] ?? _condition,
-                              color: AppColors.orange,
-                              onTap: _pickCondition,
-                            ),
-                            SizedBox(height: 10.h),
-                            _classificationRow(
-                              label: 'ماركة السيارة',
-                              value: _optionLabel(
-                                SparePartsOptions.carBrands,
-                                _carBrandId,
                               ),
-                              color: AppColors.success,
-                              onTap: () => _pickOption(
-                                title: 'ماركة السيارة',
-                                options: SparePartsOptions.carBrands,
-                                currentId: _carBrandId,
-                                onPicked: (id) =>
-                                    setState(() => _carBrandId = id),
-                              ),
+                            ],
+                          ),
+                          SizedBox(height: 16.h),
+                          _sectionTitle(l10n.classification),
+                          SizedBox(height: 10.h),
+                          _classificationRow(
+                            label: l10n.productCondition,
+                            value: _conditionLabel(l10n, _condition),
+                            color: AppColors.accent,
+                            onTap: _pickCondition,
+                          ),
+                          SizedBox(height: 10.h),
+                          _classificationRow(
+                            label: l10n.carBrand,
+                            value: _optionLabel(
+                              l10n,
+                              SparePartsOptions.carBrands,
+                              _carBrandId,
                             ),
-                            SizedBox(height: 10.h),
-                            _classificationRow(
-                              label: 'فئة القطعة',
-                              value: _optionLabel(
-                                SparePartsOptions.partCategories,
-                                _partCategoryId,
-                              ),
-                              color: AppColors.accent,
-                              onTap: () => _pickOption(
-                                title: 'فئة القطعة',
-                                options: SparePartsOptions.partCategories,
-                                currentId: _partCategoryId,
-                                onPicked: (id) =>
-                                    setState(() => _partCategoryId = id),
-                              ),
+                            color: AppColors.green,
+                            onTap: () => _pickOption(
+                              title: l10n.carBrand,
+                              options: SparePartsOptions.carBrands,
+                              currentId: _carBrandId,
+                              onPicked: (id) =>
+                                  setState(() => _carBrandId = id),
                             ),
-                            SizedBox(height: 16.h),
-                            _sectionTitle('صور المنتج'),
-                            SizedBox(height: 10.h),
-                            _imagesSection(),
-                          ],
-                        ),
+                          ),
+                          SizedBox(height: 10.h),
+                          _classificationRow(
+                            label: l10n.partCategory,
+                            value: _optionLabel(
+                              l10n,
+                              SparePartsOptions.partCategories,
+                              _partCategoryId,
+                            ),
+                            color: AppColors.accent,
+                            onTap: () => _pickOption(
+                              title: l10n.partCategory,
+                              options: SparePartsOptions.partCategories,
+                              currentId: _partCategoryId,
+                              onPicked: (id) =>
+                                  setState(() => _partCategoryId = id),
+                            ),
+                          ),
+                          SizedBox(height: 16.h),
+                          _sectionTitle(l10n.productImages),
+                          SizedBox(height: 10.h),
+                          _imagesSection(l10n),
+                        ],
                       ),
                     ),
                   ),
-                  _saveBar(isCreating: isCreating, cubit: cubit),
-                ],
-              );
-            },
-          ),
+                ),
+                _saveBar(l10n: l10n, isCreating: isCreating, cubit: cubit),
+              ],
+            );
+          },
         ),
       ),
     );
   }
 
-  String _optionLabel(List<SparePartsOption> options, int? id) {
-    if (id == null) return 'بدون تحديد';
-    return SparePartsOptions.findById(options, id)?.name ?? 'بدون تحديد';
+  String _conditionLabel(AppLocalizations l10n, String condition) {
+    switch (condition) {
+      case 'used':
+        return l10n.conditionUsed;
+      case 'new':
+      default:
+        return l10n.conditionNew;
+    }
+  }
+
+  String _optionLabel(
+    AppLocalizations l10n,
+    List<SparePartsOption> options,
+    int? id,
+  ) {
+    if (id == null) return l10n.noSelection;
+    return SparePartsOptions.findById(options, id)?.name ?? l10n.noSelection;
   }
 
   Widget _sectionTitle(String title) {
     return Text(
       title,
-      style: AppTypography.labelMedium.copyWith(
+      style: context.textTheme.labelMedium!.copyWith(
         color: AppColors.primary,
         fontWeight: FontWeight.w700,
       ),
@@ -317,14 +341,14 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
       maxLines: maxLines,
       textDirection: TextDirection.rtl,
       validator: validator,
-      style: AppTypography.bodyMedium.copyWith(
-        color: AppColors.lightTextPrimary,
+      style: context.textTheme.bodyMedium!.copyWith(
+        color: AppColors.textPrimary(context),
         fontWeight: FontWeight.w600,
       ),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: AppTypography.labelSmall.copyWith(
-          color: AppColors.lightTextSecondary,
+        labelStyle: context.textTheme.labelSmall!.copyWith(
+          color: AppColors.textSecondary(context),
         ),
         filled: true,
         fillColor: AppColors.white,
@@ -359,14 +383,14 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
                 children: [
                   Text(
                     label,
-                    style: AppTypography.labelSmall.copyWith(
-                      color: AppColors.lightTextSecondary,
+                    style: context.textTheme.labelSmall!.copyWith(
+                      color: AppColors.textSecondary(context),
                     ),
                   ),
                   SizedBox(height: 4.h),
                   Text(
                     value,
-                    style: AppTypography.bodyMedium.copyWith(
+                    style: context.textTheme.bodyMedium!.copyWith(
                       color: color,
                       fontWeight: FontWeight.w700,
                     ),
@@ -381,7 +405,7 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
     );
   }
 
-  Widget _imagesSection() {
+  Widget _imagesSection(AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -395,17 +419,17 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
                     padding: EdgeInsets.symmetric(horizontal: 4.w),
                   ),
                   icon: Icon(Icons.add_photo_alternate_outlined, size: 18.sp),
-                  label: const Text(
-                    'إضافة صور',
+                  label: Text(
+                    l10n.addImages,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),
             const Spacer(),
             Text(
-              'الصور (${_images.length}/$_kMaxProductImages)',
-              style: AppTypography.labelSmall.copyWith(
-                color: AppColors.lightTextSecondary,
+              l10n.imagesCount(_images.length, _kMaxProductImages),
+              style: context.textTheme.labelSmall!.copyWith(
+                color: AppColors.textSecondary(context),
               ),
             ),
           ],
@@ -433,13 +457,13 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
                         right: 2,
                         child: GestureDetector(
                           onTap: () => _removeImage(image),
-                          child: const CircleAvatar(
+                          child: CircleAvatar(
                             radius: 10,
-                            backgroundColor: Colors.black54,
+                            backgroundColor: AppColors.black,
                             child: Icon(
                               Icons.close,
                               size: 14,
-                              color: Colors.white,
+                              color: AppColors.white,
                             ),
                           ),
                         ),
@@ -455,6 +479,7 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
   }
 
   Widget _saveBar({
+    required AppLocalizations l10n,
     required bool isCreating,
     required OwnerProductsCubit cubit,
   }) {
@@ -467,7 +492,7 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
           color: AppColors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.06),
+              color: AppColors.black.withOpacity(0.06),
               blurRadius: 8,
               offset: const Offset(0, -2),
             ),
@@ -496,8 +521,8 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
                     ),
                   )
                 : Text(
-                    'حفظ المنتج',
-                    style: AppTypography.labelLarge.copyWith(
+                    l10n.saveProduct,
+                    style: context.textTheme.labelLarge!.copyWith(
                       color: AppColors.white,
                       fontWeight: FontWeight.w700,
                     ),

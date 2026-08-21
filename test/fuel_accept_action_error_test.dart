@@ -1,6 +1,3 @@
-// اختبارات Minimal UX Fix: فشل قبول طلب وقود محلياً (action error) يجب ألا
-// يفرّغ صفحة التفاصيل (SizedBox) — يبقى آخر تفاصيل محملة ظاهرة مع Snackbar
-// فقط، دون optimistic update.
 import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_order/domain/entities/provider_order_entity.dart';
@@ -38,6 +35,7 @@ void _ignoreKnownAppBarOverflowInTests() {
     }
     original?.call(details);
   };
+  addTearDown(() => FlutterError.onError = original);
 }
 
 Future<void> _pumpRouter(WidgetTester tester, GoRouter router) async {
@@ -106,7 +104,6 @@ void main() {
 
         await _pumpRouter(tester, router);
 
-        // Initial details loaded.
         expect(find.byType(ProviderOrderDetailsBody), findsOneWidget);
 
         await tester.ensureVisible(find.text('قبول الطلب'));
@@ -114,16 +111,12 @@ void main() {
         await tester.tap(find.text('قبول الطلب'));
         await tester.pumpAndSettle();
 
-        // Fill the accept dialog and confirm (both fields are optional).
         await tester.tap(find.text('تأكيد'));
         await tester.pumpAndSettle();
 
-        // Details remain visible — the page did not fall back to a blank
-        // SizedBox.
         expect(find.byType(ProviderOrderDetailsBody), findsOneWidget);
         expect(find.byType(ProviderOrderDetailsPage), findsOneWidget);
 
-        // The failure is still surfaced via a snackbar.
         expect(find.text('فشل قبول الطلب'), findsOneWidget);
       },
     );

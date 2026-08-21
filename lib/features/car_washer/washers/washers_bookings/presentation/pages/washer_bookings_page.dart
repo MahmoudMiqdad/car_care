@@ -26,80 +26,77 @@ class WasherBookingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<BookingsCubit>()..fetchBookings(),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          appBar: CustomAppBar(
-            title: context.l10n.bookingsPageTitle,
-            showBackButton: true,
-            onBackTapped: () {
-              if (context.canPop()) {
-                context.pop();
-              } else {
-                context.go(Routes.more);
-              }
-            },
-          ),
-          backgroundColor: AppColors.lightScaffold,
-          body: ImageBackground(
-            child: SafeArea(
-              child: BlocConsumer<BookingsCubit, BookingsState>(
-                listener: (context, state) {
-                  if (state is BookingActionSuccessMessage) {
-                    AppSnackBar.success(context, state.message);
-                  }
-                  if (state is BookingActionError) {
-                    AppSnackBar.error(context, state.message);
-                  }
-                },
-                builder: (context, state) {
-                  if (state is BookingsLoading || state is BookingsInitial) {
-                    return const Center(child: AppLoadingWidget());
-                  }
-                  if (state is BookingsError) {
-                    return Center(child: Text(state.message));
-                  }
+      child: Scaffold(
+        appBar: CustomAppBar(
+          title: context.l10n.bookingsPageTitle,
+          showBackButton: true,
+          onBackTapped: () {
+            if (context.canPop()) {
+              context.pop();
+            } else {
+              context.go(Routes.more);
+            }
+          },
+        ),
+        backgroundColor: AppColors.scaffoldBackground(context),
+        body: ImageBackground(
+          child: SafeArea(
+            child: BlocConsumer<BookingsCubit, BookingsState>(
+              listener: (context, state) {
+                if (state is BookingActionSuccessMessage) {
+                  AppSnackBar.success(context, state.message);
+                }
+                if (state is BookingActionError) {
+                  AppSnackBar.error(context, state.message);
+                }
+              },
+              builder: (context, state) {
+                if (state is BookingsLoading || state is BookingsInitial) {
+                  return const Center(child: AppLoadingWidget());
+                }
+                if (state is BookingsError) {
+                  return Center(child: Text(state.message));
+                }
 
-                  List<BookingsEntity>? realBookings;
-                  Set<int> busyBookingIds = const {};
-                  if (state is BookingsLoaded) {
-                    realBookings = state.items;
-                    busyBookingIds = state.busyBookingIds;
-                  } else if (state is BookingActionLoading) {
-                    realBookings = state.currentItems;
-                    busyBookingIds = state.busyBookingIds;
-                  } else if (state is BookingActionSuccessMessage) {
-                    realBookings = state.currentItems;
-                    busyBookingIds = state.busyBookingIds;
-                  } else if (state is BookingActionError) {
-                    realBookings = state.currentItems;
-                    busyBookingIds = state.busyBookingIds;
-                  }
+                List<BookingsEntity>? realBookings;
+                Set<int> busyBookingIds = const {};
+                if (state is BookingsLoaded) {
+                  realBookings = state.items;
+                  busyBookingIds = state.busyBookingIds;
+                } else if (state is BookingActionLoading) {
+                  realBookings = state.currentItems;
+                  busyBookingIds = state.busyBookingIds;
+                } else if (state is BookingActionSuccessMessage) {
+                  realBookings = state.currentItems;
+                  busyBookingIds = state.busyBookingIds;
+                } else if (state is BookingActionError) {
+                  realBookings = state.currentItems;
+                  busyBookingIds = state.busyBookingIds;
+                }
 
-                  if (realBookings == null) return const SizedBox.shrink();
-                  final items = realBookings;
+                if (realBookings == null) return const SizedBox.shrink();
+                final items = realBookings;
 
-                  return ListView.separated(
-                    padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 20.h),
-                    itemCount: items.length + 1 + (items.isEmpty ? 1 : 0),
-                    separatorBuilder: (_, index) => SizedBox(height: 14.h),
-                    itemBuilder: (context, index) {
-                      if (index == 0) return const WasherBookingFilter();
-                      if (items.isEmpty) {
-                        return const Padding(
-                          padding: EdgeInsets.only(top: 40),
-                          child: EmptyStateWidget(),
-                        );
-                      }
-                      final booking = items[index - 1];
-                      return WasherBookingCard(
-                        booking: booking,
-                        busy: busyBookingIds.contains(booking.id),
+                return ListView.separated(
+                  padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 20.h),
+                  itemCount: items.length + 1 + (items.isEmpty ? 1 : 0),
+                  separatorBuilder: (_, index) => SizedBox(height: 14.h),
+                  itemBuilder: (context, index) {
+                    if (index == 0) return const WasherBookingFilter();
+                    if (items.isEmpty) {
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 40),
+                        child: EmptyStateWidget(),
                       );
-                    },
-                  );
-                },
-              ),
+                    }
+                    final booking = items[index - 1];
+                    return WasherBookingCard(
+                      booking: booking,
+                      busy: busyBookingIds.contains(booking.id),
+                    );
+                  },
+                );
+              },
             ),
           ),
         ),

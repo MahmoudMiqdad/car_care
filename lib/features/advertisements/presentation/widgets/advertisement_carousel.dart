@@ -1,4 +1,4 @@
-// مسؤول عن عرض شرائح الإعلانات القابلة للتمرير يدويًا أو تلقائيًا مع مؤشر نقطي.
+
 import 'dart:async';
 
 import 'package:car_care/features/advertisements/domain/entities/advertisement_entity.dart';

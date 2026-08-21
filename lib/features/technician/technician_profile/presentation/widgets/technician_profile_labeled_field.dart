@@ -1,3 +1,4 @@
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,7 +31,7 @@ class TechnicianProfileLabeledField extends StatelessWidget {
           style: TextStyle(
             fontSize: 12.5.sp,
             fontWeight: FontWeight.w600,
-            color: Colors.grey.shade700,
+            color: AppColors.gray,
           ),
         ),
         SizedBox(height: 6.h),

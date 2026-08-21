@@ -28,7 +28,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
   void dispose() {
     _currentPasswordController.dispose();
     _newPasswordController.dispose();
-    _confirmPassword.dispose(); 
+    _confirmPassword.dispose();
     super.dispose();
   }
 
@@ -40,26 +40,18 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
     );
   }
 
-  void _showSnack(BuildContext context, String msg, {bool isError = false}) {
-    if (isError) {
-      AppSnackBar.error(context, msg);
-    } else {
-      AppSnackBar.success(context, msg);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-      final strings = context.l10n;
+    final strings = context.l10n;
     return BlocConsumer<PasswordCubit, PasswordState>(
       listener: (context, state) {
         if (state is PasswordSuccess) {
-          _showSnack(context, strings.changedpasswordsuccessfully);
+          AppSnackBar.success(context, strings.changedpasswordsuccessfully);
           Future.delayed(const Duration(milliseconds: 1500), () {
             if (context.mounted) Navigator.of(context).pop();
           });
         } else if (state is PasswordError) {
-          _showSnack(context, state.message, isError: true);
+          AppSnackBar.error(context, state.message);
         }
       },
       builder: (context, state) {
@@ -97,17 +89,15 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
                     child: AppButton(
                       onPressed: isLoading ? null : _submit,
                       text: strings.savePassword,
-                      backgroundColor: AppColors.orange,
-                      textColor: Colors.white,
+                      backgroundColor: AppColors.accent,
+                      textColor: AppColors.white,
                     ),
                   ),
                 ],
               ),
             ),
             if (isLoading)
-              const Positioned.fill(
-                child: Center(child: AppLoadingWidget()),
-              ),
+              const Positioned.fill(child: Center(child: AppLoadingWidget())),
           ],
         );
       },

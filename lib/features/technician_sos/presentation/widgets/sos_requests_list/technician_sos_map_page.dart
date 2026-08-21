@@ -7,6 +7,7 @@ import 'package:car_care/features/technician_sos/presentation/cubit/share_techni
 import 'package:car_care/features/technician_sos/presentation/cubit/technician_sos_cubit/technician_sos_cubit.dart';
 import 'package:car_care/features/technician_sos/presentation/cubit/technician_sos_cubit/technician_sos_state.dart';
 import 'package:car_care/features/technician_sos/presentation/widgets/technician_sos_map_widget.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,23 +26,23 @@ class TechnicianSosMapPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => getIt<ShareTechnicianLocationSosCubit>(),
-        ),
+        BlocProvider(create: (_) => getIt<ShareTechnicianLocationSosCubit>()),
         BlocProvider(
           create: (_) => getIt<TechnicianSosCubit>()..getRequest(sosId),
         ),
       ],
       child: Builder(
         builder: (context) => Scaffold(
-          backgroundColor: AppColors.lightScaffold,
+          backgroundColor: AppColors.scaffoldBackground(context),
           appBar: AppBar(
             backgroundColor: AppColors.carWashTeal,
-            foregroundColor: Colors.white,
+            foregroundColor: AppColors.white,
             title: Text(
-              'تتبع الطلب #$sosId',
+              l10n.trackOrderWithIdLabel(sosId.toString()),
               style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
             ),
             centerTitle: true,
@@ -51,22 +52,21 @@ class TechnicianSosMapPage extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (_) => AlertDialog(
-                    title: const Text('تأكيد الخروج'),
-                    content: const Text(
-                        'سيتوقف إرسال موقعك للعميل. هل تريد الخروج؟'),
+                    title: Text(l10n.confirmExitTitle),
+                    content: Text(l10n.stopSharingLocationWarning),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.pop(context),
-                        child: const Text('إلغاء'),
+                        child: Text(l10n.no),
                       ),
                       TextButton(
                         onPressed: () {
                           Navigator.pop(context);
                           context.safePopOrGo(Routes.technician_sos_requests);
                         },
-                        child: const Text(
-                          'خروج',
-                          style: TextStyle(color: Colors.red),
+                        child: Text(
+                          l10n.exitActionLabel,
+                          style: TextStyle(color: AppColors.red),
                         ),
                       ),
                     ],
@@ -79,7 +79,7 @@ class TechnicianSosMapPage extends StatelessWidget {
             listener: (context, state) {
               if (state is TechnicianRequestLoaded &&
                   state.request.status == 'completed') {
-                AppSnackBar.success(context, 'تم إنهاء الطلب بنجاح ✓');
+                AppSnackBar.success(context, l10n.jobCompletedSuccessMessage);
                 Future.delayed(const Duration(seconds: 1), () {
                   if (context.mounted) {
                     context.safePopOrGo(Routes.technician_sos_requests);

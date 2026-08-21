@@ -73,7 +73,7 @@ class _ProviderOrderDetailsBodyState extends State<ProviderOrderDetailsBody> {
               AppButton(
                 onPressed: widget.onAcceptOrder ?? () {},
                 text: l10n.providerOrderDetailsAcceptOrder,
-                backgroundColor: AppColors.orange,
+                backgroundColor: AppColors.accent,
                 textColor: AppColors.white,
                 borderRadius: 14.r,
                 height: 52.h,

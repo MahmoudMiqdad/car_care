@@ -43,7 +43,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         LoginTextField(
-          innerBorderColor: Colors.transparent,
+          innerBorderColor: AppColors.transparent,
           controller: widget.accountController,
           hintText: strings.email,
           keyboardType: TextInputType.emailAddress,
@@ -60,7 +60,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
         ),
         SizedBox(height: 16.h),
         LoginTextField(
-          innerBorderColor: Colors.transparent,
+          innerBorderColor: AppColors.transparent,
           controller: widget.passwordController,
           hintText: strings.password,
           isPassword: true,
@@ -102,7 +102,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
                           widget._onLogin?.call();
                         }},
             text: strings.login,
-            backgroundColor: AppColors.orange,
+            backgroundColor: AppColors.accent,
             textColor: AppColors.white,
           ),
         ),
@@ -136,7 +136,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
               child: Text(
                 strings.createAccount,
                 style: context.textTheme.bodyMedium?.copyWith(
-                  color: AppColors.orange,
+                  color: AppColors.accent,
                   fontWeight: FontWeight.w600,
                   fontSize: 14.sp,
                 ),

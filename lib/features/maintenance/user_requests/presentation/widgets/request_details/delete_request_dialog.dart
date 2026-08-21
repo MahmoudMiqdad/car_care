@@ -1,15 +1,16 @@
-
-
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Future<bool?> showDeleteRequestDialog(BuildContext context) {
+  final l10n = context.l10n;
+
   return showDialog<bool>(
     context: context,
     barrierDismissible: true,
     builder: (dialogContext) => Dialog(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent, 
       insetPadding: EdgeInsets.symmetric(horizontal: 28.w),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(14.r),
@@ -21,9 +22,9 @@ Future<bool?> showDeleteRequestDialog(BuildContext context) {
             children: [
               Container(
                 padding: EdgeInsets.symmetric(vertical: 12.h),
-                color: Colors.red.shade600,
+                color: AppColors.red, 
                 child: Text(
-                  'حذف الطلب',
+                  l10n.deleteRequestTitle, 
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: AppColors.white,
@@ -38,14 +39,13 @@ Future<bool?> showDeleteRequestDialog(BuildContext context) {
                   children: [
                     Icon(
                       Icons.delete_forever_outlined,
-                      color: Colors.red.shade400,
+                      color: AppColors.red, 
                       size: 48.r,
                     ),
                     SizedBox(height: 12.h),
                     Text(
-                      'هل أنت متأكد من حذف هذا الطلب؟',
+                      l10n.deleteRequestConfirmation, 
                       textAlign: TextAlign.center,
-                      textDirection: TextDirection.rtl,
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w700,
@@ -54,12 +54,11 @@ Future<bool?> showDeleteRequestDialog(BuildContext context) {
                     ),
                     SizedBox(height: 6.h),
                     Text(
-                      'لا يمكن التراجع عن هذه العملية',
+                      l10n.cannotUndoActionWarning, 
                       textAlign: TextAlign.center,
-                      textDirection: TextDirection.rtl,
                       style: TextStyle(
                         fontSize: 13.sp,
-                        color: Colors.grey.shade600,
+                        color: AppColors.textSecondary(context), 
                       ),
                     ),
                   ],
@@ -67,18 +66,17 @@ Future<bool?> showDeleteRequestDialog(BuildContext context) {
               ),
               Container(
                 height: 48.h,
-                color: Colors.red.shade600,
+                color: AppColors.red, 
                 child: Row(
-                  textDirection: TextDirection.rtl,
                   children: [
                     Expanded(
                       child: Material(
-                        color: Colors.transparent,
+                        color: AppColors.transparent,
                         child: InkWell(
                           onTap: () => Navigator.of(dialogContext).pop(true),
                           child: Center(
                             child: Text(
-                              'نعم، احذف',
+                              l10n.yesDeleteButton, 
                               style: TextStyle(
                                 color: AppColors.white,
                                 fontSize: 17.sp,
@@ -96,12 +94,12 @@ Future<bool?> showDeleteRequestDialog(BuildContext context) {
                     ),
                     Expanded(
                       child: Material(
-                        color: Colors.transparent,
+                        color: AppColors.transparent,
                         child: InkWell(
                           onTap: () => Navigator.of(dialogContext).pop(false),
                           child: Center(
                             child: Text(
-                              'تراجع',
+                              l10n.backButton,
                               style: TextStyle(
                                 color: AppColors.white,
                                 fontSize: 17.sp,

@@ -73,9 +73,13 @@ class CreateSosBody extends StatelessWidget {
             ),
             SizedBox(height: 30.h),
             AppButton(
-              text: isLoading ? 'جاري الإرسال...' : l10n.createSosSendRequest,
+              text: isLoading
+                  ? l10n.sosProcessingInProgress
+                  : l10n.createSosSendRequest,
               onPressed: isLoading ? null : onSubmit,
-              backgroundColor: isLoading ? AppColors.accent.withOpacity(0.6) : AppColors.accent,
+              backgroundColor: isLoading
+                  ? AppColors.accent.withValues(alpha: 0.6)
+                  : AppColors.accent,
               height: 52.h,
               borderRadius: 14.r,
             ),

@@ -39,28 +39,25 @@ class _MyVehiclesPagePageState extends State<MyVehiclesPagePage> {
     final strings = context.l10n;
     return BlocProvider.value(
       value: _vehicleCubit,
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          floatingActionButton: Padding(
-            padding: EdgeInsets.only(bottom: 16.h, left: 16.w),
-            child: FloatingAddButton(
-              onTap: () async {
-                await context.push(Routes.add_vehicle);
-                if (mounted) {
-                  _vehicleCubit.getAllVehicles();
-                }
-              },
-            ),
+      child: Scaffold(
+        floatingActionButton: Padding(
+          padding: EdgeInsets.only(bottom: 16.h, left: 16.w),
+          child: FloatingAddButton(
+            onTap: () async {
+              await context.push(Routes.add_vehicle);
+              if (mounted) {
+                _vehicleCubit.getAllVehicles();
+              }
+            },
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-          backgroundColor: context.colorScheme.surface,
-          appBar: CustomAppBar(
-            title: strings.myVehicles,
-            onBackTapped: () => context.go(Routes.home),
-          ),
-          body: const ImageBackground(child: VehiclesBody()),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+        backgroundColor: context.colorScheme.surface,
+        appBar: CustomAppBar(
+          title: strings.myVehicles,
+          onBackTapped: () => context.go(Routes.home),
+        ),
+        body: const ImageBackground(child: VehiclesBody()),
       ),
     );
   }

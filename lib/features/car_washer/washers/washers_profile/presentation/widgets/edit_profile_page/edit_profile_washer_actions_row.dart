@@ -28,7 +28,7 @@ class EditProfileWasherActionsRow extends StatelessWidget {
             text: saveLabel,
             height: 50.h,
             borderRadius: 14.r,
-            backgroundColor: AppColors.orange,
+            backgroundColor: AppColors.accent,
             fontSize: 16.sp,
           ),
         ),

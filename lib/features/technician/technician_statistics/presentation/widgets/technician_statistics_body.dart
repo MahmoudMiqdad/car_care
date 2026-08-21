@@ -1,6 +1,7 @@
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/widgets/loding.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,6 +19,8 @@ class TechnicianStatisticsBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return BlocBuilder<TechnicianStatisticsCubit, TechnicianStatisticsState>(
       builder: (context, state) {
         if (state is TechnicianStatisticsLoading) {
@@ -38,7 +41,7 @@ class TechnicianStatisticsBody extends StatelessWidget {
                   ),
                   SizedBox(height: 12.h),
                   AppButton(
-                    text: 'حاول مرة أخرى',
+                    text: l10n.retry,
                     backgroundColor: AppColors.primary,
                     height: 52.h,
                     borderRadius: 14.r,

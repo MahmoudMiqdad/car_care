@@ -9,6 +9,7 @@ import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+
 class ProviderAvailableOrderCard extends StatelessWidget {
   const ProviderAvailableOrderCard({
     super.key,
@@ -27,7 +28,10 @@ class ProviderAvailableOrderCard extends StatelessWidget {
     final vehicleText = order.vehicle != null
         ? '${order.vehicle!.brand ?? ''} ${order.vehicle!.model ?? ''}'.trim()
         : '-';
-    final fuelText = '${order.fuelType ?? '-'} - ${order.amount ?? 0} لتر';
+        
+ 
+    final fuelText = l10n.fuelAmountLabel(order.fuelType ?? '-', order.amount ?? 0);
+    
     final notesText = (order.notes == null || order.notes!.isEmpty)
         ? l10n.providerAvailableOrderNoNotes
         : order.notes!;
@@ -40,7 +44,7 @@ class ProviderAvailableOrderCard extends StatelessWidget {
         border: Border.all(color: AppColors.carWashTeal, width: 1),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
+            color: AppColors.black.withValues(alpha: 0.06), // 🎯 استخدام AppColors لتأمين ثبات الألوان
             blurRadius: 10.r,
             offset: Offset(0, 4.h),
           ),
@@ -55,8 +59,7 @@ class ProviderAvailableOrderCard extends StatelessWidget {
             child: IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                textDirection: TextDirection.rtl,
-                children: [
+                children: [ // 🎯 قمنا بحذف الـ textDirection اليدوي لدعم تناسق اتجاه اللغات تلقائياً
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -121,7 +124,7 @@ class ProviderAvailableOrderCard extends StatelessWidget {
             child: AppButton(
               onPressed: onViewDetails ?? () {},
               text: l10n.sosRequestViewDetails,
-              backgroundColor: AppColors.orange,
+              backgroundColor: AppColors.accent,
               textColor: AppColors.white,
               borderRadius: 15.r,
               height: 45.h,

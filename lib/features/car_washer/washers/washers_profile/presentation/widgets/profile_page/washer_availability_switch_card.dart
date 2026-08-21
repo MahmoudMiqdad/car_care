@@ -2,6 +2,7 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/car_washer/washers/washers_availability/presentation/cubit/availability_cubit.dart';
 import 'package:car_care/features/car_washer/washers/washers_availability/presentation/cubit/availability_state.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,72 +30,81 @@ class _WasherAvailabilitySwitchCardState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return BlocListener<AvailabilityCubit, AvailabilityState>(
       listener: (context, state) {
         if (state is AvailabilitySuccess) {
           setState(() => _value = state.isAvailable);
-          AppSnackBar.success(context, 'تم تحديث حالة التوفر بنجاح');
+          AppSnackBar.success(context, l10n.washerAvailabilityUpdateSuccess);
         } else if (state is AvailabilityError) {
           AppSnackBar.error(context, state.message);
         }
       },
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: BlocBuilder<AvailabilityCubit, AvailabilityState>(
-          builder: (context, state) {
-            final busy = state is AvailabilityLoading;
+      child: BlocBuilder<AvailabilityCubit, AvailabilityState>(
+        builder: (context, state) {
+          final busy = state is AvailabilityLoading;
 
-            return Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.9),
-                borderRadius: BorderRadius.circular(14.r),
-                border: Border.all(color: AppColors.lightBorder),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'متاح لاستقبال الحجوزات',
-                          style: TextStyle(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.black,
-                          ),
+          return Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+            decoration: BoxDecoration(
+              color: AppColors.white.withValues(alpha: 0.9),
+              borderRadius: BorderRadius.circular(14.r),
+              border: Border.all(color: AppColors.border(context)),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.washerAvailabilityTitle,
+                        style: TextStyle(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.black,
                         ),
-                        SizedBox(height: 2.h),
-                        Text(
-                          _value ? 'متاح حاليًا' : 'غير متاح حاليًا',
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w500,
-                            color: _value ? AppColors.success : AppColors.error,
-                          ),
+                      ),
+                      SizedBox(height: 2.h),
+                      Text(
+                        _value
+                            ? l10n.washerAvailabilityStatusAvailable
+                            : l10n.washerAvailabilityStatusUnavailable,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500,
+                          color: _value ? AppColors.green : AppColors.red,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  if (busy)
-                    SizedBox(
-                      width: 20.w,
-                      height: 20.w,
-                      child: const CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  else
-                    Switch(
-                      value: _value,
-                      activeColor: AppColors.carWashTeal,
-                      onChanged: _onChanged,
+                ),
+                if (busy)
+                  SizedBox(
+                    width: 20.w,
+                    height: 20.w,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        AppColors.carWashTeal,
+                      ),
                     ),
-                ],
-              ),
-            );
-          },
-        ),
+                  )
+                else
+                  Switch(
+                    value: _value,
+                    activeColor: AppColors.carWashTeal,
+                    inactiveTrackColor: AppColors.border(
+                      context,
+                    ).withValues(alpha: 0.5),
+                    onChanged: _onChanged,
+                  ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

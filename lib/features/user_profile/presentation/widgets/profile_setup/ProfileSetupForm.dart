@@ -11,6 +11,7 @@ import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class ProfileSetupForm extends StatefulWidget {
   const ProfileSetupForm({super.key, this.Image});
   final String? Image;
@@ -43,7 +44,7 @@ class _ProfileSetupFormState extends State<ProfileSetupForm> {
 
   @override
   Widget build(BuildContext context) {
-     final strings = context.l10n;
+    final strings = context.l10n;
     return BlocConsumer<UpdateProfileCubit, UpdateProfileState>(
       listener: (context, state) {
         if (state is UpdateProfileSuccess) {
@@ -83,15 +84,13 @@ class _ProfileSetupFormState extends State<ProfileSetupForm> {
               height: 50.h,
               child: AppButton(
                 onPressed: isLoading ? null : () => _submit(context),
-                text:strings.saveandfollow,
-                backgroundColor: AppColors.orange,
-                textColor: Colors.white,
+                text: strings.saveandfollow,
+                backgroundColor: AppColors.accent,
+                textColor: AppColors.white,
               ),
             ),
             if (isLoading)
-              const Positioned.fill(
-                child: Center(child: AppLoadingWidget()),
-              ),
+              const Positioned.fill(child: Center(child: AppLoadingWidget())),
           ],
         );
       },

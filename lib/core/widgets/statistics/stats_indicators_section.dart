@@ -80,7 +80,7 @@ class StatsIndicatorItem extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
-                color: AppColors.lightTextPrimary,
+                color: AppColors.textPrimary(context),
               ),
             ),
           ),

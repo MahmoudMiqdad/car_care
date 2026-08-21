@@ -1,22 +1,10 @@
-// Centralized, shared Add/Edit vehicle validators. Pure top-level functions
-// so they're directly unit-testable without pumping any widget.
-//
-// isRequired is false in Edit mode: the field starts pre-filled with the
-// current value, so an untouched/empty field must never block submission —
-// only a value the user actually typed has to pass the format checks.
 
-/// Letters (Arabic/English), digits, spaces, hyphen, apostrophe and
-/// ampersand — covers brand names like "Mercedes-Benz", "Land Rover",
-/// "DS 7" and "مرسيدس بنز" while rejecting random symbols
+import 'package:car_care/l10n/gen/app_localizations.dart';
+
+
 final RegExp _brandModelPattern = RegExp(r"^[a-zA-Z؀-ۿ0-9\s\-'&]+$");
-
-/// Letters (Arabic/English), digits, spaces and hyphen — covers plates like
-/// "ABC-123" or a mixed Arabic/English plate.
 final RegExp _plateCharsPattern = RegExp(r'^[a-zA-Z؀-ۿ0-9\s\-]+$');
 
-/// True while a request is already in flight — the submit button must be
-/// disabled and no second API call issued until it resolves. Shared by
-/// Add and Edit vehicle forms.
 bool canSubmitVehicleForm({required bool isLoading}) => !isLoading;
 
 const int vehicleImageMaxBytes = 5 * 1024 * 1024;
@@ -27,89 +15,83 @@ const Set<String> allowedVehicleImageExtensions = {
   'webp',
 };
 
-String? validateVehicleBrand(String? value, {required bool isRequired}) {
+String? validateVehicleBrand(String? value, {required bool isRequired, AppLocalizations? l10n}) {
   final v = (value ?? '').trim();
-  if (v.isEmpty) return isRequired ? 'يرجى إدخال الماركة' : null;
-  if (v.length < 2) return 'الماركة يجب أن تكون حرفين على الأقل';
-  if (v.length > 50) return 'الماركة طويلة جدًا (الحد الأقصى 50 حرفًا)';
+  if (v.isEmpty) return isRequired ? (l10n?.brandRequiredError ?? 'يرجى إدخال الماركة') : null;
+  if (v.length < 2) return l10n?.brandMinLengthError ?? 'الماركة يجب أن تكون حرفين على الأقل';
+  if (v.length > 50) return l10n?.brandMaxLengthError ?? 'الماركة طويلة جدًا (الحد الأقصى 50 حرفًا)';
   if (!_brandModelPattern.hasMatch(v)) {
-    return 'الماركة تحتوي على رموز غير مسموحة';
+    return l10n?.brandInvalidCharsError ?? 'الماركة تحتوي على رموز غير مسموحة';
   }
   return null;
 }
 
-String? validateVehicleModel(String? value, {required bool isRequired}) {
+String? validateVehicleModel(String? value, {required bool isRequired, AppLocalizations? l10n}) {
   final v = (value ?? '').trim();
-  if (v.isEmpty) return isRequired ? 'يرجى إدخال الطراز' : null;
-  if (v.length > 50) return 'الطراز طويل جدًا (الحد الأقصى 50 حرفًا)';
+  if (v.isEmpty) return isRequired ? (l10n?.modelRequiredError ?? 'يرجى إدخال الطراز') : null;
+  if (v.length > 50) return l10n?.modelMaxLengthError ?? 'الطراز طويل جدًا (الحد الأقصى 50 حرفًا)';
   if (!_brandModelPattern.hasMatch(v)) {
-    return 'الطراز يحتوي على رموز غير مسموحة';
+    return l10n?.modelInvalidCharsError ?? 'الطراز يحتوي على رموز غير مسموحة';
   }
   return null;
 }
 
-String? validateVehiclePlateNumber(String? value, {required bool isRequired}) {
+String? validateVehiclePlateNumber(String? value, {required bool isRequired, AppLocalizations? l10n}) {
   final v = (value ?? '').trim();
-  if (v.isEmpty) return isRequired ? 'يرجى إدخال رقم اللوحة' : null;
+  if (v.isEmpty) return isRequired ? (l10n?.plateNumberRequiredError ?? 'يرجى إدخال رقم اللوحة') : null;
   if (!_plateCharsPattern.hasMatch(v)) {
-    return 'رقم اللوحة يحتوي على رموز غير مسموحة';
+    return l10n?.plateInvalidCharsError ?? 'رقم اللوحة يحتوي على رموز غير مسموحة';
   }
   final significant = v.replaceAll(RegExp(r'[\s\-]'), '');
   if (significant.length < 4 || significant.length > 9) {
-    return 'رقم اللوحة يجب أن يكون بين 4 و 9 محارف';
+    return l10n?.plateLengthError ?? 'رقم اللوحة يجب أن يكون بين 4 و 9 محارف';
   }
   return null;
 }
 
-String? validateVehicleYear(String? value, {required bool isRequired}) {
+String? validateVehicleYear(String? value, {required bool isRequired, AppLocalizations? l10n}) {
   final v = (value ?? '').trim();
-  if (v.isEmpty) return isRequired ? 'يرجى إدخال سنة الصنع' : null;
+  if (v.isEmpty) return isRequired ? (l10n?.manufactureYearRequiredError ?? 'يرجى إدخال سنة الصنع') : null;
   final year = int.tryParse(v);
-  if (year == null) return 'يرجى إدخال سنة صحيحة';
+  if (year == null) return l10n?.invalidYearError ?? 'يرجى إدخال سنة صحيحة';
   final maxYear = DateTime.now().year + 1;
   if (year < 1900 || year > maxYear) {
-    return 'سنة الصنع يجب أن تكون بين 1900 و $maxYear';
+    return l10n?.yearRangeError(maxYear) ?? 'سنة الصنع يجب أن تكون بين 1900 و $maxYear';
   }
   return null;
 }
 
-String? validateVehicleCurrentKm(String? value, {required bool isRequired}) {
+String? validateVehicleCurrentKm(String? value, {required bool isRequired, AppLocalizations? l10n}) {
   final v = (value ?? '').trim();
-  if (v.isEmpty) return isRequired ? 'يرجى إدخال قراءة العداد' : null;
+  if (v.isEmpty) return isRequired ? (l10n?.odometerRequiredError ?? 'يرجى إدخال قراءة العداد') : null;
   final km = int.tryParse(v);
-  if (km == null) return 'يرجى إدخال رقم صحيح';
+  if (km == null) return l10n?.invalidNumberError ?? 'يرجى إدخال رقم صحيح';
   if (km < 0 || km > 2000000) {
-    return 'قراءة العداد يجب أن تكون بين 0 و 2000000';
+    return l10n?.odometerRangeError ?? 'قراءة العداد يجب أن تكون بين 0 و 2000000';
   }
   return null;
 }
 
-/// [fileName] is used only to read the extension; [sizeBytes] is validated
-/// only when it could actually be read up front (picker platforms differ).
-String? validateVehicleImageFile({required String fileName, int? sizeBytes}) {
+String? validateVehicleImageFile({required String fileName, int? sizeBytes, AppLocalizations? l10n}) {
   final dotIndex = fileName.lastIndexOf('.');
   final ext = dotIndex == -1
       ? ''
       : fileName.substring(dotIndex + 1).toLowerCase();
   if (!allowedVehicleImageExtensions.contains(ext)) {
-    return 'صيغة الصورة غير مدعومة (jpg، jpeg، png أو webp فقط)';
+    return l10n?.unsupportedImageFormatError ?? 'صيغة الصورة غير مدعومة (jpg، jpeg، png أو webp فقط)';
   }
   if (sizeBytes != null && sizeBytes > vehicleImageMaxBytes) {
-    return 'حجم الصورة يجب ألا يتجاوز 5 ميجابايت';
+    return l10n?.imageSizeExceededError ?? 'حجم الصورة يجب ألا يتجاوز 5 ميجابايت';
   }
   return null;
 }
 
-/// Trims and collapses repeated internal whitespace — comparing text fields
-/// this way means incidental spacing never reads as "the user changed this".
 String _normalizeForComparison(String value) =>
     value.trim().replaceAll(RegExp(r'\s+'), ' ');
 
 bool vehicleTextChanged(String current, String initial) =>
     _normalizeForComparison(current) != _normalizeForComparison(initial);
 
-/// Compares as numbers when both sides parse; falls back to normalized text
-/// comparison otherwise (e.g. while the field is empty/invalid mid-edit).
 bool vehicleNumberChanged(String current, String initial) {
   final c = int.tryParse(current.trim());
   final i = int.tryParse(initial.trim());
@@ -117,10 +99,6 @@ bool vehicleNumberChanged(String current, String initial) {
   return _normalizeForComparison(current) != _normalizeForComparison(initial);
 }
 
-/// Builds the update request body containing *only* the fields that
-/// actually changed from their original values. The backend's plate_number
-/// uniqueness check runs even on a resubmitted-but-unchanged value, so
-/// omitting a field entirely when untouched is required, not cosmetic.
 Map<String, String> buildVehicleUpdateFields({
   required String brand,
   required String initialBrand,
@@ -152,9 +130,6 @@ Map<String, String> buildVehicleUpdateFields({
   return fields;
 }
 
-/// True when at least one field or the image actually differs from the
-/// vehicle's original values — used to skip the API call entirely and show
-/// "لم يتم إجراء أي تعديل" instead.
 bool vehicleEditHasChanges({
   required String brand,
   required String initialBrand,

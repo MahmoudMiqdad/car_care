@@ -2,6 +2,7 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/selection/shared_selection_bottom_sheet.dart';
 import 'package:car_care/core/widgets/selection/vehicle_selection_tile.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 
 void showReservationVehiclePicker({
@@ -12,7 +13,7 @@ void showReservationVehiclePicker({
 }) {
   SharedSelectionBottomSheet.show<VehicleEntity>(
     context: context,
-    title: 'اختر مركبتك',
+    title: context.l10n.selectYourVehicle,
     items: vehicles,
     itemBuilder: (context, v) => VehicleSelectionTile(
       vehicle: v,

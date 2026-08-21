@@ -21,7 +21,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-
 Future<void> _goToDetailsThenBack(
   BuildContext context,
   UserFuelOrderEntity order,
@@ -68,6 +67,7 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
   }
 
   Future<void> _pickVehicle() async {
+    final l10n = context.l10n;
     final cubit = context.read<VehicleCubit>();
     var state = cubit.state;
 
@@ -84,7 +84,7 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
     }
 
     if (state is VehicleEmpty) {
-      AppSnackBar.error(context, 'لا توجد سيارات مضافة');
+      AppSnackBar.error(context, l10n.noVehiclesAdded);
       return;
     }
 
@@ -94,7 +94,7 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
 
     await SharedSelectionBottomSheet.show<VehicleEntity>(
       context: context,
-      title: 'اختر مركبتك',
+      title: l10n.selectYourVehicle,
       items: vehicles,
       itemBuilder: (context, v) => VehicleSelectionTile(
         vehicle: v,
@@ -115,7 +115,7 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
     final l10n = context.l10n;
     return [
       (label: l10n.gasoline95, apiValue: '95'),
-      (label: 'بنزين 98', apiValue: '98'),
+      (label: l10n.gasoline98, apiValue: '98'),
       (label: l10n.diesel, apiValue: 'diesel'),
     ];
   }
@@ -132,7 +132,7 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
         label: option.label,
         isSelected: option.apiValue == _fuelTypeApiValue,
       ),
-     
+
       onSelected: (choice) => setState(() {
         _fuelTypeValue = choice.label;
         _fuelTypeApiValue = choice.apiValue;
@@ -143,12 +143,10 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
   Future<void> _pickProvince() async {
     await SharedSelectionBottomSheet.show<String>(
       context: context,
-      title: 'اختر المحافظة',
+      title: context.l10n.selectGovernorate,
       items: kCreateSosProvinceOptions,
-      itemBuilder: (context, e) => GovernorateSelectionTile(
-        label: e,
-        isSelected: _provinceValue == e,
-      ),
+      itemBuilder: (context, e) =>
+          GovernorateSelectionTile(label: e, isSelected: _provinceValue == e),
       onSelected: (e) => setState(() => _provinceValue = e),
     );
   }
@@ -156,6 +154,7 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
   Future<void> _onSubmit() async {
     if (_isSubmitting) return;
 
+    final l10n = context.l10n;
     FocusScope.of(context).unfocus();
 
     final fuelTypeApiValue = _fuelTypeApiValue;
@@ -164,7 +163,7 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
         fuelTypeApiValue == null ||
         _quantityController.text.isEmpty ||
         _provinceValue == null) {
-      AppSnackBar.error(context, 'من فضلك أكمل جميع الحقول');
+      AppSnackBar.error(context, l10n.completeAllFieldsError);
       return;
     }
 
@@ -195,45 +194,41 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
-        appBar: CustomAppBar(
-          title: l10n.fuelSosCreateTitle,
-          showBackButton: true,
-          onBackTapped: () => context.safePopOrGo(Routes.home),
-        ),
-        body: BlocListener<UserFuelCubit, UserFuelState>(
-          listener: (context, state) {
-            if (state is UserFuelOrderCreated) {
-              setState(() => _isSubmitting = false);
-              AppSnackBar.success(context, 'تم إرسال طلب الوقود بنجاح');
-              _goToDetailsThenBack(context, state.order);
-            }
-            if (state is UserFuelError) {
-              setState(() => _isSubmitting = false);
-              final msg =
-                  state.message.isEmpty ||
-                      state.message.startsWith('Instance of')
-                  ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
-                  : state.message;
-              AppSnackBar.error(context, msg);
-            }
-          },
-          child: ImageBackground(
-            child: FuelSosCreateBody(
-              vehicleValue: _vehicleValue,
-              fuelTypeValue: _fuelTypeValue,
-              provinceValue: _provinceValue,
-              quantityController: _quantityController,
-              notesController: _notesController,
-              onPickVehicle: _pickVehicle,
-              onPickFuelType: _pickFuelType,
-              onPickProvince: _pickProvince,
-              onSubmit: _onSubmit,
-              isLoading: _isSubmitting,
-            ),
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground(context),
+      appBar: CustomAppBar(
+        title: l10n.fuelSosCreateTitle,
+        showBackButton: true,
+        onBackTapped: () => context.safePopOrGo(Routes.home),
+      ),
+      body: BlocListener<UserFuelCubit, UserFuelState>(
+        listener: (context, state) {
+          if (state is UserFuelOrderCreated) {
+            setState(() => _isSubmitting = false);
+            AppSnackBar.success(context, l10n.fuelOrderSentSuccessfully);
+            _goToDetailsThenBack(context, state.order);
+          }
+          if (state is UserFuelError) {
+            setState(() => _isSubmitting = false);
+            final msg =
+                state.message.isEmpty || state.message.startsWith('Instance of')
+                ? l10n.sosGenericActionError
+                : state.message;
+            AppSnackBar.error(context, msg);
+          }
+        },
+        child: ImageBackground(
+          child: FuelSosCreateBody(
+            vehicleValue: _vehicleValue,
+            fuelTypeValue: _fuelTypeValue,
+            provinceValue: _provinceValue,
+            quantityController: _quantityController,
+            notesController: _notesController,
+            onPickVehicle: _pickVehicle,
+            onPickFuelType: _pickFuelType,
+            onPickProvince: _pickProvince,
+            onSubmit: _onSubmit,
+            isLoading: _isSubmitting,
           ),
         ),
       ),

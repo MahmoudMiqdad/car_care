@@ -1,3 +1,4 @@
+import 'package:car_care/core/theme/theme_cubit.dart';
 import 'package:car_care/features/notifications/data/data_sources/notifications_remote_data_source.dart';
 import 'package:car_care/features/notifications/data/repositories/notifications_repository_impl.dart';
 import 'package:car_care/features/notifications/domain/repositories/i_notifications_repository.dart';
@@ -85,6 +86,11 @@ import 'package:car_care/features/maintenance/user_statistics/data/data_sources/
 import 'package:car_care/features/maintenance/user_statistics/data/repositories/statistics_impl.dart';
 import 'package:car_care/features/maintenance/user_statistics/domain/repositories/i_statistics.dart';
 import 'package:car_care/features/maintenance/user_statistics/presentation/cubit/statistics_cubit.dart';
+import 'package:car_care/features/provider_invoices/data/data_sources/provider_invoices_remote_data_source.dart';
+import 'package:car_care/features/provider_invoices/data/repositories/provider_invoices_repository_impl.dart';
+import 'package:car_care/features/provider_invoices/domain/repositories/i_provider_invoices_repository.dart';
+import 'package:car_care/features/provider_invoices/presentation/cubit/list/provider_invoices_cubit.dart';
+import 'package:car_care/features/provider_invoices/presentation/cubit/show/show_provider_invoice_cubit.dart';
 import 'package:car_care/features/sos/data/data_sources/sos_remote_data_source.dart';
 import 'package:car_care/features/sos/data/repositories/sos_repository_impl.dart';
 import 'package:car_care/features/sos/domain/repositories/i_sos_repository.dart';
@@ -193,23 +199,22 @@ final GetIt getIt = GetIt.instance;
 
 Future<void> setupServiceLocator() async {
   getIt
-    // Storage
     ..registerLazySingleton<FlutterSecureStorage>(
       () => const FlutterSecureStorage(),
     )
     ..registerLazySingleton<SecureStorage>(
       () => SecureStorage(getIt<FlutterSecureStorage>()),
     )
-    // Locale
     ..registerLazySingleton<LocaleCubit>(
       () => LocaleCubit(getIt<SecureStorage>()),
     )
-    // Networking
+    ..registerLazySingleton<ThemeCubit>(
+      () => ThemeCubit(getIt<SecureStorage>()),
+    )
     ..registerLazySingleton<ApiClient>(
       () => ApiClient(secureStorage: getIt<SecureStorage>()),
     )
     ..registerLazySingleton<ApiService>(() => ApiService(getIt<ApiClient>()))
-    // Auth data source
     ..registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSource(getIt<ApiService>()),
     )
@@ -226,7 +231,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<PasswordResetCubit>(
       () => PasswordResetCubit(getIt<IAuthRepository>()),
     )
-    // Vehicle
     ..registerLazySingleton<VehicleRemoteDataSource>(
       () => VehicleRemoteDataSource(getIt<ApiService>()),
     )
@@ -252,7 +256,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<FuelLogsCubit>(
       () => FuelLogsCubit(getIt<IVehicleRepository>()),
     )
-    // Technician statistics
     ..registerLazySingleton<TechnicianStatisticsRemoteDataSource>(
       () => TechnicianStatisticsRemoteDataSource(getIt()),
     )
@@ -262,7 +265,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<TechnicianStatisticsCubit>(
       () => TechnicianStatisticsCubit(getIt()),
     )
-    // User statistics
     ..registerLazySingleton<StatisticsRemoteDataSource>(
       () => StatisticsRemoteDataSource(getIt()),
     )
@@ -270,7 +272,6 @@ Future<void> setupServiceLocator() async {
       () => StatisticsRepositoryImpl(getIt()),
     )
     ..registerFactory<StatisticsCubit>(() => StatisticsCubit(getIt()))
-    // Profile
     ..registerLazySingleton<ProfileRemoteDataSource>(
       () => ProfileRemoteDataSource(getIt<ApiService>()),
     )
@@ -292,7 +293,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<DeleteProfileCubit>(
       () => DeleteProfileCubit(getIt<IProfileRepository>()),
     )
-    //TechnicianProfile
     ..registerLazySingleton<TechnicianProfileRemoteDataSource>(
       () => TechnicianProfileRemoteDataSource(getIt<ApiService>()),
     )
@@ -307,7 +307,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<TechnicianAvailabilityCubit>(
       () => TechnicianAvailabilityCubit(getIt<ITechnicianProfileRepository>()),
     )
-    //TechnicianQuotations
     ..registerLazySingleton<TechnicianQuotationsRemoteDataSource>(
       () => TechnicianQuotationsRemoteDataSource(getIt<ApiService>()),
     )
@@ -316,11 +315,9 @@ Future<void> setupServiceLocator() async {
         getIt<TechnicianQuotationsRemoteDataSource>(),
       ),
     )
-    //Technicianlocation
     ..registerFactory<TechnicianLocationCubit>(
       () => TechnicianLocationCubit(getIt<ITechnicianProfileRepository>()),
     )
-    //TechnicianOrder
     ..registerLazySingleton<TechnicianOrderRemoteDataSource>(
       () => TechnicianOrderRemoteDataSource(getIt<ApiService>()),
     )
@@ -335,7 +332,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<RequestCubit>(
       () => RequestCubit(getIt<ITechnicianOrderRepository>()),
     )
-    //TechnicianJobs
     ..registerLazySingleton<TechnicianJobsRemoteDataSource>(
       () => TechnicianJobsRemoteDataSource(getIt<ApiService>()),
     )
@@ -346,7 +342,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<TechnicianJobsCubit>(
       () => TechnicianJobsCubit(getIt<ITechnicianJobsRepository>()),
     )
-    //
     ..registerLazySingleton<RequestsRemoteDataSource>(
       () => RequestsRemoteDataSource(getIt<ApiService>()),
     )
@@ -399,7 +394,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<QuotationsCubit>(
       () => QuotationsCubit(getIt<IQuotationsRepository>()),
     )
-    // Bookings
     ..registerLazySingleton<BookingsRemoteDataSource>(
       () => BookingsRemoteDataSource(getIt<ApiService>()),
     )
@@ -409,7 +403,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<BookingsCubit>(
       () => BookingsCubit(getIt<IBookingsRepository>()),
     )
-    //customer bookings
     ..registerLazySingleton<CustomerBookingsRemoteDataSource>(
       () => CustomerBookingsRemoteDataSource(getIt<ApiService>()),
     )
@@ -446,20 +439,15 @@ Future<void> setupServiceLocator() async {
       () => SosRepositoryImpl(getIt<SosRemoteDataSource>()),
     )
     ..registerFactory<SosCubit>(() => SosCubit(getIt<ISosRepository>()))
-    //notifications
     ..registerLazySingleton<NotificationsRemoteDataSource>(
       () => NotificationsRemoteDataSource(getIt<ApiService>()),
     )
     ..registerLazySingleton<INotificationsRepository>(
       () => NotificationsRepositoryImpl(getIt<NotificationsRemoteDataSource>()),
     )
-    // Lazy singleton (not a per-page factory): the unread badge in
-    // HomeBottomNavBar and the NotificationsPage list both read the same
-    // instance so the count/list survive tab navigation without a refetch.
     ..registerLazySingleton<NotificationsCubit>(
       () => NotificationsCubit(getIt<INotificationsRepository>()),
     )
-    //
     ..registerLazySingleton<TechnicianSosRemoteDataSource>(
       () => TechnicianSosRemoteDataSource(getIt<ApiService>()),
     )
@@ -492,7 +480,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<RatingsCubit>(
       () => RatingsCubit(getIt<IRatingsRepository>()),
     )
-    // CarWasherRatings (washer owner view)
     ..registerLazySingleton<CarWasherRatingsRemoteDataSource>(
       () => CarWasherRatingsRemoteDataSource(getIt<ApiService>()),
     )
@@ -502,7 +489,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<CarWasherRatingsCubit>(
       () => CarWasherRatingsCubit(getIt<ICarWasherRatingsRepository>()),
     )
-    //FULE
     ..registerLazySingleton<FuelProviderOrderRemoteDataSource>(
       () => FuelProviderOrderRemoteDataSource(getIt<ApiService>()),
     )
@@ -514,7 +500,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<FuelProviderOrderCubit>(
       () => FuelProviderOrderCubit(getIt<IFuelProviderOrderRepository>()),
     )
-    //statisticsFULE
     ..registerLazySingleton<FuelProviderStatisticsRemoteDataSource>(
       () => FuelProviderStatisticsRemoteDataSource(getIt<ApiService>()),
     )
@@ -528,7 +513,6 @@ Future<void> setupServiceLocator() async {
         getIt<IFuelProviderStatisticsRepository>(),
       ),
     )
-    //FuelProviderProfile
     ..registerLazySingleton<FuelProviderProfileRemoteDataSource>(
       () => FuelProviderProfileRemoteDataSource(getIt<ApiService>()),
     )
@@ -540,7 +524,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<FuelProviderProfileCubit>(
       () => FuelProviderProfileCubit(getIt<IFuelProviderProfileRepository>()),
     )
-    //UserFuel
     ..registerLazySingleton<UserFuelRemoteDataSource>(
       () => UserFuelRemoteDataSource(getIt<ApiService>()),
     )
@@ -553,7 +536,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<UserFuelTrackingCubit>(
       () => UserFuelTrackingCubit(getIt<IUserFuelRepository>()),
     )
-    //ShareFuelProviderLocation
     ..registerLazySingleton<ShareFuelProviderLocationRemoteDataSource>(
       () => ShareFuelProviderLocationRemoteDataSource(getIt<ApiService>()),
     )
@@ -567,7 +549,6 @@ Future<void> setupServiceLocator() async {
         getIt<IShareFuelProviderLocationRepository>(),
       ),
     )
-    //SpareParts Store - Products
     ..registerLazySingleton<ProductsRemoteDataSource>(
       () => ProductsRemoteDataSource(getIt<ApiService>()),
     )
@@ -580,7 +561,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<AllProductsCubit>(
       () => AllProductsCubit(getIt<IProductsRepository>()),
     )
-    //SpareParts Store - Shops
     ..registerLazySingleton<ShopsRemoteDataSource>(
       () => ShopsRemoteDataSource(getIt<ApiService>()),
     )
@@ -596,7 +576,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<ShopProductsCubit>(
       () => ShopProductsCubit(getIt<IShopsRepository>()),
     )
-    //SpareParts Store - Cart
     ..registerLazySingleton<CartRemoteDataSource>(
       () => CartRemoteDataSource(getIt<ApiService>()),
     )
@@ -607,7 +586,6 @@ Future<void> setupServiceLocator() async {
       () => AddToCartCubit(getIt<ICartRepository>()),
     )
     ..registerFactory<CartCubit>(() => CartCubit(getIt<ICartRepository>()))
-    //SpareParts Store - Checkout
     ..registerLazySingleton<CheckoutRemoteDataSource>(
       () => CheckoutRemoteDataSource(getIt<ApiService>()),
     )
@@ -617,7 +595,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<CreateOrderCubit>(
       () => CreateOrderCubit(getIt<ICheckoutRepository>()),
     )
-    //SpareParts Store - Customer Orders
     ..registerLazySingleton<CustomerOrdersRemoteDataSource>(
       () => CustomerOrdersRemoteDataSource(getIt<ApiService>()),
     )
@@ -631,7 +608,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<CustomerOrdersCubit>(
       () => CustomerOrdersCubit(getIt<ICustomerOrdersRepository>()),
     )
-    //SpareParts Store - Owner Profile
     ..registerLazySingleton<OwnerProfileRemoteDataSource>(
       () => OwnerProfileRemoteDataSource(getIt<ApiService>()),
     )
@@ -641,7 +617,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<OwnerProfileCubit>(
       () => OwnerProfileCubit(getIt<IOwnerProfileRepository>()),
     )
-    //SpareParts Store - Owner Products
     ..registerLazySingleton<OwnerProductsRemoteDataSource>(
       () => OwnerProductsRemoteDataSource(getIt<ApiService>()),
     )
@@ -651,7 +626,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<OwnerProductsCubit>(
       () => OwnerProductsCubit(getIt<IOwnerProductsRepository>()),
     )
-    //SpareParts Store - Owner Orders
     ..registerLazySingleton<OwnerOrdersRemoteDataSource>(
       () => OwnerOrdersRemoteDataSource(getIt<ApiService>()),
     )
@@ -664,7 +638,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<OwnerOrderDetailsCubit>(
       () => OwnerOrderDetailsCubit(getIt<IOwnerOrdersRepository>()),
     )
-    //SpareParts Store - Owner Share Location (Delivery)
     ..registerLazySingleton<OwnerShareLocationRemoteDataSource>(
       () => OwnerShareLocationRemoteDataSource(getIt<ApiService>()),
     )
@@ -676,7 +649,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<OwnerShareLocationCubit>(
       () => OwnerShareLocationCubit(getIt<IOwnerShareLocationRepository>()),
     )
-    //SpareParts Store - Customer Delivery Tracking
     ..registerLazySingleton<SpareOrderTrackRemoteDataSource>(
       () => SpareOrderTrackRemoteDataSource(getIt<ApiService>()),
     )
@@ -688,7 +660,6 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<CustomerDeliveryTrackingCubit>(
       () => CustomerDeliveryTrackingCubit(getIt<ISpareOrderTrackRepository>()),
     )
-    //Advertisements
     ..registerLazySingleton<AdvertisementRemoteDataSource>(
       () => AdvertisementRemoteDataSource(getIt<ApiService>()),
     )
@@ -697,5 +668,17 @@ Future<void> setupServiceLocator() async {
     )
     ..registerFactory<AdvertisementCubit>(
       () => AdvertisementCubit(getIt<IAdvertisementRepository>()),
+    )
+    ..registerLazySingleton<ProviderInvoicesRemoteDataSource>(
+      () => ProviderInvoicesRemoteDataSource(getIt()),
+    )
+    ..registerLazySingleton<IProviderInvoicesRepository>(
+      () => ProviderInvoicesRepositoryImpl(getIt()),
+    )
+    ..registerFactory<ProviderInvoicesCubit>(
+      () => ProviderInvoicesCubit(getIt()),
+    )
+    ..registerFactory<ShowProviderInvoiceCubit>(
+      () => ShowProviderInvoiceCubit(getIt()),
     );
 }

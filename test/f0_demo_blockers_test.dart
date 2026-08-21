@@ -1,33 +1,74 @@
-// اختبارات منطق منعزل لدفعتي F0 وF0B: التحقق من المدة المقدرة، تاريخ القبول،
-// لون حالة SOS، وتحقق قبول طلب الوقود (المدة والملاحظات).
+import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_order/presentation/widgets/provider_order_details/provider_accept_order_dialog.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/widgets/accept_quotation_dialog.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_request_status_badge.dart';
+import 'package:car_care/features/technician/technician_quotations/domain/repositories/i_technician_quotations_repository.dart';
 import 'package:car_care/features/technician/technician_quotations/presentation/pages/technician_quotations_page.dart';
 import 'package:car_care/features/technician_sos/presentation/widgets/sos_requests_list/technician_sos_request_status_badge.dart';
+import 'package:car_care/l10n/gen/app_localizations.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+
+class MockTechnicianQuotationsRepository extends Mock
+    implements ITechnicianQuotationsRepository {}
+
+Future<String?> _durationValidationErrorFor(
+  WidgetTester tester,
+  String? input,
+) async {
+  tester.view.physicalSize = const Size(1125, 2436);
+  tester.view.devicePixelRatio = 3.0;
+  addTearDown(tester.view.resetPhysicalSize);
+  addTearDown(tester.view.resetDevicePixelRatio);
+  await tester.pumpWidget(
+    ScreenUtilInit(
+      designSize: const Size(375, 812),
+      builder: (context, _) => MaterialApp(
+        locale: const Locale('ar'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: const TechnicianQuotationsPage(requestId: 'r1'),
+      ),
+    ),
+  );
+  await tester.pumpAndSettle();
+  final field = tester.widget<TextFormField>(find.byType(TextFormField));
+  return field.validator!(input);
+}
 
 void main() {
-  group('validateEstimatedDays', () {
-    test('rejects empty input', () {
-      expect(validateEstimatedDays(''), isNotNull);
-      expect(validateEstimatedDays(null), isNotNull);
+  setUp(() {
+    getIt.registerLazySingleton<ITechnicianQuotationsRepository>(
+      () => MockTechnicianQuotationsRepository(),
+    );
+  });
+
+  tearDown(() {
+    getIt.unregister<ITechnicianQuotationsRepository>();
+  });
+
+  group('duration field validation (TechnicianQuotationsPage)', () {
+    testWidgets('rejects empty input', (tester) async {
+      expect(await _durationValidationErrorFor(tester, ''), isNotNull);
+      expect(await _durationValidationErrorFor(tester, null), isNotNull);
     });
 
-    test('rejects 0 and values above 30', () {
-      expect(validateEstimatedDays('0'), isNotNull);
-      expect(validateEstimatedDays('31'), isNotNull);
-      expect(validateEstimatedDays('-1'), isNotNull);
+    testWidgets('rejects 0 and values above 30', (tester) async {
+      expect(await _durationValidationErrorFor(tester, '0'), isNotNull);
+      expect(await _durationValidationErrorFor(tester, '31'), isNotNull);
+      expect(await _durationValidationErrorFor(tester, '-1'), isNotNull);
     });
 
-    test('accepts the inclusive 1..30 boundary', () {
-      expect(validateEstimatedDays('1'), isNull);
-      expect(validateEstimatedDays('30'), isNull);
-      expect(validateEstimatedDays('15'), isNull);
+    testWidgets('accepts the inclusive 1..30 boundary', (tester) async {
+      expect(await _durationValidationErrorFor(tester, '1'), isNull);
+      expect(await _durationValidationErrorFor(tester, '30'), isNull);
+      expect(await _durationValidationErrorFor(tester, '15'), isNull);
     });
 
-    test('rejects non-numeric input', () {
-      expect(validateEstimatedDays('abc'), isNotNull);
+    testWidgets('rejects non-numeric input', (tester) async {
+      expect(await _durationValidationErrorFor(tester, 'abc'), isNotNull);
     });
   });
 
@@ -45,7 +86,6 @@ void main() {
       expect(result.year, expectedTomorrow.year);
       expect(result.month, expectedTomorrow.month);
       expect(result.day, expectedTomorrow.day);
-      // Never today.
       expect(
         DateTime(
           result.year,

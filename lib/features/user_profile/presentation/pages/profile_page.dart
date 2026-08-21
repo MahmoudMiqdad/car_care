@@ -2,6 +2,7 @@ import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/user_profile/presentation/widgets/profile_page/ProfileBody.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/show_profile_cubit/show_profile_cubit.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class ProfilePage extends StatelessWidget {
           if (!didPop) context.go(Routes.home);
         },
         child: Scaffold(
-          backgroundColor: Colors.transparent,
+          backgroundColor: AppColors.transparent,
           body: Material(
             color: Colors.transparent,
             child: Stack(

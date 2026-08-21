@@ -1,7 +1,7 @@
 ﻿import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
-import 'package:car_care/core/widgets/app_headline.dart';
+import 'package:car_care/core/widgets/app_headline.dart'; 
 import 'package:car_care/features/car_washer/car_wash/washers_browse/domain/entities/washers_entity.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -37,15 +37,16 @@ class WasherDetailsLocationCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   AppText.sectionTitle(
+                    context, 
                     context.l10n.washerSectionCityAndAddress,
-                    color: AppColors.lightTextPrimary,
-                    textAlign: TextAlign.right,
+                    color: AppColors.textPrimary(context),
+                    textAlign: TextAlign.start,
                   ),
                   Text(
                     washer.fullAddress.isEmpty ? washer.city : washer.fullAddress,
-                    textAlign: TextAlign.left,
-                    style: AppTypography.bodySmall.copyWith(
-                      color: AppColors.lightTextSecondary,
+                    textAlign: TextAlign.start, 
+                    style: context.textTheme.bodySmall!.copyWith(
+                      color: AppColors.textSecondary(context),
                       fontWeight: FontWeight.w500,
                     ),
                   ),

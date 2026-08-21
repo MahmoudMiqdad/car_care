@@ -1,11 +1,12 @@
 // بطاقة منتج تُستخدم داخل شبكة All Products
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/features/spare_parts_store/customer/products/domain/entities/product_entity.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 class ProductCard extends StatelessWidget {
   const ProductCard({super.key, required this.product, required this.onTap});
 
@@ -14,9 +15,10 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
     final imageUrl =
         product.primaryImage ?? (product.images.isNotEmpty ? product.images.first : null);
-    final conditionColor = product.isNew ? AppColors.success : AppColors.accent;
+    final conditionColor = product.isNew ? AppColors.green : AppColors.accent;
 
     return InkWell(
       borderRadius: BorderRadius.circular(14.r),
@@ -25,7 +27,7 @@ class ProductCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(14.r),
-          border: Border.all(color: AppColors.lightBorder),
+          border: Border.all(color: AppColors.border(context)),
         ),
         clipBehavior: Clip.antiAlias,
         child: Column(
@@ -41,8 +43,8 @@ class ProductCard extends StatelessWidget {
                     product.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTypography.labelLarge.copyWith(
-                      color: AppColors.lightTextPrimary,
+                    style: context.textTheme.labelLarge!.copyWith(
+                      color: AppColors.textPrimary(context),
                     ),
                   ),
                   if (product.partCategoryName != null || product.carBrandName != null) ...[
@@ -54,8 +56,8 @@ class ProductCard extends StatelessWidget {
                       ].join(' | '),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: AppTypography.labelSmall.copyWith(
-                        color: AppColors.lightTextSecondary,
+                      style: context.textTheme.labelSmall!.copyWith(
+                        color: AppColors.textSecondary(context),
                       ),
                     ),
                   ],
@@ -64,18 +66,20 @@ class ProductCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          '${product.finalPrice.toStringAsFixed(0)} ل.س',
+                      
+                          l10n.currencyFormat(product.finalPrice.toStringAsFixed(0)),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: AppTypography.labelLarge.copyWith(
+                          style: context.textTheme.labelLarge!.copyWith(
                             color: AppColors.primary,
                             fontWeight: FontWeight.w800,
                           ),
                         ),
                       ),
                       Text(
-                        product.isNew ? 'جديد' : 'مستعمل',
-                        style: AppTypography.labelSmall.copyWith(
+                       
+                        product.isNew ? l10n.conditionNew : l10n.conditionUsed,
+                        style: context.textTheme.labelSmall!.copyWith(
                           color: conditionColor,
                           fontWeight: FontWeight.w700,
                         ),
@@ -92,17 +96,17 @@ class ProductCard extends StatelessWidget {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: product.stockQuantity > 0
-                              ? AppColors.success
-                              : AppColors.error,
+                              ? AppColors.green
+                              : AppColors.red,
                         ),
                       ),
                       SizedBox(width: 5.w),
                       Text(
-                        product.stockQuantity > 0 ? 'متوفر' : 'غير متوفر',
-                        style: AppTypography.labelSmall.copyWith(
+                        product.stockQuantity > 0 ? l10n.inStockStatus : l10n.outOfStockStatus,
+                        style: context.textTheme.labelSmall!.copyWith(
                           color: product.stockQuantity > 0
-                              ? AppColors.success
-                              : AppColors.error,
+                              ? AppColors.green
+                              : AppColors.red,
                         ),
                       ),
                     ],
@@ -133,7 +137,7 @@ class _CardImage extends StatelessWidget {
         child: Icon(
           Icons.build_circle_outlined,
           size: 36.sp,
-          color: AppColors.primary.withOpacity(0.4),
+          color: AppColors.primary.withValues(alpha: 0.4), // 🎯 تحديث دالة الشفافية الآمنة
         ),
       );
     }
@@ -150,7 +154,7 @@ class _CardImage extends StatelessWidget {
         child: Icon(
           Icons.broken_image_outlined,
           size: 28.sp,
-          color: AppColors.lightTextSecondary,
+          color: AppColors.textSecondary(context),
         ),
       ),
     );

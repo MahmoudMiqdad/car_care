@@ -79,7 +79,9 @@ class FuelSosCreateBody extends StatelessWidget {
               title: l10n.fuelSosCreateQuantityTitle,
               hint: l10n.fuelSosCreateQuantityHint,
               controller: quantityController,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'[\d.]')),
               ],
@@ -108,11 +110,13 @@ class FuelSosCreateBody extends StatelessWidget {
             CreateSosLocationHint(text: l10n.createSosLocationAutoHint),
             SizedBox(height: 10.h),
             AppButton(
-              text: isLoading ? 'جاري الإرسال...' : l10n.createSosSendRequest,
+              text: isLoading
+                  ? l10n.updatingProgress
+                  : l10n.createSosSendRequest,
               onPressed: isLoading ? null : onSubmit,
               backgroundColor: isLoading
-                  ? AppColors.orange.withOpacity(0.6)
-                  : AppColors.orange,
+                  ? AppColors.accent.withOpacity(0.6)
+                  : AppColors.accent,
               height: 52.h,
               borderRadius: 14.r,
             ),

@@ -68,7 +68,7 @@ class StatsSummaryCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 13.sp,
               fontWeight: FontWeight.w600,
-              color: AppColors.lightTextSecondary,
+              color: AppColors.textSecondary(context),
             ),
           ),
           SizedBox(height: 14.h),

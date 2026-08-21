@@ -33,48 +33,45 @@ class _RatingsPageState extends State<RatingsPage> {
       create: (_) => getIt<RatingsCubit>(),
       child: Builder(
         builder: (context) {
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: Scaffold(
-              backgroundColor: AppColors.lightScaffold,
-              appBar: CustomAppBar(
-                title: strings.rateService,
-                showBackButton: true,
-              ),
-              body: ImageBackground(
-                child: BlocConsumer<RatingsCubit, RatingsState>(
-                  listener: (context, state) {
-                    if (state is RatingsSuccess) {
-                      AppSnackBar.success(context, state.message);
-                      context.safePopOrGo(Routes.bookings, result: true);
-                    }
+          return Scaffold(
+            backgroundColor: AppColors.scaffoldBackground(context),
+            appBar: CustomAppBar(
+              title: strings.rateService,
+              showBackButton: true,
+            ),
+            body: ImageBackground(
+              child: BlocConsumer<RatingsCubit, RatingsState>(
+                listener: (context, state) {
+                  if (state is RatingsSuccess) {
+                    AppSnackBar.success(context, state.message);
+                    context.safePopOrGo(Routes.bookings, result: true);
+                  }
 
-                    if (state is RatingsError) {
-                      AppSnackBar.error(context, state.message);
-                    }
-                  },
-                  builder: (context, state) {
-                    final isLoading = state is RatingsLoading;
+                  if (state is RatingsError) {
+                    AppSnackBar.error(context, state.message);
+                  }
+                },
+                builder: (context, state) {
+                  final isLoading = state is RatingsLoading;
 
-                    return RatingsBody(
-                      booking: widget.booking,
-                      selectedStars: _selectedStars,
-                      isLoading: isLoading,
-                      onStarsChanged: (value) {
-                        setState(() => _selectedStars = value);
-                      },
-                      onSubmit: isLoading
-                          ? null
-                          : () {
-                              context.read<RatingsCubit>().submitRating(
-                                bookingId: widget.booking.id,
-                                rating: _selectedStars,
-                                review: '',
-                              );
-                            },
-                    );
-                  },
-                ),
+                  return RatingsBody(
+                    booking: widget.booking,
+                    selectedStars: _selectedStars,
+                    isLoading: isLoading,
+                    onStarsChanged: (value) {
+                      setState(() => _selectedStars = value);
+                    },
+                    onSubmit: isLoading
+                        ? null
+                        : () {
+                            context.read<RatingsCubit>().submitRating(
+                              bookingId: widget.booking.id,
+                              rating: _selectedStars,
+                              review: '',
+                            );
+                          },
+                  );
+                },
               ),
             ),
           );

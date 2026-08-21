@@ -1,8 +1,3 @@
-// يثبت: 1) شارة/لون الحالة الموحّدة بين العميل والمالك، وrejected مستقلة
-// عن cancelled. 2) فلتر حالات العميل يضم «مرفوض» (8 خيارات مع «الكل»).
-// 3) توقّف Polling التتبع عند rejected كحالة نهائية. 4) قواعد Refresh عند
-// الرجوع من تفاصيل الطلب (عميل/مالك): صفر عند عدم التغيير، مرة واحدة بعد
-// Mutation ناجحة.
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/features/spare_parts_store/customer/checkout/domain/entities/order_entity.dart';
@@ -96,14 +91,28 @@ Future<void> pumpWithApp(WidgetTester tester, Widget child) async {
 
 void main() {
   group('orderStatusColor / OrderStatusBadge — موحّد ومستقل لـ rejected', () {
-    test(
+    testWidgets(
       'rejected لون مختلف عن accepted، لكن مطابق للون error مثل cancelled',
-      () {
-        expect(
-          orderStatusColor('rejected'),
-          isNot(orderStatusColor('accepted')),
+      (tester) async {
+        late BuildContext ctx;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Builder(
+              builder: (context) {
+                ctx = context;
+                return const SizedBox();
+              },
+            ),
+          ),
         );
-        expect(orderStatusColor('rejected'), orderStatusColor('cancelled'));
+        expect(
+          orderStatusColor(ctx, 'rejected'),
+          isNot(orderStatusColor(ctx, 'accepted')),
+        );
+        expect(
+          orderStatusColor(ctx, 'rejected'),
+          orderStatusColor(ctx, 'cancelled'),
+        );
       },
     );
   });
@@ -154,7 +163,7 @@ void main() {
       expect((cubit.state as CustomerDeliveryTrackingEnded).status, 'rejected');
 
       await cubit.close();
-      verify(() => repo.trackOrder(1)).called(1); // لا استدعاء ثانٍ بعد التوقف
+      verify(() => repo.trackOrder(1)).called(1);
     });
   });
 
@@ -237,13 +246,11 @@ void main() {
       expect(tester.takeException(), isNull, reason: 'after opening details');
       expect(find.byType(CustomerOrderDetailsPage), findsOneWidget);
 
-      // رجوع دون أي إجراء إلغاء (زر رجوع CustomAppBar)
       await tester.tap(find.byIcon(Icons.arrow_back_ios).first);
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 400));
       expect(tester.takeException(), isNull, reason: 'after tapping back');
 
-      // صفر Refresh إضافي: لا استدعاء جديد غير مُتحقَّق منه بعد الرجوع
       verifyNever(() => ordersRepo.getOrders(status: null));
     });
   });
@@ -303,7 +310,7 @@ void main() {
       await tester.tap(find.byIcon(Icons.arrow_back_ios).first);
       await tester.pumpAndSettle();
 
-      verifyNever(() => repo.getOrders()); // لا زيادة
+      verifyNever(() => repo.getOrders());
     });
 
     testWidgets('قبول الطلب ثم الرجوع: Refresh مرة واحدة فقط', (tester) async {
@@ -343,14 +350,14 @@ void main() {
       await tester.tap(find.byType(InkWell).first);
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('قبول الطلب'));
+      await tester.tap(find.text('قبول'));
       await tester.pumpAndSettle();
       verify(() => repo.acceptOrder(7)).called(1);
 
       await tester.tap(find.byIcon(Icons.arrow_back_ios).first);
       await tester.pumpAndSettle();
 
-      verify(() => repo.getOrders()).called(1); // مرة واحدة فقط بعد النجاح
+      verify(() => repo.getOrders()).called(1);
     });
   });
 }

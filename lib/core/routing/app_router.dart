@@ -1,3 +1,8 @@
+import 'package:car_care/features/home/presentation/pages/settings_page.dart';
+import 'package:car_care/features/provider_invoices/presentation/cubit/list/provider_invoices_cubit.dart';
+import 'package:car_care/features/provider_invoices/presentation/cubit/show/show_provider_invoice_cubit.dart';
+import 'package:car_care/features/provider_invoices/presentation/pages/provider_invoice_details_page.dart';
+import 'package:car_care/features/provider_invoices/presentation/pages/provider_invoices_page.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/features/notifications/presentation/cubit/notifications_cubit.dart';
 import 'package:car_care/features/notifications/presentation/cubit/notifications_state.dart';
@@ -15,6 +20,7 @@ import 'package:car_care/features/onboarding/presentation/pages/onboarding_page.
 import 'package:car_care/features/onboarding/presentation/pages/splash_screen.dart';
 import 'package:car_care/features/technician_sos/presentation/pages/all_technician_sos_requests.dart';
 import 'package:car_care/features/technician_sos/presentation/technician_sos_request_type.dart';
+
 import 'package:car_care/features/user_fuel/domain/entities/user_fuel_order_entity.dart';
 import 'package:car_care/features/user_fuel/presentation/cubit/user_fuel_cubit/user_fuel_cubit.dart';
 import 'package:car_care/features/user_fuel/presentation/pages/fuel_orders_list_page.dart';
@@ -55,7 +61,7 @@ import 'package:car_care/features/technician/technician_profile/presentation/wid
 import 'package:car_care/features/technician/technician_statistics/presentation/pages/technician_statistics_page.dart';
 import 'package:car_care/features/technician/technician_jobs/presentation/pages/technician_jobs_page.dart';
 import 'package:car_care/features/technician/technician_quotations/presentation/pages/technician_quotations_page.dart';
-import 'package:car_care/features/maintenance/user_rate_job/presentation/pages/rate_job_page.dart';
+
 import 'package:car_care/features/maintenance/user_requests/presentation/pages/add_requests_page.dart';
 import 'package:car_care/features/maintenance/user_statistics/presentation/pages/statistics_page.dart';
 import 'package:car_care/features/maintenance/user_quotations/presentation/pages/quotations_page.dart';
@@ -149,6 +155,11 @@ class AppRouter {
           );
         },
       ),
+      GoRoute(
+        path: Routes.settings,
+        name: '/settings',
+        builder: (context, state) => const SettingsPage(),
+      ),
       ShellRoute(
         navigatorKey: shellNavigatorKey,
         builder: (context, state, child) {
@@ -161,43 +172,38 @@ class AppRouter {
             _ => -1,
           };
           return MainAppShell(
-            bottomNavigationBar: BlocBuilder<NotificationsCubit, NotificationsState>(
-              bloc: getIt<NotificationsCubit>(),
-              builder: (context, notificationsState) => HomeBottomNavBar(
-                activeIndex: bottomNavIndex,
-                notificationsBadgeCount: notificationsState.unreadCount,
-                onItemSelected: (index) {
-                  switch (index) {
-                    case 0:
-                      context.go(Routes.home);
-                      break;
-                    case 1:
-                      context.go(Routes.notifications);
-                      break;
-                    case 2:
-                      context.go(Routes.create_sos);
-                      break;
-                    case 3:
-                      context.go(Routes.more);
-                      break;
-                    default:
-                      break;
-                  }
-                },
-              ),
-            ),
-            // Visual-only for now: no callback wired, no navigation added.
+            bottomNavigationBar:
+                BlocBuilder<NotificationsCubit, NotificationsState>(
+                  bloc: getIt<NotificationsCubit>(),
+                  builder: (context, notificationsState) => HomeBottomNavBar(
+                    activeIndex: bottomNavIndex,
+                    notificationsBadgeCount: notificationsState.unreadCount,
+                    onItemSelected: (index) {
+                      switch (index) {
+                        case 0:
+                          context.go(Routes.home);
+                          break;
+                        case 1:
+                          context.go(Routes.notifications);
+                          break;
+                        case 2:
+                          context.go(Routes.create_sos);
+                          break;
+                        case 3:
+                          context.go(Routes.more);
+                          break;
+                        default:
+                          break;
+                      }
+                    },
+                  ),
+                ),
             floatingActionButton: const AiAssistantButton(),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
             child: child,
           );
         },
-        // Exactly the 4 customer root-tab destinations live here. Every other
-        // route is a true top-level sibling of this ShellRoute in
-        // GoRouter.routes (see below) — none of them may be nested inside
-        // this routes list, since go_router requires a nested route's
-        // parentNavigatorKey to match its literal parent's navigatorKey.
         routes: [
           GoRoute(
             path: Routes.home,
@@ -221,15 +227,6 @@ class AppRouter {
           ),
         ],
       ),
-      // The routes below are true top-level siblings of ShellRoute inside
-      // GoRouter.routes — they must NOT be physically nested inside
-      // ShellRoute.routes. go_router requires a nested route's
-      // parentNavigatorKey to match its literal parent's navigatorKey; a
-      // route nested under ShellRoute (navigatorKey: shellNavigatorKey)
-      // that declares parentNavigatorKey: rootNavigatorKey violates that
-      // and throws at router-construction time. Being a real top-level
-      // sibling here means no parentNavigatorKey is needed — it already
-      // resolves against the root navigator by default.
       GoRoute(
         path: Routes.allUserSosRequests,
         name: '/sos',
@@ -247,7 +244,6 @@ class AppRouter {
         path: Routes.technician_sos_requests,
         name: '/all_technician_sos_requests',
         builder: (context, state) {
-          // extra selects available (default) vs my accepted SOS requests.
           final type = state.extra is SosRequestType
               ? state.extra as SosRequestType
               : SosRequestType.available;
@@ -689,12 +685,6 @@ class AppRouter {
         },
       ),
 
-      // GoRoute(
-      //   path: Routes.ratings,
-      //   name: '/ratings',
-      //   parentNavigatorKey: rootNavigatorKey,
-      //   builder: (context, state) => const RatingsPage(booking: null,),
-      // ),
       GoRoute(
         path: Routes.statistics,
         builder: (context, state) => const UserStatisticsPage(),
@@ -705,7 +695,6 @@ class AppRouter {
 
         builder: (context, state) {
           final extra = state.extra;
-          // Vehicle id arrives as int (from vehicle details) or String.
           final vehicleId = switch (extra) {
             final int id => id.toString(),
             final String id => id,
@@ -747,11 +736,6 @@ class AppRouter {
       ),
 
       GoRoute(
-        path: Routes.rate_job,
-        name: '/rate_job',
-        builder: (context, state) => const RateJobPage(),
-      ),
-      GoRoute(
         path: Routes.technician_jobs,
         name: '/technician_jobs',
         builder: (context, state) =>
@@ -781,6 +765,24 @@ class AppRouter {
         path: Routes.washer_statistics,
         name: '/washer_statistics',
         builder: (context, state) => const CarWasherStatisticsPage(),
+      ),
+      GoRoute(
+        path: Routes.providerInvoices,
+        name: Routes.providerInvoices,
+        builder: (context, state) => BlocProvider(
+          create: (_) => ProviderInvoicesCubit(getIt()),
+          child: const ProviderInvoicesPage(),
+        ),
+      ),
+      GoRoute(
+        path: Routes.providerInvoiceDetails,
+        name: Routes.providerInvoiceDetails,
+        builder: (context, state) => BlocProvider(
+          create: (_) => ShowProviderInvoiceCubit(getIt()),
+          child: ProviderInvoiceDetailsPage(
+            invoiceId: (state.extra as int).toString(),
+          ),
+        ),
       ),
     ],
   );

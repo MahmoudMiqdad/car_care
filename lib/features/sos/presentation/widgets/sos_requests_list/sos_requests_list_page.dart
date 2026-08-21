@@ -28,78 +28,75 @@ class SosRequestsListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
-        floatingActionButton: Padding(
-          padding: EdgeInsets.only(bottom: 16.h, left: 16.w),
-          child: FloatingAddButton(onTap: () => _openCreateSos(context)),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-        appBar: CustomAppBar(
-          title: l10n.sosRequestsListTitle,
-          showBackButton: true,
-          backgroundColor: AppColors.carWashTeal,
-          onBackTapped: () {
-            if (context.canPop()) {
-              context.pop();
-            } else {
-              context.go(Routes.home);
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground(context),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: 16.h, left: 16.w),
+        child: FloatingAddButton(onTap: () => _openCreateSos(context)),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      appBar: CustomAppBar(
+        title: l10n.sosRequestsListTitle,
+        showBackButton: true,
+        backgroundColor: AppColors.carWashTeal,
+        onBackTapped: () {
+          if (context.canPop()) {
+            context.pop();
+          } else {
+            context.go(Routes.home);
+          }
+        },
+      ),
+      body: ImageBackground(
+        child: BlocBuilder<SosCubit, SosState>(
+          builder: (context, state) {
+            if (state is SosLoading) {
+              return const Center(child: AppLoadingWidget());
             }
-          },
-        ),
-        body: ImageBackground(
-          child: BlocBuilder<SosCubit, SosState>(
-            builder: (context, state) {
-              if (state is SosLoading) {
-                return const Center(child: AppLoadingWidget());
-              }
-
-              if (state is SosError) {
-                return ErrorStateWidget(
-                  message: state.message,
-                  onRetry: () => context.read<SosCubit>().getAll(),
-                );
-              }
-
-              if (state is SosListLoaded) {
-                final sosList = state.listSOs;
-
-                return RefreshIndicator(
-                  // silent: keep the current list visible while refreshing;
-                  // only the pull indicator spins.
-                  onRefresh: () =>
-                      context.read<SosCubit>().getAll(silent: true),
-                  child: sosList.isEmpty
-                      ? ListView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          children: [
-                            SizedBox(height: 60.h),
-                            const EmptyStateWidget(),
-                            SizedBox(height: 16.h),
-                            
-                          ],
-                        )
-                      : ListView.separated(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          padding: EdgeInsets.fromLTRB(
-                            AppConstants.pageHorizontal,
-                            16.h,
-                            AppConstants.pageHorizontal,
-                            16.h,
-                          ),
-                          itemCount: sosList.length,
-                          separatorBuilder: (_, _) => SizedBox(height: 16.h),
-                          itemBuilder: (context, index) {
-                            return SosRequestCard(item: sosList[index]);
-                          },
+    
+            if (state is SosError) {
+              return ErrorStateWidget(
+                message: state.message,
+                onRetry: () => context.read<SosCubit>().getAll(),
+              );
+            }
+    
+            if (state is SosListLoaded) {
+              final sosList = state.listSOs;
+    
+              return RefreshIndicator(
+                // silent: keep the current list visible while refreshing;
+                // only the pull indicator spins.
+                onRefresh: () =>
+                    context.read<SosCubit>().getAll(silent: true),
+                child: sosList.isEmpty
+                    ? ListView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        children: [
+                          SizedBox(height: 60.h),
+                          const EmptyStateWidget(),
+                          SizedBox(height: 16.h),
+                          
+                        ],
+                      )
+                    : ListView.separated(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        padding: EdgeInsets.fromLTRB(
+                          AppConstants.pageHorizontal,
+                          16.h,
+                          AppConstants.pageHorizontal,
+                          16.h,
                         ),
-                );
-              }
-              return const SizedBox();
-            },
-          ),
+                        itemCount: sosList.length,
+                        separatorBuilder: (_, _) => SizedBox(height: 16.h),
+                        itemBuilder: (context, index) {
+                          return SosRequestCard(item: sosList[index]);
+                        },
+                      ),
+              );
+            }
+            return const SizedBox();
+          },
         ),
       ),
     );

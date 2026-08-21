@@ -1,6 +1,3 @@
-// اختبارات دفعة SELECTION-SHEET: الـ SharedSelectionBottomSheet العام وبلاطتي
-// المركبة والمحافظة المشتركتين، وسلوك كل شاشة بعد الترحيل (اختيار المركبة في
-// الصيانة/الطوارئ/الوقود/غسيل السيارات، واختيار المحافظة لدى مزود الوقود).
 import 'package:car_care/core/constants/list_province.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/widgets/selection/governorate_selection_tile.dart';
@@ -40,11 +37,6 @@ class MockUserFuelRepository extends Mock implements IUserFuelRepository {}
 class MockFuelProviderProfileRepository extends Mock
     implements IFuelProviderProfileRepository {}
 
-/// `AddRequestsPage`'s photo/date sections overflow under the test
-/// harness's fallback font metrics regardless of surface size — the same
-/// documented, pre-existing test-environment artifact filtered out in
-/// `fuel_refresh_targeted_test.dart`, unrelated to the vehicle-picker
-/// behavior under test here.
 void _ignoreKnownOverflowInTests() {
   final original = FlutterError.onError;
   FlutterError.onError = (details) {
@@ -53,6 +45,7 @@ void _ignoreKnownOverflowInTests() {
     }
     original?.call(details);
   };
+  addTearDown(() => FlutterError.onError = original);
 }
 
 Future<void> _pumpWithApp(WidgetTester tester, Widget child) async {
@@ -70,10 +63,6 @@ Future<void> _pumpWithApp(WidgetTester tester, Widget child) async {
   await tester.pumpAndSettle();
 }
 
-/// A physical surface matching the ScreenUtil design ratio, for full pages
-/// (like `AddRequestsPage`) whose content overflows the default 800x600
-/// test surface — the same technique used elsewhere in this test suite for
-/// full-page pumps (see `fuel_refresh_targeted_test.dart`).
 Future<void> _pumpFullPage(WidgetTester tester, Widget child) async {
   _ignoreKnownOverflowInTests();
   tester.view.physicalSize = const Size(1125, 2436);
@@ -148,7 +137,6 @@ void main() {
 
         expect(callCount, 1);
         expect(received, 'ب');
-        // The sheet is dismissed after selection.
         expect(find.text('اختر عنصرًا'), findsNothing);
       },
     );
@@ -180,7 +168,6 @@ void main() {
         await tester.tap(find.text('open'));
         await tester.pumpAndSettle();
 
-        // Exactly one check icon — only the row matching selectedValue.
         expect(find.byIcon(Icons.check_circle_rounded), findsOneWidget);
       },
     );
@@ -309,31 +296,28 @@ void main() {
       }
     });
 
-    testWidgets(
-      'preselects the vehicle matching the passed-in vehicleId once '
-      'vehicles load, without opening the picker',
-      (tester) async {
-        final vehicleRepo = MockVehicleRepository();
-        when(() => vehicleRepo.getAllVehicles()).thenAnswer(
-          (_) async => Right([
-            _fakeVehicle(id: 1, brand: 'Kia', model: 'Rio'),
-            _fakeVehicle(id: 2, brand: 'Honda', model: 'Civic'),
-          ]),
-        );
-        getIt.registerLazySingleton<IVehicleRepository>(() => vehicleRepo);
-        getIt.registerFactory<VehicleCubit>(
-          () => VehicleCubit(getIt<IVehicleRepository>()),
-        );
-        getIt.registerFactory<IRequestsRepository>(
-          () => MockRequestsRepository(),
-        );
+    testWidgets('preselects the vehicle matching the passed-in vehicleId once '
+        'vehicles load, without opening the picker', (tester) async {
+      final vehicleRepo = MockVehicleRepository();
+      when(() => vehicleRepo.getAllVehicles()).thenAnswer(
+        (_) async => Right([
+          _fakeVehicle(id: 1, brand: 'Kia', model: 'Rio'),
+          _fakeVehicle(id: 2, brand: 'Honda', model: 'Civic'),
+        ]),
+      );
+      getIt.registerLazySingleton<IVehicleRepository>(() => vehicleRepo);
+      getIt.registerFactory<VehicleCubit>(
+        () => VehicleCubit(getIt<IVehicleRepository>()),
+      );
+      getIt.registerFactory<IRequestsRepository>(
+        () => MockRequestsRepository(),
+      );
 
-        await _pumpFullPage(tester, const AddRequestsPage(vehicleId: '2'));
+      await _pumpFullPage(tester, const AddRequestsPage(vehicleId: '2'));
 
-        expect(find.textContaining('Honda Civic'), findsOneWidget);
-        expect(find.text('تغيير المركبة'), findsOneWidget);
-      },
-    );
+      expect(find.textContaining('Honda Civic'), findsOneWidget);
+      expect(find.text('تغيير المركبة'), findsOneWidget);
+    });
 
     testWidgets('picking a different vehicle from the sheet updates the '
         'selection', (tester) async {
@@ -354,7 +338,7 @@ void main() {
 
       await _pumpFullPage(tester, const AddRequestsPage(vehicleId: ''));
 
-      await tester.tap(find.text('اختر المركبة'));
+      await tester.tap(find.text('الرجاء اختيار المركبة'));
       await tester.pumpAndSettle();
 
       expect(find.text('اختر مركبتك'), findsOneWidget);
@@ -367,79 +351,77 @@ void main() {
   });
 
   group('CreateSosPage — vehicle selection', () {
-    testWidgets(
-      'opens the shared picker and reflects the picked vehicle',
-      (tester) async {
-        final vehicleRepo = MockVehicleRepository();
-        when(() => vehicleRepo.getAllVehicles()).thenAnswer(
-          (_) async => Right([_fakeVehicle(id: 1, brand: 'Kia', model: 'Rio')]),
-        );
-        final vehicleCubit = VehicleCubit(vehicleRepo)..getAllVehicles();
-        final sosCubit = SosCubit(MockSosRepository());
+    testWidgets('opens the shared picker and reflects the picked vehicle', (
+      tester,
+    ) async {
+      final vehicleRepo = MockVehicleRepository();
+      when(() => vehicleRepo.getAllVehicles()).thenAnswer(
+        (_) async => Right([_fakeVehicle(id: 1, brand: 'Kia', model: 'Rio')]),
+      );
+      final vehicleCubit = VehicleCubit(vehicleRepo)..getAllVehicles();
+      final sosCubit = SosCubit(MockSosRepository());
 
-        await _pumpWithApp(
-          tester,
-          MultiBlocProvider(
-            providers: [
-              BlocProvider<VehicleCubit>.value(value: vehicleCubit),
-              BlocProvider<SosCubit>.value(value: sosCubit),
-            ],
-            child: const CreateSosPage(),
-          ),
-        );
+      await _pumpWithApp(
+        tester,
+        MultiBlocProvider(
+          providers: [
+            BlocProvider<VehicleCubit>.value(value: vehicleCubit),
+            BlocProvider<SosCubit>.value(value: sosCubit),
+          ],
+          child: const CreateSosPage(),
+        ),
+      );
 
-        await tester.tap(find.byIcon(Icons.directions_car_outlined).first);
-        await tester.pumpAndSettle();
+      await tester.tap(find.byIcon(Icons.directions_car_outlined).first);
+      await tester.pumpAndSettle();
 
-        expect(find.text('اختر مركبتك'), findsOneWidget);
-        await tester.tap(find.textContaining('Kia Rio'));
-        await tester.pumpAndSettle();
+      expect(find.text('اختر مركبتك'), findsOneWidget);
+      await tester.tap(find.textContaining('Kia Rio'));
+      await tester.pumpAndSettle();
 
-        expect(find.textContaining('Kia Rio'), findsOneWidget);
+      expect(find.textContaining('Kia Rio'), findsOneWidget);
 
-        await vehicleCubit.close();
-        await sosCubit.close();
-      },
-    );
+      await vehicleCubit.close();
+      await sosCubit.close();
+    });
   });
 
   group('FuelSosCreatePage — vehicle selection', () {
-    testWidgets(
-      'opens the shared picker and reflects the picked vehicle',
-      (tester) async {
-        final vehicleRepo = MockVehicleRepository();
-        when(() => vehicleRepo.getAllVehicles()).thenAnswer(
-          (_) async =>
-              Right([_fakeVehicle(id: 5, brand: 'Ford', model: 'Focus')]),
-        );
-        final vehicleCubit = VehicleCubit(vehicleRepo)..getAllVehicles();
-        final userFuelCubit = UserFuelCubit(MockUserFuelRepository());
+    testWidgets('opens the shared picker and reflects the picked vehicle', (
+      tester,
+    ) async {
+      final vehicleRepo = MockVehicleRepository();
+      when(() => vehicleRepo.getAllVehicles()).thenAnswer(
+        (_) async =>
+            Right([_fakeVehicle(id: 5, brand: 'Ford', model: 'Focus')]),
+      );
+      final vehicleCubit = VehicleCubit(vehicleRepo)..getAllVehicles();
+      final userFuelCubit = UserFuelCubit(MockUserFuelRepository());
 
-        await _pumpWithApp(
-          tester,
-          MultiBlocProvider(
-            providers: [
-              BlocProvider<VehicleCubit>.value(value: vehicleCubit),
-              BlocProvider<UserFuelCubit>.value(value: userFuelCubit),
-            ],
-            child: const FuelSosCreatePage(),
-          ),
-        );
+      await _pumpWithApp(
+        tester,
+        MultiBlocProvider(
+          providers: [
+            BlocProvider<VehicleCubit>.value(value: vehicleCubit),
+            BlocProvider<UserFuelCubit>.value(value: userFuelCubit),
+          ],
+          child: const FuelSosCreatePage(),
+        ),
+      );
 
-        await tester.pumpAndSettle();
-        await tester.tap(find.textContaining('اختر المركبة').first);
-        await tester.pumpAndSettle();
+      await tester.pumpAndSettle();
+      await tester.tap(find.textContaining('اختر المركبة').first);
+      await tester.pumpAndSettle();
 
-        expect(find.text('اختر مركبتك'), findsOneWidget);
-        await tester.tap(find.textContaining('Ford Focus'));
-        await tester.pumpAndSettle();
+      expect(find.text('اختر مركبتك'), findsOneWidget);
+      await tester.tap(find.textContaining('Ford Focus'));
+      await tester.pumpAndSettle();
 
-        expect(find.textContaining('Ford Focus'), findsOneWidget);
+      expect(find.textContaining('Ford Focus'), findsOneWidget);
 
-        await vehicleCubit.close();
-        await userFuelCubit.close();
-      },
-    );
+      await vehicleCubit.close();
+      await userFuelCubit.close();
+    });
   });
 
   group('showReservationVehiclePicker — Car Wash reference sheet', () {
@@ -472,9 +454,7 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.text('اختر مركبتك'), findsOneWidget);
-        // No plate number in this reference sheet (unlike the other three).
         expect(find.text(vehicles[0].plateNumber), findsNothing);
-        // The preselected vehicle (id 1) shows the check icon.
         expect(find.byIcon(Icons.check_circle_rounded), findsOneWidget);
 
         await tester.tap(find.textContaining('Honda Civic'));
@@ -486,41 +466,32 @@ void main() {
   });
 
   group('ProviderCreateProfilePage — governorate selection', () {
-    testWidgets(
-      'opens the shared picker with the canonical province list and '
-      'reflects the picked governorate',
-      (tester) async {
-        final cubit = FuelProviderProfileCubit(
-          MockFuelProviderProfileRepository(),
-        );
+    testWidgets('opens the shared picker with the canonical province list and '
+        'reflects the picked governorate', (tester) async {
+      final cubit = FuelProviderProfileCubit(
+        MockFuelProviderProfileRepository(),
+      );
 
-        await _pumpWithApp(
-          tester,
-          BlocProvider<FuelProviderProfileCubit>.value(
-            value: cubit,
-            child: const ProviderCreateProfilePage(),
-          ),
-        );
+      await _pumpWithApp(
+        tester,
+        BlocProvider<FuelProviderProfileCubit>.value(
+          value: cubit,
+          child: const ProviderCreateProfilePage(),
+        ),
+      );
 
-        await tester.tap(find.byType(GestureDetector).first);
-        await tester.pumpAndSettle();
+      await tester.tap(find.byType(GestureDetector).first);
+      await tester.pumpAndSettle();
 
-        // The field's own hint text happens to read "اختر المحافظة" too
-        // (`providerEditProfileGovernorateHint`), so assert the sheet
-        // opened via its actual list contents instead of the title text.
-        // It's a scrollable list, not every governorate is built up front —
-        // the first item (visible without scrolling) is enough to confirm
-        // the canonical list backs it.
-        expect(find.text(kCreateSosProvinceOptions.first), findsWidgets);
-        expect(find.text('حلب'), findsOneWidget);
+      expect(find.text(kCreateSosProvinceOptions.first), findsWidgets);
+      expect(find.text('حلب'), findsOneWidget);
 
-        await tester.tap(find.text('حلب'));
-        await tester.pumpAndSettle();
+      await tester.tap(find.text('حلب'));
+      await tester.pumpAndSettle();
 
-        expect(find.text('حلب'), findsWidgets);
+      expect(find.text('حلب'), findsWidgets);
 
-        await cubit.close();
-      },
-    );
+      await cubit.close();
+    });
   });
 }

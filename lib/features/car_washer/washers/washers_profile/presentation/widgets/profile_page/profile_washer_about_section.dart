@@ -1,6 +1,7 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
-import 'package:car_care/core/widgets/app_headline.dart';
+
+import 'package:car_care/core/widgets/app_headline.dart'; 
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,10 +19,12 @@ class ProfileWasherAboutSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AppText.sectionTitle(
+          context,
           l10n.profileWasherAboutTitle,
           color: AppColors.black,
-          textAlign: TextAlign.right,
+          textAlign: TextAlign.start,
         ),
+        SizedBox(height: 8.h),
         DecoratedBox(
           decoration: BoxDecoration(
             color: AppColors.white,
@@ -59,10 +62,9 @@ class ProfileWasherAboutSection extends StatelessWidget {
                   child: Text(
                     description,
                     textAlign: TextAlign.start,
-                    style: AppTypography.bodySmall.copyWith(
-                      color: AppColors.lightTextPrimary,
+                    style: context.textTheme.bodySmall!.copyWith(
+                      color: AppColors.textPrimary(context),
                       fontWeight: FontWeight.w500,
-                      fontSize: 13.5.sp,
                       height: 1.65,
                     ),
                   ),

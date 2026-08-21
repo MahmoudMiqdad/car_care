@@ -25,22 +25,23 @@ class VehicleDetailsBody extends StatelessWidget {
 
   final VehicleEntity vehicle;
 
-  String get vehicleName {
+  String _getVehicleName(BuildContext context) {
     final b = vehicle.brand.trim();
     final m = vehicle.model.trim();
-    if (b.isEmpty && m.isEmpty) return 'سيارة';
+    if (b.isEmpty && m.isEmpty) return context.l10n.defaultVehicleLabel;
     return '$b $m'.trim();
   }
 
-  String get ownerName {
+  String _getOwnerName(BuildContext context) {
     final o = vehicle.ownerName?.trim();
-    return (o == null || o.isEmpty) ? 'غير معروف' : o;
+    return (o == null || o.isEmpty) ? context.l10n.unknownStatus : o;
   }
 
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
-
+    final vehicleName = _getVehicleName(context);
+    final ownerName = _getOwnerName(context);
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       child: Column(
@@ -51,19 +52,21 @@ class VehicleDetailsBody extends StatelessWidget {
             isNetworkImage: true,
             title: vehicleName,
             bottomChild: AppText.sectionTitle(
-              '${strings.owner}: $ownerName',
-              color: Colors.black87,
+              context,
+              strings.vehicleOwnerWithParamLabel(ownerName),
+              color: AppColors.textPrimary(context),
               textAlign: TextAlign.center,
               alignment: Alignment.center,
             ),
           ),
-
           Row(
             children: [
               Expanded(
                 child: VehicleInfoCardWidget(
                   title: strings.odometer,
-                  value: '${vehicle.currentKm} ${strings.km}',
+                  value: strings.odometerReadingWithParamLabel(
+                    vehicle.currentKm.toString(),
+                  ),
                   icon: Icon(
                     Icons.speed_outlined,
                     color: AppColors.primary,
@@ -85,10 +88,8 @@ class VehicleDetailsBody extends StatelessWidget {
               ),
             ],
           ),
-
           SizedBox(height: 5.h),
-          AppText.sectionTitle(strings.serviceRecords),
-
+          AppText.sectionTitle(context, strings.serviceRecords),
           SizedBox(height: 5.h),
           ServiceRecordTile(
             title: strings.maintenanceRecord,
@@ -97,7 +98,6 @@ class VehicleDetailsBody extends StatelessWidget {
               context.push(Routes.maintenanceHistory, extra: vehicle.id);
             },
           ),
-
           SizedBox(height: 5.h),
           ServiceRecordTile(
             title: strings.fuelRecord,
@@ -106,10 +106,8 @@ class VehicleDetailsBody extends StatelessWidget {
               context.push(Routes.vehicleFuelLogs, extra: vehicle.id);
             },
           ),
-
           SizedBox(height: 5.h),
-          AppText.sectionTitle(strings.quickActions),
-
+          AppText.sectionTitle(context, strings.quickActions),
           SizedBox(height: 5.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -117,7 +115,7 @@ class VehicleDetailsBody extends StatelessWidget {
               QuickActionButton(
                 label: strings.delete,
                 iconPath: AppAssets.deleteIcon,
-                color: const Color(0xFFA12323),
+                color: AppColors.red,
                 onTap: () {
                   showCustomDeleteDialog(
                     context: context,
@@ -170,19 +168,22 @@ void showCustomDeleteDialog({
     barrierLabel: 'delete_vehicle',
     transitionDuration: const Duration(milliseconds: 400),
     pageBuilder: (dialogContext, _, _) {
+      final l10n = context.l10n;
       return BlocProvider(
         create: (_) => getIt<VehicleDeleteCubit>(),
         child: BlocConsumer<VehicleDeleteCubit, VehicleDeleteState>(
           listener: (ctx, state) {
             if (state is VehicleDeleteSuccess) {
               Navigator.of(dialogContext).pop();
-              AppSnackBar.success(context, 'تم حذف المركبة بنجاح');
               if (context.mounted) {
+                AppSnackBar.success(context, l10n.vehicleDeletedSuccess);
                 context.pop(true);
               }
             }
             if (state is VehicleDeleteError) {
-              AppSnackBar.error(context, state.message);
+              if (context.mounted) {
+                AppSnackBar.error(context, state.message);
+              }
             }
           },
           builder: (ctx, state) {

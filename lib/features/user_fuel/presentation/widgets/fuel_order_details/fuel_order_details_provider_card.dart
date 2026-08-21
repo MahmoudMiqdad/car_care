@@ -21,11 +21,11 @@ class FuelOrderDetailsProviderCard extends StatelessWidget {
       return SosDetailsSectionCard(
         title: l10n.fuelProvider,
         child: Text(
-          'بانتظار قبول مزود الوقود',
+          l10n.waitingFuelProviderAcceptance,
           style: TextStyle(
             fontSize: 14.sp,
             fontWeight: FontWeight.w600,
-            color: AppColors.lightTextSecondary,
+            color: AppColors.textSecondary(context),
           ),
         ),
       );
@@ -46,7 +46,6 @@ class FuelOrderDetailsProviderCard extends StatelessWidget {
           ),
           Row(
             mainAxisSize: MainAxisSize.min,
-            textDirection: TextDirection.rtl,
             children: [
               Image.asset(
                 AppAssets.iconPhoneCall,
@@ -62,7 +61,6 @@ class FuelOrderDetailsProviderCard extends StatelessWidget {
               SizedBox(width: 8.w),
               Text(
                 provider.phone ?? '-',
-                textDirection: TextDirection.ltr,
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
@@ -76,6 +74,7 @@ class FuelOrderDetailsProviderCard extends StatelessWidget {
     );
   }
 }
+
 class ProviderOrderDetailsNotesCard extends StatelessWidget {
   const ProviderOrderDetailsNotesCard({
     super.key,
@@ -86,10 +85,11 @@ class ProviderOrderDetailsNotesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final notes = order.notes ?? '-';
 
     return SosDetailsSectionCard(
-      title: 'ملاحظات الطلب',
+      title: l10n.orderNotesTitle,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -105,7 +105,6 @@ class ProviderOrderDetailsNotesCard extends StatelessWidget {
             ),
           ),
           SizedBox(width: 10.w),
-
           Expanded(
             child: Text(
               notes,

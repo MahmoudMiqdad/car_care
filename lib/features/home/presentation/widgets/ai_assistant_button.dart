@@ -36,7 +36,7 @@ class AiAssistantButton extends StatelessWidget {
             gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [AppColors.orange, _amber],
+              colors: [AppColors.accent, _amber],
             ),
             boxShadow: [
               BoxShadow(

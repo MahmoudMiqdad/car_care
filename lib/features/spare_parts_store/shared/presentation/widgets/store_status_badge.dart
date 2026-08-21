@@ -1,5 +1,7 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
+
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,16 +12,18 @@ class StoreStatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isActive ? AppColors.success : AppColors.error;
+    final l10n = context.l10n;
+    final color = isActive ? AppColors.green : AppColors.red;
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Text(
-        isActive ? 'نشط' : 'غير نشط',
-        style: AppTypography.labelSmall.copyWith(
+        isActive ? l10n.activeStatus : l10n.inactiveStatus,
+        style: context.textTheme.labelSmall!.copyWith(
           color: color,
           fontWeight: FontWeight.w700,
         ),

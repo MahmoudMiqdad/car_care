@@ -38,34 +38,31 @@ class ProviderStatusPage extends StatelessWidget {
         ),
     };
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(icon, size: 80, color: color),
-                const SizedBox(height: 20),
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground(context),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 80, color: color),
+              const SizedBox(height: 20),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(height: 12),
-                Text(
-                  subtitle,
-                  style: const TextStyle(fontSize: 14, color: Color(0xFF777777)),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                subtitle,
+                style: const TextStyle(fontSize: 14, color: Color(0xFF777777)),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
         ),
       ),

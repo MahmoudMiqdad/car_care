@@ -52,6 +52,7 @@ class _CreateSosPageState extends State<CreateSosPage> {
   }
 
   Future<void> _pickVehicle() async {
+    final l10n = context.l10n;
     final cubit = context.read<VehicleCubit>();
     var state = cubit.state;
 
@@ -69,7 +70,7 @@ class _CreateSosPageState extends State<CreateSosPage> {
     }
 
     if (state is VehicleEmpty) {
-      AppSnackBar.error(context, 'لا توجد سيارات');
+      AppSnackBar.error(context, l10n.noVehiclesAdded);
       return;
     }
 
@@ -81,7 +82,7 @@ class _CreateSosPageState extends State<CreateSosPage> {
 
     await SharedSelectionBottomSheet.show<VehicleEntity>(
       context: context,
-      title: 'اختر مركبتك',
+      title: l10n.selectYourVehicle,
       items: vehicles,
       initialChildSize: vehicles.length > 4 ? 0.5 : 0.35,
       minChildSize: 0.25,
@@ -102,12 +103,10 @@ class _CreateSosPageState extends State<CreateSosPage> {
   Future<void> _pickProvince() async {
     await SharedSelectionBottomSheet.show<String>(
       context: context,
-      title: 'اختر المحافظة',
+      title: context.l10n.selectGovernorate,
       items: kCreateSosProvinceOptions,
-      itemBuilder: (context, e) => GovernorateSelectionTile(
-        label: e,
-        isSelected: _provinceValue == e,
-      ),
+      itemBuilder: (context, e) =>
+          GovernorateSelectionTile(label: e, isSelected: _provinceValue == e),
       onSelected: (e) => setState(() => _provinceValue = e),
     );
   }
@@ -115,20 +114,21 @@ class _CreateSosPageState extends State<CreateSosPage> {
   Future<void> _onSubmit() async {
     if (_isSubmitting) return;
 
+    final l10n = context.l10n;
     FocusScope.of(context).unfocus();
 
     if (_selectedVehicle == null) {
-      AppSnackBar.error(context, 'الرجاء اختيار السيارة');
+      AppSnackBar.error(context, l10n.washerSelectVehicleMessage);
       return;
     }
 
     if (_provinceValue.isEmpty) {
-      AppSnackBar.error(context, 'الرجاء اختيار المحافظة');
+      AppSnackBar.error(context, l10n.washerSelectProvinceMessage);
       return;
     }
 
     if (_descriptionController.text.trim().isEmpty) {
-      AppSnackBar.error(context, 'الرجاء وصف المشكلة');
+      AppSnackBar.error(context, l10n.pleaseDescribeProblem);
       return;
     }
 
@@ -146,7 +146,7 @@ class _CreateSosPageState extends State<CreateSosPage> {
         if (!mounted) return;
 
         setState(() => _isSubmitting = false);
-        AppSnackBar.error(context, 'يرجى تفعيل الموقع');
+        AppSnackBar.error(context, l10n.enableLocationPrompt);
         return;
       }
       final position = await Geolocator.getCurrentPosition(
@@ -165,11 +165,11 @@ class _CreateSosPageState extends State<CreateSosPage> {
         'description': _descriptionController.text.trim(),
         'city': _provinceValue,
       });
-    } catch (e) {
+    } catch (_) {
       if (!mounted) return;
 
       setState(() => _isSubmitting = false);
-      AppSnackBar.error(context, 'تعذر تحديد الموقع، حاول مرة أخرى');
+      AppSnackBar.error(context, l10n.locationErrorPrefix);
     }
   }
 
@@ -185,7 +185,7 @@ class _CreateSosPageState extends State<CreateSosPage> {
           final sos = state.sos;
           final id = sos.id;
 
-          AppSnackBar.success(context, 'تم إرسال الطلب ✓');
+          AppSnackBar.success(context, l10n.requestSentSuccess);
 
           if (id != null) {
             context.pushReplacementNamed(
@@ -202,25 +202,22 @@ class _CreateSosPageState extends State<CreateSosPage> {
           AppSnackBar.error(context, state.message);
         }
       },
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          backgroundColor: AppColors.lightScaffold,
-          appBar: CustomAppBar(
-            title: l10n.createSosTitle,
-            showBackButton: true,
-            onBackTapped: () => context.safePopOrGo(Routes.home),
-          ),
-          body: ImageBackground(
-            child: CreateSosBody(
-              descriptionController: _descriptionController,
-              vehicleValue: _vehicleValue,
-              provinceValue: _provinceValue,
-              onPickVehicle: _pickVehicle,
-              onPickProvince: _pickProvince,
-              onSubmit: _onSubmit,
-              isLoading: _isSubmitting,
-            ),
+      child: Scaffold(
+        backgroundColor: AppColors.scaffoldBackground(context),
+        appBar: CustomAppBar(
+          title: l10n.createSosTitle,
+          showBackButton: true,
+          onBackTapped: () => context.safePopOrGo(Routes.home),
+        ),
+        body: ImageBackground(
+          child: CreateSosBody(
+            descriptionController: _descriptionController,
+            vehicleValue: _vehicleValue,
+            provinceValue: _provinceValue,
+            onPickVehicle: _pickVehicle,
+            onPickProvince: _pickProvince,
+            onSubmit: _onSubmit,
+            isLoading: _isSubmitting,
           ),
         ),
       ),

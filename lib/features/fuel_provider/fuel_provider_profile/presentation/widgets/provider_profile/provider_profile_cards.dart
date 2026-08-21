@@ -1,6 +1,7 @@
 import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
+
 import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/domain/entities/provider_profile_entity.dart';
 import 'package:car_care/l10n.dart';
@@ -17,10 +18,9 @@ class ProviderProfileSectionTitle extends StatelessWidget {
       alignment: AlignmentDirectional.centerStart,
       child: Text(
         title,
-        style: AppTypography.bodyMedium.copyWith(
+        style: context.textTheme.bodyMedium!.copyWith(
           color: AppColors.black,
           fontWeight: FontWeight.w800,
-          fontSize: 16.sp,
         ),
       ),
     );
@@ -58,21 +58,18 @@ class ProviderProfileHeader extends StatelessWidget {
         Text(
           profile.companyName ?? '-',
           textAlign: TextAlign.center,
-          style: AppTypography.headlineSmall.copyWith(
+          style: context.textTheme.headlineSmall!.copyWith(
             color: AppColors.black,
             fontWeight: FontWeight.w800,
-            fontSize: 27.sp,
           ),
         ),
         SizedBox(height: 6.h),
         Text(
           profile.phone ?? '-',
           textAlign: TextAlign.center,
-          textDirection: TextDirection.ltr,
-          style: AppTypography.bodyMedium.copyWith(
+          style: context.textTheme.bodyMedium!.copyWith(
             color: AppColors.black,
             fontWeight: FontWeight.w500,
-            fontSize: 16.sp,
           ),
         ),
       ],
@@ -100,10 +97,9 @@ class ProviderProfileAvailabilityCard extends StatelessWidget {
               isAvailable
                   ? l10n.providerProfileAvailableNow
                   : l10n.providerProfileNotAvailableNow,
-              style: AppTypography.bodyMedium.copyWith(
+              style: context.textTheme.bodyMedium!.copyWith(
                 color: AppColors.black,
                 fontWeight: FontWeight.w600,
-                fontSize: 14.sp,
               ),
             ),
           ),
@@ -113,7 +109,7 @@ class ProviderProfileAvailabilityCard extends StatelessWidget {
             activeThumbColor: AppColors.white,
             activeTrackColor: AppColors.carWashTeal,
             inactiveThumbColor: AppColors.white,
-            inactiveTrackColor: AppColors.lightBorder,
+            inactiveTrackColor: AppColors.border(context),
           ),
         ],
       ),
@@ -148,17 +144,18 @@ class ProviderProfileLocationCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppText.sectionTitle(
+                  context,
                   l10n.washerSectionCityAndAddress,
-                  color: AppColors.lightTextPrimary,
-                  textAlign: TextAlign.right,
+                  color: AppColors.textPrimary(context),
+                  textAlign: TextAlign.start,
                 ),
+                SizedBox(height: 4.h),
                 Text(
                   address.isEmpty ? '-' : address,
-                  textAlign: TextAlign.right,
-                  style: AppTypography.bodySmall.copyWith(
-                    color: AppColors.lightTextSecondary,
+                  textAlign: TextAlign.start,
+                  style: context.textTheme.bodySmall!.copyWith(
+                    color: AppColors.textSecondary(context),
                     fontWeight: FontWeight.w500,
-                    fontSize: 13.sp,
                   ),
                 ),
               ],

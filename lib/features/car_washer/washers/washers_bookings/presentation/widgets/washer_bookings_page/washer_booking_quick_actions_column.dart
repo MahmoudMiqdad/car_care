@@ -76,7 +76,7 @@ class WasherBookingQuickActionsColumn extends StatelessWidget {
               controller: rejectController,
               maxLines: 2,
               decoration: InputDecoration(
-                hintText: 'سبب الرفض',
+                hintText: l10n.pleaseEnterRejectionReason,
                 isDense: true,
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 8.w,
@@ -88,7 +88,8 @@ class WasherBookingQuickActionsColumn extends StatelessWidget {
               ),
             ),
             SizedBox(height: 6.h),
-            _ActionBtn(label: 'إرسال', onPressed: onRejectSubmit, filled: true),
+           
+            _ActionBtn(label: l10n.send, onPressed: onRejectSubmit, filled: true),
           ],
         ),
       );

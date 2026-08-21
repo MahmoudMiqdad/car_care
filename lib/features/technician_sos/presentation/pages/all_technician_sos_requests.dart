@@ -11,8 +11,6 @@ class AllTechnicianSosRequests extends StatelessWidget {
     this.type = SosRequestType.available,
   });
 
-  /// [SosRequestType.available] -> GET /technician/sos/available
-  /// [SosRequestType.myRequests] -> GET /technician/sos/my_requests
   final SosRequestType type;
 
   @override

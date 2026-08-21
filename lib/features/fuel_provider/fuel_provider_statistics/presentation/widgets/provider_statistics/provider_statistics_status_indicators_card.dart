@@ -17,14 +17,14 @@ class ProviderStatisticsStatusIndicatorsCard extends StatelessWidget {
     final l10n = context.l10n;
 
     return StatsIndicatorsSection(
-      title: 'حالات الطلبات',
+      title: l10n.orderStatusesTitle,
       icon: Icons.checklist_outlined,
       items: [
         StatsIndicatorData(
           label: l10n.pending,
           value: statistics.pendingOrders,
           icon: Icons.hourglass_top_outlined,
-          color: AppColors.orange,
+          color: AppColors.accent,
         ),
         StatsIndicatorData(
           label: l10n.bookingStatusAccepted,

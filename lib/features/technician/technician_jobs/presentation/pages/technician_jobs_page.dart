@@ -11,7 +11,8 @@ import 'package:car_care/features/technician/technician_jobs/presentation/cubit/
 import 'package:car_care/features/technician/technician_jobs/presentation/cubit/technician_jobs_state.dart';
 import 'package:car_care/features/technician/technician_jobs/presentation/widgets/complete_job_dialog.dart';
 import 'package:car_care/features/technician/technician_jobs/presentation/widgets/technician_job_card.dart';
-import 'package:car_care/features/vehicle/presentation/widgets/MyVehicles/RefreshHint.dart';
+
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,26 +37,22 @@ class _TechnicianJobsBody extends StatefulWidget {
 }
 
 class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
-  /// ServiceJob id currently being updated — only that card shows a busy
-  /// button, and duplicate taps on it are blocked.
   String? _busyJobId;
-
-  /// Last loaded jobs, so a per-card action never blanks the list.
   List<JobEntity> _jobs = const [];
   bool _hasLoaded = false;
 
-  /// Maps the backend job status to the card's colour bucket + Arabic label.
-  static (TechnicianJobCardStatus, String) _statusOf(String status) {
+  (TechnicianJobCardStatus, String) _statusOf(BuildContext context, String status) {
+    final l10n = context.l10n;
     return switch (status.toLowerCase()) {
       'rejected' ||
       'cancelled' ||
-      'canceled' => (TechnicianJobCardStatus.rejected, 'ملغي'),
-      'completed' => (TechnicianJobCardStatus.waiting, 'مكتمل'),
+      'canceled' => (TechnicianJobCardStatus.rejected, l10n.bookingStatusCanceled),
+      'completed' => (TechnicianJobCardStatus.waiting, l10n.bookingStatusCompleted),
       'in_progress' ||
-      'in-progress' => (TechnicianJobCardStatus.waiting, 'قيد التنفيذ'),
-      'assigned' => (TechnicianJobCardStatus.waiting, 'مُسند'),
-      'accepted' => (TechnicianJobCardStatus.waiting, 'مقبول'),
-      _ => (TechnicianJobCardStatus.waiting, 'إنتظار'),
+      'in-progress' => (TechnicianJobCardStatus.waiting, l10n.processingStatusLabel),
+      'assigned' => (TechnicianJobCardStatus.waiting, l10n.jobAssignedStatusLabel),
+      'accepted' => (TechnicianJobCardStatus.waiting, l10n.bookingStatusAccepted),
+      _ => (TechnicianJobCardStatus.waiting, l10n.pending),
     };
   }
 
@@ -64,8 +61,8 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
     return '${date.year}/${date.month}/${date.day}';
   }
 
-  TechnicianJobUiModel _toUiModel(JobEntity job) {
-    final (cardStatus, label) = _statusOf(job.status);
+  TechnicianJobUiModel _toUiModel(BuildContext context, JobEntity job) {
+    final (cardStatus, label) = _statusOf(context, job.status);
     return TechnicianJobUiModel(
       status: cardStatus,
       statusLabel: label,
@@ -73,12 +70,10 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
       customerName: job.customerName.isEmpty ? '-' : job.customerName,
       vehicle: job.vehicleLabel,
       appointmentDate: _formatDate(job.scheduledDate),
-      // Hidden entirely when the backend has no quotation price.
       priceOffer: job.quotationPrice == null ? null : '\$${job.quotationPrice}',
     );
   }
 
-  /// PATCH /technician/jobs/{ServiceJob id}/status  { "status": "in_progress" }
   void _startJob(JobEntity job) {
     if (_busyJobId != null) return;
     setState(() => _busyJobId = job.id.toString());
@@ -87,8 +82,6 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
     }, job.id.toString());
   }
 
-  /// PATCH /technician/jobs/{ServiceJob id}/status
-  /// { "status": "completed", "completion_notes": "..." }
   Future<void> _completeJob(JobEntity job) async {
     if (_busyJobId != null) return;
 
@@ -105,18 +98,20 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final cubit = context.read<TechnicianJobsCubit>();
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: const CustomAppBar(
-          title: 'أعمالي',
-          showBackButton: true,
-          fallbackRoute: Routes.more,
-        ),
-        body: ImageBackground(
-          child: SafeArea(
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: l10n.myJobsTitle,
+        showBackButton: true,
+        fallbackRoute: Routes.more,
+      ),
+      body: ImageBackground(
+        child: SafeArea(
+          child: RefreshIndicator(
+             onRefresh: () => context.read<TechnicianJobsCubit>().fetchMyJobs(),
+
             child: BlocConsumer<TechnicianJobsCubit, TechnicianJobsState>(
               listener: (context, state) {
                 if (state is TechnicianJobsLoaded) {
@@ -130,7 +125,7 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
                   final msg = state.data.message.trim();
                   AppSnackBar.success(
                     context,
-                    msg.isEmpty ? 'تم تحديث حالة المهمة بنجاح' : msg,
+                    msg.isEmpty ? l10n.jobStatusUpdatedSuccess : msg,
                   );
                   cubit.fetchMyJobs();
                 }
@@ -139,40 +134,36 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
                   final msg =
                       state.message.isEmpty ||
                           state.message.startsWith('Instance of')
-                      ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
+                      ? l10n.unexpectedErrorTryAgain
                       : state.message;
                   AppSnackBar.error(context, msg);
                 }
               },
               builder: (context, state) {
-                // Full loader only for the very first load.
                 if (state is TechnicianJobsLoading && !_hasLoaded) {
                   return const Center(child: AppLoadingWidget());
                 }
-
+            
                 if (state is TechnicianJobsError) {
                   return ErrorStateWidget(
                     message:
                         state.message.isEmpty ||
                             state.message.startsWith('Instance of')
-                        ? 'حدث خطأ أثناء تحميل الأعمال'
+                        ? l10n.jobLoadErrorLabel
                         : state.message,
                     onRetry: cubit.fetchMyJobs,
                   );
                 }
-
+            
                 if (!_hasLoaded) return const SizedBox.shrink();
-
+            
                 return RefreshIndicator(
                   onRefresh: cubit.fetchMyJobs,
                   child: ListView(
                     physics: const AlwaysScrollableScrollPhysics(),
                     padding: EdgeInsets.symmetric(horizontal: 22.w),
                     children: [
-                      RefreshHint(
-                        hintText: 'تحديث سجل الطلبات ...',
-                        onTap: cubit.fetchMyJobs,
-                      ),
+                     
                       if (_jobs.isEmpty) ...[
                         SizedBox(height: 40.h),
                         const EmptyStateWidget(),
@@ -181,7 +172,7 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
                           (job) => Padding(
                             padding: EdgeInsets.only(bottom: 5.h),
                             child: TechnicianJobCard(
-                              job: _toUiModel(job),
+                              job: _toUiModel(context, job),
                               rawStatus: job.status,
                               isBusy: _busyJobId == job.id.toString(),
                               onStart: () => _startJob(job),

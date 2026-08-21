@@ -1,6 +1,3 @@
-// اختبارات Final Small UX Hardening: فشل start/complete/cancel لطلب وقود
-// (بعد تحميل التفاصيل) يجب ألا يفرّغ الصفحة — يبقى ProviderOrderDetailsBody
-// ظاهراً مع Snackbar فقط، بنفس مبدأ فشل الـ accept.
 import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_order/domain/entities/provider_order_entity.dart';
@@ -38,6 +35,7 @@ void _ignoreKnownAppBarOverflowInTests() {
     }
     original?.call(details);
   };
+  addTearDown(() => FlutterError.onError = original);
 }
 
 Future<void> _pumpRouter(WidgetTester tester, GoRouter router) async {
@@ -87,9 +85,9 @@ void main() {
       'SizedBox) and shows a snackbar',
       (tester) async {
         final repo = MockFuelProviderOrderRepository();
-        when(
-          () => repo.getOrder(1),
-        ).thenAnswer((_) async => Right(_fakeProviderOrder(status: 'accepted')));
+        when(() => repo.getOrder(1)).thenAnswer(
+          (_) async => Right(_fakeProviderOrder(status: 'accepted')),
+        );
         when(() => repo.startOrder(1)).thenAnswer(
           (_) async => const Left(Failure(message: 'فشل بدء التنفيذ')),
         );
@@ -146,43 +144,38 @@ void main() {
       },
     );
 
-    testWidgets(
-      'a failed cancel keeps the order details on screen and shows a '
-      'snackbar',
-      (tester) async {
-        final repo = MockFuelProviderOrderRepository();
-        when(
-          () => repo.getOrder(1),
-        ).thenAnswer((_) async => Right(_fakeProviderOrder(status: 'accepted')));
-        when(
-          () => repo.cancelOrder(1, any(that: isNotEmpty)),
-        ).thenAnswer((_) async => const Left(Failure(message: 'فشل الإلغاء')));
+    testWidgets('a failed cancel keeps the order details on screen and shows a '
+        'snackbar', (tester) async {
+      final repo = MockFuelProviderOrderRepository();
+      when(
+        () => repo.getOrder(1),
+      ).thenAnswer((_) async => Right(_fakeProviderOrder(status: 'accepted')));
+      when(
+        () => repo.cancelOrder(1, any(that: isNotEmpty)),
+      ).thenAnswer((_) async => const Left(Failure(message: 'فشل الإلغاء')));
 
-        _registerCubit(repo);
-        addTearDown(() {
-          if (getIt.isRegistered<FuelProviderOrderCubit>()) {
-            getIt.unregister<FuelProviderOrderCubit>();
-          }
-        });
+      _registerCubit(repo);
+      addTearDown(() {
+        if (getIt.isRegistered<FuelProviderOrderCubit>()) {
+          getIt.unregister<FuelProviderOrderCubit>();
+        }
+      });
 
-        await _pumpRouter(tester, _detailsRouter());
-        expect(find.byType(ProviderOrderDetailsBody), findsOneWidget);
+      await _pumpRouter(tester, _detailsRouter());
+      expect(find.byType(ProviderOrderDetailsBody), findsOneWidget);
 
-        await tester.ensureVisible(find.text('إلغاء الطلب'));
-        await tester.pumpAndSettle();
-        await tester.tap(find.text('إلغاء الطلب'));
-        await tester.pumpAndSettle();
+      await tester.ensureVisible(find.text('إلغاء الطلب'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('إلغاء الطلب'));
+      await tester.pumpAndSettle();
 
-        await tester.enterText(find.byType(TextField), 'سبب إلغاء كافٍ');
-        await tester.tap(find.text('تأكيد'));
-        await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField), 'سبب إلغاء كافٍ');
+      await tester.tap(find.text('تأكيد'));
+      await tester.pumpAndSettle();
 
-        // Still on the details page with the same order visible — never
-        // popped back on failure, unlike a successful cancel.
-        expect(find.byType(ProviderOrderDetailsPage), findsOneWidget);
-        expect(find.byType(ProviderOrderDetailsBody), findsOneWidget);
-        expect(find.text('فشل الإلغاء'), findsOneWidget);
-      },
-    );
+      expect(find.byType(ProviderOrderDetailsPage), findsOneWidget);
+      expect(find.byType(ProviderOrderDetailsBody), findsOneWidget);
+      expect(find.text('فشل الإلغاء'), findsOneWidget);
+    });
   });
 }

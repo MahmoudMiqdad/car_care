@@ -55,7 +55,7 @@ class _LoginTextFieldState extends State<LoginTextField> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(14.r),
           border: Border.all(
             color: borderColor,

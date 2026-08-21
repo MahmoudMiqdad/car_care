@@ -30,7 +30,7 @@ class ProfileWasherPage extends StatelessWidget {
         BlocProvider(create: (_) => getIt<AvailabilityCubit>()),
       ],
       child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
+        backgroundColor: AppColors.scaffoldBackground(context),
         appBar: CustomAppBar(
           title: l10n.profileWasherPageTitle,
           showBackButton: true,
@@ -79,11 +79,7 @@ class ProfileWasherPage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        Icons.error_outline,
-                        size: 64,
-                        color: Colors.red.shade400,
-                      ),
+                      Icon(Icons.error_outline, size: 64, color: AppColors.red),
                       const SizedBox(height: 16),
                       Text(state.message, textAlign: TextAlign.center),
                       const SizedBox(height: 24),
@@ -91,7 +87,7 @@ class ProfileWasherPage extends StatelessWidget {
                         onPressed: () =>
                             context.read<ProfileWasherCubit>().load(),
                         icon: const Icon(Icons.refresh),
-                        label: const Text('إعادة محاولة'),
+                        label: Text(l10n.retry),
                       ),
                     ],
                   ),

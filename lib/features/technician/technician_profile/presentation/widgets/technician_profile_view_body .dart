@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-
 class TechnicianProfileViewBody extends StatelessWidget {
   const TechnicianProfileViewBody({super.key});
 
@@ -29,7 +28,7 @@ class TechnicianProfileViewBody extends StatelessWidget {
         if (state is TechnicianProfileError) {
           final msg =
               state.message.isEmpty || state.message.startsWith('Instance of')
-              ? 'حدث خطأ أثناء تحميل الملف'
+              ? strings.profileLoadError
               : state.message;
           AppSnackBar.error(context, msg);
         }
@@ -44,10 +43,10 @@ class TechnicianProfileViewBody extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                Icon(Icons.error_outline, size: 48, color: AppColors.red),
                 const SizedBox(height: 12),
-                const Text(
-                  'حدث خطأ أثناء تحميل الملف',
+                Text(
+                  strings.profileLoadError,
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
@@ -56,7 +55,7 @@ class TechnicianProfileViewBody extends StatelessWidget {
                       .read<TechnicianProfileCubit>()
                       .getTechnicianProfile(),
                   icon: const Icon(Icons.refresh),
-                  label: const Text('إعادة المحاولة'),
+                  label: Text(strings.retry),
                 ),
               ],
             ),
@@ -68,171 +67,169 @@ class TechnicianProfileViewBody extends StatelessWidget {
           final certifications = profile.data?.certifications ?? [];
           final isAvailable = profile.data?.isAvailable ?? false;
 
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: RefreshIndicator(
-              onRefresh: () async {
-                context.read<TechnicianProfileCubit>().getTechnicianProfile();
-              },
-              child: Column(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 8.h),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          TechnicianAvailabilityCard(isAvailable: isAvailable),
-                          SizedBox(height: 14.h),
-
-                          TechnicianProfileSection(
-                            title: 'البيانات المهنية',
-                            icon: Icons.engineering_outlined,
-                            color: AppColors.orange,
-                            child: Column(
-                              children: [
-                                TechnicianInfoRow(
-                                  icon: Icons.work_outline,
-                                  label: 'التخصص',
-                                  value: profile.data?.specialization ?? '-',
-                                ),
-                                SizedBox(height: 14.h),
-                                TechnicianInfoRow(
-                                  icon: Icons.timeline,
-                                  label: 'سنوات الخبرة',
-                                  value:
-                                      profile.data?.experienceYears
-                                          ?.toString() ??
-                                      '-',
-                                ),
-                                SizedBox(height: 14.h),
-                                TechnicianInfoRow(
-                                  icon: Icons.attach_money,
-                                  label: 'الأجر بالساعة',
-                                  value:
-                                      profile.data?.hourlyRate?.toString() ??
-                                      '-',
-                                ),
-                              ],
-                            ),
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<TechnicianProfileCubit>().getTechnicianProfile();
+            },
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 8.h),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        TechnicianAvailabilityCard(isAvailable: isAvailable),
+                        SizedBox(height: 14.h),
+          
+                        TechnicianProfileSection(
+                          title: strings.professionalInfo,
+                          icon: Icons.engineering_outlined,
+                          color: AppColors.accent,
+                          child: Column(
+                            children: [
+                              TechnicianInfoRow(
+                                icon: Icons.work_outline,
+                                label: strings.specialization,
+                                value: profile.data?.specialization ?? '-',
+                              ),
+                              SizedBox(height: 14.h),
+                              TechnicianInfoRow(
+                                icon: Icons.timeline,
+                                label: strings.experienceYears,
+                                value:
+                                    profile.data?.experienceYears
+                                        ?.toString() ??
+                                    '-',
+                              ),
+                              SizedBox(height: 14.h),
+                              TechnicianInfoRow(
+                                icon: Icons.attach_money,
+                                label: strings.hourlyRate,
+                                value:
+                                    profile.data?.hourlyRate?.toString() ??
+                                    '-',
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 14.h),
-
-                          TechnicianProfileSection(
-                            title: 'بيانات التواصل',
-                            icon: Icons.person_outline,
-                            color: AppColors.primary,
-                            child: Column(
-                              children: [
-                                TechnicianInfoRow(
-                                  icon: Icons.phone_in_talk_outlined,
-                                  label: strings.phoneNumber,
-                                  value: profile.data?.phone ?? '-',
-                                ),
-                                SizedBox(height: 14.h),
-                                TechnicianInfoRow(
-                                  icon: Icons.location_on_outlined,
-                                  label: 'المدينة',
-                                  value: profile.data?.city ?? '-',
-                                ),
-                              ],
-                            ),
+                        ),
+                        SizedBox(height: 14.h),
+          
+                        TechnicianProfileSection(
+                          title: strings.contactInfo,
+                          icon: Icons.person_outline,
+                          color: AppColors.primary,
+                          child: Column(
+                            children: [
+                              TechnicianInfoRow(
+                                icon: Icons.phone_in_talk_outlined,
+                                label: strings.phoneNumber,
+                                value: profile.data?.phone ?? '-',
+                              ),
+                              SizedBox(height: 14.h),
+                              TechnicianInfoRow(
+                                icon: Icons.location_on_outlined,
+                                label: strings.city,
+                                value: profile.data?.city ?? '-',
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 14.h),
-
-                          TechnicianProfileSection(
-                            title: 'الشهادات',
-                            icon: Icons.workspace_premium_outlined,
-                            color: AppColors.primary,
-                            child: certifications.isEmpty
-                                ? _EmptyCertificates()
-                                : GridView.builder(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: certifications.length,
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 3,
-                                          crossAxisSpacing: 8.w,
-                                          mainAxisSpacing: 8.h,
-                                        ),
-                                    itemBuilder: (context, index) {
-                                      final url = certifications[index];
-                                      return GestureDetector(
-                                        onTap: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (_) => Dialog(
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              child: InteractiveViewer(
-                                                panEnabled: true,
-                                                minScale: 1,
-                                                maxScale: 5,
-                                                child: Image.network(
-                                                  url,
-                                                  fit: BoxFit.contain,
-                                                  errorBuilder: (_, _, _) =>
-                                                      Container(
-                                                        color: Colors.grey[300],
-                                                      ),
-                                                ),
+                        ),
+                        SizedBox(height: 14.h),
+          
+                        TechnicianProfileSection(
+                          title: strings.certifications,
+                          icon: Icons.workspace_premium_outlined,
+                          color: AppColors.primary,
+                          child: certifications.isEmpty
+                              ? const _EmptyCertificates()
+                              : GridView.builder(
+                                  shrinkWrap: true,
+                                  physics:
+                                      const NeverScrollableScrollPhysics(),
+                                  itemCount: certifications.length,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        crossAxisSpacing: 8.w,
+                                        mainAxisSpacing: 8.h,
+                                      ),
+                                  itemBuilder: (context, index) {
+                                    final url = certifications[index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (_) => Dialog(
+                                            backgroundColor:
+                                                AppColors.transparent,
+                                            child: InteractiveViewer(
+                                              panEnabled: true,
+                                              minScale: 1,
+                                              maxScale: 5,
+                                              child: Image.network(
+                                                url,
+                                                fit: BoxFit.contain,
+                                                errorBuilder: (_, _, _) =>
+                                                    Container(
+                                                      color:
+                                                          AppColors.white,
+                                                    ),
                                               ),
                                             ),
-                                          );
-                                        },
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                            8.r,
                                           ),
-                                          child: Image.network(
-                                            url,
-                                            fit: BoxFit.cover,
-                                            errorBuilder: (_, _, _) =>
-                                                Container(
-                                                  color: Colors.grey[300],
-                                                ),
-                                          ),
+                                        );
+                                      },
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                          8.r,
                                         ),
-                                      );
-                                    },
-                                  ),
-                          ),
-                        ],
-                      ),
+                                        child: Image.network(
+                                          url,
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (_, _, _) =>
+                                              Container(
+                                                color: AppColors.white,
+                                              ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                        ),
+                      ],
                     ),
                   ),
-
-                  // ─── زر التعديل (فوق الشريط الآمن دائمًا) ────────────
-                  SafeArea(
-                    top: false,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 12.h),
-                      child: AppButton(
-                        text: 'تعديل الملف',
-                        backgroundColor: AppColors.orange,
-                        onPressed: () async {
-                          final updated = await context.push<bool>(
-                            Routes.updateTechnicianProfile,
-                            extra: profile.data,
+                ),
+          
+                // ─── زر التعديل (فوق الشريط الآمن دائمًا) ────────────
+                SafeArea(
+                  top: false,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 12.h),
+                    child: AppButton(
+                      text: strings.editProfile,
+                      backgroundColor: AppColors.accent,
+                      onPressed: () async {
+                        final updated = await context.push<bool>(
+                          Routes.updateTechnicianProfile,
+                          extra: profile.data,
+                        );
+                        if (updated == true && context.mounted) {
+                          context
+                              .read<TechnicianProfileCubit>()
+                              .getTechnicianProfile();
+                          AppSnackBar.success(
+                            context,
+                            strings.profileUpdatedSuccessfully,
                           );
-                          if (updated == true && context.mounted) {
-                            context
-                                .read<TechnicianProfileCubit>()
-                                .getTechnicianProfile();
-                            AppSnackBar.success(
-                              context,
-                              'تم تحديث الملف الشخصي بنجاح ✓',
-                            );
-                          }
-                        },
-                      ),
+                        }
+                      },
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         }
@@ -244,8 +241,11 @@ class TechnicianProfileViewBody extends StatelessWidget {
 }
 
 class _EmptyCertificates extends StatelessWidget {
+  const _EmptyCertificates();
+
   @override
   Widget build(BuildContext context) {
+    final strings = context.l10n;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.h),
       child: Row(
@@ -253,15 +253,15 @@ class _EmptyCertificates extends StatelessWidget {
           Icon(
             Icons.image_not_supported_outlined,
             size: 18.r,
-            color: Colors.grey.shade400,
+            color: AppColors.white,
           ),
           SizedBox(width: 10.w),
           Flexible(
             child: Text(
-              'لا توجد شهادات مرفوعة بعد',
+              strings.noCertificatesUploaded,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 13.sp, color: Colors.grey.shade500),
+              style: TextStyle(fontSize: 13.sp, color: AppColors.white),
             ),
           ),
         ],

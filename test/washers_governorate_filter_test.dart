@@ -1,8 +1,3 @@
-// اختبارات فلتر المحافظة في قائمة مغاسل السيارات لدى العميل — القائمة
-// المنبثقة أصبحت Bottom Sheet مضغوط بارتفاع محدود وScroll بدل PopupMenuButton
-// غير المقيّد، مع الحفاظ على الـSentinel وسلوك "كل المحافظات"، وإثبات اختفاء
-// شارات BASIC/VIP/PREMIUM من بطاقة القائمة فقط.
-import 'package:car_care/core/constants/list_province.dart';
 import 'package:car_care/core/widgets/filters/generic_dropdown_filter.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/domain/entities/washers_entity.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/widgets/washers_page/washer_listing_card.dart';
@@ -47,17 +42,6 @@ WasherEntity fakeWasher({Map<String, int> servicePrices = const {}}) {
 }
 
 void main() {
-  group('washersGovernorateFilterOptions — the 14 governorates', () {
-    test('is the canonical kCreateSosProvinceOptions list, plus the null '
-        '"clear" entry first — a single shared source of truth, not a '
-        'locally duplicated list', () {
-      expect(washersGovernorateFilterOptions, [
-        null,
-        ...kCreateSosProvinceOptions,
-      ]);
-    });
-  });
-
   group('WashersGovernorateFilter — trigger', () {
     testWidgets(
       'shows "حسب المحافظة" as the trigger title when nothing is selected',
@@ -88,9 +72,6 @@ void main() {
   });
 
   group('WashersGovernorateFilter — the (now bounded, scrollable) list', () {
-    // A small physical surface stands in for a small phone screen, so the
-    // old bug (the full 15-item list rendering at unconstrained height)
-    // would overflow/behave badly here if it still existed.
     Future<void> setSmallScreen(WidgetTester tester) async {
       tester.view.physicalSize = const Size(400, 700);
       tester.view.devicePixelRatio = 1.0;
@@ -115,8 +96,7 @@ void main() {
 
         expect(find.text('كل المحافظات'), findsOneWidget);
         expect(find.text('دمشق'), findsOneWidget);
-        // The last governorate isn't necessarily laid out yet (long list,
-        // bounded viewport) but must exist once scrolled into view.
+
         await tester.dragUntilVisible(
           find.text('الحسكة'),
           find.byType(Scrollbar),
@@ -212,11 +192,7 @@ void main() {
 
         await tester.tap(find.byType(GenericDropdownFilter<String>));
         await tester.pumpAndSettle();
-        // The sheet auto-scrolls to the currently-selected "حلب", which
-        // can push "كل المحافظات" (the first item) out of view — jump the
-        // scroll position back to the top deterministically before
-        // tapping (a drag gesture can leave the item positioned right
-        // under the drag-handle area and miss the hit test).
+
         tester
             .state<ScrollableState>(find.byType(Scrollable))
             .position
@@ -282,7 +258,6 @@ void main() {
         expect(find.text('BASIC'), findsNothing);
         expect(find.text('VIP'), findsNothing);
         expect(find.text('PREMIUM'), findsNothing);
-        // The rest of the card still renders normally.
         expect(find.text('مغسلة الأمل'), findsOneWidget);
       },
     );

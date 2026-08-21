@@ -21,7 +21,7 @@ class SosTechnicianDetailsRequestCard extends StatelessWidget {
   final String technicianName;
   final String description;
 
-  /// Real vehicle image from the API; null falls back to a placeholder icon.
+
   final String? vehicleImageUrl;
 
   @override
@@ -79,7 +79,7 @@ class SosTechnicianDetailsRequestCard extends StatelessWidget {
     return Container(
       height: 140.h,
       width: double.infinity,
-      color: const Color(0xFFF5F7F9),
+      color:  AppColors.white,
       child: Icon(
         Icons.directions_car_filled_rounded,
         size: 48.sp,

@@ -1,7 +1,9 @@
 // ignore_for_file: file_names
 import 'package:car_care/core/constants/appbox_container.dart';
+
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+
 import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
@@ -20,7 +22,7 @@ class VehicleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-          final strings = context.l10n;
+    final strings = context.l10n;
     return AppBoxContainer(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -37,11 +39,10 @@ class VehicleCard extends StatelessWidget {
           ),
           SizedBox(height: 16.h),
           AppButton(
-            text:strings.details,
-            backgroundColor: AppColors.orange,
+            text: strings.details,
+            backgroundColor: AppColors.accent,
             borderRadius: 16.r,
             height: 48.h,
-            fontSize: 18.sp,
             onPressed: () async {
               final deleted = await context.push<bool>(Routes.vehicle_details, extra: item.id);
               if (deleted == true && context.mounted) {
@@ -61,35 +62,30 @@ class VehicleInfoColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-          final strings = context.l10n;
+    final strings = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         AppText.sectionTitle(
+          context,
           '${item.brand} ${item.model}',
           color: AppColors.black,
         ),
         SizedBox(height: 8.h),
         AppInfoRow(
-          label:strings.year,
+          label: strings.year,
           value: item.year.toString(),
-          labelFontSize: 16.sp,
-          valueFontSize: 16.sp,
         ),
         SizedBox(height: 4.h),
         AppInfoRow(
           label: strings.plate,
           value: item.plateNumber,
-          labelFontSize: 16.sp,
-          valueFontSize: 16.sp,
         ),
         SizedBox(height: 4.h),
         AppInfoRow(
           label: strings.counterAppBarTitle,
-          value: '${item.currentKm}${strings.km} ',
-          labelFontSize: 16.sp,
-          valueFontSize: 16.sp,
+          value: strings.odometerReadingWithParamLabel(item.currentKm.toString()),
         ),
       ],
     );
@@ -103,26 +99,28 @@ class VehicleCircleImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final url = imageUrl?.trim();
+
+    Widget buildPlaceholder() => Icon(Icons.directions_car, size: 40.sp, color: AppColors.accent);
+
     return Container(
       width: 90.w,
       height: 90.w,
-      decoration: const BoxDecoration(
+   
+      decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: AppColors.lightBorder,
+        color: AppColors.border(context),
       ),
       child: ClipOval(
         child: (url != null && url.isNotEmpty)
             ? Image.network(
                 url,
                 fit: BoxFit.cover,
-                errorBuilder: (_, _, _) => _buildPlaceholder(),
+                errorBuilder: (_, _, _) => buildPlaceholder(),
                 loadingBuilder: (_, child, progress) =>
                     progress == null ? child : const Center(child: CircularProgressIndicator(strokeWidth: 2)),
               )
-            : _buildPlaceholder(),
+            : buildPlaceholder(),
       ),
     );
   }
-
-  Widget _buildPlaceholder() => Icon(Icons.directions_car, size: 40.sp, color: AppColors.orange);
 }

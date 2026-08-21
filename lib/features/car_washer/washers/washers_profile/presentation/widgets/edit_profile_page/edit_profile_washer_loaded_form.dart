@@ -231,7 +231,7 @@ class _EditProfileWasherLoadedFormState
         if (isSaving)
           const Positioned.fill(
             child: ColoredBox(
-              color: Color(0x33000000),
+              color: AppColors.black,
               child: Center(child: CircularProgressIndicator()),
             ),
           ),

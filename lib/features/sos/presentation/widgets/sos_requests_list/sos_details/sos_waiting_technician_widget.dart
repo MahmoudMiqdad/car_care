@@ -1,5 +1,6 @@
 // sos_waiting_technician_widget.dart
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -57,16 +58,16 @@ class _WaitingTechnicianWidgetState extends State<WaitingTechnicianWidget>
 
   @override
   Widget build(BuildContext context) {
-   
+    final l10n = context.l10n; 
 
     return Center(
       child: Container(
         margin: EdgeInsets.all(24.w),
         padding: EdgeInsets.symmetric(vertical: 36.h, horizontal: 28.w),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white, 
           borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(color: Colors.grey.shade200),
+          border: Border.all(color: AppColors.border(context)), 
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -84,21 +85,21 @@ class _WaitingTechnicianWidgetState extends State<WaitingTechnicianWidget>
                     width: 44.w,
                     height: 44.w,
                     decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.accent),
-                    child: Icon(Icons.build_rounded, color: Colors.white, size: 22.sp),
+                    child: Icon(Icons.build_rounded, color: AppColors.white, size: 22.sp),
                   ),
                 ],
               ),
             ),
             SizedBox(height: 24.h),
             Text(
-              'جارٍ البحث عن فني',
-              style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600),
+              l10n.searchingForTechnicianTitle,
+              style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600, color: AppColors.black),
             ),
             SizedBox(height: 8.h),
             Text(
-              'نبحث لك عن أقرب فني متاح، يرجى الانتظار قليلاً',
+              l10n.searchingForTechnicianSubtitle, 
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13.sp, color: Colors.grey.shade600, height: 1.6),
+              style: TextStyle(fontSize: 13.sp, color: AppColors.textSecondary(context), height: 1.6),
             ),
             SizedBox(height: 20.h),
             _DotsIndicator(),

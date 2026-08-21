@@ -1,4 +1,6 @@
-import 'package:car_care/core/widgets/app_headline.dart';
+import 'package:car_care/core/theme/app_colors.dart';
+
+import 'package:car_care/core/widgets/app_headline.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -7,13 +9,13 @@ class WasherBookingsDetailsSection extends StatelessWidget {
     super.key,
     required this.title,
     required this.lines,
-    this.textAlign = TextAlign.right,
+    this.textAlign,
     this.contentFontWeight = FontWeight.w700,
   });
 
   final String title;
   final List<String> lines;
-  final TextAlign textAlign;
+  final TextAlign? textAlign;
   final FontWeight contentFontWeight;
 
   @override
@@ -22,8 +24,8 @@ class WasherBookingsDetailsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppText.sectionTitle(
+          context,
           title,
-          fontSize: 19.sp,
           fontWeight: FontWeight.w800,
         ),
         SizedBox(height: 6.h),
@@ -31,9 +33,9 @@ class WasherBookingsDetailsSection extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.88),
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(14.r),
-            border: Border.all(color: const Color(0xFFD7DDE3)),
+            border: Border.all(color: AppColors.border(context)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,10 +45,9 @@ class WasherBookingsDetailsSection extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 1.h),
                     child: Text(
                       line,
-                      textAlign: textAlign,
+                      textAlign: textAlign ?? TextAlign.start,
                       style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16.sp,
+                        color: AppColors.black,
                         fontWeight: contentFontWeight,
                         height: 1.35,
                       ),

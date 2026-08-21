@@ -18,7 +18,6 @@ class EditProfileWasherPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocProvider(
       create: (_) => getIt<ProfileWasherCubit>()..load(),
       child: _EditProfileWasherView(),
@@ -39,15 +38,12 @@ class _EditProfileWasherViewState extends State<_EditProfileWasherView> {
     final l10n = context.l10n;
 
     return PopScope(
-    
       canPop: true,
       onPopInvokedWithResult: (didPop, result) {
-        if (didPop && _saved) {
-        
-        }
+        if (didPop && _saved) {}
       },
       child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
+        backgroundColor: AppColors.scaffoldBackground(context),
         appBar: CustomAppBar(
           title: l10n.profileWasherEditPageTitle,
           showBackButton: true,
@@ -64,7 +60,10 @@ class _EditProfileWasherViewState extends State<_EditProfileWasherView> {
           child: BlocConsumer<ProfileWasherCubit, ProfileWasherState>(
             listener: (context, state) {
               if (state is ProfileWasherLoaded && _saved) {
-                AppSnackBar.success(context, 'تم حفظ التعديلات بنجاح');
+                AppSnackBar.success(
+                  context,
+                  l10n.profileWasherEditSuccessMessage,
+                );
                 context.pop(true);
               }
 

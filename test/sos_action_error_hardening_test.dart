@@ -1,6 +1,3 @@
-// اختبارات Final Small UX Hardening: فشل accept على صفحة تفاصيل SOS، وفشل
-// changeStatus/cancelResponse بعد وجود بيانات محملة، يجب ألا يستبدل المحتوى
-// بـ ErrorStateWidget/SizedBox فارغ — يبقى المحتوى مع Snackbar فقط.
 import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/widgets/error_state_widget.dart';
@@ -46,6 +43,7 @@ void _ignoreKnownOverflowInTests() {
     }
     original?.call(details);
   };
+  addTearDown(() => FlutterError.onError = original);
 }
 
 Future<void> _pumpPage(WidgetTester tester, Widget child) async {
@@ -138,7 +136,6 @@ void main() {
         await tester.tap(find.text('قبول الطلب'));
         await tester.pumpAndSettle();
 
-        // The details stay on screen — no full-page error, no blank body.
         expect(find.byType(ErrorStateWidget), findsNothing);
         expect(find.byType(SosTechnicianDetailsBody), findsOneWidget);
         expect(find.textContaining('وصف تجريبي فريد'), findsOneWidget);
@@ -178,7 +175,6 @@ void main() {
         await tester.tap(find.text('بدء التنفيذ'));
         await tester.pumpAndSettle();
 
-        // The list/card stays visible — no full-page error state.
         expect(find.byType(ErrorStateWidget), findsNothing);
         expect(find.text('بدء التنفيذ'), findsOneWidget);
         expect(find.text('فشل تغيير الحالة'), findsOneWidget);
@@ -225,11 +221,9 @@ void main() {
         await tester.pumpAndSettle();
 
         await tester.enterText(find.byType(TextField), 'سبب إلغاء كافٍ');
-        await tester.tap(find.text('تأكيد'));
+        await tester.tap(find.text('تأكيد الإلغاء'));
         await tester.pumpAndSettle();
 
-        // Still on the details page with the same request visible — never
-        // navigated away on failure, unlike a successful cancel.
         expect(find.byType(SosTechnicianDetailsPage), findsOneWidget);
         expect(find.byType(ErrorStateWidget), findsNothing);
         expect(find.byType(SosTechnicianDetailsBody), findsOneWidget);

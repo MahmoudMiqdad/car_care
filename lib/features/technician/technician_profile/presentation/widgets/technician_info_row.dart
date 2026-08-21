@@ -26,7 +26,7 @@ class TechnicianInfoRow extends StatelessWidget {
         SizedBox(width: 10.w),
         Text(
           label,
-          style: TextStyle(fontSize: 13.sp, color: Colors.grey.shade600),
+          style: TextStyle(fontSize: 13.sp, color: AppColors.gray),
         ),
         const Spacer(),
         Flexible(
@@ -38,7 +38,7 @@ class TechnicianInfoRow extends StatelessWidget {
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w700,
-              color: Colors.black87,
+              color: AppColors.black,
             ),
           ),
         ),

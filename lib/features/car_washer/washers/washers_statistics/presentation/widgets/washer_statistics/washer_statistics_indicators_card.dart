@@ -14,14 +14,14 @@ class WasherStatisticsIndicatorsCard extends StatelessWidget {
     final strings = context.l10n;
 
     return StatsIndicatorsSection(
-      title: 'حالات الحجوزات',
+      title: strings.bookingStatusesTitle, 
       icon: Icons.checklist_outlined,
       items: [
         StatsIndicatorData(
           label: strings.pending,
           value: statistics.pendingBookings,
           icon: Icons.hourglass_top_outlined,
-          color: AppColors.orange,
+          color: AppColors.accent,
         ),
         StatsIndicatorData(
           label: strings.bookingStatusAccepted,

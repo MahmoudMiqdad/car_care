@@ -33,60 +33,55 @@ class _LoginPageState extends State<LoginPage> {
     final passwordController = TextEditingController();
     final formKey = GlobalKey<FormState>();
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: BlocProvider(
-        create: (_) => AuthBloc(
-          getIt<IAuthRepository>(),
-          googleSignInService: getIt<GoogleSignInService>(),
-        ),
-        child: BlocConsumer<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is AuthSuccess) {
-              AppSnackBar.success(context, strings.loginSuccess);
-              _navigateHome(context);
-            } else if (state is AuthFailure) {
-              AppSnackBar.error(context, state.message);
-            }
-          },
-          builder: (context, state) {
-
-            return Scaffold(
-              body: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Image.asset(AppAssets.backgroung, fit: BoxFit.cover),
-                  SafeArea(
-                    child: Column(
-                      children: [
-                        const LoginHeader(),
-                        Expanded(
-                          child: LoginContent(
-                            formKey: formKey,
-                            accountController: accountController,
-                            passwordController: passwordController,
-                            onLogin: () => context.read<AuthBloc>().add(
-                                  SubmitLogin(),
-                                ),
-                            onForgotPassword: () {
-                              GoRouter.of(context).push(Routes.forget_password);
-                            },
-                            onRegister: () {
-                              GoRouter.of(context).go(Routes.signup);
-                            },
-                            onGoogleSignIn: () => context.read<AuthBloc>().add(
-                                  GoogleSignInRequested(),
-                                ),
+    return BlocProvider(
+      create: (_) => AuthBloc(
+        getIt<IAuthRepository>(),
+        googleSignInService: getIt<GoogleSignInService>(),
+      ),
+      child: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthSuccess) {
+            AppSnackBar.success(context, strings.loginSuccess);
+            _navigateHome(context);
+          } else if (state is AuthFailure) {
+            AppSnackBar.error(context, state.message);
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            body: Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.asset(AppAssets.backgroung, fit: BoxFit.cover),
+                SafeArea(
+                  child: Column(
+                    children: [
+                      const LoginHeader(),
+                      Expanded(
+                        child: LoginContent(
+                          formKey: formKey,
+                          accountController: accountController,
+                          passwordController: passwordController,
+                          onLogin: () =>
+                              context.read<AuthBloc>().add(SubmitLogin()),
+                          onForgotPassword: () {
+                            GoRouter.of(context).push(Routes.forget_password);
+                          },
+                          onRegister: () {
+                            GoRouter.of(context).go(Routes.signup);
+                          },
+                          onGoogleSignIn: () => context.read<AuthBloc>().add(
+                            GoogleSignInRequested(),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            );
-          },
-        ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

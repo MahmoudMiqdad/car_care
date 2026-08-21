@@ -58,7 +58,7 @@ class _WashersPageState extends State<WashersPage> {
             child: Text(
               l10n.bookingsPageTitle,
               style: TextStyle(
-                color: Colors.white,
+                color: AppColors.white,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w700,
               ),
@@ -121,7 +121,7 @@ class _WashersPageState extends State<WashersPage> {
                                     style: TextStyle(
                                       fontSize: 18.sp,
                                       fontWeight: FontWeight.w700,
-                                      color: Colors.white,
+                                      color: AppColors.white,
                                     ),
                                   ),
                                 ),

@@ -12,7 +12,7 @@ class SelectTriggerField extends StatelessWidget {
     this.leading,
     this.borderColor = AppColors.primary,
     this.borderWidth = 1.5,
-    this.labelColor = AppColors.lightTextPrimary,
+    this.labelColor,
     this.labelFontSize = 15,
     this.chevronLeading = false,
     this.placeholderAlpha = 0.55,
@@ -31,7 +31,7 @@ class SelectTriggerField extends StatelessWidget {
 
   final Color borderColor;
   final double borderWidth;
-  final Color labelColor;
+  final Color? labelColor;
   final double labelFontSize;
 
   final bool chevronLeading;
@@ -58,7 +58,7 @@ class SelectTriggerField extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         child: Ink(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(12.r),
             border: Border.all(color: borderColor, width: borderWidth),
           ),
@@ -81,7 +81,7 @@ class SelectTriggerField extends StatelessWidget {
                       Text(
                         label,
                         style: theme.textTheme.titleSmall?.copyWith(
-                          color: labelColor,
+                          color: labelColor ?? AppColors.textPrimary(context),
                           fontWeight: FontWeight.w700,
                           fontSize: labelFontSize.sp,
                           height: labelHeight,
@@ -92,12 +92,12 @@ class SelectTriggerField extends StatelessWidget {
                         hasValue ? value! : placeholder,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: hasValue
-                              ? AppColors.lightTextSecondary.withValues(
-                                  alpha: 0.85,
-                                )
-                              : AppColors.lightTextSecondary.withValues(
-                                  alpha: placeholderAlpha,
-                                ),
+                              ? AppColors.textSecondary(
+                                  context,
+                                ).withValues(alpha: 0.85)
+                              : AppColors.textSecondary(
+                                  context,
+                                ).withValues(alpha: placeholderAlpha),
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
                           height: valueHeight,

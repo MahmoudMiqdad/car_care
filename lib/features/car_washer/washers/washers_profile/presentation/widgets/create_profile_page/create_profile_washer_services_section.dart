@@ -1,16 +1,12 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/edit_profile_page/edit_profile_washer_labeled_field.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/edit_profile_page/edit_profile_washer_services_section.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-/// Known default service chips. Purely a presentation convenience over the
-/// existing free-text `servicesController` — these strings already exist as
-/// the controller's seeded default text (see `_CreateProfileWasherViewState`
-/// in create_profile_washer_page.dart) and are NOT new backend values.
-const List<String> _kKnownServiceChips = ['غسيل عادي', 'غسيل ممتاز', 'تلميع'];
 
 class CreateProfileWasherServicesSection extends StatefulWidget {
   const CreateProfileWasherServicesSection({
@@ -56,15 +52,28 @@ class CreateProfileWasherServicesSection extends StatefulWidget {
 class _CreateProfileWasherServicesSectionState
     extends State<CreateProfileWasherServicesSection> {
   late final TextEditingController _otherController;
+  
+
+  List<String> _getLocalizedChips() {
+    final defaultServices = context.l10n.profileWasherDefaultServices;
+    return defaultServices.split(',').map((e) => e.trim()).toList();
+  }
 
   @override
   void initState() {
     super.initState();
-    final extras = _currentList()
-        .where((s) => !_kKnownServiceChips.contains(s))
-        .toList();
-    _otherController = TextEditingController(text: extras.join(', '));
-    _otherController.addListener(_onOtherChanged);
+    _otherController = TextEditingController();
+    
+    
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final knownChips = _getLocalizedChips();
+      final extras = _currentList()
+          .where((s) => !knownChips.contains(s))
+          .toList();
+      _otherController.text = extras.join(', ');
+      _otherController.addListener(_onOtherChanged);
+    });
   }
 
   @override
@@ -74,9 +83,6 @@ class _CreateProfileWasherServicesSectionState
     super.dispose();
   }
 
-  // Same parsing rule as _parseServices() in create_profile_washer_page.dart
-  // — comma-split, trim, drop empties. Kept in sync deliberately so the
-  // chips/extras UI never diverges from what actually gets submitted.
   List<String> _currentList() => (widget.servicesController?.text ?? '')
       .split(',')
       .map((e) => e.trim())
@@ -84,8 +90,9 @@ class _CreateProfileWasherServicesSectionState
       .toList();
 
   void _onOtherChanged() {
+    final knownChips = _getLocalizedChips();
     final selectedKnown = _currentList()
-        .where(_kKnownServiceChips.contains)
+        .where(knownChips.contains)
         .toList();
     final extras = _otherController.text
         .split(',')
@@ -112,13 +119,15 @@ class _CreateProfileWasherServicesSectionState
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    final l10n = context.l10n;
+    final knownChips = _getLocalizedChips();
+return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AppText.sectionTitle(
+          context, 
           widget.servicesLabel,
           color: AppColors.black,
-          fontSize: 17.sp,
           fontWeight: FontWeight.w800,
         ),
         SizedBox(height: 10.h),
@@ -130,7 +139,7 @@ class _CreateProfileWasherServicesSectionState
               return Wrap(
                 spacing: 8.w,
                 runSpacing: 8.h,
-                children: _kKnownServiceChips
+                children: knownChips
                     .map(
                       (label) => _ServiceChip(
                         label: label,
@@ -144,7 +153,7 @@ class _CreateProfileWasherServicesSectionState
           ),
         SizedBox(height: 10.h),
         EditProfileWasherLabeledField(
-          label: 'خدمات أخرى',
+          label: l10n.otherServices, 
           hint: widget.servicesHint,
           controller: _otherController,
           leadingIcon: Icon(
@@ -187,7 +196,7 @@ class _ServiceChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: AppColors.transparent, 
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(20.r),
@@ -195,7 +204,7 @@ class _ServiceChip extends StatelessWidget {
           duration: const Duration(milliseconds: 150),
           padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.carWashTeal : Colors.transparent,
+            color: isSelected ? AppColors.carWashTeal : AppColors.transparent, 
             borderRadius: BorderRadius.circular(20.r),
             border: Border.all(
               color: isSelected
@@ -205,10 +214,9 @@ class _ServiceChip extends StatelessWidget {
           ),
           child: Text(
             label,
-            style: AppTypography.bodyMedium.copyWith(
-              fontSize: 13.sp,
+            style: context.textTheme.bodyMedium!.copyWith( 
               fontWeight: FontWeight.w600,
-              color: isSelected ? Colors.white : AppColors.black,
+              color: isSelected ? AppColors.white : AppColors.black,
             ),
           ),
         ),

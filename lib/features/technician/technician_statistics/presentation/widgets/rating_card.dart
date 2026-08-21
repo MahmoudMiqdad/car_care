@@ -1,5 +1,6 @@
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/statistics/stats_section_card.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,10 +18,11 @@ class RatingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final string = context.l10n;
     final rating = _rating.clamp(0.0, 5.0);
 
     return StatsSectionCard(
-      title: 'التقييم ($totalRatings)',
+      title: '${string.rating} ($totalRatings)',
       icon: Icons.star_outline_rounded,
       child: Center(child: _Stars(rating: rating)),
     );
@@ -40,19 +42,19 @@ class _Stars extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(5, (i) {
         if (i < full) {
-          return Icon(Icons.star_rounded, size: 26.sp, color: AppColors.orange);
+          return Icon(Icons.star_rounded, size: 26.sp, color: AppColors.accent);
         }
         if (i == full && half) {
           return Icon(
             Icons.star_half_rounded,
             size: 26.sp,
-            color: AppColors.orange,
+            color: AppColors.accent,
           );
         }
         return Icon(
           Icons.star_border_rounded,
           size: 26.sp,
-          color: AppColors.orange,
+          color: AppColors.accent,
         );
       }),
     );

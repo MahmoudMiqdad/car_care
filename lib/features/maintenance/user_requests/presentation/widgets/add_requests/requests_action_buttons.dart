@@ -14,8 +14,8 @@ class RequestsActionButtons extends StatelessWidget {
     required this.cardRadius,
     required this.onSubmit,
     required this.onCancel,
-    this.submitLabel = 'طلب الصيانة',
-    this.cancelLabel = 'إلغاء الطلب',
+    required this.submitLabel, 
+    required this.cancelLabel, 
     this.layout = RequestsActionButtonsLayout.row,
     this.submitBackgroundColor,
     this.cancelOutlineSurfaceColor,
@@ -24,7 +24,7 @@ class RequestsActionButtons extends StatelessWidget {
 
   final double cardRadius;
   final VoidCallback? onSubmit;
-final VoidCallback? onCancel;
+  final VoidCallback? onCancel;
   final String submitLabel;
   final String cancelLabel;
   final RequestsActionButtonsLayout layout;

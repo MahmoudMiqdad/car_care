@@ -1,7 +1,5 @@
-// اختبارات دفعة CW1-BASE: بقاء قائمة حجوزات المغسلة أثناء الإجراءات، شروط
-// أزرار الحالات الخمس، ألوان الحالات الصحيحة لدى الجهتين، خيار "الكل"
-// وتهجئة cancelled في الفلترين، وfallback صورة المركبة.
 import 'package:car_care/core/errors/filuar.dart';
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/media_url.dart';
 import 'package:car_care/core/widgets/filters/status_filter_tabs.dart';
 import 'package:car_care/core/widgets/vehicle_image_box.dart';
@@ -33,8 +31,6 @@ class MockBookingsRepository extends Mock implements IBookingsRepository {}
 class MockCustomerBookingsRepository extends Mock
     implements ICustomerBookingsRepository {}
 
-/// Pumps [child] inside a ScreenUtilInit + MaterialApp (with l10n delegates)
-/// so widgets using `.w`/`.h`/`.sp`/`.r` and `context.l10n` can be tested.
 Future<void> _pumpWithApp(WidgetTester tester, Widget child) async {
   await tester.pumpWidget(
     ScreenUtilInit(
@@ -48,6 +44,21 @@ Future<void> _pumpWithApp(WidgetTester tester, Widget child) async {
     ),
   );
   await tester.pumpAndSettle();
+}
+
+Future<BuildContext> _appContext(WidgetTester tester) async {
+  late BuildContext captured;
+  await tester.pumpWidget(
+    MaterialApp(
+      home: Builder(
+        builder: (context) {
+          captured = context;
+          return const SizedBox();
+        },
+      ),
+    ),
+  );
+  return captured;
 }
 
 BookingsEntity _fakeBooking({required int id, required String status}) {
@@ -143,58 +154,6 @@ void main() {
     });
   });
 
-  group('booking status chip colors — canonical status, not the label', () {
-    test('washer side: completed=success border, cancelled=error border, '
-        'others neutral/transparent', () {
-      expect(
-        washerBookingChipStyleFor('completed').border,
-        equals(const Color(0xff45B733)),
-      );
-      expect(
-        washerBookingChipStyleFor('cancelled').border,
-        equals(const Color(0xffE25839)),
-      );
-      for (final status in ['pending', 'accepted', 'in_progress']) {
-        expect(
-          washerBookingChipStyleFor(status).background,
-          Colors.transparent,
-        );
-      }
-    });
-
-    test('customer side: same canonical rule as the washer side', () {
-      expect(
-        customerBookingChipStyleFor('completed').border,
-        equals(const Color(0xff45B733)),
-      );
-      expect(
-        customerBookingChipStyleFor('cancelled').border,
-        equals(const Color(0xffE25839)),
-      );
-      for (final status in ['pending', 'accepted', 'in_progress']) {
-        expect(
-          customerBookingChipStyleFor(status).background,
-          Colors.transparent,
-        );
-      }
-    });
-
-    test('an Arabic label never affects the color — only status does', () {
-      // Same shape as the real bug: statusText "قيد التنفيذ" would never
-      // match an English substring check, which is why every status used
-      // to render identically blue. The resolver here only ever takes the
-      // canonical status, never a label.
-      expect(
-        washerBookingChipStyleFor('in_progress').background,
-        Colors.transparent,
-      );
-      expect(
-        customerBookingChipStyleFor('in_progress').background,
-        Colors.transparent,
-      );
-    });
-  });
-
   group('booking filters — "الكل" option and cancelled spelling', () {
     test('washer filter includes a local "all" (null) option', () {
       expect(washerBookingFilterStatusKeys, contains(null));
@@ -226,12 +185,6 @@ void main() {
       expect(resolveMediaUrl('   '), isNull);
     });
 
-    // The relative-path branch reads Env.baseUrl (flutter_dotenv), which
-    // needs a loaded .env in the test environment — out of scope for a
-    // small, self-contained test here. The null and already-absolute
-    // branches below don't touch it and cover the fallback contract that
-    // matters for this batch: no image → the caller falls back to the
-    // asset.
     test('an already-absolute URL is returned as-is', () {
       expect(
         resolveMediaUrl('https://example.com/x.jpg'),
@@ -266,8 +219,6 @@ void main() {
         });
 
         final actionFuture = cubit.acceptBooking(1);
-        // Yield once so the cubit reaches BookingActionLoading before the
-        // mocked network delay resolves.
         await Future<void>.delayed(Duration.zero);
 
         expect(cubit.state, isA<BookingActionLoading>());
@@ -290,7 +241,6 @@ void main() {
       when(
         () => repo.acceptBooking(1),
       ).thenAnswer((_) async => const Right({'message': 'تم القبول'}));
-      // Message-only response → cubit must await exactly one re-fetch.
       when(() => repo.getBookings(status: null)).thenAnswer(
         (_) async => Right([_fakeBooking(id: 1, status: 'accepted')]),
       );
@@ -441,9 +391,6 @@ void main() {
       );
       await cubit.fetchBookings();
 
-      // 'data' present but missing every field BookingModel.fromJson
-      // needs (no 'vehicle' key at all) — must not throw out of the
-      // cubit; must fall back to the single re-fetch instead.
       when(() => repo.acceptBooking(1)).thenAnswer(
         (_) async => const Right({
           'message': 'تم',
@@ -492,7 +439,6 @@ void main() {
       final f2 = cubit.acceptBooking(2);
       await Future<void>.delayed(Duration.zero);
 
-      // Both bookings must be tracked busy at the same time.
       final state = cubit.state;
       expect(state, isA<BookingActionLoading>());
       expect(
@@ -500,8 +446,6 @@ void main() {
         containsAll([1, 2]),
       );
 
-      // A repeat tap on booking 1 while both are still in flight must
-      // not fire a second request for it.
       final repeat = cubit.acceptBooking(1);
 
       await Future.wait([f1, f2, repeat]);
@@ -535,26 +479,34 @@ void main() {
     });
   });
 
-  test('completed/cancelled backgrounds are not any of the old always-blue '
-      'defaults (regression guard for the "everything is blue" bug)', () {
-    const oldBlues = [Color(0xFFDCECF5), Color(0xFFD1EAF8), Color(0xFFBCE5F8)];
-    expect(
-      oldBlues,
-      isNot(contains(washerBookingChipStyleFor('completed').background)),
-    );
-    expect(
-      oldBlues,
-      isNot(contains(washerBookingChipStyleFor('cancelled').background)),
-    );
-    expect(
-      oldBlues,
-      isNot(contains(customerBookingChipStyleFor('completed').background)),
-    );
-    expect(
-      oldBlues,
-      isNot(contains(customerBookingChipStyleFor('cancelled').background)),
-    );
-  });
+  testWidgets(
+    'completed/cancelled backgrounds are not any of the old always-blue '
+    'defaults (regression guard for the "everything is blue" bug)',
+    (tester) async {
+      final context = await _appContext(tester);
+      const oldBlues = [
+        Color(0xFFDCECF5),
+        Color(0xFFD1EAF8),
+        Color(0xFFBCE5F8),
+      ];
+      expect(
+        oldBlues,
+        isNot(
+          contains(
+            carwashBookingStatusStyleFor(context, 'completed').background,
+          ),
+        ),
+      );
+      expect(
+        oldBlues,
+        isNot(
+          contains(
+            carwashBookingStatusStyleFor(context, 'cancelled').background,
+          ),
+        ),
+      );
+    },
+  );
 
   group('carwashBookingFilterStatusKeys — CW1-R shared source of truth', () {
     test('six keys in order: all(null), pending, accepted, in_progress, '
@@ -573,20 +525,22 @@ void main() {
   group(
     'carwashBookingStatusStyleFor — CW1-R shared color source of truth',
     () {
-      test(
-        'completed=success border, cancelled=error border, others neutral',
-        () {
+      testWidgets(
+        'completed=success border, cancelled=error border, others neutral, '
+        'label text never affects the color',
+        (tester) async {
+          final context = await _appContext(tester);
           expect(
-            carwashBookingStatusStyleFor('completed').border,
-            equals(const Color(0xff45B733)),
+            carwashBookingStatusStyleFor(context, 'completed').border,
+            equals(AppColors.green),
           );
           expect(
-            carwashBookingStatusStyleFor('cancelled').border,
-            equals(const Color(0xffE25839)),
+            carwashBookingStatusStyleFor(context, 'cancelled').border,
+            equals(AppColors.red),
           );
           for (final status in ['pending', 'accepted', 'in_progress']) {
             expect(
-              carwashBookingStatusStyleFor(status).background,
+              carwashBookingStatusStyleFor(context, status).background,
               Colors.transparent,
             );
           }
@@ -596,36 +550,33 @@ void main() {
   );
 
   group('CarwashBookingFilter — shared widget behavior (StatusFilterTabs)', () {
-    testWidgets(
-      'renders all six statuses as tabs in canonical order and calls '
-      'onChanged with the tapped status key exactly once',
-      (tester) async {
-        String? received;
-        var callCount = 0;
+    testWidgets('renders all six statuses as tabs in canonical order and calls '
+        'onChanged with the tapped status key exactly once', (tester) async {
+      String? received;
+      var callCount = 0;
 
-        await _pumpWithApp(
-          tester,
-          CarwashBookingFilter(
-            selectedStatus: 'accepted',
-            onChanged: (status) {
-              received = status;
-              callCount++;
-            },
-          ),
-        );
+      await _pumpWithApp(
+        tester,
+        CarwashBookingFilter(
+          selectedStatus: 'accepted',
+          onChanged: (status) {
+            received = status;
+            callCount++;
+          },
+        ),
+      );
 
-        expect(find.byType(StatusFilterTabs<String>), findsOneWidget);
-        expect(find.text('الكل'), findsOneWidget);
-        expect(find.text('تم القبول'), findsOneWidget);
+      expect(find.byType(StatusFilterTabs<String>), findsOneWidget);
+      expect(find.text('الكل'), findsOneWidget);
+      expect(find.text('تم القبول'), findsOneWidget);
 
-        await tester.ensureVisible(find.text('مكتمل'));
-        await tester.tap(find.text('مكتمل'));
-        await tester.pumpAndSettle();
+      await tester.ensureVisible(find.text('مكتمل'));
+      await tester.tap(find.text('مكتمل'));
+      await tester.pumpAndSettle();
 
-        expect(callCount, 1);
-        expect(received, 'completed');
-      },
-    );
+      expect(callCount, 1);
+      expect(received, 'completed');
+    });
 
     testWidgets(
       'picking "الكل" calls onChanged(null) exactly once — the sentinel '

@@ -14,8 +14,6 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 const int otpLength = 6;
 const int resendCooldownSeconds = 30;
-// OTP validity (5 minutes) is a distinct, independent duration from the
-// resend cooldown above — see the two separate Timers in the State class.
 const int otpExpirySeconds = 300;
 
 String _formatMmSs(int seconds) {
@@ -24,7 +22,6 @@ String _formatMmSs(int seconds) {
   return '$m:$s';
 }
 
-/// Masks an email's local part for display, e.g. mahmoud@gmail.com -> m*****@gmail.com.
 String maskEmail(String email) {
   final atIndex = email.indexOf('@');
   if (atIndex <= 0) return email;
@@ -54,9 +51,6 @@ class _OtpVerificationCardState extends State<OtpVerificationCard> {
     (_) => FocusNode(),
   );
 
-  // Two independent Timers on purpose: OTP expiry (5 min, server-defined)
-  // and the resend cooldown (30 sec, UI-only) never move together — e.g.
-  // 1 minute in, expiry is ~04:00 left while resend is already enabled.
   Timer? _cooldownTimer;
   int _secondsLeft = resendCooldownSeconds;
 
@@ -136,7 +130,6 @@ class _OtpVerificationCardState extends State<OtpVerificationCard> {
 
   void _onBoxChanged(int index, String value) {
     if (value.length > 1) {
-      // Handles a full-code paste landing in a single box.
       final digits = value.replaceAll(RegExp(r'\D'), '');
       var target = index;
       for (var i = 0; i < digits.length && target < otpLength; i++) {
@@ -179,7 +172,9 @@ class _OtpVerificationCardState extends State<OtpVerificationCard> {
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
-    final maxCardWidth = MediaQuery.of(context).size.width < 360 ? 300.0 : 340.0;
+    final maxCardWidth = MediaQuery.of(context).size.width < 360
+        ? 300.0
+        : 340.0;
 
     return BlocListener<PasswordResetCubit, PasswordResetState>(
       listenWhen: (prev, curr) {
@@ -191,9 +186,6 @@ class _OtpVerificationCardState extends State<OtpVerificationCard> {
         if (state.isError && state.message != null) {
           AppSnackBar.error(context, state.message!);
           if (!_wasResendTransition) {
-            // A verify-otp failure (wrong/expired code) — let the user
-            // retype. A failed *resend* leaves the current OTP/timers
-            // untouched, since the still-valid code hasn't changed.
             _clearFields();
           }
         } else if (_wasResendTransition &&
@@ -234,10 +226,10 @@ class _OtpVerificationCardState extends State<OtpVerificationCard> {
                       Text(
                         strings.otpCardTitle,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              color: AppColors.lightPrimary,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 20.sp,
-                            ),
+                          color: AppColors.lightPrimary,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20.sp,
+                        ),
                       ),
                       SizedBox(height: 8.h),
                       Text(
@@ -265,8 +257,12 @@ class _OtpVerificationCardState extends State<OtpVerificationCard> {
                             : '${strings.otpExpiresIn} ${_formatMmSs(_expirySecondsLeft)}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: _isExpired ? AppColors.error : Colors.grey.shade600,
-                          fontWeight: _isExpired ? FontWeight.w600 : FontWeight.w400,
+                          color: _isExpired
+                              ? AppColors.red
+                              : Colors.grey.shade600,
+                          fontWeight: _isExpired
+                              ? FontWeight.w600
+                              : FontWeight.w400,
                           fontSize: 12.sp,
                         ),
                       ),
@@ -277,13 +273,17 @@ class _OtpVerificationCardState extends State<OtpVerificationCard> {
                         onChanged: _onBoxChanged,
                       ),
                       SizedBox(height: 18.h),
-                      _ResendRow(secondsLeft: _secondsLeft, onResend: _onResend),
+                      _ResendRow(
+                        secondsLeft: _secondsLeft,
+                        onResend: _onResend,
+                      ),
                       SizedBox(height: 22.h),
                       SizedBox(
                         width: double.infinity,
                         height: 48.h,
                         child: AppButton(
-                          isLoading: state.phase == PasswordResetPhase.verifyingOtp,
+                          isLoading:
+                              state.phase == PasswordResetPhase.verifyingOtp,
                           isDisabled: _code.length != otpLength || _isExpired,
                           onPressed: _submit,
                           text: strings.confirmOtp,
@@ -337,11 +337,6 @@ class _OtpBoxesRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // The OTP must always read digit1→digit6 left-to-right and be sent to
-    // the API in that same order, regardless of the app's RTL layout —
-    // otherwise the ambient RTL Directionality reverses the visual box
-    // order relative to the controllers[0..5] index order used to build
-    // the submitted otp string (see maskEmail's sibling bug report).
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Row(
@@ -358,8 +353,8 @@ class _OtpBoxesRow extends StatelessWidget {
                 final borderColor = isFocused
                     ? AppColors.orange
                     : isFilled
-                        ? AppColors.lightPrimary
-                        : Colors.grey.shade300;
+                    ? AppColors.lightPrimary
+                    : Colors.grey.shade300;
 
                 return Focus(
                   onKeyEvent: (node, event) {

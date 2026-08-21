@@ -3,9 +3,11 @@
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
 
 class _OnboardingData {
   final IconData icon;
@@ -22,33 +24,6 @@ class _OnboardingData {
     required this.subtitle,
   });
 }
-
-const _pages = [
-  _OnboardingData(
-    icon: Icons.build_circle_outlined,
-    iconColor: Color(0xFF007A92),
-    bgColor: Color(0xFFE8F7FA),
-    title: 'Smart Car Maintenance',
-    subtitle:
-        'Track your vehicle\'s service history, get timely reminders, and request maintenance with just a tap.',
-  ),
-  _OnboardingData(
-    icon: Icons.emergency_outlined,
-    iconColor: Color(0xFFD84315),
-    bgColor: Color(0xFFFFF3E0),
-    title: 'Emergency Roadside Help',
-    subtitle:
-        'Stuck on the road? Send an SOS and get a certified technician to your location in minutes.',
-  ),
-  _OnboardingData(
-    icon: Icons.local_gas_station_outlined,
-    iconColor: Color(0xFF2E7D32),
-    bgColor: Color(0xFFE8F5E9),
-    title: 'All-in-One Car Services',
-    subtitle:
-        'Fuel delivery, car wash, marketplace and more — everything your car needs, in one app.',
-  ),
-];
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -67,8 +42,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
     super.dispose();
   }
 
-  void _next() {
-    if (_currentIndex < _pages.length - 1) {
+  void _next(int pagesLength) {
+    if (_currentIndex < pagesLength - 1) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 400),
         curve: Curves.easeInOut,
@@ -82,35 +57,54 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
+
+  
+    final pages = [
+      _OnboardingData(
+        icon: Icons.build_circle_outlined,
+        iconColor: const Color(0xFF007A92),
+        bgColor: const Color(0xFFE8F7FA),
+        title: l10n.onboardingTitleMaintenance, 
+        subtitle: l10n.onboardingSubtitleMaintenance, 
+      ),
+      _OnboardingData(
+        icon: Icons.emergency_outlined,
+        iconColor: const Color(0xFFD84315),
+        bgColor: const Color(0xFFFFF3E0),
+        title: l10n.onboardingTitleEmergency,
+        subtitle: l10n.onboardingSubtitleEmergency,
+      ),
+      _OnboardingData(
+        icon: Icons.local_gas_station_outlined,
+        iconColor: const Color(0xFF2E7D32),
+        bgColor: const Color(0xFFE8F5E9),
+        title: l10n.onboardingTitleAllInOne, 
+        subtitle: l10n.onboardingSubtitleAllInOne,
+      ),
+    ];
+
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // الخلفية
           Image.asset(
             AppAssets.backgroung2,
             fit: BoxFit.cover,
           ),
-
-          // طبقة تعتيم
-          // Container(
-          //   color: Colors.white.withValues(alpha: 0.88),
-          // ),
-
-          // المحتوى
           SafeArea(
             child: Column(
               children: [
-                // Skip
+                // Skip Button
                 Align(
-                  alignment: Alignment.topRight,
+                  alignment: AlignmentDirectional.topEnd,
                   child: TextButton(
                     onPressed: _skip,
                     child: Text(
-                      'Skip',
+                      l10n.skip, 
                       style: TextStyle(
                         fontSize: 14.sp,
-                        color: Colors.grey.shade600,
+                        color: AppColors.textSecondary(context), 
                       ),
                     ),
                   ),
@@ -120,18 +114,17 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 Expanded(
                   child: PageView.builder(
                     controller: _pageController,
-                    itemCount: _pages.length,
+                    itemCount: pages.length,
                     onPageChanged: (i) => setState(() => _currentIndex = i),
-                    itemBuilder: (_, i) =>
-                        _OnboardingSlide(data: _pages[i]),
+                    itemBuilder: (_, i) => _OnboardingSlide(data: pages[i]),
                   ),
                 ),
 
-                // Dots
+                // Dots Indicator
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
-                    _pages.length,
+                    pages.length,
                     (i) => AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
                       margin: EdgeInsets.symmetric(horizontal: 4.w),
@@ -140,7 +133,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       decoration: BoxDecoration(
                         color: _currentIndex == i
                             ? AppColors.carWashTeal
-                            : Colors.grey.shade300,
+                            : AppColors.border(context), 
                         borderRadius: BorderRadius.circular(4.r),
                       ),
                     ),
@@ -149,11 +142,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
                 SizedBox(height: 32.h),
 
-                // Button
+                // Action Button
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: GestureDetector(
-                    onTap: _next,
+                    onTap: () => _next(pages.length),
                     child: Container(
                       width: double.infinity,
                       height: 54.h,
@@ -170,13 +163,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       ),
                       child: Center(
                         child: Text(
-                          _currentIndex == _pages.length - 1
-                              ? 'Get Started'
-                              : 'Next',
+                          _currentIndex == pages.length - 1
+                              ? l10n.getStarted
+                              : l10n.next, 
                           style: TextStyle(
                             fontSize: 17.sp,
                             fontWeight: FontWeight.w700,
-                            color: Colors.white,
+                            color: AppColors.white, 
                           ),
                         ),
                       ),
@@ -226,27 +219,23 @@ class _OnboardingSlide extends StatelessWidget {
               color: data.iconColor,
             ),
           ),
-
           SizedBox(height: 48.h),
-
           Text(
             data.title,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 24.sp,
               fontWeight: FontWeight.w800,
-              color: Colors.black87,
+              color: AppColors.black.withValues(alpha: 0.87),
             ),
           ),
-
           SizedBox(height: 16.h),
-
           Text(
             data.subtitle,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 15.sp,
-              color: Colors.grey.shade700,
+              color: AppColors.textPrimary(context), 
               height: 1.6,
             ),
           ),

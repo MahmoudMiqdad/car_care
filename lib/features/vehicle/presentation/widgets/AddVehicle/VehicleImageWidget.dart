@@ -29,12 +29,12 @@ class VehicleImageWidget extends StatelessWidget {
           height: 170.h,
           width: double.infinity,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(16.r),
-            border: Border.all(color: const Color(0xFF0C5D6E).withOpacity(0.45), width: 1.2),
+            border: Border.all(color: AppColors.primary),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
+                color: AppColors.black.withOpacity(0.04),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -51,16 +51,16 @@ class VehicleImageWidget extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.directions_car_filled_outlined, size: 52.sp, color: Colors.grey.shade500),
+                              Icon(Icons.directions_car_filled_outlined, size: 52.sp, color: AppColors.grey),
                               SizedBox(height: 10.h),
                               Text(
                                 strings.addVehicleImage,
-                                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w900, color: Colors.grey.shade700),
+                                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w900, color: AppColors.grey),
                               ),
                               SizedBox(height: 4.h),
                               Text(
                                 strings.tapToSelectImage,
-                                style: TextStyle(fontSize: 13.sp, color: Colors.grey.shade600),
+                                style: TextStyle(fontSize: 13.sp, color: AppColors.grey),
                               ),
                             ],
                           ),
@@ -73,10 +73,10 @@ class VehicleImageWidget extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(10.r),
                   decoration: const BoxDecoration(
-                    color: AppColors.orange,
+                    color: AppColors.accent,
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(Icons.camera_alt, color: Colors.white, size: 20.sp),
+                  child: Icon(Icons.camera_alt, color: AppColors.white, size: 20.sp),
                 ),
               ),
             ],

@@ -1,5 +1,5 @@
+import 'package:car_care/core/extensions/theme_extension.dart'; 
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/domain/entities/provider_profile_entity.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_profile/provider_profile_cards.dart';
 import 'package:car_care/l10n.dart';
@@ -70,10 +70,9 @@ class _FuelPriceCard extends StatelessWidget {
             Text(
               fuelType,
               textAlign: TextAlign.center,
-              style: AppTypography.bodyMedium.copyWith(
+              style: context.textTheme.bodyMedium!.copyWith( 
                 color: AppColors.black,
                 fontWeight: FontWeight.w800,
-                fontSize: 14.sp,
               ),
             ),
             SizedBox(height: 8.h),
@@ -83,10 +82,9 @@ class _FuelPriceCard extends StatelessWidget {
             Text(
               priceText,
               textAlign: TextAlign.center,
-              style: AppTypography.bodySmall.copyWith(
+              style: context.textTheme.bodySmall!.copyWith(
                 color: AppColors.black,
                 fontWeight: FontWeight.w600,
-                fontSize: 13.sp,
               ),
             ),
           ],

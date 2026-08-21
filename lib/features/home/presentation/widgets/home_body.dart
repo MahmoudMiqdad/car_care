@@ -4,6 +4,7 @@ import 'package:car_care/features/advertisements/domain/entities/advertisement_e
 import 'package:car_care/features/advertisements/presentation/widgets/advertisement_section.dart';
 import 'package:car_care/features/home/presentation/widgets/ServicesGrid.dart';
 import 'package:car_care/features/home/presentation/widgets/home_palette.dart';
+import 'package:car_care/l10n.dart'; // 🎯 استيراد امتداد l10n للترجمة الديناميكية
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -15,6 +16,7 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return SafeArea(
       child: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
@@ -29,8 +31,7 @@ class HomeBody extends StatelessWidget {
             ),
             Center(
               child: Text(
-                
-              '-'   'كيف نساعدك اليوم؟'  '-',
+                l10n.homeWelcomeGreeting, 
                 style: TextStyle(
                   color: HomePalette.primaryTeal,
                   fontSize: 24.sp,
@@ -50,26 +51,27 @@ class HomeBody extends StatelessWidget {
   }
 
   void onServicePressed(BuildContext context, int index) {
+    // ⬅️ push بدل go: هاي صفحات "دخول" من الهوم (مش تبديل تاب رئيسي)،
+    // لازم يقدر المستخدم يرجع منها للهوم بزر الرجوع بدل ما يطلع من التطبيق.
     switch (index) {
       case 0:
-        context.go(Routes.my_vehicles_page);
+        context.push(Routes.my_vehicles_page);
         break;
       case 1:
-        // "الصيانة" -> customer requests list (its FAB creates a new request)
-        context.go(Routes.all_requests);
+        context.push(Routes.all_requests);
         break;
       case 2:
-        context.go(Routes.washers);
+        context.push(Routes.washers);
         break;
       case 3:
-        context.go(Routes.allUserSosRequests);
+        context.push(Routes.allUserSosRequests);
         break;
       case 4:
-        context.go(Routes.customerShopsList);
+        context.push(Routes.customerShopsList);
         break;
       case 5:
         // "الوقود" -> customer fuel orders list (its FAB creates a new order)
-        context.go(Routes.fuelorderslist);
+        context.push(Routes.fuelorderslist);
         break;
       default:
         debugPrint("No route defined for index $index");

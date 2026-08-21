@@ -21,18 +21,18 @@ class ServiceRecordTile extends StatelessWidget {
     return Container(
       height: 55,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: AppColors.black.withOpacity(0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(12.r),
@@ -46,7 +46,7 @@ class ServiceRecordTile extends StatelessWidget {
                 Icon(
                   Icons.arrow_back_ios_new,
                   size: 16.sp,
-                  color: Colors.grey.shade600,
+                  color: AppColors.grey,
                 ),
                 const Spacer(),
                 Text(
@@ -54,7 +54,7 @@ class ServiceRecordTile extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: AppColors.black,
                   ),
                 ),
                 SizedBox(width: 12.w),

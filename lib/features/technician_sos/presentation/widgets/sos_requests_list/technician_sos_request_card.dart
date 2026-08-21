@@ -29,15 +29,13 @@ class TechnicianSosRequestCard extends StatelessWidget {
   final TechnicianSosEntity item;
   final bool showAcceptButton;
 
-  /// Reloads the list once the navigation sheet closes, so an accepted
-  /// request leaves the "available" list.
   final VoidCallback? onRefreshList;
 
   Future<void> _openMap(BuildContext context) async {
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       isDismissible: false,
       enableDrag: false,
       builder: (_) => MultiBlocProvider(
@@ -60,8 +58,6 @@ class TechnicianSosRequestCard extends StatelessWidget {
     final l10n = context.l10n;
     final radius = AppConstants.maintenanceRequestCardRadius.r;
 
-    // Errors and cancel messages are handled once on the list page, so this
-    // listener only reacts to this card's own request being accepted.
     return BlocListener<TechnicianSosCubit, TechnicianSosState>(
       listenWhen: (_, current) =>
           current is TechnicianRequestLoaded && current.request.id == item.id,
@@ -78,7 +74,7 @@ class TechnicianSosRequestCard extends StatelessWidget {
           border: Border.all(color: AppColors.carWashTeal, width: 1),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.06),
+              color: AppColors.black.withValues(alpha: 0.06),
               blurRadius: 10.r,
               offset: Offset(0, 4.h),
             ),
@@ -88,7 +84,6 @@ class TechnicianSosRequestCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // ─── بيانات الطلب ───────────────────────────────────────────
             Padding(
               padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 12.h),
               child: IntrinsicHeight(
@@ -131,7 +126,6 @@ class TechnicianSosRequestCard extends StatelessWidget {
                     SizedBox(width: 12.w),
                     Container(width: 1, color: AppColors.carWashTeal),
                     SizedBox(width: 12.w),
-                    // Real backend status only — no static three-state list.
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,12 +145,10 @@ class TechnicianSosRequestCard extends StatelessWidget {
               ),
             ),
 
-            // ─── الأزرار ────────────────────────────────────────────────
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 14.w),
               child: Column(
                 children: [
-                  // الأزرار حسب الحالة الحقيقية القادمة من الباك اند
                   BlocBuilder<TechnicianSosCubit, TechnicianSosState>(
                     builder: (context, state) {
                       final isBusy =
@@ -170,7 +162,6 @@ class TechnicianSosRequestCard extends StatelessWidget {
                     },
                   ),
 
-                  // زر التفاصيل
                   AppButton(
                     onPressed: () {
                       context.pushNamed(
@@ -189,14 +180,13 @@ class TechnicianSosRequestCard extends StatelessWidget {
             ),
             SizedBox(height: 12.h),
 
-            // ─── شريط الوقت ─────────────────────────────────────────────
             Container(
               width: double.infinity,
               height: 35.h,
               padding: EdgeInsets.symmetric(vertical: 8.h),
               color: AppColors.carWashTeal,
               child: Text(
-                'created Ago ${item.createdAgo!}',
+                l10n.sosRequestCreatedAgo(item.createdAgo!),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppColors.white,
@@ -212,7 +202,6 @@ class TechnicianSosRequestCard extends StatelessWidget {
   }
 }
 
-// ─── أزرار الإجراءات حسب حالة الطلب ─────────────────────────────────────────
 class _StatusActions extends StatelessWidget {
   const _StatusActions({
     required this.item,
@@ -222,7 +211,6 @@ class _StatusActions extends StatelessWidget {
 
   final TechnicianSosEntity item;
 
-  /// True on the "available" list, where the only action is accepting.
   final bool showAcceptButton;
   final bool isBusy;
 
@@ -235,9 +223,9 @@ class _StatusActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final status = item.status;
 
-    // open -> accept only (available list)
     if (showAcceptButton) {
       if (status != 'open') return const SizedBox.shrink();
       return Column(
@@ -248,7 +236,7 @@ class _StatusActions extends StatelessWidget {
                 : () => context.read<TechnicianSosCubit>().acceptRequest(
                     item.id!,
                   ),
-            text: isBusy ? 'جاري القبول...' : 'قبول الطلب',
+            text: isBusy ? l10n.sosAcceptingInProgress : l10n.sosAcceptRequest,
             isOutline: true,
             backgroundColor: AppColors.carWashTeal,
             outlineSurfaceColor: AppColors.white,
@@ -261,7 +249,6 @@ class _StatusActions extends StatelessWidget {
       );
     }
 
-    // completed / cancelled / anything else -> no actions at all
     if (status != 'accepted' && status != 'in_progress') {
       return const SizedBox.shrink();
     }
@@ -278,8 +265,8 @@ class _StatusActions extends StatelessWidget {
                   isAccepted ? 'in_progress' : 'completed',
                 ),
           text: isBusy
-              ? 'جاري التنفيذ...'
-              : (isAccepted ? 'بدء التنفيذ' : 'إنهاء الطلب'),
+              ? l10n.sosProcessingInProgress
+              : (isAccepted ? l10n.sosStartProgress : l10n.sosFinishRequest),
           isOutline: true,
           backgroundColor: AppColors.carWashTeal,
           outlineSurfaceColor: AppColors.white,
@@ -290,11 +277,11 @@ class _StatusActions extends StatelessWidget {
         SizedBox(height: 10.h),
         AppButton(
           onPressed: isBusy ? null : () => _cancelResponse(context),
-          text: 'إلغاء الاستجابة',
+          text: l10n.sosCancelResponse,
           isOutline: true,
-          backgroundColor: AppColors.error,
+          backgroundColor: AppColors.red,
           outlineSurfaceColor: AppColors.white,
-          textColor: AppColors.error,
+          textColor: AppColors.red,
           borderRadius: 24.r,
           height: 50.h,
         ),
@@ -304,7 +291,6 @@ class _StatusActions extends StatelessWidget {
   }
 }
 
-// ─── Navigation Sheet (الخريطة مع زر تغيير الحالة) ───────────────────────────
 class _TechnicianNavigationSheet extends StatelessWidget {
   final int sosId;
   final double? userLat;
@@ -317,6 +303,7 @@ class _TechnicianNavigationSheet extends StatelessWidget {
   });
 
   void _showChangeStatusDialog(BuildContext context) {
+    final l10n = context.l10n;
     showDialog(
       context: context,
       builder: (dialogContext) => Directionality(
@@ -325,21 +312,20 @@ class _TechnicianNavigationSheet extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.r),
           ),
-          title: const Text(
-            'تغيير حالة الطلب',
-            style: TextStyle(fontWeight: FontWeight.bold),
+          title: Text(
+            l10n.sosChangeStatusTitle,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // ─── قيد التنفيذ ──────────────────────────────────────
               ListTile(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.r),
                 ),
-                tileColor: Colors.orange.shade50,
-                title: const Text('قيد التنفيذ'),
-                leading: const Icon(Icons.play_circle, color: Colors.orange),
+                tileColor: AppColors.accent.withValues(alpha: 0.12),
+                title: Text(l10n.sosInProgressStatus),
+                leading: Icon(Icons.play_circle, color: AppColors.accent),
                 onTap: () {
                   Navigator.pop(dialogContext);
                   context.read<TechnicianSosCubit>().changeStatus(
@@ -349,22 +335,20 @@ class _TechnicianNavigationSheet extends StatelessWidget {
                 },
               ),
               SizedBox(height: 8.h),
-              // ─── منتهي ───────────────────────────────────────────
               ListTile(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.r),
                 ),
-                tileColor: Colors.green.shade50,
-                title: const Text('منتهي'),
-                leading: const Icon(Icons.check_circle, color: Colors.green),
+                tileColor: AppColors.green50,
+                title: Text(l10n.sosCompletedStatus),
+                leading: Icon(Icons.check_circle, color: AppColors.green),
                 onTap: () {
                   Navigator.pop(dialogContext);
-                  // backend value is `completed`, not `finished`
                   context.read<TechnicianSosCubit>().changeStatus(
                     sosId,
                     'completed',
                   );
-                  Navigator.pop(context); // اغلق الخريطة بعد الإنهاء
+                  Navigator.pop(context);
                 },
               ),
             ],
@@ -372,7 +356,7 @@ class _TechnicianNavigationSheet extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('إلغاء'),
+              child: Text(l10n.cancel),
             ),
           ],
         ),
@@ -382,27 +366,26 @@ class _TechnicianNavigationSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Container(
       height: MediaQuery.of(context).size.height * 0.92,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       child: Column(
         children: [
           SizedBox(height: 12.h),
-          // Handle bar
           Container(
             width: 40.w,
             height: 4.h,
             decoration: BoxDecoration(
-              color: Colors.grey.shade300,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(2.r),
             ),
           ),
           SizedBox(height: 12.h),
 
-          // ─── Header ────────────────────────────────────────────────
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Row(
@@ -410,7 +393,7 @@ class _TechnicianNavigationSheet extends StatelessWidget {
                 Icon(Icons.navigation, color: AppColors.carWashTeal),
                 SizedBox(width: 8.w),
                 Text(
-                  'التوجه للعميل',
+                  l10n.sosNavigateToCustomer,
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
@@ -426,7 +409,6 @@ class _TechnicianNavigationSheet extends StatelessWidget {
           ),
           SizedBox(height: 4.h),
 
-          // ─── زر تغيير الحالة ───────────────────────────────────────
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             child: BlocBuilder<TechnicianSosCubit, TechnicianSosState>(
@@ -436,7 +418,9 @@ class _TechnicianNavigationSheet extends StatelessWidget {
                   onPressed: isLoading
                       ? null
                       : () => _showChangeStatusDialog(context),
-                  text: isLoading ? 'جاري التحديث...' : 'تغيير حالة الطلب',
+                  text: isLoading
+                      ? l10n.sosUpdatingInProgress
+                      : l10n.sosChangeStatusTitle,
                   backgroundColor: AppColors.accent,
                   textColor: AppColors.white,
                   borderRadius: 14.r,
@@ -446,7 +430,6 @@ class _TechnicianNavigationSheet extends StatelessWidget {
             ),
           ),
 
-          // ─── الخريطة ───────────────────────────────────────────────
           Expanded(
             child: TechnicianMapWidget(
               sosId: sosId,

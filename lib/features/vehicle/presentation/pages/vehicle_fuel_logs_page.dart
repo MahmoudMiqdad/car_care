@@ -1,14 +1,15 @@
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/utils/media_url.dart';
-import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
-import 'package:car_care/core/widgets/error_state_widget.dart';
 import 'package:car_care/core/widgets/image_background.dart';
+import 'package:car_care/core/widgets/error_state_widget.dart';
 import 'package:car_care/core/widgets/loding.dart';
+import 'package:car_care/core/widgets/Empty_state.dart';
+import 'package:car_care/core/utils/media_url.dart';
 import 'package:car_care/features/vehicle/domain/entities/fuel_log_entity.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/fuel_logs/fuel_logs_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/fuel_logs/fuel_logs_state.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,16 +21,14 @@ class VehicleFuelLogsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return BlocProvider(
       create: (_) => getIt<FuelLogsCubit>()..fetch(vehicleId),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          backgroundColor: AppColors.lightScaffold,
-          appBar: const CustomAppBar(title: 'سجل الوقود', showBackButton: true),
-          // Top-level route, no Bottom Navigation here (see app_router.dart).
-          body: ImageBackground(child: _FuelLogsBody(vehicleId: vehicleId)),
-        ),
+      child: Scaffold(
+        backgroundColor: AppColors.scaffoldBackground(context),
+        appBar: CustomAppBar(title: l10n.fuelLogTitle, showBackButton: true),
+        body: ImageBackground(child: _FuelLogsBody(vehicleId: vehicleId)),
       ),
     );
   }
@@ -132,6 +131,7 @@ class _FuelLogCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final imageUrl = resolveMediaUrl(log.odometerImage);
 
     return Container(
@@ -141,7 +141,7 @@ class _FuelLogCard extends StatelessWidget {
         border: Border.all(color: AppColors.carWashTeal, width: 1),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
+            color: AppColors.black.withValues(alpha: 0.06),
             blurRadius: 10.r,
             offset: Offset(0, 4.h),
           ),
@@ -152,14 +152,12 @@ class _FuelLogCard extends StatelessWidget {
         padding: EdgeInsets.all(14.w),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          textDirection: TextDirection.rtl,
           children: [
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Row(
-                    textDirection: TextDirection.rtl,
                     children: [
                       Icon(
                         Icons.local_gas_station_outlined,
@@ -168,7 +166,7 @@ class _FuelLogCard extends StatelessWidget {
                       ),
                       SizedBox(width: 6.w),
                       Text(
-                        '${log.fuelType ?? '-'} — ${log.amount ?? 0} لتر',
+                        l10n.fuelAmountDetailsLabel(log.fuelType ?? '-', log.amount?.toString() ?? '0'),
                         style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.w700,
@@ -178,20 +176,21 @@ class _FuelLogCard extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 6.h),
-                  Text(
-                    'التكلفة: ${log.cost ?? '-'}',
-                    style: TextStyle(
-                      fontSize: 13.sp,
-                      color: Colors.grey.shade700,
-                    ),
-                  ),
+                 Text(
+  l10n.costWithParamLabel(log.cost?.toString() ?? '-'), 
+  style: TextStyle(
+    fontSize: 13.sp,
+    color: AppColors.textSecondary(context),
+  ),
+),
+
                   if (log.kmAtFill != null) ...[
                     SizedBox(height: 4.h),
                     Text(
-                      'قراءة العداد: ${log.kmAtFill} كم',
+                      l10n.odometerReadingWithParamLabel(log.kmAtFill!.toString()),
                       style: TextStyle(
                         fontSize: 13.sp,
-                        color: Colors.grey.shade700,
+                        color: AppColors.textSecondary(context),
                       ),
                     ),
                   ],
@@ -201,7 +200,7 @@ class _FuelLogCard extends StatelessWidget {
                       log.createdAt!,
                       style: TextStyle(
                         fontSize: 12.sp,
-                        color: Colors.grey.shade500,
+                        color: AppColors.textSecondary(context).withValues(alpha: 0.7),
                       ),
                     ),
                   ],
@@ -220,10 +219,10 @@ class _FuelLogCard extends StatelessWidget {
                   errorBuilder: (_, _, _) => Container(
                     width: 64.r,
                     height: 64.r,
-                    color: AppColors.lightSurface,
+                    color: AppColors.cardBackground(context),
                     child: Icon(
                       Icons.speed_outlined,
-                      color: Colors.grey.shade400,
+                      color: AppColors.textSecondary(context).withValues(alpha: 0.6),
                     ),
                   ),
                 ),

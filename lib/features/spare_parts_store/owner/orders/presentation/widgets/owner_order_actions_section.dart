@@ -1,10 +1,11 @@
 // قسم الإجراءات المتاحة للمالك حسب حالة الطلب.
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
+
 import 'package:car_care/features/spare_parts_store/owner/orders/presentation/cubit/owner_order_details/owner_order_details_state.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 class OwnerOrderActionsSection extends StatelessWidget {
   const OwnerOrderActionsSection({
     super.key,
@@ -29,6 +30,8 @@ class OwnerOrderActionsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
+
     return switch (status) {
       'pending' => _PendingActions(
           activeAction: activeAction,
@@ -36,7 +39,7 @@ class OwnerOrderActionsSection extends StatelessWidget {
           onReject: onReject,
         ),
       'accepted' => _ActionButton(
-          label: 'بدء التجهيز',
+          label: l10n.startProcessingButton,
           icon: Icons.inventory_2_outlined,
           color: AppColors.info,
           actionType: OwnerOrderActionType.startProcessing,
@@ -44,7 +47,7 @@ class OwnerOrderActionsSection extends StatelessWidget {
           onTap: onStartProcessing,
         ),
       'processing' => _ActionButton(
-          label: 'بدء التوصيل',
+          label: l10n.startDeliveryButton,
           icon: Icons.local_shipping_outlined,
           color: AppColors.primary,
           actionType: OwnerOrderActionType.startDelivery,
@@ -68,17 +71,17 @@ class OwnerOrderActionsSection extends StatelessWidget {
                 ),
                 icon: Icon(Icons.location_on_outlined, size: 16.sp),
                 label: Text(
-                  'مشاركة الموقع',
-                  style: AppTypography.labelSmall
+                  l10n.shareLocationTitle, 
+                  style: context.textTheme.labelSmall!
                       .copyWith(fontWeight: FontWeight.w700),
                 ),
               ),
             ),
             SizedBox(height: 10.h),
             _ActionButton(
-              label: 'تأكيد التوصيل',
+              label: l10n.confirmDeliveryButton,
               icon: Icons.check_circle_outline,
-              color: AppColors.success,
+              color: AppColors.green,
               actionType: OwnerOrderActionType.confirmDelivered,
               activeAction: activeAction,
               onTap: onConfirmDelivered,
@@ -103,13 +106,15 @@ class _PendingActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Row(
       children: [
         Expanded(
           child: _ActionButton(
-            label: 'قبول الطلب',
+            label: l10n.washerBookingAccept, 
             icon: Icons.check_rounded,
-            color: AppColors.success,
+            color: AppColors.green,
             actionType: OwnerOrderActionType.accept,
             activeAction: activeAction,
             onTap: onAccept,
@@ -118,9 +123,9 @@ class _PendingActions extends StatelessWidget {
         SizedBox(width: 12.w),
         Expanded(
           child: _ActionButton(
-            label: 'رفض الطلب',
+            label: l10n.washerBookingReject, 
             icon: Icons.close_rounded,
-            color: AppColors.error,
+            color: AppColors.red,
             actionType: OwnerOrderActionType.reject,
             activeAction: activeAction,
             onTap: onReject,
@@ -173,7 +178,7 @@ class _ActionButton extends StatelessWidget {
               SizedBox(width: 6.w),
               Text(
                 label,
-                style: AppTypography.labelSmall.copyWith(
+                style: context.textTheme.labelSmall!.copyWith(
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -191,7 +196,7 @@ class _ActionButton extends StatelessWidget {
           onPressed: isDisabled ? null : onTap,
           style: OutlinedButton.styleFrom(
             foregroundColor: color,
-            side: BorderSide(color: isDisabled ? AppColors.lightBorder : color),
+            side: BorderSide(color: isDisabled ? AppColors.border(context) : color),
             padding: EdgeInsets.symmetric(vertical: 12.h),
             shape: shape,
           ),
@@ -207,7 +212,7 @@ class _ActionButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           foregroundColor: AppColors.white,
-          disabledBackgroundColor: color.withOpacity(0.4),
+          disabledBackgroundColor: color.withValues(alpha: 0.4), 
           padding: EdgeInsets.symmetric(vertical: 12.h),
           elevation: 0,
           shape: shape,

@@ -16,15 +16,12 @@ class TechnicianStatisticsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = context.l10n;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
-        appBar: CustomAppBar(title: strings.statistics, showBackButton: true),
-        body: BlocProvider(
-          create: (_) => getIt<TechnicianStatisticsCubit>()..getStatistics(),
-          child: const ImageBackground(child: TechnicianStatisticsBody()),
-        ),
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground(context),
+      appBar: CustomAppBar(title: strings.statistics, showBackButton: true),
+      body: BlocProvider(
+        create: (_) => getIt<TechnicianStatisticsCubit>()..getStatistics(),
+        child: const ImageBackground(child: TechnicianStatisticsBody()),
       ),
     );
   }

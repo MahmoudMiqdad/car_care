@@ -4,22 +4,24 @@ import 'package:car_care/core/utils/media_url.dart';
 import 'package:car_care/features/maintenance/user_requests/domain/entities/maintenance_request_details_entity.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_info_row.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_section_card.dart';
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class VehicleCard extends StatelessWidget {
   const VehicleCard({super.key, required this.vehicle});
 
-  final  RequestVehicleEntity vehicle;
+  final RequestVehicleEntity vehicle;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
+
     return SosDetailsSectionCard(
-      title: 'المركبة',
+      title: l10n.vehicleLabel, 
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        textDirection: TextDirection.rtl,
-        children: [
+        children: [ 
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -39,14 +41,14 @@ class VehicleCard extends StatelessWidget {
                 SizedBox(height: 8.h),
                 SosDetailsInfoRow(
                   iconAsset: AppAssets.plateNumberIcon,
-                  label: 'رقم اللوحة',
+                  label: l10n.plateNumberLabel, 
                   value: vehicle.plateNumber ?? '-',
                 ),
                 SosDetailsInfoRow(
                   iconAsset: AppAssets.technicianJobNotesIcon,
-                  label: 'الكيلومترات',
+                  label: l10n.mileageLabel, 
                   value: vehicle.currentKm != null
-                      ? '${vehicle.currentKm} كم'
+                      ? l10n.kilometerCountLabel(vehicle.currentKm!) 
                       : '-',
                 ),
               ],
@@ -62,8 +64,7 @@ class VehicleCard extends StatelessWidget {
   }
 }
 
-/// Shows the real vehicle image from the API; falls back to the placeholder
-/// asset only when there is no image or it fails to load.
+
 class _VehicleAvatar extends StatelessWidget {
   const _VehicleAvatar({this.imageUrl});
 
@@ -73,7 +74,7 @@ class _VehicleAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final url = imageUrl;
 
-    if (url == null) return _placeholder();
+    if (url == null) return _placeholder(context);
 
     return ClipOval(
       child: Image.network(
@@ -81,15 +82,15 @@ class _VehicleAvatar extends StatelessWidget {
         width: 80.r,
         height: 80.r,
         fit: BoxFit.cover,
-        errorBuilder: (_, _, _) => _placeholder(),
+        errorBuilder: (_, _, _) => _placeholder(context),
       ),
     );
   }
 
-  Widget _placeholder() {
+  Widget _placeholder(context) {
     return CircleAvatar(
       radius: 40.r,
-      backgroundColor: AppColors.lightSurface,
+      backgroundColor: AppColors.cardBackground(context),
       backgroundImage: const AssetImage(AppAssets.technicianJobVehicleIcon),
     );
   }

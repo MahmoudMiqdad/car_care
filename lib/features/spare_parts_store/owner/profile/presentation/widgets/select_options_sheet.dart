@@ -1,7 +1,8 @@
-// نافذة اختيار متعدد قابلة لإعادة الاستخدام.
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/data/static/spare_parts_options.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,7 +27,7 @@ class SelectOptionsSheet extends StatefulWidget {
     return showModalBottomSheet<List<int>>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (_) => SelectOptionsSheet(
         title: title,
         options: options,
@@ -50,6 +51,8 @@ class _SelectOptionsSheetState extends State<SelectOptionsSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Container(
       constraints: BoxConstraints(maxHeight: 0.75.sh),
       padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 0),
@@ -69,7 +72,7 @@ class _SelectOptionsSheetState extends State<SelectOptionsSheet> {
                 width: 40.w,
                 height: 4.h,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
+                  color: AppColors.border(context),
                   borderRadius: BorderRadius.circular(2.r),
                 ),
               ),
@@ -77,8 +80,8 @@ class _SelectOptionsSheetState extends State<SelectOptionsSheet> {
             SizedBox(height: 16.h),
             Text(
               widget.title,
-              style: AppTypography.labelLarge.copyWith(
-                color: AppColors.lightTextPrimary,
+              style: context.textTheme.labelLarge!.copyWith(
+                color: AppColors.textPrimary(context),
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -88,7 +91,7 @@ class _SelectOptionsSheetState extends State<SelectOptionsSheet> {
                 shrinkWrap: true,
                 itemCount: widget.options.length,
                 separatorBuilder: (_, _) =>
-                    Divider(color: AppColors.lightBorder, height: 1),
+                    Divider(color: AppColors.border(context), height: 1),
                 itemBuilder: (_, index) {
                   final option = widget.options[index];
                   final isSelected = _selected.contains(option.id);
@@ -107,8 +110,8 @@ class _SelectOptionsSheetState extends State<SelectOptionsSheet> {
                           Expanded(
                             child: Text(
                               option.name,
-                              style: AppTypography.bodyMedium.copyWith(
-                                color: AppColors.lightTextPrimary,
+                              style: context.textTheme.bodyMedium!.copyWith(
+                                color: AppColors.textPrimary(context),
                               ),
                             ),
                           ),
@@ -119,11 +122,11 @@ class _SelectOptionsSheetState extends State<SelectOptionsSheet> {
                             decoration: BoxDecoration(
                               color: isSelected
                                   ? AppColors.primary
-                                  : Colors.transparent,
+                                  : AppColors.transparent,
                               border: Border.all(
                                 color: isSelected
                                     ? AppColors.primary
-                                    : AppColors.lightBorder,
+                                    : AppColors.border(context),
                                 width: 2,
                               ),
                               borderRadius: BorderRadius.circular(6.r),
@@ -158,8 +161,8 @@ class _SelectOptionsSheetState extends State<SelectOptionsSheet> {
                   ),
                 ),
                 child: Text(
-                  'تأكيد الاختيار (${_selected.length})',
-                  style: AppTypography.labelLarge.copyWith(
+                  l10n.confirmMultiSelectionCount(_selected.length),
+                  style: context.textTheme.labelLarge!.copyWith(
                     color: AppColors.white,
                     fontWeight: FontWeight.w700,
                   ),

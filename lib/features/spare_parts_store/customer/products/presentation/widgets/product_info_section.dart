@@ -1,7 +1,9 @@
 // قسم عرض اسم المنتج، السعر، الخصم، التوفر، والوصف
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/features/spare_parts_store/customer/products/domain/entities/product_entity.dart';
+import 'package:car_care/l10n.dart'; // 🎯 استيراد امتداد l10n للترجمة الديناميكية
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,26 +14,29 @@ class ProductInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
     final showDiscount = product.discountPrice != null && product.hasDiscount;
 
     final tags = <Widget>[
       _InfoChip(
-        label: 'الحالة: ${product.isNew ? 'جديد' : 'مستعمل'}',
-        backgroundColor: AppColors.accent.withOpacity(0.14),
+        label: l10n.productConditionLabel(product.isNew ? l10n.conditionNew : l10n.conditionUsed),
+        backgroundColor: AppColors.accent.withValues(alpha: 0.14), 
         textColor: AppColors.accent,
       ),
       if (product.partCategoryName != null)
         _InfoChip(
-          label: 'الفئة: ${product.partCategoryName}',
+        
+          label: l10n.productCategoryLabel(product.partCategoryName!),
           backgroundColor: AppColors.secondary,
-          textColor: AppColors.lightTextPrimary,
+          textColor: AppColors.textPrimary(context),
         ),
       if (product.carBrandName != null)
         _InfoChip(
-          label: 'ماركة السيارة: ${product.carBrandName}',
+       
+          label: l10n.productCarBrandLabel(product.carBrandName!),
           backgroundColor: AppColors.white,
-          textColor: AppColors.lightTextSecondary,
-          borderColor: AppColors.lightBorder,
+          textColor: AppColors.textSecondary(context),
+          borderColor: AppColors.border(context),
         ),
     ];
 
@@ -40,8 +45,8 @@ class ProductInfoSection extends StatelessWidget {
       children: [
         Text(
           product.name,
-          style: AppTypography.headlineMedium.copyWith(
-            color: AppColors.lightTextPrimary,
+          style: context.textTheme.headlineMedium!.copyWith(
+            color: AppColors.textPrimary(context),
             fontWeight: FontWeight.w800,
           ),
         ),
@@ -53,8 +58,9 @@ class ProductInfoSection extends StatelessWidget {
         ),
         SizedBox(height: 16.h),
         Text(
-          '${product.finalPrice.toStringAsFixed(0)} ل.س',
-          style: AppTypography.headlineLarge.copyWith(
+    
+          l10n.currencyFormat(product.finalPrice.toStringAsFixed(0)),
+          style: context.textTheme.headlineLarge!.copyWith(
             color: AppColors.primary,
             fontWeight: FontWeight.w800,
           ),
@@ -64,17 +70,19 @@ class ProductInfoSection extends StatelessWidget {
           Row(
             children: [
               Text(
-                '${product.price.toStringAsFixed(0)} ل.س',
-                style: AppTypography.bodyMedium.copyWith(
-                  color: AppColors.lightTextSecondary,
+               
+                l10n.currencyFormat(product.price.toStringAsFixed(0)),
+                style: context.textTheme.bodyMedium!.copyWith(
+                  color: AppColors.textSecondary(context),
                   decoration: TextDecoration.lineThrough,
                 ),
               ),
               SizedBox(width: 8.w),
               Text(
-                'خصم ${product.discountPercent}%',
-                style: AppTypography.labelSmall.copyWith(
-                  color: AppColors.error,
+            
+                l10n.discountPercentLabel(product.discountPercent.toString()),
+                style: context.textTheme.labelSmall!.copyWith(
+                  color: AppColors.red,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -90,35 +98,35 @@ class ProductInfoSection extends StatelessWidget {
               height: 8.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: product.stockQuantity > 0 ? AppColors.success : AppColors.error,
+                color: product.stockQuantity > 0 ? AppColors.green : AppColors.red,
               ),
             ),
             SizedBox(width: 6.w),
             Text(
               product.stockQuantity > 0
-                  ? 'متوفر (${product.stockQuantity} قطعة)'
-                  : 'غير متوفر حاليًا',
-              style: AppTypography.labelSmall.copyWith(
-                color: product.stockQuantity > 0 ? AppColors.success : AppColors.error,
+                  ? l10n.inStockWithCountLabel(product.stockQuantity)
+                  : l10n.outOfStockStatus, 
+              style: context.textTheme.labelSmall!.copyWith(
+                color: product.stockQuantity > 0 ? AppColors.green : AppColors.red,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ],
         ),
         SizedBox(height: 18.h),
-        Divider(color: AppColors.lightBorder, height: 1),
+        Divider(color: AppColors.border(context), height: 1),
         SizedBox(height: 14.h),
         Text(
-          'الوصف',
-          style: AppTypography.labelLarge.copyWith(
+          l10n.descriptionLabel, 
+          style: context.textTheme.labelLarge!.copyWith(
             color: AppColors.primary,
           ),
         ),
         SizedBox(height: 6.h),
         Text(
           product.description,
-          style: AppTypography.bodyMedium.copyWith(
-            color: AppColors.lightTextSecondary,
+          style: context.textTheme.bodyMedium!.copyWith(
+            color: AppColors.textSecondary(context),
           ),
         ),
       ],
@@ -150,7 +158,7 @@ class _InfoChip extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: AppTypography.labelSmall.copyWith(
+        style: context.textTheme.labelSmall!.copyWith(
           color: textColor,
           fontWeight: FontWeight.w600,
         ),

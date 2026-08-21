@@ -12,6 +12,7 @@ class RequestsFlowStyles {
   }
 
   static Widget formTextFieldCard({
+    required BuildContext context,
     required String title,
     required IconData icon,
     required String hintText,
@@ -35,7 +36,7 @@ class RequestsFlowStyles {
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: TextStyle(
-            color: AppColors.lightTextSecondary.withValues(alpha: 0.7),
+            color: AppColors.textSecondary(context).withValues(alpha: 0.7),
             fontSize: 13.sp,
           ),
           border: InputBorder.none,

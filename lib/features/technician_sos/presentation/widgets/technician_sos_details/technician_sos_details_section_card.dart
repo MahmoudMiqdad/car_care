@@ -43,7 +43,7 @@ class SosTechnicianDetailsSectionCard extends StatelessWidget {
         color: AppColors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColors.black.withValues(alpha: 0.05),
             blurRadius: 8.r,
             offset: Offset(0, 3.h),
           ),

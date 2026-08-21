@@ -1,15 +1,11 @@
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/widgets/technician_profile_labeled_field.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/widgets/technician_profile_section.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
-/// Shared text-field set reused by both Create and Edit — phone, city,
-/// specialization, experience years, hourly rate. Deliberately does NOT
-/// include workshop location: Create and Edit handle location through two
-/// different flows ([LocationUpdateCard] with localOnly true/false), so
-/// each screen keeps its own location section instead of sharing it here.
 class TechnicianProfileFormFields extends StatelessWidget {
   const TechnicianProfileFormFields({
     super.key,
@@ -26,17 +22,6 @@ class TechnicianProfileFormFields extends StatelessWidget {
   final TextEditingController experienceController;
   final TextEditingController hourlyRateController;
 
-  static const List<String> _specializationSuggestions = [
-    'ميكانيك',
-    'كهرباء',
-    'دهان',
-    'إطارات',
-    'تكييف',
-    'بنشر',
-  ];
-
-  // label -> value written into the controller (quick-fill only; the
-  // controller stays a plain text field the technician can still edit).
   static const List<MapEntry<String, String>> _experienceSuggestions = [
     MapEntry('1', '1'),
     MapEntry('3', '3'),
@@ -46,25 +31,36 @@ class TechnicianProfileFormFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    final List<String> specializationSuggestions = [
+      l10n.mechanicLabel,
+      l10n.electricityLabel,
+      l10n.paintLabel,
+      l10n.tiresLabel,
+      l10n.airConditioningLabel,
+      l10n.plumbingLabel,
+    ];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TechnicianProfileSection(
-          title: 'البيانات الشخصية',
+          title: l10n.personalDataTitle,
           icon: Icons.person_outline,
           color: AppColors.primary,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               TechnicianProfileLabeledField(
-                label: 'رقم الهاتف',
+                label: l10n.phoneNumberLabel,
                 controller: phoneController,
                 icon: IconsaxPlusLinear.call,
                 keyboardType: TextInputType.phone,
               ),
               SizedBox(height: 12.h),
               TechnicianProfileLabeledField(
-                label: 'المدينة',
+                label: l10n.cityLabel,
                 controller: cityController,
                 iconPath: 'assets/images/icons8-location-50.png',
               ),
@@ -73,14 +69,14 @@ class TechnicianProfileFormFields extends StatelessWidget {
         ),
         SizedBox(height: 14.h),
         TechnicianProfileSection(
-          title: 'البيانات المهنية',
+          title: l10n.professionalDataTitle,
           icon: Icons.engineering_outlined,
-          color: AppColors.orange,
+          color: AppColors.accent,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               TechnicianProfileLabeledField(
-                label: 'التخصص',
+                label: l10n.specializationLabel,
                 controller: specializationController,
                 iconPath: 'assets/images/icons8-work-50.png',
               ),
@@ -88,7 +84,7 @@ class TechnicianProfileFormFields extends StatelessWidget {
               Wrap(
                 spacing: 8.w,
                 runSpacing: 8.h,
-                children: _specializationSuggestions
+                children: specializationSuggestions
                     .map(
                       (option) => _QuickFillChip(
                         label: option,
@@ -99,7 +95,7 @@ class TechnicianProfileFormFields extends StatelessWidget {
               ),
               SizedBox(height: 14.h),
               TechnicianProfileLabeledField(
-                label: 'سنوات الخبرة',
+                label: l10n.experienceYearsLabel,
                 controller: experienceController,
                 iconPath: 'assets/images/icons8-certificate-72.png',
                 keyboardType: TextInputType.number,
@@ -119,7 +115,7 @@ class TechnicianProfileFormFields extends StatelessWidget {
               ),
               SizedBox(height: 14.h),
               TechnicianProfileLabeledField(
-                label: 'الأجر بالساعة',
+                label: l10n.hourlyRateLabel,
                 controller: hourlyRateController,
                 iconPath: 'assets/images/icons8-money-64.png',
                 keyboardType: const TextInputType.numberWithOptions(

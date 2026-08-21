@@ -15,7 +15,7 @@ class SosDetailsTrackChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: AppColors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(20.r),
         onTap: onTap,

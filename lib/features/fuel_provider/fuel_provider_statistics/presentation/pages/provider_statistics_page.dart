@@ -17,22 +17,19 @@ class ProviderStatisticsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
-        appBar: CustomAppBar(
-          title: l10n.statistics,
-          showBackButton: true,
-          backgroundColor: AppColors.carWashTeal,
-          onBackTapped: () => context.safePopOrGo(Routes.more),
-        ),
-        body: ImageBackground(
-          child: BlocProvider(
-            create: (_) => getIt<FuelProviderStatisticsCubit>()..getStatistics()
-            ,
-            child: ProviderStatisticsBody(),
-          ),
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground(context),
+      appBar: CustomAppBar(
+        title: l10n.statistics,
+        showBackButton: true,
+        backgroundColor: AppColors.carWashTeal,
+        onBackTapped: () => context.safePopOrGo(Routes.more),
+      ),
+      body: ImageBackground(
+        child: BlocProvider(
+          create: (_) => getIt<FuelProviderStatisticsCubit>()..getStatistics()
+          ,
+          child: ProviderStatisticsBody(),
         ),
       ),
     );

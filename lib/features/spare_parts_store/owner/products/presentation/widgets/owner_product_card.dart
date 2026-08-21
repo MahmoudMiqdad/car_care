@@ -1,7 +1,9 @@
 // بطاقة منتج داخل قائمة منتجات المالك.
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
+
 import 'package:car_care/features/spare_parts_store/customer/products/domain/entities/product_entity.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -23,7 +25,10 @@ class OwnerProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final isBusy = isSaving || isDeleting;
+    final formattedPrice = product.finalPrice.toStringAsFixed(0);
+
     return Container(
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
@@ -31,7 +36,7 @@ class OwnerProductCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(14.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: AppColors.black.withValues(alpha: 0.04),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -51,9 +56,9 @@ class OwnerProductCard extends StatelessWidget {
                         width: 56.w,
                         height: 56.w,
                         fit: BoxFit.cover,
-                        errorBuilder: (_, _, _) => _placeholder(),
+                        errorBuilder: (_, _, _) => _placeholder(context),
                       )
-                    : _placeholder(),
+                    : _placeholder(context),
               ),
               SizedBox(width: 12.w),
               Expanded(
@@ -64,26 +69,26 @@ class OwnerProductCard extends StatelessWidget {
                       product.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: AppTypography.labelLarge.copyWith(
-                        color: AppColors.lightTextPrimary,
+                      style: context.textTheme.labelLarge!.copyWith(
+                        color: AppColors.textPrimary(context),
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     SizedBox(height: 4.h),
                     Text(
-                      '${product.finalPrice.toStringAsFixed(0)} ل.س',
-                      style: AppTypography.labelMedium.copyWith(
+                      l10n.currencyFormat(formattedPrice),
+                      style: context.textTheme.labelMedium!.copyWith(
                         color: AppColors.primary,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
                     SizedBox(height: 2.h),
                     Text(
-                      'المخزون: ${product.stockQuantity}',
-                      style: AppTypography.labelSmall.copyWith(
+                      l10n.ownerStockCountLabel(product.stockQuantity),
+                      style: context.textTheme.labelSmall!.copyWith(
                         color: product.stockQuantity > 0
-                            ? AppColors.lightTextSecondary
-                            : AppColors.error,
+                            ? AppColors.textSecondary(context)
+                            : AppColors.red,
                       ),
                     ),
                   ],
@@ -92,7 +97,7 @@ class OwnerProductCard extends StatelessWidget {
             ],
           ),
           SizedBox(height: 10.h),
-          Divider(color: AppColors.lightBorder, height: 1),
+          Divider(color: AppColors.border(context), height: 1),
           SizedBox(height: 10.h),
           Row(
             children: [
@@ -111,14 +116,15 @@ class OwnerProductCard extends StatelessWidget {
                       ? SizedBox(
                           width: 14.sp,
                           height: 14.sp,
-                          child: const CircularProgressIndicator(
+                          child: CircularProgressIndicator(
                             strokeWidth: 2,
+                            color: AppColors.primary,
                           ),
                         )
                       : Icon(Icons.edit_outlined, size: 16.sp),
                   label: Text(
-                    'تعديل',
-                    style: AppTypography.labelSmall.copyWith(
+                    l10n.editButtonLabel,
+                    style: context.textTheme.labelSmall!.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -129,8 +135,8 @@ class OwnerProductCard extends StatelessWidget {
                 child: OutlinedButton.icon(
                   onPressed: isBusy ? null : onDelete,
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.error,
-                    side: BorderSide(color: AppColors.error.withOpacity(0.5)),
+                    foregroundColor: AppColors.red,
+                    side: BorderSide(color: AppColors.red.withValues(alpha: 0.5)),
                     padding: EdgeInsets.symmetric(vertical: 10.h),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.r),
@@ -142,13 +148,13 @@ class OwnerProductCard extends StatelessWidget {
                           height: 14.sp,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: AppColors.error,
+                            color: AppColors.red,
                           ),
                         )
                       : Icon(Icons.delete_outline, size: 16.sp),
                   label: Text(
-                    'حذف',
-                    style: AppTypography.labelSmall.copyWith(
+                    l10n.yesDeleteButton,
+                    style: context.textTheme.labelSmall!.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -160,17 +166,17 @@ class OwnerProductCard extends StatelessWidget {
       ),
     );
   }
+Widget _placeholder(BuildContext context) { // 💡 أضفنا الـ context هنا
+  return Container(
+    width: 56.w,
+    height: 56.w,
+    color: AppColors.scaffoldBackground(context), // سيعمل الآن بشكل صحيح
+    child: Icon(
+      Icons.inventory_2_outlined,
+      color: AppColors.textSecondary(context), // سيعمل الآن بشكل صحيح
+      size: 24.sp,
+    ),
+  );
+}
 
-  Widget _placeholder() {
-    return Container(
-      width: 56.w,
-      height: 56.w,
-      color: AppColors.lightScaffold,
-      child: Icon(
-        Icons.inventory_2_outlined,
-        color: AppColors.lightTextSecondary,
-        size: 24.sp,
-      ),
-    );
-  }
 }

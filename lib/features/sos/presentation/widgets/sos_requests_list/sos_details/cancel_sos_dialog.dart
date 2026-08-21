@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart';
 
 class CancelSosDialog extends StatefulWidget {
   const CancelSosDialog({super.key});
@@ -20,80 +21,77 @@ class _CancelSosDialogState extends State<CancelSosDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.r)),
       contentPadding: EdgeInsets.zero,
-      // العنوان بالأزرق مثل الصورة
+      titlePadding: EdgeInsets.zero,
       title: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFF1A5FA8),
+          color: AppColors.primary,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(14.r),
             topRight: Radius.circular(14.r),
           ),
         ),
         padding: EdgeInsets.symmetric(vertical: 12.h),
-        child: const Text(
-          'Cancel SOS',
+        child: Text(
+          l10n.cancelRequestButton,
           textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white, fontSize: 14),
+          style: TextStyle(color: AppColors.white, fontSize: 14.sp, fontWeight: FontWeight.w700),
         ),
       ),
-      content: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Padding(
-          padding: EdgeInsets.all(16.w),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'ما سبب إلغاء الطلب ؟',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14.sp,
-                  color: Colors.black87,
-                ),
+      content: Padding(
+        padding: EdgeInsets.all(16.w),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              l10n.cancelSosQuestion,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14.sp,
+                color: AppColors.black.withValues(alpha: 0.87),
               ),
-              SizedBox(height: 12.h),
-              TextField(
-                controller: _controller,
-                maxLines: 3,
-                textDirection: TextDirection.rtl,
-                decoration: InputDecoration(
-                  hintText: 'ادخل هنا سبب إلغاء طلب الطوارئ ...',
-                  hintStyle: TextStyle(fontSize: 12.sp, color: Colors.grey),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                  contentPadding: EdgeInsets.all(10.w),
+            ),
+            SizedBox(height: 12.h),
+            TextField(
+              controller: _controller,
+              maxLines: 3,
+              decoration: InputDecoration(
+                hintText: l10n.cancelSosHint,
+                hintStyle: TextStyle(fontSize: 12.sp, color: AppColors.textSecondary(context)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.r),
                 ),
+                contentPadding: EdgeInsets.all(10.w),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       actions: [
-        // تأكيد — يرجع النص
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(null),
+          child: Text(
+            l10n.backButton,
+            style: TextStyle(color: AppColors.textSecondary(context), fontSize: 14.sp),
+          ),
+        ),
         TextButton(
           onPressed: () {
             final reason = _controller.text.trim();
             Navigator.of(context).pop(reason.isEmpty ? null : reason);
           },
           child: Text(
-            'تأكيد',
+            l10n.confirmCancellationButton,
             style: TextStyle(
-              color: const Color(0xFF1A5FA8),
+              color: AppColors.primary,
               fontWeight: FontWeight.bold,
               fontSize: 14.sp,
             ),
-          ),
-        ),
-        // تراجع
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(null),
-          child: Text(
-            'تراجع',
-            style: TextStyle(color: Colors.grey, fontSize: 14.sp),
           ),
         ),
       ],

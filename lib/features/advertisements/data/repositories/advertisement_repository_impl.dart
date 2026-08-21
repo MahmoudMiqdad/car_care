@@ -7,7 +7,7 @@ import 'package:car_care/features/advertisements/domain/repositories/i_advertise
 import 'package:dartz/dartz.dart';
 
 class AdvertisementRepositoryImpl implements IAdvertisementRepository {
-  const AdvertisementRepositoryImpl(this._remote);
+   AdvertisementRepositoryImpl(this._remote);
   final AdvertisementRemoteDataSource _remote;
 
   @override

@@ -1,9 +1,11 @@
 // ignore_for_file: deprecated_member_use
 
+
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/cubit/technician_location_cubit.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/cubit/technician_location_state.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -23,7 +25,7 @@ class LocationPickerSheet extends StatefulWidget {
     return showModalBottomSheet<LatLng>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (_) => BlocProvider.value(
         value: context.read<TechnicianLocationCubit>(),
         child: LocationPickerSheet(localOnly: localOnly),
@@ -68,7 +70,6 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
     if (mounted) setState(() => _loadingCurrentLocation = false);
   }
 
-  // إرسال الموقع المختار
   Future<void> _confirmLocation() async {
     if (widget.localOnly) {
       // Onboarding: keep the location in local form state only.
@@ -83,11 +84,12 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return BlocListener<TechnicianLocationCubit, TechnicianLocationState>(
       listener: (context, state) {
         if (state is UpdateLocationSuccess) {
           Navigator.pop(context, _pickedLocation);
-          AppSnackBar.success(context, 'تم تحديد موقع الورشة');
+          AppSnackBar.success(context, l10n.workshopLocationSet);
         }
         if (state is UpdateLocationError) {
           AppSnackBar.error(context, state.message);
@@ -96,7 +98,7 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
       child: Container(
         height: MediaQuery.of(context).size.height * 0.85,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
         ),
         child: Column(
@@ -107,7 +109,7 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
               width: 40.w,
               height: 4.h,
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(2.r),
               ),
             ),
@@ -118,10 +120,10 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Row(
                 children: [
-                  Icon(Icons.location_on, color: AppColors.orange, size: 22.r),
+                  Icon(Icons.location_on, color: AppColors.accent, size: 22.r),
                   SizedBox(width: 8.w),
                   Text(
-                    'حدد موقع الورشة',
+                    l10n.selectWorkshopLocation,
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
@@ -139,18 +141,18 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                             height: 14.r,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              color: AppColors.orange,
+                              color: AppColors.accent,
                             ),
                           )
                         : Icon(
                             Icons.my_location,
                             size: 16.r,
-                            color: AppColors.orange,
+                            color: AppColors.accent,
                           ),
                     label: Text(
-                      'موقعي',
+                      l10n.myLocation,
                       style: TextStyle(
-                        color: AppColors.orange,
+                        color: AppColors.accent,
                         fontSize: 12.sp,
                       ),
                     ),
@@ -162,8 +164,8 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Text(
-                'حرّك الخريطة لتحديد الموقع الصحيح',
-                style: TextStyle(fontSize: 12.sp, color: Colors.grey.shade600),
+                l10n.moveMapToSelectLocation,
+                style: TextStyle(fontSize: 12.sp, color: AppColors.white),
               ),
             ),
             SizedBox(height: 12.h),
@@ -203,11 +205,11 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                         Container(
                           padding: EdgeInsets.all(6.r),
                           decoration: BoxDecoration(
-                            color: AppColors.orange,
+                            color: AppColors.accent,
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.orange.withOpacity(0.4),
+                                color: AppColors.accent.withOpacity(0.4),
                                 blurRadius: 10,
                                 spreadRadius: 2,
                               ),
@@ -215,7 +217,7 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                           ),
                           child: Icon(
                             Icons.build_circle,
-                            color: Colors.white,
+                            color: AppColors.white,
                             size: 24.r,
                           ),
                         ),
@@ -223,13 +225,13 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                         Container(
                           width: 2.w,
                           height: 16.h,
-                          color: AppColors.orange,
+                          color: AppColors.accent,
                         ),
                         Container(
                           width: 8.w,
                           height: 8.w,
                           decoration: BoxDecoration(
-                            color: AppColors.orange,
+                            color: AppColors.accent,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -246,11 +248,11 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                         vertical: 6.h,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.white,
                         borderRadius: BorderRadius.circular(20.r),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
+                            color: AppColors.black.withOpacity(0.1),
                             blurRadius: 6,
                           ),
                         ],
@@ -260,7 +262,7 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                         '${_pickedLocation.longitude.toStringAsFixed(5)}',
                         style: TextStyle(
                           fontSize: 11.sp,
-                          color: Colors.grey.shade700,
+                          color: AppColors.white,
                           fontFamily: 'monospace',
                         ),
                       ),
@@ -283,26 +285,26 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                       child: ElevatedButton.icon(
                         onPressed: isLoading ? null : _confirmLocation,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.orange,
-                          foregroundColor: Colors.white,
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: AppColors.white,
                           padding: EdgeInsets.symmetric(vertical: 14.h),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.r),
                           ),
-                          disabledBackgroundColor: Colors.grey.shade300,
+                          disabledBackgroundColor: AppColors.white,
                         ),
                         icon: isLoading
                             ? SizedBox(
                                 width: 18.r,
                                 height: 18.r,
-                                child: const CircularProgressIndicator(
+                                child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  color: Colors.white,
+                                  color: AppColors.white,
                                 ),
                               )
                             : Icon(Icons.check_circle_outline, size: 20.r),
                         label: Text(
-                          isLoading ? 'جاري الحفظ...' : 'تأكيد الموقع',
+                          isLoading ? l10n.savingInProgress : l10n.confirmLocationAction,
                           style: TextStyle(
                             fontSize: 15.sp,
                             fontWeight: FontWeight.bold,

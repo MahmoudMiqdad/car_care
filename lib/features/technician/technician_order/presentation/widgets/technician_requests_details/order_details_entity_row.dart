@@ -40,7 +40,7 @@ class OrderDetailsEntityRow extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: avatarSize / 2,
-          backgroundColor: AppColors.lightBorder,
+          backgroundColor: AppColors.border(context),
           child: hasUrl
               ? ClipOval(
                   child: AppImageWidget(
@@ -57,10 +57,10 @@ class OrderDetailsEntityRow extends StatelessWidget {
                     width: avatarSize,
                     height: avatarSize,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) => _placeholder(),
+                    errorBuilder: (_, _, _) => _placeholder(context),
                   ),
                 )
-              : _placeholder(),
+              : _placeholder(context),
         ),
         SizedBox(width: 14.w),
         Expanded(
@@ -85,13 +85,13 @@ class OrderDetailsEntityRow extends StatelessWidget {
     );
   }
 
-  Widget _placeholder() {
-    return Icon(
-      placeholderIcon,
-      size: (avatarSize * 0.6).sp,
-      color: AppColors.lightTextSecondary,
-    );
-  }
+Widget _placeholder(BuildContext context) { // 💡 أضفنا الـ context هنا
+  return Icon(
+    placeholderIcon,
+    size: (avatarSize * 0.6).sp,
+    color: AppColors.textSecondary(context), // سيعمل الآن بدون أخطاء
+  );
+}
 }
 
 class OrderDetailsIconLabel extends StatelessWidget {

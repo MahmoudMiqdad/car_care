@@ -23,8 +23,6 @@ Map<String?, String> carwashBookingFilterLabels(AppLocalizations l10n) {
   };
 }
 
-/// [StatusFilterTabs] compares tab values with `==`, so "all" needs this
-/// non-null stand-in to remain a selectable/highlightable tab value.
 const String _kAllStatusValue = '__all__';
 
 class CarwashBookingFilter extends StatelessWidget {

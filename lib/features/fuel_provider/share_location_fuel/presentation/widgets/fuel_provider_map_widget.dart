@@ -1,24 +1,27 @@
 import 'dart:async';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+
 import 'package:car_care/features/fuel_provider/share_location_fuel/presentation/cubit/share_location_fuel_cubit.dart';
 import 'package:car_care/features/fuel_provider/share_location_fuel/presentation/cubit/share_location_fuel_state.dart';
+import 'package:car_care/l10n.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+
 final _osrmDio = Dio(BaseOptions(
   connectTimeout: const Duration(seconds: 10),
   receiveTimeout: const Duration(seconds: 10),
 ));
+
 class FuelProviderMapWidget extends StatefulWidget {
   final int orderId;
   final double? userLat;
   final double? userLng;
 
-  /// Backend order status. Location is only shared while the order is active.
   final String? orderStatus;
 
   const FuelProviderMapWidget({
@@ -29,7 +32,6 @@ class FuelProviderMapWidget extends StatefulWidget {
     this.orderStatus,
   });
 
-  /// Terminal orders must never receive location updates.
   bool get canShareLocation {
     final status = orderStatus?.toLowerCase();
     if (status == null) return true;
@@ -42,6 +44,7 @@ class FuelProviderMapWidget extends StatefulWidget {
   @override
   State<FuelProviderMapWidget> createState() => _FuelProviderMapWidgetState();
 }
+
 class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
   final MapController _mapController = MapController();
 
@@ -66,12 +69,13 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
   }
 
   Future<void> _startSharingLocation() async {
-    // Never start a sharing session for a finished/cancelled order.
+    final l10n = context.l10n;
+
     if (!widget.canShareLocation) {
       if (mounted) {
         AppSnackBar.error(
           context,
-          'لا يمكن مشاركة الموقع لطلب منتهٍ أو ملغى',
+          l10n.cannotShareLocationOrderFinished,
         );
       }
       return;
@@ -90,15 +94,17 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
     );
   }
 
-  /// Checks the location service + permission once, showing a clear Arabic
-  /// message instead of failing silently.
+  /// Checks the location service + permission once, showing a clear message
+  /// instead of failing silently.
   Future<bool> _ensureLocationReady() async {
+    final l10n = context.l10n;
+
     final serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       if (mounted) {
         AppSnackBar.error(
           context,
-          'يرجى تفعيل خدمة الموقع من إعدادات الجهاز',
+          l10n.enableLocationServiceMessage,
         );
       }
       return false;
@@ -113,7 +119,7 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
       if (mounted) {
         AppSnackBar.error(
           context,
-          'صلاحية الموقع مرفوضة نهائيًا، يرجى تفعيلها من إعدادات التطبيق',
+          l10n.locationPermissionDeniedForever,
         );
       }
       return false;
@@ -123,7 +129,7 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
       if (mounted) {
         AppSnackBar.error(
           context,
-          'صلاحية الموقع مطلوبة لمشاركة موقعك مع العميل',
+          l10n.locationPermissionRequired,
         );
       }
       return false;
@@ -133,6 +139,8 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
   }
 
   Future<void> _sendCurrentLocation() async {
+    final l10n = context.l10n;
+
     // Stop the periodic sharing as soon as the order becomes terminal.
     if (!widget.canShareLocation) {
       _locationTimer?.cancel();
@@ -169,7 +177,7 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
     } catch (e) {
       debugPrint('❌ Location error: $e');
       if (mounted) {
-        AppSnackBar.error(context, 'تعذر تحديد موقعك الحالي، حاول مرة أخرى');
+        AppSnackBar.error(context, l10n.unableToDetermineLocation);
       }
     }
   }
@@ -257,11 +265,15 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
         ShareFuelProviderLocationState>(
       listener: (context, state) {
         if (state is ShareFuelProviderLocationError) {
+          final l10n = context.l10n;
           final msg = state.message.isEmpty ||
                   state.message.startsWith('Instance of')
-              ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
+              ? l10n.genericErrorTryAgain
               : state.message;
-          AppSnackBar.error(context, 'خطأ في إرسال الموقع: $msg');
+          AppSnackBar.error(
+            context,
+            '${l10n.errorSendingLocation}: $msg',
+          );
         }
       },
       child: Stack(
@@ -341,7 +353,7 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
                   FloatingActionButton.small(
                     heroTag: 'fit_route_provider',
                     onPressed: _fitRoute,
-                    backgroundColor: Colors.white,
+                    backgroundColor: AppColors.white,
                     child: Icon(Icons.route, color: AppColors.carWashTeal),
                   ),
                 const SizedBox(height: 8),
@@ -353,7 +365,7 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
                     }
                   },
                   backgroundColor: AppColors.carWashTeal,
-                  child: const Icon(Icons.my_location, color: Colors.white),
+                  child: Icon(Icons.my_location, color: AppColors.white),
                 ),
               ],
             ),
@@ -369,6 +381,8 @@ class _DestinationMarker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Column(
       children: [
         Container(
@@ -376,7 +390,7 @@ class _DestinationMarker extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.accent,
             shape: BoxShape.circle,
-            border: Border.all(color: Colors.white, width: 2),
+            border: Border.all(color: AppColors.white, width: 2),
             boxShadow: [
               BoxShadow(
                 color: AppColors.accent,
@@ -385,23 +399,23 @@ class _DestinationMarker extends StatelessWidget {
               ),
             ],
           ),
-          child: const Icon(Icons.location_pin, color: Colors.white, size: 20),
+          child: Icon(Icons.location_pin, color: AppColors.white, size: 20),
         ),
         const SizedBox(height: 2),
-       Flexible(
-  child: Container(
-    padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 2),
-    decoration: BoxDecoration(
-      color: AppColors.accent,
-      borderRadius: BorderRadius.circular(4),
-    ),
-    child: const Text(
-      'موقع التوصيل',
-      style: TextStyle(color: Colors.white, fontSize: 9),
-      overflow: TextOverflow.ellipsis,
-    ),
-  ),
-)
+        Flexible(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 2),
+            decoration: BoxDecoration(
+              color: AppColors.accent,
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Text(
+              l10n.deliveryLocation,
+              style: TextStyle(color: AppColors.white, fontSize: 9),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        )
       ],
     );
   }
@@ -439,6 +453,8 @@ class _ProviderSelfMarkerState extends State<_ProviderSelfMarker>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return ScaleTransition(
       scale: _scaleAnim,
       child: Column(
@@ -448,7 +464,7 @@ class _ProviderSelfMarkerState extends State<_ProviderSelfMarker>
             decoration: BoxDecoration(
               color: AppColors.carWashTeal,
               shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 2),
+              border: Border.all(color: AppColors.white, width: 2),
               boxShadow: [
                 BoxShadow(
                   color: AppColors.carWashTeal.withOpacity(0.5),
@@ -457,8 +473,8 @@ class _ProviderSelfMarkerState extends State<_ProviderSelfMarker>
                 ),
               ],
             ),
-            child: const Icon(Icons.local_gas_station,
-                color: Colors.white, size: 22),
+            child: Icon(Icons.local_gas_station,
+                color: AppColors.white, size: 22),
           ),
           const SizedBox(height: 2),
           Container(
@@ -467,9 +483,9 @@ class _ProviderSelfMarkerState extends State<_ProviderSelfMarker>
               color: AppColors.carWashTeal,
               borderRadius: BorderRadius.circular(4),
             ),
-            child: const Text(
-              'أنت',
-              style: TextStyle(color: Colors.white, fontSize: 9),
+            child: Text(
+              l10n.you,
+              style: TextStyle(color: AppColors.white, fontSize: 9),
             ),
           ),
         ],
@@ -489,7 +505,8 @@ class _StatusCard extends StatelessWidget {
     required this.routePoints,
   });
 
-  String _getRouteDistance() {
+  String _getRouteDistance(BuildContext context) {
+    final l10n = context.l10n;
     if (routePoints.length < 2) return '';
     double totalMeters = 0;
     final dist = Distance();
@@ -497,13 +514,16 @@ class _StatusCard extends StatelessWidget {
       totalMeters +=
           dist.as(LengthUnit.Meter, routePoints[i], routePoints[i + 1]);
     }
-    if (totalMeters < 1000) return '${totalMeters.toStringAsFixed(0)} م';
-    return '${(totalMeters / 1000).toStringAsFixed(1)} كم';
+    if (totalMeters < 1000) {
+      return '${totalMeters.toStringAsFixed(0)} ${l10n.meterUnit}';
+    }
+    return '${(totalMeters / 1000).toStringAsFixed(1)} ${l10n.kmUnit}';
   }
 
   @override
   Widget build(BuildContext context) {
-    final distance = _getRouteDistance();
+    final l10n = context.l10n;
+    final distance = _getRouteDistance(context);
 
     return Card(
       elevation: 4,
@@ -516,7 +536,7 @@ class _StatusCard extends StatelessWidget {
               width: 10,
               height: 10,
               decoration: BoxDecoration(
-                color: isSharing ? Colors.green : Colors.grey,
+                color: isSharing ? AppColors.green : AppColors.gray,
                 shape: BoxShape.circle,
               ),
             ),
@@ -527,23 +547,26 @@ class _StatusCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    isSharing ? 'يتم إرسال موقعك للعميل' : 'جاري تحديد الموقع...',
+                    isSharing
+                        ? l10n.sharingLocationWithCustomer
+                        : l10n.determiningLocation,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: isSharing
-                          ? Colors.green.shade700
-                          : Colors.grey.shade600,
+                          ? AppColors.green
+                          : AppColors.gray,
                       fontSize: 13,
                     ),
                   ),
                   if (isLoadingRoute)
                     Text(
-                      'جاري حساب المسار...',
-                      style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+                      l10n.calculatingRoute,
+                      style:
+                          TextStyle(fontSize: 11, color: AppColors.gray),
                     )
                   else if (distance.isNotEmpty)
                     Text(
-                      'المسافة للعميل: $distance',
+                      '${l10n.distanceToCustomer}: $distance',
                       style: TextStyle(
                         fontSize: 11,
                         color: AppColors.carWashTeal,
@@ -568,7 +591,7 @@ class _StatusCard extends StatelessWidget {
                 }
                 if (state is ShareFuelProviderLocationSuccess) {
                   return Icon(Icons.cloud_done,
-                      color: Colors.green.shade600, size: 18);
+                      color: AppColors.green, size: 18);
                 }
                 return const SizedBox.shrink();
               },

@@ -17,7 +17,7 @@ class CreateSosLocationHint extends StatelessWidget {
           text,
           textAlign: TextAlign.start,
           style: TextStyle(
-            color: AppColors.error,
+            color: AppColors.red,
             fontSize: 13.sp,
             fontWeight: FontWeight.w600,
             height: 1.35,

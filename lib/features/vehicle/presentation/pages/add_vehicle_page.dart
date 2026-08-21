@@ -11,13 +11,10 @@ class AddVehiclePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: context.colorScheme.surface,
-        appBar: CustomAppBar(title: strings.addVehicle),
-        body: const ImageBackground(child: AddVehicleBody()),
-      ),
+    return Scaffold(
+      backgroundColor: context.colorScheme.surface,
+      appBar: CustomAppBar(title: strings.addVehicle),
+      body: const ImageBackground(child: AddVehicleBody()),
     );
   }
 }

@@ -1,7 +1,8 @@
 import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/extensions/theme_extension.dart'; 
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
-import 'package:car_care/core/widgets/app_headline.dart';
+
+import 'package:car_care/core/widgets/app_headline.dart'; 
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,17 +41,18 @@ class ProfileWasherLocationCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText.sectionTitle(
+                    context,
                     l10n.washerSectionCityAndAddress,
-                    color: AppColors.lightTextPrimary,
-                    textAlign: TextAlign.right,
+                    color: AppColors.textPrimary(context),
+                    textAlign: TextAlign.start,
                   ),
+                  SizedBox(height: 4.h),
                   Text(
                     address,
-                    textAlign: TextAlign.right,
-                    style: AppTypography.bodySmall.copyWith(
-                      color: AppColors.lightTextSecondary,
+                    textAlign: TextAlign.start, 
+                    style: context.textTheme.bodySmall!.copyWith(
+                      color: AppColors.textSecondary(context),
                       fontWeight: FontWeight.w500,
-                      fontSize: 13.sp,
                     ),
                   ),
                 ],

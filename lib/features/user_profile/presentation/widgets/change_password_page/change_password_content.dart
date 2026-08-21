@@ -13,33 +13,30 @@ class ChangePasswordContent extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(32.r),
           topRight: Radius.circular(32.r),
         ),
       ),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 80.h),
-          child: Center(
-            child: Column(
-               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  strings.editPassword,
-                  style: TextStyle(
-                    color: AppColors.orange,
-                    fontSize: 28.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+      child: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 80.h),
+        child: Center(
+          child: Column(
+             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                strings.editPassword,
+                style: TextStyle(
+                  color: AppColors.accent,
+                  fontSize: 28.sp,
+                  fontWeight: FontWeight.bold,
                 ),
-                SizedBox(height: 40.h),
-                const ChangePasswordForm(),
-              ],
-            ),
+              ),
+              SizedBox(height: 40.h),
+              const ChangePasswordForm(),
+            ],
           ),
         ),
       ),

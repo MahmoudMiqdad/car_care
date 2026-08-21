@@ -1,6 +1,3 @@
-// اختبارات دفعة FUEL-REFRESH-TARGETED: تحديث قوائم الوقود تلقائيًا بعد إنشاء/
-// إلغاء طلب العميل وقبول مزود الوقود، دون أي Request مكرر، مع تثبيت سلامة
-// تعديلات إلغاء المزود غير الملتزمة.
 import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
@@ -54,11 +51,6 @@ FuelOrderEntity _fakeProviderOrder({int id = 1, String status = 'pending'}) {
   );
 }
 
-/// `CustomAppBar`'s back-button row overflows by a few px under the test
-/// harness's fallback font metrics (Arabic glyphs render wider than in the
-/// real app's embedded font) — a `core` widget test-environment artifact
-/// unrelated to the fuel refresh logic under test here, so it's filtered
-/// out rather than silently left to fail every full-page test in this file.
 void _ignoreKnownAppBarOverflowInTests() {
   final original = FlutterError.onError;
   FlutterError.onError = (details) {
@@ -67,13 +59,12 @@ void _ignoreKnownAppBarOverflowInTests() {
     }
     original?.call(details);
   };
+  addTearDown(() => FlutterError.onError = original);
 }
 
 Future<void> _pumpRouter(WidgetTester tester, GoRouter router) async {
   _ignoreKnownAppBarOverflowInTests();
-  // Matches the 375x812 ScreenUtil design size so `.w`/`.h`/`.sp` don't
-  // scale up past the default 800x600 test surface and overflow the
-  // full-page shells (CustomAppBar etc.) these tests pump.
+
   tester.view.physicalSize = const Size(1125, 2436);
   tester.view.devicePixelRatio = 3.0;
   addTearDown(tester.view.resetPhysicalSize);
@@ -93,10 +84,6 @@ Future<void> _pumpRouter(WidgetTester tester, GoRouter router) async {
   await tester.pumpAndSettle();
 }
 
-/// Test-only stand-in for whatever page a flow navigates to — pops itself
-/// with [result] right after the first frame, so the awaiting caller's
-/// `push<bool>()` resolves deterministically without needing the real
-/// destination page's full UI/DI.
 class _AutoPopPage extends StatefulWidget {
   const _AutoPopPage({this.result});
   final bool? result;
@@ -146,12 +133,12 @@ void main() {
         );
 
         await _pumpRouter(tester, router);
-        verify(() => repo.getAllOrders()).called(1); // initial load
+        verify(() => repo.getAllOrders()).called(1);
 
         await tester.tap(find.byType(FloatingAddButton));
         await tester.pumpAndSettle();
 
-        verify(() => repo.getAllOrders()).called(1); // exactly one refresh
+        verify(() => repo.getAllOrders()).called(1);
       },
     );
 
@@ -355,9 +342,6 @@ void main() {
           await tester.tap(find.byType(ElevatedButton));
           await tester.pumpAndSettle();
 
-          // Drives the exact same UserFuelOrderCreated state the real submit
-          // flow reaches — bypassing form-filling, which isn't what this
-          // fix is about.
           when(
             () => repo.addEmergencyOrder(any()),
           ).thenAnswer((_) async => Right(_fakeUserOrder()));
@@ -408,12 +392,12 @@ void main() {
 
           await cubit.getAvailableOrders();
           await _pumpRouter(tester, router);
-          verify(() => repo.getavailableOrders()).called(1); // initial
+          verify(() => repo.getavailableOrders()).called(1);
 
           await tester.tap(find.text('عرض التفاصيل'));
           await tester.pumpAndSettle();
 
-          verify(() => repo.getavailableOrders()).called(1); // one refresh
+          verify(() => repo.getavailableOrders()).called(1);
           verifyNever(() => repo.getMyOrders());
         },
       );
@@ -496,8 +480,6 @@ void main() {
         await tester.ensureVisible(find.text('قبول الطلب'));
         await tester.pumpAndSettle();
 
-        // Two taps with no pump between them simulate the same rebuild-free
-        // re-entrant race the in-flight guard exists for.
         await tester.tap(find.text('قبول الطلب'));
         await tester.tap(find.text('قبول الطلب'));
         await tester.pump();
@@ -508,13 +490,26 @@ void main() {
   });
 
   group('FUEL-REFRESH 6) provider cancel (uncommitted diff) — still sound', () {
-    test('validateFuelProviderCancellationReason enforces min:5, '
-        'matching the confirmed POST .../cancel contract', () {
-      expect(validateFuelProviderCancellationReason(null), isNotNull);
-      expect(validateFuelProviderCancellationReason(''), isNotNull);
-      expect(validateFuelProviderCancellationReason('قصير'), isNotNull);
+    testWidgets('validateFuelProviderCancellationReason enforces min:5, '
+        'matching the confirmed POST .../cancel contract', (tester) async {
+      late BuildContext ctx;
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Builder(
+            builder: (context) {
+              ctx = context;
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
+      expect(validateFuelProviderCancellationReason(ctx, null), isNotNull);
+      expect(validateFuelProviderCancellationReason(ctx, ''), isNotNull);
+      expect(validateFuelProviderCancellationReason(ctx, 'قصير'), isNotNull);
       expect(
-        validateFuelProviderCancellationReason('سبب كافٍ للإلغاء'),
+        validateFuelProviderCancellationReason(ctx, 'سبب كافٍ للإلغاء'),
         isNull,
       );
     });
@@ -606,12 +601,12 @@ void main() {
 
       await cubit.getMyOrders();
       await _pumpRouter(tester, router);
-      verify(() => repo.getMyOrders()).called(1); // initial
+      verify(() => repo.getMyOrders()).called(1);
 
       await tester.tap(find.text('عرض التفاصيل'));
       await tester.pumpAndSettle();
 
-      verify(() => repo.getMyOrders()).called(1); // exactly one refresh
+      verify(() => repo.getMyOrders()).called(1);
       verifyNever(() => repo.getavailableOrders());
     });
 
@@ -709,12 +704,9 @@ void main() {
         await tester.tap(find.text('بدء التنفيذ'));
         await tester.pumpAndSettle();
 
-        // Stays on the details page after a successful start — no forced
-        // navigation.
         expect(find.byType(ProviderOrderDetailsPage), findsOneWidget);
         expect(poppedWith, isNull);
 
-        // The user leaves manually via the AppBar back button.
         await tester.tap(find.byIcon(Icons.arrow_back_ios));
         await tester.pumpAndSettle();
 
@@ -851,9 +843,7 @@ void main() {
       'refresh signal on the way out',
       (tester) async {
         final repo = MockFuelProviderOrderRepository();
-        // First getOrder() (initial load) must see 'accepted' so "بدء
-        // التنفيذ" renders; the second (the reload after a successful
-        // start) must see 'in_progress' so "إكمال الطلب" renders next.
+
         var getOrderCalls = 0;
         when(() => repo.getOrder(1)).thenAnswer((_) async {
           getOrderCalls++;
@@ -920,17 +910,12 @@ void main() {
         await tester.tap(find.text('إكمال الطلب'));
         await tester.pumpAndSettle();
 
-        // Exactly one pop happened for this whole visit (Completed's own
-        // auto-navigation), carrying exactly one true result — never two.
         expect(poppedValues, [true]);
       },
     );
   });
 }
 
-/// Test-only origin page: exposes its [BuildContext] via [context] so the
-/// test can trigger [onPush] (an awaited `context.push<bool>(...)` call)
-/// on demand and later read whatever it resolved to.
 class _AwaitPushOriginPage extends StatefulWidget {
   const _AwaitPushOriginPage({required this.onPush});
   final Future<void> Function() onPush;

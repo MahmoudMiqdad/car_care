@@ -1,4 +1,3 @@
-
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -26,8 +25,6 @@ class AllRequestsPage extends StatefulWidget {
 class _AllRequestsPageState extends State<AllRequestsPage> {
   RequestStatus _currentStatus = RequestStatus.pending;
 
-  /// Last loaded response per tab, so a pull-to-refresh or return-refresh
-  /// never blanks an already loaded tab back to a full-page loader.
   final Map<RequestStatus, MaintenanceRequestEntity> _cache = {};
 
   Future<void> _refreshCurrentTab() {
@@ -42,33 +39,32 @@ class _AllRequestsPageState extends State<AllRequestsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        floatingActionButton: Padding(
-          padding: EdgeInsets.only(bottom: 16.h, left: 16.w),
-          child: FloatingAddButton(
-            onTap: () async {
-              await context.push(Routes.addRequest);
-              if (!mounted) return;
-              _refreshCurrentTab();
-            },
-          ),
+    final l10n = context.l10n;
+
+    return Scaffold(
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: 16.h, left: 16.w),
+        child: FloatingAddButton(
+          onTap: () async {
+            await context.push(Routes.addRequest);
+            if (!mounted) return;
+            _refreshCurrentTab();
+          },
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-        appBar: CustomAppBar(
-          title: 'All Requests',
-          showBackButton: true,
-          onBackTapped: () => context.go(Routes.home),
-        ),
-        body: ImageBackground(
-          child: SafeArea(
-            child: Column(
-              children: [
-                _buildTabs(),
-                Expanded(child: _buildBody()),
-              ],
-            ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      appBar: CustomAppBar(
+        title: l10n.maintenanceRequestsTitle,
+        showBackButton: true,
+        onBackTapped: () => context.go(Routes.home),
+      ),
+      body: ImageBackground(
+        child: SafeArea(
+          child: Column(
+            children: [
+              _buildTabs(),
+              Expanded(child: _buildBody()),
+            ],
           ),
         ),
       ),
@@ -118,9 +114,6 @@ class _AllRequestsPageState extends State<AllRequestsPage> {
         builder: (context, state) {
           final cached = _cache[_currentStatus];
 
-          // Only the very first load of a tab (no cached data yet) shows the
-          // full-page loader/error state; a pull-to-refresh or return-refresh
-          // keeps the previously loaded list visible while it runs.
           if (state is RequestsLoading && cached == null) {
             return const Center(child: AppLoadingWidget());
           }

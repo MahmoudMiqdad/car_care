@@ -1,4 +1,5 @@
 // خريطة تتبع التوصيل — تعرض موقع المندوب المحدّث كل ١٠ ثوان.
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/widgets/loding.dart';
@@ -179,8 +180,8 @@ class _CustomerDeliveryTrackingMapWidgetState
                   const SizedBox(height: 16),
                   Text(
                     'في انتظار بدء التوصيل...',
-                    style: AppTypography.labelLarge.copyWith(
-                      color: AppColors.lightTextSecondary,
+                    style: context.textTheme.labelLarge!.copyWith(
+                      color: AppColors.textSecondary(context),
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -202,14 +203,14 @@ class _CustomerDeliveryTrackingMapWidgetState
                         ? Icons.check_circle_outline
                         : Icons.cancel_outlined,
                     size: 64,
-                    color: isDelivered ? AppColors.success : AppColors.error,
+                    color: isDelivered ? AppColors.green : AppColors.red,
                   ),
                   const SizedBox(height: 16),
                   Text(
                     isDelivered ? 'تم التوصيل بنجاح' : 'انتهى التتبع',
-                    style: AppTypography.labelLarge.copyWith(
+                    style: context.textTheme.labelLarge!.copyWith(
                       color:
-                          isDelivered ? AppColors.success : AppColors.error,
+                          isDelivered ? AppColors.green : AppColors.red,
                       fontWeight: FontWeight.w700,
                     ),
                     textAlign: TextAlign.center,

@@ -11,6 +11,7 @@ import 'package:car_care/features/technician/technician_order/presentation/cubit
 import 'package:car_care/features/technician/technician_order/presentation/widgets/technician_requests_details/order_details_customer_section.dart';
 import 'package:car_care/features/technician/technician_order/presentation/widgets/technician_requests_details/order_details_malfunction_section.dart';
 import 'package:car_care/features/technician/technician_order/presentation/widgets/technician_requests_details/order_details_vehicle_section.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,18 +42,15 @@ class _Body extends StatefulWidget {
 
 class _BodyState extends State<_Body> {
   String get orderId => widget.orderId;
-
-  /// Set immediately from the quotation page's pop(true) result, so the CTA
-  /// flips without waiting for the refetch round trip. The subsequent
-  /// refetch/myQuotation check still runs and remains the source of truth
-  /// on a fresh page load.
   bool _justSubmitted = false;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
-      backgroundColor: AppColors.lightScaffold,
-      appBar: AppBar(title: const Text('تفاصيل طلب صيانة')),
+      backgroundColor: AppColors.scaffoldBackground(context),
+      appBar: AppBar(title: Text(l10n.maintenanceRequestDetailsTitle)),
       body: ImageBackground(
         child: SafeArea(
           top: false,
@@ -84,8 +82,6 @@ class _BodyState extends State<_Body> {
 
                       SizedBox(height: 10.h),
 
-                      // Once this technician has a quotation on the request the
-                      // CTA is replaced by a non-interactive waiting state.
                       if (hasQuotation)
                         Container(
                           width: double.infinity,
@@ -98,20 +94,20 @@ class _BodyState extends State<_Body> {
                             borderRadius: BorderRadius.circular(
                               AppConstants.ctaRadius,
                             ),
-                            border: Border.all(color: AppColors.success),
+                            border: Border.all(color: AppColors.green),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
                                 Icons.check_circle_outline,
-                                color: AppColors.success,
+                                color: AppColors.green,
                                 size: 20.sp,
                               ),
                               SizedBox(width: 8.w),
-                              Flexible(
+                              Expanded(
                                 child: Text(
-                                  'تم إرسال عرضك — بانتظار قبول العميل',
+                                  l10n.quotationSentWaitingApproval,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 15.sp,
@@ -125,7 +121,7 @@ class _BodyState extends State<_Body> {
                         )
                       else
                         AppButton(
-                          text: 'تقديم عرض سعر',
+                          text: l10n.submitQuotationButtonLabel,
                           backgroundColor: AppColors.accent,
                           fontSize: 17.sp,
                           borderRadius: AppConstants.ctaRadius,
@@ -137,15 +133,12 @@ class _BodyState extends State<_Body> {
                             );
                             if (!context.mounted) return;
                             if (submitted == true) {
-                              // Flip the CTA immediately using the pop(true)
-                              // result — do not wait for the refetch.
                               setState(() => _justSubmitted = true);
                               AppSnackBar.success(
                                 context,
-                                'تم إرسال العرض بنجاح',
+                                l10n.quotationSubmittedSuccess,
                               );
                             }
-                            // Refresh so myQuotation confirms/persists the state.
                             context.read<RequestCubit>().fetchRequest(orderId);
                           },
                         ),

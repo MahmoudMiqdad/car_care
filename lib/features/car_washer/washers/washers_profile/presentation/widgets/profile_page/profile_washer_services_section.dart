@@ -1,5 +1,6 @@
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/widgets/app_headline.dart';
+
+import 'package:car_care/core/widgets/app_headline.dart'; 
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/profile_page/profile_washer_service_tier_card.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -24,36 +25,35 @@ class ProfileWasherServicesSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AppText.sectionTitle(
+          context,
           l10n.washerSectionServicesAndPrices,
           color: AppColors.black,
-          textAlign: TextAlign.right,
+          textAlign: TextAlign.start,
         ),
-        Directionality(
-          textDirection: TextDirection.ltr,
-          child: Row(
-            children: [
-              Expanded(
-                child: ProfileWasherServiceTierCard(
-                  packageName: l10n.profileWasherTierPremium,
-                  priceLabel: '${l10n.profileWasherFieldPrice}: $premiumPrice \$',
-                ),
+        SizedBox(height: 8.h),
+        Row(
+          children: [
+            Expanded(
+              child: ProfileWasherServiceTierCard(
+                packageName: l10n.profileWasherTierPremium,
+                priceLabel: '${l10n.profileWasherFieldPrice}: ${l10n.currencyFormat(premiumPrice)}',
               ),
-              SizedBox(width: 8.w),
-              Expanded(
-                child: ProfileWasherServiceTierCard(
-                  packageName: l10n.profileWasherTierVip,
-                  priceLabel: '${l10n.profileWasherFieldPrice}: $vipPrice \$',
-                ),
+            ),
+            SizedBox(width: 8.w),
+            Expanded(
+              child: ProfileWasherServiceTierCard(
+                packageName: l10n.profileWasherTierVip,
+                priceLabel: '${l10n.profileWasherFieldPrice}: ${l10n.currencyFormat(vipPrice)}',
               ),
-              SizedBox(width: 8.w),
-              Expanded(
-                child: ProfileWasherServiceTierCard(
-                  packageName: l10n.profileWasherTierBasic,
-                  priceLabel: '${l10n.profileWasherFieldPrice}: $basicPrice \$',
-                ),
+            ),
+            SizedBox(width: 8.w),
+            Expanded(
+              child: ProfileWasherServiceTierCard(
+                packageName: l10n.profileWasherTierBasic,
+                priceLabel: '${l10n.profileWasherFieldPrice}: ${l10n.currencyFormat(basicPrice)}',
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );

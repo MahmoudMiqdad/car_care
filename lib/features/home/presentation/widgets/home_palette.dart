@@ -1,6 +1,4 @@
-// ألوان مرجعية خاصة بإعادة تصميم واجهة Home (HOME-UI-REDESIGN-01) فقط —
-// قيم Hex محددة صراحة في المرجع التصميمي ولا تطابق ثوابت AppColors الحالية،
-// لذا عُزلت هنا بدل تعديل الثيم المشترك (خارج نطاق هذه المهمة).
+
 import 'package:flutter/material.dart';
 
 class HomePalette {

@@ -1,5 +1,5 @@
-﻿import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
+﻿import 'package:car_care/core/extensions/theme_extension.dart'; // 🎯 استيراد امتداد الثيم لقراءة الخطوط الذكية
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/domain/entities/washers_entity.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/widgets/washer_avatar.dart';
 import 'package:flutter/material.dart';
@@ -28,20 +28,18 @@ class ReservationHeaderInfo extends StatelessWidget {
         Text(
           washer.shopName,
           textAlign: TextAlign.center,
-          style: AppTypography.headlineSmall.copyWith(
+          style: context.textTheme.headlineSmall!.copyWith(
             color: AppColors.black,
-            fontWeight: FontWeight.w800,
-            fontSize: 22.sp,
+            fontWeight: FontWeight.w800, // 🎯 الحفاظ على الوزن العريض مع جلب الحجم المترجم للغة تلقائياً
           ),
         ),
         SizedBox(height: 4.h),
         Text(
           locationText,
           textAlign: TextAlign.center,
-          style: AppTypography.bodySmall.copyWith(
-            color: AppColors.lightTextSecondary,
+          style: context.textTheme.bodySmall!.copyWith(
+            color: AppColors.textSecondary(context),
             fontWeight: FontWeight.w600,
-            fontSize: 14.sp,
           ),
         ),
       ],

@@ -5,11 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProviderEditProfileFieldIcon extends StatelessWidget {
-  const ProviderEditProfileFieldIcon({
-    super.key,
-    this.icon,
-    this.assetPath,
-  }) : assert(icon != null || assetPath != null);
+  const ProviderEditProfileFieldIcon({super.key, this.icon, this.assetPath})
+    : assert(icon != null || assetPath != null);
 
   final IconData? icon;
   final String? assetPath;
@@ -33,11 +30,7 @@ class ProviderEditProfileFieldIcon extends StatelessWidget {
         border: Border.all(color: AppColors.carWashTeal, width: 1.2),
       ),
       alignment: Alignment.center,
-      child: Icon(
-        icon,
-        color: AppColors.carWashTeal,
-        size: 22.sp,
-      ),
+      child: Icon(icon, color: AppColors.carWashTeal, size: 22.sp),
     );
   }
 }
@@ -104,7 +97,7 @@ class ProviderEditProfileInputField extends StatelessWidget {
                   maxLines: maxLines,
                   textAlign: TextAlign.start,
                   style: context.textTheme.bodyMedium?.copyWith(
-                    color: AppColors.lightTextSecondary,
+                    color: AppColors.textSecondary(context),
                     fontSize: 14.sp,
                     height: 1.45,
                     fontWeight: FontWeight.w500,
@@ -117,9 +110,9 @@ class ProviderEditProfileInputField extends StatelessWidget {
                     contentPadding: EdgeInsets.zero,
                     hintText: hint,
                     hintStyle: context.textTheme.bodyMedium?.copyWith(
-                      color: AppColors.lightTextSecondary.withValues(
-                        alpha: 0.55,
-                      ),
+                      color: AppColors.textSecondary(
+                        context,
+                      ).withValues(alpha: 0.55),
                       fontSize: 14.sp,
                       height: 1.45,
                       fontWeight: FontWeight.w500,
@@ -148,7 +141,7 @@ class ProviderEditProfileLocationNote extends StatelessWidget {
         text,
         textAlign: TextAlign.start,
         style: TextStyle(
-          color: AppColors.error,
+          color: AppColors.red,
           fontSize: 12.sp,
           fontWeight: FontWeight.w600,
           height: 1.4,

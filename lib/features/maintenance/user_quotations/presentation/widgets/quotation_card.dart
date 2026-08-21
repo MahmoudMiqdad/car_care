@@ -5,6 +5,7 @@ import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/maintenance/user_quotations/domain/entities/quotation_entity.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/request_detail_row.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_request_status_badge.dart';
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,6 +17,7 @@ class QuotationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final radius = AppConstants.maintenanceRequestCardRadius.r;
 
     return Container(
@@ -25,7 +27,7 @@ class QuotationCard extends StatelessWidget {
         border: Border.all(color: AppColors.carWashTeal, width: 1),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
+            color: AppColors.black.withValues(alpha: 0.06), 
             blurRadius: 10.r,
             offset: Offset(0, 4.h),
           ),
@@ -40,39 +42,38 @@ class QuotationCard extends StatelessWidget {
             child: IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                textDirection: TextDirection.rtl,
-                children: [
+                children: [ 
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         RequestDetailRow(
-                          label: 'الفني',
+                          label: l10n.technicianLabel, 
                           leading: const SosRequestRowAssetIcon(
                             assetPath: AppAssets.technicianJobVehicleIcon,
                           ),
                           value: quotation.technician.name,
                         ),
                         RequestDetailRow(
-                          label: 'السعر',
+                          label: l10n.price,
                           leading: const SosRequestRowAssetIcon(
                             assetPath: AppAssets.fuelOrderMoneyIcon,
                           ),
                           value: quotation.priceFormatted,
                         ),
                         RequestDetailRow(
-                          label: 'مدة الإصلاح',
+                          label: l10n.repairDurationLabel, 
                           leading: const SosRequestRowAssetIcon(
                             assetPath: AppAssets.calendarIcon,
                           ),
-                          value: '${quotation.estimatedDays} أيام',
+                          value: l10n.durationInDays(quotation.estimatedDays),
                         ),
                         RequestDetailRow(
-                          label: 'يشمل القطع',
+                          label: l10n.partsIncludedLabel, 
                           leading: const SosRequestRowAssetIcon(
                             assetPath: AppAssets.NotesIcon,
                           ),
-                          value: quotation.partsIncluded ? 'نعم' : 'لا',
+                          value: quotation.partsIncluded ? l10n.yes : l10n.no, 
                         ),
                       ],
                     ),
@@ -98,8 +99,8 @@ class QuotationCard extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 14.w),
             child: AppButton(
               onPressed: onTap ?? () {},
-              text: 'عرض التفاصيل',
-              backgroundColor: AppColors.orange,
+              text: l10n.sosRequestViewDetails, 
+              backgroundColor: AppColors.accent,
               textColor: AppColors.white,
               borderRadius: 15.r,
               height: 45.h,

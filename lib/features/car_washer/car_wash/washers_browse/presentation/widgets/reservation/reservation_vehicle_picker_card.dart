@@ -1,6 +1,7 @@
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_state.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,7 +20,7 @@ class ReservationVehiclePickerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Widget content;
-
+    final string = context.l10n;
     if (vehicleState is VehicleLoading || vehicleState is VehicleInitial) {
       content = Row(
         children: [
@@ -33,19 +34,19 @@ class ReservationVehiclePickerCard extends StatelessWidget {
           ),
           SizedBox(width: 10.w),
           Text(
-            'جارٍ تحميل مركباتك...',
-            style: TextStyle(fontSize: 14.sp, color: AppColors.lightTextSecondary),
+          string.loadingYourVehicles,
+            style: TextStyle(fontSize: 14.sp, color: AppColors.textSecondary(context)),
           ),
         ],
       );
     } else if (vehicleState is VehicleEmpty) {
       content = Row(
         children: [
-          Icon(Icons.info_outline, size: 18.sp, color: AppColors.orange),
+          Icon(Icons.info_outline, size: 18.sp, color: AppColors.accent),
           SizedBox(width: 8.w),
           Text(
-            'لا توجد مركبات مضافة',
-            style: TextStyle(fontSize: 14.sp, color: AppColors.orange),
+           string.noVehiclesAdded,
+            style: TextStyle(fontSize: 14.sp, color: AppColors.accent),
           ),
         ],
       );
@@ -74,11 +75,11 @@ class ReservationVehiclePickerCard extends StatelessWidget {
           SizedBox(width: 10.w),
           Expanded(
             child: Text(
-              'اختر مركبتك',
-              style: TextStyle(fontSize: 14.sp, color: AppColors.lightTextSecondary),
+             string.selectYourVehicle,
+              style: TextStyle(fontSize: 14.sp, color: AppColors.textSecondary(context)),
             ),
           ),
-          Icon(Icons.chevron_left_rounded, size: 20.sp, color: AppColors.lightTextSecondary),
+          Icon(Icons.chevron_left_rounded, size: 20.sp, color: AppColors.textSecondary(context)),
         ],
       );
     }
@@ -88,7 +89,7 @@ class ReservationVehiclePickerCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(14.r),
           border: Border.all(
             color: selectedVehicle != null ? AppColors.carWashTeal : Colors.grey.shade300,

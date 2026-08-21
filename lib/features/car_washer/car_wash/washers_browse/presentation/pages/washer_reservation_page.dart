@@ -1,8 +1,8 @@
-﻿import 'package:car_care/core/routing/navigation_x.dart';
+﻿import 'package:car_care/core/extensions/theme_extension.dart';
+import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/app_date_time_picker_row.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -69,16 +69,18 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
   }
 
   String _dateLabel(BuildContext context) {
+    final string = context.l10n;
     final d = _date;
-    if (d == null) return context.l10n.washerReservationPickDate;
+    if (d == null) return string.washerReservationPickDate;
     return DateFormat.yMMMd(
       Localizations.localeOf(context).toString(),
     ).format(d);
   }
 
   String _timeLabel(BuildContext context) {
+    final string = context.l10n;
     final t = _time;
-    if (t == null) return context.l10n.washerReservationPickTime;
+    if (t == null) return string.washerReservationPickTime;
     return '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}';
   }
 
@@ -110,6 +112,7 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
   }
 
   void _onConfirm(BuildContext ctx) {
+    final string = ctx.l10n;
     if (_selectedVehicle == null) {
       final vehicleState = _vehicleCubit.state;
       final hasNoVehicles =
@@ -117,13 +120,13 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
       AppSnackBar.error(
         ctx,
         hasNoVehicles
-            ? 'لا توجد مركبات لديك، يرجى إضافة مركبة أولاً من صفحة مركباتي'
-            : 'الرجاء اختيار المركبة',
+            ? string.washerNoVehiclesMessage
+            : string.washerSelectVehicleMessage,
       );
       return;
     }
     if (_date == null || _time == null) {
-      AppSnackBar.error(ctx, 'الرجاء اختيار التاريخ والوقت');
+      AppSnackBar.error(ctx, string.washerSelectDateTimeMessage);
       return;
     }
 
@@ -150,7 +153,7 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
+    final string = context.l10n;
     final washer = widget.washer;
     final tiers = reservationTiersToShow(washer);
 
@@ -171,8 +174,9 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
         child: BlocConsumer<CarWashBookingCubit, CarWashBookingState>(
           bloc: _bookingCubit,
           listener: (ctx, state) {
+            final string = ctx.l10n;
             if (state is CarWashBookingSuccess) {
-              AppSnackBar.success(ctx, 'تم الحجز بنجاح');
+              AppSnackBar.success(ctx, string.washerBookingSuccessMessage);
               ctx.go(Routes.washers);
               ctx.push(Routes.bookings);
             } else if (state is CarWashBookingError) {
@@ -183,7 +187,7 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
             final isLoading = bookingState is CarWashBookingSubmitting;
             return Scaffold(
               appBar: CustomAppBar(
-                title: l10n.washerReservationTitle,
+                title: string.washerReservationTitle,
                 showBackButton: true,
                 onBackTapped: () => context.safePopOrGo(Routes.washers),
                 backgroundColor: AppColors.carWashTeal,
@@ -227,30 +231,29 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
                           size: 20.sp,
                           color: AppColors.carWashTeal,
                         ),
-                        label: l10n.washerReservationFieldNotesLabel,
+                        label: string.washerReservationFieldNotesLabel,
                         controller: _notesController,
-                        hintText: l10n.washerReservationFieldNotesHint,
+                        hintText: string.washerReservationFieldNotesHint,
                         keyboardType: TextInputType.multiline,
                         minLines: 1,
                         maxLines: 2,
                       ),
                       SizedBox(height: 15.h),
                       Text(
-                        l10n.washerReservationChooseService,
-                        textAlign: TextAlign.right,
-                        style: AppTypography.bodyLarge.copyWith(
+                        string.washerReservationChooseService,
+                        style: context.textTheme.bodyLarge!.copyWith(
                           color: AppColors.black,
                           fontWeight: FontWeight.w800,
-                          fontSize: 19.sp,
                         ),
                       ),
+
                       SizedBox(height: 8.h),
                       Row(
                         children: <Widget>[
                           for (int i = 0; i < tiers.length; i++) ...<Widget>[
                             if (i > 0) SizedBox(width: 8.w),
                             ReservationServiceTierCard(
-                              title: _tierTitle(l10n, tiers[i]),
+                              title: _tierTitle(context.l10n, tiers[i]),
                               priceAmount: reservationTierPriceUsd(
                                 washer,
                                 tiers[i],
@@ -270,8 +273,8 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
                         const Center(child: CircularProgressIndicator())
                       else
                         ReservationActionButtonsRow(
-                          confirmText: l10n.washerReservationConfirm,
-                          cancelText: l10n.washerReservationCancel,
+                          confirmText: string.washerReservationConfirm,
+                          cancelText: string.washerReservationCancel,
                           onConfirm: () => _onConfirm(ctx),
                           onCancel: () => context.safePopOrGo(Routes.washers),
                         ),

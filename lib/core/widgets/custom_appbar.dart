@@ -120,7 +120,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
 
     if (showBackButton && leadingWidget == null) {
-      return Directionality(textDirection: TextDirection.ltr, child: appBar);
+      return appBar;
     }
     return appBar;
   }

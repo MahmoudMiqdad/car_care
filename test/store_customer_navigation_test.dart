@@ -1,5 +1,3 @@
-// اختبارات تنقل أقسام متجر قطع الغيار الرئيسية: منع تكديس الجذور، وتمييز
-// القسم الحالي، وغياب شريط التنقل من الشاشات الفرعية.
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/features/spare_parts_store/customer/cart/domain/repositories/i_cart_repository.dart';
@@ -97,7 +95,12 @@ void main() {
       await tester.pumpWidget(
         ScreenUtilInit(
           designSize: const Size(375, 812),
-          builder: (context, _) => MaterialApp.router(routerConfig: router),
+          builder: (context, _) => MaterialApp.router(
+            routerConfig: router,
+            locale: const Locale('ar'),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+          ),
         ),
       );
       await tester.pumpAndSettle();
@@ -184,7 +187,6 @@ void main() {
           ),
         ),
       );
-      // EmptyStateWidget animates forever، فلا نستخدم pumpAndSettle هنا.
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 50));
       await tester.pump(const Duration(milliseconds: 50));

@@ -1,12 +1,15 @@
 //مايا:مستقل تماما عن خريطة الفني ولكن نفس النمط فعليا
 
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+
 
 class CheckoutLocationPickerSheet extends StatefulWidget {
   const CheckoutLocationPickerSheet({super.key, this.initialLocation});
@@ -17,7 +20,7 @@ class CheckoutLocationPickerSheet extends StatefulWidget {
     return showModalBottomSheet<LatLng>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (_) =>
           CheckoutLocationPickerSheet(initialLocation: initialLocation),
     );
@@ -71,6 +74,8 @@ class _CheckoutLocationPickerSheetState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.85,
       decoration: BoxDecoration(
@@ -84,7 +89,7 @@ class _CheckoutLocationPickerSheetState
             width: 40.w,
             height: 4.h,
             decoration: BoxDecoration(
-              color: Colors.grey.shade300,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(2.r),
             ),
           ),
@@ -97,11 +102,11 @@ class _CheckoutLocationPickerSheetState
                 SizedBox(width: 8.w),
                 Flexible(
                   child: Text(
-                    'حدد موقع التوصيل',
+                    l10n.selectDeliveryLocationTitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTypography.labelLarge.copyWith(
-                      color: AppColors.lightTextPrimary,
+                    style:context.textTheme.labelLarge!.copyWith(
+                      color: AppColors.textPrimary(context),
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -124,8 +129,8 @@ class _CheckoutLocationPickerSheetState
                           color: AppColors.primary,
                         ),
                   label: Text(
-                    'موقعي',
-                    style: AppTypography.labelSmall.copyWith(
+                    l10n.myLocationLabel,
+                    style: context.textTheme.labelSmall!.copyWith(
                       color: AppColors.primary,
                     ),
                   ),
@@ -136,9 +141,9 @@ class _CheckoutLocationPickerSheetState
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: Text(
-              'حرّك الخريطة لتحديد موقع التوصيل',
-              style: AppTypography.labelSmall.copyWith(
-                color: AppColors.lightTextSecondary,
+              l10n.moveMapToPickLocation,
+              style: context.textTheme.labelSmall!.copyWith(
+                color: AppColors.textSecondary(context),
               ),
             ),
           ),
@@ -219,7 +224,7 @@ class _CheckoutLocationPickerSheetState
                       borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: AppColors.black.withOpacity(0.1),
                           blurRadius: 6,
                         ),
                       ],
@@ -229,7 +234,7 @@ class _CheckoutLocationPickerSheetState
                       '${_pickedLocation.longitude.toStringAsFixed(5)}',
                       style: TextStyle(
                         fontSize: 11.sp,
-                        color: Colors.grey.shade700,
+                        color: AppColors.gray,
                         fontFamily: 'monospace',
                       ),
                     ),
@@ -258,8 +263,8 @@ class _CheckoutLocationPickerSheetState
                   ),
                   icon: Icon(Icons.check_circle_outline, size: 20.sp),
                   label: Text(
-                    'تأكيد الموقع',
-                    style: AppTypography.labelLarge.copyWith(
+                    l10n.confirmLocationButton,
+                    style: context.textTheme.labelLarge!.copyWith(
                       color: AppColors.white,
                       fontWeight: FontWeight.w700,
                     ),

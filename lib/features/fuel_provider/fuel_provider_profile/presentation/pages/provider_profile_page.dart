@@ -64,75 +64,72 @@ class _ProviderProfilePageState extends State<ProviderProfilePage> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.lightScaffold,
-        appBar: CustomAppBar(
-          title: l10n.providerProfilePageTitle,
-          showBackButton: true,
-          backgroundColor: AppColors.carWashTeal,
-          onBackTapped: () => context.safePopOrGo(Routes.more),
-        ),
-        body: BlocConsumer<FuelProviderProfileCubit, FuelProviderProfileState>(
-          listener: (context, state) {
-            if (state is FuelProviderProfileError) {
-              final msg = state.message.toLowerCase();
-              final isNotFound = msg.contains('404') ||
-                  msg.contains('not found') ||
-                  msg.contains('غير موجود') ||
-                  msg.contains('لم');
-              if (isNotFound) {
-                context.go(Routes.provider_create_profile);
-              } else {
-                AppSnackBar.error(context, state.message);
-              }
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground(context),
+      appBar: CustomAppBar(
+        title: l10n.providerProfilePageTitle,
+        showBackButton: true,
+        backgroundColor: AppColors.carWashTeal,
+        onBackTapped: () => context.safePopOrGo(Routes.more),
+      ),
+      body: BlocConsumer<FuelProviderProfileCubit, FuelProviderProfileState>(
+        listener: (context, state) {
+          if (state is FuelProviderProfileError) {
+            final msg = state.message.toLowerCase();
+            final isNotFound = msg.contains('404') ||
+                msg.contains('not found') ||
+                msg.contains('غير موجود') ||
+                msg.contains('لم');
+            if (isNotFound) {
+              context.go(Routes.provider_create_profile);
+            } else {
+              AppSnackBar.error(context, state.message);
             }
-          },
-          builder: (context, state) {
-            if (state is FuelProviderProfileLoading) {
-              return const Center(child: AppLoadingWidget());
+          }
+        },
+        builder: (context, state) {
+          if (state is FuelProviderProfileLoading) {
+            return const Center(child: AppLoadingWidget());
+          }
+    
+          if (state is FuelProviderProfileLoaded) {
+            final gate = buildProviderStatusGate(
+              state.profile.status,
+              state.profile.rejectionReason,
+            );
+            if (gate != null) return gate;
+            return _buildBody(context, state.profile);
+          }
+    
+          // بعد updateAvailability أو updatePrices نستخدم currentProfile
+          if (state is FuelProviderAvailabilityUpdated ||
+              state is FuelProviderPricesUpdated) {
+            final profile =
+                context.read<FuelProviderProfileCubit>().currentProfile;
+            if (profile != null) {
+              return _buildBody(context, profile);
             }
-
-            if (state is FuelProviderProfileLoaded) {
-              final gate = buildProviderStatusGate(
-                state.profile.status,
-                state.profile.rejectionReason,
-              );
-              if (gate != null) return gate;
-              return _buildBody(context, state.profile);
-            }
-
-            // بعد updateAvailability أو updatePrices نستخدم currentProfile
-            if (state is FuelProviderAvailabilityUpdated ||
-                state is FuelProviderPricesUpdated) {
-              final profile =
-                  context.read<FuelProviderProfileCubit>().currentProfile;
-              if (profile != null) {
-                return _buildBody(context, profile);
-              }
-            }
-
-            if (state is FuelProviderProfileError) {
-              return Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(state.message),
-                    SizedBox(height: 12.h),
-                    TextButton(
-                      onPressed: () =>
-                          context.read<FuelProviderProfileCubit>().myProfile(),
-                      child: const Text('إعادة المحاولة'),
-                    ),
-                  ],
-                ),
-              );
-            }
-
-            return const SizedBox();
-          },
-        ),
+          }
+    
+          if (state is FuelProviderProfileError) {
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(state.message),
+                  SizedBox(height: 12.h),
+                  TextButton(
+                    onPressed: () =>
+                        context.read<FuelProviderProfileCubit>().myProfile(),
+                    child: const Text('إعادة المحاولة'),
+                  ),
+                ],
+              ),
+            );
+          }
+    
+          return const SizedBox();
+        },
       ),
     );
   }

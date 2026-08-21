@@ -1,4 +1,4 @@
-// مسؤول عن عرض بطاقة إعلان واحدة وإتاحة فتح رابطها الخارجي عند صحته فقط.
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
@@ -70,7 +70,7 @@ class AdvertisementCard extends StatelessWidget {
               height: scaledHeight,
               fit: BoxFit.cover,
               placeholder: (context, url) => ColoredBox(
-                color: Colors.black.withValues(alpha: 0.04),
+                color: AppColors.black,
                 child: Center(
                   child: SizedBox(
                     width: 22.r,
@@ -80,10 +80,10 @@ class AdvertisementCard extends StatelessWidget {
                 ),
               ),
               errorWidget: (context, url, error) => ColoredBox(
-                color: AppColors.lightSurface,
+                color: AppColors.cardBackground(context),
                 child: Icon(
                   Icons.broken_image_outlined,
-                  color: AppColors.lightTextSecondary,
+                  color: AppColors.textSecondary(context),
                   size: 26.sp,
                 ),
               ),
@@ -100,8 +100,8 @@ class AdvertisementCard extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.transparent,
-                        Colors.black.withValues(alpha: 0.65),
+                       AppColors.transparent,
+                       AppColors.black
                       ],
                     ),
                   ),
@@ -110,7 +110,7 @@ class AdvertisementCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.white,
                       fontSize: 15.sp,
                       fontWeight: FontWeight.w700,
                     ),
@@ -129,7 +129,7 @@ class AdvertisementCard extends StatelessWidget {
       excludeSemantics: true,
       child: tappable
           ? Material(
-              color: Colors.transparent,
+              color: AppColors.transparent,
               borderRadius: radius,
               child: InkWell(
                 borderRadius: radius,

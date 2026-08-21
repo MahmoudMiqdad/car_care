@@ -1,5 +1,6 @@
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/dashed_border_box.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,9 +12,10 @@ class AddPhotoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(5),
+      borderRadius: BorderRadius.circular(cardRadius.r),
       child: DashedBorderBox(
         color: AppColors.primary,
         borderRadius: cardRadius,
@@ -25,7 +27,7 @@ class AddPhotoTile extends StatelessWidget {
             children: [
               Icon(Icons.add, color: AppColors.primary, size: 16.sp),
               Text(
-                'إضافة',
+                l10n.add,
                 style: TextStyle(
                   fontSize: 13.sp,
                   fontWeight: FontWeight.w700,

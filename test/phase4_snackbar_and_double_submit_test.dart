@@ -97,43 +97,49 @@ void main() {
   });
 
   group('QuotationsCubit — accept/reject reentry guards', () {
-    test('two concurrent acceptQuotation calls only hit the repository once', () async {
-      final repo = MockQuotationsRepository();
-      var callCount = 0;
-      when(
-        () => repo.acceptQuotation(any(), any(), any()),
-      ).thenAnswer((_) async {
-        callCount++;
-        await Future<void>.delayed(const Duration(milliseconds: 30));
-        return const Left(_err);
-      });
-      final cubit = QuotationsCubit(repo);
+    test(
+      'two concurrent acceptQuotation calls only hit the repository once',
+      () async {
+        final repo = MockQuotationsRepository();
+        var callCount = 0;
+        when(() => repo.acceptQuotation(any(), any(), any())).thenAnswer((
+          _,
+        ) async {
+          callCount++;
+          await Future<void>.delayed(const Duration(milliseconds: 30));
+          return const Left(_err);
+        });
+        final cubit = QuotationsCubit(repo);
 
-      final first = cubit.acceptQuotation(const {}, '1', '1');
-      final second = cubit.acceptQuotation(const {}, '1', '1');
-      await Future.wait([first, second]);
+        final first = cubit.acceptQuotation(const {}, '1', '1');
+        final second = cubit.acceptQuotation(const {}, '1', '1');
+        await Future.wait([first, second]);
 
-      expect(callCount, 1);
-      await cubit.close();
-    });
+        expect(callCount, 1);
+        await cubit.close();
+      },
+    );
 
-    test('two concurrent rejectQuotation calls only hit the repository once', () async {
-      final repo = MockQuotationsRepository();
-      var callCount = 0;
-      when(() => repo.rejectQuotation(any(), any())).thenAnswer((_) async {
-        callCount++;
-        await Future<void>.delayed(const Duration(milliseconds: 30));
-        return const Left(_err);
-      });
-      final cubit = QuotationsCubit(repo);
+    test(
+      'two concurrent rejectQuotation calls only hit the repository once',
+      () async {
+        final repo = MockQuotationsRepository();
+        var callCount = 0;
+        when(() => repo.rejectQuotation(any(), any())).thenAnswer((_) async {
+          callCount++;
+          await Future<void>.delayed(const Duration(milliseconds: 30));
+          return const Left(_err);
+        });
+        final cubit = QuotationsCubit(repo);
 
-      final first = cubit.rejectQuotation('سبب', '1');
-      final second = cubit.rejectQuotation('سبب', '1');
-      await Future.wait([first, second]);
+        final first = cubit.rejectQuotation('سبب', '1');
+        final second = cubit.rejectQuotation('سبب', '1');
+        await Future.wait([first, second]);
 
-      expect(callCount, 1);
-      await cubit.close();
-    });
+        expect(callCount, 1);
+        await cubit.close();
+      },
+    );
   });
 
   group('CarWashBookingCubit.createBooking — reentry guard', () {
@@ -174,91 +180,94 @@ void main() {
     });
   });
 
-  group('SelectTriggerField-backed submit buttons — disabled while loading', () {
-    testWidgets('CreateSosBody disables submit and the vehicle/province rows '
-        'when isLoading is true', (tester) async {
-      var vehicleTapped = false;
-      var submitTapped = false;
+  group(
+    'SelectTriggerField-backed submit buttons — disabled while loading',
+    () {
+      testWidgets('CreateSosBody disables submit and the vehicle/province rows '
+          'when isLoading is true', (tester) async {
+        var vehicleTapped = false;
+        var submitTapped = false;
 
-      await _pumpWithApp(
-        tester,
-        Directionality(
-          textDirection: TextDirection.rtl,
-          child: CreateSosBody(
-            descriptionController: TextEditingController(),
-            vehicleValue: 'Kia Rio',
-            provinceValue: 'دمشق',
-            onPickVehicle: () => vehicleTapped = true,
-            onPickProvince: () {},
-            onSubmit: () => submitTapped = true,
-            isLoading: true,
+        await _pumpWithApp(
+          tester,
+          Directionality(
+            textDirection: TextDirection.rtl,
+            child: CreateSosBody(
+              descriptionController: TextEditingController(),
+              vehicleValue: 'Kia Rio',
+              provinceValue: 'دمشق',
+              onPickVehicle: () => vehicleTapped = true,
+              onPickProvince: () {},
+              onSubmit: () => submitTapped = true,
+              isLoading: true,
+            ),
           ),
-        ),
-      );
+        );
 
-      await tester.tap(find.byIcon(Icons.directions_car_outlined));
-      expect(vehicleTapped, isFalse);
+        await tester.tap(find.byIcon(Icons.directions_car_outlined));
+        expect(vehicleTapped, isFalse);
 
-      await tester.tap(find.textContaining('جاري الإرسال'));
-      expect(submitTapped, isFalse);
-    });
+        await tester.tap(find.textContaining('جاري التنفيذ'));
+        expect(submitTapped, isFalse);
+      });
 
-    testWidgets('FuelSosCreateBody submit button is disabled while isLoading '
-        'and enabled again once isLoading is false', (tester) async {
-      var submitCount = 0;
+      testWidgets('FuelSosCreateBody submit button is disabled while isLoading '
+          'and enabled again once isLoading is false', (tester) async {
+        var submitCount = 0;
 
-      await _pumpWithApp(
-        tester,
-        Directionality(
-          textDirection: TextDirection.rtl,
-          child: FuelSosCreateBody(
-            vehicleValue: 'Kia Rio',
-            fuelTypeValue: '95',
-            provinceValue: 'دمشق',
-            quantityController: TextEditingController(text: '10'),
-            notesController: TextEditingController(),
-            onPickVehicle: () {},
-            onPickFuelType: () {},
-            onPickProvince: () {},
-            onSubmit: () => submitCount++,
-            isLoading: true,
+        await _pumpWithApp(
+          tester,
+          Directionality(
+            textDirection: TextDirection.rtl,
+            child: FuelSosCreateBody(
+              vehicleValue: 'Kia Rio',
+              fuelTypeValue: '95',
+              provinceValue: 'دمشق',
+              quantityController: TextEditingController(text: '10'),
+              notesController: TextEditingController(),
+              onPickVehicle: () {},
+              onPickFuelType: () {},
+              onPickProvince: () {},
+              onSubmit: () => submitCount++,
+              isLoading: true,
+            ),
           ),
-        ),
-      );
+        );
 
-      final loadingButton = tester.widget<ElevatedButton>(
-        find.byType(ElevatedButton),
-      );
-      expect(loadingButton.onPressed, isNull);
+        final loadingButton = tester.widget<ElevatedButton>(
+          find.byType(ElevatedButton),
+        );
+        expect(loadingButton.onPressed, isNull);
 
-      await _pumpWithApp(
-        tester,
-        Directionality(
-          textDirection: TextDirection.rtl,
-          child: FuelSosCreateBody(
-            vehicleValue: 'Kia Rio',
-            fuelTypeValue: '95',
-            provinceValue: 'دمشق',
-            quantityController: TextEditingController(text: '10'),
-            notesController: TextEditingController(),
-            onPickVehicle: () {},
-            onPickFuelType: () {},
-            onPickProvince: () {},
-            onSubmit: () => submitCount++,
-            isLoading: false,
+        await _pumpWithApp(
+          tester,
+          Directionality(
+            textDirection: TextDirection.rtl,
+            child: FuelSosCreateBody(
+              vehicleValue: 'Kia Rio',
+              fuelTypeValue: '95',
+              provinceValue: 'دمشق',
+              quantityController: TextEditingController(text: '10'),
+              notesController: TextEditingController(),
+              onPickVehicle: () {},
+              onPickFuelType: () {},
+              onPickProvince: () {},
+              onSubmit: () => submitCount++,
+              isLoading: false,
+            ),
           ),
-        ),
-      );
+        );
 
-      final enabledButton = tester.widget<ElevatedButton>(
-        find.byType(ElevatedButton),
-      );
-      expect(enabledButton.onPressed, isNotNull);
+        final enabledButton = tester.widget<ElevatedButton>(
+          find.byType(ElevatedButton),
+        );
+        expect(enabledButton.onPressed, isNotNull);
 
-      enabledButton.onPressed!();
-      expect(submitCount, 1);
-    });
-  });
+        enabledButton.onPressed!();
+        expect(submitCount, 1);
+      });
+    },
+  );
 
   group('AppSnackBar', () {
     testWidgets('success shows a green snackbar with the check icon', (
@@ -359,8 +368,7 @@ void main() {
                   value: cubit,
                   child: ValueListenableBuilder<int>(
                     valueListenable: rebuildNotifier,
-                    builder: (_, _, _) =>
-                        const ProviderAvailableOrdersPage(),
+                    builder: (_, _, _) => const ProviderAvailableOrdersPage(),
                   ),
                 ),
               ),
@@ -386,23 +394,20 @@ void main() {
   );
 
   group('VehicleRepositoryImpl.addVehicle — no raw exception leakage', () {
-    test(
-      'a client-side exception (missing image bytes/name) maps to the safe '
-      'generic fallback, never the raw exception text',
-      () async {
-        final repo = VehicleRepositoryImpl(
-          VehicleRemoteDataSource(MockApiService()),
-        );
+    test('a client-side exception (missing image bytes/name) maps to the safe '
+        'generic fallback, never the raw exception text', () async {
+      final repo = VehicleRepositoryImpl(
+        VehicleRemoteDataSource(MockApiService()),
+      );
 
-        final result = await repo.addVehicle(const {});
+      final result = await repo.addVehicle(const {});
 
-        expect(result.isLeft(), isTrue);
-        result.fold((failure) {
-          expect(failure.message, 'حدث خطأ غير متوقع');
-          expect(failure.message.contains('Exception'), isFalse);
-          expect(failure.message.contains('Instance of'), isFalse);
-        }, (_) => fail('expected a Left'));
-      },
-    );
+      expect(result.isLeft(), isTrue);
+      result.fold((failure) {
+        expect(failure.message, 'حدث خطأ غير متوقع');
+        expect(failure.message.contains('Exception'), isFalse);
+        expect(failure.message.contains('Instance of'), isFalse);
+      }, (_) => fail('expected a Left'));
+    });
   });
 }

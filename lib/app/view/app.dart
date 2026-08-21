@@ -3,12 +3,12 @@ import 'package:car_care/core/locale/locale_cubit.dart';
 import 'package:car_care/core/routing/app_router.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_theme.dart';
+import 'package:car_care/core/theme/theme_cubit.dart';
 import 'package:car_care/features/notifications/presentation/cubit/notifications_cubit.dart';
 import 'package:car_care/l10n/gen/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -18,9 +18,10 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<LocaleCubit>.value(value: getIt<LocaleCubit>()),
-        // Provided at the app root (not per-page) so the unread badge in
-        // HomeBottomNavBar keeps working across tab navigation.
-        BlocProvider<NotificationsCubit>.value(value: getIt<NotificationsCubit>()),
+        BlocProvider<ThemeCubit>.value(value: getIt<ThemeCubit>()),
+        BlocProvider<NotificationsCubit>.value(
+          value: getIt<NotificationsCubit>(),
+        ),
       ],
       child: const _AppView(),
     );
@@ -39,27 +40,32 @@ class _AppView extends StatelessWidget {
       builder: (context, widget) {
         return BlocBuilder<LocaleCubit, Locale>(
           builder: (context, locale) {
-            return MediaQuery(
-              data: MediaQuery.of(context).copyWith(
-                textScaler: TextScaler.noScaling,
-              ),
-              child: MaterialApp.router(
-                title: AppConstants.appName,
-                debugShowCheckedModeBanner: false,
-                locale: locale,
-                theme: AppTheme.createTheme(
-                  isDark: false,
-                  languageCode: locale.languageCode,
-                ),
-                darkTheme: AppTheme.createTheme(
-                  isDark: true,
-                  languageCode: locale.languageCode,
-                ),
-                themeMode: ThemeMode.light,
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
-                supportedLocales: AppLocalizations.supportedLocales,
-                routerConfig: AppRouter.router,
-              ),
+            return BlocBuilder<ThemeCubit, ThemeMode>(
+              builder: (context, themeMode) {
+                return MediaQuery(
+                  data: MediaQuery.of(
+                    context,
+                  ).copyWith(textScaler: TextScaler.noScaling),
+                  child: MaterialApp.router(
+                    title: AppConstants.appName,
+                    debugShowCheckedModeBanner: false,
+                    locale: locale,
+                    theme: AppTheme.createTheme(
+                      isDark: false,
+                      languageCode: locale.languageCode,
+                    ),
+                    darkTheme: AppTheme.createTheme(
+                      isDark: true,
+                      languageCode: locale.languageCode,
+                    ),
+                    themeMode: themeMode,
+                    localizationsDelegates:
+                        AppLocalizations.localizationsDelegates,
+                    supportedLocales: AppLocalizations.supportedLocales,
+                    routerConfig: AppRouter.router,
+                  ),
+                );
+              },
             );
           },
         );

@@ -1,714 +1,615 @@
 {
   "@@locale": "en",
   "@@context": "CarCare App - English Translations",
-  
   "counterAppBarTitle": "Counter",
   "@counterAppBarTitle": {
     "description": "Text shown in the AppBar of the Counter Page"
   },
-  
   "appTitle": "CarCare Services",
   "@appTitle": {
     "description": "Application title"
   },
-      "fuelProvider": "Fuel Provider",
+  "fuelProvider": "Fuel Provider",
   "@fuelProvider": {
     "description": "Fuel Provider"
   },
-  
+  "maintenanceRequestsTitle": "Maintenance Requests",
+  "totalRequestsLabel": "Total Requests",
+  "uploadLogoLabel": "Upload Logo",
+  "vehicleOwnerWithParamLabel": "Owner: {name}",
+  "@vehicleOwnerWithParamLabel": {
+    "description": "Displays the vehicle owner name dynamically",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "roleTechnician": "Technician",
+  "roleCarWasher": "Car Wash",
+  "roleFuelProvider": "Fuel Provider",
+  "roleShopOwner": "Shop Owner",
+  "roleCustomer": "Customer",
+  "myServicesAsProvider": "My Services as Provider",
+  "joinAsServiceProvider": "Join as Service Provider",
+  "applyAsTechnician": "Apply as Technician",
+  "registerCarWash": "Register Car Wash",
+  "registerAsFuelProvider": "Register as Fuel Provider",
+  "openSparePartsShop": "Open Spare Parts Shop",
+  "maintenanceRequests": "Maintenance Requests",
+  "technicianProfile": "Technician Profile",
+  "myJobs": "My Jobs",
+  "availableSosRequests": "Available SOS Requests",
+  "acceptedSosRequests": "Accepted SOS Requests",
+  "myStatistics": "My Statistics",
+  "myInvoices": "My Invoices",
+  "carWashProfile": "Car Wash Profile",
+  "bookings": "Bookings",
+  "statistics": "Statistics",
+  "fuelProviderProfile": "Fuel Provider Profile",
+  "fuelOrders": "Fuel Orders",
+  "shareLocation": "Share Location",
+  "shopProfile": "Shop Profile",
+  "shopOrders": "Shop Orders",
+  "shopProducts": "Shop Products",
+  "shopSpecializations": "Shop Specializations",
+  "optionsTitle": "Options",
+  "skip": "Skip",
+  "next": "Next",
+  "getStarted": "Get Started",
+  "onboardingTitleMaintenance": "Smart Car Maintenance",
+  "onboardingSubtitleMaintenance": "Track your vehicle's service history, get timely reminders, and request maintenance with just a tap.",
+  "onboardingTitleEmergency": "Emergency Roadside Help",
+  "onboardingSubtitleEmergency": "Stuck on the road? Send an SOS and get a certified technician to your location in minutes.",
+  "onboardingTitleAllInOne": "All-in-One Car Services",
+  "onboardingSubtitleAllInOne": "Fuel delivery, car wash, marketplace and more — everything your car needs, in one app.",
+  "washerSelectProvinceMessage": "Please select a province",
+  "enableLocationPrompt": "Please enable location services",
+  "locationErrorPrefix": "Location error",
+  "requestSentSuccess": "Request sent successfully ✓",
+  "cancelSosQuestion": "What is the reason for cancelling the request?",
+  "cancelSosHint": "Enter the reason for cancelling the emergency request here...",
+  "trackTechnician": "Track Technician",
+  "searchingForTechnicianTitle": "Searching for Technician",
+  "searchingForTechnicianSubtitle": "Finding the nearest available technician for you, please wait a moment",
+  "createdAgoLabel": "Created {time} ago",
+  "@createdAgoLabel": {
+    "description": "Displays when the request was created relative to now",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "technicianOnWayLiveTracking": "Technician is on the way - live tracking",
+  "waitingForLocationUpdate": "Waiting for location update...",
+  "distanceLabel": "Distance",
+  "cartPageTitle": "Shopping Cart",
+  "checkoutButton": "Checkout",
+  "confirmOrderTitle": "Confirm Order",
+  "orderCreatedSuccessfully": "Order created successfully",
+  "orderTotalLabel": "Order Total",
+  "currencySyp": "SYP",
+  "pleaseSelectDeliveryLocation": "Please select the delivery location on the map",
+  "pleaseEnterAddressNote": "Please enter an address note",
+  "confirmOrderButton": "Confirm Order",
+  "addressNoteLabel": "Address Note",
+  "addressNoteHint": "e.g., street name, building number, apartment, or nearby landmark",
+  "deliveryLocationLabel": "Delivery Location",
+  "selectLocationFromMapHint": "Select location from map",
+  "locationSelectedBadge": "Selected",
+  "changeLocationButton": "Change Location",
   "appName": "CarCare",
   "@appName": {
     "description": "Application name"
   },
   "noAvailableRequests": "No requests available at the moment",
-"@noAvailableRequests": {
-  "description": "Shown when there are no SOS requests available for the technician"
-},
+  "@noAvailableRequests": {
+    "description": "Shown when there are no SOS requests available for the technician"
+  },
   "welcome": "Welcome",
   "@welcome": {
     "description": "Welcome message"
   },
-  
   "welcomeBack": "Welcome Back",
   "@welcomeBack": {
     "description": "Welcome back message"
   },
-  
   "login": "Login",
   "@login": {
     "description": "Login button"
   },
-  
   "register": "Register",
   "@register": {
     "description": "Register button"
   },
-  
   "logout": "Logout",
   "@logout": {
     "description": "Logout button"
   },
-  
   "username": "Username",
   "@username": {
     "description": "Username field"
   },
-  
   "password": "Password",
   "@password": {
     "description": "Password field"
   },
-  
   "confirmPassword": "Confirm Password",
   "@confirmPassword": {
     "description": "Confirm password field"
   },
-  
   "phoneNumber": "Phone Number",
   "@phoneNumber": {
     "description": "Phone number field"
   },
-  
   "fullName": "Full Name",
   "@fullName": {
     "description": "Full name field"
   },
-  
   "email": "Email",
   "@email": {
     "description": "Email field"
   },
-  
   "submit": "Submit",
   "@submit": {
     "description": "Submit button"
   },
-  
   "cancel": "Cancel",
   "@cancel": {
     "description": "Cancel button"
   },
-  
   "save": "Save",
   "@save": {
     "description": "Save button"
   },
-  
   "edit": "Edit",
   "@edit": {
     "description": "Edit button"
   },
-  
   "delete": "Delete",
   "@delete": {
     "description": "Delete button"
   },
-  
   "close": "Close",
   "@close": {
     "description": "Close button"
   },
-  
   "back": "Back",
   "@back": {
     "description": "Back button"
   },
-  
-  "next": "Next",
   "@next": {
     "description": "Next button"
   },
-  
   "done": "Done",
   "@done": {
     "description": "Done button"
   },
-  
   "retry": "Retry",
   "@retry": {
     "description": "Retry button"
   },
-  
   "refresh": "Refresh",
   "@refresh": {
     "description": "Refresh button"
   },
-  
   "search": "Search",
   "@search": {
     "description": "Search button"
   },
-  
   "filter": "Filter",
   "@filter": {
     "description": "Filter button"
   },
-  
   "forgotPassword": "Forgot Password?",
   "@forgotPassword": {
     "description": "Forgot password link"
   },
-  
   "alreadyHaveAccount": "Already have an account?",
   "@alreadyHaveAccount": {
     "description": "Already have account text"
   },
-  
   "dontHaveAccount": "Don't have an account?",
   "@dontHaveAccount": {
     "description": "Don't have account text"
   },
-  
   "createAccount": "Create New Account",
   "@createAccount": {
     "description": "Create new account button"
   },
-  
   "otpVerification": "OTP Verification",
   "@otpVerification": {
     "description": "OTP verification page title"
   },
-  
   "enterOtp": "Enter Verification Code",
   "@enterOtp": {
     "description": "Enter verification code message"
   },
-  
   "otpSent": "Verification code sent to",
   "@otpSent": {
     "description": "OTP sent message"
   },
-  
   "resendOtp": "Resend Code",
   "@resendOtp": {
     "description": "Resend code button"
   },
-  
   "resendOtpIn": "Resend in",
   "@resendOtpIn": {
     "description": "Resend in message"
   },
-  
   "verify": "Verify",
   "@verify": {
     "description": "Verify button"
   },
-  
   "home": "Home",
   "@home": {
     "description": "Home page"
   },
-  
   "schedules": "Service Appointments",
   "@schedules": {
     "description": "Schedules page"
   },
-  
   "complaints": "Car Issues",
   "@complaints": {
     "description": "Complaints page"
   },
-  
   "profile": "Profile",
   "@profile": {
     "description": "Profile page"
   },
-  
   "mySchedules": "My Appointments",
   "@mySchedules": {
     "description": "My schedules"
   },
-  
   "upcomingSchedules": "Upcoming Appointments",
   "@upcomingSchedules": {
     "description": "Upcoming schedules"
   },
-  
   "nextPumpingSchedule": "Next Service Appointment",
   "@nextPumpingSchedule": {
     "description": "Next pumping schedule"
   },
-  
   "scheduleDetails": "Appointment Details",
   "@scheduleDetails": {
     "description": "Schedule details"
   },
-  
   "viewAllSchedules": "View All Appointments",
   "@viewAllSchedules": {
     "description": "View all schedules button"
   },
-  
   "startTime": "Start Time",
   "@startTime": {
     "description": "Start time"
   },
-  
   "endTime": "End Time",
   "@endTime": {
     "description": "End time"
   },
-  
   "actualStartTime": "Actual Start Time",
   "@actualStartTime": {
     "description": "Actual start time"
   },
-  
   "actualEndTime": "Actual End Time",
   "@actualEndTime": {
     "description": "Actual end time"
   },
-  
   "status": "Status",
   "@status": {
     "description": "Status"
   },
-  
   "notes": "Notes",
   "@notes": {
     "description": "Notes"
   },
-  
   "createdBy": "Created By",
   "@createdBy": {
     "description": "Created by"
   },
-  
   "scheduled": "Scheduled",
   "@scheduled": {
     "description": "Status: Scheduled"
   },
-  
   "active": "In Progress",
   "@active": {
     "description": "Status: Active"
   },
-  
   "completed": "Completed",
   "@completed": {
     "description": "Status: Completed"
   },
-  
   "cancelled": "Cancelled",
   "@cancelled": {
     "description": "Status: Cancelled"
   },
-  
   "startsIn": "Starts in",
   "@startsIn": {
     "description": "Starts in"
   },
-  
   "activeNow": "Active Now",
   "@activeNow": {
     "description": "Active now"
   },
-  
   "endedAgo": "Ended",
   "@endedAgo": {
     "description": "Ended ago"
   },
-  
   "today": "Today",
   "@today": {
     "description": "Today"
   },
-  
   "thisWeek": "This Week",
   "@thisWeek": {
     "description": "This week"
   },
-  
   "thisMonth": "This Month",
   "@thisMonth": {
     "description": "This month"
   },
-  
   "dateRange": "Date Range",
   "@dateRange": {
     "description": "Date range"
   },
-  
   "selectDateRange": "Select Date Range",
   "@selectDateRange": {
     "description": "Select date range"
   },
-  
   "myComplaints": "My Car Issues",
   "@myComplaints": {
     "description": "My complaints"
   },
-  
   "submitComplaint": "Report Issue",
   "@submitComplaint": {
     "description": "Submit complaint button"
   },
-  
   "complaintDetails": "Issue Details",
   "@complaintDetails": {
     "description": "Complaint details"
   },
-  
   "complaintTitle": "Issue Title",
   "@complaintTitle": {
     "description": "Complaint title"
   },
-  
   "complaintDescription": "Issue Description",
   "@complaintDescription": {
     "description": "Complaint description"
   },
-  
   "complaintCategory": "Issue Category",
   "@complaintCategory": {
     "description": "Complaint category"
   },
-  
   "selectCategory": "Select Category",
   "@selectCategory": {
     "description": "Select category"
   },
-  
   "noWater": "Engine Issue",
   "@noWater": {
     "description": "Complaint category: Engine Issue"
   },
-  
   "waterQuality": "Tire Issue",
   "@waterQuality": {
     "description": "Complaint category: Tire Issue"
   },
-  
   "lowPressure": "Battery Issue",
   "@lowPressure": {
     "description": "Complaint category: Battery Issue"
   },
-  
   "scheduleIssue": "Service Delay",
   "@scheduleIssue": {
     "description": "Complaint category: Service Delay"
   },
-  
   "other": "Other",
   "@other": {
     "description": "Complaint category: Other"
   },
-  
   "pending": "Pending",
   "@pending": {
     "description": "Complaint status: Pending"
   },
-
-  "requestStatusPending": "Pending",
-  "@requestStatusPending": {
-    "description": "Maintenance request status filter tab: pending"
-  },
-  "requestStatusAccepted": "Accepted",
-  "@requestStatusAccepted": {
-    "description": "Maintenance request status filter tab: accepted"
-  },
-  "requestStatusCompleted": "Completed",
-  "@requestStatusCompleted": {
-    "description": "Maintenance request status filter tab: completed"
-  },
-  "requestStatusAll": "All",
-  "@requestStatusAll": {
-    "description": "Maintenance request status filter tab: all"
-  },
-
-  "orderStatusAll": "All",
-  "@orderStatusAll": {
-    "description": "Spare parts order status filter tab: all"
-  },
-  "orderStatusPending": "Pending",
-  "@orderStatusPending": {
-    "description": "Spare parts order status filter tab: pending"
-  },
-  "orderStatusAccepted": "Accepted",
-  "@orderStatusAccepted": {
-    "description": "Spare parts order status filter tab: accepted"
-  },
-  "orderStatusProcessing": "Processing",
-  "@orderStatusProcessing": {
-    "description": "Spare parts order status filter tab: processing"
-  },
-  "orderStatusOutForDelivery": "Out for Delivery",
-  "@orderStatusOutForDelivery": {
-    "description": "Spare parts order status filter tab: out for delivery"
-  },
-  "orderStatusDelivered": "Delivered",
-  "@orderStatusDelivered": {
-    "description": "Spare parts order status filter tab: delivered"
-  },
-  "orderStatusRejected": "Rejected",
-  "@orderStatusRejected": {
-    "description": "Spare parts order status filter tab: rejected"
-  },
-  "orderStatusCancelled": "Cancelled",
-  "@orderStatusCancelled": {
-    "description": "Spare parts order status filter tab: cancelled"
-  },
-
-  "bookingStatusAll": "All",
-  "@bookingStatusAll": {
-    "description": "Booking status filter tab: all"
-  },
-
   "inProgress": "In Progress",
   "@inProgress": {
     "description": "Complaint status: In progress"
   },
-  
   "resolved": "Resolved",
   "@resolved": {
     "description": "Complaint status: Resolved"
   },
-  
   "rejected": "Rejected",
   "@rejected": {
     "description": "Complaint status: Rejected"
   },
-  
   "adminResponse": "Service Response",
   "@adminResponse": {
     "description": "Admin response"
   },
-  
   "handledBy": "Handled By",
   "@handledBy": {
     "description": "Handled by"
   },
-  
   "handledAt": "Handled At",
   "@handledAt": {
     "description": "Handled at"
   },
-  
   "createdAt": "Created At",
   "@createdAt": {
     "description": "Created at"
   },
-  
   "updatedAt": "Updated At",
   "@updatedAt": {
     "description": "Updated at"
   },
-  
   "complaintSubmitted": "Issue Reported Successfully",
   "@complaintSubmitted": {
     "description": "Complaint submitted success message"
   },
-  
   "region": "Service Center",
   "@region": {
     "description": "Region"
   },
-  
   "unit": "Unit",
   "@unit": {
     "description": "Unit"
   },
-  
   "neighborhood": "Neighborhood",
   "@neighborhood": {
     "description": "Neighborhood"
   },
-  
   "zone": "Zone",
   "@zone": {
     "description": "Zone"
   },
-  
   "selectRegion": "Select Service Center",
   "@selectRegion": {
     "description": "Select region"
   },
-  
   "selectUnit": "Select Unit",
   "@selectUnit": {
     "description": "Select unit"
   },
-  
   "selectNeighborhood": "Select Neighborhood",
   "@selectNeighborhood": {
     "description": "Select neighborhood"
   },
-  
   "selectZone": "Select Zone",
   "@selectZone": {
     "description": "Select zone"
   },
-  
   "location": "Location",
   "@location": {
     "description": "Location"
   },
-  
   "selectLocation": "Select Location",
   "@selectLocation": {
     "description": "Select location"
   },
-  
   "clearSelection": "Clear Selection",
   "@clearSelection": {
     "description": "Clear selection"
   },
-  
   "myProfile": "My Profile",
   "@myProfile": {
     "description": "My profile"
   },
-  
   "editProfile": "Edit Profile",
   "@editProfile": {
     "description": "Edit profile"
   },
-  
   "profileUpdated": "Profile Updated Successfully",
   "@profileUpdated": {
     "description": "Profile updated success message"
   },
-  
   "role": "Role",
   "@role": {
     "description": "Role"
   },
-  
   "admin": "Admin",
   "@admin": {
     "description": "Role: Admin"
   },
-  
   "operator": "Operator",
   "@operator": {
     "description": "Role: Operator"
   },
-  
   "citizen": "Customer",
   "@citizen": {
     "description": "Role: Customer"
   },
-  
   "defaultLocation": "Default Location",
   "@defaultLocation": {
     "description": "Default location"
   },
-  
   "watchedLocation": "Watched Location",
   "@watchedLocation": {
     "description": "Watched location"
   },
-  
   "loading": "Loading...",
   "@loading": {
     "description": "Loading message"
   },
-  
   "error": "Error",
   "@error": {
     "description": "Error"
   },
-  
   "errorOccurred": "An Error Occurred",
   "@errorOccurred": {
     "description": "Error occurred message"
   },
-  
   "networkError": "Network Connection Error",
   "@networkError": {
     "description": "Network error"
   },
-  
   "serverError": "Server Error",
   "@serverError": {
     "description": "Server error"
   },
-  
   "noInternetConnection": "No Internet Connection",
   "@noInternetConnection": {
     "description": "No internet connection"
   },
-  
   "tryAgain": "Try Again",
   "@tryAgain": {
     "description": "Try again"
   },
-  
   "noData": "No Data",
   "@noData": {
     "description": "No data"
   },
-  
   "noSchedules": "No Appointments",
   "@noSchedules": {
     "description": "No schedules"
   },
-  
   "noComplaints": "No Reported Issues",
   "@noComplaints": {
     "description": "No complaints"
   },
-  
   "noSchedulesMessage": "No service appointments at the moment",
   "@noSchedulesMessage": {
     "description": "No schedules message"
   },
-  
   "noComplaintsMessage": "You haven't reported any issues yet",
   "@noComplaintsMessage": {
     "description": "No complaints message"
   },
-  
   "pullToRefresh": "Pull to Refresh",
   "@pullToRefresh": {
     "description": "Pull to refresh"
   },
-  
   "releaseToRefresh": "Release to Refresh",
   "@releaseToRefresh": {
     "description": "Release to refresh"
   },
-  
   "loadMore": "Load More",
   "@loadMore": {
     "description": "Load more"
   },
-  
   "quickActions": "Quick Actions",
   "@quickActions": {
     "description": "Quick actions"
   },
-  
   "viewSchedules": "View Appointments",
   "@viewSchedules": {
     "description": "View schedules"
   },
-  
   "requiredField": "This field is required",
   "@requiredField": {
     "description": "Required field message"
   },
-  
   "invalidPhoneNumber": "Invalid phone number",
   "@invalidPhoneNumber": {
     "description": "Invalid phone number message"
   },
-  
   "invalidEmail": "Invalid email address",
   "@invalidEmail": {
     "description": "Invalid email message"
   },
-  
   "passwordTooShort": "Password too short (minimum 6 characters)",
   "@passwordTooShort": {
     "description": "Password too short message"
   },
-  
   "passwordsDoNotMatch": "Passwords do not match",
   "@passwordsDoNotMatch": {
     "description": "Passwords do not match message"
   },
-  
   "maxCharacters": "Maximum {max} characters",
   "@maxCharacters": {
     "description": "Maximum characters message",
@@ -718,7 +619,6 @@
       }
     }
   },
-  
   "charactersRemaining": "{count} characters remaining",
   "@charactersRemaining": {
     "description": "Characters remaining message",
@@ -728,1042 +628,1463 @@
       }
     }
   },
-  
   "loginSuccess": "Login Successful",
   "@loginSuccess": {
     "description": "Login success message"
   },
-  
   "registrationSuccess": "Registration Successful",
   "@registrationSuccess": {
     "description": "Registration success message"
   },
-  
   "logoutConfirmation": "Are you sure you want to logout?",
   "@logoutConfirmation": {
     "description": "Logout confirmation message"
   },
-  
   "yes": "Yes",
   "@yes": {
     "description": "Yes"
   },
-  
   "no": "No",
   "@no": {
     "description": "No"
   },
-  
   "confirm": "Confirm",
   "@confirm": {
     "description": "Confirm"
   },
-  
   "language": "Language",
   "@language": {
     "description": "Language"
   },
-  
   "changeLanguage": "Change Language",
   "@changeLanguage": {
     "description": "Change language"
   },
-  
   "arabic": "العربية",
   "@arabic": {
     "description": "Arabic language"
   },
-  
   "english": "English",
   "@english": {
     "description": "English language"
   },
-  
   "settings": "Settings",
   "@settings": {
     "description": "Settings"
   },
-  
   "about": "About",
   "@about": {
     "description": "About"
   },
-  
   "version": "Version",
   "@version": {
     "description": "Version"
   },
-  
   "contactUs": "Contact Us",
   "@contactUs": {
     "description": "Contact us"
   },
-  
   "appNameAr": "CarCareX",
   "@appNameAr": {
     "description": "Application name in Arabic"
   },
-  
   "splashScreen": "Splash Screen",
   "@splashScreen": {
     "description": "Splash screen"
   },
-  
   "profileSetup": "Profile Setup",
   "@profileSetup": {
     "description": "Profile setup"
   },
-  
   "myVehicles": "My Vehicles",
   "@myVehicles": {
     "description": "My vehicles"
   },
-  
   "addVehicle": "Add Vehicle",
   "@addVehicle": {
     "description": "Add vehicle"
   },
-  
   "editVehicle": "Edit Vehicle",
   "@editVehicle": {
     "description": "Edit vehicle"
   },
-  
   "vehicleDetails": "Vehicle Details",
   "@vehicleDetails": {
     "description": "Vehicle details"
   },
-  
   "maintenanceHistory": "Maintenance History",
   "@maintenanceHistory": {
     "description": "Maintenance history"
   },
-  
   "vinNumber": "VIN Number",
   "@vinNumber": {
     "description": "VIN number"
   },
-  
   "plateNumber": "Plate Number",
   "@plateNumber": {
     "description": "Plate number"
   },
-  
   "brand": "Brand",
   "@brand": {
     "description": "Brand"
   },
-  
   "model": "Model",
   "@model": {
     "description": "Model"
   },
-  
   "year": "Year",
   "@year": {
     "description": "Year"
   },
-  
   "maintenance": "Maintenance",
   "@maintenance": {
     "description": "Maintenance"
   },
-  
   "maintenanceRequest": "Maintenance Request",
   "@maintenanceRequest": {
     "description": "Maintenance request"
   },
-  
   "serviceType": "Service Type",
   "@serviceType": {
     "description": "Service type"
   },
-  
   "oilChange": "Oil Change",
   "@oilChange": {
     "description": "Oil change"
   },
-  
   "inspection": "Inspection",
   "@inspection": {
     "description": "Inspection"
   },
-  
   "repair": "Repair",
   "@repair": {
     "description": "Repair"
   },
-  
   "technicianOffers": "Technician Offers",
   "@technicianOffers": {
     "description": "Technician offers"
   },
-  
   "requestStatus": "Request Status",
   "@requestStatus": {
     "description": "Request status"
   },
-  
   "rateService": "Rate Service",
   "@rateService": {
     "description": "Rate service"
   },
-  
   "emergencySOS": "Emergency SOS",
   "@emergencySOS": {
     "description": "Emergency SOS"
   },
-  
   "sosButton": "SOS Button",
   "@sosButton": {
     "description": "SOS button"
   },
-  
   "emergencyStatus": "Emergency Status",
   "@emergencyStatus": {
     "description": "Emergency status"
   },
-  
   "carWash": "Car Wash",
   "@carWash": {
     "description": "Car wash"
   },
-  
   "bookCarWash": "Book Car Wash",
   "@bookCarWash": {
     "description": "Book car wash"
   },
-  
   "washBookingStatus": "Booking Status",
   "@washBookingStatus": {
     "description": "Wash booking status"
   },
-  
   "centerWash": "Center Wash",
   "@centerWash": {
     "description": "Center wash"
   },
-  
   "mobileWash": "Mobile Wash",
   "@mobileWash": {
     "description": "Mobile wash"
   },
-  
   "basicWash": "Basic Wash",
   "@basicWash": {
     "description": "Basic wash"
   },
-  
   "premiumWash": "Premium Wash",
   "@premiumWash": {
     "description": "Premium wash"
   },
-  
   "fullWash": "Full Wash",
   "@fullWash": {
     "description": "Full wash"
   },
-  
   "marketplace": "Marketplace",
   "@marketplace": {
     "description": "Marketplace"
   },
-  
   "products": "Products",
   "@products": {
     "description": "Products"
   },
-  
   "productDetails": "Product Details",
   "@productDetails": {
     "description": "Product details"
   },
-  
   "cart": "Cart",
   "@cart": {
     "description": "Cart"
   },
-  
   "orderStatus": "Order Status",
   "@orderStatus": {
     "description": "Order status"
   },
-  
   "addToCart": "Add to Cart",
   "@addToCart": {
     "description": "Add to cart"
   },
-  
   "checkout": "Checkout",
   "@checkout": {
     "description": "Checkout"
   },
-  
   "subtotal": "Subtotal",
   "@subtotal": {
     "description": "Subtotal"
   },
-  
   "total": "Total",
   "@total": {
     "description": "Total"
   },
-  
   "rentX": "Rent Cars",
   "@rentX": {
     "description": "Rent cars"
   },
-  
   "availableCars": "Available Cars",
   "@availableCars": {
     "description": "Available cars"
   },
-  
   "daily": "Daily",
   "@daily": {
     "description": "Daily"
   },
-  
   "weekly": "Weekly",
   "@weekly": {
     "description": "Weekly"
   },
-  
   "monthly": "Monthly",
   "@monthly": {
     "description": "Monthly"
   },
-  
   "rentalPeriod": "Rental Period",
   "@rentalPeriod": {
     "description": "Rental period"
   },
-  
   "startDate": "Start Date",
   "@startDate": {
     "description": "Start date"
   },
-  
   "endDate": "End Date",
   "@endDate": {
     "description": "End date"
   },
-  
   "bookNow": "Book Now",
   "@bookNow": {
     "description": "Book now"
   },
-  
   "sellX": "Sell Cars",
   "@sellX": {
     "description": "Sell cars"
   },
-  
   "sellListings": "Sell Listings",
   "@sellListings": {
     "description": "Sell listings"
   },
-  
   "myListings": "My Listings",
   "@myListings": {
     "description": "My listings"
   },
-  
   "publishListing": "Publish Listing",
   "@publishListing": {
     "description": "Publish listing"
   },
-  
   "contactSeller": "Contact Seller",
   "@contactSeller": {
     "description": "Contact seller"
   },
-  
   "fuelX": "Fuel Delivery",
   "@fuelX": {
     "description": "Fuel delivery"
   },
-  
   "fuelRequest": "Fuel Request",
   "@fuelRequest": {
     "description": "Fuel request"
   },
-  
   "fuelType": "Fuel Type",
   "@fuelType": {
     "description": "Fuel type"
   },
-  
   "gasoline91": "Gasoline 91",
   "@gasoline91": {
     "description": "Gasoline 91"
   },
-  
   "gasoline95": "Gasoline 95",
   "@gasoline95": {
     "description": "Gasoline 95"
   },
-  
   "diesel": "Diesel",
   "@diesel": {
     "description": "Diesel"
   },
-  
   "quantity": "Quantity",
   "@quantity": {
     "description": "Quantity"
   },
-  
   "liters": "Liters",
   "@liters": {
     "description": "Liters"
   },
-  
   "fuelOrderStatus": "Fuel Order Status",
   "@fuelOrderStatus": {
     "description": "Fuel order status"
   },
-  
   "carOwner": "Car Owner",
   "@carOwner": {
     "description": "Car owner"
   },
-  
   "technician": "Technician",
   "@technician": {
     "description": "Technician"
   },
-  
   "accept": "Accept",
   "@accept": {
     "description": "Accept"
   },
-  
   "reject": "Reject",
   "@reject": {
     "description": "Reject"
   },
-  
   "proceed": "Proceed",
   "@proceed": {
     "description": "Proceed"
   },
-  
   "continueButton": "Continue",
   "@continueButton": {
     "description": "Continue"
   },
-  
   "select": "Select",
   "@select": {
     "description": "Select"
   },
-  
   "choose": "Choose",
   "@choose": {
     "description": "Choose"
   },
-  
   "onTheWay": "On The Way",
   "@onTheWay": {
     "description": "On the way"
   },
-  
   "arrived": "Arrived",
   "@arrived": {
     "description": "Arrived"
   },
-  
   "delivered": "Delivered",
   "@delivered": {
     "description": "Delivered"
   },
-  
   "assigned": "Assigned",
   "@assigned": {
     "description": "Assigned"
   },
-  
   "requested": "Requested",
   "@requested": {
     "description": "Requested"
   },
-  
   "loadingData": "Loading data...",
   "@loadingData": {
     "description": "Loading data"
   },
-  
   "noVehicles": "No Vehicles",
   "@noVehicles": {
     "description": "No vehicles"
   },
-  
   "noOffers": "No Offers",
   "@noOffers": {
     "description": "No offers"
   },
-  
   "noListings": "No Listings",
   "@noListings": {
     "description": "No listings"
   },
-  
   "success": "Success",
   "@success": {
     "description": "Success"
   },
-  
   "failed": "Failed",
   "@failed": {
     "description": "Failed"
   },
-  
   "currentLocation": "Current Location",
   "@currentLocation": {
     "description": "Current location"
   },
-  
   "useCurrentLocation": "Use My Current Location",
   "@useCurrentLocation": {
     "description": "Use my current location"
   },
-  
   "enterAddress": "Enter Address",
   "@enterAddress": {
     "description": "Enter address"
   },
-  
   "city": "City",
   "@city": {
     "description": "City"
   },
-  
   "pickImage": "Pick Image",
   "@pickImage": {
     "description": "Pick image"
   },
-  
   "camera": "Camera",
   "@camera": {
     "description": "Camera"
   },
-  
   "gallery": "Gallery",
   "@gallery": {
     "description": "Gallery"
   },
-  
   "profilePhoto": "Profile Photo",
   "@profilePhoto": {
     "description": "Profile photo"
   },
-  
   "notifications": "Notifications",
   "@notifications": {
     "description": "Notifications"
   },
-  
   "more": "More",
   "@more": {
     "description": "More"
   },
-  
   "searchProducts": "Search products...",
   "@searchProducts": {
     "description": "Search products"
   },
-  
   "searchCars": "Search cars...",
   "@searchCars": {
     "description": "Search cars"
   },
-  
   "sortBy": "Sort By",
   "@sortBy": {
     "description": "Sort by"
   },
-  
   "priceLowHigh": "Price: Low to High",
   "@priceLowHigh": {
     "description": "Price: Low to High"
   },
-  
   "priceHighLow": "Price: High to Low",
   "@priceHighLow": {
     "description": "Price: High to Low"
   },
-  
   "selectDate": "Select Date",
   "@selectDate": {
     "description": "Select date"
   },
-  
   "selectTime": "Select Time",
   "@selectTime": {
     "description": "Select time"
   },
-  
   "timeSlot": "Time Slot",
   "@timeSlot": {
     "description": "Time slot"
   },
-  
   "now": "Now",
   "@now": {
     "description": "Now"
   },
-  
   "schedule": "Schedule",
   "@schedule": {
     "description": "Schedule"
   },
-  
   "price": "Price",
   "@price": {
     "description": "Price"
   },
-  
   "cost": "Cost",
   "@cost": {
     "description": "Cost"
   },
-  
   "estimatedPrice": "Estimated Price",
   "@estimatedPrice": {
     "description": "Estimated price"
   },
-  
   "rating": "Rating",
   "@rating": {
     "description": "Rating"
   },
-  
   "stars": "Stars",
   "@stars": {
     "description": "Stars"
   },
-  
   "leaveComment": "Leave Comment",
   "@leaveComment": {
     "description": "Leave comment"
   },
-  
   "userType": "User Type",
   "@userType": {
     "description": "User type"
   },
-  
   "userProfile": "User Profile",
   "@userProfile": {
     "description": "User profile"
   },
-  
   "validationError": "Validation Error",
   "@validationError": {
     "description": "Validation error"
   },
-  
   "fieldRequired": "This field is required",
   "@fieldRequired": {
     "description": "Field required"
   },
-  
   "invalidInput": "Invalid Input",
   "@invalidInput": {
     "description": "Invalid input"
   },
-  
   "optional": "Optional",
   "@optional": {
     "description": "Optional"
   },
-  
   "required": "Required",
   "@required": {
     "description": "Required"
   },
-  
   "description": "Description",
   "@description": {
     "description": "Description"
   },
-  
   "problemDetails": "Problem Details",
   "@problemDetails": {
     "description": "Problem details"
   },
-  
   "attachPhotos": "Attach Photos",
   "@attachPhotos": {
     "description": "Attach photos"
   },
-  
   "summary": "Summary",
   "@summary": {
     "description": "Summary"
   },
-  
   "orderSummary": "Order Summary",
   "@orderSummary": {
     "description": "Order summary"
   },
-  
   "bookingSummary": "Booking Summary",
   "@bookingSummary": {
     "description": "Booking summary"
   },
-   
   "readySummary": "Ready to get back on the road?",
   "@readySummary": {
     "description": "Ready to get back on the road?"
   },
-"editPassword": "Edit Password",
-"@editPassword": {
-"description": "Edit Password"
-},
-"savePassword": "Save Password",
-"@savePassword": {
-"description": "Save Password"
-},
-"deleteAccount": "Delete Account",
-"@deleteAccount": {
-"description": "Delete Account"
-},
-
-"creating": "Creating...",
-"@creating": {
-"description": "Creating..."
-},
-
-"enterFirstName": "Enter first name",
-"@enterFirstName": {
-"description": "Enter first name"
-},
-"enterEmail": "Enter email",
-"@enterEmail": {
-"description": "Enter email"
-},
-"enterPassword": "Enter password",
-"@enterPassword": {
-"description": "Enter password"
-},
-"passwordMinLength": "Password must be at least 6 characters",
-"@passwordMinLength": {
-"description": "Password must be at least 6 characters"
-},
-"reEnterPassword": "Re-enter password",
-"@reEnterPassword": {
-"description": "Re-enter password"
-},
-"addVehicleImage": "Add vehicle image",
-"@addVehicleImage": {
-"description": "Add vehicle image"
-},
-"tapToSelectImage": "Tap to select image",
-"@tapToSelectImage": {
-"description": "Tap to select image"
-},
-"selectVehicleImage": "Please select a vehicle image",
-"@selectVehicleImage": {
-"description": "Please select a vehicle image"
-},
-"fillAllFields": "Please fill in all fields",
-"@fillAllFields": {
-"description": "Please fill in all fields"
-},
-"vehicleAddedSuccess": "Vehicle added successfully",
-"@vehicleAddedSuccess": {
-"description": "Vehicle added successfully"
-},
-"odometer": "Odometer",
-"@odometer": {
-"description": "Odometer"
-},
-"licensePlateNumberFull": "License plate number",
-"@licensePlateNumberFull": {
-"description": "License plate number"
-},
-"serviceRecords": "Service records",
-"@serviceRecords": {
-"description": "Service records"
-},
-"fuelRecords": "Fuel records",
-"@fuelRecords": {
-"description": "Fuel records"
-},
-"plate": "Plate",
-"@plate": {
-"description": "Plate"
-},
-"currentPassword": "Current password",
-"@currentPassword": {
-"description": "Current password"
-},
-"newPassword": "New password",
-"@newPassword": {
-"description": "New password"
-},
-
-"createYourAccount": "Create Your Account",
-"@createYourAccount": {
-"description": "Create Your Account"
-},
-"carReadyMessage": "We’re here to keep your car in top shape. Are you ready?",
-"@carReadyMessage": {
-"description": "Welcome message"
-},
-
-
-
-"sos": "SOS",
-"@sos": {
-"description": "Emergency button"
-},
-
-"fuel": "Fuel",
-"@fuel": {
-"description": "Fuel"
-},
-
-"notification": "Notifications",
-"@notification": {
-"description": "Notifications"
-},
-"messages": "Messages",
-"@messages": {
-"description": "Messages"
-},
-"changedpasswordsuccessfully": "The password has been successfully changed.",
-"@changedpasswordsuccessfully": {
-"description": "The password has been successfully changed."
-},
-
+  "editPassword": "Edit Password",
+  "@editPassword": {
+    "description": "Edit Password"
+  },
+  "savePassword": "Save Password",
+  "@savePassword": {
+    "description": "Save Password"
+  },
+  "deleteAccount": "Delete Account",
+  "@deleteAccount": {
+    "description": "Delete Account"
+  },
+  "creating": "Creating...",
+  "@creating": {
+    "description": "Creating..."
+  },
+  "enterFirstName": "Enter first name",
+  "@enterFirstName": {
+    "description": "Enter first name"
+  },
+  "enterEmail": "Enter email",
+  "@enterEmail": {
+    "description": "Enter email"
+  },
+  "enterPassword": "Enter password",
+  "@enterPassword": {
+    "description": "Enter password"
+  },
+  "passwordMinLength": "Password must be at least 6 characters",
+  "@passwordMinLength": {
+    "description": "Password must be at least 6 characters"
+  },
+  "reEnterPassword": "Re-enter password",
+  "@reEnterPassword": {
+    "description": "Re-enter password"
+  },
+  "addVehicleImage": "Add vehicle image",
+  "@addVehicleImage": {
+    "description": "Add vehicle image"
+  },
+  "tapToSelectImage": "Tap to select image",
+  "@tapToSelectImage": {
+    "description": "Tap to select image"
+  },
+  "selectVehicleImage": "Please select a vehicle image",
+  "@selectVehicleImage": {
+    "description": "Please select a vehicle image"
+  },
+  "fillAllFields": "Please fill in all fields",
+  "@fillAllFields": {
+    "description": "Please fill in all fields"
+  },
+  "vehicleAddedSuccess": "Vehicle added successfully",
+  "@vehicleAddedSuccess": {
+    "description": "Vehicle added successfully"
+  },
+  "odometer": "Odometer",
+  "@odometer": {
+    "description": "Odometer"
+  },
+  "licensePlateNumberFull": "License plate number",
+  "@licensePlateNumberFull": {
+    "description": "License plate number"
+  },
+  "serviceRecords": "Service records",
+  "@serviceRecords": {
+    "description": "Service records"
+  },
+  "fuelRecords": "Fuel records",
+  "@fuelRecords": {
+    "description": "Fuel records"
+  },
+  "plate": "Plate",
+  "@plate": {
+    "description": "Plate"
+  },
+  "currentPassword": "Current password",
+  "@currentPassword": {
+    "description": "Current password"
+  },
+  "newPassword": "New password",
+  "@newPassword": {
+    "description": "New password"
+  },
+  "createYourAccount": "Create Your Account",
+  "@createYourAccount": {
+    "description": "Create Your Account"
+  },
+  "carReadyMessage": "We’re here to keep your car in top shape. Are you ready?",
+  "@carReadyMessage": {
+    "description": "Welcome message"
+  },
+  "sos": "SOS",
+  "@sos": {
+    "description": "Emergency button"
+  },
+  "fuel": "Fuel",
+  "@fuel": {
+    "description": "Fuel"
+  },
+  "notification": "Notifications",
+  "@notification": {
+    "description": "Notifications"
+  },
+  "messages": "Messages",
+  "@messages": {
+    "description": "Messages"
+  },
+  "changedpasswordsuccessfully": "The password has been successfully changed.",
+  "@changedpasswordsuccessfully": {
+    "description": "The password has been successfully changed."
+  },
   "enterphone": "Enter Phone",
   "@enterphone": {
     "description": "Enter Phone"
   },
-  "thepasswordsdonotmatch":" The passwords do not match.",
+  "thepasswordsdonotmatch": " The passwords do not match.",
   "@thepasswordsdonotmatch": {
     "description": "The passwords do not match."
   },
-  
   "activeorders": "Active Orders ",
   "@activeorders": {
-    "description":"Active Orders"
+    "description": "Active Orders"
   },
   "saveandfollow": "Save and follow",
   "@saveandfollow": {
-    "description":"Save and follow"
+    "description": "Save and follow"
   },
   "savevehicle": "Save Vehicle",
   "@Save Vehicle": {
-    "description":"Save Vehicle"
-
+    "description": "Save Vehicle"
   },
   "parts": "Spare Parts",
   "@parts": {
-    "description":"Spare Parts"
-
-  }  ,
-  
+    "description": "Spare Parts"
+  },
   "details": " عرض التفاصيل",
   "@details": {
-    "description":"عرض التفاصيل"
-
+    "description": "عرض التفاصيل"
   },
   "updateCarsList": "Updating car list...",
-"@updateCarsList": {
-  "description": "Text shown while updating or loading the cars list"
-},
-"noCarsYet": "No cars yet",
-"@noCarsYet": {
-  "description": "Message shown when there are no cars added"
-},
-"vehicleUpdatedSuccessfully": "Vehicle updated successfully",
-"@vehicleUpdatedSuccessfully": {
-  "description": "Message shown after successfully updating a vehicle"
-},
-"saveChanges": "Save changes",
-"@saveChanges": {
-  "description": "Button to save changes"
-},
-
-"saving": "Saving...",
-"@saving": {
-  "description": "Text shown while saving data"
-},
-
-"updateVehicle": "Update Vehicle",
-"@updateVehicle": {
-  "description": "Title or button for updating a vehicle"
-},
-
-"deleteVehicle": "Delete Vehicle",
-"@deleteVehicle": {
-  "description": "Button to delete a vehicle"
-},
-
-"confirmDeleteTitle": "Confirm Deletion",
-"@confirmDeleteTitle": {
-  "description": "Title of delete confirmation dialog"
-},
-
-"confirmDeleteMessage": "Are you sure you want to delete this vehicle?\nThis action cannot be undone.",
-"@confirmDeleteMessage": {
-  "description": "Warning message before deleting a vehicle"
-}
-,
-"owner": "Owner",
-"@owner": {
-  "description": "Owner label in vehicle details page"
-},
-
-
-
-"km": "km",
-"@km": {
-  "description": "Unit for kilometers"
-},
-
-
-
-"maintenanceRecord": "Maintenance Record",
-"@maintenanceRecord": {
-  "description": "Title of maintenance record"
-},
-
-"fuelRecord": "Fuel Record",
-"@fuelRecord": {
-  "description": "Title of fuel record"
-},
-
-"alertsRecord": "Alerts Record",
-"@alertsRecord": {
-  "description": "Title of alerts record"
-},
-
-"statistics": "Statistics",
-"@statistics": { "description": "Statistics page title" },
-
-"totalJobs": "Total jobs",
-"@totalJobs": { "description": "Total jobs count" },
-
-"assignedJobs": "Assigned",
-"@assignedJobs": { "description": "Assigned jobs count" },
-
-"inProgressJobs": "In progress",
-"@inProgressJobs": { "description": "In progress jobs count" },
-
-"completedJobs": "Completed",
-"@completedJobs": { "description": "Completed jobs count" },
-
-"totalQuotations": "Total quotations",
-"@totalQuotations": { "description": "Total quotations count" },
-
-"pendingQuotations": "Pending quotations",
-"@pendingQuotations": { "description": "Pending quotations count" },
-
-"acceptedQuotations": "Accepted quotations",
-"@acceptedQuotations": { "description": "Accepted quotations count" },
-
-"totalRatings": "Total ratings",
-"@totalRatings": { "description": "Total ratings count" },
-
-"deleteProfile": "Delete Profile",
-"@deleteProfile": {"description":"Title of delete profile dialog"},
-
-"confirmDeleteProfileTitle": "Confirm Deletion",
-"@confirmDeleteProfileTitle": {"description":"Delete confirmation button"},
-
-"confirmDeleteProfileMessage": "Are you sure you want to delete your account?\nThis action cannot be undone.",
-"@confirmDeleteProfileMessage": {"description":"Warning message before deleting profile"},
-
-
-"profileDeletedSuccessfully": "Profile deleted successfully",
-"@profileDeletedSuccessfully": {"description":"Message shown after successful deletion"},
-"enterPhone": "Please enter phone number",
-"@enterPhone": {
-  "description": "Message shown when the phone field is left empty"
-},
-
-"invalidPhone": "Invalid phone number",
-"@invalidPhone": {
-  "description": "Message shown when the phone number is incorrect or incomplete"
-},
-
-"enterAsTechnician": "Enter as technician",
-"@enterAsTechnician": {
-  "description": "Action to open the technician profile flow from the More tab"
-},
-
-"washersPageTitle": "Car washes",
-"@washersPageTitle": {
-  "description": "App bar title for the car wash directory list"
-},
-"washersByCity": "By city",
-"@washersByCity": {
-  "description": "Car wash list filter: choose by city"
-},
-"washersBookAppointment": "Book an appointment",
-"@washersBookAppointment": {
-  "description": "Button to book a car wash appointment"
-},
-"washersViewDetails": "View details",
-"@washersViewDetails": {
-  "description": "Button to open car wash details"
-},
-"washersCityWithName": "City: {cityName}",
-"@washersCityWithName": {
-  "description": "Line showing the city of a car wash",
-  "placeholders": {
-    "cityName": { "type": "String" }
-  }
-},
-"washersRatingsWithCount": "Ratings: {count}",
-"@washersRatingsWithCount": {
-  "description": "Line showing how many ratings a car wash has",
-  "placeholders": {
-    "count": { "type": "int" }
-  }
-},
-"washerTierBasic": "BASIC",
-"@washerTierBasic": { "description": "Service tier label: basic" },
-"washerTierVip": "VIP",
-"@washerTierVip": { "description": "Service tier label: VIP" },
-"washerTierPremium": "PREMIUM",
-  "@washerTierPremium": { "description": "Service tier label: premium" },
+  "@updateCarsList": {
+    "description": "Text shown while updating or loading the cars list"
+  },
+  "noCarsYet": "No cars yet",
+  "@noCarsYet": {
+    "description": "Message shown when there are no cars added"
+  },
+  "vehicleUpdatedSuccessfully": "Vehicle updated successfully",
+  "@vehicleUpdatedSuccessfully": {
+    "description": "Message shown after successfully updating a vehicle"
+  },
+  "saveChanges": "Save changes",
+  "@saveChanges": {
+    "description": "Button to save changes"
+  },
+  "saving": "Saving...",
+  "@saving": {
+    "description": "Text shown while saving data"
+  },
+  "updateVehicle": "Update Vehicle",
+  "@updateVehicle": {
+    "description": "Title or button for updating a vehicle"
+  },
+  "deleteVehicle": "Delete Vehicle",
+  "@deleteVehicle": {
+    "description": "Button to delete a vehicle"
+  },
+  "failedToLoadAds": "Failed to load advertisements",
+  "@failedToLoadAds": {
+    "description": "Error message shown when ads cannot be loaded"
+  },
+  "invalidInputData": "Invalid data input",
+  "@invalidInputData": {
+    "description": "Error message when the user enters incorrect or invalid data in a form"
+  },
+  "deliveryTrackingTitle": "Delivery Tracking",
+  "selectDeliveryLocationTitle": "Select Delivery Location",
+  "myLocationLabel": "My Location",
+  "moveMapToPickLocation": "Move the map to pick the delivery location",
+  "confirmLocationButton": "Confirm Location",
+  "invoiceDetails": "Invoice Details",
+  "@invoiceDetails": {
+    "description": "Title for invoice details page"
+  },
+  "processingStatusLabel": "Processing",
+  "outForDeliveryStatusLabel": "Out for Delivery",
+  "deliveredStatusLabel": "Delivered",
+  "rejectedStatusLabel": "Rejected",
+  "allRequestsTitle": "My Orders",
+  "@allRequestsTitle": {
+    "description": "General title for my requests or my orders screen across different sections"
+  },
+  "shopLabel": "Shop",
+  "@shopLabel": {
+    "description": "Label for the store or shop section"
+  },
+  "noProductsAvailable": "No products available",
+  "@noProductsAvailable": {
+    "description": "Text shown when there are no items inside the order or list"
+  },
+  "plusMoreProductsLabel": "+{count} more items",
+  "@plusMoreProductsLabel": {
+    "description": "Displays how many additional products are in the order",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quantityLabel": "Quantity",
+  "addToCartWithPriceLabel": "Add to Cart — {price}",
+  "@addToCartWithPriceLabel": {
+    "description": "Text inside add to cart button containing the total formatted price",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "inStockStatus": "In Stock",
+  "outOfStockStatus": "Out of Stock",
+  "productConditionLabel": "Condition: {condition}",
+  "@productConditionLabel": {
+    "placeholders": {
+      "condition": {
+        "type": "String"
+      }
+    }
+  },
+  "productCategoryLabel": "Category: {category}",
+  "@productCategoryLabel": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "productCarBrandLabel": "Car Brand: {brand}",
+  "@productCarBrandLabel": {
+    "placeholders": {
+      "brand": {
+        "type": "String"
+      }
+    }
+  },
+  "discountPercentLabel": "{percent}% OFF",
+  "@discountPercentLabel": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "inStockWithCountLabel": "In Stock ({count} items)",
+  "@inStockWithCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shopsTitle": "Shops",
+  "cartLabel": "Cart",
+  "shopDetailsPageTitle": "Shop Information",
+  "businessTypeLabel": "Business Type",
+  "carBrandsLabel": "Car Brands",
+  "partCategoriesLabel": "Part Categories",
+  "shopStorefrontPageTitle": "Shop Storefront",
+  "sparePartsStoreTitle": "Spare Parts Store",
+  "shareDeliveryLocationTitle": "Share Delivery Location",
+  "startProcessingButton": "Start Processing",
+  "startDeliveryButton": "Start Delivery",
+  "confirmDeliveryButton": "Confirm Delivery",
+  "orderNumberLabel": "Order #{id}",
+  "@orderNumberLabel": {
+    "description": "Displays the order number with its ID",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "orderCancelledSuccessMessage": "Order has been cancelled successfully",
+  "tapToTrackFuelProviderLive": "Tap to track fuel provider live",
+  "trackFuelProviderTitle": "Track Fuel Provider",
+  "waitingFuelProviderAcceptance": "Waiting for fuel provider acceptance",
+  "orderNotesTitle": "Order Notes",
+  "fuelProviderHasNotSharedLocationYet": "The fuel provider has not shared their location yet",
+  "avatarUpdatedSuccess": "Profile picture updated successfully",
+  "accountDeletedSuccessMessage": "Account deleted successfully",
+  "@accountDeletedSuccessMessage": {
+    "description": "Success message displayed when the user permanently deletes their account"
+  },
+  "fuelLogTitle": "Fuel Log",
+  "costWithParamLabel": "Cost: {cost}",
+  "@costWithParamLabel": {
+    "placeholders": {
+      "cost": {
+        "type": "String"
+      }
+    }
+  },
+  "odometerReadingWithParamLabel": "Odometer: {km} km",
+  "@odometerReadingWithParamLabel": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "brandRequiredError": "Please enter the vehicle brand",
+  "brandMinLengthError": "Brand must be at least 2 characters long",
+  "brandMaxLengthError": "Brand is too long (maximum 50 characters)",
+  "brandInvalidCharsError": "Brand contains unallowed symbols",
+  "modelRequiredError": "Please enter the vehicle model",
+  "modelMaxLengthError": "Model is too long (maximum 50 characters)",
+  "modelInvalidCharsError": "Model contains unallowed symbols",
+  "plateNumberRequiredError": "Please enter the plate number",
+  "plateInvalidCharsError": "Plate number contains unallowed symbols",
+  "plateLengthError": "Plate number must be between 4 and 9 characters",
+  "manufactureYearRequiredError": "Please enter the manufacturing year",
+  "invalidYearError": "Please enter a valid year",
+  "yearRangeError": "Manufacturing year must be between 1900 and {maxYear}",
+  "@yearRangeError": {
+    "placeholders": {
+      "maxYear": {
+        "type": "int"
+      }
+    }
+  },
+  "odometerRequiredError": "Please enter the odometer reading",
+  "odometerRangeError": "Odometer reading must be between 0 and 2000000",
+  "unsupportedImageFormatError": "Unsupported image format (jpg, jpeg, png or webp only)",
+  "imageSizeExceededError": "Image size must not exceed 5 MB",
+  "pleaseSelectVehicleImageError": "Please select a vehicle image",
+  "defaultVehicleLabel": "Vehicle",
+  "vehicleDeletedSuccess": "Vehicle has been deleted successfully",
+  "fuelAmountDetailsLabel": "{type} — {amount} Liters",
+  "@fuelAmountDetailsLabel": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "gasoline98": "Gasoline 98",
+  "completeAllFieldsError": "Please complete all fields",
+  "fuelOrderSentSuccessfully": "Fuel order sent successfully",
+  "editButtonLabel": "Edit",
+  "ownerStockCountLabel": "Stock: {count}",
+  "@ownerStockCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "addProduct": "Add Product",
+  "basicInformation": "Basic Information",
+  "productName": "Product Name",
+  "productNameRequired": "Product name is required",
+  "enterValidPrice": "Enter a valid price",
+  "availableQuantity": "Available Quantity",
+  "enterValidQuantity": "Enter a valid quantity",
+  "classification": "Classification",
+  "productCondition": "Product Condition",
+  "carBrand": "Car Brand",
+  "partCategory": "Part Category",
+  "noSelection": "No selection",
+  "productImages": "Product Images",
+  "addImages": "Add Images",
+  "imagesCount": "Images ({count}/{max})",
+  "@imagesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "confirmSelectionButtonLabel": "Confirm Selection",
+  "shopProfilePageTitle": "Store Profile",
+  "fillAllFieldsRequiredError": "Please fill in all required fields",
+  "shopSavedSuccess": "Store saved successfully",
+  "shopNameLabel": "Store Name",
+  "shopNameHint": "Enter store name",
+  "phoneNumberLabel": "Phone Number",
+  "phoneNumberHint": "Enter phone number",
+  "cityLabel": "City",
+  "cityHint": "Enter city name",
+  "activeStatus": "Active",
+  "unknownStatus": "Unspecified",
+  "unknownProfileValuesError": "Unknown values in your profile: {values}\nCannot save until these values are matched in the system.",
+  "@unknownProfileValuesError": {
+    "placeholders": {
+      "values": {
+        "type": "String"
+      }
+    }
+  },
+  "updateProduct": "Update Store",
+  "@updateProduct": {
+    "description": "Button text to save and update the store profile information"
+  },
+  "chooseActionLabel": "Choose",
+  "noSelectionMadeYet": "No selection made yet",
+  "confirmMultiSelectionCount": "Confirm Selection ({count})",
+  "@confirmMultiSelectionCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shopSpecializationsPageTitle": "Store Specializations",
+  "specializationsUpdatedSuccess": "Specializations updated successfully",
+  "inactiveStatus": "Inactive",
+  "myJobsTitle": "My Jobs",
+  "jobAssignedStatusLabel": "Assigned",
+  "jobStatusUpdatedSuccess": "Task status updated successfully",
+  "jobLoadErrorLabel": "An error occurred while loading jobs",
+  "refreshOrdersLogHint": "Updating requests log ...",
+  "clientLabel": "Client",
+  "appointmentNotesLabel": "Appointment Notes",
+  "startWorkButtonLabel": "Start Work",
+  "endWorkButtonLabel": "End Work",
+  "completeJobTitle": "Complete Task",
+  "completionNotesLabel": "Completion Notes",
+  "completionNotesHint": "Type what has been accomplished...",
+  "completionNotesRequiredError": "Completion notes are required",
+  "confirmCompletionButton": "Confirm Completion",
+  "updatingProgress": "Updating...",
+  "quotationPriceLabel": "Price Offer",
+  "quotationSentWaitingApproval": "Your offer has been sent — waiting for customer approval",
+  "submitQuotationButtonLabel": "Submit Price Offer",
+  "quotationSubmittedSuccess": "Offer submitted successfully",
+  "dateLabel": "Date",
+  "customerDataTitle": "Customer Information",
+  "malfunctionDetailsTitle": "Malfunction Details",
+  "requestDateLabel": "Request Date",
+  "statusLabel": "Status",
+  "@statusLabel": {
+    "description": "Label for the current status of an order or request"
+  },
+  "vehicleDataTitle": "Vehicle Information",
+  "addTechnicianLabel": "Add Technician",
+  "@addTechnicianLabel": {
+    "description": "Button text or screen title to add or register a new technician"
+  },
+  "editTechnicianProfileLabel": "Edit Technician Profile",
+  "@editTechnicianProfileLabel": {
+    "description": "Screen title or button text to edit the technician profile information"
+  },
+  "technicianJoinRequestSuccess": "Technician join request submitted successfully",
+  "certificationsSectionTitle": "Certifications",
+  "maxThreeImagesHint": "Maximum 3 images",
+  "workshopLocationSet": "Workshop location set",
+  "selectWorkshopLocation": "Select Workshop Location",
+  "myLocation": "My Location",
+  "moveMapToSelectLocation": "Move the map to set the correct location",
+  "savingInProgress": "Saving...",
+  "confirmLocationAction": "Confirm Location",
+  "currencySuffix": "SYP",
+  "availableQuantityLabel": "Available Quantity",
+  "saveChangesButtonLabel": "Save Changes",
+  "availabilityStatusLabel": "Availability Status",
+  "availableForWork": "Available for Work",
+  "unavailableForWork": "Unavailable for Work",
+  "maxImagesLimitError": "You can select a maximum of {count} images",
+  "@maxImagesLimitError": {
+    "description": "Error message when picking more images than the maximum allowed limit",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "personalDataTitle": "Personal Information",
+  "professionalDataTitle": "Professional Information",
+  "hourlyRateLabel": "Hourly Rate",
+  "mechanicLabel": "Mechanic",
+  "electricityLabel": "Electrician",
+  "paintLabel": "Painting",
+  "tiresLabel": "Tires",
+  "airConditioningLabel": "Air Conditioning",
+  "plumbingLabel": "Plumbing",
+  "profileLoadError": "An error occurred while loading the profile",
+  "updateWorkshopLocationDescription": "You can update the workshop location when needed",
+  "addNewCertificationsHint": "You can add new certifications",
+  "professionalInfo": "Professional Information",
+  "specialization": "Specialization",
+  "experienceYears": "Years of Experience",
+  "hourlyRate": "Hourly Rate",
+  "contactInfo": "Contact Information",
+  "certifications": "Certifications",
+  "durationRequiredError": "Please enter the expected duration",
+  "invalidNumberError": "Please enter a valid number",
+  "durationRangeError": "Duration must be between 1 and 30 days",
+  "enterExpectedPriceHint": "Please enter the expected price...",
+  "durationInDaysLabel": "Duration (in Days)",
+  "durationRangeHint": "From 1 to 30 days",
+  "requiredPartsLabel": "Required Parts",
+  "includedInPriceLabel": "Included in Price",
+  "additionalPriceLabel": "Additional Price",
+  "netEarningsLabel": "Net Earnings",
+  "statusDetailsTitle": "Status Details",
+  "assignedStatusLabel": "Assigned",
+  "cancellationReasonRequired": "Cancellation reason is required",
+  "cancellationReasonMinLengthError": "The cancellation reason must be at least 5 characters long",
+  "@cancellationReasonMinLengthError": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sosGenericActionError": "An error occurred while performing the action, please try again",
+  "sosStatusUpdatedWithLabel": "Status updated: {status}",
+  "@sosStatusUpdatedWithLabel": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "startHeadingButtonLabel": "Start Heading",
+  "acceptRequestToNavigateHint": "Accept the request to start heading to the customer",
+  "headingToClientTitle": "Heading to Customer",
+  "cancelResponseTitle": "Cancel Response",
+  "cancelResponseLabel": "Reason for cancelling response",
+  "cancelResponseHint": "Type the reason for cancelling response...",
+  "trackOrderWithIdLabel": "Tracking Order #{id}",
+  "@trackOrderWithIdLabel": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmExitTitle": "Confirm Exit",
+  "pressBackAgainToExit": "Press back again to exit",
+  "stopSharingLocationWarning": "Your location sharing will stop. Do you want to exit?",
+  "exitActionLabel": "Exit",
+  "jobCompletedSuccessMessage": "Order completed successfully ✓",
+  "writeAdditionalNotesHint": "Write any additional notes...",
+  "sendQuotationActionLabel": "Send Offer",
+  "profileUpdatedSuccessfully": "Profile updated successfully ✓",
+  "noCertificatesUploaded": "No certificates uploaded yet",
+  "workshopLocationTitle": "Workshop Location",
+  "workshopLocationDescriptionHint": "Select your workshop location to appear to nearby customers",
+  "vehicleLabelWithParam": "{brand} {model}",
+  "productAddedSuccessfully": "Product added successfully",
+  "saveProduct": "Save Product",
+  "ownerProductsPageTitle": "Store Products",
+  "sosRequestCreatedAgo": "Created {time} ago",
+  "@sosRequestCreatedAgo": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "sosAcceptingInProgress": "Accepting...",
+  "sosAcceptRequest": "Accept Request",
+  "sosProcessingInProgress": "Processing...",
+  "sosStartProgress": "Start Progress",
+  "sosFinishRequest": "Finish Request",
+  "sosCancelResponse": "Cancel Response",
+  "sosChangeStatusTitle": "Change Request Status",
+  "sosInProgressStatus": "In Progress",
+  "sosCompletedStatus": "Completed",
+  "sosNavigateToCustomer": "Navigate to Customer",
+  "sosUpdatingInProgress": "Updating...",
+  "shopOrdersPageTitle": "Store Orders",
+  "statusUpdatedSuccessMessage": "Request status updated successfully",
+  "statusUpdatedWithDynamicLabel": "Status updated: {status}",
+  "@statusUpdatedWithDynamicLabel": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "sosStatusUpdated": "Request status updated",
+  "sosCustomerLocation": "Customer Location",
+  "sosStartNavigateToCustomer": "Start navigating to customer",
+  "sosAcceptToNavigateHint": "Accept the request to start navigating to the customer",
+  "locationPermissionDenied": "Location permission denied",
+  "sosLocationSendError": "Error sending location: {message}",
+  "@sosLocationSendError": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "customerLabel": "Customer",
+  "youLabel": "You",
+  "distanceInMeters": "{value} m",
+  "@distanceInMeters": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "distanceInKm": "{value} km",
+  "@distanceInKm": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "sharingLocationActive": "Sharing your location with the customer",
+  "locatingInProgress": "Locating...",
+  "calculatingRouteInProgress": "Calculating route...",
+  "distanceToCustomer": "Distance to customer",
+  "@distanceToCustomer": {
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "conditionNew": "New",
+  "conditionUsed": "Used",
+  "productImageLabel": "Product Image",
+  "@productImageLabel": {
+    "description": "Label or description for the product image asset"
+  },
+  "allProductsPageTitle": "All Products",
+  "productDetailsTitle": "Product Details",
+  "productAddedToCartSuccess": "Product added to cart successfully",
+  "viewCartButton": "View Cart",
+  "cancelOrderFormHint": "e.g., I no longer need this order",
+  "orderDetailsTitle": "Order Details",
+  "orderNumberLabel1": "Order Number",
+  "cancellableLabel": "Cancellable",
+  "rejectOrderFormHint": "e.g., Product is currently out of stock",
+  "confirmRejectionButton": "Confirm Rejection",
+  "settingsTitle": "Settings",
+  "languageLabel": "Language",
+  "themeLabel": "Theme",
+  "arabicLabel": "العربية",
+  "englishLabel": "English",
+  "lightModeLabel": "Light",
+  "darkModeLabel": "Dark",
+  "systemModeLabel": "System",
+  "productsLabel": "Products",
+  "deliveryLabel": "Delivery",
+  "grandTotalLabel": "Grand Total",
+  "trackDeliveryButton": "Track Delivery",
+  "cancelOrderButton": "Cancel Order",
+  "invoiceNumber": "Invoice Number",
+  "@invoiceNumber": {
+    "description": "Label for invoice number"
+  },
+  "invoicePeriod": "Period",
+  "@invoicePeriod": {
+    "description": "Label for invoice period"
+  },
+  "invoiceTotal": "Total",
+  "@invoiceTotal": {
+    "description": "Label for invoice total amount"
+  },
+  "invoiceSubtotal": "Subtotal",
+  "@invoiceSubtotal": {
+    "description": "Label for invoice subtotal"
+  },
+  "invoiceCommission": "Commission",
+  "@invoiceCommission": {
+    "description": "Label for invoice commission total"
+  },
+  "invoiceSubscription": "Subscription",
+  "@invoiceSubscription": {
+    "description": "Label for invoice subscription total"
+  },
+  "invoiceStatus": "Status",
+  "@invoiceStatus": {
+    "description": "Label for invoice status"
+  },
+  "invoicePaidAt": "Payment Date",
+  "@invoicePaidAt": {
+    "description": "Label for invoice paid date"
+  },
+  "invoiceItems": "Invoice Items",
+  "@invoiceItems": {
+    "description": "Title for invoice items list"
+  },
+  "statusDraft": "Draft",
+  "@statusDraft": {
+    "description": "Invoice status: draft"
+  },
+  "statusIssued": "Issued",
+  "@statusIssued": {
+    "description": "Invoice status: issued"
+  },
+  "statusOverdue": "Overdue",
+  "@statusOverdue": {
+    "description": "Invoice status: overdue"
+  },
+  "statusPaid": "Paid",
+  "@statusPaid": {
+    "description": "Invoice status: paid"
+  },
+  "confirmDeleteTitle": "Confirm Deletion",
+  "@confirmDeleteTitle": {
+    "description": "Title of delete confirmation dialog"
+  },
+  "confirmDeleteMessage": "Are you sure you want to delete this vehicle?\nThis action cannot be undone.",
+  "@confirmDeleteMessage": {
+    "description": "Warning message before deleting a vehicle"
+  },
+  "owner": "Owner",
+  "@owner": {
+    "description": "Owner label in vehicle details page"
+  },
+  "km": "km",
+  "@km": {
+    "description": "Unit for kilometers"
+  },
+  "maintenanceRecord": "Maintenance Record",
+  "@maintenanceRecord": {
+    "description": "Title of maintenance record"
+  },
+  "fuelRecord": "Fuel Record",
+  "@fuelRecord": {
+    "description": "Title of fuel record"
+  },
+  "alertsRecord": "Alerts Record",
+  "@alertsRecord": {
+    "description": "Title of alerts record"
+  },
+  "totalJobs": "Total jobs",
+  "@totalJobs": {
+    "description": "Total jobs count"
+  },
+  "assignedJobs": "Assigned",
+  "@assignedJobs": {
+    "description": "Assigned jobs count"
+  },
+  "inProgressJobs": "In progress",
+  "@inProgressJobs": {
+    "description": "In progress jobs count"
+  },
+  "completedJobs": "Completed",
+  "@completedJobs": {
+    "description": "Completed jobs count"
+  },
+  "totalQuotations": "Total quotations",
+  "@totalQuotations": {
+    "description": "Total quotations count"
+  },
+  "pendingQuotations": "Pending quotations",
+  "@pendingQuotations": {
+    "description": "Pending quotations count"
+  },
+  "acceptedQuotations": "Accepted quotations",
+  "@acceptedQuotations": {
+    "description": "Accepted quotations count"
+  },
+  "totalRatings": "Total ratings",
+  "@totalRatings": {
+    "description": "Total ratings count"
+  },
+  "deleteProfile": "Delete Profile",
+  "@deleteProfile": {
+    "description": "Title of delete profile dialog"
+  },
+  "confirmDeleteProfileTitle": "Confirm Deletion",
+  "@confirmDeleteProfileTitle": {
+    "description": "Delete confirmation button"
+  },
+  "confirmDeleteProfileMessage": "Are you sure you want to delete your account?\nThis action cannot be undone.",
+  "@confirmDeleteProfileMessage": {
+    "description": "Warning message before deleting profile"
+  },
+  "profileDeletedSuccessfully": "Profile deleted successfully",
+  "@profileDeletedSuccessfully": {
+    "description": "Message shown after successful deletion"
+  },
+  "enterPhone": "Please enter phone number",
+  "@enterPhone": {
+    "description": "Message shown when the phone field is left empty"
+  },
+  "invalidPhone": "Invalid phone number",
+  "@invalidPhone": {
+    "description": "Message shown when the phone number is incorrect or incomplete"
+  },
+  "enterAsTechnician": "Enter as technician",
+  "@enterAsTechnician": {
+    "description": "Action to open the technician profile flow from the More tab"
+  },
+  "washersPageTitle": "Car washes",
+  "@washersPageTitle": {
+    "description": "App bar title for the car wash directory list"
+  },
+  "washersByCity": "By city",
+  "@washersByCity": {
+    "description": "Car wash list filter: choose by city"
+  },
+  "washersBookAppointment": "Book an appointment",
+  "@washersBookAppointment": {
+    "description": "Button to book a car wash appointment"
+  },
+  "washersViewDetails": "View details",
+  "@washersViewDetails": {
+    "description": "Button to open car wash details"
+  },
+  "washersCityWithName": "City: {cityName}",
+  "@washersCityWithName": {
+    "description": "Line showing the city of a car wash",
+    "placeholders": {
+      "cityName": {
+        "type": "String"
+      }
+    }
+  },
+  "washersRatingsWithCount": "Ratings: {count}",
+  "@washersRatingsWithCount": {
+    "description": "Line showing how many ratings a car wash has",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "washerTierBasic": "BASIC",
+  "@washerTierBasic": {
+    "description": "Service tier label: basic"
+  },
+  "washerTierVip": "VIP",
+  "@washerTierVip": {
+    "description": "Service tier label: VIP"
+  },
+  "washerTierPremium": "PREMIUM",
+  "@washerTierPremium": {
+    "description": "Service tier label: premium"
+  },
   "washerDetailsTitle": "Car wash details",
-  "@washerDetailsTitle": { "description": "App bar: washer details screen" },
+  "@washerDetailsTitle": {
+    "description": "App bar: washer details screen"
+  },
   "washerOpenTime": "Open: {time}",
   "@washerOpenTime": {
     "description": "Opening time label for a car wash",
-    "placeholders": { "time": { "type": "String" } }
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
   },
   "washerCloseTime": "Close: {time}",
   "@washerCloseTime": {
     "description": "Closing time label for a car wash",
-    "placeholders": { "time": { "type": "String" } }
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
   },
   "washerSectionCityAndAddress": "City and address",
-  "@washerSectionCityAndAddress": { "description": "Header for location block" },
+  "@washerSectionCityAndAddress": {
+    "description": "Header for location block"
+  },
   "washerSectionServicesAndPrices": "Services and prices",
-  "@washerSectionServicesAndPrices": { "description": "Header for packages section" },
+  "@washerSectionServicesAndPrices": {
+    "description": "Header for packages section"
+  },
   "washerSectionCustomerReviews": "Customer reviews",
-  "@washerSectionCustomerReviews": { "description": "Header for reviews" },
+  "@washerSectionCustomerReviews": {
+    "description": "Header for reviews"
+  },
   "washerServiceExterior": "Exterior",
-  "@washerServiceExterior": { "description": "Car wash service: exterior" },
+  "@washerServiceExterior": {
+    "description": "Car wash service: exterior"
+  },
   "washerServiceInterior": "Interior",
-  "@washerServiceInterior": { "description": "Car wash service: interior" },
+  "@washerServiceInterior": {
+    "description": "Car wash service: interior"
+  },
   "washerServiceEngine": "Engine",
-  "@washerServiceEngine": { "description": "Car wash service: engine bay" },
+  "@washerServiceEngine": {
+    "description": "Car wash service: engine bay"
+  },
   "washerPackagePrice": "price: {amount} $",
   "@washerPackagePrice": {
     "description": "Package price in USD",
-    "placeholders": { "amount": { "type": "int" } }
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    }
   },
   "washerReservationTitle": "Reservation",
-  "@washerReservationTitle": { "description": "App bar: car wash booking screen" },
+  "@washerReservationTitle": {
+    "description": "App bar: car wash booking screen"
+  },
   "washerReservationFieldDate": "Date",
   "washerReservationFieldTime": "Time",
   "washerReservationFieldVehicleLabel": "Enter your vehicle type",
@@ -1786,6 +2107,239 @@
   "@bookingsFilterByStatus": {
     "description": "Bookings filter label"
   },
+  "washerNoVehiclesMessage": "You don't have any vehicles. Please add a vehicle first from the My Vehicles page.",
+  "@washerNoVehiclesMessage": {
+    "description": "Message shown when a user tries to book but has no vehicles registered"
+  },
+  "washerSelectVehicleMessage": "Please select a vehicle",
+  "@washerSelectVehicleMessage": {
+    "description": "Validation message when a user forgets to select a vehicle before booking"
+  },
+  "washerSelectDateTimeMessage": "Please select a date and time",
+  "@washerSelectDateTimeMessage": {
+    "description": "Validation message when a user forgets to select date or time"
+  },
+  "washerBookingSuccessMessage": "Booking completed successfully",
+  "@washerBookingSuccessMessage": {
+    "description": "Success message displayed after a successful booking completion"
+  },
+  "loadingYourVehicles": "Loading your vehicles...",
+  "@loadingYourVehicles": {
+    "description": "Text shown while the system is fetching the user's vehicles"
+  },
+  "noVehiclesAdded": "No vehicles added",
+  "@noVehiclesAdded": {
+    "description": "Text shown when the user has not added any vehicles to their profile"
+  },
+  "selectYourVehicle": "Select your vehicle",
+  "@selectYourVehicle": {
+    "description": "Label or title guiding the user to select one of their vehicles"
+  },
+  "bookingStatusesTitle": "Booking Statuses",
+  "pleaseEnterCancellationReason": "Please enter the reason for cancellation",
+  "orderAcceptedSuccess": "Order accepted successfully",
+  "orderStartedSuccess": "Order execution started successfully",
+  "orderCompletedSuccess": "Order completed successfully",
+  "orderCancelledSuccess": "Order cancelled successfully",
+  "cancelFuelOrderTitle": "Cancel Fuel Order",
+  "ratingsTitle": "Ratings",
+  "noRatingsYet": "No ratings yet",
+  "showMore": "Show More",
+  "defaultUserName": "User",
+  "ratingsCountLabel": "({count} reviews)",
+  "@ratingsCountLabel": {
+    "description": "Label displaying the total number of ratings",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "currencyFormat": "${amount}",
+  "@currencyFormat": {
+    "description": "Format for displaying currency in English",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "shareLocationTitle": "Share Location",
+  "shareLocationDescription": "Select an in-progress fuel order from my orders to share your location",
+  "goToMyOrders": "Go to My Orders",
+  "orderStatusesTitle": "Order Statuses",
+  "@orderStatusesTitle": {
+    "description": "Title for the section displaying different order status indicators"
+  },
+  "homeWelcomeGreeting": "- How can we help you today? -",
+  "quotationDetailsTitle": "Offer Details",
+  "quotationAcceptedSuccess": "Offer accepted successfully",
+  "quotationRejectedSuccess": "Offer rejected",
+  "quotationsTitle": "Price Quotations",
+  "noQuotationsAvailable": "No price quotations available",
+  "acceptQuotationTitle": "Accept Quotation",
+  "selectedDateLabel": "Selected Date",
+  "chooseDateLabel": "Choose Date",
+  "notesLabel": "Notes",
+  "confirmLabel": "Confirm",
+  "cancelLabel": "Cancel",
+  "technicianLabel": "Technician",
+  "repairDurationLabel": "Repair Duration",
+  "partsIncludedLabel": "Parts Included",
+  "durationInDays": "{count} Days",
+  "@durationInDays": {
+    "description": "Displays the estimated repair duration in days",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cannotShareLocationOrderFinished": "Cannot share location for a finished or cancelled order",
+  "enableLocationServiceMessage": "Please enable location services in device settings",
+  "locationPermissionDeniedForever": "Location permission permanently denied, please enable it from app settings",
+  "locationPermissionRequired": "Location permission is required to share your location with the customer",
+  "unableToDetermineLocation": "Unable to determine your current location, please try again",
+  "genericErrorTryAgain": "An error occurred, please try again",
+  "errorSendingLocation": "Error sending location",
+  "deliveryLocation": "Delivery Location",
+  "you": "You",
+  "sharingLocationWithCustomer": "Sharing your location with the customer",
+  "determiningLocation": "Determining location...",
+  "calculatingRoute": "Calculating route...",
+  "meterUnit": "m",
+  "kmUnit": "km",
+  "technicianInfoCardTitle": "Technician Information",
+  "specializationLabel": "Specialization",
+  "experienceYearsLabel": "Years of Experience",
+  "quotationDateLabel": "Quotation Date",
+  "technicianNotesCardTitle": "Technician Notes",
+  "acceptQuotationButton": "Accept Offer",
+  "rejectQuotationButton": "Reject Offer",
+  "rejectQuotationReasonTitle": "Reason for Rejection",
+  "durationInYears": "{count} Years",
+  "@durationInYears": {
+    "description": "Displays experience duration in years",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "maintenanceRequestDetailsTitle": "Maintenance Request Details",
+  "unexpectedErrorTryAgain": "An error occurred during execution, please try again",
+  "add": "Add",
+  "selectPreferredDateTitle": "Select Preferred Date",
+  "selectPriorityTitle": "Select Priority",
+  "problemDescriptionTitle": "Problem Description",
+  "problemDescriptionHint": "Please type the details of the problem here...",
+  "noVehicleSelectedPrompt": "No vehicle selected",
+  "changeVehicleButton": "Change Vehicle",
+  "kilometerCountLabel": "{count} km",
+  "@kilometerCountLabel": {
+    "description": "Displays the vehicle mileage in kilometers",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "descriptionLabel": "Description",
+  "vehicleLabel": "Vehicle",
+  "appointmentLabel": "Appointment",
+  "confirmCancellationButton": "Confirm Cancellation",
+  "backButton": "Back",
+  "cancellationReason": "Cancellation Reason",
+  "@cancellationReason": {
+    "description": "Label for the cancellation reason field"
+  },
+  "bookingsCancelReasonHint": "Type cancellation reason...",
+  "@bookingsCancelReasonHint": {
+    "description": "Hint text inside the cancellation reason text field"
+  },
+  "cancelRequestButton": "Cancel Request",
+  "@cancelRequestButton": {
+    "description": "Text for the cancellation button or title in the dialog"
+  },
+  "deleteRequestTitle": "Delete Request",
+  "deleteRequestConfirmation": "Are you sure you want to delete this request?",
+  "cannotUndoActionWarning": "This action cannot be undone",
+  "yesDeleteButton": "Yes, Delete",
+  "requestDeletedSuccess": "Request deleted successfully",
+  "cancellingProgress": "Cancelling...",
+  "deletingProgress": "Deleting...",
+  "quotationsCountLabel": "Offers ({count})",
+  "@quotationsCountLabel": {
+    "description": "Displays the quotations button text with its length",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "requestImagesTitle": "Request Images",
+  "requestInfoCardTitle": "Request Data",
+  "preferredDateLabel": "Preferred Date",
+  "priorityLabel": "Priority",
+  "creationDateLabel": "Creation Date",
+  "technicianLocationTitle": "Technician Location",
+  "plateNumberLabel": "Plate Number",
+  "mileageLabel": "Mileage",
+  "priorityLow": "Low",
+  "priorityMedium": "Medium",
+  "priorityHigh": "High",
+  "noVehiclesAddOneFirst": "You have no vehicles, please add one first from My Vehicles",
+  "maxThreeImagesAllowed": "You can select up to 3 images",
+  "pleaseSelectVehicleFirst": "Please select a vehicle first",
+  "pleaseDescribeProblem": "Please describe the problem",
+  "internalError": "Internal error",
+  "requestSentSuccessfully": "Request sent successfully",
+  "maintenanceRequestTitle": "Maintenance Request",
+  "fuelAmountLabel": "{type} - {amount} Liters",
+  "@fuelAmountLabel": {
+    "description": "Displays the fuel type along with its amount in liters",
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "num"
+      }
+    }
+  },
+  "all": "All",
+  "pleaseEnterRejectionReason": "Please enter the reason for rejection",
+  "@pleaseEnterRejectionReason": {
+    "description": "Validation or hint text asking the user to provide a reason for rejecting a request"
+  },
+  "otherServices": "Other Services",
+  "washerAvailabilityUpdateSuccess": "Availability status updated successfully",
+  "washerAvailabilityTitle": "Available for bookings",
+  "washerAvailabilityStatusAvailable": "Currently available",
+  "washerAvailabilityStatusUnavailable": "Currently unavailable",
+  "send": "Send",
+  "profileWasherDefaultServices": "Normal Wash, Premium Wash, Polishing",
+  "pleaseEnterShopName": "Please enter the car wash name",
+  "pleaseEnterPhoneNumber": "Please enter the phone number",
+  "pleaseEnterCity": "Please enter the city",
+  "profileWasherCreateSuccessMessage": "Car wash profile created successfully",
+  "profileWasherEditSuccessMessage": "Changes saved successfully",
+  "allGovernorates": "All Governorates",
+  "filterByGovernorate": "By Governorate",
+  "damascus": "Damascus",
+  "rifDimashq": "Rif Dimashq",
+  "aleppo": "Aleppo",
+  "homs": "Homs",
+  "hama": "Hama",
+  "latakia": "Latakia",
+  "tartus": "Tartus",
+  "idlib": "Idlib",
+  "daraa": "Daraa",
+  "asSuwayda": "As-Suwayda",
+  "quneitra": "Quneitra",
+  "deirEzZor": "Deir ez-Zor",
+  "raqqa": "Raqqa",
+  "alHasakah": "Al-Hasakah",
   "bookingStatusPinding": "pinding",
   "@bookingStatusPinding": {
     "description": "Booking status chip: pinding"
@@ -1921,7 +2475,11 @@
   "profileWasherRatingsCountLine": "{count} ratings",
   "@profileWasherRatingsCountLine": {
     "description": "Rating count subtitle under stars on washer profile",
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "profileWasherSampleFullAddress": "Damascus - Abbasiyyin Square - Entrance to Al-Qusour Square",
   "@profileWasherSampleFullAddress": {
@@ -2083,30 +2641,26 @@
   "@showRatingAllReserved": {
     "description": "All reserved count label on ratings screen"
   },
- "bookingStatusPending": "Pending",
-"@bookingStatusPending": {
-  "description": "Status label for a booking waiting for review"
-},
-
-"bookingStatusAccepted": "Accepted",
-"@bookingStatusAccepted": {
-  "description": "Status label when a booking is accepted by the washer"
-},
-
-"bookingStatusProgress": "In Progress",
-"@bookingStatusProgress": {
-  "description": "Status label when the service has started"
-},
-
-"bookingStatusCompleted": "Completed",
-"@bookingStatusCompleted": {
-  "description": "Status label when the service is finished"
-},
-
-"bookingStatusCanceled": "Canceled",
-"@bookingStatusCanceled": {
-  "description": "Status label when a booking is canceled"
-},
+  "bookingStatusPending": "Pending",
+  "@bookingStatusPending": {
+    "description": "Status label for a booking waiting for review"
+  },
+  "bookingStatusAccepted": "Accepted",
+  "@bookingStatusAccepted": {
+    "description": "Status label when a booking is accepted by the washer"
+  },
+  "bookingStatusProgress": "In Progress",
+  "@bookingStatusProgress": {
+    "description": "Status label when the service has started"
+  },
+  "bookingStatusCompleted": "Completed",
+  "@bookingStatusCompleted": {
+    "description": "Status label when the service is finished"
+  },
+  "bookingStatusCanceled": "Canceled",
+  "@bookingStatusCanceled": {
+    "description": "Status label when a booking is canceled"
+  },
   "showRatingAverageRatings": "Average ratings",
   "@showRatingAverageRatings": {
     "description": "Title of average ratings section"
@@ -2515,14 +3069,70 @@
   "@advertisementSemanticLabelWithTitle": {
     "description": "Accessibility label for an advertisement card, including its title",
     "placeholders": {
-      "title": { "type": "String" }
+      "title": {
+        "type": "String"
+      }
     }
   },
   "advertisementLinkOpenFailed": "Couldn't open the advertisement link",
   "@advertisementLinkOpenFailed": {
     "description": "Shown when tapping an advertisement fails to open its link"
   },
-
+  "requestStatusPending": "Pending",
+  "@requestStatusPending": {
+    "description": "Maintenance request status filter tab: pending"
+  },
+  "requestStatusAccepted": "Accepted",
+  "@requestStatusAccepted": {
+    "description": "Maintenance request status filter tab: accepted"
+  },
+  "requestStatusCompleted": "Completed",
+  "@requestStatusCompleted": {
+    "description": "Maintenance request status filter tab: completed"
+  },
+  "requestStatusAll": "All",
+  "@requestStatusAll": {
+    "description": "Maintenance request status filter tab: all"
+  },
+  "orderStatusAll": "All",
+  "@orderStatusAll": {
+    "description": "Spare parts order status filter tab: all"
+  },
+  "orderStatusPending": "Pending",
+  "@orderStatusPending": {
+    "description": "Spare parts order status filter tab: pending"
+  },
+  "orderStatusAccepted": "Accepted",
+  "@orderStatusAccepted": {
+    "description": "Spare parts order status filter tab: accepted"
+  },
+  "orderStatusProcessing": "Processing",
+  "@orderStatusProcessing": {
+    "description": "Spare parts order status filter tab: processing"
+  },
+  "orderStatusOutForDelivery": "Out for Delivery",
+  "@orderStatusOutForDelivery": {
+    "description": "Spare parts order status filter tab: out for delivery"
+  },
+  "orderStatusDelivered": "Delivered",
+  "@orderStatusDelivered": {
+    "description": "Spare parts order status filter tab: delivered"
+  },
+  "orderStatusRejected": "Rejected",
+  "@orderStatusRejected": {
+    "description": "Spare parts order status filter tab: rejected"
+  },
+  "orderStatusCancelled": "Cancelled",
+  "@orderStatusCancelled": {
+    "description": "Spare parts order status filter tab: cancelled"
+  },
+  "bookingStatusAll": "All",
+  "@bookingStatusAll": {
+    "description": "Booking status filter tab: all"
+  },
+  "@statistics": {
+    "description": "Statistics page title"
+  },
   "forgotPasswordTitle": "Forgot Password",
   "@forgotPasswordTitle": {
     "description": "Forgot password page title"
@@ -2587,7 +3197,6 @@
   "@continueWithGoogle": {
     "description": "Button label for Google Sign-In on the login screen"
   },
-
   "notificationsAllFilter": "All",
   "@notificationsAllFilter": {
     "description": "Notifications list filter tab: show all notifications"
@@ -2612,14 +3221,18 @@
   "@notificationMinutesAgo": {
     "description": "Relative time label for a notification created minutes ago",
     "placeholders": {
-      "minutes": { "type": "int" }
+      "minutes": {
+        "type": "int"
+      }
     }
   },
   "notificationHoursAgo": "{hours}h ago",
   "@notificationHoursAgo": {
     "description": "Relative time label for a notification created hours ago",
     "placeholders": {
-      "hours": { "type": "int" }
+      "hours": {
+        "type": "int"
+      }
     }
   },
   "notificationYesterday": "Yesterday",
@@ -2630,10 +3243,17 @@
   "@notificationDaysAgo": {
     "description": "Relative time label for a notification created a few days ago",
     "placeholders": {
-      "days": { "type": "int" }
+      "days": {
+        "type": "int"
+      }
     }
+  },
+  "selectGovernorate": "Select governorate",
+  "@selectGovernorate": {
+    "description": "Title for the province/governorate selection bottom sheet"
+  },
+  "readygSummary": "Ready to get back on the road?",
+  "@readygSummary": {
+    "description": "Ready to get back on the road?"
   }
 }
-
-
-

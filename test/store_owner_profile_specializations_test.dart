@@ -1,8 +1,3 @@
-// يثبت: 1) ملف المتجر يعرض المعلومات الأساسية فقط (بلا تخصصات ولا أيقونة
-// طلبات) عند تعديل متجر قائم، بينما يُبقي اختيار التخصصات ضمن فلو الإنشاء
-// الأولي. 2) صفحة تخصصات المتجر تعرض البطاقات الثلاث، وتعديل مجموعة واحدة
-// يحفظ الحمولة كاملة مع الحفاظ على المجموعتين الأخريين، ولا يرسل طلبًا عند
-// تأكيد الاختيار دون تغيير فعلي.
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/features/spare_parts_store/customer/shops/domain/entities/shop_entity.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/domain/repositories/i_owner_profile_repository.dart';
@@ -72,13 +67,11 @@ void main() {
 
         await pumpWithApp(tester, const OwnerProfilePage());
 
-        // المعلومات الأساسية
-        expect(find.text('اسم المتجر'), findsOneWidget);
+        expect(find.text('اسم المتجر'), findsNWidgets(2));
         expect(find.text('رقم الهاتف'), findsOneWidget);
         expect(find.text('المدينة'), findsOneWidget);
-        expect(find.text('نشط'), findsOneWidget); // شارة الحالة (approved)
+        expect(find.text('نشط'), findsOneWidget);
 
-        // لا تخصصات ولا أيقونة طلبات في هذه الصفحة بعد إنشاء المتجر
         expect(find.text('نوع النشاط'), findsNothing);
         expect(find.text('ماركات السيارات'), findsNothing);
         expect(find.text('فئات القطع'), findsNothing);
@@ -134,13 +127,11 @@ void main() {
       (tester) async {
         await pumpWithApp(tester, const OwnerSpecializationsPage());
 
-        // زر «تعديل» الثاني هو الخاص ببطاقة «ماركات السيارات»
         final editButtons = find.widgetWithText(OutlinedButton, 'تعديل');
         expect(editButtons, findsNWidgets(3));
         await tester.tap(editButtons.at(1));
         await tester.pumpAndSettle();
 
-        // إضافة Hyundai (id=2) إلى جانب Toyota (id=1) المختارة أصلًا
         await tester.tap(find.text('Hyundai'));
         await tester.pump();
         await tester.tap(find.textContaining('تأكيد الاختيار'));
@@ -157,12 +148,9 @@ void main() {
           ),
         ).captured;
 
-        expect(captured[0], [1]); // نوع النشاط لم يتغيّر
-        expect((captured[1] as List<int>)..sort(), [
-          1,
-          2,
-        ]); // ماركات السيارات تغيّرت
-        expect(captured[2], [1]); // فئات القطع لم تتغيّر
+        expect(captured[0], [1]);
+        expect((captured[1] as List<int>)..sort(), [1, 2]);
+        expect(captured[2], [1]);
       },
     );
 
@@ -172,10 +160,9 @@ void main() {
       await pumpWithApp(tester, const OwnerSpecializationsPage());
 
       final editButtons = find.widgetWithText(OutlinedButton, 'تعديل');
-      await tester.tap(editButtons.first); // بطاقة «نوع النشاط»
+      await tester.tap(editButtons.first);
       await tester.pumpAndSettle();
 
-      // تأكيد دون تبديل أي اختيار
       await tester.tap(find.textContaining('تأكيد الاختيار'));
       await tester.pumpAndSettle();
 

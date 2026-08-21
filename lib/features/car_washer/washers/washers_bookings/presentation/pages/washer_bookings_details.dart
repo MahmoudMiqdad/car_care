@@ -34,20 +34,17 @@ class _WasherBookingsDetailsState extends State<WasherBookingsDetails> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<BookingsCubit>()..seedSingle(widget.booking),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          backgroundColor: AppColors.lightScaffold,
-          appBar: CustomAppBar(
-            title: context.l10n.bookingDetailsPageTitle,
-            showBackButton: true,
-            onBackTapped: _popBack,
-          ),
-          body: ImageBackground(
-            child: WasherBookingsDetailsBody(
-              bookingId: widget.booking.id,
-              onChanged: () => _changed = true,
-            ),
+      child: Scaffold(
+        backgroundColor: AppColors.scaffoldBackground(context),
+        appBar: CustomAppBar(
+          title: context.l10n.bookingDetailsPageTitle,
+          showBackButton: true,
+          onBackTapped: _popBack,
+        ),
+        body: ImageBackground(
+          child: WasherBookingsDetailsBody(
+            bookingId: widget.booking.id,
+            onChanged: () => _changed = true,
           ),
         ),
       ),

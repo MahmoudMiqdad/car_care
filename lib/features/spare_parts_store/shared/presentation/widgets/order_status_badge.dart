@@ -1,20 +1,21 @@
 // لون وشارة حالة الطلب — مكوّن مشترك بين واجهتَي العميل والمالك حتى لا
 // تختلف الألوان/الأسماء بين الجهتين. rejected حالة مستقلة عن cancelled
 // (رفض المالك للطلب أثناء pending وليس إلغاء العميل).
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Color orderStatusColor(String status) => switch (status) {
+Color orderStatusColor(BuildContext context, String status) => switch (status) {
   'pending' => AppColors.warning,
   'accepted' => AppColors.info,
   'processing' => AppColors.info,
   'out_for_delivery' => AppColors.primary,
-  'delivered' => AppColors.success,
-  'cancelled' => AppColors.error,
-  'rejected' => AppColors.error,
-  _ => AppColors.lightTextSecondary,
+  'delivered' => AppColors.green,
+  'cancelled' => AppColors.red,
+  'rejected' => AppColors.red,
+  _ => AppColors.textSecondary(context), 
 };
 
 class OrderStatusBadge extends StatelessWidget {
@@ -29,7 +30,9 @@ class OrderStatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = orderStatusColor(status);
+    // 💡 قمنا بتمرير الـ context هنا كمعامل أول للدالة ليختفي الخطأ
+    final color = orderStatusColor(context, status);
+    
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
       decoration: BoxDecoration(
@@ -39,7 +42,7 @@ class OrderStatusBadge extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: AppTypography.labelSmall.copyWith(
+        style: context.textTheme.labelSmall!.copyWith(
           color: color,
           fontWeight: FontWeight.w700,
         ),

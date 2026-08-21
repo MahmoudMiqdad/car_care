@@ -1,4 +1,5 @@
-// شاشة إتمام الطلب: اختيار موقع التوصيل + ملاحظة العنوان + تأكيد الطلب
+
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
@@ -12,6 +13,7 @@ import 'package:car_care/features/spare_parts_store/customer/checkout/presentati
 import 'package:car_care/features/spare_parts_store/customer/checkout/presentation/widgets/checkout_address_note_field.dart';
 import 'package:car_care/features/spare_parts_store/customer/checkout/presentation/widgets/checkout_location_card.dart';
 import 'package:car_care/features/spare_parts_store/customer/checkout/presentation/widgets/checkout_location_picker_sheet.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -99,70 +101,69 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: BlocProvider.value(
-        value: _cubit,
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: const CustomAppBar(title: 'تأكيد الطلب'),
-          body: ImageBackground(
-            child: BlocConsumer<CreateOrderCubit, CreateOrderState>(
-              listener: (context, state) {
-                if (state is CreateOrderSuccess) {
-                  AppSnackBar.success(context, 'تم إنشاء الطلب بنجاح');
-                  widget.cartCubit?.fetchCart();
-                  context.pushReplacement(
-                    Routes.customerOrderDetailsPath(state.order.id),
-                  );
-                }
-                if (state is CreateOrderError) {
-                  AppSnackBar.error(context, state.message);
-                }
-              },
-              builder: (context, state) {
-                final isLoading = state is CreateOrderLoading;
-                return SingleChildScrollView(
-                  padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _fadeSlide(
-                        visible: _s0,
-                        child: CheckoutLocationCard(
-                          selectedLocation: _selectedLocation,
-                          onPickLocation: isLoading ? () {} : _openMapPicker,
-                        ),
-                      ),
-                      SizedBox(height: 14.h),
-                      _fadeSlide(
-                        visible: _s1,
-                        child: CheckoutAddressNoteField(
-                          controller: _addressNoteController,
-                          onChanged: () => setState(() {}),
-                        ),
-                      ),
-                      SizedBox(height: 20.h),
-                      _fadeSlide(
-                        visible: _s2,
-                        child: _OrderSummaryRow(totalPrice: widget.totalPrice),
-                      ),
-                      SizedBox(height: 20.h),
-                      _fadeSlide(
-                        visible: _s3,
-                        child: _SubmitButton(
-                          canSubmit: _canSubmit && !isLoading,
-                          isLoading: isLoading,
-                          selectedLocation: _selectedLocation,
-                          hasNote: _addressNoteController.text.trim().isNotEmpty,
-                          onTap: _submit,
-                        ),
-                      ),
-                    ],
-                  ),
+    final l10n = context.l10n;
+
+    return BlocProvider.value(
+      value: _cubit,
+      child: Scaffold(
+        backgroundColor: AppColors.transparent,
+        appBar: CustomAppBar(title: l10n.confirmOrderTitle),
+        body: ImageBackground(
+          child: BlocConsumer<CreateOrderCubit, CreateOrderState>(
+            listener: (context, state) {
+              if (state is CreateOrderSuccess) {
+                AppSnackBar.success(context, l10n.orderCreatedSuccessfully);
+                widget.cartCubit?.fetchCart();
+                context.pushReplacement(
+                  Routes.customerOrderDetailsPath(state.order.id),
                 );
-              },
-            ),
+              }
+              if (state is CreateOrderError) {
+                AppSnackBar.error(context, state.message);
+              }
+            },
+            builder: (context, state) {
+              final isLoading = state is CreateOrderLoading;
+              return SingleChildScrollView(
+                padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _fadeSlide(
+                      visible: _s0,
+                      child: CheckoutLocationCard(
+                        selectedLocation: _selectedLocation,
+                        onPickLocation: isLoading ? () {} : _openMapPicker,
+                      ),
+                    ),
+                    SizedBox(height: 14.h),
+                    _fadeSlide(
+                      visible: _s1,
+                      child: CheckoutAddressNoteField(
+                        controller: _addressNoteController,
+                        onChanged: () => setState(() {}),
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                    _fadeSlide(
+                      visible: _s2,
+                      child: _OrderSummaryRow(totalPrice: widget.totalPrice),
+                    ),
+                    SizedBox(height: 20.h),
+                    _fadeSlide(
+                      visible: _s3,
+                      child: _SubmitButton(
+                        canSubmit: _canSubmit && !isLoading,
+                        isLoading: isLoading,
+                        selectedLocation: _selectedLocation,
+                        hasNote: _addressNoteController.text.trim().isNotEmpty,
+                        onTap: _submit,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -177,6 +178,8 @@ class _OrderSummaryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
       decoration: BoxDecoration(
@@ -184,7 +187,7 @@ class _OrderSummaryRow extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: AppColors.black.withOpacity(0.04),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -199,16 +202,16 @@ class _OrderSummaryRow extends StatelessWidget {
                   color: AppColors.primary, size: 16.sp),
               SizedBox(width: 6.w),
               Text(
-                'إجمالي الطلب',
-                style: AppTypography.labelLarge.copyWith(
+                l10n.orderTotalLabel,
+                style:context.textTheme.labelLarge!.copyWith(
                   color: AppColors.primary,
                 ),
               ),
             ],
           ),
           Text(
-            '${totalPrice.toStringAsFixed(0)} ل.س',
-            style: AppTypography.headlineMedium.copyWith(
+            '${totalPrice.toStringAsFixed(0)} ${l10n.currencySyp}',
+            style:context.textTheme.headlineMedium!.copyWith(
               color: AppColors.primary,
               fontWeight: FontWeight.w800,
             ),
@@ -234,15 +237,17 @@ class _SubmitButton extends StatelessWidget {
   final bool hasNote;
   final VoidCallback onTap;
 
-  String? get _validationMessage {
-    if (selectedLocation == null) return 'يرجى اختيار موقع التوصيل من الخريطة';
-    if (!hasNote) return 'يرجى إدخال ملاحظة العنوان';
+  String? _validationMessage(BuildContext context) {
+    final l10n = context.l10n;
+    if (selectedLocation == null) return l10n.pleaseSelectDeliveryLocation;
+    if (!hasNote) return l10n.pleaseEnterAddressNote;
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    final msg = _validationMessage;
+    final l10n = context.l10n;
+    final msg = _validationMessage(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -255,7 +260,7 @@ class _SubmitButton extends StatelessWidget {
               Expanded(
                 child: Text(
                   msg,
-                  style: AppTypography.labelSmall.copyWith(
+                  style:context.textTheme.labelSmall!.copyWith(
                     color: AppColors.warning,
                   ),
                 ),
@@ -271,7 +276,7 @@ class _SubmitButton extends StatelessWidget {
           curve: Curves.easeOut,
           builder: (context, t, _) {
             final bgColor =
-                Color.lerp(AppColors.lightBorder, AppColors.accent, t)!;
+                Color.lerp(AppColors.border(context), AppColors.accent, t)!;
             return ElevatedButton(
               onPressed: canSubmit ? onTap : null,
               style: ElevatedButton.styleFrom(
@@ -299,8 +304,8 @@ class _SubmitButton extends StatelessWidget {
                       )
                     : Text(
                         key: const ValueKey('text'),
-                        'تأكيد الطلب',
-                        style: AppTypography.labelLarge.copyWith(
+                        l10n.confirmOrderButton,
+                        style: context.textTheme.labelLarge!.copyWith(
                           color: AppColors.white,
                           fontWeight: FontWeight.w700,
                         ),

@@ -1,6 +1,6 @@
-
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/service/pusher_service.dart';
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/sos/domain/repositories/i_sos_repository.dart';
 import 'package:car_care/features/sos/presentation/cubit/tracking_cubit/tracking_cubit.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_section_card.dart';
@@ -52,7 +52,6 @@ class SosDetailsLocationCard extends StatelessWidget {
                       'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                   userAgentPackageName: 'com.car_care.app',
                 ),
-                // ماركر موقع الـ SOS
                 if (hasLocation)
                   MarkerLayer(
                     markers: [
@@ -60,9 +59,9 @@ class SosDetailsLocationCard extends StatelessWidget {
                         point: location,
                         width: 40,
                         height: 40,
-                        child: const Icon(
+                        child: Icon(
                           Icons.location_on,
-                          color: Colors.red,
+                          color: AppColors.red,
                           size: 36,
                         ),
                       ),
@@ -71,21 +70,17 @@ class SosDetailsLocationCard extends StatelessWidget {
               ],
             ),
           ),
-          // The old "تتبع" chip was removed — tracking is now a single
-          // "تتبع الفني" action on the details page.
         ],
       ),
     );
   }
 }
 
-/// Opens the existing technician tracking sheet (TrackingCubit + SosMapWidget).
-/// Shared by the map chip and the "تتبع الفني" action on SOS details.
 void showSosTrackingSheet(BuildContext context, int sosId) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.transparent,
+    backgroundColor: AppColors.transparent,
     builder: (_) => BlocProvider(
       create: (_) => TrackingCubit(
         getIt<ISosRepository>(),
@@ -96,7 +91,6 @@ void showSosTrackingSheet(BuildContext context, int sosId) {
   );
 }
 
-
 class _TrackingSheet extends StatelessWidget {
   final int sosId;
 
@@ -104,10 +98,12 @@ class _TrackingSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.88,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       child: Column(
@@ -117,7 +113,7 @@ class _TrackingSheet extends StatelessWidget {
             width: 40.w,
             height: 4.h,
             decoration: BoxDecoration(
-              color: Colors.grey.shade300,
+              color: AppColors.gray,
               borderRadius: BorderRadius.circular(2.r),
             ),
           ),
@@ -127,10 +123,10 @@ class _TrackingSheet extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Row(
               children: [
-                const Icon(Icons.location_on, color: Colors.red),
+                Icon(Icons.location_on, color: AppColors.red), 
                 SizedBox(width: 8.w),
                 Text(
-                  'تتبع الفني',
+                  l10n.trackTechnician, 
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,

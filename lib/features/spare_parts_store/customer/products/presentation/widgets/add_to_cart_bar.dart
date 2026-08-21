@@ -1,7 +1,9 @@
 // شريط سفلي ثابت يحتوي على محدد الكمية وزر إضافة المنتج إلى السلة
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/features/spare_parts_store/customer/products/presentation/widgets/quantity_selector.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -25,13 +27,16 @@ class AddToCartBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
+    final formattedPrice = l10n.currencyFormat(totalPrice.toStringAsFixed(0));
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
         color: AppColors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: AppColors.black.withValues(alpha: 0.06), 
             blurRadius: 8,
             offset: const Offset(0, -2),
           ),
@@ -47,9 +52,9 @@ class AddToCartBar extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'الكمية',
-                  style: AppTypography.labelSmall.copyWith(
-                    color: AppColors.lightTextSecondary,
+                  l10n.quantityLabel, 
+                  style: context.textTheme.labelSmall!.copyWith(
+                    color: AppColors.textSecondary(context),
                   ),
                 ),
                 SizedBox(height: 4.h),
@@ -83,8 +88,8 @@ class AddToCartBar extends StatelessWidget {
                         ),
                       )
                     : Text(
-                        'أضف إلى السلة — ${totalPrice.toStringAsFixed(0)} ل.س',
-                        style: AppTypography.labelLarge.copyWith(color: AppColors.white),
+                        l10n.addToCartWithPriceLabel(formattedPrice),
+                        style: context.textTheme.labelLarge!.copyWith(color: AppColors.white),
                       ),
               ),
             ),

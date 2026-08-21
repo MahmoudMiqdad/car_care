@@ -30,7 +30,7 @@ Future<void> confirmAndLogout(BuildContext context) async {
           ),
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            style: TextButton.styleFrom(foregroundColor: AppColors.error),
+            style: TextButton.styleFrom(foregroundColor: AppColors.red),
             child: Text(strings.logout),
           ),
         ],

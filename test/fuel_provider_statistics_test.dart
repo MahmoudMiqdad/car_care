@@ -1,6 +1,3 @@
-// اختبارات إعادة تصميم إحصائيات مزود الوقود على نمط إحصائيات المغسلة —
-// إجمالي الطلبات، حالات الطلبات، إجمالي الأرباح، دون تقييمات، ودون طلبات
-// إضافية أو تغيير في منطق التحميل.
 import 'package:car_care/features/fuel_provider/fuel_provider_statistics/domain/entities/provider_statistics_entity.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_statistics/domain/repositories/i_provider_statistics_repository.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_statistics/presentation/cubit/provider_statistics_cubit.dart';
@@ -70,22 +67,24 @@ Future<void> _pumpBody(
 }
 
 void main() {
-  group('ProviderStatisticsBody — new design (reused core/widgets/statistics)', () {
-    testWidgets('shows "اجمالي الطلبات" with the real total, exactly one '
-        'getStatistics() request', (tester) async {
-      final repo = MockFuelProviderStatisticsRepository();
-      final cubit = await _loadedCubit(repo, _fakeStats(totalOrders: 42));
+  group(
+    'ProviderStatisticsBody — new design (reused core/widgets/statistics)',
+    () {
+      testWidgets('shows "اجمالي الطلبات" with the real total, exactly one '
+          'getStatistics() request', (tester) async {
+        final repo = MockFuelProviderStatisticsRepository();
+        final cubit = await _loadedCubit(repo, _fakeStats(totalOrders: 42));
 
-      await _pumpBody(tester, cubit);
+        await _pumpBody(tester, cubit);
 
-      expect(find.text('اجمالي الطلبات'), findsWidgets);
-      expect(find.text('42'), findsOneWidget);
-      verify(() => repo.getStatistics()).called(1);
-    });
+        expect(find.text('اجمالي الطلبات'), findsWidgets);
+        expect(find.text('42'), findsOneWidget);
+        verify(() => repo.getStatistics()).called(1);
+      });
 
-    testWidgets(
-      'shows pending/accepted/in_progress with their real counts',
-      (tester) async {
+      testWidgets('shows pending/accepted/in_progress with their real counts', (
+        tester,
+      ) async {
         final repo = MockFuelProviderStatisticsRepository();
         final cubit = await _loadedCubit(
           repo,
@@ -98,89 +97,89 @@ void main() {
         expect(find.text('5'), findsOneWidget);
         expect(find.text('7'), findsOneWidget);
         expect(find.text('3'), findsOneWidget);
-      },
-    );
+      });
 
-    testWidgets(
-      'shows completed/cancelled as legend chips under the summary bar',
-      (tester) async {
+      testWidgets(
+        'shows completed/cancelled as legend chips under the summary bar',
+        (tester) async {
+          final repo = MockFuelProviderStatisticsRepository();
+          final cubit = await _loadedCubit(
+            repo,
+            _fakeStats(completedOrders: 25, cancelledOrders: 2),
+          );
+
+          await _pumpBody(tester, cubit);
+
+          expect(find.textContaining('25'), findsWidgets);
+          expect(find.textContaining('2'), findsWidgets);
+        },
+      );
+
+      testWidgets('shows total profits using the existing value/format', (
+        tester,
+      ) async {
         final repo = MockFuelProviderStatisticsRepository();
-        final cubit = await _loadedCubit(
-          repo,
-          _fakeStats(completedOrders: 25, cancelledOrders: 2),
-        );
+        final cubit = await _loadedCubit(repo, _fakeStats(totalRevenue: 1234));
 
         await _pumpBody(tester, cubit);
 
-        expect(find.textContaining('25'), findsWidgets);
-        expect(find.textContaining('2'), findsWidgets);
-      },
-    );
+        expect(find.text('اجمالي الأرباح'), findsOneWidget);
+        expect(find.text('1,234 ل.س'), findsOneWidget);
+      });
 
-    testWidgets('shows total profits using the existing value/format', (
-      tester,
-    ) async {
-      final repo = MockFuelProviderStatisticsRepository();
-      final cubit = await _loadedCubit(repo, _fakeStats(totalRevenue: 1234));
+      testWidgets(
+        'never shows any ratings/reviews content — not available for fuel',
+        (tester) async {
+          final repo = MockFuelProviderStatisticsRepository();
+          final cubit = await _loadedCubit(repo, _fakeStats());
 
-      await _pumpBody(tester, cubit);
+          await _pumpBody(tester, cubit);
 
-      expect(find.text('اجمالي الأرباح'), findsOneWidget);
-      expect(find.text('\$ 1,234'), findsOneWidget);
-    });
+          expect(find.textContaining('تقييم'), findsNothing);
+          expect(find.textContaining('مراجع'), findsNothing);
+        },
+      );
 
-    testWidgets(
-      'never shows any ratings/reviews content — not available for fuel',
-      (tester) async {
-        final repo = MockFuelProviderStatisticsRepository();
-        final cubit = await _loadedCubit(repo, _fakeStats());
+      testWidgets(
+        'an all-zero statistics response renders safely — flat segmented bar, '
+        'zeros shown, no overflow/exception',
+        (tester) async {
+          final repo = MockFuelProviderStatisticsRepository();
+          final cubit = await _loadedCubit(
+            repo,
+            _fakeStats(
+              totalOrders: 0,
+              pendingOrders: 0,
+              acceptedOrders: 0,
+              inProgressOrders: 0,
+              completedOrders: 0,
+              cancelledOrders: 0,
+              totalRevenue: 0,
+            ),
+          );
 
-        await _pumpBody(tester, cubit);
+          await _pumpBody(tester, cubit);
 
-        expect(find.textContaining('تقييم'), findsNothing);
-        expect(find.textContaining('مراجع'), findsNothing);
-      },
-    );
+          expect(find.text('0'), findsWidgets);
+          expect(find.text('0 ل.س'), findsOneWidget);
+          expect(tester.takeException(), isNull);
+        },
+      );
 
-    testWidgets(
-      'an all-zero statistics response renders safely — flat segmented bar, '
-      'zeros shown, no overflow/exception',
-      (tester) async {
-        final repo = MockFuelProviderStatisticsRepository();
-        final cubit = await _loadedCubit(
-          repo,
-          _fakeStats(
-            totalOrders: 0,
-            pendingOrders: 0,
-            acceptedOrders: 0,
-            inProgressOrders: 0,
-            completedOrders: 0,
-            cancelledOrders: 0,
-            totalRevenue: 0,
-          ),
-        );
+      testWidgets(
+        'rebuilding the widget tree triggers no additional getStatistics() '
+        'request — loading stays exactly as-is',
+        (tester) async {
+          final repo = MockFuelProviderStatisticsRepository();
+          final cubit = await _loadedCubit(repo, _fakeStats());
 
-        await _pumpBody(tester, cubit);
+          await _pumpBody(tester, cubit);
+          await tester.pump();
+          await tester.pump();
 
-        expect(find.text('0'), findsWidgets);
-        expect(find.text('\$ 0'), findsOneWidget);
-        expect(tester.takeException(), isNull);
-      },
-    );
-
-    testWidgets(
-      'rebuilding the widget tree triggers no additional getStatistics() '
-      'request — loading stays exactly as-is',
-      (tester) async {
-        final repo = MockFuelProviderStatisticsRepository();
-        final cubit = await _loadedCubit(repo, _fakeStats());
-
-        await _pumpBody(tester, cubit);
-        await tester.pump();
-        await tester.pump();
-
-        verify(() => repo.getStatistics()).called(1);
-      },
-    );
-  });
+          verify(() => repo.getStatistics()).called(1);
+        },
+      );
+    },
+  );
 }

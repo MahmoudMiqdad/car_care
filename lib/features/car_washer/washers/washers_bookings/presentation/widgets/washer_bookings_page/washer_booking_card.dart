@@ -7,6 +7,7 @@ import 'package:car_care/features/car_washer/washers/washers_bookings/presentati
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/widgets/washer_bookings_page/washer_booking_quick_actions_column.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/widgets/washer_bookings_page/washer_booking_status_chips_row.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/widgets/washer_bookings_page/washer_booking_view_details_button.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -54,7 +55,7 @@ class _WasherBookingCardState extends State<WasherBookingCard> {
   @override
   Widget build(BuildContext context) {
     final booking = widget.booking;
-
+    final string = context.l10n;
     final visibility = washerBookingActionVisibilityFor(booking.status);
     final showDefaultActions = visibility.showAcceptReject;
     final showAfterAcceptActions = visibility.showStartComplete;
@@ -64,7 +65,7 @@ class _WasherBookingCardState extends State<WasherBookingCard> {
       decoration: BoxDecoration(
         color: AppColors.white.withValues(alpha: 0.85),
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppColors.lightBorder),
+        border: Border.all(color: AppColors.border(context)),
       ),
       padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
       child: Column(
@@ -109,7 +110,10 @@ class _WasherBookingCardState extends State<WasherBookingCard> {
                 onRejectSubmit: () {
                   final reason = _rejectController.text.trim();
                   if (reason.isEmpty) {
-                    AppSnackBar.error(context, 'يرجى إدخال سبب الرفض');
+                    AppSnackBar.error(
+                      context,
+                      string.pleaseEnterRejectionReason,
+                    );
                     return;
                   }
                   context.read<BookingsCubit>().rejectBooking(

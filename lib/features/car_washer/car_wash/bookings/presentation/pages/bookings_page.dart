@@ -23,47 +23,44 @@ class CustomerBookingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<CustomerBookingsCubit>()..fetchBookings(), 
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          appBar: CustomAppBar(
-            title: context.l10n.bookingsPageTitle,
-            showBackButton: true,
-            onBackTapped: () => context.safePopOrGo(Routes.home),
-          ),
-          backgroundColor: AppColors.lightScaffold,
-          body: ImageBackground(
-            child: SafeArea(
-              child: BlocBuilder<CustomerBookingsCubit, CustomerBookingsState>(
-                builder: (context, state) {
-                  if (state is CustomerBookingsLoading) {
-                    return const Center(child: AppLoadingWidget());
-                  }
-                  if (state is CustomerBookingsError) {
-                    return Center(child: Text(state.message));
-                  }
-                  if (state is CustomerBookingsLoaded) {
-                    final items = state.items;
-
-                    return ListView.separated(
-                      padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 20.h),
-                      itemCount: items.length + 1,
-                      separatorBuilder: (_, _) => SizedBox(height: 14.h),
-                      itemBuilder: (context, index) {
-                        if (index == 0) return  CustomerBookingFilter();
-
-                        final booking = items[index - 1];
-
-                        return BookingCard(
-                          booking: booking,
-                        );
-                      },
-                    );
-                  }
-
-                  return const SizedBox.shrink();
-                },
-              ),
+      child: Scaffold(
+        appBar: CustomAppBar(
+          title: context.l10n.bookingsPageTitle,
+          showBackButton: true,
+          onBackTapped: () => context.safePopOrGo(Routes.home),
+        ),
+        backgroundColor: AppColors.scaffoldBackground(context),
+        body: ImageBackground(
+          child: SafeArea(
+            child: BlocBuilder<CustomerBookingsCubit, CustomerBookingsState>(
+              builder: (context, state) {
+                if (state is CustomerBookingsLoading) {
+                  return const Center(child: AppLoadingWidget());
+                }
+                if (state is CustomerBookingsError) {
+                  return Center(child: Text(state.message));
+                }
+                if (state is CustomerBookingsLoaded) {
+                  final items = state.items;
+      
+                  return ListView.separated(
+                    padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 20.h),
+                    itemCount: items.length + 1,
+                    separatorBuilder: (_, _) => SizedBox(height: 14.h),
+                    itemBuilder: (context, index) {
+                      if (index == 0) return  CustomerBookingFilter();
+      
+                      final booking = items[index - 1];
+      
+                      return BookingCard(
+                        booking: booking,
+                      );
+                    },
+                  );
+                }
+      
+                return const SizedBox.shrink();
+              },
             ),
           ),
         ),

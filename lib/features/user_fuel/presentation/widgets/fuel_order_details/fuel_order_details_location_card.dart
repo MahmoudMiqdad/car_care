@@ -60,8 +60,8 @@ class FuelOrderDetailsLocationCard extends StatelessWidget {
                             width: 24,
                             height: 24,
                             child: Container(
-                              decoration: const BoxDecoration(
-                                color: Color(0xFF45B733),
+                              decoration: BoxDecoration(
+                                color: AppColors.green,
                                 shape: BoxShape.circle,
                               ),
                             ),
@@ -72,21 +72,21 @@ class FuelOrderDetailsLocationCard extends StatelessWidget {
                 ),
               ),
               if (canTrack)
-                Positioned(
-                  bottom: 8,
-                  left: 8,
-                  right: 8,
+                PositionedDirectional(
+                  bottom: 8.h,
+                  start: 8.w,
+                  end: 8.w,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 6),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 12.w, vertical: 6.h),
                     decoration: BoxDecoration(
-                      color: Colors.black54,
-                      borderRadius: BorderRadius.circular(8),
+                      color: AppColors.black.withValues(alpha: 0.54),
+                      borderRadius: BorderRadius.circular(8.r),
                     ),
-                    child: const Text(
-                      'اضغط لتتبع مزود الوقود مباشرة',
+                    child: Text(
+                      l10n.tapToTrackFuelProviderLive,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white, fontSize: 12),
+                      style: TextStyle(color: AppColors.white, fontSize: 12.sp),
                     ),
                   ),
                 ),
@@ -98,6 +98,8 @@ class FuelOrderDetailsLocationCard extends StatelessWidget {
   }
 
   void _openTrackingMap(BuildContext context) {
+    final l10n = context.l10n;
+
     Navigator.of(context).push(
       MaterialPageRoute(
         fullscreenDialog: true,
@@ -105,9 +107,9 @@ class FuelOrderDetailsLocationCard extends StatelessWidget {
           create: (_) => getIt<UserFuelTrackingCubit>(),
           child: Scaffold(
             appBar: AppBar(
-              title: const Text('تتبع مزود الوقود'),
+              title: Text(l10n.trackFuelProviderTitle),
               backgroundColor: AppColors.carWashTeal,
-              foregroundColor: Colors.white,
+              foregroundColor: AppColors.white,
             ),
             body: UserFuelTrackingMapWidget(
               orderId: order.id ?? 0,

@@ -1,5 +1,5 @@
-﻿import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
+﻿import 'package:car_care/core/extensions/theme_extension.dart';
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/domain/entities/washers_entity.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/widgets/washer_avatar.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/widgets/washers_page/washer_star_rating_row.dart';
@@ -17,7 +17,6 @@ class WasherDetailsHeader extends StatelessWidget {
     final l10n = context.l10n;
 
     return Row(
-      textDirection: TextDirection.rtl,
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -33,13 +32,12 @@ class WasherDetailsHeader extends StatelessWidget {
             children: <Widget>[
               Text(
                 washer.shopName,
-                textAlign: TextAlign.right,
+                textAlign: TextAlign.start, 
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: AppTypography.headlineSmall.copyWith(
+                style: context.textTheme.headlineSmall!.copyWith(
                   color: AppColors.black,
                   fontWeight: FontWeight.w800,
-                  fontSize: 22.sp,
                 ),
               ),
               SizedBox(height: 6.h),
@@ -47,9 +45,9 @@ class WasherDetailsHeader extends StatelessWidget {
               SizedBox(height: 4.h),
               Text(
                 l10n.washersRatingsWithCount(washer.ratingsCount),
-                textAlign: TextAlign.right,
-                style: AppTypography.bodySmall.copyWith(
-                  color: AppColors.lightTextSecondary,
+                textAlign: TextAlign.start,
+                style: context.textTheme.bodySmall!.copyWith(
+                  color: AppColors.textSecondary(context),
                   fontWeight: FontWeight.w600,
                 ),
               ),

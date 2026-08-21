@@ -1,8 +1,10 @@
-// بطاقة طلب تُستخدم داخل شاشة طلباتي
+
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
+
 import 'package:car_care/features/spare_parts_store/customer/checkout/domain/entities/order_entity.dart';
 import 'package:car_care/features/spare_parts_store/shared/presentation/widgets/order_status_badge.dart';
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -22,10 +24,14 @@ class OrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+ 
+
     final firstItemName = order.items.isNotEmpty
         ? order.items.first.product.name
-        : 'لا توجد منتجات';
+        : l10n.noProductsAvailable; 
     final itemCount = order.items.length;
+    final formattedPrice = order.totalPrice.toStringAsFixed(0);
 
     return InkWell(
       onTap: onTap,
@@ -37,7 +43,7 @@ class OrderCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(14.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: AppColors.black.withValues(alpha: 0.04), 
               blurRadius: 6,
               offset: const Offset(0, 2),
             ),
@@ -53,8 +59,8 @@ class OrderCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'طلب رقم #${order.id}',
-                        style: AppTypography.labelLarge.copyWith(
+                        l10n.orderNumberLabel1,
+                        style: context.textTheme.labelLarge!.copyWith(
                           color: AppColors.primary,
                           fontWeight: FontWeight.w800,
                         ),
@@ -65,7 +71,7 @@ class OrderCard extends StatelessWidget {
                           Icon(
                             Icons.storefront_outlined,
                             size: 13.sp,
-                            color: AppColors.lightTextSecondary,
+                            color: AppColors.textSecondary(context),
                           ),
                           SizedBox(width: 3.w),
                           Expanded(
@@ -73,8 +79,8 @@ class OrderCard extends StatelessWidget {
                               order.shop.name,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: AppTypography.labelSmall.copyWith(
-                                color: AppColors.lightTextSecondary,
+                              style: context.textTheme.labelSmall!.copyWith(
+                                color: AppColors.textSecondary(context),
                               ),
                             ),
                           ),
@@ -87,7 +93,7 @@ class OrderCard extends StatelessWidget {
               ],
             ),
             SizedBox(height: 10.h),
-            Divider(color: AppColors.lightBorder, height: 1),
+            Divider(color: AppColors.border(context), height: 1),
             SizedBox(height: 10.h),
             Row(
               children: [
@@ -99,17 +105,18 @@ class OrderCard extends StatelessWidget {
                         firstItemName,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: AppTypography.labelSmall.copyWith(
-                          color: AppColors.lightTextPrimary,
+                        style: context.textTheme.labelSmall!.copyWith(
+                          color: AppColors.textPrimary(context),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       if (itemCount > 1) ...[
                         SizedBox(height: 2.h),
                         Text(
-                          '+${itemCount - 1} منتج آخر',
-                          style: AppTypography.labelSmall.copyWith(
-                            color: AppColors.lightTextSecondary,
+                       
+                          l10n.plusMoreProductsLabel(itemCount - 1),
+                          style: context.textTheme.labelSmall!.copyWith(
+                            color: AppColors.textSecondary(context),
                           ),
                         ),
                       ],
@@ -120,8 +127,8 @@ class OrderCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '${order.totalPrice.toStringAsFixed(0)} ل.س',
-                      style: AppTypography.labelLarge.copyWith(
+                      l10n.currencyFormat(formattedPrice),
+                      style: context.textTheme.labelLarge!.copyWith(
                         color: AppColors.primary,
                         fontWeight: FontWeight.w800,
                       ),
@@ -129,8 +136,8 @@ class OrderCard extends StatelessWidget {
                     if (order.createdAt != null)
                       Text(
                         order.createdAt!.toLocal().toString().substring(0, 10),
-                        style: AppTypography.labelSmall.copyWith(
-                          color: AppColors.lightTextSecondary,
+                        style: context.textTheme.labelSmall!.copyWith(
+                          color: AppColors.textSecondary(context),
                         ),
                       ),
                   ],
@@ -148,16 +155,16 @@ class OrderCard extends StatelessWidget {
                           height: 20.sp,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: AppColors.error,
+                            color: AppColors.red,
                           ),
                         ),
                       )
                     : OutlinedButton.icon(
                         onPressed: onCancel,
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: AppColors.error,
+                          foregroundColor: AppColors.red,
                           side: BorderSide(
-                            color: AppColors.error.withOpacity(0.5),
+                            color: AppColors.red.withValues(alpha: 0.5),
                           ),
                           padding: EdgeInsets.symmetric(vertical: 8.h),
                           shape: RoundedRectangleBorder(
@@ -166,9 +173,9 @@ class OrderCard extends StatelessWidget {
                         ),
                         icon: Icon(Icons.cancel_outlined, size: 16.sp),
                         label: Text(
-                          'إلغاء الطلب',
-                          style: AppTypography.labelSmall.copyWith(
-                            color: AppColors.error,
+                          l10n.cancelRequestButton,
+                          style: context.textTheme.labelSmall!.copyWith(
+                            color: AppColors.red,
                             fontWeight: FontWeight.w700,
                           ),
                         ),

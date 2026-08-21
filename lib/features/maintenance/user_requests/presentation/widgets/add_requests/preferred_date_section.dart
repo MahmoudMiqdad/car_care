@@ -1,5 +1,6 @@
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/add_requests/requests_form_card.dart';
+import 'package:car_care/l10n.dart'; // 🎯 استيراد امتداد l10n للترجمة الديناميكية
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,13 +15,19 @@ class PreferredDateSection extends StatelessWidget {
   final double cardRadius;
   final DateTime formattedDate;
   final VoidCallback onPickDate;
+
   static String _formatDate(DateTime d) =>
       '${d.year}/${d.month}/${d.day}  ';
+
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n; 
+  
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
     return RequestsFormCard(
       cardRadius: cardRadius,
-      title: 'اختيار التاريخ المفضل',
+      title: l10n.selectPreferredDateTitle, 
       icon: Icons.calendar_today,
       iconColor: AppColors.primary,
       child: InkWell(
@@ -32,14 +39,18 @@ class PreferredDateSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-              _formatDate(formattedDate)  ,
+                _formatDate(formattedDate),
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.lightTextPrimary.withValues(alpha: 0.85),
+                  color: AppColors.textPrimary(context).withValues(alpha: 0.85),
                 ),
               ),
-              Icon(Icons.chevron_left, color: AppColors.primary, size: 22.sp),
+              Icon(
+                isRtl ? Icons.chevron_left : Icons.chevron_right, 
+                color: AppColors.primary, 
+                size: 22.sp,
+              ),
             ],
           ),
         ),

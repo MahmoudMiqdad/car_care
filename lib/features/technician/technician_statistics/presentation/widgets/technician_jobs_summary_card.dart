@@ -15,20 +15,20 @@ class TechnicianJobsSummaryCard extends StatelessWidget {
     final l10n = context.l10n;
 
     return StatsSummaryCard(
-      title: 'الأعمال',
-      valueLabel: 'الإجمالي',
+      title: l10n.myJobsTitle,
+      valueLabel: l10n.invoiceTotal,
       value: data.totalJobs,
       icon: Icons.work_outline,
       segments: [
         StatsSegment(value: data.assignedJobs, color: AppColors.primary),
         StatsSegment(value: data.inProgressJobs, color: AppColors.carWashTeal),
-        StatsSegment(value: data.completedJobs, color: AppColors.success),
+        StatsSegment(value: data.completedJobs, color: AppColors.green),
       ],
       legendItems: [
         StatsLegendItem(
           label: l10n.completed,
           value: data.completedJobs,
-          color: AppColors.success,
+          color: AppColors.green,
         ),
       ],
     );
