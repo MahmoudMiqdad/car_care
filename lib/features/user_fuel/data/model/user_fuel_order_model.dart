@@ -126,8 +126,7 @@ class UserFuelOrderVehicleData {
       plateNumber: json['plate_number'],
       currentKm: json['current_km'],
       ownerName: owner?['name'],
-      // Same "vehicle" resource shape as the maintenance-request flow
-      // (see vehicle_model.dart), just not read here before.
+
       image: json['image']?.toString(),
       imagePath: json['image_path']?.toString(),
     );

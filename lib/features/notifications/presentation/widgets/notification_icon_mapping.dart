@@ -1,10 +1,6 @@
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
-/// Maps a backend `notification.type` to a display icon. Colors are always
-/// drawn from [AppColors] — SOS/emergency types use the accent color, every
-/// other known type uses primary, and unknown types fall back to a generic
-/// bell in primary.
 class NotificationIconMapping {
   const NotificationIconMapping._();
 

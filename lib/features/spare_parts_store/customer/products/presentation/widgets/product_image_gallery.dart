@@ -80,8 +80,6 @@ class _ProductImageGalleryState extends State<ProductImageGallery> {
   }
 }
 
-// صورة مصغّرة بـ placeholder/error خفيف يلائم مساحة صغيرة (لا يصلح AppCachedImageWidget هنا
-// لأن placeholder الموحّد فيه AppLoadingWidget أطول من ارتفاع الصورة المصغّرة ويسبب Overflow)
 class _ThumbnailImage extends StatelessWidget {
   const _ThumbnailImage({required this.imageUrl});
 

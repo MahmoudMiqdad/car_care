@@ -8,9 +8,6 @@ class FuelProviderOrderCubit extends Cubit<FuelProviderOrderState> {
 
   FuelProviderOrderCubit(this._repo) : super(FuelProviderOrderInitial());
 
-  /// Last successfully loaded order details, kept so a failed action
-  /// (accept/start/complete/cancel) can restore them instead of leaving
-  /// the details page blank.
   FuelOrderEntity? _lastOrder;
 
   Future<void> getOrder(int id) async {

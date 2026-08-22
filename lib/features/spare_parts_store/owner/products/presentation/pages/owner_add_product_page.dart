@@ -1,13 +1,4 @@
-// شاشة إضافة منتج جديد لمتجر المالك.
-// وفق عقد Postman المثبت (multipart/form-data):
-// name, description, price, stock_quantity, condition, car_brand_id,
-// part_category_id, images[index]. لا تعديل/حذف صور بعد الإنشاء هنا.
-// UI فقط (STORE-OWNER-PRODUCTS-UI-01): بطاقات بيضاء + Bottom Sheet اختيار
-// مفرد للتصنيفات + زر حفظ ثابت يرتفع فوق الكيبورد — المنطق والعقد كما هما.
-//
-// تمت إضافة الدعم متعدد اللغات (context.l10n) لكل النصوص الظاهرة للمستخدم،
-// واستبدال أي لون مباشر (Colors.xxx) بمكافئه من AppColors.
-// عدّل مسار الاستيراد أدناه ليطابق مكان امتداد context.l10n في مشروعك.
+
 import 'dart:io';
 
 import 'package:car_care/core/extensions/theme_extension.dart';
@@ -31,9 +22,6 @@ import 'package:image_picker/image_picker.dart';
 
 const int _kMaxProductImages = 5;
 
-/// قيمة حارسة (Sentinel) للتمييز بين «المستخدم أغلق النافذة دون اختيار»
-/// (تُعيد null) و«اختار المستخدم صراحةً بدون تحديد» (قيمة حقيقية غير null)
-/// — بما أن -1 ليس معرّف ماركة/فئة حقيقيًا أبدًا.
 const int _kNoSelection = -1;
 
 class OwnerAddProductPage extends StatefulWidget {
@@ -54,9 +42,6 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
   int? _partCategoryId;
   final List<XFile> _images = [];
 
-  /// True من لحظة الضغط على «حفظ» حتى انتهاء الطلب — يفرّق بين حالة
-  /// الإنشاء الخاملة عند فتح الصفحة وبين نتيجة طلب فعلي (نجاح/فشل) داخل
-  /// الـlistener، ويمنع الضغط المكرر أيضًا.
   bool _submitting = false;
 
   @override

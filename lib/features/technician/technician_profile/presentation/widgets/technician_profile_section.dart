@@ -2,9 +2,6 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Small titled white card used to visually group the technician profile
-/// forms/view into short, less intimidating chunks. Presentation-only —
-/// carries no data or submit logic of its own.
 class TechnicianProfileSection extends StatelessWidget {
   const TechnicianProfileSection({
     super.key,

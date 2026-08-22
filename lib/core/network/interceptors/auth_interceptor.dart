@@ -1,6 +1,4 @@
-// مسؤول عن إرفاق رمز الدخول بالطلبات وإدارة تجديده تلقائيًا عند انتهائه.
 import 'dart:async';
-import 'package:car_care/core/constants/app_token.dart';
 import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/core/network/api_client.dart';
 import 'package:car_care/core/network/api_endpoints.dart';
@@ -51,8 +49,7 @@ class AuthInterceptor extends Interceptor {
   ) async {
     try {
       if (!_isAuthEndpoint(options.path)) {
-    final token = AppToken.token;   
-   //     // final token = await _secureStorage.getToken() ?? '';
+        final token = await _secureStorage.getToken() ?? '';
         if (kDebugMode) {
           debugPrint('Auth Token: ${token.isNotEmpty ? 'Present' : 'Missing'}');
         }
@@ -78,17 +75,14 @@ class AuthInterceptor extends Interceptor {
       return handler.next(err);
     }
 
-    // Already retried with a fresh token — don't loop
     if (err.requestOptions.headers['_isRetry'] == true) {
       return handler.next(err);
     }
 
-    // Logout must never trigger a refresh/retry cycle of its own.
     if (err.requestOptions.path.contains(ApiEndpoints.logout)) {
       return handler.next(err);
     }
 
-    //logout if the refresh faild
     if (err.requestOptions.path.contains(_refreshPath)) {
       await _secureStorage.deleteAll();
       return handler.next(err);
@@ -100,7 +94,6 @@ class AuthInterceptor extends Interceptor {
     }
 
     try {
-      // start the refresh
       if (!_isRefreshing) {
         _isRefreshing = true;
         _refreshCompleter = Completer<String?>();
@@ -119,7 +112,6 @@ class AuthInterceptor extends Interceptor {
         return handler.resolve(retry);
       }
 
-      // if one request start refresh all the other request wait (refresh call just one time)
       final newAccessToken = await _refreshCompleter?.future;
       if (newAccessToken == null) return handler.next(err);
 

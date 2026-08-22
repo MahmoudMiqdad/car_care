@@ -52,7 +52,7 @@ class AppNavigationDrawer extends StatelessWidget {
 
     return Drawer(
       elevation: 0,
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.cardBackground(context),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadiusDirectional.only(
           topEnd: Radius.circular(24.r),
@@ -91,16 +91,15 @@ class AppNavigationDrawer extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 8.h),
-_DrawerTile(
-  icon: Icons.settings_outlined,
-  label: strings.settingsTitle,
-  iconColor: AppColors.primary,
-  onTap: () => _closeThen(
-    context,
-    // ⬅️ push بدل go: نفس السبب — صفحة الإعدادات لازم يرجع منها المستخدم بزر الرجوع.
-    () => context.push(Routes.settings),
-  ),
-),
+                  _DrawerTile(
+                    icon: Icons.settings_outlined,
+                    label: strings.settingsTitle,
+                    iconColor: AppColors.primary,
+                    onTap: () => _closeThen(
+                      context,
+                      () => context.push(Routes.settings),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -130,8 +129,6 @@ _DrawerTile(
   }
 }
 
-/// Gradient header with a quiet "bubble" motif — a small nod to the
-/// wash/water identity of the app, without needing an image asset.
 class _DrawerHeader extends StatelessWidget {
   const _DrawerHeader({required this.appName, required this.tagline});
 
@@ -258,7 +255,7 @@ class _DrawerTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.white,
+      color: AppColors.cardBackground(context),
       borderRadius: BorderRadius.circular(14.r),
       child: InkWell(
         onTap: onTap,

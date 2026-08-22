@@ -5,7 +5,6 @@ import 'package:car_care/core/widgets/vehicle_info_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Labeled metric card (title + icon/value row) — surface matches [VehicleInfoSurface].
 class VehicleInfoCardWidget extends StatelessWidget {
   final String title;
   final String value;
@@ -27,26 +26,28 @@ class VehicleInfoCardWidget extends StatelessWidget {
             title,
             style: TextStyle(
               fontSize: 14.sp,
-              color: AppColors.black,
+              color: AppColors.textPrimary(context),
               fontWeight: FontWeight.bold,
             ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-                            SizedBox(width: 10,),
-
               icon,
-              Text(
-                value,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w900,
-                  color: AppColors.black,
+              SizedBox(width: 10.w),
+              Expanded(
+                child: Text(
+                  value,
+                  textAlign: TextAlign.end,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.textPrimary(context),
+                  ),
                 ),
               ),
-                            SizedBox(width: 12,),
-
             ],
           ),
         ],

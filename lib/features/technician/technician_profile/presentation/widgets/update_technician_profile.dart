@@ -38,20 +38,11 @@ class _TechnicianProfileEditBodyContentState
 
   List<XFile> _certificationImages = [];
 
-  // Presentation-only flag: getTechnicianProfile() and
-  // updateTechnicianProfile() both emit the same TechnicianProfileLoaded
-  // type on this cubit, but this screen only ever calls
-  // updateTechnicianProfile() — so a Loaded state reaching this listener is
-  // always this screen's own update completing, never a GET. This flag
-  // still guards that assumption explicitly rather than relying on it
-  // implicitly, so a future call to getTechnicianProfile() on this same
-  // cubit instance can't accidentally trigger an auto-pop.
   bool _isSubmittingUpdate = false;
 
   @override
   void initState() {
     super.initState();
-    // ← تملى الحقول بالبيانات الموجودة تلقائياً
     final d = widget.initialData;
     _specializationController = TextEditingController(
       text: d?.specialization ?? '',

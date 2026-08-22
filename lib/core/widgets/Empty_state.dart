@@ -1,8 +1,7 @@
 import 'dart:math';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
-
-
 
 class EmptyStateWidget extends StatefulWidget {
   const EmptyStateWidget({super.key});
@@ -91,7 +90,7 @@ class _EmptyStateWidgetState extends State<EmptyStateWidget>
                 height: 200,
                 child: AnimatedBuilder(
                   animation: Listenable.merge([_floatAnim, _wheelAnim, _roadAnim]),
-                  builder: (_, __) => CustomPaint(
+                  builder: (_, _) => CustomPaint(
                     painter: _CarPainter(
                       floatOffset: _floatAnim.value,
                       wheelAngle:  _wheelAnim.value,
@@ -102,7 +101,7 @@ class _EmptyStateWidgetState extends State<EmptyStateWidget>
               ),
               const SizedBox(height: 20),
               Text(
-                'لا توجد بيانات',
+                context.l10n.noData,
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
@@ -111,10 +110,10 @@ class _EmptyStateWidgetState extends State<EmptyStateWidget>
               ),
               const SizedBox(height: 8),
               Text(
-                'تحقق لاحقاً أو أضف طلباً جديداً',
+                context.l10n.noDataSubtitle,
                 style: TextStyle(
                   fontSize: 13,
-                  color: Colors.grey[500],
+                  color: AppColors.textSecondary(context),
                 ),
               ),
             ],
@@ -155,7 +154,6 @@ class _CarPainter extends CustomPainter {
       roadPaint,
     );
 
-    // road dashes (animated)
     final dashPaint = Paint()
       ..color = primary.withOpacity(0.3)
       ..style = PaintingStyle.fill;
@@ -229,7 +227,6 @@ class _CarPainter extends CustomPainter {
       Paint()..color = secondary.withOpacity(0.5),
     );
 
-    // headlight
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         Rect.fromLTWH(carX + carW * 0.88, carY + carH * 0.52, carW * 0.07, carH * 0.14),
@@ -238,7 +235,6 @@ class _CarPainter extends CustomPainter {
       Paint()..color = accent,
     );
 
-    // taillight
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         Rect.fromLTWH(carX, carY + carH * 0.52, carW * 0.06, carH * 0.14),
@@ -247,7 +243,6 @@ class _CarPainter extends CustomPainter {
       Paint()..color = accent.withOpacity(0.7),
     );
 
-    // door line
     canvas.drawLine(
       Offset(carX + carW * 0.5, carY + carH * 0.37),
       Offset(carX + carW * 0.5, carY + carH),
@@ -256,11 +251,9 @@ class _CarPainter extends CustomPainter {
         ..strokeWidth = 1.5,
     );
 
-    // ── Wheels ────────────────────────────────────────────────────────
     _drawWheel(canvas, Offset(carX + carW * 0.24, carY + carH * 0.95), carH * 0.22);
     _drawWheel(canvas, Offset(carX + carW * 0.76, carY + carH * 0.95), carH * 0.22);
 
-    // ── Wrench badge ──────────────────────────────────────────────────
     final badgeCenter = Offset(w * 0.5, carY - carH * 0.18);
     canvas.drawCircle(
       badgeCenter,
@@ -281,7 +274,6 @@ class _CarPainter extends CustomPainter {
 
     canvas.restore();
 
-    // ── Accent dots ───────────────────────────────────────────────────
     final t = DateTime.now().millisecondsSinceEpoch / 1000.0;
     _drawDot(canvas, Offset(w * 0.85, h * 0.28), accent,
         (sin(t * 1.8) * 0.5 + 0.5));
@@ -292,15 +284,11 @@ class _CarPainter extends CustomPainter {
   }
 
   void _drawWheel(Canvas canvas, Offset center, double radius) {
-    // outer tire
     canvas.drawCircle(center, radius, Paint()..color = const Color(0xFF1a1a2e));
-    // hub
     canvas.drawCircle(
         center, radius * 0.55, Paint()..color = AppColors.primary);
-    // center cap
     canvas.drawCircle(
         center, radius * 0.22, Paint()..color = AppColors.secondary);
-    // spokes
     final spokePaint = Paint()
       ..color       = AppColors.secondary.withOpacity(0.5)
       ..strokeWidth = 1.5;

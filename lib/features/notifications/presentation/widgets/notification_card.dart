@@ -33,7 +33,9 @@ class NotificationCard extends StatelessWidget {
     return Opacity(
       opacity: isDeleting ? 0.5 : 1,
       child: Material(
-        color: isUnread ? AppColors.secondary : AppColors.white,
+        color: isUnread
+            ? AppColors.secondary
+            : AppColors.cardBackground(context),
         borderRadius: BorderRadius.circular(14.r),
         child: InkWell(
           borderRadius: BorderRadius.circular(14.r),
@@ -83,7 +85,7 @@ class NotificationCard extends StatelessWidget {
                                 fontWeight: isUnread
                                     ? FontWeight.w700
                                     : FontWeight.w500,
-                                color: AppColors.black,
+                                color: AppColors.textPrimary(context),
                               ),
                             ),
                           ),
@@ -94,12 +96,18 @@ class NotificationCard extends StatelessWidget {
                         notification.body,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 12.5.sp, color: Colors.grey[600]),
+                        style: TextStyle(
+                          fontSize: 12.5.sp,
+                          color: AppColors.textSecondary(context),
+                        ),
                       ),
                       SizedBox(height: 6.h),
                       Text(
                         formatRelativeTime(context, notification.createdAt),
-                        style: TextStyle(fontSize: 11.sp, color: Colors.grey[500]),
+                        style: TextStyle(
+                          fontSize: 11.sp,
+                          color: AppColors.textSecondary(context),
+                        ),
                       ),
                     ],
                   ),
@@ -117,7 +125,7 @@ class NotificationCard extends StatelessWidget {
                     icon: Icon(
                       Icons.delete_outline_rounded,
                       size: 20.sp,
-                      color: Colors.grey[500],
+                      color: AppColors.textSecondary(context),
                     ),
                   ),
               ],

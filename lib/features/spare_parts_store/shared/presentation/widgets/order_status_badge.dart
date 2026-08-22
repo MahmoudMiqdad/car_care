@@ -1,6 +1,4 @@
-// لون وشارة حالة الطلب — مكوّن مشترك بين واجهتَي العميل والمالك حتى لا
-// تختلف الألوان/الأسماء بين الجهتين. rejected حالة مستقلة عن cancelled
-// (رفض المالك للطلب أثناء pending وليس إلغاء العميل).
+
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 
@@ -30,7 +28,6 @@ class OrderStatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 💡 قمنا بتمرير الـ context هنا كمعامل أول للدالة ليختفي الخطأ
     final color = orderStatusColor(context, status);
     
     return Container(

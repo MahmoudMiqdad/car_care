@@ -42,17 +42,19 @@ class StatusFilterTabs<T> extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: isSelected ? AppColors.primary : Colors.white,
+                    color: isSelected
+                        ? AppColors.primary
+                        : AppColors.cardBackground(context),
                     borderRadius: BorderRadius.circular(20.r),
                     border: Border.all(
                       color: isSelected
                           ? AppColors.primary
-                          : AppColors.lightBorder,
+                          : AppColors.border(context),
                     ),
                     boxShadow: [
                       if (isSelected)
                         BoxShadow(
-                          color: AppColors.primary.withOpacity(0.2),
+                          color: AppColors.primary.withValues(alpha: 0.2),
                           blurRadius: 6,
                           offset: const Offset(0, 2),
                         ),
@@ -64,8 +66,8 @@ class StatusFilterTabs<T> extends StatelessWidget {
                       fontSize: isSelected ? 15.sp : 14.sp,
                       fontWeight: FontWeight.w800,
                       color: isSelected
-                          ? Colors.white
-                          : AppColors.lightTextSecondary,
+                          ? AppColors.white
+                          : AppColors.textSecondary(context),
                     ),
                   ),
                 ),

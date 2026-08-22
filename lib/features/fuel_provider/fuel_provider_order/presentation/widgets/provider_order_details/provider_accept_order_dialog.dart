@@ -14,9 +14,6 @@ class ProviderAcceptOrderDialogResult {
   final String notes;
 }
 
-/// Backend contract: estimated_arrival_minutes is nullable int, min:1, max:120.
-/// Empty is allowed (means "not provided"); top-level so it's directly
-/// unit-testable without pumping the dialog widget.
 String? validateProviderEstimatedArrivalMinutes(String? value) {
   final trimmed = value?.trim() ?? '';
   if (trimmed.isEmpty) return null;
@@ -28,7 +25,6 @@ String? validateProviderEstimatedArrivalMinutes(String? value) {
   return null;
 }
 
-/// Backend contract: notes is nullable string, max:500.
 String? validateProviderNotes(String? value) {
   final trimmed = value?.trim() ?? '';
   if (trimmed.length > 500) {

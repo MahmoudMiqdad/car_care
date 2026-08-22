@@ -35,9 +35,6 @@ class OwnerOrderDetailsPage extends StatefulWidget {
 class _OwnerOrderDetailsPageState extends State<OwnerOrderDetailsPage> {
   late final OwnerOrderDetailsCubit _cubit;
 
-  /// True فقط بعد نجاح Mutation فعلي أثناء هذه الزيارة — تُعاد لقائمة
-  /// الطلبات عند الرجوع كي تُحدَّث مرة واحدة فقط عند تغيّر حقيقي، وصفر
-  /// Refresh عند مجرد فتح التفاصيل والرجوع دون أي إجراء.
   bool _mutated = false;
 
   @override

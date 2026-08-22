@@ -32,8 +32,6 @@ class NotificationEntity {
   }
 }
 
-/// Result of a notifications list fetch: the page of items plus the
-/// backend's authoritative unread count from `meta.unread_count`.
 class NotificationsListResult {
   final List<NotificationEntity> items;
   final int unreadCount;

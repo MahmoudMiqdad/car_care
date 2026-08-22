@@ -7,12 +7,8 @@ import 'package:dio/dio.dart';
 abstract class IOwnerProductsRepository {
   Future<Either<Failure, List<ProductEntity>>> getProducts();
 
-  /// [formData] يجب أن يحتوي فقط الحقول المثبتة في عقد POST /shop/products:
-  /// name, description, price, stock_quantity, condition, car_brand_id,
-  /// part_category_id, images[index].
   Future<Either<Failure, ProductEntity>> createProduct(FormData formData);
 
-  /// تحديث جزئي — يُرسل فقط الحقول المثبتة في العقد (price / stock_quantity).
   Future<Either<Failure, ProductEntity>> updateProduct(
     int productId, {
     double? price,

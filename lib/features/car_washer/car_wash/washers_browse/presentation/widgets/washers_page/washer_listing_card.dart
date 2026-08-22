@@ -24,7 +24,7 @@ class WasherListingCard extends StatelessWidget {
     final l10n = context.l10n;
 
     return Material(
-      color: AppColors.white,
+      color: AppColors.cardBackground(context),
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.r)),
       child: InkWell(
@@ -48,7 +48,7 @@ class WasherListingCard extends StatelessWidget {
                           washer.shopName,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: AppColors.black,
+                            color: AppColors.textPrimary(context),
                             fontSize: 20.sp,
                             fontWeight: FontWeight.w800,
                             height: 1.2,
@@ -132,14 +132,14 @@ class _SoftOutlinedButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(11.r),
         ),
-        backgroundColor: AppColors.white,
+        backgroundColor: AppColors.cardBackground(context),
         overlayColor: AppColors.primary.withValues(alpha: 0.1),
         splashFactory: InkRipple.splashFactory,
       ),
       child: Text(
         label,
         textAlign: TextAlign.center,
-        maxLines: 1,
+        maxLines: 2,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w700),
       ),

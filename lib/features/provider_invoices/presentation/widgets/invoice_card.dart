@@ -11,9 +11,8 @@ class InvoiceCard extends StatelessWidget {
   final ProviderInvoiceEntity invoice;
   final VoidCallback? onTap;
 
-  // 1. أضفنا BuildContext context هنا كـ Parameter لدعم الألوان الديناميكية
   ({Color bg, Color color, IconData icon, String Function(BuildContext) label})
-      _statusStyle(BuildContext context) {
+  _statusStyle(BuildContext context) {
     switch (invoice.effectiveStatus) {
       case 'paid':
         return (
@@ -40,7 +39,7 @@ class InvoiceCard extends StatelessWidget {
       default:
         return (
           bg: const Color(0xFFF0F0F0),
-          color: AppColors.textSecondary(context), // سيعمل الآن بشكل صحيح تماماً
+          color: AppColors.textSecondary(context),
           icon: Icons.edit_note_rounded,
           label: (ctx) => ctx.l10n.statusDraft,
         );
@@ -49,7 +48,6 @@ class InvoiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 2. قمنا بتمرير الـ context هنا عند استدعاء الدالة
     final style = _statusStyle(context);
     final l10n = context.l10n;
     final double localLabelSize = 17.sp;
@@ -70,7 +68,9 @@ class InvoiceCard extends StatelessWidget {
                   child: Container(
                     color: AppColors.white,
                     padding: EdgeInsets.symmetric(
-                        horizontal: 12.w, vertical: 10.h),
+                      horizontal: 12.w,
+                      vertical: 10.h,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -79,8 +79,11 @@ class InvoiceCard extends StatelessWidget {
                           value: invoice.invoiceNumber ?? '-',
                           labelFontSize: localLabelSize,
                           valueFontSize: localValueSize,
-                          leading: Icon(Icons.receipt_rounded,
-                              size: 20.sp, color: AppColors.primary),
+                          leading: Icon(
+                            Icons.receipt_rounded,
+                            size: 20.sp,
+                            color: AppColors.primary,
+                          ),
                         ),
                         AppInfoRow(
                           label: l10n.invoicePeriod,
@@ -88,16 +91,22 @@ class InvoiceCard extends StatelessWidget {
                               '${invoice.periodStart ?? '-'} - ${invoice.periodEnd ?? '-'}',
                           labelFontSize: localLabelSize,
                           valueFontSize: localValueSize,
-                          leading: Icon(Icons.date_range_rounded,
-                              size: 20.sp, color: AppColors.primary),
+                          leading: Icon(
+                            Icons.date_range_rounded,
+                            size: 20.sp,
+                            color: AppColors.primary,
+                          ),
                         ),
                         AppInfoRow(
                           label: l10n.invoiceTotal,
                           value: '${invoice.totalAmount ?? 0}',
                           labelFontSize: localLabelSize,
                           valueFontSize: localValueSize,
-                          leading: Icon(Icons.payments_rounded,
-                              size: 20.sp, color: AppColors.primary),
+                          leading: Icon(
+                            Icons.payments_rounded,
+                            size: 20.sp,
+                            color: AppColors.primary,
+                          ),
                         ),
                       ],
                     ),
@@ -117,8 +126,11 @@ class InvoiceCard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: style.color, width: 2.5),
                           ),
-                          child: Icon(style.icon,
-                              color: style.color, size: 28.sp),
+                          child: Icon(
+                            style.icon,
+                            color: style.color,
+                            size: 28.sp,
+                          ),
                         ),
                         SizedBox(height: 8.h),
                         Text(

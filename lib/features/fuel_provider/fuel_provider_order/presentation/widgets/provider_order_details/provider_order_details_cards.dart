@@ -114,11 +114,6 @@ class ProviderOrderDetailsOrderCard extends StatelessWidget {
   }
 }
 
-/// Shows the real vehicle image from the API — same resolveMediaUrl() helper
-/// and network-with-fallback pattern already used for the customer-side fuel
-/// order details and the maintenance request details' vehicle card. Falls
-/// back to the placeholder asset only when there is no image or it fails to
-/// load.
 class _ProviderOrderVehicleAvatar extends StatelessWidget {
   const _ProviderOrderVehicleAvatar({this.imageUrl});
 

@@ -1,6 +1,6 @@
 // شاشة قائمة طلبات المتجر للمالك.
 import 'package:car_care/core/routing/routes.dart';
-import 'package:car_care/core/theme/app_colors.dart'; // 🎯 استيراد AppColors للألوان الموحدة
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -10,7 +10,7 @@ import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/spare_parts_store/owner/orders/presentation/cubit/owner_orders/owner_orders_cubit.dart';
 import 'package:car_care/features/spare_parts_store/owner/orders/presentation/cubit/owner_orders/owner_orders_state.dart';
 import 'package:car_care/features/spare_parts_store/owner/orders/presentation/widgets/owner_order_card.dart';
-import 'package:car_care/l10n.dart'; // 🎯 استيراد امتداد l10n للترجمة الديناميكية
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,13 +40,13 @@ class _OwnerOrdersPageState extends State<OwnerOrdersPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n; // 🎯 جلب كائن الترجمة داخل الواجهة
+    final l10n = context.l10n;
 
     return BlocProvider.value(
       value: _cubit,
       child: Scaffold(
-        backgroundColor: AppColors.transparent, // 🎯 الاعتماد على AppColors بدلاً من الألوان الثابتة
-        appBar: CustomAppBar(title: l10n.shopOrdersPageTitle), // 🎯 "طلبات المتجر" مترجم ديناميكياً
+        backgroundColor: AppColors.transparent,
+        appBar: CustomAppBar(title: l10n.shopOrdersPageTitle),
         body: ImageBackground(
           child: BlocBuilder<OwnerOrdersCubit, OwnerOrdersState>(
             builder: (context, state) {
@@ -71,7 +71,7 @@ class _OwnerOrdersPageState extends State<OwnerOrdersPage> {
               if (state is OwnerOrdersLoaded) {
                 return RefreshIndicator(
                   onRefresh: _cubit.fetchOrders,
-                  color: AppColors.primary, // 🎯 تأمين لون التحديث من الكلاس الموحد
+                  color: AppColors.primary,
                   child: ListView.separated(
                     physics: const AlwaysScrollableScrollPhysics(),
                     padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 24.h),

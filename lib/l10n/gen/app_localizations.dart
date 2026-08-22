@@ -424,7 +424,7 @@ abstract class AppLocalizations {
   /// Displays when the request was created relative to now
   ///
   /// In en, this message translates to:
-  /// **'Created {time} ago'**
+  /// **'Created {time}'**
   String createdAgoLabel(String time);
 
   /// No description provided for @technicianOnWayLiveTracking.
@@ -1212,6 +1212,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No Data'**
   String get noData;
+
+  /// Subtitle shown below the no-data empty state
+  ///
+  /// In en, this message translates to:
+  /// **'Check back later or add a new request'**
+  String get noDataSubtitle;
 
   /// No schedules
   ///

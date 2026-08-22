@@ -22,7 +22,6 @@ class OrderDetailsMalfunctionSection extends StatelessWidget {
     final l10n = context.l10n;
     final priority = model.priority.toPriority();
     
-    // 💡 قمنا بتمرير الـ context هنا لحل المشكلة
     final priorityStyle = PriorityChipStyle.forState(
       context: context,
       value: priority,

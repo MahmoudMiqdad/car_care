@@ -24,11 +24,8 @@ class TechnicianJobUiModel {
   final String vehicle;
   final String appointmentDate;
 
-  /// null when the backend did not return a quotation price -> row is hidden.
   final String? priceOffer;
 
-  /// Backend status text (status_text / mapped status). Falls back to the
-  /// legacy إنتظار/مرفوض labels when not provided.
   final String? statusLabel;
 }
 
@@ -44,7 +41,6 @@ class TechnicianJobCard extends StatelessWidget {
 
   final TechnicianJobUiModel job;
 
-  /// Raw backend ServiceJob status: assigned | in_progress | completed | …
   final String? rawStatus;
   final bool isBusy;
   final VoidCallback? onStart;

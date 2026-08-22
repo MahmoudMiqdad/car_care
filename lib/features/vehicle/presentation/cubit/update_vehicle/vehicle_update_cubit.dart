@@ -11,10 +11,6 @@ class VehicleUpdateCubit extends Cubit<VehicleUpdateState> {
 
   final IVehicleRepository _repo;
 
-  /// [changedFields] must contain only the fields that actually differ from
-  /// the vehicle's original values (see buildVehicleUpdateFields) — this
-  /// cubit no longer decides inclusion itself, so an unchanged plate_number
-  /// is never resubmitted and can't trip the backend's uniqueness check.
   Future<void> updateVehicle({
     required int id,
     required Map<String, String> changedFields,

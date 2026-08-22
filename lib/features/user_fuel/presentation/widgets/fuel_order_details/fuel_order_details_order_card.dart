@@ -37,7 +37,7 @@ class FuelOrderDetailsOrderCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 23.sp,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.black,
+                    color: AppColors.textPrimary(context),
                   ),
                 ),
                 SizedBox(height: 8.h),
@@ -49,7 +49,10 @@ class FuelOrderDetailsOrderCard extends StatelessWidget {
                 SosDetailsInfoRow(
                   iconAsset: AppAssets.serviceFuel,
                   label: l10n.fuel,
-                  value: '${order.fuelType ?? '-'} - ${order.amount ?? 0} لتر',
+                  value: l10n.fuelAmountDetailsLabel(
+                    order.fuelType ?? '-',
+                    order.amount?.toString() ?? '0',
+                  ),
                 ),
                 SosDetailsInfoRow(
                   iconAsset: AppAssets.fuelOrderMoneyIcon,
@@ -69,10 +72,6 @@ class FuelOrderDetailsOrderCard extends StatelessWidget {
   }
 }
 
-/// Shows the real vehicle image from the API — same resolveMediaUrl()
-/// helper and network-with-fallback pattern already used successfully for
-/// the maintenance request details' vehicle card. Falls back to the
-/// placeholder asset only when there is no image or it fails to load.
 class _FuelOrderVehicleAvatar extends StatelessWidget {
   const _FuelOrderVehicleAvatar({this.imageUrl});
 
@@ -82,11 +81,10 @@ class _FuelOrderVehicleAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final url = imageUrl;
 
-    // 💡 قمنا بنقل دالة الـ placeholder إلى هنا لتصبح دالة داخلية ترى الـ context تلقائياً
     Widget placeholder() {
       return CircleAvatar(
         radius: 44.r,
-        backgroundColor: AppColors.cardBackground(context), // سيعمل الآن بشكل صحيح تماماً
+        backgroundColor: AppColors.cardBackground(context),
         backgroundImage: const AssetImage(AppAssets.technicianJobVehicleIcon),
       );
     }

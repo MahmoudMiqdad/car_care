@@ -44,8 +44,6 @@ class PasswordResetCubit extends Cubit<PasswordResetState> {
     );
   }
 
-  // Separate from the OTP-sending loading state so the resend cooldown UI
-  // stays interactive instead of locking the whole card.
   Future<void> resendOtp() async {
     emit(
       PasswordResetState(

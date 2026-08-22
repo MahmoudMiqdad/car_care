@@ -21,19 +21,22 @@ class RequestsFlowStyles {
     TextInputType? keyboardType,
   }) {
     return RequestsFormCard(
-      
       cardRadius: formCardRadius,
       title: title,
       icon: icon,
       iconColor: AppColors.primary,
       child: TextField(
-        
         controller: controller,
         maxLines: maxLines,
         keyboardType: keyboardType,
         textAlign: TextAlign.right,
-        style: TextStyle(fontSize: 14.sp, height: 1.2),
+        style: TextStyle(
+          color: AppColors.textPrimary(context),
+          fontSize: 14.sp,
+          height: 1.2,
+        ),
         decoration: InputDecoration(
+          filled: false,
           hintText: hintText,
           hintStyle: TextStyle(
             color: AppColors.textSecondary(context).withValues(alpha: 0.7),
@@ -43,7 +46,6 @@ class RequestsFlowStyles {
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
           errorBorder: InputBorder.none,
-          
           isDense: true,
           contentPadding: EdgeInsets.zero,
         ),

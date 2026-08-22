@@ -43,13 +43,13 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n; // 🎯 جلب كائن الترجمة داخل الواجهة
+    final l10n = context.l10n; 
 
     return BlocProvider.value(
       value: _cubit,
       child: Scaffold(
-        backgroundColor: AppColors.transparent, // 🎯 الاعتماد على AppColors بدلاً من الألوان الثابتة
-        appBar: CustomAppBar(title: l10n.cartPageTitle), // 🎯 "سلة المشتريات" مترجم ديناميكياً
+        backgroundColor: AppColors.transparent, 
+        appBar: CustomAppBar(title: l10n.cartPageTitle), 
         bottomNavigationBar: const CustomerStoreBottomNavBar(
           current: CustomerStoreSection.cart,
         ),

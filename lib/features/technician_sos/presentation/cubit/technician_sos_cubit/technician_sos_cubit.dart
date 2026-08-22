@@ -9,12 +9,8 @@ class TechnicianSosCubit extends Cubit<TechnicianSosState> {
 
   TechnicianSosCubit(this._repo) : super(TechnicianInitial());
 
-  /// Remembers which list is on screen so actions can reload the right one.
   SosRequestType _listType = SosRequestType.available;
 
-  /// Last successfully loaded request details, kept so a failed
-  /// accept/status/cancel action can restore them instead of leaving the
-  /// details page blank or full-page-error.
   TechnicianSosEntity? _lastRequest;
 
   Future<void> getAvailableRequests() async {
@@ -37,7 +33,6 @@ class TechnicianSosCubit extends Cubit<TechnicianSosState> {
     );
   }
 
-  /// Reloads whichever list the screen is showing.
   Future<void> reloadList() {
     return _listType == SosRequestType.available
         ? getAvailableRequests()
@@ -47,13 +42,10 @@ class TechnicianSosCubit extends Cubit<TechnicianSosState> {
   Future<void> getRequest(int id) async {
     emit(TechnicianLoading());
     final res = await _repo.getRequest(id);
-    res.fold(
-      (l) => emit(TechnicianError(l.displayMessage)),
-      (r) {
-        _lastRequest = r;
-        emit(TechnicianRequestLoaded(r));
-      },
-    );
+    res.fold((l) => emit(TechnicianError(l.displayMessage)), (r) {
+      _lastRequest = r;
+      emit(TechnicianRequestLoaded(r));
+    });
   }
 
   Future<void> acceptRequest(int id) async {
@@ -78,8 +70,6 @@ class TechnicianSosCubit extends Cubit<TechnicianSosState> {
     );
   }
 
-  /// PATCH /technician/sos/requests/{id}/status
-  /// [newStatus] is the backend value: in_progress | completed.
   Future<void> changeStatus(int sosId, String newStatus) async {
     emit(TechnicianActionLoading(sosId));
 
@@ -104,16 +94,14 @@ class TechnicianSosCubit extends Cubit<TechnicianSosState> {
     );
   }
 
-  /// POST /technician/sos/requests/{id}/cancel
   Future<void> cancelResponse(int sosId, String reason) async {
     emit(TechnicianActionLoading(sosId));
 
     final res = await _repo.cancelResponse(sosId, reason);
 
     res.fold(
-      (l) => emit(
-        TechnicianActionError(l.displayMessage, request: _lastRequest),
-      ),
+      (l) =>
+          emit(TechnicianActionError(l.displayMessage, request: _lastRequest)),
       (message) => emit(TechnicianResponseCancelled(message)),
     );
   }

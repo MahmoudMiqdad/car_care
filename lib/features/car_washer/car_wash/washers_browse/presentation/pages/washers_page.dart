@@ -3,7 +3,9 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
+import 'package:car_care/core/widgets/error_state_widget.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/domain/entities/washers_entity.dart';
@@ -95,39 +97,9 @@ class _WashersPageState extends State<WashersPage> {
                       }
 
                       if (state is WashersError) {
-                        return Center(
-                          child: Padding(
-                            padding: EdgeInsets.all(16.w),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  state.message,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 16.sp),
-                                ),
-                                SizedBox(height: 12.h),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.primary,
-                                    minimumSize: Size(double.infinity, 52.h),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(14.r),
-                                    ),
-                                  ),
-                                  onPressed: () => _cubit.fetchWashers(),
-                                  child: Text(
-                                    l10n.tryAgain,
-                                    style: TextStyle(
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.w700,
-                                      color: AppColors.white,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                        return ErrorStateWidget(
+                          message: state.message,
+                          onRetry: () => _cubit.fetchWashers(),
                         );
                       }
 
@@ -135,15 +107,7 @@ class _WashersPageState extends State<WashersPage> {
                         final List<WasherEntity> items = state.items;
 
                         if (items.isEmpty) {
-                          return Center(
-                            child: Text(
-                              l10n.noData,
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          );
+                          return const EmptyStateWidget();
                         }
 
                         return ListView.separated(

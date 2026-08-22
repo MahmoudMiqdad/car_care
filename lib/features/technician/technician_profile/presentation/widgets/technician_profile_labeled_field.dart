@@ -3,8 +3,6 @@ import 'package:car_care/features/auth/presentation/widgets/login/login_text_fie
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Adds a visible label above [LoginTextField] so technicians see what a
-/// field means before tapping it, instead of relying on hint text alone.
 class TechnicianProfileLabeledField extends StatelessWidget {
   const TechnicianProfileLabeledField({
     super.key,

@@ -31,7 +31,6 @@ class FuelLogsLoaded extends FuelLogsState {
   final List<FuelLogEntity> items;
   final bool hasMore;
 
-  /// True while a next-page request is in flight, appended to [items].
   final bool isLoadingMore;
 
   FuelLogsLoaded copyWith({

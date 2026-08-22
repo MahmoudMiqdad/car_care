@@ -11,8 +11,6 @@ class FuelLogsCubit extends Cubit<FuelLogsState> {
   int _page = 1;
   static const int _perPage = 15;
 
-  /// Pull-to-refresh and the first load both go through here, starting
-  /// back at page 1.
   Future<void> fetch(int vehicleId) async {
     emit(const FuelLogsLoading());
     _page = 1;
@@ -56,8 +54,7 @@ class FuelLogsCubit extends Cubit<FuelLogsState> {
 
     result.fold(
       (failure) {
-        // Keep already-loaded items visible; just stop the spinner and
-        // let the user retry the pull-to-refresh instead of losing the list.
+      
         emit(current.copyWith(isLoadingMore: false));
       },
       (page) {

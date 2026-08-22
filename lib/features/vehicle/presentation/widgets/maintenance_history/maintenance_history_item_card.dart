@@ -36,7 +36,7 @@ class MaintenanceHistoryItemCard extends StatelessWidget {
               ),
             ),
             VerticalDivider(
-              color: AppColors.border(context), // 🎯 التجاوب التلقائي للخطوط الفاصلة في الوضع الداكن
+              color: AppColors.border(context), 
               thickness: 2.w,
               width: 20.w,
               indent: 5.h,

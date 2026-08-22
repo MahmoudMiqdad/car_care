@@ -46,8 +46,6 @@ class FuelLogModel extends FuelLogEntity {
   }
 }
 
-/// Maps the Laravel-style paginator envelope:
-/// { current_page, data: [...], per_page, total }
 class FuelLogPageModel extends FuelLogPageEntity {
   const FuelLogPageModel({
     required super.currentPage,

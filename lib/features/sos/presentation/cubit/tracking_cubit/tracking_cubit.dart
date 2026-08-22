@@ -17,7 +17,7 @@ class TrackingCubit extends Cubit<TrackingState> {
 
   TrackingCubit(this._repo, this._pusher) : super(TrackingInitial());
 
-  // ───────────────── LOAD ─────────────────
+  // LOAD 
   Future<void> loadTracking(int sosId) async {
     _currentSosId = sosId;
 
@@ -70,7 +70,7 @@ class TrackingCubit extends Cubit<TrackingState> {
     );
   }
 
-  // ───────────────── POLLING ─────────────────
+  //  POLLING
   void _startPolling(int sosId) {
     _stopPolling();
 
@@ -89,7 +89,7 @@ class TrackingCubit extends Cubit<TrackingState> {
     _pollingTimer = null;
   }
 
-  // ───────────────── CLOSE ─────────────────
+  // CLOSE 
   @override
   Future<void> close() async {
     _stopPolling();

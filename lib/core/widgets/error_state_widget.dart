@@ -1,6 +1,6 @@
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
-
 
 class ErrorStateWidget extends StatefulWidget {
   final String message;
@@ -45,6 +45,7 @@ class _ErrorStateWidgetState extends State<ErrorStateWidget>
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.l10n;
     return FadeTransition(
       opacity: _fadeAnim,
       child: SlideTransition(
@@ -55,7 +56,6 @@ class _ErrorStateWidgetState extends State<ErrorStateWidget>
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // ── Icon ───────────────────────────────────────────
                 Container(
                   width: 90,
                   height: 90,
@@ -70,10 +70,8 @@ class _ErrorStateWidgetState extends State<ErrorStateWidget>
                   ),
                 ),
                 const SizedBox(height: 20),
-
-                // ── Error message ───────────────────────────────────
                 Text(
-                  'حدث خطأ ما',
+                  strings.errorOccurred,
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
@@ -86,21 +84,19 @@ class _ErrorStateWidgetState extends State<ErrorStateWidget>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 13,
-                    color: Colors.grey[500],
+                    color: AppColors.textSecondary(context),
                     height: 1.5,
                   ),
                 ),
                 const SizedBox(height: 28),
-
-                // ── Retry button ────────────────────────────────────
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
                     onPressed: widget.onRetry,
                     icon: const Icon(Icons.refresh_rounded, size: 20),
-                    label: const Text(
-                      'حاول مجدداً',
-                      style: TextStyle(
+                    label: Text(
+                      strings.tryAgain,
+                      style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                       ),

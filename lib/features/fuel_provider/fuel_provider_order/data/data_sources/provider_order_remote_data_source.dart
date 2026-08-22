@@ -13,8 +13,6 @@ class FuelProviderOrderRemoteDataSource {
     return FuelOrderModel.fromJson(res);
   }
 
-  /// [estimatedArrivalMinutes] (1-120) and [notes] are optional, per the
-  /// confirmed backend contract for POST /fuel_provider/orders/{id}/accept.
   Future<FuelOrderModel> acceptOrder(
     int id, {
     int? estimatedArrivalMinutes,
@@ -40,10 +38,8 @@ class FuelProviderOrderRemoteDataSource {
     return FuelOrderModel.fromJson(res);
   }
 
-  /// Backend route is PATCH /fuel_provider/orders/{id}/status
   Future<FuelOrderModel> startOrder(int id) => _updateStatus(id, 'in_progress');
 
-  /// Backend route is PATCH /fuel_provider/orders/{id}/status
   Future<FuelOrderModel> completeOrder(int id) =>
       _updateStatus(id, 'completed');
 
@@ -69,9 +65,6 @@ class FuelProviderOrderRemoteDataSource {
     return FuelOrderListModel.fromJson(res);
   }
 
-  /// Coordinates must stay `double` — int truncation would move the pin by
-  /// tens of kilometres. Live sharing goes through
-  /// ShareFuelProviderLocationRemoteDataSource; this stays for parity.
   Future<FuelOrderModel> shareLocation(
     int id,
     double latitude,

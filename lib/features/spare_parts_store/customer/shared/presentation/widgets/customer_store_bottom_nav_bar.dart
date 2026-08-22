@@ -1,4 +1,5 @@
 import 'package:car_care/core/routing/routes.dart';
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -24,6 +25,7 @@ class CustomerStoreBottomNavBar extends StatelessWidget {
     final l10n = context.l10n;
 
     return BottomNavigationBar(
+      backgroundColor: Colors.white,
       currentIndex: CustomerStoreSection.values.indexOf(current),
       type: BottomNavigationBarType.fixed,
       onTap: (index) {
@@ -33,19 +35,19 @@ class CustomerStoreBottomNavBar extends StatelessWidget {
       },
       items: [ 
         BottomNavigationBarItem(
-          icon: const Icon(Icons.storefront_outlined),
+          icon: const Icon(Icons.storefront_outlined,color: AppColors.primary,),
           label: l10n.shopsTitle, 
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.grid_view_outlined),
+          icon: const Icon(Icons.grid_view_outlined,color: AppColors.primary,),
           label: l10n.allProductsPageTitle,
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.shopping_cart_outlined),
+          icon: const Icon(Icons.shopping_cart_outlined,color: AppColors.primary,),
           label: l10n.cartLabel, 
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.receipt_long_outlined),
+          icon: const Icon(Icons.receipt_long_outlined,color: AppColors.primary,),
           label: l10n.allRequestsTitle, 
         ),
       ],

@@ -53,7 +53,6 @@ class FuelProviderOrderRepositoryImpl implements IFuelProviderOrderRepository {
     } on ServerExpcptions catch (e) {
       return Left(e.error);
     } catch (_) {
-      // Never surface raw exception text such as "Instance of ...".
       return const Left(
         Failure(message: 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'),
       );

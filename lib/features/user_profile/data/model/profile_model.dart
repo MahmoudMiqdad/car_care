@@ -46,7 +46,6 @@ class Data {
     this.roles,
   });
 
-  // Normalizes roles from either string or object (with slug/name) format
   List<String> get parsedRoles {
     if (roles == null) return [];
     return roles!.map((r) {

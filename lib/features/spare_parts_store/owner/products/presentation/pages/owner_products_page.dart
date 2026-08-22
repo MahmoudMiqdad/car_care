@@ -1,6 +1,4 @@
-// شاشة قائمة منتجات المتجر للمالك — عرض/إضافة/تعديل جزئي (سعر ومخزون)/حذف.
-// الوصول لهذه الصفحة نفسها مقصور فعليًا على صاحب متجر Approved عبر بوابة
-// صفحة More (لا تتكرر هنا نفس عملية جلب حالة المتجر تفاديًا لطلب مكرر).
+
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';

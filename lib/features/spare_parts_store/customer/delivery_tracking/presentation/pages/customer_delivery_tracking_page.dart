@@ -1,11 +1,11 @@
 // شاشة تتبع التوصيل للعميل — تغلّف الخريطة بالـ BlocProvider.
 import 'package:car_care/core/service_locator/service_locator.dart';
-import 'package:car_care/core/theme/app_colors.dart'; // 🎯 استيراد AppColors للألوان الموحدة
+import 'package:car_care/core/theme/app_colors.dart'; 
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/spare_parts_store/customer/delivery_tracking/presentation/cubit/customer_delivery_tracking/customer_delivery_tracking_cubit.dart';
 import 'package:car_care/features/spare_parts_store/customer/delivery_tracking/presentation/widgets/customer_delivery_tracking_map_widget.dart';
-import 'package:car_care/l10n.dart'; // 🎯 استيراد امتداد l10n للترجمة الديناميكية
+import 'package:car_care/l10n.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,7 +23,7 @@ class CustomerDeliveryTrackingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n; // 🎯 جلب كائن الترجمة داخل الواجهة
+    final l10n = context.l10n; 
 
     return BlocProvider(
       create: (_) => getIt<CustomerDeliveryTrackingCubit>(),

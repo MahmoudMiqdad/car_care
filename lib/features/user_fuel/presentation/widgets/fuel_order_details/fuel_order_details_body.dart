@@ -33,7 +33,10 @@ class FuelOrderDetailsBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SosDetailsStatusBanner(label: order.statusText ?? '-'),
+            SosDetailsStatusBanner(
+              label: order.statusText ?? '-',
+              status: order.status,
+            ),
             SizedBox(height: 14.h),
             FuelOrderDetailsOrderCard(order: order),
             SizedBox(height: 14.h),

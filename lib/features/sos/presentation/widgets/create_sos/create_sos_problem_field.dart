@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +19,7 @@ class CreateSosProblemField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardBackground(context),
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: AppColors.primary, width: 1.5),
       ),
@@ -61,6 +59,7 @@ class CreateSosProblemField extends StatelessWidget {
             ),
             decoration: InputDecoration(
               isDense: true,
+              filled: false,
               border: InputBorder.none,
               disabledBorder: InputBorder.none,
               enabledBorder: InputBorder.none,
@@ -69,7 +68,7 @@ class CreateSosProblemField extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               hintText: hint,
               hintStyle: context.textTheme.bodyMedium?.copyWith(
-                color: AppColors.textSecondary(context).withOpacity(0.55),
+                color: AppColors.textSecondary(context).withValues(alpha: 0.55),
                 fontSize: 14.sp,
                 height: 1.45,
                 fontWeight: FontWeight.w500,

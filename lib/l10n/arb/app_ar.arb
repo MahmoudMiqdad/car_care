@@ -573,6 +573,10 @@
   "@noData": {
     "description": "لا توجد بيانات"
   },
+  "noDataSubtitle": "تحقق لاحقاً أو أضف طلباً جديداً",
+  "@noDataSubtitle": {
+    "description": "الرسالة الفرعية أسفل حالة عدم وجود بيانات"
+  },
   "noSchedules": "لا توجد مواعيد",
   "@noSchedules": {
     "description": "لا توجد مواعيد"

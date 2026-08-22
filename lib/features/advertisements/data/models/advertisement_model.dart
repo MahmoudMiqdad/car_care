@@ -52,9 +52,7 @@ class AdvertisementModel extends AdvertisementEntity {
     );
   }
 
-  /// A malformed top-level shape (not just an empty result) is a failure,
-  /// not a valid empty list — the caller must distinguish "no ads" from
-  /// "the response couldn't be trusted".
+  
   static List<AdvertisementModel> listFromResponse(
     Map<String, dynamic> response,
   ) {

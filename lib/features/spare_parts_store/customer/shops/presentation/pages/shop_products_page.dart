@@ -1,9 +1,7 @@
-// واجهة المتجر (Storefront): رأس مختصر + شبكة منتجات المتجر
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/error_state_widget.dart';
@@ -196,7 +194,7 @@ class _HeaderContent extends StatelessWidget {
       margin: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 4.h),
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: AppColors.cardBackground(context),
         borderRadius: BorderRadius.circular(14.r),
         border: Border.all(color: AppColors.border(context)),
       ),

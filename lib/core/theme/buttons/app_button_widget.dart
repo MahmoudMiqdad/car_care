@@ -21,7 +21,6 @@ class AppButton extends StatelessWidget {
     this.borderRadius,
     this.fontSize,
 
-    /// When [isOutline] is true, fills the button (e.g. white) instead of a tinted primary.
     this.outlineSurfaceColor,
     super.key,
   });
@@ -97,10 +96,7 @@ class AppButton extends StatelessWidget {
 
   Widget _buildButtonContent(BuildContext context) {
     if (isLoading) {
-      // AppLoadingWidget is a full-page/section loader (~150+ logical px
-      // tall) — using it here overflowed the button's own fixed height.
-      // A small inline spinner is the correct loading affordance for a
-      // button-sized area.
+    
       final spinnerColor = isOutline
           ? (backgroundColor ?? context.colorScheme.primary)
           : (textColor ?? AppColors.white);
@@ -117,18 +113,21 @@ class AppButton extends StatelessWidget {
       children: [
         if (icon != null) ...[icon!, 8.horizontalSpace],
         Flexible(
-          child: Text(
-            text,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: context.textTheme.labelLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-              fontSize: fontSize ?? 16.sp, // استخدام الحجم الممرر أو الافتراضي
-              color: isOutline
-                  ? (textColor ??
-                        backgroundColor ??
-                        context.colorScheme.primary)
-                  : (textColor ?? AppColors.white),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              text,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.textTheme.labelLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: fontSize ?? 16.sp,
+                color: isOutline
+                    ? (textColor ??
+                          backgroundColor ??
+                          context.colorScheme.primary)
+                    : (textColor ?? AppColors.white),
+              ),
             ),
           ),
         ),

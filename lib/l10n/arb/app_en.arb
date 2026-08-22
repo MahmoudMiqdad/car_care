@@ -72,7 +72,7 @@
   "trackTechnician": "Track Technician",
   "searchingForTechnicianTitle": "Searching for Technician",
   "searchingForTechnicianSubtitle": "Finding the nearest available technician for you, please wait a moment",
-  "createdAgoLabel": "Created {time} ago",
+  "createdAgoLabel": "Created {time}",
   "@createdAgoLabel": {
     "description": "Displays when the request was created relative to now",
     "placeholders": {
@@ -553,6 +553,10 @@
   "noData": "No Data",
   "@noData": {
     "description": "No data"
+  },
+  "noDataSubtitle": "Check back later or add a new request",
+  "@noDataSubtitle": {
+    "description": "Subtitle shown below the no-data empty state"
   },
   "noSchedules": "No Appointments",
   "@noSchedules": {

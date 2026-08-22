@@ -21,7 +21,7 @@ class SosData {
   final String? statusText;
   final String? priority;
   final Vehicle? vehicle;
-  final Technician? technician; // ✅ جديد
+  final Technician? technician; //  جديد
   final bool? canCancel;
 
   final String? createdAt;
@@ -36,7 +36,7 @@ class SosData {
     this.statusText,
     this.priority,
     this.vehicle,
-    this.technician, // ✅ جديد
+    this.technician, //  جديد
     this.canCancel,
     this.createdAt,
     this.createdAgo,

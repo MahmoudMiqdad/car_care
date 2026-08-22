@@ -52,7 +52,6 @@ class RequestVehicleEntity {
   final String? plateNumber;
   final int? currentKm;
 
-  /// Raw `image` / `image_path` from the API; resolve with resolveMediaUrl().
   final String? image;
   final String? imagePath;
 

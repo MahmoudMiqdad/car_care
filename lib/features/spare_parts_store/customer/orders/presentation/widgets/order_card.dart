@@ -39,7 +39,7 @@ class OrderCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(14.w),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: AppColors.cardBackground(context),
           borderRadius: BorderRadius.circular(14.r),
           boxShadow: [
             BoxShadow(

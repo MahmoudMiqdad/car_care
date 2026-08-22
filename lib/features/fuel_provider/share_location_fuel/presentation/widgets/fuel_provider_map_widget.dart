@@ -94,8 +94,6 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
     );
   }
 
-  /// Checks the location service + permission once, showing a clear message
-  /// instead of failing silently.
   Future<bool> _ensureLocationReady() async {
     final l10n = context.l10n;
 
@@ -141,7 +139,6 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
   Future<void> _sendCurrentLocation() async {
     final l10n = context.l10n;
 
-    // Stop the periodic sharing as soon as the order becomes terminal.
     if (!widget.canShareLocation) {
       _locationTimer?.cancel();
       if (mounted) setState(() => _isSharing = false);

@@ -1,6 +1,6 @@
 // شاشة عرض جميع منتجات متجر قطع الغيار لعميل (الصفحة الأولى فقط حاليًا، بدون Pagination)
 import 'package:car_care/core/routing/routes.dart';
-import 'package:car_care/core/theme/app_colors.dart'; // 🎯 استيراد AppColors للألوان الموحدة
+import 'package:car_care/core/theme/app_colors.dart'; 
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -11,7 +11,7 @@ import 'package:car_care/features/spare_parts_store/customer/products/presentati
 import 'package:car_care/features/spare_parts_store/customer/products/presentation/cubit/all_products/all_products_state.dart';
 import 'package:car_care/features/spare_parts_store/customer/products/presentation/widgets/product_card.dart';
 import 'package:car_care/features/spare_parts_store/customer/shared/presentation/widgets/customer_store_bottom_nav_bar.dart';
-import 'package:car_care/l10n.dart'; // 🎯 استيراد امتداد l10n للترجمة الديناميكية
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,13 +41,13 @@ class _AllProductsPageState extends State<AllProductsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n; // 🎯 جلب كائن الترجمة داخل الواجهة
+    final l10n = context.l10n; 
 
     return BlocProvider.value(
       value: _cubit,
       child: Scaffold(
-        backgroundColor: AppColors.transparent, // 🎯 الاعتماد على AppColors بدلاً من الألوان الثابتة
-        appBar: CustomAppBar(title: l10n.allProductsPageTitle), // 🎯 "كل المنتجات" مترجم ديناميكياً
+        backgroundColor: AppColors.transparent,
+        appBar: CustomAppBar(title: l10n.allProductsPageTitle), 
         bottomNavigationBar: const CustomerStoreBottomNavBar(
           current: CustomerStoreSection.allProducts,
         ),

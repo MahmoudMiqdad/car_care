@@ -16,8 +16,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<ShowProfileCubit>()..getProfile(),
-      // Profile can be opened as a root route (drawer uses context.go), so
-      // hardware back must fall back to Home instead of exiting the app.
+     
       child: PopScope(
         canPop: context.canPop(),
         onPopInvokedWithResult: (didPop, _) {

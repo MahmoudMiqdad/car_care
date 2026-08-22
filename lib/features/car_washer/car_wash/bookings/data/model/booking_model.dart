@@ -19,6 +19,7 @@ class BookingModel extends BookingsEntity {
 
   factory BookingModel.fromJson(Map<String, dynamic> json) {
     final carWasherJson = json['car_washer'];
+    final vehicleJson = json['vehicle'];
     return BookingModel(
       id: json['id'],
       serviceType: json['service_type']?.toString() ?? '',
@@ -28,7 +29,9 @@ class BookingModel extends BookingsEntity {
       scheduledAt: json['scheduled_at']?.toString() ?? '',
       notes: json['notes']?.toString() ?? '',
       canCancel: json['can_cancel'] == true,
-      vehicle: VehicleModel.fromJson(json['vehicle'] as Map<String, dynamic>),
+      vehicle: vehicleJson is Map<String, dynamic>
+          ? VehicleModel.fromJson(vehicleJson)
+          : VehicleModel.fromJson(const {}),
       carWasher: carWasherJson is Map<String, dynamic>
           ? WasherModel.fromJson(carWasherJson)
           : null,

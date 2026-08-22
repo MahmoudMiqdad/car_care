@@ -1,8 +1,8 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class RequestsFormCard extends StatelessWidget {
   const RequestsFormCard({
     super.key,
@@ -22,12 +22,9 @@ class RequestsFormCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-       padding: EdgeInsets.symmetric(
-          horizontal: 7.w, 
-          vertical: 3.h,
-        ),
-         decoration: BoxDecoration(
-        color: AppColors.white,
+      padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 3.h),
+      decoration: BoxDecoration(
+        color: AppColors.cardBackground(context),
         borderRadius: BorderRadius.circular(cardRadius),
         border: Border.all(color: AppColors.primary, width: 1.2),
       ),
@@ -42,7 +39,7 @@ class RequestsFormCard extends StatelessWidget {
                 title,
                 style: context.textTheme.labelMedium!.copyWith(
                   fontWeight: FontWeight.w700,
-                  color: AppColors.black,
+                  color: AppColors.textPrimary(context),
                   fontSize: 19.sp,
                 ),
               ),

@@ -8,9 +8,6 @@ class FuelLogEntity {
   final String? odometerImage;
   final String? createdAt;
 
-  // fuel_provider_id is intentionally not exposed here — it's an internal
-  // reference id, not something the user needs to see.
-
   const FuelLogEntity({
     this.id,
     this.vehicleId,

@@ -172,8 +172,6 @@ class _OrContinueWithDivider extends StatelessWidget {
   }
 }
 
-// Minimal placeholder glyph — swap for the official multi-color Google "G"
-// asset when one is added to assets/images/.
 class _GoogleGlyph extends StatelessWidget {
   const _GoogleGlyph();
 

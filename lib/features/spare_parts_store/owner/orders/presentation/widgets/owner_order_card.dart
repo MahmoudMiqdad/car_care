@@ -1,5 +1,5 @@
 // كارد طلب يُستخدم داخل شاشة طلبات المتجر.
-import 'package:car_care/core/extensions/theme_extension.dart'; // 🎯 استيراد امتداد الثيم لقراءة الخطوط الذكية
+import 'package:car_care/core/extensions/theme_extension.dart'; 
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/spare_parts_store/customer/checkout/domain/entities/order_entity.dart';
 import 'package:car_care/features/spare_parts_store/shared/presentation/widgets/order_status_badge.dart';

@@ -14,8 +14,6 @@ class JobEntity {
   final DateTime? scheduledDate;
   final String notes;
 
-  /// Flattened from maintenance_request so the card can render without
-  /// reaching into nested models.
   final int? maintenanceRequestId;
   final String description;
   final String priority;
@@ -26,7 +24,6 @@ class JobEntity {
   final String vehicleYear;
   final String plateNumber;
 
-  /// From the accepted quotation, when present.
   final String? quotationPrice;
   final int? estimatedDays;
 

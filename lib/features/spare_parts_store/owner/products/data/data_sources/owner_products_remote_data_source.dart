@@ -1,6 +1,4 @@
-// مصدر بيانات منتجات متجر المالك عبر API.
-// ملاحظة: تعديل/حذف الصور بعد الإنشاء غير منفّذ هنا لعدم توفر عقد Postman
-// مؤكد لسلوك الاستبدال/الحذف الجزئي للصور ضمن PUT.
+
 import 'package:car_care/core/errors/excptions.dart';
 import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/core/network/api_endpoints.dart';

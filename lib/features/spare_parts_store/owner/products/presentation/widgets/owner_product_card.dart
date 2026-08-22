@@ -166,14 +166,14 @@ class OwnerProductCard extends StatelessWidget {
       ),
     );
   }
-Widget _placeholder(BuildContext context) { // 💡 أضفنا الـ context هنا
+Widget _placeholder(BuildContext context) { 
   return Container(
     width: 56.w,
     height: 56.w,
-    color: AppColors.scaffoldBackground(context), // سيعمل الآن بشكل صحيح
+    color: AppColors.scaffoldBackground(context), 
     child: Icon(
       Icons.inventory_2_outlined,
-      color: AppColors.textSecondary(context), // سيعمل الآن بشكل صحيح
+      color: AppColors.textSecondary(context), 
       size: 24.sp,
     ),
   );

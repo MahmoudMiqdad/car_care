@@ -31,7 +31,7 @@ class HomeBody extends StatelessWidget {
             ),
             Center(
               child: Text(
-                l10n.homeWelcomeGreeting, 
+                l10n.homeWelcomeGreeting,
                 style: TextStyle(
                   color: HomePalette.primaryTeal,
                   fontSize: 24.sp,
@@ -51,8 +51,6 @@ class HomeBody extends StatelessWidget {
   }
 
   void onServicePressed(BuildContext context, int index) {
-    // ⬅️ push بدل go: هاي صفحات "دخول" من الهوم (مش تبديل تاب رئيسي)،
-    // لازم يقدر المستخدم يرجع منها للهوم بزر الرجوع بدل ما يطلع من التطبيق.
     switch (index) {
       case 0:
         context.push(Routes.my_vehicles_page);
@@ -70,7 +68,6 @@ class HomeBody extends StatelessWidget {
         context.push(Routes.customerShopsList);
         break;
       case 5:
-        // "الوقود" -> customer fuel orders list (its FAB creates a new order)
         context.push(Routes.fuelorderslist);
         break;
       default:

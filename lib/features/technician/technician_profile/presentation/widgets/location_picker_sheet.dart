@@ -16,9 +16,6 @@ import 'package:latlong2/latlong.dart';
 class LocationPickerSheet extends StatefulWidget {
   const LocationPickerSheet({super.key, this.localOnly = false});
 
-  /// When true (onboarding), confirming only returns the picked location —
-  /// no call to the protected /technician/location endpoint. The location
-  /// is sent later as part of the profile save request.
   final bool localOnly;
 
   static Future<LatLng?> show(BuildContext context, {bool localOnly = false}) {
@@ -103,7 +100,7 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
         ),
         child: Column(
           children: [
-            // ─── Handle ──────────────────────────────────────────────
+            //  Handle
             SizedBox(height: 12.h),
             Container(
               width: 40.w,
@@ -115,7 +112,7 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
             ),
             SizedBox(height: 12.h),
 
-            // ─── العنوان ──────────────────────────────────────────────
+            //  العنوان 
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Row(
@@ -170,7 +167,7 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
             ),
             SizedBox(height: 12.h),
 
-            // ─── الخريطة ──────────────────────────────────────────────
+            // الخريطة 
             Expanded(
               child: Stack(
                 alignment: Alignment.center,
@@ -197,7 +194,7 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                     ],
                   ),
 
-                  // ─── البن الثابت في المنتصف ──────────────────────
+                  // ─── البن الثابت في المنتصف 
                   IgnorePointer(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,

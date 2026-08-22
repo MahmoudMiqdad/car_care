@@ -10,7 +10,6 @@ class OwnerProductsCubit extends Cubit<OwnerProductsState> {
 
   final IOwnerProductsRepository _repository;
 
-  /// يُضيف المنتج الجديد محليًا إلى القائمة الحالية دون أي GET إضافي.
   Future<void> createProduct(FormData formData) async {
     final current = state;
     final List<ProductEntity> baseProducts;

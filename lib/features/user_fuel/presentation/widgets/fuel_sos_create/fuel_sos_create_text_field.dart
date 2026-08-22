@@ -29,7 +29,7 @@ class FuelSosCreateTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: AppColors.cardBackground(context),
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: AppColors.primary, width: 1.5),
       ),
@@ -68,6 +68,7 @@ class FuelSosCreateTextField extends StatelessWidget {
                   ),
                   decoration: InputDecoration(
                     isDense: true,
+                    filled: false,
                     border: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,

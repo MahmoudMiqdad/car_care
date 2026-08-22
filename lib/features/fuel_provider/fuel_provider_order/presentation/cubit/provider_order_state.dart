@@ -42,10 +42,6 @@ class FuelProviderOrderError extends FuelProviderOrderState {
   FuelProviderOrderError(this.message);
 }
 
-/// Emitted when accept/start/complete/cancel fails after details were
-/// already loaded, so the UI can keep showing [order] (the last loaded
-/// details) instead of going blank while still reporting [message] via a
-/// snackbar.
 class FuelProviderOrderActionError extends FuelProviderOrderState {
   final String message;
   final FuelOrderEntity? order;

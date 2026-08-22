@@ -2,8 +2,6 @@ import 'package:car_care/features/notifications/domain/entities/notification_ent
 
 enum NotificationsFilter { all, unread }
 
-/// Every state carries [unreadCount] so the bottom-nav badge (and any other
-/// listener) can read it regardless of which state the list is currently in.
 abstract class NotificationsState {
   final int unreadCount;
   const NotificationsState(this.unreadCount);

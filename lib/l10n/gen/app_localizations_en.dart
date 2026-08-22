@@ -177,7 +177,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String createdAgoLabel(String time) {
-    return 'Created $time ago';
+    return 'Created $time';
   }
 
   @override
@@ -572,6 +572,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noData => 'No Data';
+
+  @override
+  String get noDataSubtitle => 'Check back later or add a new request';
 
   @override
   String get noSchedules => 'No Appointments';

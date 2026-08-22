@@ -1,4 +1,4 @@
-import 'package:car_care/core/extensions/theme_extension.dart'; // 🎯 استيراد امتداد الثيم لقراءة الخطوط الذكية
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,7 +28,7 @@ class ReservationInlineInputCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: AppColors.cardBackground(context),
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: AppColors.carWashTeal, width: 1.5),
       ),
@@ -37,7 +37,7 @@ class ReservationInlineInputCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Align(
-            alignment: AlignmentDirectional.centerStart, // 🎯 محاذاة ذكية تدعم الانعكاس التلقائي للغات
+            alignment: AlignmentDirectional.centerStart,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -47,7 +47,7 @@ class ReservationInlineInputCard extends StatelessWidget {
                   label,
                   textAlign: TextAlign.start,
                   style: context.textTheme.bodySmall!.copyWith(
-                    color: AppColors.black,
+                    color: AppColors.textPrimary(context),
                     fontWeight: FontWeight.w800,
                   ),
                 ),
@@ -57,18 +57,19 @@ class ReservationInlineInputCard extends StatelessWidget {
           SizedBox(height: 2.h),
           TextField(
             controller: controller,
-            textAlign: TextAlign.start, // 🎯 يكتب العميل ويتحرك المؤشر بحسب لغة الكتابة الطبيعية
+            textAlign: TextAlign.start,
             keyboardType: keyboardType,
             minLines: minLines,
             maxLines: maxLines,
             style: context.textTheme.bodySmall!.copyWith(
-              color: AppColors.black,
+              color: AppColors.textPrimary(context),
               fontWeight: FontWeight.w600,
             ),
             decoration: InputDecoration(
+              filled: false,
               hintText: hintText,
               hintStyle: context.textTheme.bodySmall!.copyWith(
-                color: AppColors.gray,
+                color: AppColors.textSecondary(context),
                 fontWeight: FontWeight.w500,
               ),
               border: InputBorder.none,

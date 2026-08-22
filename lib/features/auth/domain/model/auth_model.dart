@@ -65,7 +65,6 @@ class UserModel {
         roles: _parseRoles(json['roles']),
       );
 
-  // Handles both ["shop-owner"] and [{"slug":"shop-owner","name":"..."}] formats
   static List<String> _parseRoles(dynamic rawRoles) {
     if (rawRoles == null) return [];
     return (rawRoles as List).map((r) {

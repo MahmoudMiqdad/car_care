@@ -23,12 +23,15 @@ class FuelOrderCard extends StatelessWidget {
     final vehicleText = order.vehicle != null
         ? '${order.vehicle!.brand ?? ''} ${order.vehicle!.model ?? ''}'.trim()
         : '-';
-    final fuelText = '${order.fuelType ?? '-'} - ${order.amount ?? 0} لتر';
+    final fuelText = l10n.fuelAmountDetailsLabel(
+      order.fuelType ?? '-',
+      order.amount?.toString() ?? '0',
+    );
     final dateText = order.scheduledTime ?? order.createdAt ?? '-';
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: AppColors.cardBackground(context),
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(color: AppColors.carWashTeal, width: 1),
         boxShadow: [

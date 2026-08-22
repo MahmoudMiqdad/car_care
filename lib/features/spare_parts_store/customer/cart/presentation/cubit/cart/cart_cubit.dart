@@ -79,8 +79,6 @@ class CartCubit extends Cubit<CartState> {
     );
   }
 
-  // تحديث القائمة بعد نجاح تعديل/حذف بدون عرض شاشة تحميل كاملة، حتى لا يبدو الضغط على زر صغير
-  // وكأنه أثّر على الكارد/الصفحة بالكامل
   Future<void> _refreshSilently() async {
     final result = await _repository.getCart();
 

@@ -59,7 +59,7 @@ class SosRequestCard extends StatelessWidget {
                           leading: const SosRequestRowAssetIcon(
                             assetPath: AppAssets.editIcon,
                           ),
-                          value: item.plateNumber.toString(),
+                          value: item.plateNumber ?? '-',
                         ),
                         RequestDetailRow(
                           label: l10n.sosRequestVehicleLabel,
@@ -121,9 +121,6 @@ class SosRequestCard extends StatelessWidget {
           SizedBox(height: 12.h),
           Container(
             width: double.infinity,
-            // ⬅️ شلنا height الثابت (35.h) يلي كان بيقص النص المترجم الطويل.
-            // بدلها: حد أدنى بس (constraints) + padding، فيصير الارتفاع
-            // يكبر تلقائيًا لو النص لف سطرين، بدون ما ينقص ولا يتشوه.
             constraints: BoxConstraints(minHeight: 35.h),
             padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
             color: AppColors.carWashTeal,

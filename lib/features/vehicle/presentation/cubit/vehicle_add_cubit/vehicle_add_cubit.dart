@@ -16,7 +16,7 @@ class VehicleAddCubit extends Cubit<VehicleAddState> {
     required String plateNumber,
     required String currentKm,
     required Uint8List
-    imageBytes, //اذا حطينا فايل  ما رح تنحفظ الصورة بالكاش و رح يطلع خطأ
+    imageBytes, 
     required String imageFileName,
   }) async {
     emit(const VehicleAddLoading());

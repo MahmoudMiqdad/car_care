@@ -3,6 +3,7 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/media_url.dart';
 import 'package:car_care/core/widgets/filters/status_filter_tabs.dart';
 import 'package:car_care/core/widgets/vehicle_image_box.dart';
+import 'package:car_care/features/car_washer/car_wash/bookings/data/model/booking_model.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/repositories/i_customer_bookings_repository.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/presentation/cubit/customer_bookings/customer_bookings_cubit.dart';
@@ -318,9 +319,7 @@ void main() {
       });
 
       final first = cubit.acceptBooking(1);
-      final second = cubit.acceptBooking(
-        1,
-      ); // fired while the first is in flight
+      final second = cubit.acceptBooking(1);
       await Future.wait([first, second]);
 
       expect(callCount, 1);
@@ -335,7 +334,7 @@ void main() {
         fetchCount++;
         return Right([_fakeBooking(id: 1, status: 'pending')]);
       });
-      await cubit.fetchBookings(); // status: null => 'all'
+      await cubit.fetchBookings();
 
       when(() => repo.acceptBooking(1)).thenAnswer(
         (_) async => Right({
@@ -734,5 +733,65 @@ void main() {
         expect(find.text('ملغي'), findsOneWidget);
       },
     );
+  });
+
+  group('BookingModel.fromJson — missing/null vehicle no longer crashes the '
+      'whole list', () {
+    test('a null vehicle field falls back to a placeholder vehicle instead '
+        'of throwing', () {
+      final json = {
+        'id': 1,
+        'service_type': 'basic',
+        'status': 'pending',
+        'status_text': 'بانتظار العروض',
+        'scheduled_at': '2026-01-01 10:00:00',
+        'notes': null,
+        'can_cancel': false,
+        'vehicle': null,
+      };
+
+      final booking = BookingModel.fromJson(json);
+
+      expect(booking.id, 1);
+      expect(booking.vehicle.brand, '');
+      expect(booking.vehicle.model, '');
+    });
+
+    test('a missing vehicle key falls back to a placeholder vehicle instead '
+        'of throwing', () {
+      final json = {
+        'id': 2,
+        'service_type': 'vip',
+        'status': 'completed',
+        'status_text': 'مكتمل',
+        'scheduled_at': '2026-01-02 10:00:00',
+        'notes': 'note',
+        'can_cancel': false,
+      };
+
+      final booking = BookingModel.fromJson(json);
+
+      expect(booking.id, 2);
+      expect(booking.vehicle.brand, '');
+    });
+
+    test('a well-formed vehicle field parses normally', () {
+      final json = {
+        'id': 3,
+        'service_type': 'basic',
+        'status': 'pending',
+        'status_text': 'بانتظار العروض',
+        'scheduled_at': '2026-01-03 10:00:00',
+        'notes': '',
+        'can_cancel': true,
+        'vehicle': {'id': 5, 'brand': 'Kia', 'model': 'Rio'},
+      };
+
+      final booking = BookingModel.fromJson(json);
+
+      expect(booking.vehicle.id, 5);
+      expect(booking.vehicle.brand, 'Kia');
+      expect(booking.vehicle.model, 'Rio');
+    });
   });
 }

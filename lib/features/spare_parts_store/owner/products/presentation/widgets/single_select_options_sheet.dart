@@ -1,6 +1,4 @@
-// نافذة اختيار مفرد — نفس نمط SelectOptionsSheet (تخصصات المتجر): مقبض
-// سحب، عنوان، قائمة قابلة للتمرير، زر «تأكيد الاختيار»، وSafeArea. الفرق أن
-// الاختيار هنا مفرد (قيمة واحدة) لا متعدد.
+
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 

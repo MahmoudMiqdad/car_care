@@ -2,9 +2,6 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Centered, center-docked AI assistant action for [HomeBottomNavBar]'s
-/// notch. Purely visual until [onPressed] is wired up — never navigates or
-/// shows placeholder feedback on its own.
 class AiAssistantButton extends StatelessWidget {
   const AiAssistantButton({super.key, this.onPressed, this.size = 64});
 
@@ -13,9 +10,6 @@ class AiAssistantButton extends StatelessWidget {
 
   static const Color _amber = Color(0xFFF6C177);
 
-  // Not sourced from l10n: this batch is scoped to geometry only and must
-  // not touch the ARB files. Wire this to a localized string when the chat
-  // feature (and its l10n keys) is implemented.
   static const String _label = 'المساعد الذكي';
 
   @override
@@ -52,9 +46,7 @@ class AiAssistantButton extends StatelessWidget {
             child: InkWell(
               customBorder: const CircleBorder(),
               onTap: onPressed,
-              // Chat bubble (outline, so it frames rather than hides the car
-              // icon) + a small car-front glyph + a spark accent — reads as
-              // "AI chat about your car" without any text in the button.
+
               child: Stack(
                 alignment: Alignment.center,
                 children: [

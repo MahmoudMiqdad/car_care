@@ -574,6 +574,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noData => 'لا توجد بيانات';
 
   @override
+  String get noDataSubtitle => 'تحقق لاحقاً أو أضف طلباً جديداً';
+
+  @override
   String get noSchedules => 'لا توجد مواعيد';
 
   @override

@@ -53,9 +53,6 @@ class Data {
         required this.createdAgo,
     });
 
-    // Tolerant parsing: the list endpoint may omit optional fields or send
-    // numbers where strings are expected. A single mismatch used to throw and
-    // fail the whole technician requests screen.
     factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"] as int? ?? 0,
         description: json["description"]?.toString() ?? '',

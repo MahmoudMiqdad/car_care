@@ -52,15 +52,11 @@ Future<void> confirmAndLogout(BuildContext context) async {
 
     await getIt<SecureStorage>().clearAuth();
 
-    // Notifications is a lazy singleton fed at the app root for the nav
-    // badge; without this the next signed-in user would briefly inherit
-    // the previous account's unread count/list until their own fetch lands.
     getIt<NotificationsCubit>().reset();
 
     router.go(Routes.login);
   } finally {
-    // Cancelled, unmounted, or an exception at any step — the lock must
-    // never outlive this single attempt.
+    
     _isLoggingOut = false;
   }
 }

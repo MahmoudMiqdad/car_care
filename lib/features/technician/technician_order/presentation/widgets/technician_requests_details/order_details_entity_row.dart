@@ -5,12 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OrderDetailsEntityRow extends StatelessWidget {
-  /// Optional avatar asset. When null/empty, [placeholderIcon] is rendered —
-  /// used by the vehicle card, which has no image to show.
+ 
   final String? imageAsset;
 
-  /// Optional network image (e.g. the vehicle's real photo). Takes priority
-  /// over [imageAsset] when both are provided.
   final String? imageUrl;
   final IconData placeholderIcon;
   final double avatarSize;
@@ -85,11 +82,11 @@ class OrderDetailsEntityRow extends StatelessWidget {
     );
   }
 
-Widget _placeholder(BuildContext context) { // 💡 أضفنا الـ context هنا
+Widget _placeholder(BuildContext context) { 
   return Icon(
     placeholderIcon,
     size: (avatarSize * 0.6).sp,
-    color: AppColors.textSecondary(context), // سيعمل الآن بدون أخطاء
+    color: AppColors.textSecondary(context), 
   );
 }
 }

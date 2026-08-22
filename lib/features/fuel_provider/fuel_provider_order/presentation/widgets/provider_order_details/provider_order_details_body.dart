@@ -99,8 +99,6 @@ class _ProviderOrderDetailsBodyState extends State<ProviderOrderDetailsBody> {
                 height: 52.h,
               ),
 
-            // Only accepted/in_progress orders can be cancelled by the
-            // provider (they revert to pending) — confirmed contract.
             if ((isAccepted || isInProgress) &&
                 widget.onCancelOrder != null) ...[
               SizedBox(height: 10.h),
