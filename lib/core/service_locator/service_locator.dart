@@ -1,4 +1,8 @@
 import 'package:car_care/core/theme/theme_cubit.dart';
+import 'package:car_care/features/assistant_chat/data/data_sources/assistant_chat_remote_data_source.dart';
+import 'package:car_care/features/assistant_chat/data/repositories/assistant_chat_repository_impl.dart';
+import 'package:car_care/features/assistant_chat/domain/repositories/i_assistant_chat_repository.dart';
+import 'package:car_care/features/assistant_chat/presentation/cubit/assistant_chat_cubit.dart';
 import 'package:car_care/features/notifications/data/data_sources/notifications_remote_data_source.dart';
 import 'package:car_care/features/notifications/data/repositories/notifications_repository_impl.dart';
 import 'package:car_care/features/notifications/domain/repositories/i_notifications_repository.dart';
@@ -680,5 +684,15 @@ Future<void> setupServiceLocator() async {
     )
     ..registerFactory<ShowProviderInvoiceCubit>(
       () => ShowProviderInvoiceCubit(getIt()),
-    );
+    )
+    // service_locator.dart
+..registerLazySingleton<AssistantChatRemoteDataSource>(
+    () => AssistantChatRemoteDataSource(getIt()),
+  )
+  ..registerLazySingleton<IAssistantChatRepository>(
+    () => AssistantChatRepositoryImpl(getIt()),
+  )
+  ..registerFactory<AssistantChatCubit>(
+    () => AssistantChatCubit(getIt()),
+  );
 }

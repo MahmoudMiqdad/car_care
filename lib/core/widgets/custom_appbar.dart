@@ -21,6 +21,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   final Color? backgroundColor;
 
+  /// زر بحث اختياري بالـ appbar — ما بيظهر إلا إذا فعّلته true وبعتلي onSearchTapped
+  final bool showSearchButton;
+  final VoidCallback? onSearchTapped;
+
   /// Where the default back action navigates when there is no route to pop
   /// (first route in stack via go/redirect/deep link). Ignored when
   /// [onBackTapped] is provided.
@@ -38,6 +42,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.toolbarHeight,
     this.elevation = 0,
     this.backgroundColor,
+    this.showSearchButton = false,
+    this.onSearchTapped,
     this.fallbackRoute = Routes.home,
   });
 
@@ -49,6 +55,29 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(_barHeight);
+
+  Widget _searchButton() {
+    return IconButton(
+      icon: Icon(Icons.search, color: AppColors.accent, size: 22.sp),
+      onPressed: onSearchTapped,
+    );
+  }
+
+  List<Widget>? _buildActions() {
+    final children = <Widget>[
+      if (showSearchButton)
+        Padding(
+          padding: EdgeInsets.only(right: actionWidget != null ? 4.w : 16.w),
+          child: _searchButton(),
+        ),
+      if (actionWidget != null)
+        Padding(
+          padding: EdgeInsets.only(right: 16.w),
+          child: actionWidget!,
+        ),
+    ];
+    return children.isEmpty ? null : children;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,14 +138,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-      actions: actionWidget != null
-          ? [
-              Padding(
-                padding: EdgeInsets.only(right: 16.w),
-                child: actionWidget,
-              ),
-            ]
-          : null,
+      actions: _buildActions(),
     );
 
     if (showBackButton && leadingWidget == null) {
@@ -157,6 +179,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: [
+        if (showSearchButton)
+          Padding(
+            padding: EdgeInsetsDirectional.only(end: actionWidget != null ? 0 : 8.w),
+            child: _searchButton(),
+          ),
         if (actionWidget != null)
           Padding(
             padding: EdgeInsetsDirectional.only(end: 8.w),

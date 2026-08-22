@@ -17,7 +17,7 @@ class AppTheme {
       brightness: isDark ? Brightness.dark : Brightness.light,
       fontFamily: fontFamily,
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: colorScheme.surface,
+scaffoldBackgroundColor: Colors.transparent,
       splashFactory: InkRipple.splashFactory,
       visualDensity: VisualDensity.standard,
 

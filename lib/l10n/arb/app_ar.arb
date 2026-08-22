@@ -35,10 +35,37 @@
   "@login": {
     "description": "زر تسجيل الدخول"
   },
-  "register": "تسجيل حساب",
-  "@register": {
-    "description": "زر تسجيل حساب"
+    "register": "تسجيل حساب",
+    "@register": {
+      "description": "زر تسجيل حساب"
+    },
+    
+  "assistantChatTitle": "المساعد الذكي",
+  "@assistantChatTitle": {
+    "description": "عنوان صفحة المساعد الذكي"
   },
+  "assistantChatHint": "اكتب رسالتك هنا...",
+  "@assistantChatHint": {
+    "description": "نص placeholder لحقل إدخال الرسالة"
+  },
+  "assistantChatEmpty": "ما في رسائل بعد، ابدأ المحادثة",
+  "@assistantChatEmpty": {
+    "description": "نص يظهر عند عدم وجود رسائل"
+  },
+  "assistantChatTyping": "المساعد عم يكتب...",
+  "@assistantChatTyping": {
+    "description": "نص يظهر أثناء انتظار رد المساعد"
+  },
+  "assistantChatDeleteHistoryTitle": "حذف سجل المحادثة",
+  "@assistantChatDeleteHistoryTitle": {
+    "description": "عنوان نافذة تأكيد حذف السجل"
+  },
+  "assistantChatDeleteHistoryConfirm": "متأكد إنك بدك تحذف كل سجل المحادثة؟",
+  "@assistantChatDeleteHistoryConfirm": {
+    "description": "نص تأكيد حذف سجل المحادثة"
+  }
+,
+
   "logout": "تسجيل الخروج",
   "@logout": {
     "description": "زر تسجيل الخروج"

@@ -18,9 +18,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appTitle => 'خدمات العناية بالسيارات';
 
   @override
-  String get fuelProvider => 'مزود الوقود';
-
-  @override
   String get maintenanceRequestsTitle => 'طلبات الصيانة';
 
   @override
@@ -102,6 +99,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get fuelOrders => 'طلبات الوقود';
+
+  @override
+  String get fuelProvider => 'مزود الوقود';
 
   @override
   String get shareLocation => 'مشاركة الموقع';
@@ -281,6 +281,24 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get save => 'حفظ';
+
+  @override
+  String get assistantChatTitle => 'المساعد الذكي';
+
+  @override
+  String get assistantChatHint => 'اكتب رسالتك هنا...';
+
+  @override
+  String get assistantChatEmpty => 'ما في رسائل بعد، ابدأ المحادثة';
+
+  @override
+  String get assistantChatTyping => 'المساعد عم يكتب...';
+
+  @override
+  String get assistantChatDeleteHistoryTitle => 'حذف سجل المحادثة';
+
+  @override
+  String get assistantChatDeleteHistoryConfirm => 'متأكد إنك بدك تحذف كل سجل المحادثة؟';
 
   @override
   String get edit => 'تعديل';

@@ -18,9 +18,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'CarCare Services';
 
   @override
-  String get fuelProvider => 'Fuel Provider';
-
-  @override
   String get maintenanceRequestsTitle => 'Maintenance Requests';
 
   @override
@@ -102,6 +99,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fuelOrders => 'Fuel Orders';
+
+  @override
+  String get fuelProvider => 'Fuel Provider';
 
   @override
   String get shareLocation => 'Share Location';
@@ -281,6 +281,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get save => 'Save';
+
+  @override
+  String get assistantChatTitle => 'Smart Assistant';
+
+  @override
+  String get assistantChatHint => 'Type your message here...';
+
+  @override
+  String get assistantChatEmpty => 'No messages yet, start the conversation';
+
+  @override
+  String get assistantChatTyping => 'Assistant is typing...';
+
+  @override
+  String get assistantChatDeleteHistoryTitle => 'Delete Chat History';
+
+  @override
+  String get assistantChatDeleteHistoryConfirm => 'Are you sure you want to delete all chat history?';
 
   @override
   String get edit => 'Edit';

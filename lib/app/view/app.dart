@@ -4,6 +4,7 @@ import 'package:car_care/core/routing/app_router.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_theme.dart';
 import 'package:car_care/core/theme/theme_cubit.dart';
+import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/notifications/presentation/cubit/notifications_cubit.dart';
 import 'package:car_care/l10n/gen/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -46,24 +47,30 @@ class _AppView extends StatelessWidget {
                   data: MediaQuery.of(
                     context,
                   ).copyWith(textScaler: TextScaler.noScaling),
-                  child: MaterialApp.router(
-                    title: AppConstants.appName,
-                    debugShowCheckedModeBanner: false,
-                    locale: locale,
-                    theme: AppTheme.createTheme(
-                      isDark: false,
-                      languageCode: locale.languageCode,
-                    ),
-                    darkTheme: AppTheme.createTheme(
-                      isDark: true,
-                      languageCode: locale.languageCode,
-                    ),
-                    themeMode: themeMode,
-                    localizationsDelegates:
-                        AppLocalizations.localizationsDelegates,
-                    supportedLocales: AppLocalizations.supportedLocales,
-                    routerConfig: AppRouter.router,
-                  ),
+                 child:
+MaterialApp.router(
+  title: AppConstants.appName,
+  debugShowCheckedModeBanner: false,
+  locale: locale,
+  theme: AppTheme.createTheme(
+    isDark: false,
+    languageCode: locale.languageCode,
+  ),
+  darkTheme: AppTheme.createTheme(
+    isDark: true,
+    languageCode: locale.languageCode,
+  ),
+  themeMode: themeMode,
+  localizationsDelegates:
+      AppLocalizations.localizationsDelegates,
+  supportedLocales: AppLocalizations.supportedLocales,
+  routerConfig: AppRouter.router,
+  builder: (context, child) {
+    return ImageBackground(
+      child: child ?? const SizedBox.shrink(),
+    );
+  },
+),
                 );
               },
             );

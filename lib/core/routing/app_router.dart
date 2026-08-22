@@ -1,3 +1,5 @@
+import 'package:car_care/features/assistant_chat/presentation/pages/assistant_chat_page.dart';
+import 'package:car_care/features/assistant_chat/presentation/pages/assistant_chat_page_wrapper.dart';
 import 'package:car_care/features/home/presentation/pages/settings_page.dart';
 import 'package:car_care/features/provider_invoices/presentation/cubit/list/provider_invoices_cubit.dart';
 import 'package:car_care/features/provider_invoices/presentation/cubit/show/show_provider_invoice_cubit.dart';
@@ -119,7 +121,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.splash,
+    initialLocation: Routes.home,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(path: Routes.splash, builder: (_, _) => const SplashScreen()),
@@ -225,7 +227,8 @@ class AppRouter {
             name: '/more',
             builder: (context, state) => const MorePage(),
           ),
-        ],
+    
+      ],
       ),
       GoRoute(
         path: Routes.allUserSosRequests,
@@ -399,6 +402,11 @@ class AppRouter {
         path: Routes.add_user_fuel,
         builder: (context, state) => const FuelSosCreatePageWrapper(),
       ),
+GoRoute(
+  path: Routes.assistant_chat,
+  name: '/assistant_chat',
+  builder: (context, state) => const AssistantChatPageWrapper(),
+),
 
       GoRoute(
         path: Routes.fuelorderslist,

@@ -49,6 +49,7 @@ class AuthInterceptor extends Interceptor {
   ) async {
     try {
       if (!_isAuthEndpoint(options.path)) {
+        
         final token = await _secureStorage.getToken() ?? '';
         if (kDebugMode) {
           debugPrint('Auth Token: ${token.isNotEmpty ? 'Present' : 'Missing'}');

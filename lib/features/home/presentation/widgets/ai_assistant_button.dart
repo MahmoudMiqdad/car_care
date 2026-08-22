@@ -1,22 +1,19 @@
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart'; 
 
 class AiAssistantButton extends StatelessWidget {
-  const AiAssistantButton({super.key, this.onPressed, this.size = 64});
+  const AiAssistantButton({super.key, this.size = 64}); 
 
-  final VoidCallback? onPressed;
   final double size;
-
   static const Color _amber = Color(0xFFF6C177);
-
   static const String _label = 'المساعد الذكي';
 
   @override
   Widget build(BuildContext context) {
     const label = _label;
     final diameter = size.r;
-
     return Tooltip(
       message: label,
       child: Semantics(
@@ -45,8 +42,9 @@ class AiAssistantButton extends StatelessWidget {
             shape: const CircleBorder(),
             child: InkWell(
               customBorder: const CircleBorder(),
-              onTap: onPressed,
-
+              onTap: () {
+                context.pushNamed('/assistant_chat'); 
+              },
               child: Stack(
                 alignment: Alignment.center,
                 children: [

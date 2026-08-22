@@ -1,9 +1,11 @@
+// lib/features/more/presentation/pages/more_page.dart
 import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
+import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/advertisements/domain/entities/advertisement_entity.dart';
 import 'package:car_care/features/advertisements/presentation/widgets/advertisement_section.dart';
 import 'package:car_care/features/auth/presentation/widgets/logout_action.dart';
@@ -39,11 +41,19 @@ class MorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder<List<String>>(
       future: _loadRoles(),
-      builder: (_, snap) {
+      builder: (context, snap) {
         if (snap.connectionState == ConnectionState.waiting) {
+          final l10n = context.l10n;
           return Scaffold(
             backgroundColor: AppColors.scaffoldBackground(context),
-            body: const Center(child: CircularProgressIndicator()),
+            appBar: CustomAppBar(
+              title: l10n.more,
+              showBackButton: false,
+              backgroundColor: AppColors.primary,
+            ),
+            body: ImageBackground(
+              child: const Center(child: AppLoadingWidget()),
+            ),
           );
         }
         final roles = snap.data ?? const <String>[];
