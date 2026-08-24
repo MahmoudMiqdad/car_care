@@ -94,7 +94,6 @@ class AppButton extends StatelessWidget {
     );
   }
 
-  // دوال الـ Outline والـ Dark المتبقية في مشروعك ضعها هنا كما هي:
   Widget _buildOutlineButton(BuildContext context, bool disabled) {
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
