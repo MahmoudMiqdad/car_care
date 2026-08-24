@@ -1,4 +1,4 @@
-import 'package:car_care/core/extensions/theme_extension.dart'; // 🎯 استيراد امتداد الثيم لقراءة الخطوط الذكية
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class ReservationServiceTierCard extends StatelessWidget {
       child: Material(
         color: isSelected
             ? AppColors.serviceTierSelectedBackground
-            : AppColors.white,
+            : context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(12.r),
         child: InkWell(
           onTap: onTap,
@@ -34,10 +34,7 @@ class ReservationServiceTierCard extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 4.w),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12.r),
-              border: Border.all(
-                color: AppColors.carWashTeal,
-                width: 1.2,
-              ),
+              border: Border.all(color: AppColors.carWashTeal, width: 1.2),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -48,7 +45,7 @@ class ReservationServiceTierCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: context.textTheme.bodyMedium!.copyWith(
-                    color: AppColors.black,
+                    color: context.colorScheme.onSurface,
                     fontWeight: FontWeight.w800,
                   ),
                 ),

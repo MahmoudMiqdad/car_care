@@ -1,17 +1,13 @@
 import 'package:car_care/core/constants/app_assets.dart';
-import 'package:car_care/core/extensions/theme_extension.dart'; 
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-
-import 'package:car_care/core/widgets/app_headline.dart'; 
+import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileWasherLocationCard extends StatelessWidget {
-  const ProfileWasherLocationCard({
-    super.key,
-    required this.address,
-  });
+  const ProfileWasherLocationCard({super.key, required this.address});
 
   final String address;
 
@@ -20,7 +16,7 @@ class ProfileWasherLocationCard extends StatelessWidget {
     final l10n = context.l10n;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: AppColors.carWashTeal, width: 1.2),
       ),
@@ -49,7 +45,7 @@ class ProfileWasherLocationCard extends StatelessWidget {
                   SizedBox(height: 4.h),
                   Text(
                     address,
-                    textAlign: TextAlign.start, 
+                    textAlign: TextAlign.start,
                     style: context.textTheme.bodySmall!.copyWith(
                       color: AppColors.textSecondary(context),
                       fontWeight: FontWeight.w500,

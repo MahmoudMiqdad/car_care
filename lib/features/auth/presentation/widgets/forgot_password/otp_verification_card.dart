@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
@@ -172,6 +173,7 @@ class _OtpVerificationCardState extends State<OtpVerificationCard> {
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
+    final colorScheme = context.colorScheme;
     final maxCardWidth = MediaQuery.of(context).size.width < 360
         ? 300.0
         : 340.0;
@@ -206,11 +208,11 @@ class _OtpVerificationCardState extends State<OtpVerificationCard> {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
               decoration: BoxDecoration(
-                color: AppColors.white,
+                color: colorScheme.surfaceContainer,
                 borderRadius: BorderRadius.circular(24.r),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.12),
+                    color: colorScheme.shadow.withValues(alpha: 0.12),
                     blurRadius: 24.r,
                     offset: Offset(0, 8.h),
                   ),
@@ -226,7 +228,7 @@ class _OtpVerificationCardState extends State<OtpVerificationCard> {
                       Text(
                         strings.otpCardTitle,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: AppColors.lightPrimary,
+                          color: colorScheme.primary,
                           fontWeight: FontWeight.w700,
                           fontSize: 20.sp,
                         ),
@@ -236,7 +238,7 @@ class _OtpVerificationCardState extends State<OtpVerificationCard> {
                         strings.otpSentDescription,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.grey.shade600,
+                          color: colorScheme.onSurfaceVariant,
                           fontSize: 13.sp,
                         ),
                       ),
@@ -245,7 +247,7 @@ class _OtpVerificationCardState extends State<OtpVerificationCard> {
                         maskEmail(state.email),
                         textDirection: TextDirection.ltr,
                         style: TextStyle(
-                          color: AppColors.lightPrimary,
+                          color: colorScheme.primary,
                           fontWeight: FontWeight.w700,
                           fontSize: 14.sp,
                         ),
@@ -258,8 +260,8 @@ class _OtpVerificationCardState extends State<OtpVerificationCard> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: _isExpired
-                              ? AppColors.red
-                              : Colors.grey.shade600,
+                              ? colorScheme.error
+                              : colorScheme.onSurfaceVariant,
                           fontWeight: _isExpired
                               ? FontWeight.w600
                               : FontWeight.w400,
@@ -308,16 +310,17 @@ class _ShieldIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
     return Container(
       width: 56.w,
       height: 56.w,
       decoration: BoxDecoration(
-        color: AppColors.primary.withValues(alpha: 0.1),
+        color: colorScheme.primary.withValues(alpha: 0.1),
         shape: BoxShape.circle,
       ),
       child: Icon(
         IconsaxPlusBold.shield_tick,
-        color: AppColors.primary,
+        color: colorScheme.primary,
         size: 28.sp,
       ),
     );
@@ -337,6 +340,7 @@ class _OtpBoxesRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Row(
@@ -353,8 +357,8 @@ class _OtpBoxesRow extends StatelessWidget {
                 final borderColor = isFocused
                     ? AppColors.orange
                     : isFilled
-                    ? AppColors.lightPrimary
-                    : Colors.grey.shade300;
+                    ? colorScheme.primary
+                    : colorScheme.outlineVariant;
 
                 return Focus(
                   onKeyEvent: (node, event) {
@@ -379,13 +383,13 @@ class _OtpBoxesRow extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.black,
+                      color: colorScheme.onSurface,
                     ),
                     decoration: InputDecoration(
                       counterText: '',
                       contentPadding: EdgeInsets.zero,
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: colorScheme.surfaceContainer,
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.r),
                         borderSide: BorderSide(color: borderColor, width: 1.6),
@@ -419,6 +423,7 @@ class _ResendRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
+    final colorScheme = context.colorScheme;
 
     return BlocBuilder<PasswordResetCubit, PasswordResetState>(
       buildWhen: (prev, curr) => prev.isResending != curr.isResending,
@@ -434,7 +439,10 @@ class _ResendRow extends StatelessWidget {
         if (secondsLeft > 0) {
           return Text(
             '${strings.resendOtpIn} ${_formatMmSs(secondsLeft)}',
-            style: TextStyle(color: Colors.grey.shade600, fontSize: 13.sp),
+            style: TextStyle(
+              color: colorScheme.onSurfaceVariant,
+              fontSize: 13.sp,
+            ),
           );
         }
 

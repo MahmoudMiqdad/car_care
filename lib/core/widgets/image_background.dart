@@ -1,4 +1,5 @@
 import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:flutter/material.dart';
 
 class ImageBackground extends StatelessWidget {
@@ -13,15 +14,22 @@ class ImageBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final resolvedAsset = isDark ? AppAssets.darkBackground : backgroundAsset;
+
+    final pattern = Image.asset(
+      resolvedAsset,
+      fit: BoxFit.cover,
+      errorBuilder: (context, _, _) =>
+          ColoredBox(color: colorScheme.surfaceContainerHighest),
+    );
+
     return Stack(
       fit: StackFit.expand,
       children: [
-        Image.asset(
-          backgroundAsset,
-          fit: BoxFit.cover,
-          errorBuilder: (_, _, _) =>
-              const ColoredBox(color: Color(0xFFE8EEF2)),
-        ),
+        ColoredBox(color: colorScheme.surface),
+        pattern,
         child,
       ],
     );

@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_cubit/vehicle_state.dart';
@@ -34,8 +35,11 @@ class ReservationVehiclePickerCard extends StatelessWidget {
           ),
           SizedBox(width: 10.w),
           Text(
-          string.loadingYourVehicles,
-            style: TextStyle(fontSize: 14.sp, color: AppColors.textSecondary(context)),
+            string.loadingYourVehicles,
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: AppColors.textSecondary(context),
+            ),
           ),
         ],
       );
@@ -45,7 +49,7 @@ class ReservationVehiclePickerCard extends StatelessWidget {
           Icon(Icons.info_outline, size: 18.sp, color: AppColors.accent),
           SizedBox(width: 8.w),
           Text(
-           string.noVehiclesAdded,
+            string.noVehiclesAdded,
             style: TextStyle(fontSize: 14.sp, color: AppColors.accent),
           ),
         ],
@@ -53,7 +57,11 @@ class ReservationVehiclePickerCard extends StatelessWidget {
     } else if (selectedVehicle != null) {
       content = Row(
         children: [
-          Icon(Icons.directions_car_rounded, size: 20.sp, color: AppColors.carWashTeal),
+          Icon(
+            Icons.directions_car_rounded,
+            size: 20.sp,
+            color: AppColors.carWashTeal,
+          ),
           SizedBox(width: 10.w),
           Expanded(
             child: Text(
@@ -61,25 +69,40 @@ class ReservationVehiclePickerCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
-                color: AppColors.black,
+                color: context.colorScheme.onSurface,
               ),
             ),
           ),
-          Icon(Icons.swap_horiz_rounded, size: 18.sp, color: AppColors.carWashTeal),
+          Icon(
+            Icons.swap_horiz_rounded,
+            size: 18.sp,
+            color: AppColors.carWashTeal,
+          ),
         ],
       );
     } else {
       content = Row(
         children: [
-          Icon(Icons.directions_car_outlined, size: 20.sp, color: AppColors.carWashTeal),
+          Icon(
+            Icons.directions_car_outlined,
+            size: 20.sp,
+            color: AppColors.carWashTeal,
+          ),
           SizedBox(width: 10.w),
           Expanded(
             child: Text(
-             string.selectYourVehicle,
-              style: TextStyle(fontSize: 14.sp, color: AppColors.textSecondary(context)),
+              string.selectYourVehicle,
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: AppColors.textSecondary(context),
+              ),
             ),
           ),
-          Icon(Icons.chevron_left_rounded, size: 20.sp, color: AppColors.textSecondary(context)),
+          Icon(
+            Icons.chevron_left_rounded,
+            size: 20.sp,
+            color: AppColors.textSecondary(context),
+          ),
         ],
       );
     }
@@ -89,10 +112,12 @@ class ReservationVehiclePickerCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: context.colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(14.r),
           border: Border.all(
-            color: selectedVehicle != null ? AppColors.carWashTeal : Colors.grey.shade300,
+            color: selectedVehicle != null
+                ? AppColors.carWashTeal
+                : context.colorScheme.outlineVariant,
             width: 1.2,
           ),
         ),

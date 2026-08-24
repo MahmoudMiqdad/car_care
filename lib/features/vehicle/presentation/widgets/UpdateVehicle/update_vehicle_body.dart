@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 import 'package:car_care/core/service_locator/service_locator.dart';
-import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
@@ -202,7 +201,6 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
                     AppButton(
                       text: strings.saveChanges,
                       isLoading: isLoading,
-                      backgroundColor: AppColors.accent,
                       height: 54.h,
                       borderRadius: 15.r,
                       fontSize: 20.sp,

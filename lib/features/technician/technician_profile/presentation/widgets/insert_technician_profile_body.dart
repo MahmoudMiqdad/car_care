@@ -150,7 +150,6 @@ class _TechnicianProfileBodyState extends State<InsertTechnicianProfileBody> {
                   height: AppConstants.buttonHeight.h,
                   child: AppButton(
                     text: isLoading ? l10n.updatingProgress : l10n.addTechnicianLabel,
-                    backgroundColor: AppColors.accent,
                     borderRadius: 20.r,
                     onPressed: isLoading ? null : _submit,
                   ),

@@ -4,6 +4,7 @@ import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/error_state_widget.dart';
+import 'package:car_care/core/widgets/filters/status_filter_tabs.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/technician/technician_jobs/domain/entities/technician_jobs_entity.dart';
@@ -11,7 +12,6 @@ import 'package:car_care/features/technician/technician_jobs/presentation/cubit/
 import 'package:car_care/features/technician/technician_jobs/presentation/cubit/technician_jobs_state.dart';
 import 'package:car_care/features/technician/technician_jobs/presentation/widgets/complete_job_dialog.dart';
 import 'package:car_care/features/technician/technician_jobs/presentation/widgets/technician_job_card.dart';
-
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,22 +36,84 @@ class _TechnicianJobsBody extends StatefulWidget {
   State<_TechnicianJobsBody> createState() => _TechnicianJobsBodyState();
 }
 
+const List<String> _kJobStatusFilterKeys = [
+  'pending',
+  'assigned',
+  'accepted',
+  'in_progress',
+  'completed',
+  'cancelled',
+];
+
 class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
   String? _busyJobId;
   List<JobEntity> _jobs = const [];
   bool _hasLoaded = false;
+  String? _selectedStatus;
 
-  (TechnicianJobCardStatus, String) _statusOf(BuildContext context, String status) {
+  bool _matchesFilter(String rawStatus) {
+    if (_selectedStatus == null) return true;
+    final normalized = rawStatus.toLowerCase();
+    return switch (_selectedStatus) {
+      'cancelled' =>
+        normalized == 'rejected' ||
+            normalized == 'cancelled' ||
+            normalized == 'canceled',
+      'in_progress' =>
+        normalized == 'in_progress' || normalized == 'in-progress',
+      'pending' => !const {
+        'assigned',
+        'accepted',
+        'in_progress',
+        'in-progress',
+        'completed',
+        'rejected',
+        'cancelled',
+        'canceled',
+      }.contains(normalized),
+      _ => normalized == _selectedStatus,
+    };
+  }
+
+  String _filterLabel(BuildContext context, String key) {
+    final l10n = context.l10n;
+    return switch (key) {
+      'pending' => l10n.pending,
+      'assigned' => l10n.jobAssignedStatusLabel,
+      'accepted' => l10n.bookingStatusAccepted,
+      'in_progress' => l10n.processingStatusLabel,
+      'completed' => l10n.bookingStatusCompleted,
+      'cancelled' => l10n.bookingStatusCanceled,
+      _ => key,
+    };
+  }
+
+  (TechnicianJobCardStatus, String) _statusOf(
+    BuildContext context,
+    String status,
+  ) {
     final l10n = context.l10n;
     return switch (status.toLowerCase()) {
-      'rejected' ||
-      'cancelled' ||
-      'canceled' => (TechnicianJobCardStatus.rejected, l10n.bookingStatusCanceled),
-      'completed' => (TechnicianJobCardStatus.waiting, l10n.bookingStatusCompleted),
-      'in_progress' ||
-      'in-progress' => (TechnicianJobCardStatus.waiting, l10n.processingStatusLabel),
-      'assigned' => (TechnicianJobCardStatus.waiting, l10n.jobAssignedStatusLabel),
-      'accepted' => (TechnicianJobCardStatus.waiting, l10n.bookingStatusAccepted),
+      'rejected' || 'cancelled' || 'canceled' => (
+        TechnicianJobCardStatus.rejected,
+        l10n.bookingStatusCanceled,
+      ),
+      'completed' => (
+        TechnicianJobCardStatus.waiting,
+        l10n.bookingStatusCompleted,
+      ),
+      'in_progress' || 'in-progress' => (
+        TechnicianJobCardStatus.waiting,
+        l10n.processingStatusLabel,
+      ),
+      'assigned' => (
+        TechnicianJobCardStatus.waiting,
+        l10n.jobAssignedStatusLabel,
+      ),
+      'accepted' => (
+        TechnicianJobCardStatus.waiting,
+        l10n.bookingStatusAccepted,
+      ),
       _ => (TechnicianJobCardStatus.waiting, l10n.pending),
     };
   }
@@ -100,6 +162,9 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final cubit = context.read<TechnicianJobsCubit>();
+    final filteredJobs = _jobs
+        .where((job) => _matchesFilter(job.status))
+        .toList();
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -109,83 +174,104 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
       ),
       body: ImageBackground(
         child: SafeArea(
-          child: RefreshIndicator(
-             onRefresh: () => context.read<TechnicianJobsCubit>().fetchMyJobs(),
+          child: Column(
+            children: [
+              SizedBox(height: 12.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: StatusFilterTabs<String?>(
+                  items: [
+                    StatusFilterTabItem(
+                      value: null,
+                      label: l10n.bookingStatusAll,
+                    ),
+                    for (final key in _kJobStatusFilterKeys)
+                      StatusFilterTabItem(
+                        value: key,
+                        label: _filterLabel(context, key),
+                      ),
+                  ],
+                  selected: _selectedStatus,
+                  onChanged: (value) => setState(() => _selectedStatus = value),
+                ),
+              ),
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: () =>
+                      context.read<TechnicianJobsCubit>().fetchMyJobs(),
+                  child: BlocConsumer<TechnicianJobsCubit, TechnicianJobsState>(
+                    listener: (context, state) {
+                      if (state is TechnicianJobsLoaded) {
+                        setState(() {
+                          _jobs = state.jobs.jobs;
+                          _hasLoaded = true;
+                        });
+                      }
+                      if (state is JobStatusUpdated) {
+                        setState(() => _busyJobId = null);
+                        final msg = state.data.message.trim();
+                        AppSnackBar.success(
+                          context,
+                          msg.isEmpty ? l10n.jobStatusUpdatedSuccess : msg,
+                        );
+                        cubit.fetchMyJobs();
+                      }
+                      if (state is JobStatusError) {
+                        setState(() => _busyJobId = null);
+                        final msg =
+                            state.message.isEmpty ||
+                                state.message.startsWith('Instance of')
+                            ? l10n.unexpectedErrorTryAgain
+                            : state.message;
+                        AppSnackBar.error(context, msg);
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is TechnicianJobsLoading && !_hasLoaded) {
+                        return const Center(child: AppLoadingWidget());
+                      }
 
-            child: BlocConsumer<TechnicianJobsCubit, TechnicianJobsState>(
-              listener: (context, state) {
-                if (state is TechnicianJobsLoaded) {
-                  setState(() {
-                    _jobs = state.jobs.jobs;
-                    _hasLoaded = true;
-                  });
-                }
-                if (state is JobStatusUpdated) {
-                  setState(() => _busyJobId = null);
-                  final msg = state.data.message.trim();
-                  AppSnackBar.success(
-                    context,
-                    msg.isEmpty ? l10n.jobStatusUpdatedSuccess : msg,
-                  );
-                  cubit.fetchMyJobs();
-                }
-                if (state is JobStatusError) {
-                  setState(() => _busyJobId = null);
-                  final msg =
-                      state.message.isEmpty ||
-                          state.message.startsWith('Instance of')
-                      ? l10n.unexpectedErrorTryAgain
-                      : state.message;
-                  AppSnackBar.error(context, msg);
-                }
-              },
-              builder: (context, state) {
-                if (state is TechnicianJobsLoading && !_hasLoaded) {
-                  return const Center(child: AppLoadingWidget());
-                }
-            
-                if (state is TechnicianJobsError) {
-                  return ErrorStateWidget(
-                    message:
-                        state.message.isEmpty ||
-                            state.message.startsWith('Instance of')
-                        ? l10n.jobLoadErrorLabel
-                        : state.message,
-                    onRetry: cubit.fetchMyJobs,
-                  );
-                }
-            
-                if (!_hasLoaded) return const SizedBox.shrink();
-            
-                return RefreshIndicator(
-                  onRefresh: cubit.fetchMyJobs,
-                  child: ListView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    padding: EdgeInsets.symmetric(horizontal: 22.w),
-                    children: [
-                     
-                      if (_jobs.isEmpty) ...[
-                        SizedBox(height: 40.h),
-                        const EmptyStateWidget(),
-                      ] else
-                        ..._jobs.map(
-                          (job) => Padding(
-                            padding: EdgeInsets.only(bottom: 5.h),
-                            child: TechnicianJobCard(
-                              job: _toUiModel(context, job),
-                              rawStatus: job.status,
-                              isBusy: _busyJobId == job.id.toString(),
-                              onStart: () => _startJob(job),
-                              onComplete: () => _completeJob(job),
+                      if (state is TechnicianJobsError) {
+                        return ErrorStateWidget(
+                          message:
+                              state.message.isEmpty ||
+                                  state.message.startsWith('Instance of')
+                              ? l10n.jobLoadErrorLabel
+                              : state.message,
+                          onRetry: cubit.fetchMyJobs,
+                        );
+                      }
+
+                      if (!_hasLoaded) return const SizedBox.shrink();
+
+                      return ListView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        padding: EdgeInsets.symmetric(horizontal: 22.w),
+                        children: [
+                          if (filteredJobs.isEmpty) ...[
+                            SizedBox(height: 40.h),
+                            const EmptyStateWidget(),
+                          ] else
+                            ...filteredJobs.map(
+                              (job) => Padding(
+                                padding: EdgeInsets.only(bottom: 5.h),
+                                child: TechnicianJobCard(
+                                  job: _toUiModel(context, job),
+                                  rawStatus: job.status,
+                                  isBusy: _busyJobId == job.id.toString(),
+                                  onStart: () => _startJob(job),
+                                  onComplete: () => _completeJob(job),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      SizedBox(height: 24.h),
-                    ],
+                          SizedBox(height: 24.h),
+                        ],
+                      );
+                    },
                   ),
-                );
-              },
-            ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/widgets/cancel_reason_dialog.dart';
@@ -28,6 +29,7 @@ class QuotationDetailsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
     final isPending = quotation.status == 'pending';
 
     return SafeArea(
@@ -59,7 +61,7 @@ class QuotationDetailsBody extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 22.sp,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.black,
+                            color: colorScheme.onSurface,
                           ),
                         ),
                         SizedBox(height: 8.h),
@@ -155,7 +157,7 @@ class QuotationDetailsBody extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.black,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                   ),

@@ -1,6 +1,6 @@
-// ignore_for_file: deprecated_member_use, file_names
+// ignore_for_file: file_names
 
-import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,27 +18,28 @@ class ServiceRecordTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
+
     return Container(
       height: 55,
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withOpacity(0.04),
+            color: colorScheme.shadow.withValues(alpha: 0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Material(
-        color: AppColors.transparent,
+        color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(12.r),
-          // ignore: duplicate_ignore
-          splashColor: AppColors.primary.withOpacity(0.1),
-          highlightColor: AppColors.primary.withOpacity(0.05),
+          splashColor: colorScheme.primary.withValues(alpha: 0.1),
+          highlightColor: colorScheme.primary.withValues(alpha: 0.05),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
             child: Row(
@@ -46,7 +47,7 @@ class ServiceRecordTile extends StatelessWidget {
                 Icon(
                   Icons.arrow_back_ios_new,
                   size: 16.sp,
-                  color: AppColors.grey,
+                  color: colorScheme.onSurfaceVariant,
                 ),
                 const Spacer(),
                 Text(
@@ -54,15 +55,11 @@ class ServiceRecordTile extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.black,
+                    color: colorScheme.onSurface,
                   ),
                 ),
                 SizedBox(width: 12.w),
-                Icon(
-                  icon,
-                  color: AppColors.primary,
-                  size: 24.sp,
-                ),
+                Icon(icon, color: colorScheme.primary, size: 24.sp),
               ],
             ),
           ),

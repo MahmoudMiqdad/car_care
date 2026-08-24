@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
@@ -42,7 +43,8 @@ void showTechnicianEntrySheet(BuildContext context) {
                 Expanded(
                   child: Text(
                     label,
-                    style: Theme.of(sheetContext).textTheme.titleSmall?.copyWith(
+                    style: Theme.of(sheetContext).textTheme.titleSmall
+                        ?.copyWith(
                           fontWeight: FontWeight.w600,
                           color: AppColors.textPrimary(context),
                         ),
@@ -50,7 +52,9 @@ void showTechnicianEntrySheet(BuildContext context) {
                 ),
                 Icon(
                   Icons.chevron_left_rounded,
-                  color: AppColors.textSecondary(context).withValues(alpha: 0.6),
+                  color: AppColors.textSecondary(
+                    context,
+                  ).withValues(alpha: 0.6),
                   size: 22.sp,
                 ),
               ],
@@ -73,7 +77,7 @@ void showTechnicianEntrySheet(BuildContext context) {
             ),
             child: Material(
               borderRadius: BorderRadius.circular(16.r),
-              color: Colors.white,
+              color: sheetContext.colorScheme.surfaceContainer,
               clipBehavior: Clip.antiAlias,
               child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 400.w),

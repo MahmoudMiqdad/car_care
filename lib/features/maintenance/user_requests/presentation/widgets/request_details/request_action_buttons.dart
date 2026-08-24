@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
@@ -8,7 +9,7 @@ import 'package:car_care/features/maintenance/user_requests/presentation/cubit/c
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/cancel_request_cubit/cancel_request_state.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/request_details/cancel_request_dialog.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/request_details/delete_request_dialog.dart';
-import 'package:car_care/l10n.dart'; 
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,12 +27,13 @@ class RequestActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n; 
+    final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
 
     return BlocListener<CancelRequestCubit, CancelRequestState>(
       listener: (context, state) {
         if (state is DeleteRequestSuccess) {
-          AppSnackBar.success(context, l10n.requestDeletedSuccess); 
+          AppSnackBar.success(context, l10n.requestDeletedSuccess);
           context.safePopOrGo(Routes.all_requests);
         }
         if (state is DeleteRequestError) {
@@ -49,21 +51,17 @@ class RequestActionButtons extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-    
               if (!hideQuotationsAndDelete)
                 AppButton(
                   onPressed: () => context.push(
                     Routes.quotations,
                     extra: data.id.toString(),
                   ),
-               
+
                   text: l10n.quotationsCountLabel(data.quotations.length),
-                  backgroundColor: AppColors.primary,
-                  textColor: AppColors.white,
                   borderRadius: 14.r,
                   height: 52.h,
                 ),
-
 
               if (data.canCancel) ...[
                 SizedBox(height: 12.h),
@@ -75,11 +73,13 @@ class RequestActionButtons extends StatelessWidget {
                           if (reason == null) return;
                           if (!context.mounted) return;
                           context.read<CancelRequestCubit>().cancelRequest(
-                                id: requestId,
-                                reason: reason,
-                              );
+                            id: requestId,
+                            reason: reason,
+                          );
                         },
-                  text: isLoading ? l10n.cancellingProgress : l10n.cancelRequestButton,
+                  text: isLoading
+                      ? l10n.cancellingProgress
+                      : l10n.cancelRequestButton,
                   backgroundColor: AppColors.reservationConfirmOrange,
                   textColor: AppColors.white,
                   borderRadius: 14.r,
@@ -87,7 +87,6 @@ class RequestActionButtons extends StatelessWidget {
                 ),
               ],
 
-            
               if (!hideQuotationsAndDelete) ...[
                 SizedBox(height: 12.h),
                 AppButton(
@@ -103,9 +102,11 @@ class RequestActionButtons extends StatelessWidget {
                             id: requestId,
                           );
                         },
-                  text: isLoading ? l10n.deletingProgress : l10n.deleteRequestTitle, 
-                  backgroundColor: AppColors.red, 
-                  textColor: AppColors.white,
+                  text: isLoading
+                      ? l10n.deletingProgress
+                      : l10n.deleteRequestTitle,
+                  backgroundColor: colorScheme.error,
+                  textColor: colorScheme.onError,
                   borderRadius: 14.r,
                   height: 52.h,
                 ),

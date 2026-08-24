@@ -242,7 +242,7 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
                       Text(
                         string.washerReservationChooseService,
                         style: context.textTheme.bodyLarge!.copyWith(
-                          color: AppColors.black,
+                          color: context.colorScheme.onSurface,
                           fontWeight: FontWeight.w800,
                         ),
                       ),

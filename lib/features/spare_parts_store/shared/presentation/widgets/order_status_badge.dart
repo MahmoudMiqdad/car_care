@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Color orderStatusColor(BuildContext context, String status) => switch (status) {
-  'pending' => AppColors.warning,
-  'accepted' => AppColors.info,
-  'processing' => AppColors.info,
-  'out_for_delivery' => AppColors.primary,
-  'delivered' => AppColors.green,
-  'cancelled' => AppColors.red,
-  'rejected' => AppColors.red,
-  _ => AppColors.textSecondary(context), 
+  'pending' => AppColors.warningColor(context),
+  'accepted' => context.colorScheme.primary,
+  'processing' => context.colorScheme.primary,
+  'out_for_delivery' => context.colorScheme.primary,
+  'delivered' => AppColors.successColor(context),
+  'cancelled' => context.colorScheme.error,
+  'rejected' => context.colorScheme.error,
+  _ => AppColors.textSecondary(context),
 };
 
 class OrderStatusBadge extends StatelessWidget {
@@ -29,7 +29,7 @@ class OrderStatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = orderStatusColor(context, status);
-    
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
       decoration: BoxDecoration(

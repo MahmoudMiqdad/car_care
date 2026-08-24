@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:car_care/core/constants/appbox_container.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -220,6 +221,7 @@ class _Ring extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bg = color.withOpacity(0.18);
+    final colorScheme = context.colorScheme;
 
     return SizedBox(
       width: 140.w,
@@ -245,13 +247,16 @@ class _Ring extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 30.sp,
                   fontWeight: FontWeight.w800,
-                  color: Colors.black87,
+                  color: colorScheme.onSurface,
                 ),
               ),
               SizedBox(height: 4.h),
               Text(
                 mainLabel,
-                style: TextStyle(fontSize: 14.sp, color: Colors.black54),
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: colorScheme.onSurfaceVariant,
+                ),
               ),
             ],
           ),
@@ -270,6 +275,7 @@ class _IndicatorPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = indicator.color ?? accent;
+    final colorScheme = context.colorScheme;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
@@ -289,7 +295,7 @@ class _IndicatorPill extends StatelessWidget {
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
-              color: Colors.black87,
+              color: colorScheme.onSurface,
             ),
           ),
           SizedBox(width: 8.w),

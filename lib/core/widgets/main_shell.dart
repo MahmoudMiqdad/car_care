@@ -27,11 +27,6 @@ class MainAppShell extends StatefulWidget {
 class _MainAppShellState extends State<MainAppShell> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // Exact allowlist: the bottom bar/AI FAB/drawer only ever show on these 4
-  // customer root-tab routes. Every other route is registered with
-  // `parentNavigatorKey: rootNavigatorKey` in app_router.dart so it never
-  // even reaches this shell — this list is the explicit safety net on top
-  // of that structural guarantee.
   static const List<String> _rootTabRoutes = [
     Routes.home,
     Routes.notifications,
@@ -44,18 +39,10 @@ class _MainAppShellState extends State<MainAppShell> {
     final location = GoRouterState.of(context).matchedLocation;
     final isRootTab = _rootTabRoutes.contains(location);
 
-    // AppBar الأساسي فقط في Home
     final showShellAppBar = location == Routes.home;
-
-    //  صفحات بدون BottomNav
     final hideShellBottomNav = !isRootTab;
-
-    //  صفحات بدون Drawer
     final hideShellDrawer = !isRootTab;
 
-    // إخفاء زر المساعد الذكي فقط أثناء ظهور لوحة المفاتيح في صفحة إنشاء
-    // طلب النجدة، حتى لا يظهر فوق الحقول أو لوحة المفاتيح. يعود تلقائيًا
-    // عند إغلاقها لأن هذا القيم يُعاد حسابه مع كل rebuild تابع لـMediaQuery.
     final isKeyboardVisible = MediaQuery.viewInsetsOf(context).bottom > 0;
     final hideFabForKeyboard =
         location == Routes.create_sos && isKeyboardVisible;
@@ -64,20 +51,15 @@ class _MainAppShellState extends State<MainAppShell> {
       onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
       icon: Icon(
         Icons.menu,
-        color: Colors.white,
+        color: context.colorScheme.onPrimary,
         size: AppConstants.homeAppBarMenuIconSize,
       ),
     );
 
     return Scaffold(
       key: _scaffoldKey,
-    
-      // Drawer
       endDrawer: hideShellDrawer ? null : const AppNavigationDrawer(),
-    
       backgroundColor: context.colorScheme.surface,
-    
-      // AppBar فقط في Home
       appBar: showShellAppBar
           ? CustomAppBar(
               title: AppConstants.appName,
@@ -86,21 +68,11 @@ class _MainAppShellState extends State<MainAppShell> {
               actionWidget: menuAction,
             )
           : null,
-    
-      //الصفحة
       body: widget.child,
-    
-      // Lets the body paint behind the floating pill bar/notch so the
-      // page's own background shows through instead of a Scaffold-colored
-      // strip appearing around/below it.
       extendBody: !hideShellBottomNav,
-    
-      // Bottom Navigation
       bottomNavigationBar: hideShellBottomNav
           ? null
           : widget.bottomNavigationBar,
-    
-      // AI Assistant floating action button
       floatingActionButton: (hideShellBottomNav || hideFabForKeyboard)
           ? null
           : widget.floatingActionButton,

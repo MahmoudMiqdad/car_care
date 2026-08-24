@@ -1,8 +1,8 @@
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
-import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,9 +21,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   final Color? backgroundColor;
 
-  /// Where the default back action navigates when there is no route to pop
-  /// (first route in stack via go/redirect/deep link). Ignored when
-  /// [onBackTapped] is provided.
   final String fallbackRoute;
 
   const CustomAppBar({
@@ -56,9 +53,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       return _buildMainBrandingAppBar(context);
     }
 
+    final appBarTheme = Theme.of(context).appBarTheme;
+    final colorScheme = context.colorScheme;
+    final effectiveBackground =
+        backgroundColor ?? appBarTheme.backgroundColor ?? colorScheme.primary;
+    final foreground = appBarTheme.foregroundColor ?? colorScheme.onPrimary;
+
     final appBar = AppBar(
       toolbarHeight: toolbarHeight?.h,
-      backgroundColor: backgroundColor ?? AppColors.primary,
+      backgroundColor: effectiveBackground,
       elevation: elevation,
       centerTitle: true,
       automaticallyImplyLeading: false,
@@ -77,7 +80,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       children: [
                         Icon(
                           Icons.arrow_back_ios,
-                          color: Colors.white,
+                          color: foreground,
                           size: 18.sp,
                         ),
                         SizedBox(width: 4.w),
@@ -88,7 +91,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                             softWrap: false,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              color: Colors.white,
+                              color: foreground,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w900,
                             ),
@@ -103,8 +106,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           titleWidget ??
           Text(
             title,
-            style: TextStyle(
-              color: Colors.white,
+            style: (appBarTheme.titleTextStyle ?? const TextStyle()).copyWith(
+              color: foreground,
               fontSize: 20.sp,
               fontWeight: FontWeight.w700,
             ),
@@ -126,9 +129,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   PreferredSizeWidget _buildMainBrandingAppBar(BuildContext context) {
+    final colorScheme = context.colorScheme;
+    final appBarTheme = Theme.of(context).appBarTheme;
+    final foreground = appBarTheme.foregroundColor ?? colorScheme.onPrimary;
+
     return AppBar(
       toolbarHeight: AppConstants.homeAppBarHeight.h,
-      backgroundColor: AppColors.primary,
+      backgroundColor: appBarTheme.backgroundColor ?? colorScheme.primary,
       elevation: AppConstants.homeAppBarElevation,
       automaticallyImplyLeading: false,
       leadingWidth: 0,
@@ -148,8 +155,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           fit: BoxFit.contain,
           errorBuilder: (_, _, _) => Text(
             title,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: foreground,
               fontSize: 20,
               fontWeight: FontWeight.w700,
             ),

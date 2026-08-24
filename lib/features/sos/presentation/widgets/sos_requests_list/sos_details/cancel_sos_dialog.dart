@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/l10n.dart';
 
@@ -22,6 +23,7 @@ class _CancelSosDialogState extends State<CancelSosDialog> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
 
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.r)),
@@ -29,7 +31,7 @@ class _CancelSosDialogState extends State<CancelSosDialog> {
       titlePadding: EdgeInsets.zero,
       title: Container(
         decoration: BoxDecoration(
-          color: AppColors.primary,
+          color: colorScheme.primary,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(14.r),
             topRight: Radius.circular(14.r),
@@ -39,7 +41,11 @@ class _CancelSosDialogState extends State<CancelSosDialog> {
         child: Text(
           l10n.cancelRequestButton,
           textAlign: TextAlign.center,
-          style: TextStyle(color: AppColors.white, fontSize: 14.sp, fontWeight: FontWeight.w700),
+          style: TextStyle(
+            color: colorScheme.onPrimary,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
       content: Padding(
@@ -53,7 +59,7 @@ class _CancelSosDialogState extends State<CancelSosDialog> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14.sp,
-                color: AppColors.black.withValues(alpha: 0.87),
+                color: colorScheme.onSurface,
               ),
             ),
             SizedBox(height: 12.h),
@@ -62,7 +68,10 @@ class _CancelSosDialogState extends State<CancelSosDialog> {
               maxLines: 3,
               decoration: InputDecoration(
                 hintText: l10n.cancelSosHint,
-                hintStyle: TextStyle(fontSize: 12.sp, color: AppColors.textSecondary(context)),
+                hintStyle: TextStyle(
+                  fontSize: 12.sp,
+                  color: AppColors.textSecondary(context),
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
                 ),
@@ -77,7 +86,10 @@ class _CancelSosDialogState extends State<CancelSosDialog> {
           onPressed: () => Navigator.of(context).pop(null),
           child: Text(
             l10n.backButton,
-            style: TextStyle(color: AppColors.textSecondary(context), fontSize: 14.sp),
+            style: TextStyle(
+              color: AppColors.textSecondary(context),
+              fontSize: 14.sp,
+            ),
           ),
         ),
         TextButton(
@@ -88,7 +100,7 @@ class _CancelSosDialogState extends State<CancelSosDialog> {
           child: Text(
             l10n.confirmCancellationButton,
             style: TextStyle(
-              color: AppColors.primary,
+              color: colorScheme.primary,
               fontWeight: FontWeight.bold,
               fontSize: 14.sp,
             ),

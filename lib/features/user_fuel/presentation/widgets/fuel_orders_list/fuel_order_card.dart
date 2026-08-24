@@ -1,5 +1,6 @@
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/request_detail_row.dart';
@@ -36,7 +37,7 @@ class FuelOrderCard extends StatelessWidget {
         border: Border.all(color: AppColors.carWashTeal, width: 1),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.06),
+            color: context.colorScheme.shadow.withValues(alpha: 0.06),
             blurRadius: 10.r,
             offset: Offset(0, 4.h),
           ),
@@ -110,7 +111,6 @@ class FuelOrderCard extends StatelessWidget {
             child: AppButton(
               onPressed: onTap ?? () {},
               text: l10n.sosRequestViewDetails,
-              backgroundColor: AppColors.accent,
               textColor: AppColors.white,
               borderRadius: 15.r,
               height: 45.h,

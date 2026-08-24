@@ -1,5 +1,5 @@
-// ignore_for_file: deprecated_member_use, file_names
-import 'package:car_care/core/theme/app_colors.dart';
+// ignore_for_file: file_names
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -21,30 +21,32 @@ class QuickActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
+
     return Column(
       children: [
         Container(
           width: 60.w,
           height: 60.w,
           decoration: BoxDecoration(
-            color: AppColors.white,
+            color: colorScheme.surfaceContainer,
             borderRadius: BorderRadius.circular(12.r),
             border: Border.all(color: color, width: 1.5),
             boxShadow: [
               BoxShadow(
-                color: color.withOpacity(0.05),
+                color: color.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
             ],
           ),
           child: Material(
-            color: AppColors.transparent,
+            color: Colors.transparent,
             child: InkWell(
               onTap: onTap,
               borderRadius: BorderRadius.circular(12.r),
-              splashColor: color.withOpacity(0.15),
-              highlightColor: color.withOpacity(0.05),
+              splashColor: color.withValues(alpha: 0.15),
+              highlightColor: color.withValues(alpha: 0.05),
               child: Center(
                 child: iconPath != null
                     ? Image.asset(
@@ -54,11 +56,7 @@ class QuickActionButton extends StatelessWidget {
                         color: color,
                         fit: BoxFit.contain,
                       )
-                    : Icon(
-                        iconData,
-                        color: color,
-                        size: 35.sp,
-                      ),
+                    : Icon(iconData, color: color, size: 35.sp),
               ),
             ),
           ),
@@ -69,7 +67,7 @@ class QuickActionButton extends StatelessWidget {
           style: TextStyle(
             fontSize: 14.sp,
             fontWeight: FontWeight.bold,
-            color: AppColors.black,
+            color: colorScheme.onSurface,
           ),
         ),
       ],

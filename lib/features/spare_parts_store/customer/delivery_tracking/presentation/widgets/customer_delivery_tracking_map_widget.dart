@@ -1,4 +1,3 @@
-// خريطة تتبع التوصيل — تعرض موقع المندوب المحدّث كل ١٠ ثوان.
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
@@ -13,10 +12,12 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
-final _customerOsrmDio = Dio(BaseOptions(
-  connectTimeout: const Duration(seconds: 10),
-  receiveTimeout: const Duration(seconds: 10),
-));
+final _customerOsrmDio = Dio(
+  BaseOptions(
+    connectTimeout: const Duration(seconds: 10),
+    receiveTimeout: const Duration(seconds: 10),
+  ),
+);
 
 class CustomerDeliveryTrackingMapWidget extends StatefulWidget {
   const CustomerDeliveryTrackingMapWidget({
@@ -46,9 +47,7 @@ class _CustomerDeliveryTrackingMapWidgetState
   @override
   void initState() {
     super.initState();
-    context
-        .read<CustomerDeliveryTrackingCubit>()
-        .loadTracking(widget.orderId);
+    context.read<CustomerDeliveryTrackingCubit>().loadTracking(widget.orderId);
   }
 
   Future<void> _goToMyLocation() async {
@@ -62,8 +61,7 @@ class _CustomerDeliveryTrackingMapWidgetState
       final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
-      _mapController.move(
-          LatLng(position.latitude, position.longitude), 16);
+      _mapController.move(LatLng(position.latitude, position.longitude), 16);
     } catch (_) {}
   }
 
@@ -81,28 +79,31 @@ class _CustomerDeliveryTrackingMapWidgetState
 
   Future<void> _fetchRoute(LatLng from, LatLng to) async {
     if (_lastRouteFetch != null) {
-      final dist =
-          const Distance().as(LengthUnit.Meter, _lastRouteFetch!, from);
+      final dist = const Distance().as(
+        LengthUnit.Meter,
+        _lastRouteFetch!,
+        from,
+      );
       if (dist < 20) return;
     }
     if (_loadingRoute) return;
     setState(() => _loadingRoute = true);
     try {
-      final url = 'https://router.project-osrm.org/route/v1/driving/'
+      final url =
+          'https://router.project-osrm.org/route/v1/driving/'
           '${from.longitude},${from.latitude};${to.longitude},${to.latitude}'
           '?overview=full&geometries=geojson';
-      final response =
-          await _customerOsrmDio.get<Map<String, dynamic>>(url);
+      final response = await _customerOsrmDio.get<Map<String, dynamic>>(url);
       if (response.statusCode == 200 && response.data != null) {
         final routes = response.data!['routes'] as List<dynamic>?;
         if (routes != null && routes.isNotEmpty) {
           final geometry = routes[0]['geometry'] as Map<String, dynamic>;
           final coordinates = geometry['coordinates'] as List<dynamic>;
           final points = coordinates
-              .map((c) => LatLng(
-                    (c[1] as num).toDouble(),
-                    (c[0] as num).toDouble(),
-                  ))
+              .map(
+                (c) =>
+                    LatLng((c[1] as num).toDouble(), (c[0] as num).toDouble()),
+              )
               .toList();
           if (mounted) {
             setState(() {
@@ -111,9 +112,9 @@ class _CustomerDeliveryTrackingMapWidgetState
             });
             if (!_hasFittedBounds) {
               _hasFittedBounds = true;
-              WidgetsBinding.instance.addPostFrameCallback(
-                (_) { if (mounted) _fitBoundsToPoints(_routePoints); },
-              );
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) _fitBoundsToPoints(_routePoints);
+              });
             }
           }
         }
@@ -123,9 +124,9 @@ class _CustomerDeliveryTrackingMapWidgetState
         setState(() => _routePoints = [from, to]);
         if (!_hasFittedBounds) {
           _hasFittedBounds = true;
-          WidgetsBinding.instance.addPostFrameCallback(
-            (_) { if (mounted) _fitBoundsToPoints([from, to]); },
-          );
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) _fitBoundsToPoints([from, to]);
+          });
         }
       }
     } finally {
@@ -135,8 +136,10 @@ class _CustomerDeliveryTrackingMapWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CustomerDeliveryTrackingCubit,
-        CustomerDeliveryTrackingState>(
+    return BlocBuilder<
+      CustomerDeliveryTrackingCubit,
+      CustomerDeliveryTrackingState
+    >(
       builder: (context, state) {
         if (state is CustomerDeliveryTrackingLoading) {
           return const Center(child: AppLoadingWidget());
@@ -148,8 +151,11 @@ class _CustomerDeliveryTrackingMapWidgetState
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.location_off,
-                      size: 48, color: Colors.grey),
+                  Icon(
+                    Icons.location_off,
+                    size: 48,
+                    color: context.colorScheme.onSurfaceVariant,
+                  ),
                   const SizedBox(height: 12),
                   Text(state.message, textAlign: TextAlign.center),
                   const SizedBox(height: 12),
@@ -209,8 +215,7 @@ class _CustomerDeliveryTrackingMapWidgetState
                   Text(
                     isDelivered ? 'تم التوصيل بنجاح' : 'انتهى التتبع',
                     style: context.textTheme.labelLarge!.copyWith(
-                      color:
-                          isDelivered ? AppColors.green : AppColors.red,
+                      color: isDelivered ? AppColors.green : AppColors.red,
                       fontWeight: FontWeight.w700,
                     ),
                     textAlign: TextAlign.center,
@@ -231,8 +236,8 @@ class _CustomerDeliveryTrackingMapWidgetState
   Widget _buildMap(CustomerDeliveryTrackingLoaded state) {
     final customerLocation =
         (widget.customerLat != null && widget.customerLng != null)
-            ? LatLng(widget.customerLat!, widget.customerLng!)
-            : null;
+        ? LatLng(widget.customerLat!, widget.customerLng!)
+        : null;
     final deliveryLocation = state.deliveryLocation;
     final center =
         deliveryLocation ?? customerLocation ?? const LatLng(33.3, 44.4);
@@ -256,8 +261,7 @@ class _CustomerDeliveryTrackingMapWidgetState
           options: MapOptions(initialCenter: center, initialZoom: 14),
           children: [
             TileLayer(
-              urlTemplate:
-                  'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
               userAgentPackageName: 'com.car_care.app',
             ),
             if (_routePoints.length > 1)
@@ -311,8 +315,11 @@ class _CustomerDeliveryTrackingMapWidgetState
           child: FloatingActionButton.small(
             heroTag: 'customer_track_my_loc',
             onPressed: _goToMyLocation,
-            backgroundColor: AppColors.primary,
-            child: const Icon(Icons.my_location, color: Colors.white),
+            backgroundColor: context.colorScheme.primary,
+            child: Icon(
+              Icons.my_location,
+              color: context.colorScheme.onPrimary,
+            ),
           ),
         ),
       ],
@@ -341,8 +348,7 @@ class _CustomerDestinationMarker extends StatelessWidget {
               ),
             ],
           ),
-          child:
-              const Icon(Icons.home_outlined, color: Colors.white, size: 20),
+          child: const Icon(Icons.home_outlined, color: Colors.white, size: 20),
         ),
         const SizedBox(height: 2),
         Container(
@@ -382,8 +388,11 @@ class _DeliveryPersonMarker extends StatelessWidget {
               ),
             ],
           ),
-          child:
-              const Icon(Icons.delivery_dining, color: Colors.white, size: 22),
+          child: const Icon(
+            Icons.delivery_dining,
+            color: Colors.white,
+            size: 22,
+          ),
         ),
         const SizedBox(height: 2),
         Container(

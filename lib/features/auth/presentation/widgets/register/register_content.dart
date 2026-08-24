@@ -40,7 +40,7 @@ class RegisterContent extends StatefulWidget {
 }
 
 class _RegisterContentState extends State<RegisterContent> {
-  bool _submitted = false; 
+  bool _submitted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class _RegisterContentState extends State<RegisterContent> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(28.r),
           topRight: Radius.circular(28.r),
@@ -104,28 +104,26 @@ class _RegisterContentState extends State<RegisterContent> {
                     },
                   ),
                   SizedBox(height: 16.h),
-LoginTextField(
-  innerBorderColor: Colors.transparent,
-  controller: widget.phoneController,
-  hintText: strings.enterphone,
-  isPassword: false,
-  keyboardType: TextInputType.phone,
-  icon: IconsaxPlusLinear.mobile,
-  validator: (v) {
-    if (v == null || v.trim().isEmpty) {
-      return strings.enterPhone; 
-    }
-    if (!RegExp(r'^\d{10}$').hasMatch(v.trim())) {
-      return strings.invalidPhone; 
-    }
-    return null;
-  },
-  onChanged: (value) {
-    context.read<AuthBloc>().add(
-      PhoneChanged(value),
-    );
-  },
-),
+                  LoginTextField(
+                    innerBorderColor: Colors.transparent,
+                    controller: widget.phoneController,
+                    hintText: strings.enterphone,
+                    isPassword: false,
+                    keyboardType: TextInputType.phone,
+                    icon: IconsaxPlusLinear.mobile,
+                    validator: (v) {
+                      if (v == null || v.trim().isEmpty) {
+                        return strings.enterPhone;
+                      }
+                      if (!RegExp(r'^\d{10}$').hasMatch(v.trim())) {
+                        return strings.invalidPhone;
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      context.read<AuthBloc>().add(PhoneChanged(value));
+                    },
+                  ),
                   SizedBox(height: 16.h),
                   LoginTextField(
                     innerBorderColor: AppColors.transparent,
@@ -183,7 +181,6 @@ LoginTextField(
                       text: widget.isLoading
                           ? strings.creating
                           : strings.createAccount,
-                      backgroundColor: AppColors.accent,
                       textColor: AppColors.white,
                     ),
                   ),
@@ -194,7 +191,7 @@ LoginTextField(
                       Text(
                         strings.alreadyHaveAccount,
                         style: context.textTheme.bodyMedium?.copyWith(
-                          color: AppColors.lightPrimary,
+                          color: context.colorScheme.primary,
                           fontSize: 16.sp,
                         ),
                       ),
@@ -236,25 +233,25 @@ class _RegisterTitle extends StatelessWidget {
           strings.createAccount,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: AppColors.accent,
-                fontWeight: FontWeight.w700,
-                fontSize: 26.sp,
-                letterSpacing: 0.4,
-                height: 1.25,
-                fontFamily: 'Poppins',
-              ),
+            color: AppColors.accent,
+            fontWeight: FontWeight.w700,
+            fontSize: 26.sp,
+            letterSpacing: 0.4,
+            height: 1.25,
+            fontFamily: 'Poppins',
+          ),
         ),
         SizedBox(height: 8.h),
         Text(
           strings.carReadyMessage,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.lightPrimary,
-                fontSize: 15.sp,
-                height: 1.35,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Poppins',
-              ),
+            color: context.colorScheme.primary,
+            fontSize: 15.sp,
+            height: 1.35,
+            fontWeight: FontWeight.w500,
+            fontFamily: 'Poppins',
+          ),
         ),
         SizedBox(height: 45.h),
       ],

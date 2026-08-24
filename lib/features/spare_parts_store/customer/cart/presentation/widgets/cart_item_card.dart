@@ -1,4 +1,3 @@
-// بطاقة عنصر داخل سلة المشتريات
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
@@ -27,12 +26,13 @@ class CartItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = item.product;
     final imageUrl =
-        product.primaryImage ?? (product.images.isNotEmpty ? product.images.first : null);
+        product.primaryImage ??
+        (product.images.isNotEmpty ? product.images.first : null);
 
     return Container(
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(14.r),
         border: Border.all(color: AppColors.border(context)),
       ),
@@ -55,7 +55,7 @@ class CartItemCard extends StatelessWidget {
                         product.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style:  context.textTheme.labelLarge!.copyWith(
+                        style: context.textTheme.labelLarge!.copyWith(
                           color: AppColors.textPrimary(context),
                           fontWeight: FontWeight.w700,
                         ),
@@ -64,16 +64,18 @@ class CartItemCard extends StatelessWidget {
                     _CartDeleteButton(isDeleting: isDeleting, onTap: onDelete),
                   ],
                 ),
-                if (product.partCategoryName != null || product.carBrandName != null) ...[
+                if (product.partCategoryName != null ||
+                    product.carBrandName != null) ...[
                   SizedBox(height: 3.h),
                   Text(
                     [
-                      if (product.partCategoryName != null) product.partCategoryName,
+                      if (product.partCategoryName != null)
+                        product.partCategoryName,
                       if (product.carBrandName != null) product.carBrandName,
                     ].join(' | '),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style:context.textTheme.labelSmall!.copyWith(
+                    style: context.textTheme.labelSmall!.copyWith(
                       color: AppColors.textSecondary(context),
                     ),
                   ),
@@ -90,7 +92,7 @@ class CartItemCard extends StatelessWidget {
                     ),
                     Text(
                       '${item.subtotal.toStringAsFixed(0)} ل.س',
-                      style:context.textTheme.labelLarge!.copyWith(
+                      style: context.textTheme.labelLarge!.copyWith(
                         color: AppColors.accent,
                         fontWeight: FontWeight.w800,
                       ),
@@ -105,7 +107,6 @@ class CartItemCard extends StatelessWidget {
     );
   }
 }
-
 
 class _CartDeleteButton extends StatelessWidget {
   const _CartDeleteButton({required this.isDeleting, required this.onTap});
@@ -130,13 +131,13 @@ class _CartDeleteButton extends StatelessWidget {
                     height: 16.sp,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      color: AppColors.red,
+                      color: context.colorScheme.error,
                     ),
                   )
                 : Icon(
                     Icons.delete_outline,
                     size: 20.sp,
-                    color: AppColors.red,
+                    color: context.colorScheme.error,
                   ),
           ),
         ),
@@ -144,7 +145,6 @@ class _CartDeleteButton extends StatelessWidget {
     );
   }
 }
-
 
 class _CartQuantityControls extends StatelessWidget {
   const _CartQuantityControls({
@@ -256,7 +256,7 @@ class _ItemImage extends StatelessWidget {
       return Container(
         width: 72.w,
         height: 72.w,
-        color: AppColors.secondary,
+        color: context.colorScheme.surfaceContainerHighest,
         alignment: Alignment.center,
         child: Icon(
           Icons.build_circle_outlined,
@@ -273,7 +273,7 @@ class _ItemImage extends StatelessWidget {
       fit: BoxFit.cover,
       placeholder: (context, url) => ColoredBox(color: AppColors.secondary),
       errorWidget: (context, url, error) => Container(
-        color: AppColors.secondary,
+        color: context.colorScheme.surfaceContainerHighest,
         alignment: Alignment.center,
         child: Icon(
           Icons.broken_image_outlined,

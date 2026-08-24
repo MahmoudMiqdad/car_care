@@ -1,6 +1,5 @@
-import 'package:car_care/core/theme/app_colors.dart';
-
-import 'package:car_care/core/widgets/app_headline.dart'; 
+import 'package:car_care/core/extensions/theme_extension.dart';
+import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/profile_page/profile_washer_service_tier_card.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +26,7 @@ class ProfileWasherServicesSection extends StatelessWidget {
         AppText.sectionTitle(
           context,
           l10n.washerSectionServicesAndPrices,
-          color: AppColors.black,
+          color: context.colorScheme.onSurface,
           textAlign: TextAlign.start,
         ),
         SizedBox(height: 8.h),
@@ -36,21 +35,24 @@ class ProfileWasherServicesSection extends StatelessWidget {
             Expanded(
               child: ProfileWasherServiceTierCard(
                 packageName: l10n.profileWasherTierPremium,
-                priceLabel: '${l10n.profileWasherFieldPrice}: ${l10n.currencyFormat(premiumPrice)}',
+                priceLabel:
+                    '${l10n.profileWasherFieldPrice}: ${l10n.currencyFormat(premiumPrice)}',
               ),
             ),
             SizedBox(width: 8.w),
             Expanded(
               child: ProfileWasherServiceTierCard(
                 packageName: l10n.profileWasherTierVip,
-                priceLabel: '${l10n.profileWasherFieldPrice}: ${l10n.currencyFormat(vipPrice)}',
+                priceLabel:
+                    '${l10n.profileWasherFieldPrice}: ${l10n.currencyFormat(vipPrice)}',
               ),
             ),
             SizedBox(width: 8.w),
             Expanded(
               child: ProfileWasherServiceTierCard(
                 packageName: l10n.profileWasherTierBasic,
-                priceLabel: '${l10n.profileWasherFieldPrice}: ${l10n.currencyFormat(basicPrice)}',
+                priceLabel:
+                    '${l10n.profileWasherFieldPrice}: ${l10n.currencyFormat(basicPrice)}',
               ),
             ),
           ],

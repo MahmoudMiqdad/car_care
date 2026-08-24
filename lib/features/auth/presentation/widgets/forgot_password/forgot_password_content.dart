@@ -1,4 +1,5 @@
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/auth/presentation/cubit/password_reset/password_reset_cubit.dart';
@@ -36,7 +37,7 @@ class _ForgotPasswordContentState extends State<ForgotPasswordContent> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(28.r),
           topRight: Radius.circular(28.r),
@@ -51,11 +52,11 @@ class _ForgotPasswordContentState extends State<ForgotPasswordContent> {
               strings.forgotPasswordTitle,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: AppColors.orange,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 26.sp,
-                    fontFamily: 'Poppins',
-                  ),
+                color: AppColors.orange,
+                fontWeight: FontWeight.w700,
+                fontSize: 26.sp,
+                fontFamily: 'Poppins',
+              ),
             ),
             SizedBox(height: 32.h),
             Form(
@@ -86,9 +87,9 @@ class _ForgotPasswordContentState extends State<ForgotPasswordContent> {
                     isLoading: isLoading,
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
-                        context
-                            .read<PasswordResetCubit>()
-                            .sendOtp(_emailController.text.trim());
+                        context.read<PasswordResetCubit>().sendOtp(
+                          _emailController.text.trim(),
+                        );
                       }
                     },
                     text: strings.sendVerificationCode,

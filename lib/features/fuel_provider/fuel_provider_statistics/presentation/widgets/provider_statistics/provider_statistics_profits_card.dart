@@ -1,4 +1,5 @@
 import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/statistics/stats_section_card.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_statistics/domain/entities/provider_statistics_entity.dart';
@@ -15,13 +16,15 @@ class ProviderStatisticsProfitsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final formattedProfits = NumberFormat('#,###').format(statistics.totalRevenue);
+    final formattedProfits = NumberFormat(
+      '#,###',
+    ).format(statistics.totalRevenue);
 
     return StatsSectionCard(
       title: l10n.providerStatisticsTotalProfitsTitle,
       icon: Icons.payments_outlined,
       child: Row(
-        children: [ 
+        children: [
           Container(
             width: 48.w,
             height: 48.w,
@@ -30,7 +33,10 @@ class ProviderStatisticsProfitsCard extends StatelessWidget {
               color: AppColors.accent.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(14.r),
             ),
-            child: Image.asset(AppAssets.fuelOrderMoneyIcon, fit: BoxFit.contain),
+            child: Image.asset(
+              AppAssets.fuelOrderMoneyIcon,
+              fit: BoxFit.contain,
+            ),
           ),
           SizedBox(width: 12.w),
           Expanded(
@@ -39,7 +45,7 @@ class ProviderStatisticsProfitsCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
-                color: AppColors.black.withValues(alpha: 0.87),
+                color: context.colorScheme.onSurface,
               ),
             ),
           ),

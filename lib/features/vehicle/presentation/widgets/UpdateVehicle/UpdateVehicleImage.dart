@@ -1,14 +1,16 @@
-// ignore_for_file: deprecated_member_use, file_names
+// ignore_for_file: file_names
 import 'dart:io';
-import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class UpdateVehicleImage extends StatelessWidget {
   final String? networkImage;
   final String? pickedImagePath;
   final VoidCallback onPickImage;
 
-  const UpdateVehicleImage({super.key, 
+  const UpdateVehicleImage({
+    super.key,
     this.networkImage,
     this.pickedImagePath,
     required this.onPickImage,
@@ -16,6 +18,7 @@ class UpdateVehicleImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 24.h),
       child: InkWell(
@@ -25,9 +28,12 @@ class UpdateVehicleImage extends StatelessWidget {
           height: 170.h,
           width: double.infinity,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: colorScheme.surfaceContainer,
             borderRadius: BorderRadius.circular(16.r),
-            border: Border.all(color: const Color(0xFF0C5D6E).withOpacity(0.45), width: 1.2),
+            border: Border.all(
+              color: colorScheme.primary.withValues(alpha: 0.45),
+              width: 1.2,
+            ),
           ),
           child: Stack(
             children: [
@@ -37,8 +43,12 @@ class UpdateVehicleImage extends StatelessWidget {
                   child: pickedImagePath != null
                       ? Image.file(File(pickedImagePath!), fit: BoxFit.cover)
                       : (networkImage != null && networkImage!.isNotEmpty)
-                          ? Image.network(networkImage!, fit: BoxFit.cover)
-                          : Icon(Icons.directions_car, size: 50.sp, color: AppColors.grey),
+                      ? Image.network(networkImage!, fit: BoxFit.cover)
+                      : Icon(
+                          Icons.directions_car,
+                          size: 50.sp,
+                          color: colorScheme.onSurfaceVariant,
+                        ),
                 ),
               ),
               Positioned(
@@ -46,8 +56,15 @@ class UpdateVehicleImage extends StatelessWidget {
                 right: 10.w,
                 child: Container(
                   padding: EdgeInsets.all(10.r),
-                  decoration: const BoxDecoration(color: AppColors.accent, shape: BoxShape.circle),
-                  child: Icon(Icons.camera_alt, color: AppColors.white, size: 20.sp),
+                  decoration: BoxDecoration(
+                    color: colorScheme.tertiary,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.camera_alt,
+                    color: colorScheme.onPrimary,
+                    size: 20.sp,
+                  ),
                 ),
               ),
             ],

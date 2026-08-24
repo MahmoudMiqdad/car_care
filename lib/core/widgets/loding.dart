@@ -1,6 +1,4 @@
-// app_loading_widget.dart
 import 'dart:math' as math;
-import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -54,6 +52,8 @@ class _AppLoadingWidgetState extends State<AppLoadingWidget>
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -65,9 +65,12 @@ class _AppLoadingWidgetState extends State<AppLoadingWidget>
               animation: Listenable.merge([_gearCtrl, _wrenchCtrl, _ringCtrl]),
               builder: (_, __) => CustomPaint(
                 painter: _MaintenancePainter(
-                  gearAngle:    _gearCtrl.value * 2 * math.pi,
-                  wrenchAngle:  (_wrenchCtrl.value - 0.5) * math.pi / 4, // -22° to +22°
+                  gearAngle: _gearCtrl.value * 2 * math.pi,
+                  wrenchAngle: (_wrenchCtrl.value - 0.5) * math.pi / 4,
                   ringProgress: _ringCtrl.value,
+                  accentColor: colorScheme.tertiary,
+                  primaryColor: colorScheme.primary,
+                  centerColor: colorScheme.surface,
                 ),
               ),
             ),
@@ -77,38 +80,42 @@ class _AppLoadingWidgetState extends State<AppLoadingWidget>
             'جارٍ التحميل...',
             style: TextStyle(
               fontSize: 13.sp,
-              color: Colors.grey.shade500,
+              color: colorScheme.onSurfaceVariant,
               letterSpacing: 0.3,
             ),
           ),
           SizedBox(height: 12.h),
-          _DotsLoader(controller: _dotsCtrl),
+          _DotsLoader(controller: _dotsCtrl, color: colorScheme.tertiary),
         ],
       ),
     );
   }
 }
 
-// ─────────────────────────────────────────────
 class _MaintenancePainter extends CustomPainter {
   final double gearAngle;
   final double wrenchAngle;
   final double ringProgress;
+  final Color accentColor;
+  final Color primaryColor;
+  final Color centerColor;
 
   _MaintenancePainter({
     required this.gearAngle,
     required this.wrenchAngle,
     required this.ringProgress,
+    required this.accentColor,
+    required this.primaryColor,
+    required this.centerColor,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
     final cx = size.width / 2;
     final cy = size.height / 2;
-    final accent  = AppColors.accent;
-    final primary = AppColors.primary;
+    final accent = accentColor;
+    final primary = primaryColor;
 
-    // ── pulse rings ──
     for (final delay in [0.0, 0.65]) {
       final t = ((ringProgress - delay / 1.6) % 1.0).clamp(0.0, 1.0);
       final radius = cx * 0.48 + t * cx * 0.9;
@@ -118,14 +125,13 @@ class _MaintenancePainter extends CustomPainter {
           Offset(cx, cy),
           radius,
           Paint()
-            ..color = accent.withOpacity(opacity)
+            ..color = accent.withValues(alpha: opacity)
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1.2,
         );
       }
     }
 
-    // ── gear ──
     canvas.save();
     canvas.translate(cx, cy);
     canvas.rotate(gearAngle);
@@ -134,7 +140,6 @@ class _MaintenancePainter extends CustomPainter {
     final toothW = 3.0;
     final toothH = 5.0;
 
-    // outer ring
     canvas.drawCircle(
       Offset.zero,
       gearR,
@@ -144,7 +149,6 @@ class _MaintenancePainter extends CustomPainter {
         ..strokeWidth = 4,
     );
 
-    // 8 teeth
     final toothPaint = Paint()..color = accent;
     for (int i = 0; i < 8; i++) {
       canvas.save();
@@ -163,12 +167,10 @@ class _MaintenancePainter extends CustomPainter {
       canvas.restore();
     }
 
-    // inner filled circle
     canvas.drawCircle(Offset.zero, gearR * 0.42, Paint()..color = accent);
 
     canvas.restore();
 
-    // ── wrench ──
     canvas.save();
     final wrenchPivot = Offset(cx * 1.38, cy * 1.14);
     canvas.translate(wrenchPivot.dx, wrenchPivot.dy);
@@ -176,7 +178,6 @@ class _MaintenancePainter extends CustomPainter {
 
     final wp = Paint()..color = primary;
 
-    // handle
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         Rect.fromCenter(center: const Offset(0, 0), width: 9, height: 26),
@@ -184,7 +185,6 @@ class _MaintenancePainter extends CustomPainter {
       ),
       wp,
     );
-    // top ring
     canvas.drawCircle(
       const Offset(0, -13),
       6,
@@ -193,28 +193,30 @@ class _MaintenancePainter extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..strokeWidth = 3.5,
     );
-    // bottom knob
     canvas.drawCircle(const Offset(0, 13), 5, wp);
 
     canvas.restore();
 
-    // ── center dot ──
-    canvas.drawCircle(Offset(cx, cy), 4.5, Paint()..color = Colors.white);
+    canvas.drawCircle(Offset(cx, cy), 4.5, Paint()..color = centerColor);
   }
 
   @override
   bool shouldRepaint(_MaintenancePainter old) =>
       old.gearAngle != gearAngle ||
       old.wrenchAngle != wrenchAngle ||
-      old.ringProgress != ringProgress;
+      old.ringProgress != ringProgress ||
+      old.accentColor != accentColor ||
+      old.primaryColor != primaryColor ||
+      old.centerColor != centerColor;
 }
 
-// ─────────────────────────────────────────────
 class _DotsLoader extends StatelessWidget {
   final AnimationController controller;
-  const _DotsLoader({required this.controller});
+  final Color color;
+  const _DotsLoader({required this.controller, required this.color});
 
-  Animation<double> _opacity(double delay) => Tween(begin: 0.25, end: 1.0).animate(
+  Animation<double> _opacity(double delay) =>
+      Tween(begin: 0.25, end: 1.0).animate(
         CurvedAnimation(
           parent: controller,
           curve: Interval(delay, delay + 0.35, curve: Curves.easeInOut),
@@ -234,8 +236,7 @@ class _DotsLoader extends StatelessWidget {
             height: 7,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-      
-              color: AppColors.accent.withOpacity(_opacity(d).value),
+              color: color.withValues(alpha: _opacity(d).value),
             ),
           );
         }).toList(),

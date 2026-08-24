@@ -1,8 +1,7 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// One colored slice of a [StatsSegmentedBar], sized proportionally to
-/// [value] out of the sum of all segments' values.
 class StatsSegment {
   const StatsSegment({required this.value, required this.color});
 
@@ -10,31 +9,29 @@ class StatsSegment {
   final Color color;
 }
 
-/// A horizontal segmented bar built purely from real numeric values — no
-/// percentages are computed or shown, it only encodes proportion visually.
-/// Safe against a zero/empty total: renders a flat neutral bar instead of
-/// dividing by zero or producing NaN.
 class StatsSegmentedBar extends StatelessWidget {
   const StatsSegmentedBar({
     super.key,
     required this.segments,
     this.height = 10,
-    this.emptyColor = const Color(0xFFE7E7E7),
+    this.emptyColor,
   });
 
   final List<StatsSegment> segments;
   final double height;
-  final Color emptyColor;
+  final Color? emptyColor;
 
   @override
   Widget build(BuildContext context) {
     final total = segments.fold<int>(0, (sum, s) => sum + s.value);
     final radius = BorderRadius.circular((height / 2).r);
+    final effectiveEmptyColor =
+        emptyColor ?? context.colorScheme.surfaceContainerHighest;
 
     if (total <= 0) {
       return ClipRRect(
         borderRadius: radius,
-        child: Container(height: height.h, color: emptyColor),
+        child: Container(height: height.h, color: effectiveEmptyColor),
       );
     }
 

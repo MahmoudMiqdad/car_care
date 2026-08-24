@@ -1,5 +1,6 @@
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/constants/appbox_container.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,10 +20,10 @@ class OrderDetailsSectionCard extends StatelessWidget {
     final r = AppConstants.sectionRadius;
 
     return AppBoxContainer(
-      padding: EdgeInsets.zero, 
+      padding: EdgeInsets.zero,
       borderRadius: r,
       borderColor: AppColors.primary,
-      backgroundColor: AppColors.white,
+      backgroundColor: context.colorScheme.surfaceContainer,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -48,7 +49,7 @@ class OrderDetailsSectionCard extends StatelessWidget {
               ),
             ),
           ),
-                    Container(
+          Container(
             width: double.infinity,
             padding: EdgeInsets.all(AppConstants.sectionBodyPadding),
             child: child,

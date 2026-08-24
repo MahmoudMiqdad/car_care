@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
@@ -20,8 +21,9 @@ class BookingDetailsContent extends StatelessWidget {
     final l10n = context.l10n;
 
     final washerName = booking.carWasher?.shopName ?? l10n.bookingsWasherName;
-    final washerLogoUrl = booking.carWasher?.logoUrl; 
+    final washerLogoUrl = booking.carWasher?.logoUrl;
     final priceText = booking.price ?? '0';
+    final onSurface = context.colorScheme.onSurface;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,7 +39,7 @@ class BookingDetailsContent extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 23.sp,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.black,
+                  color: onSurface,
                 ),
               ),
               Text(
@@ -45,7 +47,7 @@ class BookingDetailsContent extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.black,
+                  color: onSurface,
                 ),
               ),
               Text(
@@ -53,7 +55,7 @@ class BookingDetailsContent extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.black,
+                  color: onSurface,
                 ),
               ),
               Text(
@@ -61,7 +63,7 @@ class BookingDetailsContent extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.black,
+                  color: onSurface,
                 ),
               ),
               SizedBox(height: 6.h),
@@ -94,10 +96,7 @@ class BookingDetailsContent extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                   )
-                : Image.asset(
-                    'assets/images/1212s.png',
-                    fit: BoxFit.cover,
-                  ),
+                : Image.asset('assets/images/1212s.png', fit: BoxFit.cover),
           ),
         ),
       ],

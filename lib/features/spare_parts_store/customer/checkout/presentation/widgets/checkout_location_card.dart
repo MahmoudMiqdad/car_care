@@ -1,4 +1,3 @@
-// كرت يعرض موقع التوصيل المختار أو يدعو لاختياره
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
@@ -6,6 +5,7 @@ import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
+
 class CheckoutLocationCard extends StatelessWidget {
   const CheckoutLocationCard({
     super.key,
@@ -18,7 +18,8 @@ class CheckoutLocationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n; 
+    final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
     final isSelected = selectedLocation != null;
 
     return AnimatedContainer(
@@ -28,11 +29,11 @@ class CheckoutLocationCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: isSelected
             ? AppColors.primary.withValues(alpha: 0.04)
-            : AppColors.white,
+            : colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.05), 
+            color: colorScheme.shadow.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -47,7 +48,7 @@ class CheckoutLocationCard extends StatelessWidget {
                 width: 36.w,
                 height: 36.w,
                 decoration: BoxDecoration(
-                  color: AppColors.accent.withValues(alpha: 0.12), 
+                  color: AppColors.accent.withValues(alpha: 0.12),
                   shape: BoxShape.circle,
                 ),
                 alignment: Alignment.center,
@@ -63,7 +64,7 @@ class CheckoutLocationCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      l10n.deliveryLocationLabel, 
+                      l10n.deliveryLocationLabel,
                       style: context.textTheme.labelLarge!.copyWith(
                         color: AppColors.textPrimary(context),
                         fontWeight: FontWeight.w700,
@@ -71,13 +72,11 @@ class CheckoutLocationCard extends StatelessWidget {
                     ),
                     AnimatedSwitcher(
                       duration: const Duration(milliseconds: 250),
-                      transitionBuilder: (child, anim) => FadeTransition(
-                        opacity: anim,
-                        child: child,
-                      ),
+                      transitionBuilder: (child, anim) =>
+                          FadeTransition(opacity: anim, child: child),
                       child: !isSelected
                           ? Text(
-                              l10n.selectLocationFromMapHint, 
+                              l10n.selectLocationFromMapHint,
                               key: const ValueKey('hint'),
                               style: context.textTheme.labelSmall!.copyWith(
                                 color: AppColors.textSecondary(context),
@@ -102,7 +101,7 @@ class CheckoutLocationCard extends StatelessWidget {
                           vertical: 4.h,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.green.withValues(alpha: 0.12), 
+                          color: AppColors.green.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(20.r),
                         ),
                         child: Row(
@@ -115,8 +114,8 @@ class CheckoutLocationCard extends StatelessWidget {
                             ),
                             SizedBox(width: 3.w),
                             Text(
-                              l10n.locationSelectedBadge, 
-                              style:context.textTheme.labelSmall!.copyWith(
+                              l10n.locationSelectedBadge,
+                              style: context.textTheme.labelSmall!.copyWith(
                                 color: AppColors.green,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -143,13 +142,13 @@ class CheckoutLocationCard extends StatelessWidget {
                           vertical: 5.h,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.secondary,
+                          color: colorScheme.surfaceContainerHighest,
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Text(
                           '${selectedLocation!.latitude.toStringAsFixed(5)}, '
                           '${selectedLocation!.longitude.toStringAsFixed(5)}',
-                          style:context.textTheme.labelSmall!.copyWith(
+                          style: context.textTheme.labelSmall!.copyWith(
                             color: AppColors.textSecondary(context),
                             fontFamily: 'monospace',
                           ),
@@ -165,19 +164,25 @@ class CheckoutLocationCard extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 10.h),
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.07), 
+                color: AppColors.primary.withValues(alpha: 0.07),
                 borderRadius: BorderRadius.circular(10.r),
               ),
               alignment: Alignment.center,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.map_outlined, size: 16.sp, color: AppColors.primary),
+                  Icon(
+                    Icons.map_outlined,
+                    size: 16.sp,
+                    color: AppColors.primary,
+                  ),
                   SizedBox(width: 6.w),
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 200),
                     child: Text(
-                      isSelected ? l10n.changeLocationButton : l10n.selectLocationFromMapHint, 
+                      isSelected
+                          ? l10n.changeLocationButton
+                          : l10n.selectLocationFromMapHint,
                       key: ValueKey(isSelected),
                       style: context.textTheme.labelSmall!.copyWith(
                         color: AppColors.primary,

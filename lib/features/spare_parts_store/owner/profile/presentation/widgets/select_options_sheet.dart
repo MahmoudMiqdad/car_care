@@ -57,7 +57,7 @@ class _SelectOptionsSheetState extends State<SelectOptionsSheet> {
       constraints: BoxConstraints(maxHeight: 0.75.sh),
       padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 0),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       child: SafeArea(
@@ -152,8 +152,6 @@ class _SelectOptionsSheetState extends State<SelectOptionsSheet> {
               child: ElevatedButton(
                 onPressed: () => Navigator.pop(context, _selected.toList()),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.accent,
-                  foregroundColor: AppColors.white,
                   padding: EdgeInsets.symmetric(vertical: 14.h),
                   elevation: 0,
                   shape: RoundedRectangleBorder(

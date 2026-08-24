@@ -1,19 +1,47 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// 1. أضفنا BuildContext context هنا كـ Parameter
-({Color background, Color border}) carwashBookingStatusStyleFor(BuildContext context, String status) {
+({Color background, Color border, Color foreground}) carwashBookingStatusStyleFor(
+  BuildContext context,
+  String status,
+) {
   switch (status) {
     case 'completed':
+      final color = AppColors.successColor(context);
       return (
-        background: AppColors.serviceTierSelectedBackground,
-        border: AppColors.green,
+        background: color.withValues(alpha: 0.12),
+        border: color,
+        foreground: color,
       );
     case 'cancelled':
-      return (background: const Color(0xFFF8D7DA), border: AppColors.red);
+      final color = context.colorScheme.error;
+      return (
+        background: color.withValues(alpha: 0.12),
+        border: color,
+        foreground: color,
+      );
+    case 'pending':
+      final color = AppColors.warningColor(context);
+      return (
+        background: color.withValues(alpha: 0.12),
+        border: color,
+        foreground: color,
+      );
+    case 'in_progress':
+      final color = context.colorScheme.primary;
+      return (
+        background: color.withValues(alpha: 0.12),
+        border: color,
+        foreground: color,
+      );
     default:
-      return (background: Colors.transparent, border: AppColors.border(context));
+      return (
+        background: Colors.transparent,
+        border: AppColors.border(context),
+        foreground: context.colorScheme.onSurface,
+      );
   }
 }
 
@@ -53,7 +81,7 @@ class CarwashBookingStatusBadge extends StatelessWidget {
         style: TextStyle(
           fontSize: fontSize.sp,
           fontWeight: FontWeight.w500,
-          color: AppColors.black,
+          color: style.foreground,
         ),
       ),
     );

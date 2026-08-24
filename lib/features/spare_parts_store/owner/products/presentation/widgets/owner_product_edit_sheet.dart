@@ -1,4 +1,3 @@
-// نافذة تعديل جزئي لمنتج المالك — السعر والمخزون فقط (الحقول المثبتة في العقد).
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
@@ -83,7 +82,7 @@ class _OwnerProductEditSheetState extends State<OwnerProductEditSheet> {
       child: Container(
         constraints: BoxConstraints(maxHeight: 0.85.sh),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: context.colorScheme.surfaceContainer,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
         ),
         child: SafeArea(
@@ -163,7 +162,7 @@ class _OwnerProductEditSheetState extends State<OwnerProductEditSheet> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.r),
-          ),
+                          ),
                           contentPadding: EdgeInsets.symmetric(
                             horizontal: 12.w,
                             vertical: 10.h,
@@ -181,8 +180,6 @@ class _OwnerProductEditSheetState extends State<OwnerProductEditSheet> {
                   child: ElevatedButton(
                     onPressed: _confirm,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.accent,
-                      foregroundColor: AppColors.white,
                       padding: EdgeInsets.symmetric(vertical: 14.h),
                       elevation: 0,
                       shape: RoundedRectangleBorder(

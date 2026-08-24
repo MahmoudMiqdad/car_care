@@ -1,5 +1,5 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/advertisements/domain/entities/advertisement_entity.dart';
@@ -70,7 +70,7 @@ class AdvertisementCard extends StatelessWidget {
               height: scaledHeight,
               fit: BoxFit.cover,
               placeholder: (context, url) => ColoredBox(
-                color: AppColors.black,
+                color: context.colorScheme.surfaceContainerHighest,
                 child: Center(
                   child: SizedBox(
                     width: 22.r,
@@ -99,10 +99,7 @@ class AdvertisementCard extends StatelessWidget {
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [
-                       AppColors.transparent,
-                       AppColors.black
-                      ],
+                      colors: [AppColors.transparent, AppColors.black],
                     ),
                   ),
                   child: Text(

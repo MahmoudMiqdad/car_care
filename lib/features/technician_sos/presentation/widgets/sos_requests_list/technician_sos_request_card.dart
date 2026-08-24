@@ -1,5 +1,6 @@
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
@@ -69,12 +70,12 @@ class TechnicianSosRequestCard extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: context.colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(radius),
           border: Border.all(color: AppColors.carWashTeal, width: 1),
           boxShadow: [
             BoxShadow(
-              color: AppColors.black.withValues(alpha: 0.06),
+              color: context.colorScheme.shadow.withValues(alpha: 0.06),
               blurRadius: 10.r,
               offset: Offset(0, 4.h),
             ),
@@ -170,7 +171,6 @@ class TechnicianSosRequestCard extends StatelessWidget {
                       );
                     },
                     text: l10n.sosRequestViewDetails,
-                    backgroundColor: AppColors.accent,
                     textColor: AppColors.white,
                     borderRadius: 24.r,
                     height: 50.h,
@@ -239,7 +239,7 @@ class _StatusActions extends StatelessWidget {
             text: isBusy ? l10n.sosAcceptingInProgress : l10n.sosAcceptRequest,
             isOutline: true,
             backgroundColor: AppColors.carWashTeal,
-            outlineSurfaceColor: AppColors.white,
+            outlineSurfaceColor: context.colorScheme.surfaceContainer,
             textColor: AppColors.carWashTeal,
             borderRadius: 24.r,
             height: 50.h,
@@ -269,7 +269,7 @@ class _StatusActions extends StatelessWidget {
               : (isAccepted ? l10n.sosStartProgress : l10n.sosFinishRequest),
           isOutline: true,
           backgroundColor: AppColors.carWashTeal,
-          outlineSurfaceColor: AppColors.white,
+          outlineSurfaceColor: context.colorScheme.surfaceContainer,
           textColor: AppColors.carWashTeal,
           borderRadius: 24.r,
           height: 50.h,
@@ -280,7 +280,7 @@ class _StatusActions extends StatelessWidget {
           text: l10n.sosCancelResponse,
           isOutline: true,
           backgroundColor: AppColors.red,
-          outlineSurfaceColor: AppColors.white,
+          outlineSurfaceColor: context.colorScheme.surfaceContainer,
           textColor: AppColors.red,
           borderRadius: 24.r,
           height: 50.h,
@@ -370,7 +370,7 @@ class _TechnicianNavigationSheet extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height * 0.92,
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       child: Column(
@@ -380,7 +380,7 @@ class _TechnicianNavigationSheet extends StatelessWidget {
             width: 40.w,
             height: 4.h,
             decoration: BoxDecoration(
-              color: AppColors.white,
+              color: context.colorScheme.outlineVariant,
               borderRadius: BorderRadius.circular(2.r),
             ),
           ),
@@ -421,7 +421,6 @@ class _TechnicianNavigationSheet extends StatelessWidget {
                   text: isLoading
                       ? l10n.sosUpdatingInProgress
                       : l10n.sosChangeStatusTitle,
-                  backgroundColor: AppColors.accent,
                   textColor: AppColors.white,
                   borderRadius: 14.r,
                   height: 46.h,

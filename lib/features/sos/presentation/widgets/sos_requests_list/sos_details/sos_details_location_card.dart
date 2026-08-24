@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/service/pusher_service.dart';
 import 'package:car_care/core/theme/app_colors.dart';
@@ -21,14 +22,16 @@ class SosDetailsLocationCard extends StatelessWidget {
   });
 
   final int sosId;
-  final double? lat;  
+  final double? lat;
   final double? lng;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final hasLocation = lat != null && lng != null;
-    final location = hasLocation ? LatLng(lat!, lng!) : const LatLng(33.3152, 44.3661);
+    final location = hasLocation
+        ? LatLng(lat!, lng!)
+        : const LatLng(33.3152, 44.3661);
 
     return SosDetailsSectionCard(
       title: l10n.sosDetailsCurrentLocation,
@@ -43,13 +46,12 @@ class SosDetailsLocationCard extends StatelessWidget {
                 initialCenter: location,
                 initialZoom: 14,
                 interactionOptions: const InteractionOptions(
-                  flags: InteractiveFlag.none, 
+                  flags: InteractiveFlag.none,
                 ),
               ),
               children: [
                 TileLayer(
-                  urlTemplate:
-                      'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                   userAgentPackageName: 'com.car_care.app',
                 ),
                 if (hasLocation)
@@ -82,10 +84,7 @@ void showSosTrackingSheet(BuildContext context, int sosId) {
     isScrollControlled: true,
     backgroundColor: AppColors.transparent,
     builder: (_) => BlocProvider(
-      create: (_) => TrackingCubit(
-        getIt<ISosRepository>(),
-        PusherService(),
-      ),
+      create: (_) => TrackingCubit(getIt<ISosRepository>(), PusherService()),
       child: _TrackingSheet(sosId: sosId),
     ),
   );
@@ -98,12 +97,13 @@ class _TrackingSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n; 
+    final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.88,
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       child: Column(
@@ -113,7 +113,7 @@ class _TrackingSheet extends StatelessWidget {
             width: 40.w,
             height: 4.h,
             decoration: BoxDecoration(
-              color: AppColors.gray,
+              color: colorScheme.outlineVariant,
               borderRadius: BorderRadius.circular(2.r),
             ),
           ),
@@ -123,10 +123,10 @@ class _TrackingSheet extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Row(
               children: [
-                Icon(Icons.location_on, color: AppColors.red), 
+                Icon(Icons.location_on, color: AppColors.red),
                 SizedBox(width: 8.w),
                 Text(
-                  l10n.trackTechnician, 
+                  l10n.trackTechnician,
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
@@ -142,9 +142,7 @@ class _TrackingSheet extends StatelessWidget {
           ),
           SizedBox(height: 4.h),
 
-          Expanded(
-            child: SosMapWidget(sosId: sosId),
-          ),
+          Expanded(child: SosMapWidget(sosId: sosId)),
         ],
       ),
     );

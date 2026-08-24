@@ -1,4 +1,3 @@
-// شاشة تفاصيل الطلب للمالك مع إجراءات التحديث.
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
@@ -69,42 +68,40 @@ class _OwnerOrderDetailsPageState extends State<OwnerOrderDetailsPage> {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: CustomAppBar(
-            title:string.orderDetailsTitle,
+            title: string.orderDetailsTitle,
             onBackTapped: () =>
                 context.safePopOrGo(Routes.ownerOrders, result: _mutated),
           ),
           body: ImageBackground(
-            child:
-                BlocConsumer<OwnerOrderDetailsCubit, OwnerOrderDetailsState>(
-                  listener: (context, state) {
-                    if (state is! OwnerOrderDetailsLoaded) return;
-                    if (state.successMessage != null) {
-                      AppSnackBar.success(context, state.successMessage!);
-                      _cubit.clearSuccessMessage();
-                      setState(() => _mutated = true);
-                    }
-                    if (state.actionError != null) {
-                      AppSnackBar.error(context, state.actionError!);
-                      _cubit.clearActionError();
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is OwnerOrderDetailsLoading) {
-                      return const AppLoadingWidget();
-                    }
-                    if (state is OwnerOrderDetailsError) {
-                      return ErrorStateWidget(
-                        message: state.message,
-                        onRetry: () =>
-                            _cubit.fetchOrderDetails(widget.orderId),
-                      );
-                    }
-                    if (state is OwnerOrderDetailsLoaded) {
-                      return _buildContent(state);
-                    }
-                    return const SizedBox.shrink();
-                  },
-                ),
+            child: BlocConsumer<OwnerOrderDetailsCubit, OwnerOrderDetailsState>(
+              listener: (context, state) {
+                if (state is! OwnerOrderDetailsLoaded) return;
+                if (state.successMessage != null) {
+                  AppSnackBar.success(context, state.successMessage!);
+                  _cubit.clearSuccessMessage();
+                  setState(() => _mutated = true);
+                }
+                if (state.actionError != null) {
+                  AppSnackBar.error(context, state.actionError!);
+                  _cubit.clearActionError();
+                }
+              },
+              builder: (context, state) {
+                if (state is OwnerOrderDetailsLoading) {
+                  return const AppLoadingWidget();
+                }
+                if (state is OwnerOrderDetailsError) {
+                  return ErrorStateWidget(
+                    message: state.message,
+                    onRetry: () => _cubit.fetchOrderDetails(widget.orderId),
+                  );
+                }
+                if (state is OwnerOrderDetailsLoaded) {
+                  return _buildContent(state);
+                }
+                return const SizedBox.shrink();
+              },
+            ),
           ),
         ),
       ),
@@ -158,7 +155,7 @@ class _HeaderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      final string = context.l10n;
+    final string = context.l10n;
     return _Card(
       child: Row(
         children: [
@@ -199,7 +196,7 @@ class _ItemsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-          final string = context.l10n;
+    final string = context.l10n;
 
     return _Card(
       child: Column(
@@ -271,7 +268,7 @@ class _TotalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-          final string = context.l10n;
+    final string = context.l10n;
 
     return _Card(
       child: Row(
@@ -374,11 +371,11 @@ class _Card extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(14.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: context.colorScheme.shadow.withOpacity(0.04),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),

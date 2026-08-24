@@ -1,11 +1,8 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Compact read-only title/value row (icon + label + value) used inside a
-/// [TechnicianProfileSection] card on the Profile View screen. Deliberately
-/// has no card/border of its own — the section around it is the only card,
-/// so rows don't nest card-in-card.
 class TechnicianInfoRow extends StatelessWidget {
   const TechnicianInfoRow({
     super.key,
@@ -26,7 +23,10 @@ class TechnicianInfoRow extends StatelessWidget {
         SizedBox(width: 10.w),
         Text(
           label,
-          style: TextStyle(fontSize: 13.sp, color: AppColors.gray),
+          style: TextStyle(
+            fontSize: 13.sp,
+            color: context.colorScheme.onSurfaceVariant,
+          ),
         ),
         const Spacer(),
         Flexible(
@@ -38,7 +38,7 @@ class TechnicianInfoRow extends StatelessWidget {
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w700,
-              color: AppColors.black,
+              color: context.colorScheme.onSurface,
             ),
           ),
         ),

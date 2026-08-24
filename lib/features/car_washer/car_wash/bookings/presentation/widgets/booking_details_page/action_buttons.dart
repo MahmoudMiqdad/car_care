@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
@@ -60,7 +61,7 @@ class _ActionButtonsState extends State<ActionButtons> {
             },
             child: Text(
               string.confirm,
-              style: const TextStyle(color: AppColors.red),
+              style: TextStyle(color: context.colorScheme.error),
             ),
           ),
         ],
@@ -90,7 +91,6 @@ class _ActionButtonsState extends State<ActionButtons> {
                 }
               },
               text: string.bookingsMenuRateService,
-              backgroundColor: AppColors.accent,
               textColor: AppColors.white,
               borderRadius: 12.r,
               fontSize: 18.sp,

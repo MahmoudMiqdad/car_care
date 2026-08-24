@@ -1,4 +1,4 @@
-import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,22 +23,14 @@ class AppInfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentLang = Localizations.localeOf(context).languageCode;
     final fontFamily = AppTypography.getFontFamily(currentLang);
+    final colorScheme = context.colorScheme;
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4.h),
       child: Row(
-        // start بدل center: لو label طويل وعمل سطرين، الـ leading بيضل فوق
-        // مش بينزل بالنص، وهاد كمان بيمنع شكل "متكسر" بصريًا.
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (leading != null) ...[
-            leading!,
-            SizedBox(width: 8.w),
-          ],
-
-          // 🔑 الحل: label و value داخل نفس الـ Text.rich جوا Expanded وحدة.
-          // هيك بيلتزموا بعرض واحد وبيلفوا سطر تاني مع بعض بشكل طبيعي،
-          // بدل ما يكون label بلا حدود ويعمل overflow خارج الـ Row.
+          if (leading != null) ...[leading!, SizedBox(width: 8.w)],
           Expanded(
             child: Text.rich(
               TextSpan(
@@ -49,7 +41,7 @@ class AppInfoRow extends StatelessWidget {
                       fontSize: labelFontSize.sp,
                       fontWeight: FontWeight.w700,
                       fontFamily: fontFamily,
-                      color: AppColors.textSecondary(context),
+                      color: colorScheme.onSurfaceVariant,
                       height: 1.5,
                     ),
                   ),
@@ -59,7 +51,7 @@ class AppInfoRow extends StatelessWidget {
                       fontSize: valueFontSize.sp,
                       fontWeight: FontWeight.w500,
                       fontFamily: fontFamily,
-                      color: AppColors.textPrimary(context),
+                      color: colorScheme.onSurface,
                       height: 1.5,
                     ),
                   ),
@@ -67,7 +59,7 @@ class AppInfoRow extends StatelessWidget {
               ),
               textAlign: TextAlign.start,
               softWrap: true,
-              overflow: TextOverflow.clip, // ما بيقص الكلمة، بيلف سطر جديد بدل ما "يتفكك"
+              overflow: TextOverflow.clip,
             ),
           ),
         ],

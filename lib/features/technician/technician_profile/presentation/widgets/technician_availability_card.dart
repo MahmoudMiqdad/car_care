@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_availability_cubit/technician_availability_cubit.dart';
@@ -37,11 +38,11 @@ class TechnicianAvailabilityCard extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
           decoration: BoxDecoration(
-            color: AppColors.white,
+            color: context.colorScheme.surfaceContainer,
             borderRadius: BorderRadius.circular(16.r),
             boxShadow: [
               BoxShadow(
-                color: AppColors.black.withValues(alpha: 0.05),
+                color: context.colorScheme.shadow.withValues(alpha: 0.05),
                 blurRadius: 10.r,
                 offset: const Offset(0, 3),
               ),
@@ -52,13 +53,18 @@ class TechnicianAvailabilityCard extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(8.r),
                 decoration: BoxDecoration(
-                  color: (isAvailable ? AppColors.green : AppColors.border(context))
-                      .withValues(alpha: 0.1),
+                  color:
+                      (isAvailable
+                              ? AppColors.successColor(context)
+                              : AppColors.border(context))
+                          .withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   isAvailable ? Icons.check_circle : Icons.pause_circle_outline,
-                  color: isAvailable ? AppColors.green : AppColors.textSecondary(context),
+                  color: isAvailable
+                      ? AppColors.successColor(context)
+                      : AppColors.textSecondary(context),
                   size: 20.r,
                 ),
               ),
@@ -76,7 +82,9 @@ class TechnicianAvailabilityCard extends StatelessWidget {
                     ),
                     SizedBox(height: 2.h),
                     Text(
-                      isAvailable ? l10n.availableForWork : l10n.unavailableForWork,
+                      isAvailable
+                          ? l10n.availableForWork
+                          : l10n.unavailableForWork,
                       style: TextStyle(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w700,

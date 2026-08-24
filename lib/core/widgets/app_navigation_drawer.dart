@@ -1,8 +1,8 @@
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
-import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,10 +20,13 @@ class AppNavigationDrawer extends StatelessWidget {
 
   Future<void> _confirmLogout(BuildContext context) async {
     final strings = context.l10n;
+    final colorScheme = context.colorScheme;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
         title: Text(strings.logout),
         content: Text(strings.logoutConfirmation),
         actions: [
@@ -33,7 +36,7 @@ class AppNavigationDrawer extends StatelessWidget {
           ),
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            style: TextButton.styleFrom(foregroundColor: AppColors.red),
+            style: TextButton.styleFrom(foregroundColor: colorScheme.error),
             child: Text(strings.logout),
           ),
         ],
@@ -49,10 +52,11 @@ class AppNavigationDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
+    final colorScheme = context.colorScheme;
 
     return Drawer(
       elevation: 0,
-      backgroundColor: AppColors.cardBackground(context),
+      backgroundColor: colorScheme.surfaceContainer,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadiusDirectional.only(
           topEnd: Radius.circular(24.r),
@@ -73,10 +77,9 @@ class AppNavigationDrawer extends StatelessWidget {
                   _DrawerTile(
                     icon: Icons.person_outline_rounded,
                     label: strings.profile,
-                    iconColor: AppColors.primary,
+                    iconColor: colorScheme.primary,
                     onTap: () => _closeThen(
                       context,
-                   
                       () => context.push(Routes.user_profile),
                     ),
                   ),
@@ -84,7 +87,7 @@ class AppNavigationDrawer extends StatelessWidget {
                   _DrawerTile(
                     icon: Icons.notifications_outlined,
                     label: strings.notifications,
-                    iconColor: AppColors.accent,
+                    iconColor: colorScheme.tertiary,
                     onTap: () => _closeThen(
                       context,
                       () => context.go(Routes.notifications),
@@ -94,7 +97,7 @@ class AppNavigationDrawer extends StatelessWidget {
                   _DrawerTile(
                     icon: Icons.settings_outlined,
                     label: strings.settingsTitle,
-                    iconColor: AppColors.primary,
+                    iconColor: colorScheme.primary,
                     onTap: () => _closeThen(
                       context,
                       () => context.push(Routes.settings),
@@ -106,17 +109,14 @@ class AppNavigationDrawer extends StatelessWidget {
             const Spacer(),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
-              child: Divider(
-                color: AppColors.border(context).withValues(alpha: 0.6),
-                height: 1,
-              ),
+              child: Divider(color: colorScheme.outlineVariant, height: 1),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 14.w),
               child: _DrawerTile(
                 icon: Icons.logout_rounded,
                 label: strings.logout,
-                iconColor: AppColors.red,
+                iconColor: colorScheme.error,
                 dense: true,
                 onTap: () => _confirmLogout(context),
               ),
@@ -138,6 +138,9 @@ class _DrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = context.colorScheme;
+    final onPrimary = colorScheme.onPrimary;
+    final headerEnd = Color.lerp(colorScheme.primary, Colors.black, 0.3)!;
 
     return SizedBox(
       height: 172.h,
@@ -145,28 +148,28 @@ class _DrawerHeader extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [AppColors.primary, Color(0xFF004D63)],
+                colors: [colorScheme.primary, headerEnd],
               ),
             ),
           ),
           Positioned(
             top: -34.r,
             left: -22.r,
-            child: _Bubble(size: 104.r, opacity: 0.10),
+            child: _Bubble(size: 104.r, color: onPrimary, opacity: 0.10),
           ),
           Positioned(
             bottom: 34.h,
             right: -18.r,
-            child: _Bubble(size: 66.r, opacity: 0.12),
+            child: _Bubble(size: 66.r, color: onPrimary, opacity: 0.12),
           ),
           Positioned(
             bottom: -12.h,
             left: 64.w,
-            child: _Bubble(size: 42.r, opacity: 0.14),
+            child: _Bubble(size: 42.r, color: onPrimary, opacity: 0.14),
           ),
           Positioned.fill(
             child: Padding(
@@ -179,16 +182,16 @@ class _DrawerHeader extends StatelessWidget {
                     width: 52.r,
                     height: 52.r,
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.16),
+                      color: onPrimary.withValues(alpha: 0.16),
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.35),
+                        color: onPrimary.withValues(alpha: 0.35),
                         width: 1.2,
                       ),
                     ),
                     child: Icon(
                       Icons.directions_car_filled_rounded,
-                      color: Colors.white,
+                      color: onPrimary,
                       size: 26.sp,
                     ),
                   ),
@@ -196,7 +199,7 @@ class _DrawerHeader extends StatelessWidget {
                   Text(
                     appName,
                     style: theme.textTheme.titleLarge?.copyWith(
-                      color: Colors.white,
+                      color: onPrimary,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.4,
                     ),
@@ -205,7 +208,7 @@ class _DrawerHeader extends StatelessWidget {
                   Text(
                     tagline,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: Colors.white.withValues(alpha: 0.85),
+                      color: onPrimary.withValues(alpha: 0.85),
                     ),
                   ),
                 ],
@@ -219,9 +222,14 @@ class _DrawerHeader extends StatelessWidget {
 }
 
 class _Bubble extends StatelessWidget {
-  const _Bubble({required this.size, required this.opacity});
+  const _Bubble({
+    required this.size,
+    required this.color,
+    required this.opacity,
+  });
 
   final double size;
+  final Color color;
   final double opacity;
 
   @override
@@ -231,7 +239,7 @@ class _Bubble extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: Colors.white.withValues(alpha: opacity),
+        color: color.withValues(alpha: opacity),
       ),
     );
   }
@@ -254,8 +262,10 @@ class _DrawerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
+
     return Material(
-      color: AppColors.cardBackground(context),
+      color: colorScheme.surfaceContainer,
       borderRadius: BorderRadius.circular(14.r),
       child: InkWell(
         onTap: onTap,
@@ -269,9 +279,7 @@ class _DrawerTile extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14.r),
-            border: Border.all(
-              color: AppColors.border(context).withValues(alpha: 0.5),
-            ),
+            border: Border.all(color: colorScheme.outlineVariant),
           ),
           child: Row(
             children: [
@@ -288,15 +296,15 @@ class _DrawerTile extends StatelessWidget {
                 child: Text(
                   label,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary(context),
-                      ),
+                    fontWeight: FontWeight.w600,
+                    color: colorScheme.onSurface,
+                  ),
                 ),
               ),
               Icon(
                 Icons.chevron_right_rounded,
                 size: 20.sp,
-                color: AppColors.textSecondary(context).withValues(alpha: 0.6),
+                color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
               ),
             ],
           ),

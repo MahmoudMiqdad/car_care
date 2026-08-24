@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -15,31 +16,32 @@ class ProviderStatusPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
     final (icon, color, title, subtitle) = switch (status) {
       ProviderApprovalStatus.pending => (
-          Icons.hourglass_empty_rounded,
-          Colors.orange,
-          'حسابك قيد المراجعة',
-          'يرجى الانتظار حتى تتم مراجعة بياناتك من قبل الإدارة.',
-        ),
+        Icons.hourglass_empty_rounded,
+        AppColors.warningColor(context),
+        'حسابك قيد المراجعة',
+        'يرجى الانتظار حتى تتم مراجعة بياناتك من قبل الإدارة.',
+      ),
       ProviderApprovalStatus.rejected => (
-          Icons.cancel_outlined,
-          Colors.red,
-          'تم رفض الحساب',
-          (rejectionReason != null && rejectionReason!.isNotEmpty)
-              ? 'سبب الرفض: $rejectionReason'
-              : 'تم رفض طلبك. يرجى التواصل مع الإدارة لمعرفة التفاصيل.',
-        ),
+        Icons.cancel_outlined,
+        colorScheme.error,
+        'تم رفض الحساب',
+        (rejectionReason != null && rejectionReason!.isNotEmpty)
+            ? 'سبب الرفض: $rejectionReason'
+            : 'تم رفض طلبك. يرجى التواصل مع الإدارة لمعرفة التفاصيل.',
+      ),
       ProviderApprovalStatus.suspended => (
-          Icons.pause_circle_outline,
-          const Color(0xFF555555),
-          'تم إيقاف الحساب مؤقتًا',
-          'يرجى التواصل مع الإدارة لمعرفة التفاصيل.',
-        ),
+        Icons.pause_circle_outline,
+        colorScheme.onSurfaceVariant,
+        'تم إيقاف الحساب مؤقتًا',
+        'يرجى التواصل مع الإدارة لمعرفة التفاصيل.',
+      ),
     };
 
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground(context),
+      backgroundColor: colorScheme.surface,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -50,16 +52,20 @@ class ProviderStatusPage extends StatelessWidget {
               const SizedBox(height: 20),
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
+                  color: colorScheme.onSurface,
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 12),
               Text(
                 subtitle,
-                style: const TextStyle(fontSize: 14, color: Color(0xFF777777)),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: colorScheme.onSurfaceVariant,
+                ),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -74,9 +80,9 @@ Widget? buildProviderStatusGate(String? status, String? rejectionReason) {
   return switch (status) {
     'pending' => ProviderStatusPage(status: ProviderApprovalStatus.pending),
     'rejected' => ProviderStatusPage(
-        status: ProviderApprovalStatus.rejected,
-        rejectionReason: rejectionReason,
-      ),
+      status: ProviderApprovalStatus.rejected,
+      rejectionReason: rejectionReason,
+    ),
     'suspended' => ProviderStatusPage(status: ProviderApprovalStatus.suspended),
     _ => null,
   };

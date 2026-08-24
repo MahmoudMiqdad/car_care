@@ -42,45 +42,53 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isActionDisabled = isDisabled || isLoading || onPressed == null;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDarkOrdinaryCta =
+        !isOutline && backgroundColor == null && isDark;
 
     return SizedBox(
       width: width ?? double.infinity,
       height: height ?? 50.h,
-      child: isOutline
+      child: isDarkOrdinaryCta
+          ? _buildDarkOrdinaryOutlineButton(context, isActionDisabled)
+          : isOutline
           ? _buildOutlineButton(context, isActionDisabled)
           : _buildElevatedButton(context, isActionDisabled),
     );
   }
 
   Widget _buildElevatedButton(BuildContext context, bool disabled) {
-    final primaryColor = backgroundColor ?? context.colorScheme.primary;
+    final primaryColor = backgroundColor ?? AppColors.accent;
+    final resolvedTextColor = textColor ?? AppColors.white;
 
     return ElevatedButton(
       onPressed: disabled ? null : onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: primaryColor,
-        foregroundColor: textColor ?? AppColors.white,
+        foregroundColor: resolvedTextColor,
         disabledBackgroundColor: isLoading ? primaryColor : null,
-        disabledForegroundColor: isLoading
-            ? (textColor ?? AppColors.white)
-            : null,
+        disabledForegroundColor: isLoading ? resolvedTextColor : null,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
         ),
       ),
-      child: _buildButtonContent(context),
+      child: _buildButtonContent(
+        context,
+        textColorResolved: resolvedTextColor,
+        spinnerColorResolved: resolvedTextColor,
+      ),
     );
   }
 
   Widget _buildOutlineButton(BuildContext context, bool disabled) {
     final color = backgroundColor ?? context.colorScheme.primary;
+    final resolvedTextColor = textColor ?? color;
 
     return OutlinedButton(
       onPressed: disabled ? null : onPressed,
       style: OutlinedButton.styleFrom(
         backgroundColor: outlineSurfaceColor ?? color.withOpacity(0.1),
-
         foregroundColor: color,
         side: BorderSide(
           color: disabled && !isLoading ? color.withOpacity(0.5) : color,
@@ -90,20 +98,52 @@ class AppButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
         ),
       ),
-      child: _buildButtonContent(context),
+      child: _buildButtonContent(
+        context,
+        textColorResolved: resolvedTextColor,
+        spinnerColorResolved: color,
+      ),
     );
   }
 
-  Widget _buildButtonContent(BuildContext context) {
+  Widget _buildDarkOrdinaryOutlineButton(BuildContext context, bool disabled) {
+    const color = AppColors.accent;
+    final resolvedTextColor = textColor ?? color;
+
+    return OutlinedButton(
+      onPressed: disabled ? null : onPressed,
+      style: OutlinedButton.styleFrom(
+        backgroundColor: Colors.transparent,
+        foregroundColor: color,
+        side: BorderSide(
+          color: disabled && !isLoading ? color.withOpacity(0.5) : color,
+          width: 1.5.w,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
+        ),
+      ),
+      child: _buildButtonContent(
+        context,
+        textColorResolved: resolvedTextColor,
+        spinnerColorResolved: resolvedTextColor,
+      ),
+    );
+  }
+
+  Widget _buildButtonContent(
+    BuildContext context, {
+    required Color textColorResolved,
+    required Color spinnerColorResolved,
+  }) {
     if (isLoading) {
-    
-      final spinnerColor = isOutline
-          ? (backgroundColor ?? context.colorScheme.primary)
-          : (textColor ?? AppColors.white);
       return SizedBox(
         height: 22.r,
         width: 22.r,
-        child: CircularProgressIndicator(strokeWidth: 2.5, color: spinnerColor),
+        child: CircularProgressIndicator(
+          strokeWidth: 2.5,
+          color: spinnerColorResolved,
+        ),
       );
     }
 
@@ -122,11 +162,7 @@ class AppButton extends StatelessWidget {
               style: context.textTheme.labelLarge?.copyWith(
                 fontWeight: FontWeight.bold,
                 fontSize: fontSize ?? 16.sp,
-                color: isOutline
-                    ? (textColor ??
-                          backgroundColor ??
-                          context.colorScheme.primary)
-                    : (textColor ?? AppColors.white),
+                color: textColorResolved,
               ),
             ),
           ),

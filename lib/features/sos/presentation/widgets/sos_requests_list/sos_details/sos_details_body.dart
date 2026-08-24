@@ -53,16 +53,12 @@ class SosDetailsBody extends StatelessWidget {
               description: description,
             ),
             SizedBox(height: 14.h),
-            SosDetailsLocationCard(
-              sosId: sos.id!,
-              lat: sos.lat, 
-              lng: sos.lng,
-            ),
+            SosDetailsLocationCard(sosId: sos.id!, lat: sos.lat, lng: sos.lng),
             SizedBox(height: 22.h),
             if (onTrackTapped != null) ...[
               AppButton(
                 onPressed: onTrackTapped,
-                text: l10n.trackTechnician, // 🎯 تم التعديل للترجمة الديناميكية (تتبع الفني)
+                text: l10n.trackTechnician,
                 backgroundColor: AppColors.carWashTeal,
                 textColor: AppColors.white,
                 borderRadius: 14.r,

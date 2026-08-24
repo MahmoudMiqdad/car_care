@@ -74,7 +74,7 @@ class _FloatingAddButtonState extends State<FloatingAddButton>
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.45),
+                      color: AppColors.primary.withValues(alpha: 0.20),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),

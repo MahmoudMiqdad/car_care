@@ -19,7 +19,7 @@ class ProviderProfileSectionTitle extends StatelessWidget {
       child: Text(
         title,
         style: context.textTheme.bodyMedium!.copyWith(
-          color: AppColors.black,
+          color: context.colorScheme.onSurface,
           fontWeight: FontWeight.w800,
         ),
       ),
@@ -35,7 +35,7 @@ class ProviderProfileTealBorderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: AppColors.carWashTeal, width: 1.2),
       ),
@@ -59,7 +59,7 @@ class ProviderProfileHeader extends StatelessWidget {
           profile.companyName ?? '-',
           textAlign: TextAlign.center,
           style: context.textTheme.headlineSmall!.copyWith(
-            color: AppColors.black,
+            color: context.colorScheme.onSurface,
             fontWeight: FontWeight.w800,
           ),
         ),
@@ -68,7 +68,7 @@ class ProviderProfileHeader extends StatelessWidget {
           profile.phone ?? '-',
           textAlign: TextAlign.center,
           style: context.textTheme.bodyMedium!.copyWith(
-            color: AppColors.black,
+            color: context.colorScheme.onSurface,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -98,7 +98,7 @@ class ProviderProfileAvailabilityCard extends StatelessWidget {
                   ? l10n.providerProfileAvailableNow
                   : l10n.providerProfileNotAvailableNow,
               style: context.textTheme.bodyMedium!.copyWith(
-                color: AppColors.black,
+                color: context.colorScheme.onSurface,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -124,9 +124,10 @@ class ProviderProfileLocationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final address = [profile.city, profile.address]
-        .where((e) => e != null && e.isNotEmpty)
-        .join(' - ');
+    final address = [
+      profile.city,
+      profile.address,
+    ].where((e) => e != null && e.isNotEmpty).join(' - ');
 
     return ProviderProfileTealBorderCard(
       child: Row(

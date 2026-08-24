@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,7 +30,7 @@ class SosTechnicianDetailsSectionCard extends StatelessWidget {
           ? EdgeInsets.zero
           : (bodyPadding ?? EdgeInsets.fromLTRB(16.w, 14.h, 16.w, 16.h)),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(14.r)),
       ),
       clipBehavior: clipBody ? Clip.antiAlias : Clip.none,
@@ -40,10 +41,10 @@ class SosTechnicianDetailsSectionCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: radius,
         border: Border.all(color: AppColors.carWashTeal, width: 1.2),
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.05),
+            color: context.colorScheme.shadow.withValues(alpha: 0.05),
             blurRadius: 8.r,
             offset: Offset(0, 3.h),
           ),

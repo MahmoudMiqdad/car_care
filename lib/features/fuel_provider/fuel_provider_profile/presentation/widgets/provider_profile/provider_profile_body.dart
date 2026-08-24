@@ -1,5 +1,4 @@
 import 'package:car_care/core/constants/app_constants.dart';
-import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/domain/entities/provider_profile_entity.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_profile/provider_profile_cards.dart';
@@ -58,7 +57,6 @@ class ProviderProfileBody extends StatelessWidget {
             AppButton(
               onPressed: onEditProfile ?? () {},
               text: l10n.profileWasherEditProfile,
-              backgroundColor: AppColors.accent,
               borderRadius: 28.r,
               height: 54.h,
               fontSize: 20.sp,

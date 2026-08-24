@@ -1,4 +1,4 @@
-import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -19,8 +19,8 @@ class ErrorStateWidget extends StatefulWidget {
 class _ErrorStateWidgetState extends State<ErrorStateWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController _fadeCtrl;
-  late Animation<double>   _fadeAnim;
-  late Animation<Offset>   _slideAnim;
+  late Animation<double> _fadeAnim;
+  late Animation<Offset> _slideAnim;
 
   @override
   void initState() {
@@ -30,10 +30,10 @@ class _ErrorStateWidgetState extends State<ErrorStateWidget>
       duration: const Duration(milliseconds: 600),
     )..forward();
 
-    _fadeAnim  = CurvedAnimation(parent: _fadeCtrl, curve: Curves.easeOut);
+    _fadeAnim = CurvedAnimation(parent: _fadeCtrl, curve: Curves.easeOut);
     _slideAnim = Tween<Offset>(
       begin: const Offset(0, 0.12),
-      end:   Offset.zero,
+      end: Offset.zero,
     ).animate(CurvedAnimation(parent: _fadeCtrl, curve: Curves.easeOut));
   }
 
@@ -46,6 +46,7 @@ class _ErrorStateWidgetState extends State<ErrorStateWidget>
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
+    final colorScheme = context.colorScheme;
     return FadeTransition(
       opacity: _fadeAnim,
       child: SlideTransition(
@@ -60,13 +61,13 @@ class _ErrorStateWidgetState extends State<ErrorStateWidget>
                   width: 90,
                   height: 90,
                   decoration: BoxDecoration(
-                    color: AppColors.accent.withOpacity(0.12),
+                    color: colorScheme.tertiary.withOpacity(0.12),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.wifi_off_rounded,
                     size: 44,
-                    color: AppColors.accent,
+                    color: colorScheme.tertiary,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -75,7 +76,7 @@ class _ErrorStateWidgetState extends State<ErrorStateWidget>
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.primary,
+                    color: colorScheme.primary,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -84,7 +85,7 @@ class _ErrorStateWidgetState extends State<ErrorStateWidget>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 13,
-                    color: AppColors.textSecondary(context),
+                    color: colorScheme.onSurfaceVariant,
                     height: 1.5,
                   ),
                 ),
@@ -102,8 +103,6 @@ class _ErrorStateWidgetState extends State<ErrorStateWidget>
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: AppColors.secondary,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),

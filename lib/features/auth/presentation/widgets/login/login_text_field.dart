@@ -1,4 +1,4 @@
-import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/widgets/app_text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,7 +28,6 @@ class LoginTextField extends StatefulWidget {
   final String? errorText;
   final String? Function(String?)? validator;
 
- 
   final Color? innerBorderColor;
 
   @override
@@ -40,53 +39,39 @@ class _LoginTextFieldState extends State<LoginTextField> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
     final bool hasError = widget.errorText != null;
 
     final Color borderColor = hasError
-        ? Colors.red
+        ? colorScheme.error
         : _isFocused
-            ? AppColors.lightPrimary
-            : AppColors.lightPrimary.withValues(alpha: 0.85);
+        ? colorScheme.primary
+        : colorScheme.primary.withValues(alpha: 0.85);
 
     return Focus(
       onFocusChange: (hasFocus) {
         setState(() => _isFocused = hasFocus);
       },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(14.r),
-          border: Border.all(
-            color: borderColor,
-            width: 1.4,
-          ),
-        ),
-        child: AppTextField(
-          controller: widget.controller,
-          hintText: widget.hintText,
-          isPassword: widget.isPassword,
-          keyboardType: widget.keyboardType,
-          onChanged: widget.onChanged,
-          validator: widget.validator,
-          errorText: widget.errorText,
-          borderColor: widget.innerBorderColor,
-          errorBorderColor: widget.innerBorderColor,
-          prefixIcon: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 14.w),
-            child: widget.iconPath != null
-                ? Image.asset(
-                    widget.iconPath!,
-                    width: 22.w,
-                    height: 22.h,
-                    color: borderColor,
-                  )
-                : Icon(
-                    widget.icon,
-                    size: 22.sp,
-                    color: borderColor,
-                  ),
-          ),
+      child: AppTextField(
+        controller: widget.controller,
+        hintText: widget.hintText,
+        isPassword: widget.isPassword,
+        keyboardType: widget.keyboardType,
+        onChanged: widget.onChanged,
+        validator: widget.validator,
+        errorText: widget.errorText,
+        borderColor: widget.innerBorderColor ?? borderColor,
+        errorBorderColor: widget.innerBorderColor ?? borderColor,
+        prefixIcon: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 14.w),
+          child: widget.iconPath != null
+              ? Image.asset(
+                  widget.iconPath!,
+                  width: 22.w,
+                  height: 22.h,
+                  color: borderColor,
+                )
+              : Icon(widget.icon, size: 22.sp, color: borderColor),
         ),
       ),
     );

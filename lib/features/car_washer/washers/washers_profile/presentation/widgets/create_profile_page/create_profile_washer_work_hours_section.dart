@@ -1,7 +1,6 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-
-import 'package:car_care/core/widgets/app_headline.dart'; 
+import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/core/widgets/app_outlined_select_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,12 +39,12 @@ class CreateProfileWasherWorkHoursSection extends StatelessWidget {
         AppText.sectionTitle(
           context,
           sectionTitle,
-          color: AppColors.black,
+          color: context.colorScheme.onSurface,
           fontWeight: FontWeight.w800,
         ),
         SizedBox(height: 10.h),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center, 
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
               child: _WorkTimeField(
@@ -93,7 +92,7 @@ class _WorkTimeField extends StatelessWidget {
           alignment: AlignmentDirectional.centerStart,
           child: Text(
             label,
-            style: context.textTheme.labelLarge!.copyWith( 
+            style: context.textTheme.labelLarge!.copyWith(
               fontWeight: FontWeight.w800,
             ),
           ),
@@ -147,7 +146,9 @@ Future<void> profileWasherPickWorkTime(
     builder: (context, child) {
       return Theme(
         data: Theme.of(context).copyWith(
-          colorScheme: ColorScheme.light(primary: AppColors.carWashTeal),
+          colorScheme: Theme.of(
+            context,
+          ).colorScheme.copyWith(primary: AppColors.carWashTeal),
         ),
         child: child!,
       );

@@ -1,11 +1,11 @@
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/app_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OrderDetailsEntityRow extends StatelessWidget {
- 
   final String? imageAsset;
 
   final String? imageUrl;
@@ -70,7 +70,7 @@ class OrderDetailsEntityRow extends StatelessWidget {
                 style: TextStyle(
                   fontSize: AppConstants.titleSize,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.black,
+                  color: context.colorScheme.onSurface,
                 ),
               ),
               SizedBox(height: 6.h),
@@ -82,13 +82,13 @@ class OrderDetailsEntityRow extends StatelessWidget {
     );
   }
 
-Widget _placeholder(BuildContext context) { 
-  return Icon(
-    placeholderIcon,
-    size: (avatarSize * 0.6).sp,
-    color: AppColors.textSecondary(context), 
-  );
-}
+  Widget _placeholder(BuildContext context) {
+    return Icon(
+      placeholderIcon,
+      size: (avatarSize * 0.6).sp,
+      color: AppColors.textSecondary(context),
+    );
+  }
 }
 
 class OrderDetailsIconLabel extends StatelessWidget {
@@ -121,11 +121,7 @@ class OrderDetailsIconLabel extends StatelessWidget {
               fit: BoxFit.contain,
             )
           else if (icon != null)
-            Icon(
-              icon,
-              size: AppConstants.iconSize,
-              color: AppColors.primary,
-            ),
+            Icon(icon, size: AppConstants.iconSize, color: AppColors.primary),
           SizedBox(width: 8.w),
           Flexible(
             child: Text(
@@ -136,7 +132,7 @@ class OrderDetailsIconLabel extends StatelessWidget {
               style: TextStyle(
                 fontSize: AppConstants.secondarySize,
                 fontWeight: FontWeight.w600,
-                color: AppColors.black,
+                color: context.colorScheme.onSurface,
               ),
             ),
           ),

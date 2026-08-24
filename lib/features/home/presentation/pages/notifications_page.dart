@@ -1,5 +1,5 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
-import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -40,7 +40,8 @@ class _NotificationsView extends StatelessWidget {
         showBackButton: false,
         actionWidget: BlocBuilder<NotificationsCubit, NotificationsState>(
           builder: (context, state) {
-            final showAction = state is NotificationsLoaded &&
+            final showAction =
+                state is NotificationsLoaded &&
                 state.unreadCount > 0 &&
                 !state.isMarkingAll;
             if (!showAction) return const SizedBox.shrink();
@@ -49,7 +50,7 @@ class _NotificationsView extends StatelessWidget {
                   context.read<NotificationsCubit>().markAllAsRead(),
               child: Text(
                 strings.markAllAsRead,
-                style: const TextStyle(color: AppColors.white),
+                style: TextStyle(color: context.colorScheme.onPrimary),
               ),
             );
           },
@@ -64,33 +65,40 @@ class _NotificationsView extends StatelessWidget {
               Expanded(
                 child: BlocConsumer<NotificationsCubit, NotificationsState>(
                   listener: (context, state) {
-                    if (state is NotificationsLoaded && state.actionError != null) {
+                    if (state is NotificationsLoaded &&
+                        state.actionError != null) {
                       AppSnackBar.error(context, state.actionError!);
                       context.read<NotificationsCubit>().clearActionError();
                     }
                   },
                   builder: (context, state) {
-                    if (state is NotificationsLoading || state is NotificationsInitial) {
+                    if (state is NotificationsLoading ||
+                        state is NotificationsInitial) {
                       return const AppLoadingWidget();
                     }
                     if (state is NotificationsError) {
                       return ErrorStateWidget(
                         message: state.message,
-                        onRetry: () =>
-                            context.read<NotificationsCubit>().getNotifications(),
+                        onRetry: () => context
+                            .read<NotificationsCubit>()
+                            .getNotifications(),
                       );
                     }
 
                     final loaded = state as NotificationsLoaded;
                     return RefreshIndicator(
-                      onRefresh: () => context.read<NotificationsCubit>().getNotifications(
+                      onRefresh: () =>
+                          context.read<NotificationsCubit>().getNotifications(
                             silent: true,
                             filter: loaded.filter,
                           ),
                       child: loaded.items.isEmpty
                           ? ListView(
                               physics: const AlwaysScrollableScrollPhysics(),
-                              children: const [SizedBox(height: 60), EmptyStateWidget()],
+                              children: const [
+                                SizedBox(height: 60),
+                                EmptyStateWidget(),
+                              ],
                             )
                           : ListView.separated(
                               physics: const AlwaysScrollableScrollPhysics(),
@@ -99,13 +107,18 @@ class _NotificationsView extends StatelessWidget {
                                 vertical: 8.h,
                               ),
                               itemCount: loaded.items.length,
-                              separatorBuilder: (_, _) => SizedBox(height: 10.h),
+                              separatorBuilder: (_, _) =>
+                                  SizedBox(height: 10.h),
                               itemBuilder: (context, index) {
                                 final item = loaded.items[index];
                                 return NotificationCard(
                                   notification: item,
-                                  isMarking: loaded.markingIds.contains(item.id),
-                                  isDeleting: loaded.deletingIds.contains(item.id),
+                                  isMarking: loaded.markingIds.contains(
+                                    item.id,
+                                  ),
+                                  isDeleting: loaded.deletingIds.contains(
+                                    item.id,
+                                  ),
                                   onTap: () => context
                                       .read<NotificationsCubit>()
                                       .markAsRead(item.id),
@@ -136,8 +149,9 @@ class _NotificationsFilterTabs extends StatelessWidget {
 
     return BlocBuilder<NotificationsCubit, NotificationsState>(
       builder: (context, state) {
-        final currentFilter =
-            state is NotificationsLoaded ? state.filter : NotificationsFilter.all;
+        final currentFilter = state is NotificationsLoaded
+            ? state.filter
+            : NotificationsFilter.all;
 
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),

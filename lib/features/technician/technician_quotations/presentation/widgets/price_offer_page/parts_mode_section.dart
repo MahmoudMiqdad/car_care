@@ -1,12 +1,12 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
-import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/technician/technician_quotations/presentation/pages/technician_quotations_page.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PartsModeSection extends StatelessWidget {
-  const PartsModeSection({super.key, 
+  const PartsModeSection({
+    super.key,
     required this.withinPrice,
     required this.onChanged,
   });
@@ -25,7 +25,7 @@ class PartsModeSection extends StatelessWidget {
           l10n.requiredPartsLabel,
           style: context.textTheme.bodyMedium!.copyWith(
             fontWeight: FontWeight.w800,
-            color: AppColors.black,
+            color: context.colorScheme.onSurface,
             fontSize: 17.sp,
           ),
         ),

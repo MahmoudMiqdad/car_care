@@ -52,7 +52,6 @@ class CreateProfileWasherServicesSection extends StatefulWidget {
 class _CreateProfileWasherServicesSectionState
     extends State<CreateProfileWasherServicesSection> {
   late final TextEditingController _otherController;
-  
 
   List<String> _getLocalizedChips() {
     final defaultServices = context.l10n.profileWasherDefaultServices;
@@ -63,8 +62,7 @@ class _CreateProfileWasherServicesSectionState
   void initState() {
     super.initState();
     _otherController = TextEditingController();
-    
-    
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       final knownChips = _getLocalizedChips();
@@ -91,9 +89,7 @@ class _CreateProfileWasherServicesSectionState
 
   void _onOtherChanged() {
     final knownChips = _getLocalizedChips();
-    final selectedKnown = _currentList()
-        .where(knownChips.contains)
-        .toList();
+    final selectedKnown = _currentList().where(knownChips.contains).toList();
     final extras = _otherController.text
         .split(',')
         .map((e) => e.trim())
@@ -121,13 +117,13 @@ class _CreateProfileWasherServicesSectionState
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final knownChips = _getLocalizedChips();
-return Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AppText.sectionTitle(
-          context, 
+          context,
           widget.servicesLabel,
-          color: AppColors.black,
+          color: context.colorScheme.onSurface,
           fontWeight: FontWeight.w800,
         ),
         SizedBox(height: 10.h),
@@ -153,7 +149,7 @@ return Column(
           ),
         SizedBox(height: 10.h),
         EditProfileWasherLabeledField(
-          label: l10n.otherServices, 
+          label: l10n.otherServices,
           hint: widget.servicesHint,
           controller: _otherController,
           leadingIcon: Icon(
@@ -196,7 +192,7 @@ class _ServiceChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.transparent, 
+      color: AppColors.transparent,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(20.r),
@@ -204,7 +200,7 @@ class _ServiceChip extends StatelessWidget {
           duration: const Duration(milliseconds: 150),
           padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.carWashTeal : AppColors.transparent, 
+            color: isSelected ? AppColors.carWashTeal : AppColors.transparent,
             borderRadius: BorderRadius.circular(20.r),
             border: Border.all(
               color: isSelected
@@ -214,9 +210,11 @@ class _ServiceChip extends StatelessWidget {
           ),
           child: Text(
             label,
-            style: context.textTheme.bodyMedium!.copyWith( 
+            style: context.textTheme.bodyMedium!.copyWith(
               fontWeight: FontWeight.w600,
-              color: isSelected ? AppColors.white : AppColors.black,
+              color: isSelected
+                  ? AppColors.white
+                  : context.colorScheme.onSurface,
             ),
           ),
         ),

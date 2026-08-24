@@ -1,9 +1,9 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Reusable cancel-reason dialog (teal header, reason field, confirm / back footer).
 class CancelReasonDialog extends StatefulWidget {
   const CancelReasonDialog({
     super.key,
@@ -54,7 +54,7 @@ class _CancelReasonDialogState extends State<CancelReasonDialog> {
     return ClipRRect(
       borderRadius: radius,
       child: Material(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -85,7 +85,7 @@ class _CancelReasonDialogState extends State<CancelReasonDialog> {
                     style: TextStyle(
                       fontSize: 17.sp,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.black,
+                      color: context.colorScheme.onSurface,
                     ),
                   ),
                   SizedBox(height: 12.h),
@@ -98,17 +98,17 @@ class _CancelReasonDialogState extends State<CancelReasonDialog> {
                     style: TextStyle(
                       fontSize: 15.sp,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.black,
+                      color: context.colorScheme.onSurface,
                     ),
                     decoration: InputDecoration(
                       hintText: widget.hint,
                       hintStyle: TextStyle(
                         fontSize: 14.sp,
-                        color: const Color(0xFFB3AAA6),
+                        color: context.colorScheme.onSurfaceVariant,
                         fontWeight: FontWeight.w500,
                       ),
                       filled: true,
-                      fillColor: AppColors.white,
+                      fillColor: context.colorScheme.surfaceContainer,
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 14.w,
                         vertical: 12.h,
@@ -192,7 +192,6 @@ class _FooterAction extends StatelessWidget {
   }
 }
 
-/// Shows [CancelReasonDialog] and returns the entered reason when confirmed.
 Future<String?> showCancelReasonDialog(
   BuildContext context, {
   String? title,

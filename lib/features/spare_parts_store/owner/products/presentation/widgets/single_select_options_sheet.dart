@@ -1,8 +1,6 @@
-
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-
-import 'package:car_care/l10n.dart'; 
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -53,13 +51,13 @@ class _SingleSelectOptionsSheetState<T>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n; 
+    final l10n = context.l10n;
 
     return Container(
       constraints: BoxConstraints(maxHeight: 0.75.sh),
       padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 0),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       child: SafeArea(
@@ -74,7 +72,7 @@ class _SingleSelectOptionsSheetState<T>
                 width: 40.w,
                 height: 4.h,
                 decoration: BoxDecoration(
-                  color: AppColors.border(context), 
+                  color: AppColors.border(context),
                   borderRadius: BorderRadius.circular(2.r),
                 ),
               ),
@@ -133,8 +131,6 @@ class _SingleSelectOptionsSheetState<T>
               child: ElevatedButton(
                 onPressed: () => Navigator.pop(context, _selected),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.accent,
-                  foregroundColor: AppColors.white,
                   padding: EdgeInsets.symmetric(vertical: 14.h),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -142,7 +138,7 @@ class _SingleSelectOptionsSheetState<T>
                   ),
                 ),
                 child: Text(
-                  l10n.confirmSelectionButtonLabel, 
+                  l10n.confirmSelectionButtonLabel,
                   style: context.textTheme.labelLarge!.copyWith(
                     color: AppColors.white,
                     fontWeight: FontWeight.w700,

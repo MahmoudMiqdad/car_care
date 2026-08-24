@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/models/maintenance_priority.dart';
 import 'package:car_care/core/widgets/app_image_widget.dart';
@@ -37,11 +38,11 @@ class OrderCard extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(5.w),
           decoration: BoxDecoration(
-            color: AppColors.white,
+            color: context.colorScheme.surfaceContainer,
             borderRadius: BorderRadius.circular(radius),
             boxShadow: [
               BoxShadow(
-                color: AppColors.black.withValues(alpha: 0.08),
+                color: context.colorScheme.shadow.withValues(alpha: 0.08),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -84,7 +85,10 @@ class OrderCard extends StatelessWidget {
                           child: Text(
                             item.vehicle.model,
                             textAlign: isRtl ? TextAlign.right : TextAlign.left,
-                            style: TextStyle(fontSize: 14.sp, color: AppColors.textPrimary(context)),
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: AppColors.textPrimary(context),
+                            ),
                           ),
                         ),
                       ],
@@ -103,26 +107,29 @@ class OrderCard extends StatelessWidget {
         ),
       ),
     );
-  }Widget _buildFooter(BuildContext context, bool isRtl) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      RequestPriorityChip(
-        label: item.priority.localizedLabel(context),
-        style: PriorityChipStyle.forState(
-          context: context, // 💡 أضفنا تمرير الـ context هنا لحل المشكلة
-          value: item.priority,
-          selected: item.priority,
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 3.h),
-      ),
-      Icon(
-        isRtl ? Icons.keyboard_double_arrow_left : Icons.keyboard_double_arrow_right,
-        size: 22.sp,
-        color: AppColors.textSecondary(context).withValues(alpha: 0.6),
-      ),
-    ],
-  );
-}
+  }
 
+  Widget _buildFooter(BuildContext context, bool isRtl) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        RequestPriorityChip(
+          label: item.priority.localizedLabel(context),
+          style: PriorityChipStyle.forState(
+            context: context,
+            value: item.priority,
+            selected: item.priority,
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 3.h),
+        ),
+        Icon(
+          isRtl
+              ? Icons.keyboard_double_arrow_left
+              : Icons.keyboard_double_arrow_right,
+          size: 22.sp,
+          color: AppColors.textSecondary(context).withValues(alpha: 0.6),
+        ),
+      ],
+    );
+  }
 }

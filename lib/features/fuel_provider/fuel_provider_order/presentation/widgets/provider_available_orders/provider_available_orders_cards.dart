@@ -1,5 +1,6 @@
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_order/domain/entities/provider_order_entity.dart';
@@ -8,7 +9,6 @@ import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 
 class ProviderAvailableOrderCard extends StatelessWidget {
   const ProviderAvailableOrderCard({
@@ -28,10 +28,12 @@ class ProviderAvailableOrderCard extends StatelessWidget {
     final vehicleText = order.vehicle != null
         ? '${order.vehicle!.brand ?? ''} ${order.vehicle!.model ?? ''}'.trim()
         : '-';
-        
- 
-    final fuelText = l10n.fuelAmountLabel(order.fuelType ?? '-', order.amount ?? 0);
-    
+
+    final fuelText = l10n.fuelAmountLabel(
+      order.fuelType ?? '-',
+      order.amount ?? 0,
+    );
+
     final notesText = (order.notes == null || order.notes!.isEmpty)
         ? l10n.providerAvailableOrderNoNotes
         : order.notes!;
@@ -39,12 +41,12 @@ class ProviderAvailableOrderCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(color: AppColors.carWashTeal, width: 1),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.06), // 🎯 استخدام AppColors لتأمين ثبات الألوان
+            color: context.colorScheme.shadow.withValues(alpha: 0.06),
             blurRadius: 10.r,
             offset: Offset(0, 4.h),
           ),
@@ -59,7 +61,7 @@ class ProviderAvailableOrderCard extends StatelessWidget {
             child: IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [ // 🎯 قمنا بحذف الـ textDirection اليدوي لدعم تناسق اتجاه اللغات تلقائياً
+                children: [
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -124,7 +126,6 @@ class ProviderAvailableOrderCard extends StatelessWidget {
             child: AppButton(
               onPressed: onViewDetails ?? () {},
               text: l10n.sosRequestViewDetails,
-              backgroundColor: AppColors.accent,
               textColor: AppColors.white,
               borderRadius: 15.r,
               height: 45.h,

@@ -165,7 +165,6 @@ Widget build(BuildContext context) {
                 height: AppConstants.buttonHeight.h,
                 child: AppButton(
                   text: isLoading ? l10n.updatingProgress : l10n.saveChangesButtonLabel,
-                  backgroundColor: AppColors.accent,
                   borderRadius: 20.r,
                   onPressed: isLoading ? null : _submit,
                 ),

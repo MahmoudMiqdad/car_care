@@ -1,13 +1,11 @@
-// onboarding_page.dart
-
-import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-
 
 class _OnboardingData {
   final IconData icon;
@@ -57,16 +55,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n; 
+    final l10n = context.l10n;
 
-  
     final pages = [
       _OnboardingData(
         icon: Icons.build_circle_outlined,
         iconColor: const Color(0xFF007A92),
         bgColor: const Color(0xFFE8F7FA),
-        title: l10n.onboardingTitleMaintenance, 
-        subtitle: l10n.onboardingSubtitleMaintenance, 
+        title: l10n.onboardingTitleMaintenance,
+        subtitle: l10n.onboardingSubtitleMaintenance,
       ),
       _OnboardingData(
         icon: Icons.emergency_outlined,
@@ -79,109 +76,95 @@ class _OnboardingPageState extends State<OnboardingPage> {
         icon: Icons.local_gas_station_outlined,
         iconColor: const Color(0xFF2E7D32),
         bgColor: const Color(0xFFE8F5E9),
-        title: l10n.onboardingTitleAllInOne, 
+        title: l10n.onboardingTitleAllInOne,
         subtitle: l10n.onboardingSubtitleAllInOne,
       ),
     ];
 
+    final colorScheme = context.colorScheme;
+
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset(
-            AppAssets.backgroung2,
-            fit: BoxFit.cover,
-          ),
-          SafeArea(
-            child: Column(
-              children: [
-                // Skip Button
-                Align(
-                  alignment: AlignmentDirectional.topEnd,
-                  child: TextButton(
-                    onPressed: _skip,
-                    child: Text(
-                      l10n.skip, 
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: AppColors.textSecondary(context), 
-                      ),
+      body: ImageBackground(
+        child: SafeArea(
+          child: Column(
+            children: [
+              Align(
+                alignment: AlignmentDirectional.topEnd,
+                child: TextButton(
+                  onPressed: _skip,
+                  child: Text(
+                    l10n.skip,
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      color: AppColors.textSecondary(context),
                     ),
                   ),
                 ),
-
-                // Pages
-                Expanded(
-                  child: PageView.builder(
-                    controller: _pageController,
-                    itemCount: pages.length,
-                    onPageChanged: (i) => setState(() => _currentIndex = i),
-                    itemBuilder: (_, i) => _OnboardingSlide(data: pages[i]),
-                  ),
+              ),
+              Expanded(
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: pages.length,
+                  onPageChanged: (i) => setState(() => _currentIndex = i),
+                  itemBuilder: (_, i) => _OnboardingSlide(data: pages[i]),
                 ),
-
-                // Dots Indicator
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(
-                    pages.length,
-                    (i) => AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      margin: EdgeInsets.symmetric(horizontal: 4.w),
-                      width: _currentIndex == i ? 24.w : 8.w,
-                      height: 8.h,
-                      decoration: BoxDecoration(
-                        color: _currentIndex == i
-                            ? AppColors.carWashTeal
-                            : AppColors.border(context), 
-                        borderRadius: BorderRadius.circular(4.r),
-                      ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  pages.length,
+                  (i) => AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    margin: EdgeInsets.symmetric(horizontal: 4.w),
+                    width: _currentIndex == i ? 24.w : 8.w,
+                    height: 8.h,
+                    decoration: BoxDecoration(
+                      color: _currentIndex == i
+                          ? AppColors.carWashTeal
+                          : AppColors.border(context),
+                      borderRadius: BorderRadius.circular(4.r),
                     ),
                   ),
                 ),
-
-                SizedBox(height: 32.h),
-
-                // Action Button
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  child: GestureDetector(
-                    onTap: () => _next(pages.length),
-                    child: Container(
-                      width: double.infinity,
-                      height: 54.h,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(14.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.accent.withValues(alpha: 0.35),
-                            blurRadius: 12,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          _currentIndex == pages.length - 1
-                              ? l10n.getStarted
-                              : l10n.next, 
-                          style: TextStyle(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.white, 
-                          ),
+              ),
+              SizedBox(height: 32.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.w),
+                child: GestureDetector(
+                  onTap: () => _next(pages.length),
+                  child: Container(
+                    width: double.infinity,
+                    height: 54.h,
+                    decoration: BoxDecoration(
+                      color: colorScheme.primary,
+                      borderRadius: BorderRadius.circular(14.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.accent.withValues(alpha: 0.35),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        _currentIndex == pages.length - 1
+                            ? l10n.getStarted
+                            : l10n.next,
+                        style: TextStyle(
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w700,
+                          color: colorScheme.onPrimary,
                         ),
                       ),
                     ),
                   ),
                 ),
-
-                SizedBox(height: 24.h),
-              ],
-            ),
+              ),
+              SizedBox(height: 24.h),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -213,11 +196,7 @@ class _OnboardingSlide extends StatelessWidget {
                 ),
               ],
             ),
-            child: Icon(
-              data.icon,
-              size: 90.r,
-              color: data.iconColor,
-            ),
+            child: Icon(data.icon, size: 90.r, color: data.iconColor),
           ),
           SizedBox(height: 48.h),
           Text(
@@ -226,7 +205,7 @@ class _OnboardingSlide extends StatelessWidget {
             style: TextStyle(
               fontSize: 24.sp,
               fontWeight: FontWeight.w800,
-              color: AppColors.black.withValues(alpha: 0.87),
+              color: context.colorScheme.onSurface,
             ),
           ),
           SizedBox(height: 16.h),
@@ -235,7 +214,7 @@ class _OnboardingSlide extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 15.sp,
-              color: AppColors.textPrimary(context), 
+              color: AppColors.textPrimary(context),
               height: 1.6,
             ),
           ),

@@ -1,7 +1,6 @@
-
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/l10n.dart'; 
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,7 +11,7 @@ class RejectOrderBottomSheet extends StatefulWidget {
     return showModalBottomSheet<String>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: AppColors.transparent, 
+      backgroundColor: AppColors.transparent,
       builder: (_) => Padding(
         padding: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -39,12 +38,12 @@ class _RejectOrderBottomSheetState extends State<RejectOrderBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n; 
+    final l10n = context.l10n;
 
     return Container(
       padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 24.h),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       child: Column(
@@ -56,7 +55,7 @@ class _RejectOrderBottomSheetState extends State<RejectOrderBottomSheet> {
               width: 40.w,
               height: 4.h,
               decoration: BoxDecoration(
-                color: AppColors.border(context), 
+                color: AppColors.border(context),
                 borderRadius: BorderRadius.circular(2.r),
               ),
             ),
@@ -67,7 +66,7 @@ class _RejectOrderBottomSheetState extends State<RejectOrderBottomSheet> {
               Icon(Icons.cancel_outlined, color: AppColors.red, size: 20.sp),
               SizedBox(width: 8.w),
               Text(
-                l10n.rejectedStatusLabel, 
+                l10n.rejectedStatusLabel,
                 style: context.textTheme.labelLarge!.copyWith(
                   color: AppColors.textPrimary(context),
                   fontWeight: FontWeight.w700,
@@ -91,7 +90,7 @@ class _RejectOrderBottomSheetState extends State<RejectOrderBottomSheet> {
             minLines: 2,
             autofocus: true,
             decoration: InputDecoration(
-              hintText: l10n.rejectOrderFormHint, 
+              hintText: l10n.rejectOrderFormHint,
               hintStyle: context.textTheme.labelSmall!.copyWith(
                 color: AppColors.textSecondary(context),
               ),
@@ -125,7 +124,7 @@ class _RejectOrderBottomSheetState extends State<RejectOrderBottomSheet> {
                     ),
                   ),
                   child: Text(
-                    l10n.no, 
+                    l10n.no,
                     style: context.textTheme.labelLarge!.copyWith(
                       color: AppColors.textSecondary(context),
                     ),
@@ -139,7 +138,7 @@ class _RejectOrderBottomSheetState extends State<RejectOrderBottomSheet> {
                       ? () => Navigator.pop(context, _controller.text.trim())
                       : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.red, 
+                    backgroundColor: AppColors.red,
                     foregroundColor: AppColors.white,
                     padding: EdgeInsets.symmetric(vertical: 12.h),
                     elevation: 0,
@@ -149,7 +148,7 @@ class _RejectOrderBottomSheetState extends State<RejectOrderBottomSheet> {
                     disabledBackgroundColor: AppColors.border(context),
                   ),
                   child: Text(
-                    l10n.confirmRejectionButton, 
+                    l10n.confirmRejectionButton,
                     style: context.textTheme.labelLarge!.copyWith(
                       color: AppColors.white,
                     ),

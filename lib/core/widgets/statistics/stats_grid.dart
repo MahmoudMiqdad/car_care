@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:car_care/core/constants/appbox_container.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,6 +58,8 @@ class _StatTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
+
     return AppBoxContainer(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
@@ -82,12 +85,12 @@ class _StatTile extends StatelessWidget {
                   Text(
                     item.title,
                     textDirection: TextDirection.rtl,
-                    maxLines: 2, 
+                    maxLines: 2,
                     overflow: TextOverflow.visible,
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
-                      color: Colors.black87,
+                      color: colorScheme.onSurfaceVariant,
                       height: 1.25,
                     ),
                   ),
@@ -101,7 +104,7 @@ class _StatTile extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 22.sp,
                           fontWeight: FontWeight.w900,
-                          color: Colors.black,
+                          color: colorScheme.onSurface,
                         ),
                       ),
                     ),

@@ -1,6 +1,6 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-
-import 'package:car_care/core/widgets/app_headline.dart'; 
+import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -23,17 +23,13 @@ class WasherBookingsDetailsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppText.sectionTitle(
-          context,
-          title,
-          fontWeight: FontWeight.w800,
-        ),
+        AppText.sectionTitle(context, title, fontWeight: FontWeight.w800),
         SizedBox(height: 6.h),
         Container(
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
           decoration: BoxDecoration(
-            color: AppColors.white,
+            color: context.colorScheme.surfaceContainer,
             borderRadius: BorderRadius.circular(14.r),
             border: Border.all(color: AppColors.border(context)),
           ),
@@ -47,7 +43,7 @@ class WasherBookingsDetailsSection extends StatelessWidget {
                       line,
                       textAlign: textAlign ?? TextAlign.start,
                       style: TextStyle(
-                        color: AppColors.black,
+                        color: context.colorScheme.onSurface,
                         fontWeight: contentFontWeight,
                         height: 1.35,
                       ),

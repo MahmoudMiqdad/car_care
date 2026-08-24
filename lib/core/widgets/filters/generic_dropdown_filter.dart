@@ -1,18 +1,8 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// A generic, feature-agnostic dropdown-style filter: a bordered trigger
-/// (matching the app's existing filter look — border/arrow/checkmark/RTL)
-/// that opens a height-constrained, scrollable option list instead of an
-/// unconstrained popup menu. Knows nothing about governorates, booking
-/// statuses, or any specific Cubit/API — it only ever deals with an
-/// opaque `T` and the label the caller extracts from it.
-///
-/// Long option lists no longer render at full intrinsic height above the
-/// filter (the previous `PopupMenuButton` issue) — the list is capped at
-/// [maxListHeightFraction] of the screen's safe-area height and scrolls
-/// with a visible [Scrollbar] beyond that.
 class GenericDropdownFilter<T> extends StatelessWidget {
   const GenericDropdownFilter({
     super.key,
@@ -26,31 +16,18 @@ class GenericDropdownFilter<T> extends StatelessWidget {
     this.rtl = true,
   });
 
-  /// The full list of selectable options, in display order.
   final List<T> options;
 
-  /// Extracts the display text for a single option.
   final String Function(T option) labelBuilder;
 
-  /// The option currently checked in the list (used only to render the
-  /// checkmark) — independent of [triggerLabel], so callers that need a
-  /// distinct idle/placeholder label on the closed trigger stay free to
-  /// pass one without it affecting which item shows as selected.
   final T? selectedValue;
 
-  /// Called once, synchronously, with the tapped option — never routed
-  /// through a route/Navigator result, so there is no ambiguity for
-  /// option values that happen to be "empty-ish" for the caller (e.g. a
-  /// sentinel standing in for "no filter").
   final ValueChanged<T> onChanged;
 
-  /// Exact text shown on the closed trigger; fully caller-controlled.
   final String triggerLabel;
 
   final IconData icon;
 
-  /// Fraction of the screen's safe-area height the option list may use
-  /// at most before it starts scrolling.
   final double maxListHeightFraction;
 
   final bool rtl;
@@ -70,7 +47,7 @@ class GenericDropdownFilter<T> extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 14.w),
         child: Row(
           children: [
-            Icon(icon, color: AppColors.black),
+            Icon(icon, color: context.colorScheme.onSurface),
             SizedBox(width: 8.w),
             Expanded(
               child: Text(
@@ -79,7 +56,7 @@ class GenericDropdownFilter<T> extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.black,
+                  color: context.colorScheme.onSurface,
                 ),
               ),
             ),
@@ -93,9 +70,6 @@ class GenericDropdownFilter<T> extends StatelessWidget {
     final media = MediaQuery.of(context);
     final rawSafeHeight =
         media.size.height - media.padding.top - media.padding.bottom;
-    // Falls back to the full screen height on the rare/edge-case surface
-    // where top+bottom padding would otherwise leave zero or negative
-    // room, so the sheet never collapses to an unusable height.
     final safeHeight = rawSafeHeight > 0 ? rawSafeHeight : media.size.height;
     final maxHeight = safeHeight * maxListHeightFraction;
     final selectedIndex = selectedValue == null
@@ -178,7 +152,7 @@ class _GenericFilterSheetState<T> extends State<_GenericFilterSheet<T>> {
       child: Container(
         constraints: BoxConstraints(maxHeight: widget.maxHeight),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: context.colorScheme.surfaceContainer,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
         ),
         child: Column(
@@ -226,7 +200,7 @@ class _GenericFilterSheetState<T> extends State<_GenericFilterSheet<T>> {
                                       : FontWeight.w500,
                                   color: isSelected
                                       ? AppColors.primary
-                                      : AppColors.black,
+                                      : context.colorScheme.onSurface,
                                 ),
                               ),
                             ),

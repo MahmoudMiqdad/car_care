@@ -1,6 +1,5 @@
 import 'package:car_care/core/constants/app_assets.dart';
-import 'package:car_care/core/extensions/theme_extension.dart'; 
-import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/widgets/app_circle_avatar.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/domain/entities/washer_profile_entity.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +35,8 @@ class ProfileWasherHeader extends StatelessWidget {
         Text(
           profile.shopName,
           textAlign: TextAlign.center,
-          style: context.textTheme.headlineSmall!.copyWith( 
-            color: AppColors.black,
+          style: context.textTheme.headlineSmall!.copyWith(
+            color: context.colorScheme.onSurface,
             fontWeight: FontWeight.w700,
           ),
         ),

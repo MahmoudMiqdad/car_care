@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,12 +24,12 @@ class SosTechnicianDetailsInfoRow extends StatelessWidget {
     final labelStyle = TextStyle(
       fontSize: 14.sp,
       fontWeight: FontWeight.w800,
-      color: AppColors.black,
+      color: context.colorScheme.onSurface,
     );
     final valueStyle = TextStyle(
       fontSize: 14.sp,
       fontWeight: FontWeight.w600,
-      color: AppColors.black,
+      color: context.colorScheme.onSurface,
     );
 
     return Padding(

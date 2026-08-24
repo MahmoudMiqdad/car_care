@@ -89,7 +89,6 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
                     child: AppButton(
                       onPressed: isLoading ? null : _submit,
                       text: strings.savePassword,
-                      backgroundColor: AppColors.accent,
                       textColor: AppColors.white,
                     ),
                   ),

@@ -1,4 +1,5 @@
 import 'package:car_care/core/constants/appbox_container.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/features/car_washer/car_wash/ratings/presentation/widgets/ratings_page/ratings_star_selector.dart';
@@ -24,11 +25,11 @@ class WasherStatisticsRatingsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AppText.sectionTitle(
-             context,
+          context,
           strings.showRatingAverageRatings,
           fontSize: 24.sp,
           fontWeight: FontWeight.w700,
-          color: AppColors.black,
+          color: context.colorScheme.onSurface,
           textAlign: TextAlign.start,
         ),
         SizedBox(height: 10.h),

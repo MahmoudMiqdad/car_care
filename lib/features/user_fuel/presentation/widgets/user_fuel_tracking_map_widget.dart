@@ -1,4 +1,4 @@
-
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/utils/location_helper.dart';
@@ -12,10 +12,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
-final _osrmDio = Dio(BaseOptions(
-  connectTimeout: const Duration(seconds: 10),
-  receiveTimeout: const Duration(seconds: 10),
-));
+
+final _osrmDio = Dio(
+  BaseOptions(
+    connectTimeout: const Duration(seconds: 10),
+    receiveTimeout: const Duration(seconds: 10),
+  ),
+);
 
 class UserFuelTrackingMapWidget extends StatefulWidget {
   final int orderId;
@@ -34,8 +37,7 @@ class UserFuelTrackingMapWidget extends StatefulWidget {
       _UserFuelTrackingMapWidgetState();
 }
 
-class _UserFuelTrackingMapWidgetState
-    extends State<UserFuelTrackingMapWidget> {
+class _UserFuelTrackingMapWidgetState extends State<UserFuelTrackingMapWidget> {
   final MapController _mapController = MapController();
   List<LatLng> _routePoints = [];
   bool _loadingRoute = false;
@@ -62,15 +64,19 @@ class _UserFuelTrackingMapWidgetState
 
   Future<void> _fetchRoute(LatLng from, LatLng to) async {
     if (_lastRouteFetch != null) {
-      final distance =
-          const Distance().as(LengthUnit.Meter, _lastRouteFetch!, from);
+      final distance = const Distance().as(
+        LengthUnit.Meter,
+        _lastRouteFetch!,
+        from,
+      );
       if (distance < 20) return;
     }
     if (_loadingRoute) return;
     setState(() => _loadingRoute = true);
 
     try {
-      final url = 'https://router.project-osrm.org/route/v1/driving/'
+      final url =
+          'https://router.project-osrm.org/route/v1/driving/'
           '${from.longitude},${from.latitude};'
           '${to.longitude},${to.latitude}'
           '?overview=full&geometries=geojson';
@@ -83,10 +89,10 @@ class _UserFuelTrackingMapWidgetState
           final geometry = routes[0]['geometry'] as Map<String, dynamic>;
           final coordinates = geometry['coordinates'] as List<dynamic>;
           final points = coordinates
-              .map((c) => LatLng(
-                    (c[1] as num).toDouble(),
-                    (c[0] as num).toDouble(),
-                  ))
+              .map(
+                (c) =>
+                    LatLng((c[1] as num).toDouble(), (c[0] as num).toDouble()),
+              )
               .toList();
           if (mounted) {
             setState(() {
@@ -120,7 +126,11 @@ class _UserFuelTrackingMapWidgetState
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.location_off, size: 48, color: AppColors.textSecondary(context)),
+                  Icon(
+                    Icons.location_off,
+                    size: 48,
+                    color: AppColors.textSecondary(context),
+                  ),
                   const SizedBox(height: 12),
                   Text(state.message, textAlign: TextAlign.center),
                   const SizedBox(height: 12),
@@ -193,7 +203,7 @@ class _UserFuelTrackingMapWidgetState
                     points: [providerLocation, userLocation],
                     color: AppColors.primary.withValues(alpha: 0.5),
                     strokeWidth: 3,
-                    pattern:  StrokePattern.dashed(segments: [6, 4]),
+                    pattern: StrokePattern.dashed(segments: [6, 4]),
                   ),
                 ],
               ),
@@ -204,14 +214,22 @@ class _UserFuelTrackingMapWidgetState
                     point: userLocation,
                     width: 50,
                     height: 50,
-                    child: Icon(Icons.location_pin, color: AppColors.red, size: 40),
+                    child: Icon(
+                      Icons.location_pin,
+                      color: AppColors.red,
+                      size: 40,
+                    ),
                   ),
                 if (providerLocation != null)
                   Marker(
                     point: providerLocation,
                     width: 50,
                     height: 50,
-                    child: Icon(Icons.local_gas_station, color: AppColors.carWashTeal, size: 36),
+                    child: Icon(
+                      Icons.local_gas_station,
+                      color: AppColors.carWashTeal,
+                      size: 36,
+                    ),
                   ),
               ],
             ),
@@ -223,17 +241,18 @@ class _UserFuelTrackingMapWidgetState
             start: 12.w,
             end: 12.w,
             child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 12.w,
-                vertical: 10.h,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
               decoration: BoxDecoration(
                 color: AppColors.black.withValues(alpha: 0.54),
                 borderRadius: BorderRadius.circular(8.r),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.location_searching, color: AppColors.white, size: 18.sp),
+                  Icon(
+                    Icons.location_searching,
+                    color: AppColors.white,
+                    size: 18.sp,
+                  ),
                   SizedBox(width: 8.w),
                   Expanded(
                     child: Text(
@@ -252,8 +271,8 @@ class _UserFuelTrackingMapWidgetState
           child: FloatingActionButton.small(
             heroTag: 'user_fuel_my_location',
             onPressed: _goToMyLocation,
-            backgroundColor: AppColors.white,
-            foregroundColor: AppColors.primary,
+            backgroundColor: context.colorScheme.surfaceContainer,
+            foregroundColor: context.colorScheme.primary,
             child: const Icon(Icons.my_location),
           ),
         ),

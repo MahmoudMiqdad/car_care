@@ -1,9 +1,8 @@
 // ignore_for_file: file_names
 import 'package:car_care/core/constants/appbox_container.dart';
-
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-
 import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
@@ -32,19 +31,19 @@ class VehicleCard extends StatelessWidget {
             children: [
               VehicleCircleImage(imageUrl: item.image),
               SizedBox(width: 16.w),
-              Expanded(
-                child: VehicleInfoColumn(item: item),
-              ),
+              Expanded(child: VehicleInfoColumn(item: item)),
             ],
           ),
           SizedBox(height: 16.h),
           AppButton(
             text: strings.details,
-            backgroundColor: AppColors.accent,
             borderRadius: 16.r,
             height: 48.h,
             onPressed: () async {
-              final deleted = await context.push<bool>(Routes.vehicle_details, extra: item.id);
+              final deleted = await context.push<bool>(
+                Routes.vehicle_details,
+                extra: item.id,
+              );
               if (deleted == true && context.mounted) {
                 context.read<VehicleCubit>().getAllVehicles();
               }
@@ -70,22 +69,18 @@ class VehicleInfoColumn extends StatelessWidget {
         AppText.sectionTitle(
           context,
           '${item.brand} ${item.model}',
-          color: AppColors.black,
+          color: context.colorScheme.onSurface,
         ),
         SizedBox(height: 8.h),
-        AppInfoRow(
-          label: strings.year,
-          value: item.year.toString(),
-        ),
+        AppInfoRow(label: strings.year, value: item.year.toString()),
         SizedBox(height: 4.h),
-        AppInfoRow(
-          label: strings.plate,
-          value: item.plateNumber,
-        ),
+        AppInfoRow(label: strings.plate, value: item.plateNumber),
         SizedBox(height: 4.h),
         AppInfoRow(
           label: strings.counterAppBarTitle,
-          value: strings.odometerReadingWithParamLabel(item.currentKm.toString()),
+          value: strings.odometerReadingWithParamLabel(
+            item.currentKm.toString(),
+          ),
         ),
       ],
     );
@@ -100,12 +95,13 @@ class VehicleCircleImage extends StatelessWidget {
   Widget build(BuildContext context) {
     final url = imageUrl?.trim();
 
-    Widget buildPlaceholder() => Icon(Icons.directions_car, size: 40.sp, color: AppColors.accent);
+    Widget buildPlaceholder() =>
+        Icon(Icons.directions_car, size: 40.sp, color: AppColors.accent);
 
     return Container(
       width: 90.w,
       height: 90.w,
-   
+
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: AppColors.border(context),
@@ -116,8 +112,11 @@ class VehicleCircleImage extends StatelessWidget {
                 url,
                 fit: BoxFit.cover,
                 errorBuilder: (_, _, _) => buildPlaceholder(),
-                loadingBuilder: (_, child, progress) =>
-                    progress == null ? child : const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                loadingBuilder: (_, child, progress) => progress == null
+                    ? child
+                    : const Center(
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
               )
             : buildPlaceholder(),
       ),

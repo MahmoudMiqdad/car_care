@@ -135,14 +135,11 @@ class OwnerProfileBody extends StatelessWidget {
             child: ElevatedButton(
               onPressed: (isEnabled && unknownValues.isEmpty) ? onSave : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.accent,
-                foregroundColor: AppColors.white,
                 padding: EdgeInsets.symmetric(vertical: 14.h),
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.r),
                 ),
-                disabledBackgroundColor: AppColors.accent.withValues(alpha: 0.55),
               ),
               child: isSaving
                   ? SizedBox(

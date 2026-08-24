@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,6 @@ class EditProfileWasherActionsRow extends StatelessWidget {
             text: saveLabel,
             height: 50.h,
             borderRadius: 14.r,
-            backgroundColor: AppColors.accent,
             fontSize: 16.sp,
           ),
         ),
@@ -42,7 +42,7 @@ class EditProfileWasherActionsRow extends StatelessWidget {
             height: 50.h,
             borderRadius: 14.r,
             backgroundColor: AppColors.carWashTeal,
-            outlineSurfaceColor: AppColors.white,
+            outlineSurfaceColor: context.colorScheme.surfaceContainer,
             textColor: AppColors.carWashTeal,
             fontSize: 15.sp,
           ),

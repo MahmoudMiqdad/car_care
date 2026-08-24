@@ -1,5 +1,3 @@
-//مايا:مستقل تماما عن خريطة الفني ولكن نفس النمط فعليا
-
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
@@ -9,7 +7,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
-
 
 class CheckoutLocationPickerSheet extends StatefulWidget {
   const CheckoutLocationPickerSheet({super.key, this.initialLocation});
@@ -35,7 +32,6 @@ class _CheckoutLocationPickerSheetState
     extends State<CheckoutLocationPickerSheet> {
   final MapController _mapController = MapController();
 
-  // بصرى الشام كموقع افتراضي
   static const LatLng _defaultCenter = LatLng(32.5198, 36.4826);
 
   late LatLng _pickedLocation;
@@ -75,11 +71,12 @@ class _CheckoutLocationPickerSheetState
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.85,
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       child: Column(
@@ -89,7 +86,7 @@ class _CheckoutLocationPickerSheetState
             width: 40.w,
             height: 4.h,
             decoration: BoxDecoration(
-              color: AppColors.white,
+              color: colorScheme.outlineVariant,
               borderRadius: BorderRadius.circular(2.r),
             ),
           ),
@@ -105,7 +102,7 @@ class _CheckoutLocationPickerSheetState
                     l10n.selectDeliveryLocationTitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style:context.textTheme.labelLarge!.copyWith(
+                    style: context.textTheme.labelLarge!.copyWith(
                       color: AppColors.textPrimary(context),
                       fontWeight: FontWeight.w700,
                     ),
@@ -171,7 +168,6 @@ class _CheckoutLocationPickerSheetState
                     ),
                   ],
                 ),
-                // دبوس ثابت في مركز الخريطة
                 IgnorePointer(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -211,7 +207,6 @@ class _CheckoutLocationPickerSheetState
                     ],
                   ),
                 ),
-                // عرض الإحداثيات الحالية
                 Positioned(
                   top: 12,
                   child: Container(
@@ -220,11 +215,11 @@ class _CheckoutLocationPickerSheetState
                       vertical: 6.h,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.white,
+                      color: colorScheme.surfaceContainer,
                       borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.black.withOpacity(0.1),
+                          color: colorScheme.shadow.withValues(alpha: 0.1),
                           blurRadius: 6,
                         ),
                       ],
@@ -234,7 +229,7 @@ class _CheckoutLocationPickerSheetState
                       '${_pickedLocation.longitude.toStringAsFixed(5)}',
                       style: TextStyle(
                         fontSize: 11.sp,
-                        color: AppColors.gray,
+                        color: colorScheme.onSurfaceVariant,
                         fontFamily: 'monospace',
                       ),
                     ),
@@ -253,8 +248,6 @@ class _CheckoutLocationPickerSheetState
                 child: ElevatedButton.icon(
                   onPressed: () => Navigator.pop(context, _pickedLocation),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.accent,
-                    foregroundColor: AppColors.white,
                     padding: EdgeInsets.symmetric(vertical: 14.h),
                     elevation: 0,
                     shape: RoundedRectangleBorder(

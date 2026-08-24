@@ -17,7 +17,7 @@ import 'package:car_care/features/maintenance/user_requests/presentation/widgets
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/request_details/technician_card.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/request_details/vehicle_card.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_status_banner.dart';
-import 'package:car_care/l10n.dart'; 
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -48,7 +48,7 @@ class _MaintenanceRequestDetailsPageState
   ) {
     showDialog(
       context: context,
-      barrierColor: AppColors.black.withValues(alpha: 0.87), 
+      barrierColor: AppColors.black.withValues(alpha: 0.87),
       builder: (_) => Dialog.fullscreen(
         backgroundColor: AppColors.black,
         child: Stack(
@@ -92,7 +92,7 @@ class _MaintenanceRequestDetailsPageState
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.black.withValues(alpha: 0.26), 
+                        color: AppColors.black.withValues(alpha: 0.26),
                         blurRadius: 6.r,
                       ),
                     ],
@@ -109,7 +109,7 @@ class _MaintenanceRequestDetailsPageState
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n; 
+    final l10n = context.l10n;
 
     return BlocListener<CancelRequestCubit, CancelRequestState>(
       listener: (context, state) {
@@ -118,7 +118,7 @@ class _MaintenanceRequestDetailsPageState
           AppSnackBar.success(
             context,
             message == null || message.isEmpty
-                ? l10n.orderCancelledSuccess 
+                ? l10n.orderCancelledSuccess
                 : message,
           );
           context.safePopOrGo(Routes.all_requests);
@@ -134,7 +134,7 @@ class _MaintenanceRequestDetailsPageState
       child: Scaffold(
         backgroundColor: AppColors.scaffoldBackground(context),
         appBar: CustomAppBar(
-          title: l10n.maintenanceRequestDetailsTitle, 
+          title: l10n.maintenanceRequestDetailsTitle,
           showBackButton: true,
           backgroundColor: AppColors.carWashTeal,
           onBackTapped: () => context.safePopOrGo(Routes.all_requests),
@@ -160,14 +160,10 @@ class _MaintenanceRequestDetailsPageState
                         ),
                         SizedBox(height: 16.h),
                         ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: AppColors.white,
-                          ),
                           onPressed: () => context
                               .read<ShowRequestCubit>()
                               .fetchRequest(widget.requestId.toString()),
-                          child: Text(l10n.retry), 
+                          child: Text(l10n.retry),
                         ),
                       ],
                     ),

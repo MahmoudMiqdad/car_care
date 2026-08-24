@@ -13,7 +13,9 @@ class StoreStatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final color = isActive ? AppColors.green : AppColors.red;
+    final color = isActive
+        ? AppColors.successColor(context)
+        : context.colorScheme.error;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),

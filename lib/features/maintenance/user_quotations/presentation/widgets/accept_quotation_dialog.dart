@@ -1,5 +1,5 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -73,17 +73,17 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
     final radius = BorderRadius.circular(14.r);
 
     return ClipRRect(
       borderRadius: radius,
       child: Material(
-        color: AppColors.white,
+        color: colorScheme.surfaceContainer,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Header
             Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -104,14 +104,13 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Scheduled Date
                   Text(
                     l10n.selectedDateLabel,
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       fontSize: 17.sp,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.black,
+                      color: colorScheme.onSurface,
                     ),
                   ),
                   SizedBox(height: 10.h),
@@ -123,7 +122,7 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
                         vertical: 13.h,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.white,
+                        color: colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(12.r),
                         border: Border.all(
                           color: AppColors.carWashTeal,
@@ -146,8 +145,8 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
                             style: TextStyle(
                               fontSize: 15.sp,
                               color: _selectedDate != null
-                                  ? AppColors.black
-                                  : AppColors.gray,
+                                  ? colorScheme.onSurface
+                                  : colorScheme.onSurfaceVariant,
                             ),
                           ),
                         ],
@@ -157,14 +156,13 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
 
                   SizedBox(height: 14.h),
 
-                  // Notes
                   Text(
                     l10n.notesLabel,
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       fontSize: 17.sp,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.black,
+                      color: colorScheme.onSurface,
                     ),
                   ),
                   SizedBox(height: 10.h),
@@ -174,10 +172,13 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
                     textAlign: TextAlign.right,
                     maxLines: 3,
                     minLines: 2,
-                    style: TextStyle(fontSize: 15.sp, color: AppColors.black),
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      color: colorScheme.onSurface,
+                    ),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: AppColors.white,
+                      fillColor: colorScheme.surfaceContainerHighest,
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 14.w,
                         vertical: 12.h,
@@ -202,7 +203,6 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
               ),
             ),
 
-            // Footer
             Container(
               height: 48.h,
               color: AppColors.carWashTeal,

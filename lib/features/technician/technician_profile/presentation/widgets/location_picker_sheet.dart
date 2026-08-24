@@ -1,6 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
-
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/cubit/technician_location_cubit.dart';
@@ -69,7 +69,6 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
 
   Future<void> _confirmLocation() async {
     if (widget.localOnly) {
-      // Onboarding: keep the location in local form state only.
       Navigator.pop(context, _pickedLocation);
       return;
     }
@@ -95,24 +94,22 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
       child: Container(
         height: MediaQuery.of(context).size.height * 0.85,
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: context.colorScheme.surfaceContainer,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
         ),
         child: Column(
           children: [
-            //  Handle
             SizedBox(height: 12.h),
             Container(
               width: 40.w,
               height: 4.h,
               decoration: BoxDecoration(
-                color: AppColors.white,
+                color: context.colorScheme.outlineVariant,
                 borderRadius: BorderRadius.circular(2.r),
               ),
             ),
             SizedBox(height: 12.h),
 
-            //  العنوان 
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Row(
@@ -127,7 +124,6 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                     ),
                   ),
                   const Spacer(),
-                  // زر موقعي الحالي
                   TextButton.icon(
                     onPressed: _loadingCurrentLocation
                         ? null
@@ -162,12 +158,14 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Text(
                 l10n.moveMapToSelectLocation,
-                style: TextStyle(fontSize: 12.sp, color: AppColors.white),
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  color: context.colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
             SizedBox(height: 12.h),
 
-            // الخريطة 
             Expanded(
               child: Stack(
                 alignment: Alignment.center,
@@ -177,7 +175,6 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                     options: MapOptions(
                       initialCenter: _pickedLocation,
                       initialZoom: 15,
-                      // لما يتحرك الخريطة يتحدث الموقع
                       onPositionChanged: (position, hasGesture) {
                         // ignore: unnecessary_null_comparison
                         if (hasGesture && position.center != null) {
@@ -194,7 +191,6 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                     ],
                   ),
 
-                  // ─── البن الثابت في المنتصف 
                   IgnorePointer(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -218,7 +214,6 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                             size: 24.r,
                           ),
                         ),
-                        // الخط تحت البن
                         Container(
                           width: 2.w,
                           height: 16.h,
@@ -236,7 +231,6 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                     ),
                   ),
 
-                  // ─── إحداثيات الموقع المختار ─────────────────────
                   Positioned(
                     top: 12,
                     child: Container(
@@ -245,11 +239,11 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                         vertical: 6.h,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.white,
+                        color: context.colorScheme.surfaceContainer,
                         borderRadius: BorderRadius.circular(20.r),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.black.withOpacity(0.1),
+                            color: context.colorScheme.shadow.withOpacity(0.1),
                             blurRadius: 6,
                           ),
                         ],
@@ -259,7 +253,7 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                         '${_pickedLocation.longitude.toStringAsFixed(5)}',
                         style: TextStyle(
                           fontSize: 11.sp,
-                          color: AppColors.white,
+                          color: context.colorScheme.onSurfaceVariant,
                           fontFamily: 'monospace',
                         ),
                       ),
@@ -269,7 +263,6 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
               ),
             ),
 
-            // ─── زر التأكيد (فوق الشريط الآمن دائمًا) ────────────────
             BlocBuilder<TechnicianLocationCubit, TechnicianLocationState>(
               builder: (context, state) {
                 final isLoading = state is UpdateLocationLoading;
@@ -282,13 +275,12 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                       child: ElevatedButton.icon(
                         onPressed: isLoading ? null : _confirmLocation,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.accent,
-                          foregroundColor: AppColors.white,
                           padding: EdgeInsets.symmetric(vertical: 14.h),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.r),
                           ),
-                          disabledBackgroundColor: AppColors.white,
+                          disabledBackgroundColor:
+                              context.colorScheme.surfaceContainer,
                         ),
                         icon: isLoading
                             ? SizedBox(
@@ -301,7 +293,9 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
                               )
                             : Icon(Icons.check_circle_outline, size: 20.r),
                         label: Text(
-                          isLoading ? l10n.savingInProgress : l10n.confirmLocationAction,
+                          isLoading
+                              ? l10n.savingInProgress
+                              : l10n.confirmLocationAction,
                           style: TextStyle(
                             fontSize: 15.sp,
                             fontWeight: FontWeight.bold,

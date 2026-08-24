@@ -12,14 +12,15 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'login_text_field.dart';
 
 class LoginFormSection extends StatefulWidget {
-  const LoginFormSection( {
+  const LoginFormSection({
     super.key,
     required this.accountController,
     required this.passwordController,
     this.onForgotPassword,
     required this.onRegister,
     this.onGoogleSignIn,
-    VoidCallback? onLogin, required this.formKey,
+    VoidCallback? onLogin,
+    required this.formKey,
   }) : _onLogin = onLogin;
 
   final TextEditingController accountController;
@@ -28,13 +29,13 @@ class LoginFormSection extends StatefulWidget {
   final VoidCallback? onForgotPassword;
   final VoidCallback? onRegister;
   final VoidCallback? onGoogleSignIn;
-final GlobalKey<FormState> formKey;
+  final GlobalKey<FormState> formKey;
   @override
   State<LoginFormSection> createState() => _LoginFormSectionState();
 }
 
 class _LoginFormSectionState extends State<LoginFormSection> {
-    bool submitted = false; 
+  bool submitted = false;
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
@@ -48,12 +49,12 @@ class _LoginFormSectionState extends State<LoginFormSection> {
           hintText: strings.email,
           keyboardType: TextInputType.emailAddress,
           icon: IconsaxPlusLinear.sms,
-         validator: (v) {
-                      if (v == null || v.trim().isEmpty) {
-                        return strings.enterEmail;
-                      }
-                      return null;
-                    },
+          validator: (v) {
+            if (v == null || v.trim().isEmpty) {
+              return strings.enterEmail;
+            }
+            return null;
+          },
           onChanged: (value) {
             context.read<AuthBloc>().add(EmailChanged(value));
           },
@@ -66,15 +67,15 @@ class _LoginFormSectionState extends State<LoginFormSection> {
           isPassword: true,
           keyboardType: TextInputType.visiblePassword,
           icon: IconsaxPlusLinear.lock_1,
-           validator: (v) {
-                      if (v == null || v.trim().isEmpty) {
-                        return strings.enterPassword;
-                      }
-                      if (v.trim().length < 6) {
-                        return strings.passwordMinLength;
-                      }
-                      return null;
-                    },
+          validator: (v) {
+            if (v == null || v.trim().isEmpty) {
+              return strings.enterPassword;
+            }
+            if (v.trim().length < 6) {
+              return strings.passwordMinLength;
+            }
+            return null;
+          },
           onChanged: (value) {
             context.read<AuthBloc>().add(PasswordChanged(value));
           },
@@ -87,7 +88,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
             child: Text(
               strings.forgotPassword,
               style: context.textTheme.bodySmall?.copyWith(
-                color: AppColors.lightPrimary,
+                color: context.colorScheme.primary,
                 fontSize: 14.sp,
               ),
             ),
@@ -97,12 +98,13 @@ class _LoginFormSectionState extends State<LoginFormSection> {
         SizedBox(
           height: AppConstants.buttonHeight.h,
           child: AppButton(
-            onPressed:(){  setState(() => submitted = true);
-                        if (widget.formKey.currentState?.validate() ?? false) {
-                          widget._onLogin?.call();
-                        }},
+            onPressed: () {
+              setState(() => submitted = true);
+              if (widget.formKey.currentState?.validate() ?? false) {
+                widget._onLogin?.call();
+              }
+            },
             text: strings.login,
-            backgroundColor: AppColors.accent,
             textColor: AppColors.white,
           ),
         ),
@@ -115,7 +117,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
             onPressed: widget.onGoogleSignIn,
             isOutline: true,
             outlineSurfaceColor: AppColors.white,
-            backgroundColor: AppColors.lightPrimary,
+            backgroundColor: context.colorScheme.primary,
             icon: const _GoogleGlyph(),
             text: strings.continueWithGoogle,
           ),
@@ -127,7 +129,7 @@ class _LoginFormSectionState extends State<LoginFormSection> {
             Text(
               strings.dontHaveAccount,
               style: context.textTheme.bodyMedium?.copyWith(
-                color: AppColors.lightPrimary,
+                color: context.colorScheme.primary,
                 fontSize: 16.sp,
               ),
             ),
@@ -156,17 +158,25 @@ class _OrContinueWithDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
     return Row(
       children: [
-        Expanded(child: Divider(color: Colors.grey.shade300, thickness: 1)),
+        Expanded(
+          child: Divider(color: colorScheme.outlineVariant, thickness: 1),
+        ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
           child: Text(
             label,
-            style: TextStyle(color: Colors.grey.shade600, fontSize: 12.sp),
+            style: TextStyle(
+              color: colorScheme.onSurfaceVariant,
+              fontSize: 12.sp,
+            ),
           ),
         ),
-        Expanded(child: Divider(color: Colors.grey.shade300, thickness: 1)),
+        Expanded(
+          child: Divider(color: colorScheme.outlineVariant, thickness: 1),
+        ),
       ],
     );
   }

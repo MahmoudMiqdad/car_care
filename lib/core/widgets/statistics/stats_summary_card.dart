@@ -1,12 +1,9 @@
-import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/widgets/statistics/stats_section_card.dart';
 import 'package:car_care/core/widgets/statistics/stats_segmented_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// A small labeled chip shown below [StatsSummaryCard]'s segmented bar —
-/// only meant for the non-zero highlights (e.g. "مكتمل"/"ملغى"), not a
-/// full legend of every segment.
 class StatsLegendItem {
   const StatsLegendItem({
     required this.label,
@@ -19,12 +16,6 @@ class StatsLegendItem {
   final Color color;
 }
 
-/// The main wide "إجمالي" summary card: a title, a large total value, a
-/// [StatsSegmentedBar] built from real segment counts, and optional
-/// below-bar highlight chips for whichever statuses are non-zero. No
-/// percentages, no trend/comparison — purely a visual read of the current
-/// numbers. Reusable across any statistics screen; knows nothing about
-/// bookings, ratings, or any specific feature's Cubit.
 class StatsSummaryCard extends StatelessWidget {
   const StatsSummaryCard({
     super.key,
@@ -46,6 +37,7 @@ class StatsSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final nonZeroLegend = legendItems.where((item) => item.value > 0).toList();
+    final colorScheme = context.colorScheme;
 
     return StatsSectionCard(
       title: title,
@@ -58,7 +50,7 @@ class StatsSummaryCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 40.sp,
               fontWeight: FontWeight.w800,
-              color: AppColors.black,
+              color: colorScheme.onSurface,
               height: 1,
             ),
           ),
@@ -68,7 +60,7 @@ class StatsSummaryCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 13.sp,
               fontWeight: FontWeight.w600,
-              color: AppColors.textSecondary(context),
+              color: colorScheme.onSurfaceVariant,
             ),
           ),
           SizedBox(height: 14.h),

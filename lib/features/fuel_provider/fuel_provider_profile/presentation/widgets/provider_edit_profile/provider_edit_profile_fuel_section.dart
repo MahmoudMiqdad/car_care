@@ -6,7 +6,6 @@ import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_edit_profile/provider_edit_profile_fields.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_profile/provider_profile_cards.dart';
-import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_profile/provider_profile_ui_model.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +19,7 @@ Future<String?> showProviderFuelPriceDialog(
   return showModalBottomSheet<String>(
     context: context,
     isScrollControlled: true,
-    backgroundColor: AppColors.white,
+    backgroundColor: context.colorScheme.surfaceContainer,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
     ),
@@ -118,7 +117,6 @@ class _ProviderFuelPriceSheetState extends State<_ProviderFuelPriceSheet> {
           AppButton(
             onPressed: _save,
             text: l10n.save,
-            backgroundColor: AppColors.accent,
             borderRadius: 28.r,
             height: 52.h,
           ),
@@ -128,7 +126,7 @@ class _ProviderFuelPriceSheetState extends State<_ProviderFuelPriceSheet> {
             text: l10n.cancel,
             isOutline: true,
             backgroundColor: AppColors.carWashTeal,
-            outlineSurfaceColor: AppColors.white,
+            outlineSurfaceColor: context.colorScheme.surfaceContainer,
             textColor: AppColors.carWashTeal,
             borderRadius: 28.r,
             height: 52.h,
@@ -153,7 +151,11 @@ class ProviderEditProfileFuelServicesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final fuelTypes = ProviderProfileUiModel.preview.fuelPrices;
+    final fuelTypes = [
+      (fuelType: l10n.gasoline95, apiValue: '95'),
+      (fuelType: l10n.gasoline98, apiValue: '98'),
+      (fuelType: l10n.diesel, apiValue: 'diesel'),
+    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -223,7 +225,7 @@ class _FuelServiceCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         child: Ink(
           decoration: BoxDecoration(
-            color: AppColors.white,
+            color: context.colorScheme.surfaceContainer,
             borderRadius: BorderRadius.circular(12.r),
             border: Border.all(color: borderColor, width: 1.2),
           ),
@@ -236,7 +238,7 @@ class _FuelServiceCard extends StatelessWidget {
                   fuelType,
                   textAlign: TextAlign.center,
                   style: context.textTheme.bodyMedium!.copyWith(
-                    color: AppColors.black,
+                    color: context.colorScheme.onSurface,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
@@ -251,7 +253,7 @@ class _FuelServiceCard extends StatelessWidget {
                   subtitle,
                   textAlign: TextAlign.center,
                   style: context.textTheme.bodySmall!.copyWith(
-                    color: AppColors.black,
+                    color: context.colorScheme.onSurface,
                     fontWeight: FontWeight.w600,
                     height: 1.3,
                   ),

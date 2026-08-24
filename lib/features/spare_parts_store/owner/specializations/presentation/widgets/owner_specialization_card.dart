@@ -43,11 +43,11 @@ class OwnerSpecializationCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.04),
+            color: context.colorScheme.shadow.withValues(alpha: 0.04),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),

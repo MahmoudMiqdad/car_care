@@ -1,8 +1,8 @@
 ﻿// ignore_for_file: unnecessary_underscores
 
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
-import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/error_state_widget.dart';
@@ -60,7 +60,7 @@ class _WashersPageState extends State<WashersPage> {
             child: Text(
               l10n.bookingsPageTitle,
               style: TextStyle(
-                color: AppColors.white,
+                color: context.colorScheme.onPrimary,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w700,
               ),

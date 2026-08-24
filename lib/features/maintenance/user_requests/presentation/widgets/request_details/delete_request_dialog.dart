@@ -1,33 +1,35 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/l10n.dart'; 
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Future<bool?> showDeleteRequestDialog(BuildContext context) {
   final l10n = context.l10n;
+  final colorScheme = context.colorScheme;
 
   return showDialog<bool>(
     context: context,
     barrierDismissible: true,
     builder: (dialogContext) => Dialog(
-      backgroundColor: AppColors.transparent, 
+      backgroundColor: AppColors.transparent,
       insetPadding: EdgeInsets.symmetric(horizontal: 28.w),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(14.r),
         child: Material(
-          color: AppColors.white,
+          color: colorScheme.surfaceContainer,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
                 padding: EdgeInsets.symmetric(vertical: 12.h),
-                color: AppColors.red, 
+                color: colorScheme.error,
                 child: Text(
-                  l10n.deleteRequestTitle, 
+                  l10n.deleteRequestTitle,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: AppColors.white,
+                    color: colorScheme.onError,
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w700,
                   ),
@@ -39,26 +41,26 @@ Future<bool?> showDeleteRequestDialog(BuildContext context) {
                   children: [
                     Icon(
                       Icons.delete_forever_outlined,
-                      color: AppColors.red, 
+                      color: colorScheme.error,
                       size: 48.r,
                     ),
                     SizedBox(height: 12.h),
                     Text(
-                      l10n.deleteRequestConfirmation, 
+                      l10n.deleteRequestConfirmation,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.black,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                     SizedBox(height: 6.h),
                     Text(
-                      l10n.cannotUndoActionWarning, 
+                      l10n.cannotUndoActionWarning,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 13.sp,
-                        color: AppColors.textSecondary(context), 
+                        color: AppColors.textSecondary(context),
                       ),
                     ),
                   ],
@@ -66,7 +68,7 @@ Future<bool?> showDeleteRequestDialog(BuildContext context) {
               ),
               Container(
                 height: 48.h,
-                color: AppColors.red, 
+                color: colorScheme.error,
                 child: Row(
                   children: [
                     Expanded(
@@ -76,9 +78,9 @@ Future<bool?> showDeleteRequestDialog(BuildContext context) {
                           onTap: () => Navigator.of(dialogContext).pop(true),
                           child: Center(
                             child: Text(
-                              l10n.yesDeleteButton, 
+                              l10n.yesDeleteButton,
                               style: TextStyle(
-                                color: AppColors.white,
+                                color: colorScheme.onError,
                                 fontSize: 17.sp,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -90,7 +92,7 @@ Future<bool?> showDeleteRequestDialog(BuildContext context) {
                     Container(
                       width: 1,
                       height: double.infinity,
-                      color: AppColors.white.withValues(alpha: 0.85),
+                      color: colorScheme.onError.withValues(alpha: 0.85),
                     ),
                     Expanded(
                       child: Material(
@@ -101,7 +103,7 @@ Future<bool?> showDeleteRequestDialog(BuildContext context) {
                             child: Text(
                               l10n.backButton,
                               style: TextStyle(
-                                color: AppColors.white,
+                                color: colorScheme.onError,
                                 fontSize: 17.sp,
                                 fontWeight: FontWeight.w700,
                               ),

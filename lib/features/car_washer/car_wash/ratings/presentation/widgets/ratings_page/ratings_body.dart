@@ -1,6 +1,6 @@
-import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
-import 'package:car_care/core/widgets/app_headline.dart'; 
+import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
 import 'package:car_care/features/car_washer/car_wash/ratings/presentation/widgets/ratings_page/ratings_service_info_card.dart';
 import 'package:car_care/features/car_washer/car_wash/ratings/presentation/widgets/ratings_page/ratings_star_selector.dart';
@@ -36,7 +36,7 @@ class RatingsBody extends StatelessWidget {
           AppText.sectionTitle(
             context,
             strings.ratingsServiceInfoSectionTitle,
-            color: AppColors.black,
+            color: context.colorScheme.onSurface,
             fontWeight: FontWeight.w900,
           ),
           SizedBox(height: 8.h),
@@ -45,7 +45,7 @@ class RatingsBody extends StatelessWidget {
           AppText.sectionTitle(
             context,
             strings.ratingsYourRatingQuestion,
-            color: AppColors.black,
+            color: context.colorScheme.onSurface,
             fontWeight: FontWeight.w900,
           ),
           RatingsStarSelector(
@@ -56,7 +56,6 @@ class RatingsBody extends StatelessWidget {
           AppButton(
             text: isLoading ? '...' : strings.ratingsSendRating,
             onPressed: onSubmit,
-            backgroundColor: AppColors.accent,
             borderRadius: 14.r,
             height: 54.h,
           ),

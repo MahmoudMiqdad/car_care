@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
-import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/user_profile/presentation/widgets/delete_confirmation_dialog.dart';
@@ -23,20 +23,19 @@ class ProfileBody extends StatelessWidget {
 
     return BlocBuilder<ShowProfileCubit, ShowProfileState>(
       builder: (context, state) {
-        // loading
         if (state is ShowProfileLoading) {
           return const Center(child: AppLoadingWidget());
         }
-        //  error
         if (state is ShowProfileError) {
           return Center(child: Text(state.message));
         }
-        //  success
         if (state is ShowProfileLoaded) {
           final profile = state.profile;
+          final colorScheme = context.colorScheme;
           return RefreshIndicator(
-             onRefresh: () async {
-              context.read<ShowProfileCubit>().getProfile();},
+            onRefresh: () async {
+              context.read<ShowProfileCubit>().getProfile();
+            },
             child: SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
               child: Padding(
@@ -46,7 +45,7 @@ class ProfileBody extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 60.r,
-                      backgroundColor: Colors.grey.shade300,
+                      backgroundColor: colorScheme.surfaceContainerHighest,
                       backgroundImage:
                           profile.avatar != null && profile.avatar!.isNotEmpty
                           ? NetworkImage(profile.avatar!)
@@ -55,18 +54,17 @@ class ProfileBody extends StatelessWidget {
                           ? Icon(
                               Icons.person,
                               size: 100.sp,
-                              color: Colors.grey.shade400,
+                              color: colorScheme.onSurfaceVariant,
                             )
                           : null,
                     ),
                     SizedBox(height: 8.h),
-                              
                     Text(
                       profile.name,
                       style: TextStyle(
                         fontSize: 27.sp,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.black,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                     SizedBox(height: 30.h),
@@ -84,7 +82,6 @@ class ProfileBody extends StatelessWidget {
                     SizedBox(height: 30.h),
                     AppButton(
                       text: strings.editProfile,
-                      backgroundColor: AppColors.accent,
                       onPressed: () async {
                         await context.push(Routes.profile_setup);
                         if (context.mounted) {
@@ -95,14 +92,13 @@ class ProfileBody extends StatelessWidget {
                     SizedBox(height: 16.h),
                     AppButton(
                       text: strings.editPassword,
-                      backgroundColor: AppColors.accent,
                       onPressed: () => context.push(Routes.changepasswordpage),
                     ),
                     SizedBox(height: 16.h),
                     AppButton(
                       text: strings.delete,
                       isOutline: true,
-                      backgroundColor: const Color(0xFFA12323),
+                      backgroundColor: colorScheme.error,
                       onPressed: () {
                         showModalBottomSheet(
                           context: context,

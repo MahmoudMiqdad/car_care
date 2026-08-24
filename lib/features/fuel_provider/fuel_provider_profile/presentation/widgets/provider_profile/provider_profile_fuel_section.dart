@@ -1,4 +1,4 @@
-import 'package:car_care/core/extensions/theme_extension.dart'; 
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/domain/entities/provider_profile_entity.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_profile/provider_profile_cards.dart';
@@ -58,7 +58,7 @@ class _FuelPriceCard extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: borderColor, width: 1.2),
       ),
@@ -70,20 +70,23 @@ class _FuelPriceCard extends StatelessWidget {
             Text(
               fuelType,
               textAlign: TextAlign.center,
-              style: context.textTheme.bodyMedium!.copyWith( 
-                color: AppColors.black,
+              style: context.textTheme.bodyMedium!.copyWith(
+                color: context.colorScheme.onSurface,
                 fontWeight: FontWeight.w800,
               ),
             ),
             SizedBox(height: 8.h),
-            Divider(height: 1, thickness: 1,
-                color: borderColor.withValues(alpha: 0.35)),
+            Divider(
+              height: 1,
+              thickness: 1,
+              color: borderColor.withValues(alpha: 0.35),
+            ),
             SizedBox(height: 8.h),
             Text(
               priceText,
               textAlign: TextAlign.center,
               style: context.textTheme.bodySmall!.copyWith(
-                color: AppColors.black,
+                color: context.colorScheme.onSurface,
                 fontWeight: FontWeight.w600,
               ),
             ),

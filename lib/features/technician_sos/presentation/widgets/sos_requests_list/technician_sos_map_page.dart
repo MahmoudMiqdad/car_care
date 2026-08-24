@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
@@ -66,7 +67,7 @@ class TechnicianSosMapPage extends StatelessWidget {
                         },
                         child: Text(
                           l10n.exitActionLabel,
-                          style: TextStyle(color: AppColors.red),
+                          style: TextStyle(color: context.colorScheme.error),
                         ),
                       ),
                     ],

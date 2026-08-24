@@ -1,4 +1,5 @@
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/auth/presentation/cubit/password_reset/password_reset_cubit.dart';
@@ -38,7 +39,7 @@ class _ResetPasswordContentState extends State<ResetPasswordContent> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(28.r),
           topRight: Radius.circular(28.r),
@@ -66,11 +67,11 @@ class _ResetPasswordContentState extends State<ResetPasswordContent> {
                   strings.resetPasswordTitle,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: AppColors.orange,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 26.sp,
-                        fontFamily: 'Poppins',
-                      ),
+                    color: AppColors.orange,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 26.sp,
+                    fontFamily: 'Poppins',
+                  ),
                 ),
                 SizedBox(height: 32.h),
                 Form(
@@ -122,10 +123,9 @@ class _ResetPasswordContentState extends State<ResetPasswordContent> {
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
                         context.read<PasswordResetCubit>().resetPassword(
-                              password: _passwordController.text.trim(),
-                              passwordConfirmation:
-                                  _confirmController.text.trim(),
-                            );
+                          password: _passwordController.text.trim(),
+                          passwordConfirmation: _confirmController.text.trim(),
+                        );
                       }
                     },
                     text: strings.resetPasswordButton,

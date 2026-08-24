@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -77,7 +78,7 @@ class _ProviderInvoiceDetailsPageState
                   Container(
                     padding: EdgeInsets.all(14.w),
                     decoration: BoxDecoration(
-                      color: AppColors.white,
+                      color: context.colorScheme.surfaceContainer,
                       borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Column(
@@ -86,52 +87,76 @@ class _ProviderInvoiceDetailsPageState
                         AppInfoRow(
                           label: l10n.invoiceNumber,
                           value: invoice.invoiceNumber ?? '-',
-                          leading: Icon(Icons.receipt_rounded,
-                              size: 20.sp, color: AppColors.primary),
+                          leading: Icon(
+                            Icons.receipt_rounded,
+                            size: 20.sp,
+                            color: AppColors.primary,
+                          ),
                         ),
                         AppInfoRow(
                           label: l10n.invoiceStatus,
                           value: _statusLabel(context, invoice.effectiveStatus),
-                          leading: Icon(Icons.info_outline_rounded,
-                              size: 20.sp, color: AppColors.primary),
+                          leading: Icon(
+                            Icons.info_outline_rounded,
+                            size: 20.sp,
+                            color: AppColors.primary,
+                          ),
                         ),
                         AppInfoRow(
                           label: l10n.invoicePeriod,
                           value:
                               '${invoice.periodStart ?? '-'} - ${invoice.periodEnd ?? '-'}',
-                          leading: Icon(Icons.date_range_rounded,
-                              size: 20.sp, color: AppColors.primary),
+                          leading: Icon(
+                            Icons.date_range_rounded,
+                            size: 20.sp,
+                            color: AppColors.primary,
+                          ),
                         ),
                         AppInfoRow(
                           label: l10n.invoiceSubtotal,
                           value: '${invoice.subtotal ?? 0}',
-                          leading: Icon(Icons.calculate_outlined,
-                              size: 20.sp, color: AppColors.primary),
+                          leading: Icon(
+                            Icons.calculate_outlined,
+                            size: 20.sp,
+                            color: AppColors.primary,
+                          ),
                         ),
                         AppInfoRow(
                           label: l10n.invoiceCommission,
                           value: '${invoice.commissionTotal ?? 0}',
-                          leading: Icon(Icons.percent_rounded,
-                              size: 20.sp, color: AppColors.primary),
+                          leading: Icon(
+                            Icons.percent_rounded,
+                            size: 20.sp,
+                            color: AppColors.primary,
+                          ),
                         ),
                         AppInfoRow(
                           label: l10n.invoiceSubscription,
                           value: '${invoice.subscriptionTotal ?? 0}',
-                          leading: Icon(Icons.subscriptions_outlined,
-                              size: 20.sp, color: AppColors.primary),
+                          leading: Icon(
+                            Icons.subscriptions_outlined,
+                            size: 20.sp,
+                            color: AppColors.primary,
+                          ),
                         ),
                         AppInfoRow(
                           label: l10n.invoiceTotal,
                           value: '${invoice.totalAmount ?? 0}',
-                          leading: Icon(Icons.payments_rounded,
-                              size: 20.sp, color: AppColors.primary),
+                          leading: Icon(
+                            Icons.payments_rounded,
+                            size: 20.sp,
+                            color: AppColors.primary,
+                          ),
                         ),
                         if (invoice.paidAt != null)
                           AppInfoRow(
                             label: l10n.invoicePaidAt,
                             value: invoice.paidAt.toString(),
-                            leading: Icon(Icons.check_circle_outline_rounded,
-                                size: 20.sp, color: AppColors.primary),
+                            leading: Icon(
+                              Icons.check_circle_outline_rounded,
+                              size: 20.sp,
+                              color: AppColors.primary,
+                            ),
                           ),
                       ],
                     ),
@@ -142,7 +167,7 @@ class _ProviderInvoiceDetailsPageState
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.black,
+                      color: context.colorScheme.onSurface,
                     ),
                   ),
                   SizedBox(height: 8.h),
@@ -161,7 +186,7 @@ class _ProviderInvoiceDetailsPageState
       margin: EdgeInsets.only(bottom: 10.h),
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: Row(

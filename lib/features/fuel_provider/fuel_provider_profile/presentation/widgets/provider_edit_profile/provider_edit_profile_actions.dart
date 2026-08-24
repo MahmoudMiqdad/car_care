@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,6 @@ class ProviderEditProfileActions extends StatelessWidget {
         AppButton(
           onPressed: onSave,
           text: saveLabel,
-          backgroundColor: AppColors.accent,
           borderRadius: 28.r,
           height: 54.h,
           fontSize: 20.sp,
@@ -36,7 +36,7 @@ class ProviderEditProfileActions extends StatelessWidget {
           text: cancelLabel,
           isOutline: true,
           backgroundColor: AppColors.carWashTeal,
-          outlineSurfaceColor: AppColors.white,
+          outlineSurfaceColor: context.colorScheme.surfaceContainer,
           textColor: AppColors.carWashTeal,
           borderRadius: 28.r,
           height: 54.h,

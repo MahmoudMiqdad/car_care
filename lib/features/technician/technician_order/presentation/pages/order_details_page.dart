@@ -122,7 +122,6 @@ class _BodyState extends State<_Body> {
                       else
                         AppButton(
                           text: l10n.submitQuotationButtonLabel,
-                          backgroundColor: AppColors.accent,
                           fontSize: 17.sp,
                           borderRadius: AppConstants.ctaRadius,
                           height: 55.h,

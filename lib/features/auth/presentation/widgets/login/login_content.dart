@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -14,13 +15,13 @@ class LoginContent extends StatelessWidget {
     VoidCallback? onForgotPassword,
     VoidCallback? onRegister,
     VoidCallback? onGoogleSignIn,
-  })  : _formKey = formKey,
-        _accountController = accountController,
-        _passwordController = passwordController,
-        _onLogin = onLogin,
-        _onForgotPassword = onForgotPassword,
-        _onRegister = onRegister,
-        _onGoogleSignIn = onGoogleSignIn;
+  }) : _formKey = formKey,
+       _accountController = accountController,
+       _passwordController = passwordController,
+       _onLogin = onLogin,
+       _onForgotPassword = onForgotPassword,
+       _onRegister = onRegister,
+       _onGoogleSignIn = onGoogleSignIn;
 
   final GlobalKey<FormState> _formKey;
   final TextEditingController _accountController;
@@ -36,7 +37,7 @@ class LoginContent extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(28.r),
           topRight: Radius.circular(28.r),
@@ -53,8 +54,9 @@ class LoginContent extends StatelessWidget {
             SizedBox(height: 24.h),
             Form(
               key: _formKey,
-              autovalidateMode: AutovalidateMode.disabled, 
-              child: LoginFormSection( formKey: _formKey,
+              autovalidateMode: AutovalidateMode.disabled,
+              child: LoginFormSection(
+                formKey: _formKey,
                 accountController: _accountController,
                 passwordController: _passwordController,
                 onLogin: _onLogin,
@@ -69,39 +71,40 @@ class LoginContent extends StatelessWidget {
     );
   }
 }
+
 class _LoginTitle extends StatelessWidget {
   const _LoginTitle();
 
   @override
   Widget build(BuildContext context) {
-     final strings = context.l10n;
+    final strings = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SizedBox(height: 4.h),
         Text(
-         strings.welcomeBack,
+          strings.welcomeBack,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: AppColors.accent,
-                fontWeight: FontWeight.w700,
-                fontSize: 28.sp,
-                letterSpacing: 0.4,
-                height: 1.25,
-                fontFamily: 'Poppins',
-              ),
+            color: AppColors.accent,
+            fontWeight: FontWeight.w700,
+            fontSize: 28.sp,
+            letterSpacing: 0.4,
+            height: 1.25,
+            fontFamily: 'Poppins',
+          ),
         ),
         SizedBox(height: 8.h),
         Text(
           strings.readySummary,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.lightPrimary,
-                fontSize: 17.sp,
-                height: 1.35,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Poppins',
-              ),
+            color: context.colorScheme.primary,
+            fontSize: 17.sp,
+            height: 1.35,
+            fontWeight: FontWeight.w500,
+            fontFamily: 'Poppins',
+          ),
         ),
       ],
     );
@@ -126,11 +129,7 @@ class _LoginImage extends StatelessWidget {
               color: AppColors.info.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(16.r),
             ),
-            child: Icon(
-              Icons.car_repair,
-              size: 80.sp,
-              color: AppColors.info,
-            ),
+            child: Icon(Icons.car_repair, size: 80.sp, color: AppColors.info),
           ),
         ),
       ),

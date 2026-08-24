@@ -1,4 +1,4 @@
-﻿import 'package:car_care/core/extensions/theme_extension.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/domain/entities/washers_entity.dart';
 import 'package:car_care/features/car_washer/car_wash/washers_browse/presentation/widgets/washer_avatar.dart';
@@ -20,10 +20,7 @@ class WasherDetailsHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        WasherAvatar(
-          logoUrl: washer.logoUrl,
-          diameter: 120,
-        ),
+        WasherAvatar(logoUrl: washer.logoUrl, diameter: 120),
         SizedBox(width: 8.w),
         Expanded(
           child: Column(
@@ -32,11 +29,11 @@ class WasherDetailsHeader extends StatelessWidget {
             children: <Widget>[
               Text(
                 washer.shopName,
-                textAlign: TextAlign.start, 
+                textAlign: TextAlign.start,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: context.textTheme.headlineSmall!.copyWith(
-                  color: AppColors.black,
+                  color: context.colorScheme.onSurface,
                   fontWeight: FontWeight.w800,
                 ),
               ),

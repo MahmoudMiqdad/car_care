@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/locale/locale_cubit.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/theme_cubit.dart';
@@ -61,7 +62,6 @@ class _SectionLabel extends StatelessWidget {
   }
 }
 
-// ─── Language Section ──────────────────────────────────────────────────────
 class _LanguageCard extends StatelessWidget {
   const _LanguageCard();
 
@@ -149,7 +149,7 @@ class _SettingsCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(14.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.04),
+            color: context.colorScheme.shadow.withValues(alpha: 0.04),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -211,7 +211,7 @@ class _OptionTile extends StatelessWidget {
                   label,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
-                
+
                     color: selected ? AppColors.primary : primaryText,
                   ),
                 ),
@@ -221,7 +221,7 @@ class _OptionTile extends StatelessWidget {
               else
                 Icon(
                   Icons.radio_button_unchecked,
-               
+
                   color: unselectedText.withValues(alpha: 0.4),
                   size: 20.sp,
                 ),

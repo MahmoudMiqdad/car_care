@@ -1,10 +1,9 @@
-// مسؤول عن عرض محتوى الصفحة الرئيسية للعميل: إعلانات المنزل وشبكة الخدمات.
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/features/advertisements/domain/entities/advertisement_entity.dart';
 import 'package:car_care/features/advertisements/presentation/widgets/advertisement_section.dart';
 import 'package:car_care/features/home/presentation/widgets/ServicesGrid.dart';
-import 'package:car_care/features/home/presentation/widgets/home_palette.dart';
-import 'package:car_care/l10n.dart'; // 🎯 استيراد امتداد l10n للترجمة الديناميكية
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -33,7 +32,7 @@ class HomeBody extends StatelessWidget {
               child: Text(
                 l10n.homeWelcomeGreeting,
                 style: TextStyle(
-                  color: HomePalette.primaryTeal,
+                  color: context.colorScheme.primary,
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w700,
                 ),

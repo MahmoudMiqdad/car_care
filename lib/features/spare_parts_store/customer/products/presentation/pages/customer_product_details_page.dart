@@ -1,4 +1,4 @@
-// شاشة تفاصيل المنتج لعميل متجر قطع الغيار، متصلة بـ API الحقيقي عبر productId
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
 class CustomerProductDetailsPage extends StatefulWidget {
   const CustomerProductDetailsPage({super.key, required this.productId});
 
@@ -59,7 +60,7 @@ class _CustomerProductDetailsPageState
       value: _cubit,
       child: Scaffold(
         backgroundColor: AppColors.transparent,
-        appBar: CustomAppBar(title: l10n.productDetailsTitle), 
+        appBar: CustomAppBar(title: l10n.productDetailsTitle),
         body: ImageBackground(
           child: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
             builder: (context, state) {
@@ -95,8 +96,8 @@ class _CustomerProductDetailsPageState
                         context,
                         l10n.productAddedToCartSuccess,
                         action: SnackBarAction(
-                          label: l10n.viewCartButton, 
-                          textColor: AppColors.white, 
+                          label: l10n.viewCartButton,
+                          textColor: context.colorScheme.onInverseSurface,
                           onPressed: () => context.push(Routes.customerCart),
                         ),
                       );

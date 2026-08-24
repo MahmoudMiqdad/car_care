@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -88,8 +89,11 @@ class WasherBookingQuickActionsColumn extends StatelessWidget {
               ),
             ),
             SizedBox(height: 6.h),
-           
-            _ActionBtn(label: l10n.send, onPressed: onRejectSubmit, filled: true),
+            _ActionBtn(
+              label: l10n.send,
+              onPressed: onRejectSubmit,
+              filled: true,
+            ),
           ],
         ),
       );
@@ -163,7 +167,7 @@ class _ActionBtn extends StatelessWidget {
             label,
             style: TextStyle(
               fontSize: 14.sp,
-              color: filled ? Colors.white : AppColors.black,
+              color: filled ? Colors.white : context.colorScheme.onSurface,
               fontWeight: FontWeight.w600,
             ),
           ),

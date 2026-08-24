@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/l10n.dart';
@@ -81,11 +82,15 @@ class _CertificateThumbnail extends StatelessWidget {
           child: GestureDetector(
             onTap: onRemove,
             child: Container(
-              decoration: const BoxDecoration(
-                color: AppColors.red,
+              decoration: BoxDecoration(
+                color: context.colorScheme.error,
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.close, color: AppColors.white, size: 16.r),
+              child: Icon(
+                Icons.close,
+                color: context.colorScheme.onError,
+                size: 16.r,
+              ),
             ),
           ),
         ),
@@ -124,7 +129,10 @@ class _AddCertificateTile extends StatelessWidget {
             SizedBox(height: 4.h),
             Text(
               l10n.chooseActionLabel,
-              style: TextStyle(fontSize: 10.sp, color: AppColors.textSecondary(context)),
+              style: TextStyle(
+                fontSize: 10.sp,
+                color: AppColors.textSecondary(context),
+              ),
             ),
           ],
         ),

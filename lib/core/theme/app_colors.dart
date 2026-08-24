@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class AppColors {
   static const Color primary = Color(0xFF006989);
   static const Color secondary = Color(0xFFF3F7EC);
@@ -23,17 +22,22 @@ class AppColors {
 
   static const Color lightPrimary = primary;
   static const Color lightScaffold = Color(0xFFEDEBE0);
-  static const Color lightSurface = Color(0xFFF5F5F5);
   static const Color lightTextPrimary = Color(0xFF161616);
   static const Color lightTextSecondary = Color(0xFF3D3A3B);
   static const Color lightBorder = Color(0xFFD0D5DD);
 
-  static const Color darkPrimary = Color(0xFF428177);
-  static const Color darkScaffold = Color(0xFF101828);
-  static const Color darkSurface = Color(0xFF1D2939);
-  static const Color darkTextPrimary = Color(0xFFF9FAFB);
-  static const Color darkTextSecondary = Color(0xFF98A2B3);
-  static const Color darkBorder = Color(0xFF344054);
+  static const Color darkPrimary = Color(0xFF0F6F7D);
+  static const Color darkPrimaryInteractive = Color(0xFF168A99);
+  static const Color darkScaffold = Color(0xFF0F1720);
+  static const Color darkSurface = Color(0xFF182433);
+  static const Color darkSecondarySurface = Color(0xFF223142);
+  static const Color darkAppBarChrome = Color(0xFF111C26);
+  static const Color darkTextPrimary = Color(0xFFF5F7FA);
+  static const Color darkTextSecondary = Color(0xFFAEB8C2);
+  static const Color darkBorder = Color(0xFF2E4354);
+  static const Color darkSuccess = Color(0xFF4FA76C);
+  static const Color darkWarning = Color(0xFFDFA24A);
+  static const Color darkError = Color(0xFFD95D5D);
 
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF232522);
@@ -49,24 +53,44 @@ class AppColors {
   static const Color reservationConfirmOrange = Color(0xFFE9967A);
 
   static Color scaffoldBackground(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark ? darkScaffold : lightScaffold;
+    return Theme.of(context).brightness == Brightness.dark
+        ? darkScaffold
+        : lightScaffold;
   }
 
   static Color cardBackground(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark ? darkSurface : white;
+    return Theme.of(context).brightness == Brightness.dark
+        ? darkSurface
+        : white;
   }
-
 
   static Color textPrimary(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark ? darkTextPrimary : lightTextPrimary;
+    return Theme.of(context).brightness == Brightness.dark
+        ? darkTextPrimary
+        : lightTextPrimary;
   }
 
-
   static Color textSecondary(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark ? darkTextSecondary : lightTextSecondary;
+    return Theme.of(context).brightness == Brightness.dark
+        ? darkTextSecondary
+        : lightTextSecondary;
   }
 
   static Color border(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark ? darkBorder : lightBorder;
+    return Theme.of(context).brightness == Brightness.dark
+        ? darkBorder
+        : lightBorder;
+  }
+
+  static Color successColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? darkSuccess
+        : success;
+  }
+
+  static Color warningColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? darkWarning
+        : warning;
   }
 }

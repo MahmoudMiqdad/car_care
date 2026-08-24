@@ -1,9 +1,8 @@
-// قسم عرض اسم المنتج، السعر، الخصم، التوفر، والوصف
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/features/spare_parts_store/customer/products/domain/entities/product_entity.dart';
-import 'package:car_care/l10n.dart'; // 🎯 استيراد امتداد l10n للترجمة الديناميكية
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,27 +13,27 @@ class ProductInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n; 
+    final l10n = context.l10n;
     final showDiscount = product.discountPrice != null && product.hasDiscount;
 
     final tags = <Widget>[
       _InfoChip(
-        label: l10n.productConditionLabel(product.isNew ? l10n.conditionNew : l10n.conditionUsed),
-        backgroundColor: AppColors.accent.withValues(alpha: 0.14), 
+        label: l10n.productConditionLabel(
+          product.isNew ? l10n.conditionNew : l10n.conditionUsed,
+        ),
+        backgroundColor: AppColors.accent.withValues(alpha: 0.14),
         textColor: AppColors.accent,
       ),
       if (product.partCategoryName != null)
         _InfoChip(
-        
           label: l10n.productCategoryLabel(product.partCategoryName!),
           backgroundColor: AppColors.secondary,
           textColor: AppColors.textPrimary(context),
         ),
       if (product.carBrandName != null)
         _InfoChip(
-       
           label: l10n.productCarBrandLabel(product.carBrandName!),
-          backgroundColor: AppColors.white,
+          backgroundColor: context.colorScheme.surfaceContainer,
           textColor: AppColors.textSecondary(context),
           borderColor: AppColors.border(context),
         ),
@@ -51,14 +50,9 @@ class ProductInfoSection extends StatelessWidget {
           ),
         ),
         SizedBox(height: 10.h),
-        Wrap(
-          spacing: 8.w,
-          runSpacing: 6.h,
-          children: tags,
-        ),
+        Wrap(spacing: 8.w, runSpacing: 6.h, children: tags),
         SizedBox(height: 16.h),
         Text(
-    
           l10n.currencyFormat(product.finalPrice.toStringAsFixed(0)),
           style: context.textTheme.headlineLarge!.copyWith(
             color: AppColors.primary,
@@ -70,7 +64,6 @@ class ProductInfoSection extends StatelessWidget {
           Row(
             children: [
               Text(
-               
                 l10n.currencyFormat(product.price.toStringAsFixed(0)),
                 style: context.textTheme.bodyMedium!.copyWith(
                   color: AppColors.textSecondary(context),
@@ -79,7 +72,6 @@ class ProductInfoSection extends StatelessWidget {
               ),
               SizedBox(width: 8.w),
               Text(
-            
                 l10n.discountPercentLabel(product.discountPercent.toString()),
                 style: context.textTheme.labelSmall!.copyWith(
                   color: AppColors.red,
@@ -98,16 +90,20 @@ class ProductInfoSection extends StatelessWidget {
               height: 8.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: product.stockQuantity > 0 ? AppColors.green : AppColors.red,
+                color: product.stockQuantity > 0
+                    ? AppColors.green
+                    : AppColors.red,
               ),
             ),
             SizedBox(width: 6.w),
             Text(
               product.stockQuantity > 0
                   ? l10n.inStockWithCountLabel(product.stockQuantity)
-                  : l10n.outOfStockStatus, 
+                  : l10n.outOfStockStatus,
               style: context.textTheme.labelSmall!.copyWith(
-                color: product.stockQuantity > 0 ? AppColors.green : AppColors.red,
+                color: product.stockQuantity > 0
+                    ? AppColors.green
+                    : AppColors.red,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -117,7 +113,7 @@ class ProductInfoSection extends StatelessWidget {
         Divider(color: AppColors.border(context), height: 1),
         SizedBox(height: 14.h),
         Text(
-          l10n.descriptionLabel, 
+          l10n.descriptionLabel,
           style: context.textTheme.labelLarge!.copyWith(
             color: AppColors.primary,
           ),

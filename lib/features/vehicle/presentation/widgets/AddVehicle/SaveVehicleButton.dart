@@ -1,5 +1,4 @@
 // ignore_for_file: file_names
-import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +21,6 @@ class SaveVehicleButton extends StatelessWidget {
       text: strings.savevehicle,
       onPressed: onPressed,
       isLoading: isLoading,
-      backgroundColor: AppColors.accent,
       height: 54.h,
       borderRadius: 15.r,
       fontSize: 20.sp,

@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,7 +35,7 @@ class AiAssistantButton extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.25),
+                color: context.colorScheme.shadow.withValues(alpha: 0.25),
                 blurRadius: 10.r,
                 offset: Offset(0, 4.h),
               ),

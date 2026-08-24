@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -132,16 +133,17 @@ class _FuelLogCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
     final imageUrl = resolveMediaUrl(log.odometerImage);
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(14.r),
         border: Border.all(color: AppColors.carWashTeal, width: 1),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.06),
+            color: colorScheme.shadow.withValues(alpha: 0.06),
             blurRadius: 10.r,
             offset: Offset(0, 4.h),
           ),
@@ -161,33 +163,38 @@ class _FuelLogCard extends StatelessWidget {
                     children: [
                       Icon(
                         Icons.local_gas_station_outlined,
-                        color: AppColors.primary,
+                        color: colorScheme.primary,
                         size: 18.sp,
                       ),
                       SizedBox(width: 6.w),
                       Text(
-                        l10n.fuelAmountDetailsLabel(log.fuelType ?? '-', log.amount?.toString() ?? '0'),
+                        l10n.fuelAmountDetailsLabel(
+                          log.fuelType ?? '-',
+                          log.amount?.toString() ?? '0',
+                        ),
                         style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.black,
+                          color: colorScheme.onSurface,
                         ),
                       ),
                     ],
                   ),
                   SizedBox(height: 6.h),
-                 Text(
-  l10n.costWithParamLabel(log.cost?.toString() ?? '-'), 
-  style: TextStyle(
-    fontSize: 13.sp,
-    color: AppColors.textSecondary(context),
-  ),
-),
+                  Text(
+                    l10n.costWithParamLabel(log.cost?.toString() ?? '-'),
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      color: AppColors.textSecondary(context),
+                    ),
+                  ),
 
                   if (log.kmAtFill != null) ...[
                     SizedBox(height: 4.h),
                     Text(
-                      l10n.odometerReadingWithParamLabel(log.kmAtFill!.toString()),
+                      l10n.odometerReadingWithParamLabel(
+                        log.kmAtFill!.toString(),
+                      ),
                       style: TextStyle(
                         fontSize: 13.sp,
                         color: AppColors.textSecondary(context),
@@ -200,7 +207,9 @@ class _FuelLogCard extends StatelessWidget {
                       log.createdAt!,
                       style: TextStyle(
                         fontSize: 12.sp,
-                        color: AppColors.textSecondary(context).withValues(alpha: 0.7),
+                        color: AppColors.textSecondary(
+                          context,
+                        ).withValues(alpha: 0.7),
                       ),
                     ),
                   ],
@@ -222,7 +231,9 @@ class _FuelLogCard extends StatelessWidget {
                     color: AppColors.cardBackground(context),
                     child: Icon(
                       Icons.speed_outlined,
-                      color: AppColors.textSecondary(context).withValues(alpha: 0.6),
+                      color: AppColors.textSecondary(
+                        context,
+                      ).withValues(alpha: 0.6),
                     ),
                   ),
                 ),

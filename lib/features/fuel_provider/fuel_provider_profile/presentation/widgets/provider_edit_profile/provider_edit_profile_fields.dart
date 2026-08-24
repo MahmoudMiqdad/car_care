@@ -63,7 +63,7 @@ class ProviderEditProfileInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: AppColors.carWashTeal, width: 1.2),
       ),
@@ -80,7 +80,7 @@ class ProviderEditProfileInputField extends StatelessWidget {
                 Text(
                   label,
                   style: context.textTheme.titleSmall?.copyWith(
-                    color: AppColors.black,
+                    color: context.colorScheme.onSurface,
                     fontWeight: FontWeight.w700,
                     fontSize: 16.sp,
                     height: 1.35,

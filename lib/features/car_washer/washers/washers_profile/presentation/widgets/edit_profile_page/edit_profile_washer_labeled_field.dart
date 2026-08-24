@@ -1,4 +1,4 @@
-import 'package:car_care/core/extensions/theme_extension.dart'; // 🎯 استيراد امتداد الثيم لقراءة الخطوط الذكية
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/app_text_field_widget.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +30,11 @@ class EditProfileWasherLabeledField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Align(
-          alignment: AlignmentDirectional.centerStart, 
+          alignment: AlignmentDirectional.centerStart,
           child: Text(
             label,
-            style: context.textTheme.labelLarge!.copyWith( 
-              color: AppColors.black,
+            style: context.textTheme.labelLarge!.copyWith(
+              color: context.colorScheme.onSurface,
               fontWeight: FontWeight.w700,
             ),
           ),

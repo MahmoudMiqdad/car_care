@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
@@ -48,9 +49,10 @@ class SosTechnicianDetailsBody extends StatefulWidget {
   State<SosTechnicianDetailsBody> createState() =>
       _SosTechnicianDetailsBodyState();
 }
+
 class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
   bool _acceptedLocally = false;
-  bool _mapOpened = false; // ← منع فتح الخريطة مرتين
+  bool _mapOpened = false;
 
   String? get _status => widget.sos.status;
 
@@ -60,8 +62,6 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
   bool get _isFinished =>
       _status == 'completed' || _status == 'cancelled' || _status == 'canceled';
 
-  /// "ابدأ التوجه للعميل": a request that is still `accepted` must first be
-  /// moved to `in_progress` before any location may be shared.
   Future<void> _onNavigateTapped() async {
     if (_isFinished) return;
 
@@ -69,8 +69,8 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
       final cubit = context.read<TechnicianSosCubit>();
       await cubit.changeStatus(widget.sos.id!, 'in_progress');
       if (!mounted) return;
-      // changeStatus emits an error state when the backend refuses.
-      if (cubit.state is TechnicianError || cubit.state is TechnicianActionError) {
+      if (cubit.state is TechnicianError ||
+          cubit.state is TechnicianActionError) {
         return;
       }
     }
@@ -86,33 +86,34 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
   }
 
   void _openTechnicianMap({String? status}) {
-    if (_mapOpened) return; // ← منع التكرار
+    if (_mapOpened) return;
     _mapOpened = true;
     final l10n = context.l10n;
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        fullscreenDialog: true,
-        builder: (_) => BlocProvider(
-          create: (_) => getIt<ShareTechnicianLocationSosCubit>(),
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(l10n.sosNavigateToCustomer),
-              backgroundColor: AppColors.carWashTeal,
-              foregroundColor: AppColors.white,
-            ),
-            body: TechnicianMapWidget(
-              sosId: widget.sos.id!,
-              userLat: widget.sos.lat,
-              userLng: widget.sos.lng,
-              sosStatus: status ?? _status,
+    Navigator.of(context)
+        .push(
+          MaterialPageRoute(
+            fullscreenDialog: true,
+            builder: (_) => BlocProvider(
+              create: (_) => getIt<ShareTechnicianLocationSosCubit>(),
+              child: Scaffold(
+                appBar: AppBar(
+                  title: Text(l10n.sosNavigateToCustomer),
+                  backgroundColor: AppColors.carWashTeal,
+                  foregroundColor: AppColors.white,
+                ),
+                body: TechnicianMapWidget(
+                  sosId: widget.sos.id!,
+                  userLat: widget.sos.lat,
+                  userLng: widget.sos.lng,
+                  sosStatus: status ?? _status,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-    ).then((_) {
-      // ← لما يرجع من الخريطة reset الـ flag
-      if (mounted) setState(() => _mapOpened = false);
-    });
+        )
+        .then((_) {
+          if (mounted) setState(() => _mapOpened = false);
+        });
   }
 
   @override
@@ -121,17 +122,15 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
     return BlocListener<TechnicianSosCubit, TechnicianSosState>(
       listener: (context, state) {
         if (state is TechnicianError) {
-          final msg = state.message.isEmpty ||
-                  state.message.startsWith('Instance of')
+          final msg =
+              state.message.isEmpty || state.message.startsWith('Instance of')
               ? l10n.sosGenericActionError
               : state.message;
           AppSnackBar.error(context, msg);
         }
-        // Accept/status/cancel failed — the page keeps showing the last
-        // loaded SOS details, so only a snackbar reports the failure here.
         if (state is TechnicianActionError) {
-          final msg = state.message.isEmpty ||
-                  state.message.startsWith('Instance of')
+          final msg =
+              state.message.isEmpty || state.message.startsWith('Instance of')
               ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
               : state.message;
           AppSnackBar.error(context, msg);
@@ -148,7 +147,6 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
                 : l10n.sosStatusUpdated,
           );
         }
-        // بعد إلغاء الاستجابة يرجع الطلب مفتوحاً ونغادر صفحة التفاصيل
         if (state is TechnicianResponseCancelled) {
           AppSnackBar.success(context, state.message);
           context.safePopOrGo(Routes.technician_sos_requests);
@@ -178,7 +176,6 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
               ),
               SizedBox(height: 14.h),
 
-              // خريطة موقع العميل — التوجه متاح فقط قبل إنهاء/إلغاء الطلب
               if (!_isFinished) ...[
                 _LocationPreviewCard(
                   sosId: widget.sos.id!,
@@ -190,10 +187,10 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
                 SizedBox(height: 22.h),
               ],
 
-              // الأزرار حسب الحالة الحقيقية
               BlocBuilder<TechnicianSosCubit, TechnicianSosState>(
                 builder: (context, state) {
-                  final isBusy = state is TechnicianActionLoading &&
+                  final isBusy =
+                      state is TechnicianActionLoading &&
                       state.sosId == widget.sos.id;
 
                   if (_status == 'open' && !_acceptedLocally) {
@@ -201,8 +198,8 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
                       onPressed: isBusy
                           ? null
                           : () => context
-                              .read<TechnicianSosCubit>()
-                              .acceptRequest(widget.sos.id!),
+                                .read<TechnicianSosCubit>()
+                                .acceptRequest(widget.sos.id!),
                       text: isBusy
                           ? l10n.sosAcceptingInProgress
                           : l10n.sosAcceptRequest,
@@ -224,16 +221,16 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
                         onPressed: isBusy
                             ? null
                             : () => context
-                                .read<TechnicianSosCubit>()
-                                .changeStatus(
-                                  widget.sos.id!,
-                                  isAccepted ? 'in_progress' : 'completed',
-                                ),
+                                  .read<TechnicianSosCubit>()
+                                  .changeStatus(
+                                    widget.sos.id!,
+                                    isAccepted ? 'in_progress' : 'completed',
+                                  ),
                         text: isBusy
                             ? l10n.sosProcessingInProgress
                             : (isAccepted
-                                ? l10n.sosStartProgress
-                                : l10n.sosFinishRequest),
+                                  ? l10n.sosStartProgress
+                                  : l10n.sosFinishRequest),
                         backgroundColor: AppColors.carWashTeal,
                         textColor: AppColors.white,
                         borderRadius: 14.r,
@@ -262,7 +259,7 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
     );
   }
 }
-// ─── معاينة الخريطة الصغيرة ───────────────────────────────────────────────
+
 class _LocationPreviewCard extends StatelessWidget {
   const _LocationPreviewCard({
     required this.sosId,
@@ -295,7 +292,6 @@ class _LocationPreviewCard extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            // ─── الخريطة ─────────────────────────────────────────
             IgnorePointer(
               child: FlutterMap(
                 options: MapOptions(
@@ -330,7 +326,6 @@ class _LocationPreviewCard extends StatelessWidget {
               ),
             ),
 
-            // ─── بعد القبول: زر التوجه ──────────────────────────
             if (isAccepted)
               Positioned(
                 bottom: 12,
@@ -348,7 +343,7 @@ class _LocationPreviewCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.black.withOpacity(0.2),
+                          color: context.colorScheme.shadow.withOpacity(0.2),
                           blurRadius: 6,
                         ),
                       ],
@@ -356,7 +351,11 @@ class _LocationPreviewCard extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.navigation, color: AppColors.white, size: 18),
+                        Icon(
+                          Icons.navigation,
+                          color: AppColors.white,
+                          size: 18,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           l10n.sosStartNavigateToCustomer,
@@ -372,7 +371,6 @@ class _LocationPreviewCard extends StatelessWidget {
                 ),
               ),
 
-            // ─── قبل القبول: رسالة ──────────────────────────────
             if (!isAccepted)
               Positioned(
                 bottom: 12,

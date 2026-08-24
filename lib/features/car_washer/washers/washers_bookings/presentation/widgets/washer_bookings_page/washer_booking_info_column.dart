@@ -1,4 +1,4 @@
-import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +66,7 @@ class WasherBookingInfoLine extends StatelessWidget {
       text: TextSpan(
         style: TextStyle(
           fontSize: 18.sp,
-          color: AppColors.black,
+          color: context.colorScheme.onSurface,
           fontWeight: FontWeight.w900,
           height: 1.5,
         ),

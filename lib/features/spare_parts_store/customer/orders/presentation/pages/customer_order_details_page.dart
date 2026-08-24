@@ -1,4 +1,3 @@
-// شاشة تفاصيل طلب قطع الغيار لعميل
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
@@ -34,12 +33,8 @@ class CustomerOrderDetailsPage extends StatefulWidget {
 class _CustomerOrderDetailsPageState extends State<CustomerOrderDetailsPage> {
   late final OrderDetailsCubit _cubit;
 
-  // Staggered entrance flags for each card section
   bool _s0 = false, _s1 = false, _s2 = false, _s3 = false, _s4 = false;
 
-  /// True فقط بعد نجاح إلغاء فعلي أثناء هذه الزيارة — تُعاد لقائمة الطلبات
-  /// عند الرجوع كي تُحدَّث مرة واحدة فقط عند تغيّر حقيقي، وصفر Refresh عند
-  /// مجرد فتح التفاصيل والرجوع دون أي إجراء.
   bool _mutated = false;
   bool _wasCancelling = false;
 
@@ -207,7 +202,6 @@ class _CustomerOrderDetailsPageState extends State<CustomerOrderDetailsPage> {
   }
 }
 
-// كارد رئيسي بخلفية primary يعطي تأثير Hero واضح لأول عنصر في الصفحة
 class _HeroHeaderCard extends StatelessWidget {
   const _HeroHeaderCard({required this.order});
 
@@ -216,14 +210,15 @@ class _HeroHeaderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
     return Container(
       padding: EdgeInsets.all(18.w),
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: colorScheme.primary,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.25),
+            color: colorScheme.primary.withValues(alpha: 0.25),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -241,14 +236,14 @@ class _HeroHeaderCard extends StatelessWidget {
                     Text(
                       l10n.orderNumberLabel.toString(),
                       style: context.textTheme.labelSmall!.copyWith(
-                        color: AppColors.white.withOpacity(0.7),
+                        color: colorScheme.onPrimary.withValues(alpha: 0.7),
                       ),
                     ),
                     SizedBox(height: 2.h),
                     Text(
                       '#${order.id}',
                       style: context.textTheme.headlineLarge!.copyWith(
-                        color: AppColors.white,
+                        color: colorScheme.onPrimary,
                         fontWeight: FontWeight.w900,
                       ),
                     ),
@@ -276,12 +271,12 @@ class _HeroHeaderCard extends StatelessWidget {
                       child: Text(
                         order.statusText,
                         style: context.textTheme.labelSmall!.copyWith(
-                          color: AppColors.white,
+                          color: colorScheme.onPrimary,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                    ), // close Container (child of TweenAnimationBuilder)
-                  ), // close TweenAnimationBuilder
+                    ),
+                  ),
                   if (order.canCancel) ...[
                     SizedBox(height: 6.h),
                     Container(
@@ -290,13 +285,13 @@ class _HeroHeaderCard extends StatelessWidget {
                         vertical: 3.h,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.white.withOpacity(0.15),
+                        color: colorScheme.onPrimary.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(20.r),
                       ),
                       child: Text(
                         l10n.cancellableLabel,
                         style: context.textTheme.labelSmall!.copyWith(
-                          color: AppColors.white.withOpacity(0.9),
+                          color: colorScheme.onPrimary.withValues(alpha: 0.9),
                         ),
                       ),
                     ),
@@ -312,13 +307,13 @@ class _HeroHeaderCard extends StatelessWidget {
                 Icon(
                   Icons.access_time_outlined,
                   size: 13.sp,
-                  color: AppColors.white.withOpacity(0.6),
+                  color: colorScheme.onPrimary.withValues(alpha: 0.6),
                 ),
                 SizedBox(width: 4.w),
                 Text(
                   order.createdAt!.toLocal().toString().substring(0, 16),
                   style: context.textTheme.labelSmall!.copyWith(
-                    color: AppColors.white.withOpacity(0.7),
+                    color: colorScheme.onPrimary.withValues(alpha: 0.7),
                   ),
                 ),
               ],
@@ -346,7 +341,7 @@ class _ShopCard extends StatelessWidget {
       child: _DetailRow(
         icon: Icons.store_outlined,
         text: shop.name,
-        textStyle:context.textTheme.labelLarge!.copyWith(
+        textStyle: context.textTheme.labelLarge!.copyWith(
           color: AppColors.textPrimary(context),
           fontWeight: FontWeight.w700,
         ),
@@ -404,12 +399,12 @@ class _OrderItemRow extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
           decoration: BoxDecoration(
-            color: AppColors.primary.withOpacity(0.10),
+            color: AppColors.primary.withValues(alpha: 0.10),
             borderRadius: BorderRadius.circular(20.r),
           ),
           child: Text(
             '×${item.quantity}',
-            style:context.textTheme.labelSmall!.copyWith(
+            style: context.textTheme.labelSmall!.copyWith(
               color: AppColors.primary,
               fontWeight: FontWeight.w700,
             ),
@@ -446,7 +441,7 @@ class _DeliveryCard extends StatelessWidget {
           if (order.deliveryAddressNote != null)
             Text(
               order.deliveryAddressNote!,
-              style:context.textTheme.bodyMedium!.copyWith(
+              style: context.textTheme.bodyMedium!.copyWith(
                 color: AppColors.textPrimary(context),
               ),
             ),
@@ -456,7 +451,7 @@ class _DeliveryCard extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
               decoration: BoxDecoration(
-                color: AppColors.secondary,
+                color: context.colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(8.r),
               ),
               child: Row(
@@ -494,14 +489,15 @@ class _TotalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withOpacity(0.06),
+            color: colorScheme.shadow.withValues(alpha: 0.06),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -527,7 +523,7 @@ class _TotalCard extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
-              style:context.textTheme.headlineMedium!.copyWith(
+              style: context.textTheme.headlineMedium!.copyWith(
                 color: AppColors.accent,
                 fontWeight: FontWeight.w900,
               ),
@@ -547,13 +543,12 @@ class _TrackDeliveryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
         onPressed: onTrack,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.white,
           padding: EdgeInsets.symmetric(vertical: 12.h),
           elevation: 0,
           shape: RoundedRectangleBorder(
@@ -564,7 +559,7 @@ class _TrackDeliveryButton extends StatelessWidget {
         label: Text(
           l10n.trackDeliveryButton,
           style: context.textTheme.labelLarge!.copyWith(
-            color: AppColors.white,
+            color: colorScheme.onPrimary,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -573,7 +568,6 @@ class _TrackDeliveryButton extends StatelessWidget {
   }
 }
 
-// قالب موحّد للكروت الداخلية: عنوان + أيقونة + محتوى — يقلّل تكرار الكود ويوحّد المظهر
 class _SectionCard extends StatelessWidget {
   const _SectionCard({
     required this.icon,
@@ -589,14 +583,15 @@ class _SectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(14.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withOpacity(0.04),
+            color: colorScheme.shadow.withValues(alpha: 0.04),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -611,7 +606,7 @@ class _SectionCard extends StatelessWidget {
               SizedBox(width: 6.w),
               Text(
                 title,
-                style:context.textTheme.labelLarge!.copyWith(
+                style: context.textTheme.labelLarge!.copyWith(
                   color: color,
                   fontWeight: FontWeight.w700,
                 ),
@@ -667,6 +662,7 @@ class _CancelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
     return SizedBox(
       width: double.infinity,
       child: isCancelling
@@ -676,15 +672,17 @@ class _CancelButton extends StatelessWidget {
                 height: 24.sp,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  color: AppColors.red,
+                  color: colorScheme.error,
                 ),
               ),
             )
           : OutlinedButton.icon(
               onPressed: onCancel,
               style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.red,
-                side: BorderSide(color: AppColors.red.withOpacity(0.5)),
+                foregroundColor: colorScheme.error,
+                side: BorderSide(
+                  color: colorScheme.error.withValues(alpha: 0.5),
+                ),
                 padding: EdgeInsets.symmetric(vertical: 12.h),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.r),
@@ -694,7 +692,7 @@ class _CancelButton extends StatelessWidget {
               label: Text(
                 l10n.cancelOrderButton,
                 style: context.textTheme.labelLarge!.copyWith(
-                  color: AppColors.red,
+                  color: colorScheme.error,
                   fontWeight: FontWeight.w700,
                 ),
               ),

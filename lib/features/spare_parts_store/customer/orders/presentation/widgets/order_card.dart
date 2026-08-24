@@ -1,10 +1,8 @@
-
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-
 import 'package:car_care/features/spare_parts_store/customer/checkout/domain/entities/order_entity.dart';
 import 'package:car_care/features/spare_parts_store/shared/presentation/widgets/order_status_badge.dart';
-import 'package:car_care/l10n.dart'; 
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -25,11 +23,11 @@ class OrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
- 
+    final colorScheme = context.colorScheme;
 
     final firstItemName = order.items.isNotEmpty
         ? order.items.first.product.name
-        : l10n.noProductsAvailable; 
+        : l10n.noProductsAvailable;
     final itemCount = order.items.length;
     final formattedPrice = order.totalPrice.toStringAsFixed(0);
 
@@ -43,7 +41,7 @@ class OrderCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(14.r),
           boxShadow: [
             BoxShadow(
-              color: AppColors.black.withValues(alpha: 0.04), 
+              color: colorScheme.shadow.withValues(alpha: 0.04),
               blurRadius: 6,
               offset: const Offset(0, 2),
             ),
@@ -113,7 +111,6 @@ class OrderCard extends StatelessWidget {
                       if (itemCount > 1) ...[
                         SizedBox(height: 2.h),
                         Text(
-                       
                           l10n.plusMoreProductsLabel(itemCount - 1),
                           style: context.textTheme.labelSmall!.copyWith(
                             color: AppColors.textSecondary(context),
@@ -155,16 +152,16 @@ class OrderCard extends StatelessWidget {
                           height: 20.sp,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: AppColors.red,
+                            color: colorScheme.error,
                           ),
                         ),
                       )
                     : OutlinedButton.icon(
                         onPressed: onCancel,
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: AppColors.red,
+                          foregroundColor: colorScheme.error,
                           side: BorderSide(
-                            color: AppColors.red.withValues(alpha: 0.5),
+                            color: colorScheme.error.withValues(alpha: 0.5),
                           ),
                           padding: EdgeInsets.symmetric(vertical: 8.h),
                           shape: RoundedRectangleBorder(
@@ -175,7 +172,7 @@ class OrderCard extends StatelessWidget {
                         label: Text(
                           l10n.cancelRequestButton,
                           style: context.textTheme.labelSmall!.copyWith(
-                            color: AppColors.red,
+                            color: colorScheme.error,
                             fontWeight: FontWeight.w700,
                           ),
                         ),

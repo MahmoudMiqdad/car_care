@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,6 +34,10 @@ class SosRequestStatusBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool outline = style == SosRequestStatusBadgeStyle.outlineOnWhite;
     final bool isError = style == SosRequestStatusBadgeStyle.softError;
+    final colorScheme = context.colorScheme;
+    final semanticColor = isError
+        ? colorScheme.error
+        : AppColors.successColor(context);
     return Container(
       width: _SosRequestStatusBadgeLayout.width,
       height: _SosRequestStatusBadgeLayout.height,
@@ -40,17 +45,11 @@ class SosRequestStatusBadge extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 6.w),
       decoration: BoxDecoration(
         color: outline
-            ? AppColors.white
-            : isError
-            ? AppColors.errorBannerSurface
-            : AppColors.serviceTierSelectedBackground,
+            ? colorScheme.surfaceContainer
+            : semanticColor.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(6.r),
         border: Border.all(
-          color: outline
-              ? AppColors.carWashTeal
-              : isError
-              ? AppColors.red
-              : AppColors.green,
+          color: outline ? AppColors.carWashTeal : semanticColor,
           width: 1,
         ),
       ),
@@ -63,7 +62,7 @@ class SosRequestStatusBadge extends StatelessWidget {
           style: TextStyle(
             fontSize: 12.sp,
             fontWeight: FontWeight.w600,
-            color: AppColors.black,
+            color: outline ? colorScheme.onSurface : semanticColor,
           ),
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,14 +24,15 @@ class VehicleInfoSurface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
     return Container(
       padding: padding,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(borderRadius),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: shadowOpacity),
+            color: colorScheme.shadow.withValues(alpha: shadowOpacity),
             blurRadius: shadowBlur ?? AppConstants.vehicleInfoSurfaceShadowBlur,
             offset: shadowOffset ?? Offset(0, 2.h),
           ),
@@ -40,6 +42,7 @@ class VehicleInfoSurface extends StatelessWidget {
     );
   }
 }
+
 class VehicleInfoPill extends StatelessWidget {
   const VehicleInfoPill({
     super.key,
@@ -74,7 +77,6 @@ class VehicleInfoPill extends StatelessWidget {
             )
           else if (icon != null)
             Icon(icon, color: iconColor, size: 25.sp),
-            
           SizedBox(width: 8.w),
           Flexible(
             child: Text(
@@ -82,7 +84,7 @@ class VehicleInfoPill extends StatelessWidget {
               style: TextStyle(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w900,
-                color: AppColors.black,
+                color: context.colorScheme.onSurface,
               ),
               overflow: TextOverflow.ellipsis,
             ),

@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
-
 import 'package:car_care/features/fuel_provider/share_location_fuel/presentation/cubit/share_location_fuel_cubit.dart';
 import 'package:car_care/features/fuel_provider/share_location_fuel/presentation/cubit/share_location_fuel_state.dart';
 import 'package:car_care/l10n.dart';
@@ -12,10 +12,12 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
-final _osrmDio = Dio(BaseOptions(
-  connectTimeout: const Duration(seconds: 10),
-  receiveTimeout: const Duration(seconds: 10),
-));
+final _osrmDio = Dio(
+  BaseOptions(
+    connectTimeout: const Duration(seconds: 10),
+    receiveTimeout: const Duration(seconds: 10),
+  ),
+);
 
 class FuelProviderMapWidget extends StatefulWidget {
   final int orderId;
@@ -73,10 +75,7 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
 
     if (!widget.canShareLocation) {
       if (mounted) {
-        AppSnackBar.error(
-          context,
-          l10n.cannotShareLocationOrderFinished,
-        );
+        AppSnackBar.error(context, l10n.cannotShareLocationOrderFinished);
       }
       return;
     }
@@ -100,10 +99,7 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
     final serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       if (mounted) {
-        AppSnackBar.error(
-          context,
-          l10n.enableLocationServiceMessage,
-        );
+        AppSnackBar.error(context, l10n.enableLocationServiceMessage);
       }
       return false;
     }
@@ -115,20 +111,14 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
 
     if (permission == LocationPermission.deniedForever) {
       if (mounted) {
-        AppSnackBar.error(
-          context,
-          l10n.locationPermissionDeniedForever,
-        );
+        AppSnackBar.error(context, l10n.locationPermissionDeniedForever);
       }
       return false;
     }
 
     if (permission == LocationPermission.denied) {
       if (mounted) {
-        AppSnackBar.error(
-          context,
-          l10n.locationPermissionRequired,
-        );
+        AppSnackBar.error(context, l10n.locationPermissionRequired);
       }
       return false;
     }
@@ -160,16 +150,13 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
       _mapController.move(myLatLng, _mapController.camera.zoom);
 
       context.read<ShareFuelProviderLocationCubit>().shareLocation(
-            orderId: widget.orderId,
-            lat: position.latitude,
-            lng: position.longitude,
-          );
+        orderId: widget.orderId,
+        lat: position.latitude,
+        lng: position.longitude,
+      );
 
       if (widget.userLat != null && widget.userLng != null) {
-        await _fetchRoute(
-          myLatLng,
-          LatLng(widget.userLat!, widget.userLng!),
-        );
+        await _fetchRoute(myLatLng, LatLng(widget.userLat!, widget.userLng!));
       }
     } catch (e) {
       debugPrint('❌ Location error: $e');
@@ -181,8 +168,11 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
 
   Future<void> _fetchRoute(LatLng from, LatLng to) async {
     if (_lastRouteFetch != null) {
-      final distance =
-          const Distance().as(LengthUnit.Meter, _lastRouteFetch!, from);
+      final distance = const Distance().as(
+        LengthUnit.Meter,
+        _lastRouteFetch!,
+        from,
+      );
       if (distance < 20) return;
     }
 
@@ -190,7 +180,8 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
     if (mounted) setState(() => _loadingRoute = true);
 
     try {
-      final url = 'https://router.project-osrm.org/route/v1/driving/'
+      final url =
+          'https://router.project-osrm.org/route/v1/driving/'
           '${from.longitude},${from.latitude};'
           '${to.longitude},${to.latitude}'
           '?overview=full&geometries=geojson';
@@ -203,10 +194,10 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
           final geometry = routes[0]['geometry'] as Map<String, dynamic>;
           final coordinates = geometry['coordinates'] as List<dynamic>;
           final points = coordinates
-              .map((c) => LatLng(
-                    (c[1] as num).toDouble(),
-                    (c[0] as num).toDouble(),
-                  ))
+              .map(
+                (c) =>
+                    LatLng((c[1] as num).toDouble(), (c[0] as num).toDouble()),
+              )
               .toList();
           if (mounted) {
             setState(() {
@@ -258,19 +249,18 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
 
     final center = _myLocation ?? userLocation ?? const LatLng(33.3, 44.4);
 
-    return BlocListener<ShareFuelProviderLocationCubit,
-        ShareFuelProviderLocationState>(
+    return BlocListener<
+      ShareFuelProviderLocationCubit,
+      ShareFuelProviderLocationState
+    >(
       listener: (context, state) {
         if (state is ShareFuelProviderLocationError) {
           final l10n = context.l10n;
-          final msg = state.message.isEmpty ||
-                  state.message.startsWith('Instance of')
+          final msg =
+              state.message.isEmpty || state.message.startsWith('Instance of')
               ? l10n.genericErrorTryAgain
               : state.message;
-          AppSnackBar.error(
-            context,
-            '${l10n.errorSendingLocation}: $msg',
-          );
+          AppSnackBar.error(context, '${l10n.errorSendingLocation}: $msg');
         }
       },
       child: Stack(
@@ -350,7 +340,7 @@ class _FuelProviderMapWidgetState extends State<FuelProviderMapWidget> {
                   FloatingActionButton.small(
                     heroTag: 'fit_route_provider',
                     onPressed: _fitRoute,
-                    backgroundColor: AppColors.white,
+                    backgroundColor: context.colorScheme.surfaceContainer,
                     child: Icon(Icons.route, color: AppColors.carWashTeal),
                   ),
                 const SizedBox(height: 8),
@@ -412,7 +402,7 @@ class _DestinationMarker extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -437,9 +427,10 @@ class _ProviderSelfMarkerState extends State<_ProviderSelfMarker>
       duration: const Duration(milliseconds: 800),
       vsync: this,
     )..repeat(reverse: true);
-    _scaleAnim = Tween<double>(begin: 0.92, end: 1.08).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _scaleAnim = Tween<double>(
+      begin: 0.92,
+      end: 1.08,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -470,8 +461,11 @@ class _ProviderSelfMarkerState extends State<_ProviderSelfMarker>
                 ),
               ],
             ),
-            child: Icon(Icons.local_gas_station,
-                color: AppColors.white, size: 22),
+            child: Icon(
+              Icons.local_gas_station,
+              color: AppColors.white,
+              size: 22,
+            ),
           ),
           const SizedBox(height: 2),
           Container(
@@ -508,8 +502,11 @@ class _StatusCard extends StatelessWidget {
     double totalMeters = 0;
     final dist = Distance();
     for (int i = 0; i < routePoints.length - 1; i++) {
-      totalMeters +=
-          dist.as(LengthUnit.Meter, routePoints[i], routePoints[i + 1]);
+      totalMeters += dist.as(
+        LengthUnit.Meter,
+        routePoints[i],
+        routePoints[i + 1],
+      );
     }
     if (totalMeters < 1000) {
       return '${totalMeters.toStringAsFixed(0)} ${l10n.meterUnit}';
@@ -533,7 +530,9 @@ class _StatusCard extends StatelessWidget {
               width: 10,
               height: 10,
               decoration: BoxDecoration(
-                color: isSharing ? AppColors.green : AppColors.gray,
+                color: isSharing
+                    ? AppColors.green
+                    : context.colorScheme.outlineVariant,
                 shape: BoxShape.circle,
               ),
             ),
@@ -551,15 +550,17 @@ class _StatusCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: isSharing
                           ? AppColors.green
-                          : AppColors.gray,
+                          : context.colorScheme.onSurfaceVariant,
                       fontSize: 13,
                     ),
                   ),
                   if (isLoadingRoute)
                     Text(
                       l10n.calculatingRoute,
-                      style:
-                          TextStyle(fontSize: 11, color: AppColors.gray),
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: context.colorScheme.onSurfaceVariant,
+                      ),
                     )
                   else if (distance.isNotEmpty)
                     Text(
@@ -573,8 +574,10 @@ class _StatusCard extends StatelessWidget {
                 ],
               ),
             ),
-            BlocBuilder<ShareFuelProviderLocationCubit,
-                ShareFuelProviderLocationState>(
+            BlocBuilder<
+              ShareFuelProviderLocationCubit,
+              ShareFuelProviderLocationState
+            >(
               builder: (context, state) {
                 if (state is ShareFuelProviderLocationLoading) {
                   return SizedBox(
@@ -587,8 +590,11 @@ class _StatusCard extends StatelessWidget {
                   );
                 }
                 if (state is ShareFuelProviderLocationSuccess) {
-                  return Icon(Icons.cloud_done,
-                      color: AppColors.green, size: 18);
+                  return Icon(
+                    Icons.cloud_done,
+                    color: AppColors.green,
+                    size: 18,
+                  );
                 }
                 return const SizedBox.shrink();
               },

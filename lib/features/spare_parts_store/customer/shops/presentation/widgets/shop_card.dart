@@ -1,4 +1,3 @@
-// بطاقة متجر تُستخدم داخل شاشة قائمة المتاجر
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
@@ -19,7 +18,7 @@ class ShopCard extends StatelessWidget {
     final previewTypes = shop.businessTypes.take(2).toList();
 
     return Material(
-      color: AppColors.white,
+      color: context.colorScheme.surfaceContainer,
       borderRadius: BorderRadius.circular(14.r),
       child: InkWell(
         onTap: onVisit,

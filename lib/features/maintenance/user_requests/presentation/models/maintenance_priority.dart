@@ -1,23 +1,20 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/l10n.dart'; 
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 
-enum MaintenancePriority {
-  low,
-  medium,
-  high,
-}
+enum MaintenancePriority { low, medium, high }
 
 extension MaintenancePriorityLocalization on MaintenancePriority {
   String localizedLabel(BuildContext context) {
     final l10n = context.l10n;
     switch (this) {
-      case MaintenancePriority.low: 
-        return l10n.priorityLow; 
-      case MaintenancePriority.medium: 
-        return l10n.priorityMedium; 
-      case MaintenancePriority.high: 
-        return l10n.priorityHigh; 
+      case MaintenancePriority.low:
+        return l10n.priorityLow;
+      case MaintenancePriority.medium:
+        return l10n.priorityMedium;
+      case MaintenancePriority.high:
+        return l10n.priorityHigh;
     }
   }
 }
@@ -39,27 +36,27 @@ class PriorityChipStyle {
   static const double _defaultBorder = 1.2;
   static const double _selectedBorder = 2.0;
 
-  // أضفنا BuildContext context هنا كمعامل أول للدالة
   static PriorityChipStyle forState({
-    required BuildContext context, 
+    required BuildContext context,
     required MaintenancePriority value,
     required MaintenancePriority selected,
   }) {
     final isSelected = value == selected;
+    final colorScheme = context.colorScheme;
 
     if (!isSelected) {
       return PriorityChipStyle(
-        background: AppColors.white,
-        borderColor: AppColors.border(context), // سيعمل الآن بشكل صحيح تماماً
+        background: colorScheme.surfaceContainer,
+        borderColor: AppColors.border(context),
         borderWidth: _defaultBorder,
-        textColor: AppColors.black,
+        textColor: colorScheme.onSurface,
       );
     }
 
     switch (value) {
       case MaintenancePriority.low:
         return PriorityChipStyle(
-          background: AppColors.green.withValues(alpha: 0.12), 
+          background: AppColors.green.withValues(alpha: 0.12),
           borderColor: AppColors.green,
           borderWidth: _selectedBorder,
           textColor: AppColors.green,
@@ -67,7 +64,7 @@ class PriorityChipStyle {
       case MaintenancePriority.medium:
         return PriorityChipStyle(
           background: AppColors.accent.withValues(alpha: 0.12),
-          borderColor: AppColors.accent, 
+          borderColor: AppColors.accent,
           borderWidth: _selectedBorder,
           textColor: AppColors.accent,
         );

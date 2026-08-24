@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:async';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 
@@ -307,7 +308,7 @@ class _TechnicianMapWidgetState extends State<TechnicianMapWidget> {
                   FloatingActionButton.small(
                     heroTag: 'fit_route_tech',
                     onPressed: _fitRoute,
-                    backgroundColor: AppColors.white,
+                    backgroundColor: context.colorScheme.surfaceContainer,
                     child: Icon(Icons.route, color: AppColors.carWashTeal),
                   ),
                 const SizedBox(height: 8),
@@ -501,7 +502,9 @@ class _StatusCard extends StatelessWidget {
               width: 10,
               height: 10,
               decoration: BoxDecoration(
-                color: isSharing ? AppColors.green : AppColors.grey,
+                color: isSharing
+                    ? AppColors.green
+                    : context.colorScheme.outlineVariant,
                 shape: BoxShape.circle,
               ),
             ),

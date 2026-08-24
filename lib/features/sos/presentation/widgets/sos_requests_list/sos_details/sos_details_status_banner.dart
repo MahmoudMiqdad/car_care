@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_request_status_badge.dart';
 import 'package:flutter/material.dart';
@@ -17,15 +18,15 @@ class SosDetailsStatusBanner extends StatelessWidget {
     final isError = style == SosRequestStatusBadgeStyle.softError;
     final isNeutral = style == SosRequestStatusBadgeStyle.outlineOnWhite;
     final color = isError
-        ? AppColors.red
+        ? context.colorScheme.error
         : isNeutral
         ? AppColors.carWashTeal
-        : AppColors.green;
+        : AppColors.successColor(context);
     final surface = isError
-        ? AppColors.errorBannerSurface
+        ? color.withValues(alpha: 0.12)
         : isNeutral
         ? AppColors.cardBackground(context)
-        : AppColors.serviceTierSelectedBackground;
+        : color.withValues(alpha: 0.12);
     final icon = isError
         ? Icons.cancel_outlined
         : isNeutral

@@ -1,4 +1,3 @@
-
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
@@ -35,7 +34,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
   late final TextEditingController _addressNoteController;
   LatLng? _selectedLocation;
 
-  // Staggered entrance flags
   bool _s0 = false, _s1 = false, _s2 = false, _s3 = false;
 
   bool get _canSubmit =>
@@ -50,14 +48,18 @@ class _CheckoutPageState extends State<CheckoutPage> {
     _addressNoteController.addListener(() => setState(() {}));
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 60),
-          () { if (mounted) setState(() => _s0 = true); });
-      Future.delayed(const Duration(milliseconds: 160),
-          () { if (mounted) setState(() => _s1 = true); });
-      Future.delayed(const Duration(milliseconds: 260),
-          () { if (mounted) setState(() => _s2 = true); });
-      Future.delayed(const Duration(milliseconds: 340),
-          () { if (mounted) setState(() => _s3 = true); });
+      Future.delayed(const Duration(milliseconds: 60), () {
+        if (mounted) setState(() => _s0 = true);
+      });
+      Future.delayed(const Duration(milliseconds: 160), () {
+        if (mounted) setState(() => _s1 = true);
+      });
+      Future.delayed(const Duration(milliseconds: 260), () {
+        if (mounted) setState(() => _s2 = true);
+      });
+      Future.delayed(const Duration(milliseconds: 340), () {
+        if (mounted) setState(() => _s3 = true);
+      });
     });
   }
 
@@ -85,7 +87,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
     );
   }
 
-  Widget _fadeSlide({required bool visible, required Widget child, int ms = 380}) {
+  Widget _fadeSlide({
+    required bool visible,
+    required Widget child,
+    int ms = 380,
+  }) {
     return AnimatedOpacity(
       duration: Duration(milliseconds: ms),
       curve: Curves.easeOut,
@@ -179,15 +185,16 @@ class _OrderSummaryRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
       decoration: BoxDecoration(
-        color: AppColors.secondary,
+        color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withOpacity(0.04),
+            color: colorScheme.shadow.withValues(alpha: 0.04),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -198,12 +205,15 @@ class _OrderSummaryRow extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.receipt_long_outlined,
-                  color: AppColors.primary, size: 16.sp),
+              Icon(
+                Icons.receipt_long_outlined,
+                color: AppColors.primary,
+                size: 16.sp,
+              ),
               SizedBox(width: 6.w),
               Text(
                 l10n.orderTotalLabel,
-                style:context.textTheme.labelLarge!.copyWith(
+                style: context.textTheme.labelLarge!.copyWith(
                   color: AppColors.primary,
                 ),
               ),
@@ -211,7 +221,7 @@ class _OrderSummaryRow extends StatelessWidget {
           ),
           Text(
             '${totalPrice.toStringAsFixed(0)} ${l10n.currencySyp}',
-            style:context.textTheme.headlineMedium!.copyWith(
+            style: context.textTheme.headlineMedium!.copyWith(
               color: AppColors.primary,
               fontWeight: FontWeight.w800,
             ),
@@ -260,7 +270,7 @@ class _SubmitButton extends StatelessWidget {
               Expanded(
                 child: Text(
                   msg,
-                  style:context.textTheme.labelSmall!.copyWith(
+                  style: context.textTheme.labelSmall!.copyWith(
                     color: AppColors.warning,
                   ),
                 ),
@@ -269,14 +279,16 @@ class _SubmitButton extends StatelessWidget {
           ),
           SizedBox(height: 8.h),
         ],
-        // لون الزر يتغيّر بسلاسة عند التحول بين enabled و disabled
         TweenAnimationBuilder<double>(
           tween: Tween<double>(begin: 0, end: canSubmit ? 1 : 0),
           duration: const Duration(milliseconds: 280),
           curve: Curves.easeOut,
           builder: (context, t, _) {
-            final bgColor =
-                Color.lerp(AppColors.border(context), AppColors.accent, t)!;
+            final bgColor = Color.lerp(
+              AppColors.border(context),
+              AppColors.accent,
+              t,
+            )!;
             return ElevatedButton(
               onPressed: canSubmit ? onTap : null,
               style: ElevatedButton.styleFrom(

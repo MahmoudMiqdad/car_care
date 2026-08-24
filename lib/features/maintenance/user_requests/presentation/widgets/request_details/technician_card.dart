@@ -1,9 +1,10 @@
 import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/maintenance/user_requests/domain/entities/maintenance_request_details_entity.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_info_row.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_section_card.dart';
-import 'package:car_care/l10n.dart'; 
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,11 +22,11 @@ class TechnicianCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n; 
+    final l10n = context.l10n;
     final location = technician.currentLocation;
 
     return SosDetailsSectionCard(
-      title: l10n.technicianLabel, 
+      title: l10n.technicianLabel,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -34,34 +35,34 @@ class TechnicianCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.w700,
-              color: AppColors.black,
+              color: context.colorScheme.onSurface,
             ),
           ),
           SizedBox(height: 8.h),
           SosDetailsInfoRow(
             iconAsset: AppAssets.iconPhoneCall,
-            label: l10n.profileWasherFieldPhone, 
+            label: l10n.profileWasherFieldPhone,
             value: technician.phone,
           ),
           SosDetailsInfoRow(
             iconAsset: AppAssets.technicianJobNotesIcon,
-            label: l10n.specializationLabel, 
+            label: l10n.specializationLabel,
             value: technician.specialization,
           ),
           SosDetailsInfoRow(
             iconAsset: AppAssets.calendarIcon,
-            label: l10n.experienceYearsLabel, 
-        
+            label: l10n.experienceYearsLabel,
+
             value: l10n.durationInYears(technician.experienceYears),
           ),
           if (location != null) ...[
             SizedBox(height: 12.h),
             Text(
-              l10n.technicianLocationTitle, 
+              l10n.technicianLocationTitle,
               style: TextStyle(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w700,
-                color: AppColors.black,
+                color: context.colorScheme.onSurface,
               ),
             ),
             SizedBox(height: 8.h),
@@ -74,10 +75,7 @@ class TechnicianCard extends StatelessWidget {
 }
 
 class _TechnicianMapPreview extends StatelessWidget {
-  const _TechnicianMapPreview({
-    required this.location,
-    required this.onTap,
-  });
+  const _TechnicianMapPreview({required this.location, required this.onTap});
 
   final RequestCurrentLocationEntity location;
   final VoidCallback onTap;
@@ -126,13 +124,19 @@ class _TechnicianMapPreview extends StatelessWidget {
               ),
               Positioned(
                 bottom: 8.h,
-           
-                left: Directionality.of(context) == TextDirection.rtl ? null : 8.w,
-                right: Directionality.of(context) == TextDirection.rtl ? 8.w : null,
+
+                left: Directionality.of(context) == TextDirection.rtl
+                    ? null
+                    : 8.w,
+                right: Directionality.of(context) == TextDirection.rtl
+                    ? 8.w
+                    : null,
                 child: Container(
                   padding: EdgeInsets.all(6.r),
                   decoration: BoxDecoration(
-                    color: AppColors.white.withValues(alpha: 0.85),
+                    color: context.colorScheme.surfaceContainer.withValues(
+                      alpha: 0.85,
+                    ),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Icon(

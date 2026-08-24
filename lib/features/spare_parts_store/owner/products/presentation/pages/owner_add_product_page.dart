@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:car_care/core/extensions/theme_extension.dart';
@@ -146,8 +145,7 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
             }
           },
           builder: (context, state) {
-            final isCreating =
-                state is OwnerProductsLoaded && state.isCreating;
+            final isCreating = state is OwnerProductsLoaded && state.isCreating;
             return Column(
               children: [
                 Expanded(
@@ -336,7 +334,7 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
           color: AppColors.textSecondary(context),
         ),
         filled: true,
-        fillColor: AppColors.white,
+        fillColor: context.colorScheme.surfaceContainer,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
         contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
       ),
@@ -404,10 +402,7 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
                     padding: EdgeInsets.symmetric(horizontal: 4.w),
                   ),
                   icon: Icon(Icons.add_photo_alternate_outlined, size: 18.sp),
-                  label: Text(
-                    l10n.addImages,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  label: Text(l10n.addImages, overflow: TextOverflow.ellipsis),
                 ),
               ),
             const Spacer(),
@@ -474,10 +469,10 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
       child: Container(
         padding: EdgeInsets.fromLTRB(16.w, 10.h, 16.w, 10.h),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: context.colorScheme.surfaceContainer,
           boxShadow: [
             BoxShadow(
-              color: AppColors.black.withOpacity(0.06),
+              color: context.colorScheme.shadow.withOpacity(0.06),
               blurRadius: 8,
               offset: const Offset(0, -2),
             ),
@@ -488,8 +483,6 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
           child: ElevatedButton(
             onPressed: isCreating ? null : () => _submit(cubit),
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.accent,
-              foregroundColor: AppColors.white,
               padding: EdgeInsets.symmetric(vertical: 14.h),
               elevation: 0,
               shape: RoundedRectangleBorder(

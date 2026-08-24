@@ -228,7 +228,7 @@ class ModeChip extends StatelessWidget {
     final Color success = AppColors.green;
     final Color bg = selected
         ? AppColors.green.withValues(alpha: 0.12)
-        : AppColors.white;
+        : context.colorScheme.surfaceContainer;
     final Color borderColor = selected ? success : primary;
     final Color textColor = selected ? success : primary;
 

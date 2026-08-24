@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +95,7 @@ class _ProviderAcceptOrderDialogState extends State<ProviderAcceptOrderDialog> {
     return ClipRRect(
       borderRadius: radius,
       child: Material(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -206,7 +207,7 @@ class _DialogField extends StatelessWidget {
           style: TextStyle(
             fontSize: 17.sp,
             fontWeight: FontWeight.w800,
-            color: AppColors.black,
+            color: context.colorScheme.onSurface,
           ),
         ),
         SizedBox(height: 10.h),
@@ -223,11 +224,11 @@ class _DialogField extends StatelessWidget {
           style: TextStyle(
             fontSize: 15.sp,
             fontWeight: FontWeight.w500,
-            color: AppColors.black,
+            color: context.colorScheme.onSurface,
           ),
           decoration: InputDecoration(
             filled: true,
-            fillColor: AppColors.white,
+            fillColor: context.colorScheme.surfaceContainer,
             contentPadding: EdgeInsets.symmetric(
               horizontal: 14.w,
               vertical: 12.h,

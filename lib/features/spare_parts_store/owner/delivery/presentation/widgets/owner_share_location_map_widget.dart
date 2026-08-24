@@ -1,5 +1,5 @@
-// خريطة مشاركة موقع التوصيل — يرسل GPS للمالك كل ١٠ ثوان مع حماية من التداخل.
 import 'dart:async';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/spare_parts_store/owner/delivery/presentation/cubit/owner_share_location/owner_share_location_cubit.dart';
@@ -12,10 +12,12 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
-final _ownerOsrmDio = Dio(BaseOptions(
-  connectTimeout: const Duration(seconds: 10),
-  receiveTimeout: const Duration(seconds: 10),
-));
+final _ownerOsrmDio = Dio(
+  BaseOptions(
+    connectTimeout: const Duration(seconds: 10),
+    receiveTimeout: const Duration(seconds: 10),
+  ),
+);
 
 class OwnerShareLocationMapWidget extends StatefulWidget {
   const OwnerShareLocationMapWidget({
@@ -99,14 +101,16 @@ class _OwnerShareLocationMapWidgetState
           );
         }
         context.read<OwnerShareLocationCubit>().shareLocation(
-              orderId: widget.orderId,
-              lat: position.latitude,
-              lng: position.longitude,
-            );
+          orderId: widget.orderId,
+          lat: position.latitude,
+          lng: position.longitude,
+        );
       }
       if (widget.customerLat != null && widget.customerLng != null) {
         await _fetchRoute(
-            myLatLng, LatLng(widget.customerLat!, widget.customerLng!));
+          myLatLng,
+          LatLng(widget.customerLat!, widget.customerLng!),
+        );
       }
     } catch (_) {
     } finally {
@@ -116,14 +120,18 @@ class _OwnerShareLocationMapWidgetState
 
   Future<void> _fetchRoute(LatLng from, LatLng to) async {
     if (_lastRouteFetch != null) {
-      final dist =
-          const Distance().as(LengthUnit.Meter, _lastRouteFetch!, from);
+      final dist = const Distance().as(
+        LengthUnit.Meter,
+        _lastRouteFetch!,
+        from,
+      );
       if (dist < 20) return;
     }
     if (_loadingRoute) return;
     if (mounted) setState(() => _loadingRoute = true);
     try {
-      final url = 'https://router.project-osrm.org/route/v1/driving/'
+      final url =
+          'https://router.project-osrm.org/route/v1/driving/'
           '${from.longitude},${from.latitude};${to.longitude},${to.latitude}'
           '?overview=full&geometries=geojson';
       final response = await _ownerOsrmDio.get<Map<String, dynamic>>(url);
@@ -133,10 +141,10 @@ class _OwnerShareLocationMapWidgetState
           final geometry = routes[0]['geometry'] as Map<String, dynamic>;
           final coordinates = geometry['coordinates'] as List<dynamic>;
           final points = coordinates
-              .map((c) => LatLng(
-                    (c[1] as num).toDouble(),
-                    (c[0] as num).toDouble(),
-                  ))
+              .map(
+                (c) =>
+                    LatLng((c[1] as num).toDouble(), (c[0] as num).toDouble()),
+              )
               .toList();
           if (mounted) {
             setState(() {
@@ -145,9 +153,9 @@ class _OwnerShareLocationMapWidgetState
             });
             if (!_hasFittedBounds) {
               _hasFittedBounds = true;
-              WidgetsBinding.instance.addPostFrameCallback(
-                (_) { if (mounted) _fitBounds(); },
-              );
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) _fitBounds();
+              });
             }
           }
         }
@@ -157,9 +165,9 @@ class _OwnerShareLocationMapWidgetState
         setState(() => _routePoints = [from, to]);
         if (!_hasFittedBounds) {
           _hasFittedBounds = true;
-          WidgetsBinding.instance.addPostFrameCallback(
-            (_) { if (mounted) _fitBounds(); },
-          );
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) _fitBounds();
+          });
         }
       }
     } finally {
@@ -206,8 +214,7 @@ class _OwnerShareLocationMapWidgetState
             options: MapOptions(initialCenter: center, initialZoom: 14),
             children: [
               TileLayer(
-                urlTemplate:
-                    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 userAgentPackageName: 'com.car_care.app',
               ),
               if (_routePoints.length > 1)
@@ -273,7 +280,7 @@ class _OwnerShareLocationMapWidgetState
                   FloatingActionButton.small(
                     heroTag: 'fit_route_owner_share',
                     onPressed: _fitBounds,
-                    backgroundColor: Colors.white,
+                    backgroundColor: context.colorScheme.surfaceContainer,
                     child: Icon(Icons.route, color: AppColors.primary),
                   ),
                 const SizedBox(height: 8),
@@ -357,8 +364,11 @@ class _OwnerDeliveryMarker extends StatelessWidget {
               ),
             ],
           ),
-          child:
-              const Icon(Icons.delivery_dining, color: Colors.white, size: 22),
+          child: const Icon(
+            Icons.delivery_dining,
+            color: Colors.white,
+            size: 22,
+          ),
         ),
         const SizedBox(height: 2),
         Container(
@@ -393,8 +403,11 @@ class _StatusCard extends StatelessWidget {
     double totalMeters = 0;
     final dist = Distance();
     for (int i = 0; i < routePoints.length - 1; i++) {
-      totalMeters +=
-          dist.as(LengthUnit.Meter, routePoints[i], routePoints[i + 1]);
+      totalMeters += dist.as(
+        LengthUnit.Meter,
+        routePoints[i],
+        routePoints[i + 1],
+      );
     }
     if (totalMeters < 1000) return '${totalMeters.toStringAsFixed(0)} م';
     return '${(totalMeters / 1000).toStringAsFixed(1)} كم';
@@ -414,7 +427,9 @@ class _StatusCard extends StatelessWidget {
               width: 10,
               height: 10,
               decoration: BoxDecoration(
-                color: isSharing ? Colors.green : Colors.grey,
+                color: isSharing
+                    ? Colors.green
+                    : context.colorScheme.outlineVariant,
                 shape: BoxShape.circle,
               ),
             ),
@@ -432,7 +447,7 @@ class _StatusCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: isSharing
                           ? Colors.green.shade700
-                          : Colors.grey.shade600,
+                          : context.colorScheme.onSurfaceVariant,
                       fontSize: 13,
                     ),
                   ),
@@ -440,7 +455,9 @@ class _StatusCard extends StatelessWidget {
                     Text(
                       'جاري حساب المسار...',
                       style: TextStyle(
-                          fontSize: 11, color: Colors.grey.shade600),
+                        fontSize: 11,
+                        color: context.colorScheme.onSurfaceVariant,
+                      ),
                     )
                   else if (distance.isNotEmpty)
                     Text(
@@ -467,8 +484,11 @@ class _StatusCard extends StatelessWidget {
                   );
                 }
                 if (state is OwnerShareLocationSuccess) {
-                  return Icon(Icons.cloud_done,
-                      color: Colors.green.shade600, size: 18);
+                  return Icon(
+                    Icons.cloud_done,
+                    color: Colors.green.shade600,
+                    size: 18,
+                  );
                 }
                 return const SizedBox.shrink();
               },

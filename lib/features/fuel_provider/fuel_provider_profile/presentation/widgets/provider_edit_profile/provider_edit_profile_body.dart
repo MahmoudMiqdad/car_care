@@ -1,5 +1,6 @@
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/selection/select_trigger_field.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_edit_profile/provider_edit_profile_actions.dart';
@@ -56,7 +57,9 @@ class ProviderEditProfileBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ProviderProfileSectionTitle(
-              title: personalInfoTitle ?? l10n.providerEditProfilePersonalInfoTitle,
+              title:
+                  personalInfoTitle ??
+                  l10n.providerEditProfilePersonalInfoTitle,
             ),
             SizedBox(height: 10.h),
             ProviderEditProfileInputField(
@@ -86,7 +89,7 @@ class ProviderEditProfileBody extends StatelessWidget {
               onTap: onPickGovernorate,
               borderColor: AppColors.carWashTeal,
               borderWidth: 1.2,
-              labelColor: AppColors.black,
+              labelColor: context.colorScheme.onSurface,
               labelFontSize: 16,
               labelHeight: 1.35,
               valueHeight: 1.45,

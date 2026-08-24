@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,12 +25,12 @@ class RequestTechnicianDetailRow extends StatelessWidget {
     final labelStyle = TextStyle(
       fontSize: 16.sp,
       fontWeight: FontWeight.w800,
-      color: AppColors.black,
+      color: context.colorScheme.onSurface,
     );
     final valueStyle = TextStyle(
       fontSize: 14.sp,
       fontWeight: FontWeight.w500,
-      color: AppColors.black,
+      color: context.colorScheme.onSurface,
     );
 
     return Row(
@@ -69,10 +70,7 @@ class RequestTechnicianDetailRow extends StatelessWidget {
                         value != null &&
                         value!.isNotEmpty) ...[
                       SizedBox(height: 6.h),
-                      Text(
-                        multilineBelow!,
-                        style: valueStyle,
-                      ),
+                      Text(multilineBelow!, style: valueStyle),
                     ],
                   ],
                 ),
@@ -83,7 +81,11 @@ class RequestTechnicianDetailRow extends StatelessWidget {
 }
 
 class TechnicianSosRequestRowAssetIcon extends StatelessWidget {
-  const TechnicianSosRequestRowAssetIcon({super.key, required this.assetPath, this.size});
+  const TechnicianSosRequestRowAssetIcon({
+    super.key,
+    required this.assetPath,
+    this.size,
+  });
 
   final String assetPath;
   final double? size;

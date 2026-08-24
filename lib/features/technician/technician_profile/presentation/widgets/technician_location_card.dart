@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/cubit/technician_location_cubit.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/cubit/technician_location_state.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
+
 class LocationUpdateCard extends StatefulWidget {
   const LocationUpdateCard({
     super.key,
@@ -54,14 +56,14 @@ class _LocationUpdateCardState extends State<LocationUpdateCard> {
           width: double.infinity,
           padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
-            color: AppColors.white,
+            color: context.colorScheme.surfaceContainer,
             borderRadius: BorderRadius.circular(12.r),
             border: Border.all(
               color: isSuccess ? AppColors.green : AppColors.border(context),
             ),
             boxShadow: [
               BoxShadow(
-                color: AppColors.black.withValues(alpha: 0.05),
+                color: context.colorScheme.shadow.withValues(alpha: 0.05),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -112,7 +114,9 @@ class _LocationUpdateCardState extends State<LocationUpdateCard> {
                   decoration: BoxDecoration(
                     color: AppColors.green.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8.r),
-                    border: Border.all(color: AppColors.green.withValues(alpha: 0.3)),
+                    border: Border.all(
+                      color: AppColors.green.withValues(alpha: 0.3),
+                    ),
                   ),
                   child: Row(
                     children: [
@@ -136,7 +140,8 @@ class _LocationUpdateCardState extends State<LocationUpdateCard> {
                 )
               else
                 Text(
-                  widget.initialDescription ?? l10n.workshopLocationDescriptionHint,
+                  widget.initialDescription ??
+                      l10n.workshopLocationDescriptionHint,
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: AppColors.textSecondary(context),
@@ -148,8 +153,6 @@ class _LocationUpdateCardState extends State<LocationUpdateCard> {
                 child: ElevatedButton.icon(
                   onPressed: _openPicker,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.accent,
-                    foregroundColor: AppColors.white,
                     padding: EdgeInsets.symmetric(vertical: 12.h),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.r),
@@ -164,7 +167,8 @@ class _LocationUpdateCardState extends State<LocationUpdateCard> {
                   label: Text(
                     _savedLocation != null
                         ? l10n.changeLocationButton
-                        : (widget.initialButtonLabel ?? l10n.selectLocationFromMapHint),
+                        : (widget.initialButtonLabel ??
+                              l10n.selectLocationFromMapHint),
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,

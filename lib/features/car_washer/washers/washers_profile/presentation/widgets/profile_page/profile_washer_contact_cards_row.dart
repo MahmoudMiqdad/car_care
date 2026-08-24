@@ -1,4 +1,5 @@
 import 'package:car_care/core/constants/app_text_styles.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -64,16 +65,15 @@ class ProfileWasherContactCardsRow extends StatelessWidget {
     final gap = SizedBox(width: 12.w);
 
     return Row(
-      children: isRtl ? [phoneCard, gap, hoursCard] : [hoursCard, gap, phoneCard],
+      children: isRtl
+          ? [phoneCard, gap, hoursCard]
+          : [hoursCard, gap, phoneCard],
     );
   }
 }
 
 class _ContactCardInnerRow extends StatelessWidget {
-  const _ContactCardInnerRow({
-    required this.icon,
-    required this.body,
-  });
+  const _ContactCardInnerRow({required this.icon, required this.body});
 
   final IconData icon;
   final Widget body;
@@ -82,11 +82,7 @@ class _ContactCardInnerRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(
-          icon,
-          color: AppColors.carWashTeal,
-          size: 30.sp,
-        ),
+        Icon(icon, color: AppColors.carWashTeal, size: 30.sp),
         SizedBox(width: 8.w),
         Expanded(child: body),
       ],
@@ -103,7 +99,7 @@ class _ProfileWasherTealBorderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: AppColors.carWashTeal, width: 1.2),
       ),

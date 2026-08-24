@@ -13,7 +13,6 @@ class WasherBookingViewDetailsButton extends StatelessWidget {
     return AppButton(
       onPressed: onPressed ?? () {},
       text: context.l10n.washerBookingViewDetails,
-      backgroundColor: AppColors.accent,
       textColor: AppColors.white,
       height: 45.h,
       borderRadius: 10.r,

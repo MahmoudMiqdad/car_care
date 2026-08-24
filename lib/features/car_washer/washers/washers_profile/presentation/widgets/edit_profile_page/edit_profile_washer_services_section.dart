@@ -1,7 +1,6 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-
-import 'package:car_care/core/widgets/app_headline.dart'; 
+import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/widgets/edit_profile_page/edit_profile_washer_labeled_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -55,9 +54,9 @@ class EditProfileWasherServicesSection extends StatelessWidget {
         ),
         SizedBox(height: 14.h),
         AppText.sectionTitle(
-          context, // 🎯 تمرير الـ context لضمان مواءمة الحجم والمحاذاة ذاتياً
+          context,
           priceLabel,
-          color: AppColors.black,
+          color: context.colorScheme.onSurface,
           textAlign: TextAlign.start,
           fontWeight: FontWeight.w800,
         ),
@@ -121,7 +120,7 @@ class _PriceTierField extends StatelessWidget {
           textAlign: TextAlign.center,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: context.textTheme.labelLarge!.copyWith( // 🎯 استخدام امتداد الثيم لقراءة الخطوط الذكية منعاً لتشوه الإنجليزي
+          style: context.textTheme.labelLarge!.copyWith(
             fontWeight: FontWeight.w700,
             color: accentColor,
           ),
@@ -134,14 +133,17 @@ class _PriceTierField extends StatelessWidget {
           style: TextStyle(
             fontSize: 14.sp,
             fontWeight: FontWeight.w700,
-            color: AppColors.black,
+            color: context.colorScheme.onSurface,
           ),
           decoration: InputDecoration(
             isDense: true,
             hintText: hint,
-            hintStyle: TextStyle(fontSize: 11.sp, color: AppColors.textSecondary(context).withValues(alpha: 0.6)),
+            hintStyle: TextStyle(
+              fontSize: 11.sp,
+              color: AppColors.textSecondary(context).withValues(alpha: 0.6),
+            ),
             filled: true,
-            fillColor: AppColors.white,
+            fillColor: context.colorScheme.surfaceContainer,
             prefixIcon: Icon(
               Icons.payments_outlined,
               size: 14.sp,

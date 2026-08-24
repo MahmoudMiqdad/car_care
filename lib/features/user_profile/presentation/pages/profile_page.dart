@@ -1,8 +1,8 @@
-import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/user_profile/presentation/widgets/profile_page/ProfileBody.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/show_profile_cubit/show_profile_cubit.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<ShowProfileCubit>()..getProfile(),
-     
+
       child: PopScope(
         canPop: context.canPop(),
         onPopInvokedWithResult: (didPop, _) {
@@ -24,15 +24,10 @@ class ProfilePage extends StatelessWidget {
         },
         child: Scaffold(
           backgroundColor: AppColors.transparent,
-          body: Material(
-            color: Colors.transparent,
+          body: ImageBackground(
             child: Stack(
               fit: StackFit.expand,
               children: [
-                Image.asset(
-                  AppAssets.artboardBackground,
-                  fit: BoxFit.cover,
-                ),
                 const ProfileBody(),
                 PositionedDirectional(
                   top: 0,

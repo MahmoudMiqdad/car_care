@@ -1,6 +1,5 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-
 import 'package:car_care/features/spare_parts_store/owner/profile/data/static/spare_parts_options.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/widgets/select_options_sheet.dart';
 import 'package:car_care/l10n.dart';
@@ -36,11 +35,11 @@ class OwnerSelectionCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.04),
+            color: context.colorScheme.shadow.withValues(alpha: 0.04),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -76,8 +75,10 @@ class OwnerSelectionCard extends StatelessWidget {
                   foregroundColor: AppColors.textSecondary(context),
                   backgroundColor: AppColors.secondary,
                   side: BorderSide(color: AppColors.border(context)),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 4.h,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.r),
                   ),
@@ -96,7 +97,9 @@ class OwnerSelectionCard extends StatelessWidget {
                     ),
                     SizedBox(width: 3.w),
                     Text(
-                      selectedIds.isEmpty ? l10n.chooseActionLabel : l10n.editButtonLabel,
+                      selectedIds.isEmpty
+                          ? l10n.chooseActionLabel
+                          : l10n.editButtonLabel,
                       style: context.textTheme.labelSmall!.copyWith(
                         color: AppColors.textSecondary(context),
                         fontWeight: FontWeight.w600,

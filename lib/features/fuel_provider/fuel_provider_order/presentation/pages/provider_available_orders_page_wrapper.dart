@@ -1,4 +1,4 @@
-
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
@@ -37,7 +37,6 @@ class _ProviderOrdersTabsPageState extends State<ProviderOrdersTabsPage>
   late final TabController _tabController;
   int _currentIndex = 0;
 
-
   @override
   void initState() {
     super.initState();
@@ -71,7 +70,6 @@ class _ProviderOrdersTabsPageState extends State<ProviderOrdersTabsPage>
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-
     final titles = [
       l10n.providerMyOrdersTitle,
       l10n.providerAvailableOrdersTitle,
@@ -79,7 +77,7 @@ class _ProviderOrdersTabsPageState extends State<ProviderOrdersTabsPage>
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: titles[_currentIndex], 
+        title: titles[_currentIndex],
         showBackButton: true,
         onBackTapped: () {
           if (context.canPop()) {
@@ -93,7 +91,6 @@ class _ProviderOrdersTabsPageState extends State<ProviderOrdersTabsPage>
         child: SafeArea(
           child: Column(
             children: [
-   
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 8.h),
                 child: SizedBox(
@@ -140,7 +137,9 @@ class _ProviderOrdersTabsPageState extends State<ProviderOrdersTabsPage>
             margin: EdgeInsets.symmetric(horizontal: 4.w),
             padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: selected ? AppColors.primary : AppColors.white,
+              color: selected
+                  ? AppColors.primary
+                  : context.colorScheme.surfaceContainer,
               borderRadius: BorderRadius.circular(20.r),
               border: Border.all(
                 color: selected ? AppColors.primary : AppColors.border(context),
@@ -159,7 +158,9 @@ class _ProviderOrdersTabsPageState extends State<ProviderOrdersTabsPage>
               style: TextStyle(
                 fontSize: selected ? 15.sp : 14.sp,
                 fontWeight: FontWeight.w800,
-                color: selected ? Colors.white : AppColors.textSecondary(context),
+                color: selected
+                    ? Colors.white
+                    : AppColors.textSecondary(context),
               ),
             ),
           ),

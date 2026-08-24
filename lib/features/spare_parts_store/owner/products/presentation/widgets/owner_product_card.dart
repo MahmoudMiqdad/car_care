@@ -1,7 +1,5 @@
-// بطاقة منتج داخل قائمة منتجات المالك.
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-
 import 'package:car_care/features/spare_parts_store/customer/products/domain/entities/product_entity.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -32,11 +30,11 @@ class OwnerProductCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(14.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.04),
+            color: context.colorScheme.shadow.withValues(alpha: 0.04),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -136,7 +134,9 @@ class OwnerProductCard extends StatelessWidget {
                   onPressed: isBusy ? null : onDelete,
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.red,
-                    side: BorderSide(color: AppColors.red.withValues(alpha: 0.5)),
+                    side: BorderSide(
+                      color: AppColors.red.withValues(alpha: 0.5),
+                    ),
                     padding: EdgeInsets.symmetric(vertical: 10.h),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.r),
@@ -166,17 +166,17 @@ class OwnerProductCard extends StatelessWidget {
       ),
     );
   }
-Widget _placeholder(BuildContext context) { 
-  return Container(
-    width: 56.w,
-    height: 56.w,
-    color: AppColors.scaffoldBackground(context), 
-    child: Icon(
-      Icons.inventory_2_outlined,
-      color: AppColors.textSecondary(context), 
-      size: 24.sp,
-    ),
-  );
-}
 
+  Widget _placeholder(BuildContext context) {
+    return Container(
+      width: 56.w,
+      height: 56.w,
+      color: AppColors.scaffoldBackground(context),
+      child: Icon(
+        Icons.inventory_2_outlined,
+        color: AppColors.textSecondary(context),
+        size: 24.sp,
+      ),
+    );
+  }
 }

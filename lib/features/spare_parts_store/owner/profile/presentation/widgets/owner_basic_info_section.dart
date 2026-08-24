@@ -99,7 +99,9 @@ class _LabeledField extends StatelessWidget {
             ),
             prefixIcon: Icon(icon, color: AppColors.primary, size: 20.sp),
             filled: true,
-            fillColor: isEnabled ? AppColors.white : AppColors.secondary,
+            fillColor: isEnabled
+                ? context.colorScheme.surfaceContainer
+                : AppColors.secondary,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.r),
               borderSide: BorderSide(color: AppColors.border(context)),

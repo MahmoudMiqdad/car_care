@@ -1,4 +1,4 @@
-import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,7 +26,6 @@ class SharedSelectionBottomSheet<T> extends StatelessWidget {
   final double maxChildSize;
   final bool rtl;
 
- 
   static Future<void> show<T>({
     required BuildContext context,
     required String title,
@@ -59,6 +58,11 @@ class SharedSelectionBottomSheet<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = context.colorScheme;
+    final surfaceColor =
+        theme.bottomSheetTheme.backgroundColor ?? colorScheme.surfaceContainer;
+
     final content = DraggableScrollableSheet(
       initialChildSize: initialChildSize,
       minChildSize: minChildSize,
@@ -67,7 +71,7 @@ class SharedSelectionBottomSheet<T> extends StatelessWidget {
       builder: (sheetContext, scrollController) => Container(
         padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 24.h),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: surfaceColor,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
         ),
         child: Column(
@@ -78,7 +82,7 @@ class SharedSelectionBottomSheet<T> extends StatelessWidget {
                 height: 4.h,
                 margin: EdgeInsets.only(bottom: 14.h),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
+                  color: colorScheme.outlineVariant,
                   borderRadius: BorderRadius.circular(2.r),
                 ),
               ),
@@ -89,7 +93,7 @@ class SharedSelectionBottomSheet<T> extends StatelessWidget {
               style: TextStyle(
                 fontSize: 17.sp,
                 fontWeight: FontWeight.w700,
-                color: AppColors.black,
+                color: colorScheme.onSurface,
               ),
             ),
             SizedBox(height: 12.h),

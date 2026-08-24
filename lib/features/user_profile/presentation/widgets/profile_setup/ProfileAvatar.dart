@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'dart:io';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/avatar_cubit/avatar_cubit.dart';
@@ -43,6 +44,7 @@ class ProfileAvatarUser extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        final colorScheme = context.colorScheme;
         final isLoading = state is AvatarLoading;
         ImageProvider? avatarImage;
 
@@ -62,7 +64,7 @@ class ProfileAvatarUser extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: radius.r,
-              backgroundColor: AppColors.secondary,
+              backgroundColor: colorScheme.secondary,
               backgroundImage: avatarImage,
               child: avatarImage == null
                   ? Icon(
@@ -80,13 +82,13 @@ class ProfileAvatarUser extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(6.r),
                   decoration: BoxDecoration(
-                    color: AppColors.primary,
+                    color: colorScheme.primary,
                     shape: BoxShape.circle,
-                    border: Border.all(color: AppColors.white, width: 2),
+                    border: Border.all(color: colorScheme.onPrimary, width: 2),
                   ),
                   child: Icon(
                     Icons.camera_alt,
-                    color: AppColors.white,
+                    color: colorScheme.onPrimary,
                     size: 18.sp,
                   ),
                 ),

@@ -1,5 +1,4 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
-import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppText extends StatelessWidget {
@@ -21,7 +20,7 @@ class AppText extends StatelessWidget {
       textAlign: TextAlign.start,
       alignment: AlignmentDirectional.centerStart,
       style: context.textTheme.headlineMedium!.copyWith(
-        color: color ?? AppColors.primary,
+        color: color ?? context.colorScheme.primary,
         fontWeight: FontWeight.w700,
         height: 1.25,
       ),
@@ -29,12 +28,12 @@ class AppText extends StatelessWidget {
   }
 
   factory AppText.sectionTitle(
-    BuildContext context, 
+    BuildContext context,
     String text, {
     Color? color,
     TextAlign? textAlign,
     AlignmentGeometry? alignment,
-    double? fontSize, 
+    double? fontSize,
     FontWeight? fontWeight,
   }) {
     return AppText._(
@@ -43,22 +42,17 @@ class AppText extends StatelessWidget {
       textAlign: textAlign ?? TextAlign.start,
       style: context.textTheme.bodyMedium!.copyWith(
         fontWeight: fontWeight ?? FontWeight.w700,
-        fontSize: fontSize, // 🎯 يتم جلب الحجم تلقائياً من الـ Theme المناسب للغة دون هدر برميجي
-        color: color ?? AppColors.textPrimary(context),
+        fontSize: fontSize,
+        color: color ?? context.colorScheme.onSurface,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Align(
       alignment: alignment ?? AlignmentDirectional.centerStart,
-      child: Text(
-        text,
-        style: style,
-        textAlign: textAlign,
-      ),
+      child: Text(text, style: style, textAlign: textAlign),
     );
   }
 }

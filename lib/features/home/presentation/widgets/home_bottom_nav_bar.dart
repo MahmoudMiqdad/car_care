@@ -1,5 +1,4 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
-import 'package:car_care/features/home/presentation/widgets/home_palette.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,6 +30,7 @@ class HomeBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
+    final colorScheme = context.colorScheme;
     final bottomInset = MediaQuery.paddingOf(context).bottom;
 
     final liftedBottomInset = bottomInset > 0 ? bottomInset + 8.h : 10.h;
@@ -47,7 +47,7 @@ class HomeBottomNavBar extends StatelessWidget {
           borderRadius: BorderRadius.circular(_cornerRadius.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.12),
+              color: colorScheme.shadow.withValues(alpha: 0.12),
               blurRadius: 8.r,
               offset: Offset(0, 3.h),
             ),
@@ -55,16 +55,16 @@ class HomeBottomNavBar extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(_cornerRadius.r),
-
           child: MediaQuery.removePadding(
             context: context,
             removeBottom: true,
             child: BottomAppBar(
-              color: HomePalette.primaryTeal,
+              color:
+                  Theme.of(context).appBarTheme.backgroundColor ??
+                  colorScheme.primary,
               elevation: 0,
               height: _barHeight.h,
               padding: EdgeInsets.zero,
-
               shape: _CenteredNotchedShape(
                 horizontalInset: _horizontalMargin.w,
               ),
@@ -163,7 +163,10 @@ class HomeBottomNavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color iconColor = isActive ? HomePalette.accentOrange : Colors.white;
+    final colorScheme = context.colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final activeColor = isDark ? colorScheme.primary : colorScheme.tertiary;
+    final Color iconColor = isActive ? activeColor : colorScheme.onPrimary;
 
     return InkWell(
       borderRadius: BorderRadius.circular(16.r),
@@ -185,13 +188,13 @@ class HomeBottomNavItem extends StatelessWidget {
                       vertical: 1,
                     ),
                     decoration: BoxDecoration(
-                      color: HomePalette.accentOrange,
+                      color: colorScheme.tertiary,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
                       '$badgeCount',
                       style: context.textTheme.bodySmall?.copyWith(
-                        color: Colors.white,
+                        color: colorScheme.onTertiary,
                         fontSize: 9.sp,
                         fontWeight: FontWeight.w600,
                       ),
@@ -207,7 +210,7 @@ class HomeBottomNavItem extends StatelessWidget {
             softWrap: false,
             overflow: TextOverflow.ellipsis,
             style: context.textTheme.bodySmall?.copyWith(
-              color: isActive ? HomePalette.accentOrange : Colors.white,
+              color: isActive ? activeColor : colorScheme.onPrimary,
               fontSize: 11.sp,
               fontWeight: FontWeight.w500,
             ),

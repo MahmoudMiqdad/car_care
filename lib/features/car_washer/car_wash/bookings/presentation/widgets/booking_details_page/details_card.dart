@@ -1,4 +1,4 @@
-import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,11 +9,12 @@ class DetailsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(14.r),
       ),
       child: Column(
@@ -26,7 +27,7 @@ class DetailsCard extends StatelessWidget {
                   line,
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                    color: AppColors.black,
+                    color: colorScheme.onSurface,
                     fontSize: 17.sp,
                     fontWeight: FontWeight.w700,
                     height: 1.3,

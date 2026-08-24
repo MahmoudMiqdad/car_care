@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
@@ -63,7 +64,7 @@ class _WasherBookingCardState extends State<WasherBookingCard> {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white.withValues(alpha: 0.85),
+        color: context.colorScheme.surfaceContainer.withValues(alpha: 0.85),
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: AppColors.border(context)),
       ),
@@ -85,7 +86,7 @@ class _WasherBookingCardState extends State<WasherBookingCard> {
                 child: Container(
                   width: 1,
                   height: 180.h,
-                  color: AppColors.black.withValues(alpha: 0.35),
+                  color: context.colorScheme.outlineVariant,
                 ),
               ),
 

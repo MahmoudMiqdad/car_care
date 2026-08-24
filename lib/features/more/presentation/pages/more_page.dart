@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
@@ -402,11 +403,15 @@ class _RoleHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
+    final onPrimary = colorScheme.onPrimary;
+    final headerEnd = Color.lerp(colorScheme.primary, Colors.black, 0.3)!;
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [AppColors.primary, Color(0xFF004D63)],
+        gradient: LinearGradient(
+          colors: [colorScheme.primary, headerEnd],
           begin: Alignment.centerRight,
           end: Alignment.centerLeft,
         ),
@@ -417,12 +422,12 @@ class _RoleHeader extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(10.r),
             decoration: BoxDecoration(
-              color: AppColors.white.withValues(alpha: 0.15),
+              color: onPrimary.withValues(alpha: 0.15),
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.person_outline_rounded,
-              color: AppColors.white,
+              color: onPrimary,
               size: 28.sp,
             ),
           ),
@@ -434,15 +439,18 @@ class _RoleHeader extends StatelessWidget {
                 Text(
                   l10n.optionsTitle,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: AppColors.white,
+                    color: onPrimary,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 SizedBox(height: 4.h),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 2.h,
+                  ),
                   decoration: BoxDecoration(
-                    color: AppColors.white.withValues(alpha: 0.2),
+                    color: onPrimary.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Text(
@@ -450,7 +458,7 @@ class _RoleHeader extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: AppColors.white,
+                      color: onPrimary,
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w500,
                     ),
@@ -504,7 +512,7 @@ class _MoreTile extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 3.h),
       child: Material(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(14.r),
         child: InkWell(
           onTap: onTap,
@@ -554,10 +562,12 @@ class _LogoutTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = context.l10n;
 
+    final colorScheme = context.colorScheme;
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 3.h),
       child: Material(
-        color: AppColors.white,
+        color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(14.r),
         child: InkWell(
           onTap: () => confirmAndLogout(context),
@@ -569,12 +579,12 @@ class _LogoutTile extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(9.r),
                   decoration: BoxDecoration(
-                    color: AppColors.red.withValues(alpha: 0.12),
+                    color: colorScheme.error.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Icon(
                     Icons.logout_rounded,
-                    color: AppColors.red,
+                    color: colorScheme.error,
                     size: 21.sp,
                   ),
                 ),
@@ -584,7 +594,7 @@ class _LogoutTile extends StatelessWidget {
                     strings.logout,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: AppColors.red,
+                      color: colorScheme.error,
                     ),
                   ),
                 ),

@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/car_washer/washers/washers_availability/presentation/cubit/availability_cubit.dart';
@@ -49,7 +50,9 @@ class _WasherAvailabilitySwitchCardState
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
             decoration: BoxDecoration(
-              color: AppColors.white.withValues(alpha: 0.9),
+              color: context.colorScheme.surfaceContainer.withValues(
+                alpha: 0.9,
+              ),
               borderRadius: BorderRadius.circular(14.r),
               border: Border.all(color: AppColors.border(context)),
             ),
@@ -64,7 +67,7 @@ class _WasherAvailabilitySwitchCardState
                         style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.black,
+                          color: context.colorScheme.onSurface,
                         ),
                       ),
                       SizedBox(height: 2.h),
@@ -75,7 +78,9 @@ class _WasherAvailabilitySwitchCardState
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w500,
-                          color: _value ? AppColors.green : AppColors.red,
+                          color: _value
+                              ? AppColors.successColor(context)
+                              : context.colorScheme.error,
                         ),
                       ),
                     ],

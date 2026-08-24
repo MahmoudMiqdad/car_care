@@ -1,5 +1,4 @@
 import 'package:car_care/core/routing/routes.dart';
-import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/domain/entities/washer_profile_entity.dart';
 import 'package:car_care/features/car_washer/washers/washers_profile/presentation/cubit/profile_washer_cubit.dart';
@@ -82,7 +81,6 @@ class ProfileWasherBody extends StatelessWidget {
                 }
               },
               text: l10n.profileWasherEditProfile,
-              backgroundColor: AppColors.accent,
               borderRadius: 28.r,
               height: 54.h,
               fontSize: 20.sp,

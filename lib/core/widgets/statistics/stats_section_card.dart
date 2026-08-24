@@ -1,12 +1,8 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// A single, unified white card wrapper for statistics sections — the
-/// "غلاف قسم موحّد" reused across [StatsSummaryCard]/
-/// [StatsIndicatorsSection] and any future statistics screen (fuel
-/// provider / technician / shop owner). Purely presentational: it knows
-/// nothing about any Cubit, repository, or business entity.
 class StatsSectionCard extends StatelessWidget {
   const StatsSectionCard({
     super.key,
@@ -23,15 +19,17 @@ class StatsSectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(14.r),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: colorScheme.shadow.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -57,7 +55,7 @@ class StatsSectionCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.black,
+                      color: colorScheme.onSurface,
                     ),
                   ),
                 ),

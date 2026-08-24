@@ -1,4 +1,5 @@
 import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/media_url.dart';
@@ -20,29 +21,26 @@ class ProviderOrderDetailsPendingBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = AppColors.warningColor(context);
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
       decoration: BoxDecoration(
-        color: AppColors.warning.withValues(alpha: 0.12),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: AppColors.warning, width: 1.2),
+        border: Border.all(color: color, width: 1.2),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         textDirection: TextDirection.rtl,
         children: [
-          Icon(
-            Icons.hourglass_empty_rounded,
-            color: AppColors.warning,
-            size: 22.sp,
-          ),
+          Icon(Icons.hourglass_empty_rounded, color: color, size: 22.sp),
           SizedBox(width: 8.w),
           Flexible(
             child: Text(
               label,
               style: TextStyle(
-                color: AppColors.warning,
+                color: color,
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w700,
               ),
@@ -82,7 +80,7 @@ class ProviderOrderDetailsOrderCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 23.sp,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.black,
+                    color: context.colorScheme.onSurface,
                   ),
                 ),
                 SizedBox(height: 8.h),
@@ -136,14 +134,14 @@ class _ProviderOrderVehicleAvatar extends StatelessWidget {
     );
   }
 
-Widget _placeholder(BuildContext context) { 
-  return CircleAvatar(
-    radius: 44.r,
-    backgroundColor: AppColors.cardBackground(context), 
-    backgroundImage: const AssetImage(AppAssets.technicianJobVehicleIcon),
-  );
-}}
-
+  Widget _placeholder(BuildContext context) {
+    return CircleAvatar(
+      radius: 44.r,
+      backgroundColor: AppColors.cardBackground(context),
+      backgroundImage: const AssetImage(AppAssets.technicianJobVehicleIcon),
+    );
+  }
+}
 
 class ProviderOrderDetailsCustomerCard extends StatelessWidget {
   const ProviderOrderDetailsCustomerCard({super.key, required this.order});
@@ -165,7 +163,7 @@ class ProviderOrderDetailsCustomerCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 24.sp,
               fontWeight: FontWeight.w700,
-              color: AppColors.black,
+              color: context.colorScheme.onSurface,
             ),
           ),
           Row(
@@ -190,7 +188,7 @@ class ProviderOrderDetailsCustomerCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.black,
+                  color: context.colorScheme.onSurface,
                 ),
               ),
             ],
@@ -234,7 +232,7 @@ class ProviderOrderDetailsNotesCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
-                color: AppColors.black,
+                color: context.colorScheme.onSurface,
               ),
             ),
           ),

@@ -1,5 +1,5 @@
-// fuel_order_details_provider_card.dart
 import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_section_card.dart';
 import 'package:car_care/features/user_fuel/domain/entities/user_fuel_order_entity.dart';
@@ -31,6 +31,8 @@ class FuelOrderDetailsProviderCard extends StatelessWidget {
       );
     }
 
+    final onSurface = context.colorScheme.onSurface;
+
     return SosDetailsSectionCard(
       title: l10n.providerOrderDetailsCustomerSection,
       child: Column(
@@ -41,7 +43,7 @@ class FuelOrderDetailsProviderCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 24.sp,
               fontWeight: FontWeight.w700,
-              color: AppColors.black,
+              color: onSurface,
             ),
           ),
           Row(
@@ -64,7 +66,7 @@ class FuelOrderDetailsProviderCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.black,
+                  color: onSurface,
                 ),
               ),
             ],
@@ -76,10 +78,7 @@ class FuelOrderDetailsProviderCard extends StatelessWidget {
 }
 
 class ProviderOrderDetailsNotesCard extends StatelessWidget {
-  const ProviderOrderDetailsNotesCard({
-    super.key,
-    required this.order,
-  });
+  const ProviderOrderDetailsNotesCard({super.key, required this.order});
 
   final UserFuelOrderEntity order;
 
@@ -94,7 +93,7 @@ class ProviderOrderDetailsNotesCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.asset(
-            AppAssets.NotesIcon, 
+            AppAssets.NotesIcon,
             width: 20.w,
             height: 20.w,
             fit: BoxFit.contain,
@@ -111,7 +110,7 @@ class ProviderOrderDetailsNotesCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
-                color: AppColors.black,
+                color: context.colorScheme.onSurface,
               ),
             ),
           ),

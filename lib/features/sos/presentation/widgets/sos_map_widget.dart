@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/loding.dart';
 
@@ -14,10 +15,12 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
-final _osrmDio = Dio(BaseOptions(
-  connectTimeout: const Duration(seconds: 10),
-  receiveTimeout: const Duration(seconds: 10),
-));
+final _osrmDio = Dio(
+  BaseOptions(
+    connectTimeout: const Duration(seconds: 10),
+    receiveTimeout: const Duration(seconds: 10),
+  ),
+);
 
 class SosMapWidget extends StatefulWidget {
   final int sosId;
@@ -53,10 +56,7 @@ class _SosMapWidgetState extends State<SosMapWidget> {
         desiredAccuracy: LocationAccuracy.high,
       );
 
-      _mapController.move(
-        LatLng(position.latitude, position.longitude),
-        16,
-      );
+      _mapController.move(LatLng(position.latitude, position.longitude), 16);
     } catch (e) {
       debugPrint('❌ Location error: $e');
     }
@@ -75,7 +75,8 @@ class _SosMapWidgetState extends State<SosMapWidget> {
     setState(() => _loadingRoute = true);
 
     try {
-      final url = 'https://router.project-osrm.org/route/v1/driving/'
+      final url =
+          'https://router.project-osrm.org/route/v1/driving/'
           '${from.longitude},${from.latitude};'
           '${to.longitude},${to.latitude}'
           '?overview=full&geometries=geojson';
@@ -88,10 +89,10 @@ class _SosMapWidgetState extends State<SosMapWidget> {
           final geometry = routes[0]['geometry'] as Map<String, dynamic>;
           final coordinates = geometry['coordinates'] as List<dynamic>;
           final points = coordinates
-              .map((c) => LatLng(
-                    (c[1] as num).toDouble(),
-                    (c[0] as num).toDouble(),
-                  ))
+              .map(
+                (c) =>
+                    LatLng((c[1] as num).toDouble(), (c[0] as num).toDouble()),
+              )
               .toList();
           if (mounted) {
             setState(() {
@@ -139,7 +140,11 @@ class _SosMapWidgetState extends State<SosMapWidget> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.location_off, size: 48, color: AppColors.gray),
+            Icon(
+              Icons.location_off,
+              size: 48,
+              color: context.colorScheme.onSurfaceVariant,
+            ),
             const SizedBox(height: 12),
             Text(message, textAlign: TextAlign.center),
             const SizedBox(height: 12),
@@ -186,8 +191,9 @@ class _SosMapWidgetState extends State<SosMapWidget> {
               PolylineLayer(
                 polylines: [
                   Polyline(
-                    points:
-                        data.path!.map((p) => LatLng(p.lat, p.lng)).toList(),
+                    points: data.path!
+                        .map((p) => LatLng(p.lat, p.lng))
+                        .toList(),
                     color: AppColors.gray.withOpacity(0.4),
                     strokeWidth: 3,
                     pattern: StrokePattern.dashed(segments: [8, 4]),
@@ -261,7 +267,9 @@ class _SosMapWidgetState extends State<SosMapWidget> {
                 FloatingActionButton.small(
                   heroTag: 'fit_route',
                   onPressed: () => _fitRoute(techLocation, userLocation),
-                  backgroundColor: AppColors.white,
+                  backgroundColor: Theme.of(
+                    context,
+                  ).colorScheme.surfaceContainer,
                   child: Icon(Icons.route, color: AppColors.blueDark),
                 ),
               const SizedBox(height: 8),
@@ -291,7 +299,6 @@ class _SosMapWidgetState extends State<SosMapWidget> {
   }
 }
 
-// ─── User Marker (موقع المستخدم) ──────────────────────────────────────────
 class _UserMarker extends StatelessWidget {
   const _UserMarker();
 
@@ -337,7 +344,6 @@ class _UserMarker extends StatelessWidget {
   }
 }
 
-// ─── Technician Marker (موقع الفني) ───────────────────────────────────────
 class _TechnicianMarker extends StatefulWidget {
   const _TechnicianMarker();
 
@@ -357,9 +363,10 @@ class _TechnicianMarkerState extends State<_TechnicianMarker>
       duration: const Duration(milliseconds: 600),
       vsync: this,
     )..repeat(reverse: true);
-    _scaleAnim = Tween<double>(begin: 0.95, end: 1.05).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _scaleAnim = Tween<double>(
+      begin: 0.95,
+      end: 1.05,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -413,7 +420,6 @@ class _TechnicianMarkerState extends State<_TechnicianMarker>
   }
 }
 
-// ─── Status / Info Card ────────────────────────────────────────────────────
 class _TechnicianInfoCard extends StatelessWidget {
   final TrackingLoaded state;
   final List<LatLng> routePoints;
@@ -431,8 +437,11 @@ class _TechnicianInfoCard extends StatelessWidget {
     double totalMeters = 0;
     final dist = Distance();
     for (int i = 0; i < routePoints.length - 1; i++) {
-      totalMeters +=
-          dist.as(LengthUnit.Meter, routePoints[i], routePoints[i + 1]);
+      totalMeters += dist.as(
+        LengthUnit.Meter,
+        routePoints[i],
+        routePoints[i + 1],
+      );
     }
     if (totalMeters < 1000) {
       return '${totalMeters.toStringAsFixed(0)} ${l10n.meterUnit}';
@@ -473,17 +482,17 @@ class _TechnicianInfoCard extends StatelessWidget {
                         : l10n.waitingForLocationUpdate,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: isLive
-                          ? AppColors.green
-                          : AppColors.accent,
+                      color: isLive ? AppColors.green : AppColors.accent,
                       fontSize: 13,
                     ),
                   ),
                   if (isLoadingRoute)
                     Text(
                       l10n.calculatingRoute,
-                      style:
-                          TextStyle(fontSize: 11, color: AppColors.gray),
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: context.colorScheme.onSurfaceVariant,
+                      ),
                     )
                   else if (distance.isNotEmpty)
                     Text(

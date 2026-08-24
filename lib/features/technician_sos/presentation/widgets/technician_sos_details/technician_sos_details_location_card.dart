@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/technician_sos/presentation/cubit/share_technician_location_cubit/share_technician_location_sos_cubit.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
+
 class SosTechnicianDetailsLocationCard extends StatelessWidget {
   const SosTechnicianDetailsLocationCard({
     super.key,
@@ -30,8 +32,9 @@ class SosTechnicianDetailsLocationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final hasLocation = lat != null && lng != null;
-    final location =
-        hasLocation ? LatLng(lat!, lng!) : const LatLng(33.3152, 44.3661);
+    final location = hasLocation
+        ? LatLng(lat!, lng!)
+        : const LatLng(33.3152, 44.3661);
 
     return SosTechnicianDetailsSectionCard(
       title: l10n.sosDetailsCurrentLocation,
@@ -51,8 +54,7 @@ class SosTechnicianDetailsLocationCard extends StatelessWidget {
               ),
               children: [
                 TileLayer(
-                  urlTemplate:
-                      'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                   userAgentPackageName: 'com.car_care.app',
                 ),
                 if (hasLocation)
@@ -140,7 +142,7 @@ class _TechnicianNavigationSheet extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height * 0.92,
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       child: Column(

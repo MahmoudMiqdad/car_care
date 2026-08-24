@@ -1,5 +1,6 @@
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_order/domain/entities/provider_order_entity.dart';
@@ -24,12 +25,12 @@ class ProviderOrderCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(color: AppColors.carWashTeal, width: 1),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
+            color: context.colorScheme.shadow.withValues(alpha: 0.06),
             blurRadius: 10.r,
             offset: Offset(0, 4.h),
           ),
@@ -96,7 +97,6 @@ class ProviderOrderCard extends StatelessWidget {
             child: AppButton(
               onPressed: onViewDetails ?? () {},
               text: l10n.sosRequestViewDetails,
-              backgroundColor: AppColors.accent,
               textColor: AppColors.white,
               borderRadius: 15.r,
               height: 45.h,

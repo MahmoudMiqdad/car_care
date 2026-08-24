@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:car_care/core/extensions/theme_extension.dart'; 
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/dashed_border_box.dart';
 import 'package:car_care/l10n.dart';
@@ -19,7 +19,6 @@ class CreateProfileWasherLogoSection extends StatelessWidget {
   final String? uploadLabel;
 
   static const double _size = 104;
-  static const Color _dashColor = AppColors.white;
 
   @override
   Widget build(BuildContext context) {
@@ -31,20 +30,20 @@ class CreateProfileWasherLogoSection extends StatelessWidget {
       child: Column(
         children: [
           Material(
-            color: AppColors.transparent, 
+            color: AppColors.transparent,
             shape: const CircleBorder(),
             child: InkWell(
               onTap: onTap,
               customBorder: const CircleBorder(),
               child: DashedBorderBox(
-                color: _dashColor,
+                color: context.colorScheme.outlineVariant,
                 borderRadius: diameter / 2,
                 strokeWidth: 2,
                 child: Container(
                   width: diameter,
                   height: diameter,
-                  decoration: const BoxDecoration(
-                    color: AppColors.white,
+                  decoration: BoxDecoration(
+                    color: context.colorScheme.surfaceContainerHighest,
                     shape: BoxShape.circle,
                   ),
                   child: hasLogo
@@ -67,9 +66,9 @@ class CreateProfileWasherLogoSection extends StatelessWidget {
           ),
           SizedBox(height: 8.h),
           Text(
-            uploadLabel ?? l10n.uploadLogoLabel, 
+            uploadLabel ?? l10n.uploadLogoLabel,
             style: context.textTheme.bodyMedium!.copyWith(
-              color: AppColors.black,
+              color: context.colorScheme.onSurface,
               fontWeight: FontWeight.w600,
             ),
           ),

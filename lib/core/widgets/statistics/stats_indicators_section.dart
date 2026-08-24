@@ -1,10 +1,9 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/statistics/stats_section_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Simple view data for one compact indicator row — no business logic,
-/// just what to draw.
 class StatsIndicatorData {
   const StatsIndicatorData({
     required this.label,
@@ -19,9 +18,6 @@ class StatsIndicatorData {
   final Color color;
 }
 
-/// A compact indicators section — a small icon + name + real count per
-/// row, deliberately not the old large repeated tile cards. Reusable
-/// across statistics screens for any feature.
 class StatsIndicatorsSection extends StatelessWidget {
   const StatsIndicatorsSection({
     super.key,
@@ -58,6 +54,8 @@ class StatsIndicatorItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 6.h),
       child: Row(
@@ -80,7 +78,7 @@ class StatsIndicatorItem extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary(context),
+                color: colorScheme.onSurface,
               ),
             ),
           ),

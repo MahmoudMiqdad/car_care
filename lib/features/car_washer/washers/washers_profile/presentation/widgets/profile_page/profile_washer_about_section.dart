@@ -1,7 +1,6 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-
-import 'package:car_care/core/widgets/app_headline.dart'; 
+import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,18 +20,18 @@ class ProfileWasherAboutSection extends StatelessWidget {
         AppText.sectionTitle(
           context,
           l10n.profileWasherAboutTitle,
-          color: AppColors.black,
+          color: context.colorScheme.onSurface,
           textAlign: TextAlign.start,
         ),
         SizedBox(height: 8.h),
         DecoratedBox(
           decoration: BoxDecoration(
-            color: AppColors.white,
+            color: context.colorScheme.surfaceContainer,
             borderRadius: BorderRadius.circular(12.r),
             border: Border.all(color: AppColors.carWashTeal, width: 1.2),
             boxShadow: [
               BoxShadow(
-                color: AppColors.black.withValues(alpha: 0.05),
+                color: context.colorScheme.shadow.withValues(alpha: 0.05),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),

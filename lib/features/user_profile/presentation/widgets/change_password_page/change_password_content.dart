@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/user_profile/presentation/widgets/change_password_page/change_password_form.dart';
 import 'package:car_care/l10n.dart';
@@ -13,7 +14,7 @@ class ChangePasswordContent extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: context.colorScheme.surfaceContainer,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(32.r),
           topRight: Radius.circular(32.r),
@@ -23,7 +24,7 @@ class ChangePasswordContent extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 80.h),
         child: Center(
           child: Column(
-             mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(

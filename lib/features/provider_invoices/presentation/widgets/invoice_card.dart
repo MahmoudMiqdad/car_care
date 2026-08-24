@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
 import 'package:car_care/features/provider_invoices/domain/entities/provider_invoice_entity.dart';
@@ -15,31 +16,35 @@ class InvoiceCard extends StatelessWidget {
   _statusStyle(BuildContext context) {
     switch (invoice.effectiveStatus) {
       case 'paid':
+        final color = AppColors.successColor(context);
         return (
-          bg: const Color(0xFFDFF5E0),
-          color: const Color(0xFF2E7D32),
+          bg: color.withValues(alpha: 0.12),
+          color: color,
           icon: Icons.check_circle_rounded,
           label: (ctx) => ctx.l10n.statusPaid,
         );
       case 'overdue':
+        final color = context.colorScheme.error;
         return (
-          bg: const Color(0xFFFFE5E7),
-          color: AppColors.red,
+          bg: color.withValues(alpha: 0.12),
+          color: color,
           icon: Icons.error_rounded,
           label: (ctx) => ctx.l10n.statusOverdue,
         );
       case 'issued':
+        final color = context.colorScheme.primary;
         return (
-          bg: const Color(0xFFD1F0F7),
-          color: const Color(0xFF007A92),
+          bg: color.withValues(alpha: 0.12),
+          color: color,
           icon: Icons.receipt_long_rounded,
           label: (ctx) => ctx.l10n.statusIssued,
         );
       case 'draft':
       default:
+        final color = AppColors.warningColor(context);
         return (
-          bg: const Color(0xFFF0F0F0),
-          color: AppColors.textSecondary(context),
+          bg: color.withValues(alpha: 0.12),
+          color: color,
           icon: Icons.edit_note_rounded,
           label: (ctx) => ctx.l10n.statusDraft,
         );
@@ -59,91 +64,73 @@ class InvoiceCard extends StatelessWidget {
         onTap: onTap,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12.r),
-          child: IntrinsicHeight(
-            child: Row(
+          child: Container(
+            color: context.colorScheme.surfaceContainer,
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              textDirection: TextDirection.rtl,
               children: [
-                Expanded(
+                Align(
+                  alignment: AlignmentDirectional.centerEnd,
                   child: Container(
-                    color: AppColors.white,
                     padding: EdgeInsets.symmetric(
-                      horizontal: 12.w,
-                      vertical: 10.h,
+                      horizontal: 10.w,
+                      vertical: 4.h,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                    decoration: BoxDecoration(
+                      color: style.bg,
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        AppInfoRow(
-                          label: l10n.invoiceNumber,
-                          value: invoice.invoiceNumber ?? '-',
-                          labelFontSize: localLabelSize,
-                          valueFontSize: localValueSize,
-                          leading: Icon(
-                            Icons.receipt_rounded,
-                            size: 20.sp,
-                            color: AppColors.primary,
-                          ),
-                        ),
-                        AppInfoRow(
-                          label: l10n.invoicePeriod,
-                          value:
-                              '${invoice.periodStart ?? '-'} - ${invoice.periodEnd ?? '-'}',
-                          labelFontSize: localLabelSize,
-                          valueFontSize: localValueSize,
-                          leading: Icon(
-                            Icons.date_range_rounded,
-                            size: 20.sp,
-                            color: AppColors.primary,
-                          ),
-                        ),
-                        AppInfoRow(
-                          label: l10n.invoiceTotal,
-                          value: '${invoice.totalAmount ?? 0}',
-                          labelFontSize: localLabelSize,
-                          valueFontSize: localValueSize,
-                          leading: Icon(
-                            Icons.payments_rounded,
-                            size: 20.sp,
-                            color: AppColors.primary,
+                        Icon(style.icon, size: 14.sp, color: style.color),
+                        SizedBox(width: 4.w),
+                        Text(
+                          style.label(context),
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w800,
+                            color: style.color,
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 100.w,
-                  child: Container(
-                    color: style.bg,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 45.r,
-                          height: 45.r,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: style.color, width: 2.5),
-                          ),
-                          child: Icon(
-                            style.icon,
-                            color: style.color,
-                            size: 28.sp,
-                          ),
-                        ),
-                        SizedBox(height: 8.h),
-                        Text(
-                          style.label(context),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w900,
-                            color: style.color,
-                          ),
-                        ),
-                      ],
-                    ),
+                SizedBox(height: 8.h),
+                AppInfoRow(
+                  label: l10n.invoiceNumber,
+                  value: invoice.invoiceNumber ?? '-',
+                  labelFontSize: localLabelSize,
+                  valueFontSize: localValueSize,
+                  leading: Icon(
+                    Icons.receipt_rounded,
+                    size: 20.sp,
+                    color: AppColors.primary,
+                  ),
+                ),
+                AppInfoRow(
+                  label: l10n.invoicePeriod,
+                  value:
+                      '${invoice.periodStart ?? '-'} - ${invoice.periodEnd ?? '-'}',
+                  labelFontSize: localLabelSize,
+                  valueFontSize: localValueSize,
+                  leading: Icon(
+                    Icons.date_range_rounded,
+                    size: 20.sp,
+                    color: AppColors.primary,
+                  ),
+                ),
+                AppInfoRow(
+                  label: l10n.invoiceTotal,
+                  value: '${invoice.totalAmount ?? 0}',
+                  labelFontSize: localLabelSize,
+                  valueFontSize: localValueSize,
+                  leading: Icon(
+                    Icons.payments_rounded,
+                    size: 20.sp,
+                    color: AppColors.primary,
                   ),
                 ),
               ],

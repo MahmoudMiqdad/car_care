@@ -1,4 +1,5 @@
 import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
@@ -27,16 +28,16 @@ class UserCard extends StatelessWidget {
     final bool isAccepted = job.status == 'quotation_accepted';
 
     final Color statusBg = isWaiting
-        ? AppColors.info.withValues(alpha: 0.12)
+        ? AppColors.warningColor(context).withValues(alpha: 0.12)
         : (isCompleted || isAccepted
-            ? AppColors.success.withValues(alpha: 0.12)
-            : AppColors.red.withValues(alpha: 0.12));
+            ? AppColors.successColor(context).withValues(alpha: 0.12)
+            : context.colorScheme.error.withValues(alpha: 0.12));
 
     final Color statusColor = isWaiting
-        ? AppColors.info
+        ? AppColors.warningColor(context)
         : (isCompleted || isAccepted
-            ? AppColors.success
-            : AppColors.red);
+            ? AppColors.successColor(context)
+            : context.colorScheme.error);
 
     final IconData statusIcon = isWaiting
         ? Icons.hourglass_empty_rounded
@@ -68,8 +69,6 @@ class UserCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        // ⬅️ بلا getDynamicFontSize ولا تحجيم يدوي — AppInfoRow
-                        // بتطبق .sp بنفسها، فبنبعتلها الرقم التصميمي الخام بس.
                         AppInfoRow(
                           label: l10n.descriptionLabel,
                           value: descriptionStr,

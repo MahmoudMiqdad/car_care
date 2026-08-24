@@ -1,7 +1,4 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:car_care/core/extensions/theme_extension.dart';
-import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -63,15 +60,16 @@ class _AppTextFieldState extends State<AppTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final border = widget.borderColor ?? AppColors.primary;
-    final errorBorder = widget.errorBorderColor ?? Colors.red;
+    final colorScheme = context.colorScheme;
+    final border = widget.borderColor ?? colorScheme.primary;
+    final errorBorder = widget.errorBorderColor ?? colorScheme.error;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: widget.hasShadow
             ? [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.04),
+                  color: colorScheme.shadow.withValues(alpha: 0.08),
                   blurRadius: 10.r,
                   offset: const Offset(0, 4),
                 ),
@@ -91,21 +89,22 @@ class _AppTextFieldState extends State<AppTextField> {
         style: context.textTheme.bodyLarge?.copyWith(
           fontSize: 16.sp,
           fontWeight: FontWeight.w600,
-          color: Colors.black,
+          color: colorScheme.onSurface,
         ),
         decoration: InputDecoration(
           hintText: widget.hintText,
-          hintStyle: widget.hintStyle ?? TextStyle(
-            fontSize: 15.sp,
-            color: const Color.fromARGB(255, 179, 170, 170),
-          ),
+          hintStyle:
+              widget.hintStyle ??
+              context.textTheme.bodyMedium?.copyWith(
+                fontSize: 15.sp,
+                color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+              ),
           prefixIcon: widget.prefixIcon,
           errorText: widget.errorText,
           isDense: true,
-          filled: true,
-          fillColor: Colors.white, 
-          contentPadding: widget.contentPadding ?? EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
-          
+          contentPadding:
+              widget.contentPadding ??
+              EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.r),
             borderSide: BorderSide(color: border, width: 1.5),
@@ -122,14 +121,15 @@ class _AppTextFieldState extends State<AppTextField> {
             borderRadius: BorderRadius.circular(12.r),
             borderSide: BorderSide(color: errorBorder, width: 2),
           ),
-          
           suffixIcon: widget.isPassword
               ? IconButton(
                   onPressed: () => setState(() => _obscureText = !_obscureText),
                   icon: Icon(
-                    _obscureText ? IconsaxPlusLinear.eye : IconsaxPlusLinear.eye_slash,
+                    _obscureText
+                        ? IconsaxPlusLinear.eye
+                        : IconsaxPlusLinear.eye_slash,
                     size: 22.sp,
-                    color: Colors.grey,
+                    color: colorScheme.onSurfaceVariant,
                   ),
                 )
               : widget.suffixIcon,

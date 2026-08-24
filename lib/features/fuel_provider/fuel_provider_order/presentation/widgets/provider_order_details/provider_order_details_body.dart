@@ -73,7 +73,6 @@ class _ProviderOrderDetailsBodyState extends State<ProviderOrderDetailsBody> {
               AppButton(
                 onPressed: widget.onAcceptOrder ?? () {},
                 text: l10n.providerOrderDetailsAcceptOrder,
-                backgroundColor: AppColors.accent,
                 textColor: AppColors.white,
                 borderRadius: 14.r,
                 height: 52.h,
@@ -105,7 +104,7 @@ class _ProviderOrderDetailsBodyState extends State<ProviderOrderDetailsBody> {
               AppButton(
                 onPressed: widget.onCancelOrder,
                 text: 'إلغاء الطلب',
-                backgroundColor: Colors.red.shade600,
+                backgroundColor: AppColors.red,
                 textColor: AppColors.white,
                 borderRadius: 14.r,
                 height: 52.h,

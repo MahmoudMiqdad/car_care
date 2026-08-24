@@ -1,11 +1,12 @@
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/constants/app_constants.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/maintenance/user_quotations/domain/entities/quotation_entity.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/request_detail_row.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_request_status_badge.dart';
-import 'package:car_care/l10n.dart'; 
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,16 +19,17 @@ class QuotationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colorScheme = context.colorScheme;
     final radius = AppConstants.maintenanceRequestCardRadius.r;
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(color: AppColors.carWashTeal, width: 1),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.06), 
+            color: colorScheme.shadow.withValues(alpha: 0.06),
             blurRadius: 10.r,
             offset: Offset(0, 4.h),
           ),
@@ -42,13 +44,13 @@ class QuotationCard extends StatelessWidget {
             child: IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [ 
+                children: [
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         RequestDetailRow(
-                          label: l10n.technicianLabel, 
+                          label: l10n.technicianLabel,
                           leading: const SosRequestRowAssetIcon(
                             assetPath: AppAssets.technicianJobVehicleIcon,
                           ),
@@ -62,18 +64,18 @@ class QuotationCard extends StatelessWidget {
                           value: quotation.priceFormatted,
                         ),
                         RequestDetailRow(
-                          label: l10n.repairDurationLabel, 
+                          label: l10n.repairDurationLabel,
                           leading: const SosRequestRowAssetIcon(
                             assetPath: AppAssets.calendarIcon,
                           ),
                           value: l10n.durationInDays(quotation.estimatedDays),
                         ),
                         RequestDetailRow(
-                          label: l10n.partsIncludedLabel, 
+                          label: l10n.partsIncludedLabel,
                           leading: const SosRequestRowAssetIcon(
                             assetPath: AppAssets.NotesIcon,
                           ),
-                          value: quotation.partsIncluded ? l10n.yes : l10n.no, 
+                          value: quotation.partsIncluded ? l10n.yes : l10n.no,
                         ),
                       ],
                     ),
@@ -99,8 +101,7 @@ class QuotationCard extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 14.w),
             child: AppButton(
               onPressed: onTap ?? () {},
-              text: l10n.sosRequestViewDetails, 
-              backgroundColor: AppColors.accent,
+              text: l10n.sosRequestViewDetails,
               textColor: AppColors.white,
               borderRadius: 15.r,
               height: 45.h,

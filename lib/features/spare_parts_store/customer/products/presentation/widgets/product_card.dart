@@ -1,4 +1,3 @@
-// بطاقة منتج تُستخدم داخل شبكة All Products
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
@@ -7,6 +6,7 @@ import 'package:car_care/features/spare_parts_store/customer/products/domain/ent
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class ProductCard extends StatelessWidget {
   const ProductCard({super.key, required this.product, required this.onTap});
 
@@ -15,9 +15,10 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n; 
+    final l10n = context.l10n;
     final imageUrl =
-        product.primaryImage ?? (product.images.isNotEmpty ? product.images.first : null);
+        product.primaryImage ??
+        (product.images.isNotEmpty ? product.images.first : null);
     final conditionColor = product.isNew ? AppColors.green : AppColors.accent;
 
     return InkWell(
@@ -25,7 +26,7 @@ class ProductCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: context.colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(14.r),
           border: Border.all(color: AppColors.border(context)),
         ),
@@ -47,11 +48,13 @@ class ProductCard extends StatelessWidget {
                       color: AppColors.textPrimary(context),
                     ),
                   ),
-                  if (product.partCategoryName != null || product.carBrandName != null) ...[
+                  if (product.partCategoryName != null ||
+                      product.carBrandName != null) ...[
                     SizedBox(height: 3.h),
                     Text(
                       [
-                        if (product.partCategoryName != null) product.partCategoryName,
+                        if (product.partCategoryName != null)
+                          product.partCategoryName,
                         if (product.carBrandName != null) product.carBrandName,
                       ].join(' | '),
                       maxLines: 1,
@@ -66,8 +69,9 @@ class ProductCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                      
-                          l10n.currencyFormat(product.finalPrice.toStringAsFixed(0)),
+                          l10n.currencyFormat(
+                            product.finalPrice.toStringAsFixed(0),
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: context.textTheme.labelLarge!.copyWith(
@@ -77,7 +81,6 @@ class ProductCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                       
                         product.isNew ? l10n.conditionNew : l10n.conditionUsed,
                         style: context.textTheme.labelSmall!.copyWith(
                           color: conditionColor,
@@ -102,7 +105,9 @@ class ProductCard extends StatelessWidget {
                       ),
                       SizedBox(width: 5.w),
                       Text(
-                        product.stockQuantity > 0 ? l10n.inStockStatus : l10n.outOfStockStatus,
+                        product.stockQuantity > 0
+                            ? l10n.inStockStatus
+                            : l10n.outOfStockStatus,
                         style: context.textTheme.labelSmall!.copyWith(
                           color: product.stockQuantity > 0
                               ? AppColors.green
@@ -132,12 +137,12 @@ class _CardImage extends StatelessWidget {
       return Container(
         width: double.infinity,
         height: 110.h,
-        color: AppColors.secondary,
+        color: context.colorScheme.surfaceContainerHighest,
         alignment: Alignment.center,
         child: Icon(
           Icons.build_circle_outlined,
           size: 36.sp,
-          color: AppColors.primary.withValues(alpha: 0.4), // 🎯 تحديث دالة الشفافية الآمنة
+          color: AppColors.primary.withValues(alpha: 0.4),
         ),
       );
     }
@@ -147,9 +152,10 @@ class _CardImage extends StatelessWidget {
       width: double.infinity,
       height: 110.h,
       fit: BoxFit.cover,
-      placeholder: (context, url) => ColoredBox(color: AppColors.secondary),
+      placeholder: (context, url) =>
+          ColoredBox(color: context.colorScheme.surfaceContainerHighest),
       errorWidget: (context, url, error) => Container(
-        color: AppColors.secondary,
+        color: context.colorScheme.surfaceContainerHighest,
         alignment: Alignment.center,
         child: Icon(
           Icons.broken_image_outlined,

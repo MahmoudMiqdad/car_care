@@ -1,7 +1,6 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/home/presentation/widgets/ServicesGrid.dart';
-import 'package:car_care/features/home/presentation/widgets/home_palette.dart';
 import 'package:car_care/features/home/presentation/widgets/service_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,27 +14,20 @@ class ServiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = context.colorScheme;
-    final borderRadius = BorderRadius.circular(10.r); // قمنا بتوحيد الرياديوس هنا منعا للتكرار
+    final borderRadius = BorderRadius.circular(10.r);
     return Material(
-      color: AppColors.transparent,
+      color: AppColors.cardBackground(context),
       borderRadius: borderRadius,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
- borderRadius: borderRadius,  
-       splashColor: HomePalette.primaryTeal.withValues(alpha: 0.08),
-        highlightColor: HomePalette.primaryTeal.withValues(alpha: 0.05),
+        borderRadius: borderRadius,
         onTap: onPressed,
         child: Ink(
           decoration: BoxDecoration(
             borderRadius: borderRadius,
-            gradient: const LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: HomePalette.cardGradient,
-            ),
             boxShadow: [
               BoxShadow(
-                color: scheme.shadow.withValues(alpha: 0.10),
+                color: scheme.shadow.withValues(alpha: 0.08),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -62,7 +54,7 @@ class ServiceCard extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: HomePalette.textDark,
+                        color: scheme.onSurface,
                         fontWeight: FontWeight.w600,
                         fontSize: 13.sp,
                         height: 1.25,
@@ -76,7 +68,7 @@ class ServiceCard extends StatelessWidget {
                   left: 0,
                   child: Icon(
                     Icons.chevron_left_rounded,
-                    color: HomePalette.accentOrange,
+                    color: scheme.tertiary,
                     size: 18.sp,
                   ),
                 ),

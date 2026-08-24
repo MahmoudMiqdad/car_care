@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,15 +22,16 @@ class RequestDetailRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final onSurface = context.colorScheme.onSurface;
     final labelStyle = TextStyle(
       fontSize: 16.sp,
       fontWeight: FontWeight.w800,
-      color: AppColors.black,
+      color: onSurface,
     );
     final valueStyle = TextStyle(
       fontSize: 14.sp,
       fontWeight: FontWeight.w500,
-      color: AppColors.black,
+      color: onSurface,
     );
 
     return Row(

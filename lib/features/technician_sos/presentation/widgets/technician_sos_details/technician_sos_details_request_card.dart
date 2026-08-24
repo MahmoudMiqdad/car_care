@@ -1,4 +1,5 @@
 import 'package:car_care/core/constants/app_assets.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_info_row.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_section_card.dart';
@@ -21,7 +22,6 @@ class SosTechnicianDetailsRequestCard extends StatelessWidget {
   final String technicianName;
   final String description;
 
-
   final String? vehicleImageUrl;
 
   @override
@@ -41,7 +41,7 @@ class SosTechnicianDetailsRequestCard extends StatelessWidget {
                 height: 140.h,
                 width: double.infinity,
                 fit: BoxFit.cover,
-                errorBuilder: (_, _, _) => _imagePlaceholder(),
+                errorBuilder: (_, _, _) => _imagePlaceholder(context),
               ),
             ),
             SizedBox(height: 10.h),
@@ -52,7 +52,7 @@ class SosTechnicianDetailsRequestCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 22.sp,
               fontWeight: FontWeight.w800,
-              color: AppColors.black,
+              color: context.colorScheme.onSurface,
             ),
           ),
           SosDetailsInfoRow(
@@ -75,11 +75,11 @@ class SosTechnicianDetailsRequestCard extends StatelessWidget {
     );
   }
 
-  Widget _imagePlaceholder() {
+  Widget _imagePlaceholder(BuildContext context) {
     return Container(
       height: 140.h,
       width: double.infinity,
-      color:  AppColors.white,
+      color: context.colorScheme.surfaceContainerHighest,
       child: Icon(
         Icons.directions_car_filled_rounded,
         size: 48.sp,

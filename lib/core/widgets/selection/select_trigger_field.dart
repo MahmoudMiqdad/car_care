@@ -1,4 +1,4 @@
-import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,7 +10,7 @@ class SelectTriggerField extends StatelessWidget {
     this.value,
     this.placeholder = '—',
     this.leading,
-    this.borderColor = AppColors.primary,
+    this.borderColor,
     this.borderWidth = 1.5,
     this.labelColor,
     this.labelFontSize = 15,
@@ -29,7 +29,7 @@ class SelectTriggerField extends StatelessWidget {
 
   final Widget? leading;
 
-  final Color borderColor;
+  final Color? borderColor;
   final double borderWidth;
   final Color? labelColor;
   final double labelFontSize;
@@ -44,10 +44,12 @@ class SelectTriggerField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = context.colorScheme;
+    final effectiveBorderColor = borderColor ?? colorScheme.primary;
     final hasValue = value != null && value!.isNotEmpty;
     final chevron = Icon(
       Icons.keyboard_arrow_down_rounded,
-      color: borderColor,
+      color: effectiveBorderColor,
       size: 28.sp,
     );
 
@@ -58,9 +60,9 @@ class SelectTriggerField extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         child: Ink(
           decoration: BoxDecoration(
-            color: AppColors.white,
+            color: colorScheme.surfaceContainer,
             borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(color: borderColor, width: borderWidth),
+            border: Border.all(color: effectiveBorderColor, width: borderWidth),
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
@@ -81,7 +83,7 @@ class SelectTriggerField extends StatelessWidget {
                       Text(
                         label,
                         style: theme.textTheme.titleSmall?.copyWith(
-                          color: labelColor ?? AppColors.textPrimary(context),
+                          color: labelColor ?? colorScheme.onSurface,
                           fontWeight: FontWeight.w700,
                           fontSize: labelFontSize.sp,
                           height: labelHeight,
@@ -92,12 +94,12 @@ class SelectTriggerField extends StatelessWidget {
                         hasValue ? value! : placeholder,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: hasValue
-                              ? AppColors.textSecondary(
-                                  context,
-                                ).withValues(alpha: 0.85)
-                              : AppColors.textSecondary(
-                                  context,
-                                ).withValues(alpha: placeholderAlpha),
+                              ? colorScheme.onSurfaceVariant.withValues(
+                                  alpha: 0.85,
+                                )
+                              : colorScheme.onSurfaceVariant.withValues(
+                                  alpha: placeholderAlpha,
+                                ),
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
                           height: valueHeight,

@@ -1,3 +1,4 @@
+import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
@@ -24,14 +25,14 @@ class BookingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color:AppColors.transparent,
+      color: AppColors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(16.r),
         onTap: () => _openDetails(context),
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
-            color: AppColors.white.withValues(alpha: 0.85),
+            color: context.colorScheme.surfaceContainer.withValues(alpha: 0.85),
             borderRadius: BorderRadius.circular(16.r),
             border: Border.all(color: AppColors.border(context)),
           ),
