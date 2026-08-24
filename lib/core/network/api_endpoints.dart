@@ -63,7 +63,8 @@ class ApiEndpoints {
   static const String washerProfileLogo = '/car_washer/profile/logo';
 
   static const String washerStatistics = '/car_washer/statistics';
-
+static const String assistantChat = '/chat';
+static const String assistantChatHistory = '/chat/history';
   static const String washerAvailability = '/car_washer/availability';
   static const String sos = '/sos';
 

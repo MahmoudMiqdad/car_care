@@ -20,7 +20,7 @@ class Routes {
   static const String vehicle_details = '/vehicle_details';
   static const String updateVehicle = '/update-vehicle';
   static const String deleteconfirmationdialog = '/delete_confirmation_dialog';
-
+static const String assistant_chat = '/assistant_chat';
   static const String maintenanceHistory = '/maintenanceHistory';
   static const String vehicleFuelLogs = '/vehicle_fuel_logs';
   static const String quotation_details = '/quotation_details';
@@ -84,6 +84,8 @@ class Routes {
   static const String fuelorderslist = '/fuel_orders_list_page';
   static const String fuel_order_details = '/fuel_order_details';
   static const String provider_order = '/provider_order';
+ 
+
   static const String provider_order_details = '/provider_order_details_page';
 
   static const String customerProductDetailsPreview =

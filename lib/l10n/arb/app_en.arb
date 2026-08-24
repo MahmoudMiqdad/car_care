@@ -9,10 +9,8 @@
   "@appTitle": {
     "description": "Application title"
   },
-  "fuelProvider": "Fuel Provider",
-  "@fuelProvider": {
-    "description": "Fuel Provider"
-  },
+  
+  
   "maintenanceRequestsTitle": "Maintenance Requests",
   "totalRequestsLabel": "Total Requests",
   "uploadLogoLabel": "Upload Logo",
@@ -48,6 +46,10 @@
   "statistics": "Statistics",
   "fuelProviderProfile": "Fuel Provider Profile",
   "fuelOrders": "Fuel Orders",
+   "fuelProvider": "Fuel Provider",
+  "@fuelProvider": {
+    "description": "Text representing the fuel provider or station"
+  },
   "shareLocation": "Share Location",
   "shopProfile": "Shop Profile",
   "shopOrders": "Shop Orders",
@@ -163,6 +165,33 @@
   "@save": {
     "description": "Save button"
   },
+  
+  "assistantChatTitle": "Smart Assistant",
+  "@assistantChatTitle": {
+    "description": "Title of the smart assistant page"
+  },
+  "assistantChatHint": "Type your message here...",
+  "@assistantChatHint": {
+    "description": "Placeholder text for the message input field"
+  },
+  "assistantChatEmpty": "No messages yet, start the conversation",
+  "@assistantChatEmpty": {
+    "description": "Text displayed when there are no messages"
+  },
+  "assistantChatTyping": "Assistant is typing...",
+  "@assistantChatTyping": {
+    "description": "Text displayed while waiting for the assistant's response"
+  },
+  "assistantChatDeleteHistoryTitle": "Delete Chat History",
+  "@assistantChatDeleteHistoryTitle": {
+    "description": "Title of the chat history deletion confirmation dialog"
+  },
+  "assistantChatDeleteHistoryConfirm": "Are you sure you want to delete all chat history?",
+  "@assistantChatDeleteHistoryConfirm": {
+    "description": "Confirmation text for deleting chat history"
+  }
+,
+
   "edit": "Edit",
   "@edit": {
     "description": "Edit button"

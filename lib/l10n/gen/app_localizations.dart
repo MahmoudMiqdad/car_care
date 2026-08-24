@@ -109,12 +109,6 @@ abstract class AppLocalizations {
   /// **'CarCare Services'**
   String get appTitle;
 
-  /// Fuel Provider
-  ///
-  /// In en, this message translates to:
-  /// **'Fuel Provider'**
-  String get fuelProvider;
-
   /// No description provided for @maintenanceRequestsTitle.
   ///
   /// In en, this message translates to:
@@ -276,6 +270,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Fuel Orders'**
   String get fuelOrders;
+
+  /// Text representing the fuel provider or station
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel Provider'**
+  String get fuelProvider;
 
   /// No description provided for @shareLocation.
   ///
@@ -630,6 +630,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get save;
+
+  /// Title of the smart assistant page
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Assistant'**
+  String get assistantChatTitle;
+
+  /// Placeholder text for the message input field
+  ///
+  /// In en, this message translates to:
+  /// **'Type your message here...'**
+  String get assistantChatHint;
+
+  /// Text displayed when there are no messages
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet, start the conversation'**
+  String get assistantChatEmpty;
+
+  /// Text displayed while waiting for the assistant's response
+  ///
+  /// In en, this message translates to:
+  /// **'Assistant is typing...'**
+  String get assistantChatTyping;
+
+  /// Title of the chat history deletion confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Chat History'**
+  String get assistantChatDeleteHistoryTitle;
+
+  /// Confirmation text for deleting chat history
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete all chat history?'**
+  String get assistantChatDeleteHistoryConfirm;
 
   /// Edit button
   ///
