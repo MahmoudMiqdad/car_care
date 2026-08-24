@@ -20,8 +20,7 @@ class Routes {
   static const String vehicle_details = '/vehicle_details';
   static const String updateVehicle = '/update-vehicle';
   static const String deleteconfirmationdialog = '/delete_confirmation_dialog';
-static const String assistant_chat = '/assistant_chat';
-  static const String maintenanceHistory = '/maintenanceHistory';
+static const String assistantChat = '/assistant_chat';  static const String maintenanceHistory = '/maintenanceHistory';
   static const String vehicleFuelLogs = '/vehicle_fuel_logs';
   static const String quotation_details = '/quotation_details';
   static const String inserttechnicianprofile = '/insert_technician_profile';
