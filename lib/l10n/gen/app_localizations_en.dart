@@ -1591,6 +1591,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmCompletionButton => 'Confirm Completion';
 
   @override
+  String get sendingRequest => 'Sending...';
+
+  @override
+  String get providerReviewPendingTitle => 'Your application is under review';
+
+  @override
+  String get providerReviewRejectedTitle => 'Application rejected';
+
+  @override
+  String get providerReviewPendingMessage => 'Your application is currently under review. We\'ll notify you once a decision is made.';
+
+  @override
+  String get providerReviewRejectedDefaultReason => 'Your application was rejected. Contact support for more details.';
+
+  @override
+  String get providerReviewDialogOk => 'OK';
+
+  @override
   String get updatingProgress => 'Updating...';
 
   @override

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/functions/upload_file_to_api.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
@@ -458,7 +457,7 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
     );
   }
 
-  Widget _saveBar({
+ Widget _saveBar({
     required AppLocalizations l10n,
     required bool isCreating,
     required OwnerProductsCubit cubit,
@@ -466,20 +465,9 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
     return SafeArea(
       top: false,
       minimum: EdgeInsets.only(bottom: 12.h),
-      child: Container(
-        padding: EdgeInsets.fromLTRB(16.w, 10.h, 16.w, 10.h),
-        decoration: BoxDecoration(
-          color: context.colorScheme.surfaceContainer,
-          boxShadow: [
-            BoxShadow(
-              color: context.colorScheme.shadow.withOpacity(0.06),
-              blurRadius: 8,
-              offset: const Offset(0, -2),
-            ),
-          ],
-        ),
+      child: Center(
         child: SizedBox(
-          width: double.infinity,
+          width: 300.w, 
           child: ElevatedButton(
             onPressed: isCreating ? null : () => _submit(cubit),
             style: ElevatedButton.styleFrom(
@@ -493,7 +481,7 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
                 ? SizedBox(
                     width: 22.sp,
                     height: 22.sp,
-                    child: CircularProgressIndicator(
+                    child: const CircularProgressIndicator(
                       strokeWidth: 2.5,
                       color: AppColors.white,
                     ),
@@ -510,4 +498,5 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
       ),
     );
   }
+
 }

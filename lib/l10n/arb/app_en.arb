@@ -1650,6 +1650,15 @@
   "completionNotesHint": "Type what has been accomplished...",
   "completionNotesRequiredError": "Completion notes are required",
   "confirmCompletionButton": "Confirm Completion",
+    "sendingRequest": "Sending...",
+  "@sendingRequest": {
+    "description": "Short text inside the button when sending the request"
+  },
+"providerReviewPendingTitle": "Your application is under review",
+"providerReviewRejectedTitle": "Application rejected",
+"providerReviewPendingMessage": "Your application is currently under review. We'll notify you once a decision is made.",
+"providerReviewRejectedDefaultReason": "Your application was rejected. Contact support for more details.",
+"providerReviewDialogOk": "OK",
   "updatingProgress": "Updating...",
   "quotationPriceLabel": "Price Offer",
   "quotationSentWaitingApproval": "Your offer has been sent — waiting for customer approval",

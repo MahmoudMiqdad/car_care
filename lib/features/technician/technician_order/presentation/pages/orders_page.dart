@@ -52,7 +52,11 @@ class _TechnicianStatusGate extends StatelessWidget {
       builder: (context, state) {
         if (state is TechnicianProfileLoading ||
             state is TechnicianProfileInitial) {
-          return const Scaffold(body: Center(child: AppLoadingWidget()));
+          return Scaffold(
+            body: ImageBackground(
+              child: const Center(child: AppLoadingWidget()),
+            ),
+          );
         }
 
         if (state is TechnicianProfileLoaded) {
@@ -69,10 +73,16 @@ class _TechnicianStatusGate extends StatelessWidget {
         }
 
         if (state is TechnicianProfileError) {
-          return const Scaffold(body: Center(child: AppLoadingWidget()));
+          return Scaffold(
+            body: ImageBackground(
+              child: const Center(child: AppLoadingWidget()),
+            ),
+          );
         }
 
-        return const Scaffold(body: SizedBox.shrink());
+        return Scaffold(
+          body: ImageBackground(child: const SizedBox.shrink()),
+        );
       },
     );
   }
@@ -87,7 +97,7 @@ class _Body extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground(context),
-      appBar: AppBar(title: Text(l10n.sparePartsStoreTitle)),
+      appBar: AppBar(title: Text(l10n.maintenanceRequestsTitle)),
       body: ImageBackground(
         child: BlocConsumer<AvailableRequestsCubit, AvailableRequestsState>(
           listenWhen: (_, current) => current is AvailableRequestsError,

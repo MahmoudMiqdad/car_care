@@ -68,9 +68,9 @@ class _SosRequestsListPageState extends State<TechnicianSosRequestsListPage> {
           }
         },
       ),
-      body: RefreshIndicator(
-        onRefresh: _onRefresh,
-        child: ImageBackground(
+      body: ImageBackground(
+        child: RefreshIndicator(
+          onRefresh: _onRefresh,
           child: BlocConsumer<TechnicianSosCubit, TechnicianSosState>(
             listenWhen: (_, current) =>
                 current is TechnicianError ||
@@ -118,7 +118,7 @@ class _SosRequestsListPageState extends State<TechnicianSosRequestsListPage> {
               if (state is TechnicianLoading) {
                 return const Center(child: AppLoadingWidget());
               }
-
+          
               if (state is TechnicianError) {
                 return ErrorStateWidget(
                   message:
@@ -129,22 +129,21 @@ class _SosRequestsListPageState extends State<TechnicianSosRequestsListPage> {
                   onRetry: _load,
                 );
               }
-
+          
               if (state is TechnicianAvailableLoaded) {
                 final list = state.list;
-
+          
                 if (list.isEmpty) {
                   return ListView(
                     physics: const AlwaysScrollableScrollPhysics(),
                     children: [
                       SizedBox(height: 60.h),
                       const EmptyStateWidget(),
-                      SizedBox(height: 12.h),
-                      Center(child: Text(l10n.noAvailableRequests)),
+                   
                     ],
                   );
                 }
-
+          
                 return ListView.separated(
                   physics: const AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.all(AppConstants.pageHorizontal),
@@ -159,7 +158,7 @@ class _SosRequestsListPageState extends State<TechnicianSosRequestsListPage> {
                   },
                 );
               }
-
+          
               return ListView(
                 children: [
                   SizedBox(height: 200.h),

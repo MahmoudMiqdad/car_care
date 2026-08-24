@@ -8,8 +8,12 @@ import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/advertisements/domain/entities/advertisement_entity.dart';
 import 'package:car_care/features/advertisements/presentation/widgets/advertisement_section.dart';
 import 'package:car_care/features/auth/presentation/widgets/logout_action.dart';
+import 'package:car_care/features/car_washer/washers/washers_profile/presentation/cubit/profile_washer_cubit.dart';
+import 'package:car_care/features/car_washer/washers/washers_profile/presentation/cubit/profile_washer_state.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/cubit/owner_profile/owner_profile_cubit.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/cubit/owner_profile/owner_profile_state.dart';
+import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_cubit.dart';
+import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_state.dart';
 import 'package:car_care/features/technician_sos/presentation/technician_sos_request_type.dart';
 import 'package:car_care/features/user_profile/data/data_sources/profile_remote_data_source.dart';
 import 'package:car_care/l10n.dart';
@@ -17,8 +21,70 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/cubit/provider_profile_cubit.dart';
+import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/cubit/provider_profile_state.dart';
+
 bool showFuelProviderStatisticsTile(List<String> roles) =>
     roles.contains('fuel-provider');
+
+/// Unified approval status for a provider role (technician / car-washer /
+/// fuel-provider). Mirrors the shop-owner flow: no profile yet -> only the
+/// "join" tile; profile submitted but not approved yet (pending/rejected) ->
+/// only the profile tile (tapping it while rejected shows the reason);
+/// approved -> the full set of tiles for that role.
+enum _ProviderAccessLevel { noProfile, pending, rejected, approved }
+
+typedef _AccessResult = ({_ProviderAccessLevel level, String? reason});
+
+bool _looksLikeNotFound(String message) {
+  final msg = message.toLowerCase();
+  return msg.contains('404') ||
+      msg.contains('not found') ||
+      msg.contains('غير موجود') ||
+      msg.contains('لم تقم بإدخال');
+}
+
+_ProviderAccessLevel _levelFromStatus(String? status) {
+  switch (status) {
+    case 'approved':
+      return _ProviderAccessLevel.approved;
+    case 'rejected':
+      return _ProviderAccessLevel.rejected;
+    default:
+      return _ProviderAccessLevel.pending;
+  }
+}
+
+void _showStatusDialog(
+  BuildContext context, {
+  required bool rejected,
+  String? reason,
+}) {
+  final l10n = context.l10n;
+  showDialog(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      title: Text(
+        rejected
+            ? l10n.providerReviewRejectedTitle
+            : l10n.providerReviewPendingTitle,
+      ),
+      content: Text(
+        rejected
+            ? ((reason != null && reason.trim().isNotEmpty)
+                  ? reason
+                  : l10n.providerReviewRejectedDefaultReason)
+            : l10n.providerReviewPendingMessage,
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(ctx).pop(),
+          child: Text(l10n.providerReviewDialogOk),
+        ),
+      ],
+    ),
+  );
+}
 
 class MorePage extends StatelessWidget {
   const MorePage({super.key});
@@ -144,20 +210,16 @@ class _MoreContent extends StatelessWidget {
   }
 
   List<Widget> _ownedProviderItems(BuildContext context, String role) {
-    if (role == 'shop-owner') {
-      const section = _ShopOwnerSection();
-      if (_ownedProviders.length == 1) return [section];
-      return [_SectionHeader(label: _providerLabel(context, role)), section];
-    }
-    final items = switch (role) {
-      'technician' => _technicianItems(context),
-      'car-washer' => _carWasherItems(context),
-      'fuel-provider' => _fuelProviderItems(context),
-      _ => const <Widget>[],
+    final Widget? section = switch (role) {
+      'shop-owner' => const _ShopOwnerSection(),
+      'technician' => const _TechnicianSection(),
+      'car-washer' => const _CarWasherSection(),
+      'fuel-provider' => _FuelProviderSection(roles: roles),
+      _ => null,
     };
-    if (items.isEmpty) return items;
-    if (_ownedProviders.length == 1) return items;
-    return [_SectionHeader(label: _providerLabel(context, role)), ...items];
+    if (section == null) return const <Widget>[];
+    if (_ownedProviders.length == 1) return [section];
+    return [_SectionHeader(label: _providerLabel(context, role)), section];
   }
 
   Widget _joinTile(BuildContext context, String role) {
@@ -190,8 +252,42 @@ class _MoreContent extends StatelessWidget {
       _ => const SizedBox.shrink(),
     };
   }
+}
 
-  List<Widget> _technicianItems(BuildContext context) {
+// ---------------------------------------------------------------------------
+// Technician
+// ---------------------------------------------------------------------------
+
+Future<_AccessResult> _resolveTechnicianAccess() async {
+  final cubit = getIt<TechnicianProfileCubit>();
+  cubit.getTechnicianProfile();
+  final state = await cubit.stream.firstWhere(
+    (s) => s is TechnicianProfileLoaded || s is TechnicianProfileError,
+  );
+
+  if (state is TechnicianProfileLoaded) {
+    final data = state.profile.data;
+    if (data == null) {
+      return (level: _ProviderAccessLevel.noProfile, reason: null);
+    }
+    return (level: _levelFromStatus(data.status), reason: data.rejectionReason);
+  }
+
+  if (state is TechnicianProfileError) {
+    final notFound = _looksLikeNotFound(state.message);
+    return (
+      level: notFound ? _ProviderAccessLevel.noProfile : _ProviderAccessLevel.pending,
+      reason: null,
+    );
+  }
+
+  return (level: _ProviderAccessLevel.pending, reason: null);
+}
+
+class _TechnicianSection extends StatelessWidget {
+  const _TechnicianSection();
+
+  List<Widget> _fullItems(BuildContext context) {
     final l10n = context.l10n;
     return [
       _MoreTile(
@@ -245,7 +341,75 @@ class _MoreContent extends StatelessWidget {
     ];
   }
 
-  List<Widget> _carWasherItems(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return FutureBuilder<_AccessResult>(
+      future: _resolveTechnicianAccess(),
+      builder: (context, snap) {
+        if (!snap.hasData) return const SizedBox.shrink();
+        final result = snap.data!;
+        return switch (result.level) {
+          _ProviderAccessLevel.noProfile => _MoreTile(
+            icon: Icons.engineering_outlined,
+            label: l10n.applyAsTechnician,
+            iconColor: AppColors.indigo,
+            onTap: () => context.push(Routes.inserttechnicianprofile),
+          ),
+          _ProviderAccessLevel.approved => Column(
+            children: _fullItems(context),
+          ),
+          _ => _MoreTile(
+            icon: Icons.engineering_outlined,
+            label: l10n.technicianProfile,
+            iconColor: AppColors.primary,
+            onTap: result.level == _ProviderAccessLevel.rejected
+                ? () => _showStatusDialog(
+                    context,
+                    rejected: true,
+                    reason: result.reason,
+                  )
+                : () => _showStatusDialog(context, rejected: false),
+          ),
+        };
+      },
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Car washer
+// ---------------------------------------------------------------------------
+
+Future<_AccessResult> _resolveCarWasherAccess() async {
+  final cubit = getIt<ProfileWasherCubit>();
+  cubit.load();
+  final state = await cubit.stream.firstWhere(
+    (s) =>
+        s is ProfileWasherLoaded ||
+        s is ProfileWasherEmpty ||
+        s is ProfileWasherError,
+  );
+
+  if (state is ProfileWasherEmpty) {
+    return (level: _ProviderAccessLevel.noProfile, reason: null);
+  }
+
+  if (state is ProfileWasherLoaded) {
+    final profile = state.profile;
+    return (
+      level: _levelFromStatus(profile.status),
+      reason: profile.rejectionReason,
+    );
+  }
+
+  return (level: _ProviderAccessLevel.pending, reason: null);
+}
+
+class _CarWasherSection extends StatelessWidget {
+  const _CarWasherSection();
+
+  List<Widget> _fullItems(BuildContext context) {
     final l10n = context.l10n;
     return [
       _MoreTile(
@@ -275,7 +439,78 @@ class _MoreContent extends StatelessWidget {
     ];
   }
 
-  List<Widget> _fuelProviderItems(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return FutureBuilder<_AccessResult>(
+      future: _resolveCarWasherAccess(),
+      builder: (context, snap) {
+        if (!snap.hasData) return const SizedBox.shrink();
+        final result = snap.data!;
+        return switch (result.level) {
+          _ProviderAccessLevel.noProfile => _MoreTile(
+            icon: Icons.local_car_wash_outlined,
+            label: l10n.registerCarWash,
+            iconColor: AppColors.teal,
+            onTap: () => context.push(Routes.create_profile_washer),
+          ),
+          _ProviderAccessLevel.approved => Column(
+            children: _fullItems(context),
+          ),
+          _ => _MoreTile(
+            icon: Icons.local_car_wash_outlined,
+            label: l10n.carWashProfile,
+            iconColor: AppColors.carWashTeal,
+            onTap: result.level == _ProviderAccessLevel.rejected
+                ? () => _showStatusDialog(
+                    context,
+                    rejected: true,
+                    reason: result.reason,
+                  )
+                : () => _showStatusDialog(context, rejected: false),
+          ),
+        };
+      },
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Fuel provider
+// ---------------------------------------------------------------------------
+
+Future<_AccessResult> _resolveFuelProviderAccess() async {
+  final cubit = getIt<FuelProviderProfileCubit>();
+  cubit.myProfile();
+  final state = await cubit.stream.firstWhere(
+    (s) => s is FuelProviderProfileLoaded || s is FuelProviderProfileError,
+  );
+
+  if (state is FuelProviderProfileLoaded) {
+    final profile = state.profile;
+    return (
+      level: _levelFromStatus(profile.status),
+      reason: profile.rejectionReason,
+    );
+  }
+
+  if (state is FuelProviderProfileError) {
+    final notFound = _looksLikeNotFound(state.message);
+    return (
+      level: notFound ? _ProviderAccessLevel.noProfile : _ProviderAccessLevel.pending,
+      reason: null,
+    );
+  }
+
+  return (level: _ProviderAccessLevel.pending, reason: null);
+}
+
+class _FuelProviderSection extends StatelessWidget {
+  const _FuelProviderSection({required this.roles});
+
+  final List<String> roles;
+
+  List<Widget> _fullItems(BuildContext context, List<String> roles) {
     final l10n = context.l10n;
     return [
       _MoreTile(
@@ -311,7 +546,47 @@ class _MoreContent extends StatelessWidget {
       ),
     ];
   }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return FutureBuilder<_AccessResult>(
+      future: _resolveFuelProviderAccess(),
+      builder: (context, snap) {
+        if (!snap.hasData) return const SizedBox.shrink();
+        final result = snap.data!;
+        return switch (result.level) {
+          _ProviderAccessLevel.noProfile => _MoreTile(
+            icon: Icons.local_gas_station_outlined,
+            label: l10n.registerAsFuelProvider,
+            iconColor: AppColors.amber,
+            onTap: () => context.push(Routes.provider_create_profile),
+          ),
+          _ProviderAccessLevel.approved => Column(
+            children: _fullItems(context, roles),
+          ),
+          _ => _MoreTile(
+            icon: Icons.local_gas_station_outlined,
+            label: l10n.fuelProviderProfile,
+            iconColor: AppColors.primary,
+            onTap: result.level == _ProviderAccessLevel.rejected
+                ? () => _showStatusDialog(
+                    context,
+                    rejected: true,
+                    reason: result.reason,
+                  )
+                : () => _showStatusDialog(context, rejected: false),
+          ),
+        };
+      },
+    );
+  }
 }
+
+// ---------------------------------------------------------------------------
+// Shop owner (unchanged)
+// ---------------------------------------------------------------------------
 
 enum _ShopAccessLevel { noShop, restricted, approved }
 

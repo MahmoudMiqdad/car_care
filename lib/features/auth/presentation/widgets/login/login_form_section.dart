@@ -36,6 +36,8 @@ class LoginFormSection extends StatefulWidget {
 
 class _LoginFormSectionState extends State<LoginFormSection> {
   bool submitted = false;
+  bool _isLoading = false; // متغير جديد للتحكم في حالة التحميل ولون الزر
+
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
@@ -98,9 +100,11 @@ class _LoginFormSectionState extends State<LoginFormSection> {
         SizedBox(
           height: AppConstants.buttonHeight.h,
           child: AppButton(
+            isLoading: _isLoading, 
             onPressed: () {
               setState(() => submitted = true);
               if (widget.formKey.currentState?.validate() ?? false) {
+                setState(() => _isLoading = true);
                 widget._onLogin?.call();
               }
             },

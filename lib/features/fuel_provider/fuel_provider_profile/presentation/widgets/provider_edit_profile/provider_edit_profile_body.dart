@@ -72,6 +72,7 @@ class ProviderEditProfileBody extends StatelessWidget {
             ),
             SizedBox(height: 10.h),
             ProviderEditProfileInputField(
+                
               label: l10n.providerEditProfileProviderPhoneLabel,
               hint: l10n.providerEditProfileProviderPhoneHint,
               controller: phoneController,

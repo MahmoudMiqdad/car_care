@@ -103,6 +103,9 @@ class ProviderEditProfileInputField extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                   decoration: InputDecoration(
+                    filled: false,
+                    fillColor: Colors.transparent,
+                    
                     isDense: true,
                     border: InputBorder.none,
                     enabledBorder: InputBorder.none,

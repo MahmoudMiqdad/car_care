@@ -65,131 +65,130 @@ class _ProviderOrderDetailsPageState extends State<ProviderOrderDetailsPage> {
               result: _orderChanged,
             ),
           ),
-          body: BlocListener<FuelProviderOrderCubit, FuelProviderOrderState>(
-            listener: (context, state) {
-              if (state is FuelProviderOrderAccepted) {
-                AppSnackBar.success(context, l10n.orderAcceptedSuccess);
-                context.safePopOrGo(Routes.provider_order, result: true);
-              }
-
-              if (state is FuelProviderOrderStarted) {
-                AppSnackBar.success(context, l10n.orderStartedSuccess);
-                setState(() => _orderChanged = true);
-                context.read<FuelProviderOrderCubit>().getOrder(widget.id);
-              }
-
-              if (state is FuelProviderOrderCompleted) {
-                AppSnackBar.success(context, l10n.orderCompletedSuccess);
-                context.safePopOrGo(Routes.provider_order, result: true);
-              }
-
-              if (state is FuelProviderOrderCancelled) {
-                AppSnackBar.success(context, l10n.orderCancelledSuccess);
-                context.safePopOrGo(Routes.provider_order, result: true);
-              }
-
-              if (state is FuelProviderOrderError) {
-                AppSnackBar.error(context, state.message);
-              }
-
-              if (state is FuelProviderOrderActionError) {
-                AppSnackBar.error(context, state.message);
-              }
-            },
-            child: ImageBackground(
-              child:
-                  BlocBuilder<FuelProviderOrderCubit, FuelProviderOrderState>(
-                    builder: (context, state) {
-                      if (state is FuelProviderOrderLoading) {
-                        return const Center(child: AppLoadingWidget());
-                      }
-
-                      final order = state is FuelProviderOrderDetailsLoaded
-                          ? state.order
-                          : (state is FuelProviderOrderActionError
-                                ? state.order
-                                : null);
-
-                      if (order != null) {
-                        return ProviderOrderDetailsBody(
-                          order: order,
-                          onAcceptOrder: _acceptInFlight
-                              ? null
-                              : () async {
-                                  if (_acceptInFlight) return;
-                                  setState(() => _acceptInFlight = true);
-                                  try {
-                                    final result =
-                                        await showProviderAcceptOrderDialog(
-                                          context,
-                                        );
-
-                                    if (result != null &&
-                                        order.id != null &&
-                                        context.mounted) {
-                                      final minutes = int.tryParse(
-                                        result.minutes,
-                                      );
-                                      final notes = result.notes.trim();
-                                      context
-                                          .read<FuelProviderOrderCubit>()
-                                          .acceptOrder(
-                                            order.id!,
-                                            estimatedArrivalMinutes:
-                                                minutes != null && minutes > 0
-                                                ? minutes
-                                                : null,
-                                            notes: notes.isEmpty ? null : notes,
-                                          );
-                                    }
-                                  } catch (_) {
-                                  } finally {
-                                    if (context.mounted) {
-                                      setState(() => _acceptInFlight = false);
-                                    }
-                                  }
-                                },
-                          onStartOrder: order.id != null
-                              ? () => context
-                                    .read<FuelProviderOrderCubit>()
-                                    .startOrder(order.id!)
-                              : null,
-                          onCompleteOrder: order.id != null
-                              ? () => context
-                                    .read<FuelProviderOrderCubit>()
-                                    .completeOrder(order.id!)
-                              : null,
-                          onCancelOrder: order.id != null
-                              ? () async {
-                                  final reason = await showCancelReasonDialog(
-                                    context,
-                                    title: l10n.cancelFuelOrderTitle,
-                                    question:
-                                        l10n.pleaseEnterCancellationReason,
+          body: ImageBackground(
+            child: BlocListener<FuelProviderOrderCubit, FuelProviderOrderState>(
+              listener: (context, state) {
+                if (state is FuelProviderOrderAccepted) {
+                  AppSnackBar.success(context, l10n.orderAcceptedSuccess);
+                  context.safePopOrGo(Routes.provider_order, result: true);
+                }
+            
+                if (state is FuelProviderOrderStarted) {
+                  AppSnackBar.success(context, l10n.orderStartedSuccess);
+                  setState(() => _orderChanged = true);
+                  context.read<FuelProviderOrderCubit>().getOrder(widget.id);
+                }
+            
+                if (state is FuelProviderOrderCompleted) {
+                  AppSnackBar.success(context, l10n.orderCompletedSuccess);
+                  context.safePopOrGo(Routes.provider_order, result: true);
+                }
+            
+                if (state is FuelProviderOrderCancelled) {
+                  AppSnackBar.success(context, l10n.orderCancelledSuccess);
+                  context.safePopOrGo(Routes.provider_order, result: true);
+                }
+            
+                if (state is FuelProviderOrderError) {
+                  AppSnackBar.error(context, state.message);
+                }
+            
+                if (state is FuelProviderOrderActionError) {
+                  AppSnackBar.error(context, state.message);
+                }
+              },
+              child: BlocBuilder<FuelProviderOrderCubit, FuelProviderOrderState>(
+                builder: (context, state) {
+                  if (state is FuelProviderOrderLoading) {
+                    return const Center(child: AppLoadingWidget());
+                  }
+              
+                  final order = state is FuelProviderOrderDetailsLoaded
+                      ? state.order
+                      : (state is FuelProviderOrderActionError
+                            ? state.order
+                            : null);
+              
+                  if (order != null) {
+                    return ProviderOrderDetailsBody(
+                      order: order,
+                      onAcceptOrder: _acceptInFlight
+                          ? null
+                          : () async {
+                              if (_acceptInFlight) return;
+                              setState(() => _acceptInFlight = true);
+                              try {
+                                final result =
+                                    await showProviderAcceptOrderDialog(
+                                      context,
+                                    );
+              
+                                if (result != null &&
+                                    order.id != null &&
+                                    context.mounted) {
+                                  final minutes = int.tryParse(
+                                    result.minutes,
                                   );
-                                  if (reason == null || !context.mounted) {
-                                    return;
-                                  }
-                                  final validationError =
-                                      validateFuelProviderCancellationReason(
-                                        context,
-                                        reason,
-                                      );
-                                  if (validationError != null) {
-                                    AppSnackBar.error(context, validationError);
-                                    return;
-                                  }
+                                  final notes = result.notes.trim();
                                   context
                                       .read<FuelProviderOrderCubit>()
-                                      .cancelOrder(order.id!, reason.trim());
+                                      .acceptOrder(
+                                        order.id!,
+                                        estimatedArrivalMinutes:
+                                            minutes != null && minutes > 0
+                                            ? minutes
+                                            : null,
+                                        notes: notes.isEmpty ? null : notes,
+                                      );
                                 }
-                              : null,
-                        );
-                      }
-
-                      return const SizedBox();
-                    },
-                  ),
+                              } catch (_) {
+                              } finally {
+                                if (context.mounted) {
+                                  setState(() => _acceptInFlight = false);
+                                }
+                              }
+                            },
+                      onStartOrder: order.id != null
+                          ? () => context
+                                .read<FuelProviderOrderCubit>()
+                                .startOrder(order.id!)
+                          : null,
+                      onCompleteOrder: order.id != null
+                          ? () => context
+                                .read<FuelProviderOrderCubit>()
+                                .completeOrder(order.id!)
+                          : null,
+                      onCancelOrder: order.id != null
+                          ? () async {
+                              final reason = await showCancelReasonDialog(
+                                context,
+                                title: l10n.cancelFuelOrderTitle,
+                                question:
+                                    l10n.pleaseEnterCancellationReason,
+                              );
+                              if (reason == null || !context.mounted) {
+                                return;
+                              }
+                              final validationError =
+                                  validateFuelProviderCancellationReason(
+                                    context,
+                                    reason,
+                                  );
+                              if (validationError != null) {
+                                AppSnackBar.error(context, validationError);
+                                return;
+                              }
+                              context
+                                  .read<FuelProviderOrderCubit>()
+                                  .cancelOrder(order.id!, reason.trim());
+                            }
+                          : null,
+                    );
+                  }
+              
+                  return const SizedBox();
+                },
+              ),
             ),
           ),
         ),

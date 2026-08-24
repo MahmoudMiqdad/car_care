@@ -108,17 +108,17 @@ class _ProviderCreateProfilePageState
         backgroundColor: AppColors.carWashTeal,
         onBackTapped: () => context.safePopOrGo(Routes.more),
       ),
-      body: BlocListener<FuelProviderProfileCubit, FuelProviderProfileState>(
-        listener: (context, state) {
-          if (state is FuelProviderProfileLoaded) {
-        
-            context.go(Routes.provider_profile);
-          }
-          if (state is FuelProviderProfileError) {
-            AppSnackBar.error(context, state.message);
-          }
-        },
-        child: ImageBackground(
+      body : ImageBackground(
+        child: BlocListener<FuelProviderProfileCubit, FuelProviderProfileState>(
+          listener: (context, state) {
+            if (state is FuelProviderProfileLoaded) {
+          
+              context.go(Routes.provider_profile);
+            }
+            if (state is FuelProviderProfileError) {
+              AppSnackBar.error(context, state.message);
+            }
+          },
           child: ProviderEditProfileBody(
             nameController: _nameController,
             phoneController: _phoneController,

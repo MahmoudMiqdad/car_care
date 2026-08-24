@@ -44,7 +44,6 @@ class _ProviderEditProfilePageState extends State<ProviderEditProfilePage> {
     _addressController = TextEditingController(text: p?.address ?? '');
     _governorateValue = p?.city ?? kCreateSosProvinceOptions.first;
 
-   
     final activeTypes = p?.fuelTypes ?? const <String>[];
     final backendPrices = p?.prices ?? const <String, double>{};
     _fuelPrices = {
@@ -63,9 +62,12 @@ class _ProviderEditProfilePageState extends State<ProviderEditProfilePage> {
   }
 
   Future<void> _pickGovernorate() async {
+   
+    final l10n = context.l10n; 
+
     await SharedSelectionBottomSheet.show<String>(
       context: context,
-      title: 'اختر المحافظة',
+      title: l10n.createSosChooseProvince,
       items: kCreateSosProvinceOptions,
       itemBuilder: (context, e) => GovernorateSelectionTile(
         label: e,
@@ -76,7 +78,6 @@ class _ProviderEditProfilePageState extends State<ProviderEditProfilePage> {
   }
 
   Future<void> _onFuelTypeTap(String apiValue, String label) async {
-    
     final price = await showProviderFuelPriceDialog(
       context,
       fuelType: label,
@@ -85,7 +86,6 @@ class _ProviderEditProfilePageState extends State<ProviderEditProfilePage> {
     if (!mounted || price == null) return;
     setState(() {
       if (price.isEmpty) {
-        // Explicit clear on an already-active type = deactivate it.
         _fuelPrices.remove(apiValue);
       } else {
         _fuelPrices[apiValue] = price;
@@ -123,17 +123,17 @@ class _ProviderEditProfilePageState extends State<ProviderEditProfilePage> {
         backgroundColor: AppColors.carWashTeal,
         onBackTapped: () => context.safePopOrGo(Routes.provider_profile),
       ),
-      body: BlocListener<FuelProviderProfileCubit, FuelProviderProfileState>(
-        listener: (context, state) {
-          if (state is FuelProviderProfileLoaded) {
-             AppSnackBar.success(context, "تم حفظ البيانات");
-            context.safePopOrGo(Routes.provider_profile, result: true);
-          }
-          if (state is FuelProviderProfileError) {
-            AppSnackBar.error(context, state.message);
-          }
-        },
-        child: ImageBackground(
+      body: ImageBackground(
+        child: BlocListener<FuelProviderProfileCubit, FuelProviderProfileState>(
+          listener: (context, state) {
+            if (state is FuelProviderProfileLoaded) {
+               AppSnackBar.success(context, l10n.profileWasherEditSuccessMessage);
+              context.safePopOrGo(Routes.provider_profile, result: true);
+            }
+            if (state is FuelProviderProfileError) {
+              AppSnackBar.error(context, state.message);
+            }
+          },
           child: ProviderEditProfileBody(
             nameController: _nameController,
             phoneController: _phoneController,

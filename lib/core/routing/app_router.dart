@@ -120,7 +120,8 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-initialLocation: Routes.splash,    debugLogDiagnostics: true,
+    initialLocation: Routes.splash,
+    debugLogDiagnostics: true,
     routes: [
       GoRoute(path: Routes.splash, builder: (_, _) => const SplashScreen()),
       GoRoute(
@@ -225,9 +226,18 @@ initialLocation: Routes.splash,    debugLogDiagnostics: true,
             name: '/more',
             builder: (context, state) => const MorePage(),
           ),
-    
-      ],
+        ],
       ),
+
+      // ⬇️ Route مستقل خارج الـ ShellRoute تماماً — يُستخدم بالـ push من صفحات
+      // خارج الـ shell (مثل SosRequestsListPage) لتفادي تعارض shellNavigatorKey
+      GoRoute(
+        path: '/create_sos_standalone',
+        name: 'createSosStandalone',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => const CreateSosPageWrapper(),
+      ),
+
       GoRoute(
         path: Routes.allUserSosRequests,
         name: '/sos',
@@ -400,11 +410,11 @@ initialLocation: Routes.splash,    debugLogDiagnostics: true,
         path: Routes.add_user_fuel,
         builder: (context, state) => const FuelSosCreatePageWrapper(),
       ),
-GoRoute(
-  path: Routes.assistantChat,
-  name: Routes.assistantChat,
-  builder: (context, state) => const AssistantChatPageWrapper(),
-),
+      GoRoute(
+        path: Routes.assistantChat,
+        name: Routes.assistantChat,
+        builder: (context, state) => const AssistantChatPageWrapper(),
+      ),
 
       GoRoute(
         path: Routes.fuelorderslist,
@@ -698,7 +708,6 @@ GoRoute(
       GoRoute(
         path: Routes.addRequest,
         name: '/add_requests_page.dart',
-
         builder: (context, state) {
           final extra = state.extra;
           final vehicleId = switch (extra) {

@@ -6,7 +6,6 @@ import 'package:car_care/features/auth/domain/repositories/i_auth_repository.dar
 import 'package:car_care/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_event.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_state.dart';
-import 'package:car_care/features/auth/presentation/widgets/login/login_header.dart';
 import 'package:car_care/features/auth/presentation/widgets/register/register_content.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -29,18 +28,30 @@ class _RegisterPageState extends State<RegisterPage> {
   final _confirmPasswordController = TextEditingController();
 
   @override
+  void dispose() {
+    _nameController.dispose();
+    _phoneController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
 
     return BlocProvider(
       create: (_) => AuthBloc(getIt<IAuthRepository>()),
       child: Scaffold(
+      
+        resizeToAvoidBottomInset: false,
         body: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthFailure) {
-                AppSnackBar.error(context, state.message);
+              AppSnackBar.error(context, state.message);
             } else if (state is AuthSuccess) {
-               AppSnackBar.success(context,strings.registrationSuccess);
+              AppSnackBar.success(context, strings.registrationSuccess);
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 GoRouter.of(context).go(Routes.login);
               });
@@ -57,27 +68,25 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 Image.asset(AppAssets.backgroung, fit: BoxFit.cover),
                 SafeArea(
-                  child: Column(
-                    children: [
-                      LoginHeader(),
-                      Expanded(
-                        child: RegisterContent(
-                          phoneController: _phoneController,
-                          formKey: _formKey,
-                          firstNameController: _nameController,
-                          accountController: _emailController,
-                          passwordController: _passwordController,
-                          confirmPasswordController: _confirmPasswordController,
-                          isLoading: isLoading,
-                          onRegister: () => context
-                              .read<AuthBloc>()
-                              .add(SubmitRegister()),
-                          onGoToLogin: () {
-                            GoRouter.of(context).go(Routes.login);
-                          },
-                        ),
-                      ),
-                    ],
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.06,
+                    ),
+                    child: RegisterContent(
+                      phoneController: _phoneController,
+                      formKey: _formKey,
+                      firstNameController: _nameController,
+                      accountController: _emailController,
+                      passwordController: _passwordController,
+                      confirmPasswordController: _confirmPasswordController,
+                      isLoading: isLoading,
+                      onRegister: () => context
+                          .read<AuthBloc>()
+                          .add(SubmitRegister()),
+                      onGoToLogin: () {
+                        GoRouter.of(context).go(Routes.login);
+                      },
+                    ),
                   ),
                 ),
               ],
