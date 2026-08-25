@@ -44,7 +44,6 @@ class _ProviderEditProfilePageState extends State<ProviderEditProfilePage> {
     _addressController = TextEditingController(text: p?.address ?? '');
     _governorateValue = p?.city ?? kCreateSosProvinceOptions.first;
 
-   
     final activeTypes = p?.fuelTypes ?? const <String>[];
     final backendPrices = p?.prices ?? const <String, double>{};
     _fuelPrices = {
@@ -76,7 +75,6 @@ class _ProviderEditProfilePageState extends State<ProviderEditProfilePage> {
   }
 
   Future<void> _onFuelTypeTap(String apiValue, String label) async {
-    
     final price = await showProviderFuelPriceDialog(
       context,
       fuelType: label,
@@ -122,17 +120,18 @@ class _ProviderEditProfilePageState extends State<ProviderEditProfilePage> {
         backgroundColor: AppColors.carWashTeal,
         onBackTapped: () => context.safePopOrGo(Routes.provider_profile),
       ),
-      body: BlocListener<FuelProviderProfileCubit, FuelProviderProfileState>(
-        listener: (context, state) {
-          if (state is FuelProviderProfileLoaded) {
-            AppSnackBar.success(context, context.l10n.dataSavedSuccess);
-            context.safePopOrGo(Routes.provider_profile, result: true);
-          }
-          if (state is FuelProviderProfileError) {
-            AppSnackBar.error(context, state.message);
-          }
-        },
-        child: ImageBackground(
+      body: ImageBackground(
+        child: BlocListener<FuelProviderProfileCubit, FuelProviderProfileState>(
+          listener: (context, state) {
+            if (state is FuelProviderProfileLoaded) {
+              AppSnackBar.success(context, l10n.dataSavedSuccess);
+              context.safePopOrGo(Routes.provider_profile, result: true);
+            }
+
+            if (state is FuelProviderProfileError) {
+              AppSnackBar.error(context, state.message);
+            }
+          },
           child: ProviderEditProfileBody(
             nameController: _nameController,
             phoneController: _phoneController,

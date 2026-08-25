@@ -22,6 +22,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _accountController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _accountController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   void _navigateHome(BuildContext context) {
     GoRouter.of(context).go(Routes.home);
   }
@@ -29,9 +40,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
-    final accountController = TextEditingController();
-    final passwordController = TextEditingController();
-    final formKey = GlobalKey<FormState>();
 
     return BlocProvider(
       create: (_) => AuthBloc(
@@ -49,33 +57,33 @@ class _LoginPageState extends State<LoginPage> {
         },
         builder: (context, state) {
           return Scaffold(
+            resizeToAvoidBottomInset: false, 
             body: Stack(
               fit: StackFit.expand,
               children: [
                 Image.asset(AppAssets.backgroung, fit: BoxFit.cover),
                 SafeArea(
-                  child: Column(
-                    children: [
-                      const LoginHeader(),
-                      Expanded(
-                        child: LoginContent(
-                          formKey: formKey,
-                          accountController: accountController,
-                          passwordController: passwordController,
-                          onLogin: () =>
-                              context.read<AuthBloc>().add(SubmitLogin()),
-                          onForgotPassword: () {
-                            GoRouter.of(context).push(Routes.forget_password);
-                          },
-                          onRegister: () {
-                            GoRouter.of(context).go(Routes.signup);
-                          },
-                          onGoogleSignIn: () => context.read<AuthBloc>().add(
-                            GoogleSignInRequested(),
-                          ),
-                        ),
+                  child: Padding(
+               
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.03,
+                    ),
+                    child: LoginContent(
+                      formKey: _formKey,
+                      accountController: _accountController,
+                      passwordController: _passwordController,
+                      onLogin: () =>
+                          context.read<AuthBloc>().add(SubmitLogin()),
+                      onForgotPassword: () {
+                        GoRouter.of(context).push(Routes.forget_password);
+                      },
+                      onRegister: () {
+                        GoRouter.of(context).go(Routes.signup);
+                      },
+                      onGoogleSignIn: () => context.read<AuthBloc>().add(
+                        GoogleSignInRequested(),
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ],

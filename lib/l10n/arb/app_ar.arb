@@ -35,6 +35,11 @@
   "@login": {
     "description": "زر تسجيل الدخول"
   },
+    "sendingRequest": "جاري الإرسال...",
+  "@sendingRequest": {
+    "description": "نص قصير داخل الزر عند إرسال طلب الصيانة"
+  },
+
     "register": "تسجيل حساب",
     "@register": {
       "description": "زر تسجيل حساب"
@@ -974,6 +979,11 @@
   "noSelectionMadeYet": "لم يتم الاختيار بعد",
   "productAddedSuccessfully": "تم إضافة المنتج بنجاح",
   "saveProduct": "حفظ المنتج",
+  "providerReviewPendingTitle": "طلبك قيد المراجعة",
+"providerReviewRejectedTitle": "تم رفض الطلب",
+"providerReviewPendingMessage": "طلبك قيد المراجعة حالياً، رح نعلمك فور اتخاذ القرار.",
+"providerReviewRejectedDefaultReason": "تم رفض طلبك، لمزيد من التفاصيل تواصل مع الدعم.",
+"providerReviewDialogOk": "حسناً",
   "grandTotalLabel": "الإجمالي الكلي",
   "shopOrdersPageTitle": "طلبات المتجر",
   "startProcessingButton": "بدء التجهيز",
@@ -2270,7 +2280,7 @@
   "@ratingsSendRating": {
     "description": "زر إرسال تقييم المغسلة"
   },
-  "profileWasherPageTitle": "ملف المنظّف",
+  "profileWasherPageTitle": "ملف المغسلة ",
   "@profileWasherPageTitle": {
     "description": "عنوان شريط شاشة ملف المغسلة (المالك)"
   },

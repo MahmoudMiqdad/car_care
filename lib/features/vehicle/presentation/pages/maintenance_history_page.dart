@@ -21,9 +21,9 @@ class MaintenanceHistoryPage extends StatelessWidget {
         title: strings.maintenanceHistory,
         showBackButton: true,
       ),
-      body: BlocProvider(
-        create: (_) => getIt<MaintenanceHistoryCubit>()..fetch(vehicleId),
-        child: ImageBackground(
+      body: ImageBackground(
+        child: BlocProvider(
+          create: (_) => getIt<MaintenanceHistoryCubit>()..fetch(vehicleId),
           child: MaintenanceHistoryBody(vehicleId: vehicleId),
         ),
       ),

@@ -29,17 +29,17 @@ class FuelOrderDetailsPage extends StatelessWidget {
         backgroundColor: AppColors.carWashTeal,
         onBackTapped: () => context.safePopOrGo(Routes.fuelorderslist),
       ),
-      body: BlocListener<UserFuelCubit, UserFuelState>(
-        listener: (context, state) {
-          if (state is UserFuelOrderCancelled) {
-            AppSnackBar.success(context, l10n.orderCancelledSuccessMessage);
-            context.safePopOrGo(Routes.fuelorderslist, result: true);
-          }
-          if (state is UserFuelError) {
-             AppSnackBar.error(context, state.message);
-          }
-        },
-        child: ImageBackground(
+      body: ImageBackground(
+        child: BlocListener<UserFuelCubit, UserFuelState>(
+          listener: (context, state) {
+            if (state is UserFuelOrderCancelled) {
+              AppSnackBar.success(context, l10n.orderCancelledSuccessMessage);
+              context.safePopOrGo(Routes.fuelorderslist, result: true);
+            }
+            if (state is UserFuelError) {
+               AppSnackBar.error(context, state.message);
+            }
+          },
           child: FuelOrderDetailsBody(
             order: order,
             onCancel: (reason) {

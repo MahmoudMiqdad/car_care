@@ -1,6 +1,7 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -81,8 +82,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
       ),
     ];
 
-    final colorScheme = context.colorScheme;
-
     return Scaffold(
       body: ImageBackground(
         child: SafeArea(
@@ -130,35 +129,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
               SizedBox(height: 32.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24.w),
-                child: GestureDetector(
-                  onTap: () => _next(pages.length),
-                  child: Container(
-                    width: double.infinity,
-                    height: 54.h,
-                    decoration: BoxDecoration(
-                      color: colorScheme.primary,
-                      borderRadius: BorderRadius.circular(14.r),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.accent.withValues(alpha: 0.35),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Text(
-                        _currentIndex == pages.length - 1
-                            ? l10n.getStarted
-                            : l10n.next,
-                        style: TextStyle(
-                          fontSize: 17.sp,
-                          fontWeight: FontWeight.w700,
-                          color: colorScheme.onPrimary,
-                        ),
-                      ),
-                    ),
-                  ),
+                child: AppButton(
+                  onPressed: () => _next(pages.length),
+                  text: _currentIndex == pages.length - 1
+                      ? l10n.getStarted
+                      : l10n.next,
+                  height: 54.h,
+                  borderRadius: 14.r,
+                  fontSize: 17.sp,
                 ),
               ),
               SizedBox(height: 24.h),

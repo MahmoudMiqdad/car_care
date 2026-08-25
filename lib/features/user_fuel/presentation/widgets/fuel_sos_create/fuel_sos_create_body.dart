@@ -111,7 +111,7 @@ class FuelSosCreateBody extends StatelessWidget {
             SizedBox(height: 10.h),
             AppButton(
               text: isLoading
-                  ? l10n.updatingProgress
+                  ? l10n.sendingRequest
                   : l10n.createSosSendRequest,
               onPressed: isLoading ? null : onSubmit,
               backgroundColor: isLoading

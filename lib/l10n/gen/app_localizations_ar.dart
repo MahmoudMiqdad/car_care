@@ -1591,6 +1591,24 @@ class AppLocalizationsAr extends AppLocalizations {
   String get confirmCompletionButton => 'تأكيد الإنهاء';
 
   @override
+  String get sendingRequest => 'جاري الإرسال...';
+
+  @override
+  String get providerReviewPendingTitle => 'طلبك قيد المراجعة';
+
+  @override
+  String get providerReviewRejectedTitle => 'تم رفض الطلب';
+
+  @override
+  String get providerReviewPendingMessage => 'طلبك قيد المراجعة حالياً، رح نعلمك فور اتخاذ القرار.';
+
+  @override
+  String get providerReviewRejectedDefaultReason => 'تم رفض طلبك، لمزيد من التفاصيل تواصل مع الدعم.';
+
+  @override
+  String get providerReviewDialogOk => 'حسناً';
+
+  @override
   String get updatingProgress => 'جارٍ التحديث...';
 
   @override
@@ -2774,7 +2792,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get ratingsSendRating => 'إرسال التقييم';
 
   @override
-  String get profileWasherPageTitle => 'ملف المنظّف';
+  String get profileWasherPageTitle => 'ملف المغسلة ';
 
   @override
   String get profileWasherEditProfile => 'تعديل الملف';

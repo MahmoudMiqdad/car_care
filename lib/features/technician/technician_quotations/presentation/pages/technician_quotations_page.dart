@@ -166,7 +166,7 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
                           cardRadius: _cardR,
                           layout: RequestsActionButtonsLayout.column,
                           submitLabel: isLoading
-                              ? l10n.updatingProgress
+                              ? l10n.sendingRequest
                               : l10n.sendQuotationActionLabel,
 
                           cancelLabel: l10n.backButton,

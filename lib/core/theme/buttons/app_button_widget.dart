@@ -1,8 +1,5 @@
 // ignore_for_file: deprecated_member_use
-
-import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -20,7 +17,6 @@ class AppButton extends StatelessWidget {
     this.isOutline = false,
     this.borderRadius,
     this.fontSize,
-
     this.outlineSurfaceColor,
     super.key,
   });
@@ -43,8 +39,7 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final isActionDisabled = isDisabled || isLoading || onPressed == null;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final isDarkOrdinaryCta =
-        !isOutline && backgroundColor == null && isDark;
+    final isDarkOrdinaryCta = !isOutline && backgroundColor == null && isDark;
 
     return SizedBox(
       width: width ?? double.infinity,
@@ -52,122 +47,65 @@ class AppButton extends StatelessWidget {
       child: isDarkOrdinaryCta
           ? _buildDarkOrdinaryOutlineButton(context, isActionDisabled)
           : isOutline
-          ? _buildOutlineButton(context, isActionDisabled)
-          : _buildElevatedButton(context, isActionDisabled),
+              ? _buildOutlineButton(context, isActionDisabled)
+              : _buildElevatedButton(context, isActionDisabled),
     );
   }
 
   Widget _buildElevatedButton(BuildContext context, bool disabled) {
-    final primaryColor = backgroundColor ?? AppColors.accent;
+    final primaryColor = disabled ? Colors.grey.shade400 : (backgroundColor ?? AppColors.accent);
     final resolvedTextColor = textColor ?? AppColors.white;
 
     return ElevatedButton(
-      onPressed: disabled ? null : onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: primaryColor,
-        foregroundColor: resolvedTextColor,
-        disabledBackgroundColor: isLoading ? primaryColor : null,
-        disabledForegroundColor: isLoading ? resolvedTextColor : null,
-        elevation: 0,
+        elevation: disabled ? 0 : 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
         ),
       ),
-      child: _buildButtonContent(
-        context,
-        textColorResolved: resolvedTextColor,
-        spinnerColorResolved: resolvedTextColor,
-      ),
+      onPressed: disabled ? null : onPressed,
+      child: isLoading
+          ? SizedBox(
+              width: 20.w,
+              height: 20.w,
+              child: const CircularProgressIndicator(
+                color: AppColors.white,
+                strokeWidth: 2,
+              ),
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (icon != null) ...[
+                  icon!,
+                  SizedBox(width: 8.w),
+                ],
+                Text(
+                  text,
+                  style: TextStyle(
+                    color: resolvedTextColor,
+                    fontSize: fontSize ?? 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
     );
   }
 
   Widget _buildOutlineButton(BuildContext context, bool disabled) {
-    final color = backgroundColor ?? context.colorScheme.primary;
-    final resolvedTextColor = textColor ?? color;
-
     return OutlinedButton(
-      onPressed: disabled ? null : onPressed,
       style: OutlinedButton.styleFrom(
-        backgroundColor: outlineSurfaceColor ?? color.withOpacity(0.1),
-        foregroundColor: color,
-        side: BorderSide(
-          color: disabled && !isLoading ? color.withOpacity(0.5) : color,
-          width: 1.5.w,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
-        ),
+        side: BorderSide(color: disabled ? Colors.grey : (backgroundColor ?? AppColors.accent)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius ?? 12.r)),
       ),
-      child: _buildButtonContent(
-        context,
-        textColorResolved: resolvedTextColor,
-        spinnerColorResolved: color,
-      ),
+      onPressed: disabled ? null : onPressed,
+      child: Text(text, style: TextStyle(color: disabled ? Colors.grey : textColor)),
     );
   }
 
   Widget _buildDarkOrdinaryOutlineButton(BuildContext context, bool disabled) {
-    const color = AppColors.accent;
-    final resolvedTextColor = textColor ?? color;
-
-    return OutlinedButton(
-      onPressed: disabled ? null : onPressed,
-      style: OutlinedButton.styleFrom(
-        backgroundColor: Colors.transparent,
-        foregroundColor: color,
-        side: BorderSide(
-          color: disabled && !isLoading ? color.withOpacity(0.5) : color,
-          width: 1.5.w,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
-        ),
-      ),
-      child: _buildButtonContent(
-        context,
-        textColorResolved: resolvedTextColor,
-        spinnerColorResolved: resolvedTextColor,
-      ),
-    );
-  }
-
-  Widget _buildButtonContent(
-    BuildContext context, {
-    required Color textColorResolved,
-    required Color spinnerColorResolved,
-  }) {
-    if (isLoading) {
-      return SizedBox(
-        height: 22.r,
-        width: 22.r,
-        child: CircularProgressIndicator(
-          strokeWidth: 2.5,
-          color: spinnerColorResolved,
-        ),
-      );
-    }
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (icon != null) ...[icon!, 8.horizontalSpace],
-        Flexible(
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              text,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: context.textTheme.labelLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-                fontSize: fontSize ?? 16.sp,
-                color: textColorResolved,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
+    return _buildOutlineButton(context, disabled);
   }
 }

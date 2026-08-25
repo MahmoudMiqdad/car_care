@@ -3,7 +3,6 @@ import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
-import 'package:car_care/core/utils/location_helper.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/selection/governorate_selection_tile.dart';
@@ -20,6 +19,7 @@ import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:geolocator/geolocator.dart';
 
 Future<void> _goToDetailsThenBack(
   BuildContext context,
@@ -168,26 +168,47 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
     }
 
     setState(() => _isSubmitting = true);
-    final location = await getCurrentLocation();
-    if (!mounted) return;
 
-    if (!location.isSuccess) {
+    try {
+      LocationPermission permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+      }
+
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever) {
+        if (!mounted) return;
+
+        setState(() => _isSubmitting = false);
+        AppSnackBar.error(context, l10n.enableLocationPrompt);
+        return;
+      }
+
+      final position = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          distanceFilter: 10,
+        ),
+      );
+
+      if (!mounted) return;
+
+      context.read<UserFuelCubit>().addEmergencyOrder({
+        'vehicle_id': _vehicleId,
+        'fuel_type': fuelTypeApiValue,
+        'amount': double.tryParse(_quantityController.text) ?? 0,
+        'delivery_latitude': position.latitude,
+        'delivery_longitude': position.longitude,
+        'city': _provinceValue,
+        'notes': _notesController.text.trim(),
+      });
+    } catch (_) {
+      if (!mounted) return;
+
       setState(() => _isSubmitting = false);
-      AppSnackBar.error(context, location.errorMessage!);
-      return;
+      AppSnackBar.error(context, l10n.locationErrorPrefix);
     }
-
-    final position = location.position!;
-
-    context.read<UserFuelCubit>().addEmergencyOrder({
-      'vehicle_id': _vehicleId,
-      'fuel_type': fuelTypeApiValue,
-      'amount': double.tryParse(_quantityController.text) ?? 0,
-      'delivery_latitude': position.latitude,
-      'delivery_longitude': position.longitude,
-      'city': _provinceValue,
-      'notes': _notesController.text.trim(),
-    });
   }
 
   @override
@@ -201,23 +222,24 @@ class _FuelSosCreatePageState extends State<FuelSosCreatePage> {
         showBackButton: true,
         onBackTapped: () => context.safePopOrGo(Routes.home),
       ),
-      body: BlocListener<UserFuelCubit, UserFuelState>(
-        listener: (context, state) {
-          if (state is UserFuelOrderCreated) {
-            setState(() => _isSubmitting = false);
-            AppSnackBar.success(context, l10n.fuelOrderSentSuccessfully);
-            _goToDetailsThenBack(context, state.order);
-          }
-          if (state is UserFuelError) {
-            setState(() => _isSubmitting = false);
-            final msg =
-                state.message.isEmpty || state.message.startsWith('Instance of')
-                ? l10n.sosGenericActionError
-                : state.message;
-            AppSnackBar.error(context, msg);
-          }
-        },
-        child: ImageBackground(
+      body: ImageBackground(
+        child: BlocListener<UserFuelCubit, UserFuelState>(
+          listener: (context, state) {
+            if (state is UserFuelOrderCreated) {
+              setState(() => _isSubmitting = false);
+              AppSnackBar.success(context, l10n.fuelOrderSentSuccessfully);
+              _goToDetailsThenBack(context, state.order);
+            }
+            if (state is UserFuelError) {
+              setState(() => _isSubmitting = false);
+              final msg =
+                  state.message.isEmpty ||
+                      state.message.startsWith('Instance of')
+                  ? l10n.sosGenericActionError
+                  : state.message;
+              AppSnackBar.error(context, msg);
+            }
+          },
           child: FuelSosCreateBody(
             vehicleValue: _vehicleValue,
             fuelTypeValue: _fuelTypeValue,

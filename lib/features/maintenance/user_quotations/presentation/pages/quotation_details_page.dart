@@ -35,31 +35,31 @@ class QuotationDetailsPage extends StatelessWidget {
         backgroundColor: AppColors.carWashTeal,
         onBackTapped: () => context.safePopOrGo(Routes.all_requests),
       ),
-      body: BlocConsumer<QuotationsCubit, QuotationsState>(
-        listener: (context, state) {
-          if (state is QuotationAccepted) {
-            AppSnackBar.success(context, l10n.quotationAcceptedSuccess);
-            context.safePopOrGo(Routes.all_requests);
-          }
-          if (state is QuotationRejected) {
-            AppSnackBar.success(context, l10n.quotationRejectedSuccess);
-            context.safePopOrGo(Routes.all_requests);
-          }
-          if (state is QuotationsError) {
-            AppSnackBar.error(context, state.message);
-          }
-        },
-        builder: (context, state) {
-          final isLoading = state is QuotationsLoading;
-
-          return ImageBackground(
-            child: QuotationDetailsBody(
+      body: ImageBackground(
+        child: BlocConsumer<QuotationsCubit, QuotationsState>(
+          listener: (context, state) {
+            if (state is QuotationAccepted) {
+              AppSnackBar.success(context, l10n.quotationAcceptedSuccess);
+              context.safePopOrGo(Routes.all_requests);
+            }
+            if (state is QuotationRejected) {
+              AppSnackBar.success(context, l10n.quotationRejectedSuccess);
+              context.safePopOrGo(Routes.all_requests);
+            }
+            if (state is QuotationsError) {
+              AppSnackBar.error(context, state.message);
+            }
+          },
+          builder: (context, state) {
+            final isLoading = state is QuotationsLoading;
+        
+            return QuotationDetailsBody(
               quotation: quotation,
               isLoading: isLoading,
               onAccept: () async {
                 final result = await showAcceptQuotationDialog(context);
                 if (result == null) return;
-
+            
                 if (!context.mounted) return;
                 context.read<QuotationsCubit>().acceptQuotation(
                   {
@@ -76,9 +76,9 @@ class QuotationDetailsPage extends StatelessWidget {
                   quotation.id.toString(),
                 );
               },
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

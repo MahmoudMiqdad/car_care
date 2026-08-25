@@ -20,7 +20,7 @@ class SosRequestsListPage extends StatelessWidget {
   const SosRequestsListPage({super.key});
 
   Future<void> _openCreateSos(BuildContext context) async {
-    await context.push(Routes.create_sos);
+    await context.pushNamed('createSosStandalone');
     if (context.mounted) context.read<SosCubit>().getAll(silent: true);
   }
 

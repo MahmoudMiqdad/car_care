@@ -264,7 +264,7 @@ class _RequestsPageState extends State<_RequestsPageBody> {
                     cardRadius: cardR,
 
                     submitLabel: isLoading
-                        ? l10n.updatingProgress
+                        ? l10n.sendingRequest
                         : l10n.maintenanceRequestTitle,
 
                     cancelLabel: l10n.backButton,

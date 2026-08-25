@@ -19,9 +19,11 @@ class TechnicianStatisticsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground(context),
       appBar: CustomAppBar(title: strings.statistics, showBackButton: true),
-      body: BlocProvider(
-        create: (_) => getIt<TechnicianStatisticsCubit>()..getStatistics(),
-        child: const ImageBackground(child: TechnicianStatisticsBody()),
+      body: ImageBackground(
+        child: BlocProvider(
+          create: (_) => getIt<TechnicianStatisticsCubit>()..getStatistics(),
+          child: TechnicianStatisticsBody(),
+        ),
       ),
     );
   }

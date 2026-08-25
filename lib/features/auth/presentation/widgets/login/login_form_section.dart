@@ -4,6 +4,7 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:car_care/features/auth/presentation/bloc/auth_event.dart';
+import 'package:car_care/features/auth/presentation/bloc/auth_state.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,117 +37,138 @@ class LoginFormSection extends StatefulWidget {
 
 class _LoginFormSectionState extends State<LoginFormSection> {
   bool submitted = false;
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     final strings = context.l10n;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        LoginTextField(
-          innerBorderColor: AppColors.transparent,
-          controller: widget.accountController,
-          hintText: strings.email,
-          keyboardType: TextInputType.emailAddress,
-          icon: IconsaxPlusLinear.sms,
-          validator: (v) {
-            if (v == null || v.trim().isEmpty) {
-              return strings.enterEmail;
-            }
-            return null;
-          },
-          onChanged: (value) {
-            context.read<AuthBloc>().add(EmailChanged(value));
-          },
-        ),
-        SizedBox(height: 16.h),
-        LoginTextField(
-          innerBorderColor: AppColors.transparent,
-          controller: widget.passwordController,
-          hintText: strings.password,
-          isPassword: true,
-          keyboardType: TextInputType.visiblePassword,
-          icon: IconsaxPlusLinear.lock_1,
-          validator: (v) {
-            if (v == null || v.trim().isEmpty) {
-              return strings.enterPassword;
-            }
-            if (v.trim().length < 6) {
-              return strings.passwordMinLength;
-            }
-            return null;
-          },
-          onChanged: (value) {
-            context.read<AuthBloc>().add(PasswordChanged(value));
-          },
-        ),
-        SizedBox(height: 10.h),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: GestureDetector(
-            onTap: widget.onForgotPassword,
-            child: Text(
-              strings.forgotPassword,
-              style: context.textTheme.bodySmall?.copyWith(
-                color: context.colorScheme.primary,
-                fontSize: 14.sp,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 24.h),
-        SizedBox(
-          height: AppConstants.buttonHeight.h,
-          child: AppButton(
-            onPressed: () {
-              setState(() => submitted = true);
-              if (widget.formKey.currentState?.validate() ?? false) {
-                widget._onLogin?.call();
+    // BlocListener بيراقب حالة تسجيل الدخول، وبمجرد ما توصل حالة نجاح
+    // أو فشل (أي حالة غير "InProgress")، بيرجع الزر لشكله الطبيعي.
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        // عدّل شرط الحالات هون حسب أسماء الـ states عندك بالـ AuthBloc
+        // (متل AuthSuccess / AuthFailure / AuthError...الخ)
+        final isStillLoading = state is AuthLoading;
+        if (_isLoading && !isStillLoading) {
+          setState(() => _isLoading = false);
+        }
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          LoginTextField(
+            innerBorderColor: AppColors.transparent,
+            controller: widget.accountController,
+            hintText: strings.email,
+            keyboardType: TextInputType.emailAddress,
+            icon: IconsaxPlusLinear.sms,
+            validator: (v) {
+              if (v == null || v.trim().isEmpty) {
+                return strings.enterEmail;
               }
+              return null;
             },
-            text: strings.login,
-            textColor: AppColors.white,
+            onChanged: (value) {
+              context.read<AuthBloc>().add(EmailChanged(value));
+            },
           ),
-        ),
-        SizedBox(height: 20.h),
-        _OrContinueWithDivider(label: strings.orContinueWith),
-        SizedBox(height: 16.h),
-        SizedBox(
-          height: AppConstants.buttonHeight.h,
-          child: AppButton(
-            onPressed: widget.onGoogleSignIn,
-            isOutline: true,
-            outlineSurfaceColor: AppColors.white,
-            backgroundColor: context.colorScheme.primary,
-            icon: const _GoogleGlyph(),
-            text: strings.continueWithGoogle,
+          SizedBox(height: 16.h),
+          LoginTextField(
+            innerBorderColor: AppColors.transparent,
+            controller: widget.passwordController,
+            hintText: strings.password,
+            isPassword: true,
+            keyboardType: TextInputType.visiblePassword,
+            icon: IconsaxPlusLinear.lock_1,
+            validator: (v) {
+              if (v == null || v.trim().isEmpty) {
+                return strings.enterPassword;
+              }
+              if (v.trim().length < 6) {
+                return strings.passwordMinLength;
+              }
+              return null;
+            },
+            onChanged: (value) {
+              context.read<AuthBloc>().add(PasswordChanged(value));
+            },
           ),
-        ),
-        SizedBox(height: 20.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              strings.dontHaveAccount,
-              style: context.textTheme.bodyMedium?.copyWith(
-                color: context.colorScheme.primary,
-                fontSize: 16.sp,
-              ),
-            ),
-            GestureDetector(
-              onTap: widget.onRegister,
+          SizedBox(height: 10.h),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: GestureDetector(
+              onTap: widget.onForgotPassword,
               child: Text(
-                strings.createAccount,
-                style: context.textTheme.bodyMedium?.copyWith(
-                  color: AppColors.accent,
-                  fontWeight: FontWeight.w600,
+                strings.forgotPassword,
+                style: context.textTheme.bodySmall?.copyWith(
+                  color: context.colorScheme.primary,
                   fontSize: 14.sp,
                 ),
               ),
             ),
-          ],
-        ),
-      ],
+          ),
+          SizedBox(height: 24.h),
+          SizedBox(
+            height: AppConstants.buttonHeight.h,
+            child: AppButton(
+              isLoading: _isLoading,
+              onPressed: () {
+                setState(() => submitted = true);
+                if (widget.formKey.currentState?.validate() ?? false) {
+                  setState(() => _isLoading = true);
+                  widget._onLogin?.call();
+                }
+                // لاحظ: إذا الفورم مش صحيح (متل الإيميل غلط)، ما منعمل
+                // setState(_isLoading = true) أصلاً، فمنطقياً ما لازم
+                // الزر يصير رمادي بهاي الحالة. إذا لسا عم يصير رمادي
+                // وقت خطأ التحقق، تأكد إنو AppButton.isDisabled مش
+                // متربط بطريقة تانية بحالة الفورم أو بـ AuthBloc.
+              },
+              text: strings.login,
+              textColor: AppColors.white,
+            ),
+          ),
+          SizedBox(height: 20.h),
+          _OrContinueWithDivider(label: strings.orContinueWith),
+          SizedBox(height: 16.h),
+          SizedBox(
+            height: AppConstants.buttonHeight.h,
+            child: AppButton(
+              onPressed: widget.onGoogleSignIn,
+              isOutline: true,
+              outlineSurfaceColor: AppColors.white,
+              backgroundColor: context.colorScheme.primary,
+              icon: const _GoogleGlyph(),
+              text: strings.continueWithGoogle,
+            ),
+          ),
+          SizedBox(height: 20.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                strings.dontHaveAccount,
+                style: context.textTheme.bodyMedium?.copyWith(
+                  color: context.colorScheme.primary,
+                  fontSize: 16.sp,
+                ),
+              ),
+              GestureDetector(
+                onTap: widget.onRegister,
+                child: Text(
+                  strings.createAccount,
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    color: AppColors.accent,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14.sp,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

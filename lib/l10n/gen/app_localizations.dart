@@ -3175,6 +3175,42 @@ abstract class AppLocalizations {
   /// **'Confirm Completion'**
   String get confirmCompletionButton;
 
+  /// Short text inside the button when sending the request
+  ///
+  /// In en, this message translates to:
+  /// **'Sending...'**
+  String get sendingRequest;
+
+  /// No description provided for @providerReviewPendingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your application is under review'**
+  String get providerReviewPendingTitle;
+
+  /// No description provided for @providerReviewRejectedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Application rejected'**
+  String get providerReviewRejectedTitle;
+
+  /// No description provided for @providerReviewPendingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your application is currently under review. We\'ll notify you once a decision is made.'**
+  String get providerReviewPendingMessage;
+
+  /// No description provided for @providerReviewRejectedDefaultReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Your application was rejected. Contact support for more details.'**
+  String get providerReviewRejectedDefaultReason;
+
+  /// No description provided for @providerReviewDialogOk.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get providerReviewDialogOk;
+
   /// No description provided for @updatingProgress.
   ///
   /// In en, this message translates to:
