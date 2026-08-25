@@ -81,7 +81,7 @@ class _ProviderOrderDetailsBodyState extends State<ProviderOrderDetailsBody> {
             if (isAccepted)
               AppButton(
                 onPressed: widget.onStartOrder ?? () {},
-                text: 'بدء التنفيذ',
+                text: l10n.sosStartProgress,
                 backgroundColor: AppColors.carWashTeal,
                 textColor: AppColors.white,
                 borderRadius: 14.r,
@@ -91,7 +91,7 @@ class _ProviderOrderDetailsBodyState extends State<ProviderOrderDetailsBody> {
             if (isInProgress)
               AppButton(
                 onPressed: widget.onCompleteOrder ?? () {},
-                text: 'إكمال الطلب',
+                text: l10n.completeOrderButton,
                 backgroundColor: AppColors.carWashTeal,
                 textColor: AppColors.white,
                 borderRadius: 14.r,
@@ -103,7 +103,7 @@ class _ProviderOrderDetailsBodyState extends State<ProviderOrderDetailsBody> {
               SizedBox(height: 10.h),
               AppButton(
                 onPressed: widget.onCancelOrder,
-                text: 'إلغاء الطلب',
+                text: l10n.cancelOrderButton,
                 backgroundColor: AppColors.red,
                 textColor: AppColors.white,
                 borderRadius: 14.r,

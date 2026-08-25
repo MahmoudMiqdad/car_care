@@ -3,6 +3,7 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/domain/entities/provider_profile_entity.dart';
 import 'package:car_care/features/fuel_provider/fuel_provider_profile/presentation/widgets/provider_profile/provider_profile_cards.dart';
 import 'package:car_care/l10n.dart';
+import 'package:car_care/l10n/gen/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -31,7 +32,7 @@ class ProviderProfileFuelPricesSection extends StatelessWidget {
               if (i > 0) SizedBox(width: 8.w),
               Expanded(
                 child: _FuelPriceCard(
-                  fuelType: fuelTypes[i],
+                  fuelType: fuelTypeLabel(l10n, fuelTypes[i]),
                   price: prices[fuelTypes[i]],
                 ),
               ),
@@ -41,6 +42,15 @@ class ProviderProfileFuelPricesSection extends StatelessWidget {
       ],
     );
   }
+}
+
+String fuelTypeLabel(AppLocalizations l10n, String apiValue) {
+  return switch (apiValue) {
+    '95' => l10n.gasoline95,
+    '98' => l10n.gasoline98,
+    'diesel' => l10n.diesel,
+    _ => apiValue,
+  };
 }
 
 class _FuelPriceCard extends StatelessWidget {

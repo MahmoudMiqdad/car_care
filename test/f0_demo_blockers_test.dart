@@ -38,6 +38,24 @@ Future<String?> _durationValidationErrorFor(
   return field.validator!(input);
 }
 
+Future<BuildContext> _localizedContext(WidgetTester tester) async {
+  late BuildContext capturedContext;
+  await tester.pumpWidget(
+    MaterialApp(
+      locale: const Locale('ar'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: Builder(
+        builder: (context) {
+          capturedContext = context;
+          return const SizedBox();
+        },
+      ),
+    ),
+  );
+  return capturedContext;
+}
+
 void main() {
   setUp(() {
     getIt.registerLazySingleton<ITechnicianQuotationsRepository>(
@@ -142,33 +160,48 @@ void main() {
   });
 
   group('validateProviderEstimatedArrivalMinutes', () {
-    test('empty is allowed (field is optional)', () {
-      expect(validateProviderEstimatedArrivalMinutes(''), isNull);
-      expect(validateProviderEstimatedArrivalMinutes(null), isNull);
+    testWidgets('empty is allowed (field is optional)', (tester) async {
+      final context = await _localizedContext(tester);
+      expect(validateProviderEstimatedArrivalMinutes(context, ''), isNull);
+      expect(validateProviderEstimatedArrivalMinutes(context, null), isNull);
     });
 
-    test('accepts the inclusive 1..120 boundary', () {
-      expect(validateProviderEstimatedArrivalMinutes('1'), isNull);
-      expect(validateProviderEstimatedArrivalMinutes('120'), isNull);
+    testWidgets('accepts the inclusive 1..120 boundary', (tester) async {
+      final context = await _localizedContext(tester);
+      expect(validateProviderEstimatedArrivalMinutes(context, '1'), isNull);
+      expect(validateProviderEstimatedArrivalMinutes(context, '120'), isNull);
     });
 
-    test('rejects 0 and values above 120', () {
-      expect(validateProviderEstimatedArrivalMinutes('0'), isNotNull);
-      expect(validateProviderEstimatedArrivalMinutes('121'), isNotNull);
+    testWidgets('rejects 0 and values above 120', (tester) async {
+      final context = await _localizedContext(tester);
+      expect(
+        validateProviderEstimatedArrivalMinutes(context, '0'),
+        isNotNull,
+      );
+      expect(
+        validateProviderEstimatedArrivalMinutes(context, '121'),
+        isNotNull,
+      );
     });
 
-    test('rejects non-numeric input', () {
-      expect(validateProviderEstimatedArrivalMinutes('abc'), isNotNull);
+    testWidgets('rejects non-numeric input', (tester) async {
+      final context = await _localizedContext(tester);
+      expect(
+        validateProviderEstimatedArrivalMinutes(context, 'abc'),
+        isNotNull,
+      );
     });
   });
 
   group('validateProviderNotes', () {
-    test('accepts exactly 500 characters', () {
-      expect(validateProviderNotes('a' * 500), isNull);
+    testWidgets('accepts exactly 500 characters', (tester) async {
+      final context = await _localizedContext(tester);
+      expect(validateProviderNotes(context, 'a' * 500), isNull);
     });
 
-    test('rejects more than 500 characters', () {
-      expect(validateProviderNotes('a' * 501), isNotNull);
+    testWidgets('rejects more than 500 characters', (tester) async {
+      final context = await _localizedContext(tester);
+      expect(validateProviderNotes(context, 'a' * 501), isNotNull);
     });
   });
 }

@@ -3351,4 +3351,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get readygSummary => 'هل أنت مستعد للعودة إلى الطريق؟';
+
+  @override
+  String get noChangesMadeError => 'لم يتم إجراء أي تعديل';
+
+  @override
+  String get completeOrderButton => 'إكمال الطلب';
+
+  @override
+  String get dataSavedSuccess => 'تم حفظ البيانات';
+
+  @override
+  String get tapToStartHeadingHint => 'اضغط لبدء التوجه ومشاركة موقعك';
+
+  @override
+  String get expectedDurationMinutesRangeError => 'المدة يجب أن تكون بين 1 و 120 دقيقة';
+
+  @override
+  String get notesMaxLengthError => 'الملاحظات يجب ألا تتجاوز 500 حرف';
+
+  @override
+  String get deliveryInfoTitle => 'معلومات التوصيل';
+
+  @override
+  String get splashTagline => 'حل شامل للعناية بسيارتك';
 }

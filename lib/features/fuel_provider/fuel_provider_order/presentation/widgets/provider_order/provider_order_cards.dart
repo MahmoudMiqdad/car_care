@@ -20,7 +20,7 @@ class ProviderOrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final radius = AppConstants.maintenanceRequestCardRadius.r;
-    final fuelText = '${order.fuelType ?? '-'} - ${order.amount ?? 0} لتر';
+    final fuelText = l10n.fuelAmountLabel(order.fuelType ?? '-', order.amount ?? 0);
     final dateText = order.scheduledTime ?? order.createdAt ?? '-';
 
     return Container(

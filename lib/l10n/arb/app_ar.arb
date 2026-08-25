@@ -3289,5 +3289,37 @@
   "selectGovernorate": "اختر المحافظة",
   "@selectGovernorate": {
     "description": "Title for the province/governorate selection bottom sheet"
+  },
+  "noChangesMadeError": "لم يتم إجراء أي تعديل",
+  "@noChangesMadeError": {
+    "description": "Shown when the user submits an update form without changing any field"
+  },
+  "completeOrderButton": "إكمال الطلب",
+  "@completeOrderButton": {
+    "description": "Button label to mark an in-progress order as complete"
+  },
+  "dataSavedSuccess": "تم حفظ البيانات",
+  "@dataSavedSuccess": {
+    "description": "Generic success message after saving profile data"
+  },
+  "tapToStartHeadingHint": "اضغط لبدء التوجه ومشاركة موقعك",
+  "@tapToStartHeadingHint": {
+    "description": "Hint shown over the location preview map to start navigation and location sharing"
+  },
+  "expectedDurationMinutesRangeError": "المدة يجب أن تكون بين 1 و 120 دقيقة",
+  "@expectedDurationMinutesRangeError": {
+    "description": "Validation error for expected arrival duration in minutes"
+  },
+  "notesMaxLengthError": "الملاحظات يجب ألا تتجاوز 500 حرف",
+  "@notesMaxLengthError": {
+    "description": "Validation error when notes text exceeds the maximum allowed length"
+  },
+  "deliveryInfoTitle": "معلومات التوصيل",
+  "@deliveryInfoTitle": {
+    "description": "Section title for delivery information on the order details page"
+  },
+  "splashTagline": "حل شامل للعناية بسيارتك",
+  "@splashTagline": {
+    "description": "Tagline shown under the app name on the splash screen"
   }
 }

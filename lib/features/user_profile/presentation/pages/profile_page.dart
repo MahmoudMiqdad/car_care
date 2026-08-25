@@ -5,6 +5,7 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/user_profile/presentation/widgets/profile_page/ProfileBody.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/show_profile_cubit/show_profile_cubit.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -40,7 +41,7 @@ class ProfilePage extends StatelessWidget {
                       style: IconButton.styleFrom(
                         backgroundColor: Colors.black26,
                       ),
-                      tooltip: 'رجوع',
+                      tooltip: context.l10n.back,
                     ),
                   ),
                 ),

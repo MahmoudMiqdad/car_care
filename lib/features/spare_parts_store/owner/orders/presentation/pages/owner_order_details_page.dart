@@ -224,6 +224,7 @@ class _ItemRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final string = context.l10n;
     return Padding(
       padding: EdgeInsets.only(bottom: 8.h),
       child: Row(
@@ -240,7 +241,7 @@ class _ItemRow extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${item.quantity} × ${item.price.toStringAsFixed(0)} ل.س',
+                  '${item.quantity} × ${item.price.toStringAsFixed(0)} ${string.currencySyp}',
                   style: context.textTheme.labelSmall!.copyWith(
                     color: AppColors.textSecondary(context),
                   ),
@@ -249,7 +250,7 @@ class _ItemRow extends StatelessWidget {
             ),
           ),
           Text(
-            '${item.subtotal.toStringAsFixed(0)} ل.س',
+            '${item.subtotal.toStringAsFixed(0)} ${string.currencySyp}',
             style: context.textTheme.labelSmall!.copyWith(
               color: AppColors.primary,
               fontWeight: FontWeight.w700,
@@ -275,14 +276,14 @@ class _TotalCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'الإجمالي',
+            string.total,
             style: context.textTheme.labelMedium!.copyWith(
               color: AppColors.textPrimary(context),
               fontWeight: FontWeight.w700,
             ),
           ),
           Text(
-            '${totalPrice.toStringAsFixed(0)} ل.س',
+            '${totalPrice.toStringAsFixed(0)} ${string.currencySyp}',
             style: context.textTheme.labelLarge!.copyWith(
               color: AppColors.primary,
               fontWeight: FontWeight.w800,
@@ -301,12 +302,13 @@ class _DeliveryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final string = context.l10n;
     return _Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'معلومات التوصيل',
+            string.deliveryInfoTitle,
             style: context.textTheme.labelMedium!.copyWith(
               color: AppColors.textPrimary(context),
               fontWeight: FontWeight.w700,

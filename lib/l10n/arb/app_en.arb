@@ -3288,5 +3288,37 @@
   "readygSummary": "Ready to get back on the road?",
   "@readygSummary": {
     "description": "Ready to get back on the road?"
+  },
+  "noChangesMadeError": "No changes were made",
+  "@noChangesMadeError": {
+    "description": "Shown when the user submits an update form without changing any field"
+  },
+  "completeOrderButton": "Complete Order",
+  "@completeOrderButton": {
+    "description": "Button label to mark an in-progress order as complete"
+  },
+  "dataSavedSuccess": "Data saved",
+  "@dataSavedSuccess": {
+    "description": "Generic success message after saving profile data"
+  },
+  "tapToStartHeadingHint": "Tap to start heading and share your location",
+  "@tapToStartHeadingHint": {
+    "description": "Hint shown over the location preview map to start navigation and location sharing"
+  },
+  "expectedDurationMinutesRangeError": "Duration must be between 1 and 120 minutes",
+  "@expectedDurationMinutesRangeError": {
+    "description": "Validation error for expected arrival duration in minutes"
+  },
+  "notesMaxLengthError": "Notes must not exceed 500 characters",
+  "@notesMaxLengthError": {
+    "description": "Validation error when notes text exceeds the maximum allowed length"
+  },
+  "deliveryInfoTitle": "Delivery Information",
+  "@deliveryInfoTitle": {
+    "description": "Section title for delivery information on the order details page"
+  },
+  "splashTagline": "Your Complete Car Care Solution",
+  "@splashTagline": {
+    "description": "Tagline shown under the app name on the splash screen"
   }
 }

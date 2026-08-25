@@ -111,7 +111,7 @@ class _UpdateVehicleBodyState extends State<UpdateVehicleBody> {
 
     if (changedFields.isEmpty && _pickedImage == null) {
       if (!context.mounted) return;
-      AppSnackBar.error(context, 'لم يتم إجراء أي تعديل');
+      AppSnackBar.error(context, context.l10n.noChangesMadeError);
       return;
     }
 

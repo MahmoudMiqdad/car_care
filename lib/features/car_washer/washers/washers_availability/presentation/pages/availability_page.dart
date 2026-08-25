@@ -1,3 +1,4 @@
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 
 class AvailabilityPage extends StatelessWidget {
@@ -6,9 +7,9 @@ class AvailabilityPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('Availability Page'),
+        child: Text(context.l10n.providerProfileAvailabilityTitle),
       ),
     );
   }

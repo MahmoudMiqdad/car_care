@@ -6570,6 +6570,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ready to get back on the road?'**
   String get readygSummary;
+
+  /// Shown when the user submits an update form without changing any field
+  ///
+  /// In en, this message translates to:
+  /// **'No changes were made'**
+  String get noChangesMadeError;
+
+  /// Button label to mark an in-progress order as complete
+  ///
+  /// In en, this message translates to:
+  /// **'Complete Order'**
+  String get completeOrderButton;
+
+  /// Generic success message after saving profile data
+  ///
+  /// In en, this message translates to:
+  /// **'Data saved'**
+  String get dataSavedSuccess;
+
+  /// Hint shown over the location preview map to start navigation and location sharing
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to start heading and share your location'**
+  String get tapToStartHeadingHint;
+
+  /// Validation error for expected arrival duration in minutes
+  ///
+  /// In en, this message translates to:
+  /// **'Duration must be between 1 and 120 minutes'**
+  String get expectedDurationMinutesRangeError;
+
+  /// Validation error when notes text exceeds the maximum allowed length
+  ///
+  /// In en, this message translates to:
+  /// **'Notes must not exceed 500 characters'**
+  String get notesMaxLengthError;
+
+  /// Section title for delivery information on the order details page
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Information'**
+  String get deliveryInfoTitle;
+
+  /// Tagline shown under the app name on the splash screen
+  ///
+  /// In en, this message translates to:
+  /// **'Your Complete Car Care Solution'**
+  String get splashTagline;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

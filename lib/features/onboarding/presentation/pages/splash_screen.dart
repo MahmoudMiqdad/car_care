@@ -1,5 +1,3 @@
-// splash_screen.dart
-
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/errors/excptions.dart';
 import 'package:car_care/core/local_storage/secure_storage.dart';
@@ -7,6 +5,7 @@ import 'package:car_care/core/routing/role_route_resolver.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/features/user_profile/data/data_sources/profile_remote_data_source.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -71,7 +70,6 @@ class _SplashScreenState extends State<SplashScreen>
         return;
       }
 
-      // Validate token with backend before routing.
       try {
         final model = await getIt<ProfileRemoteDataSource>().showprofile();
 
@@ -81,14 +79,11 @@ class _SplashScreenState extends State<SplashScreen>
           await storage.setPrimaryRole(RoleRouteResolver.pickPrimaryRole(roles));
         }
 
-        // Multi-provider accounts: every user is a customer — always land
-        // on Home. Provider flows are reached from the More page.
         if (!mounted) return;
         context.go(Routes.home);
       } on ServerExpcptions catch (e) {
         if (!mounted) return;
         final msg = e.error.message.toLowerCase();
-        // Connectivity errors: fail open so offline users stay logged in.
         final isConnectivity = msg.contains('اتصال') ||
             msg.contains('شبكة') ||
             msg.contains('مهلة') ||
@@ -98,7 +93,6 @@ class _SplashScreenState extends State<SplashScreen>
         if (isConnectivity) {
           context.go(Routes.home);
         } else {
-          // Auth failure (401 / invalid token) — force re-login.
           await storage.clearAuth();
           if (!mounted) return;
           context.go(Routes.onboarding);
@@ -123,18 +117,15 @@ class _SplashScreenState extends State<SplashScreen>
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // الخلفية
           Image.asset(
           AppAssets.backgroung,
             fit: BoxFit.cover,
           ),
 
-          // طبقة تعتيم خفيفة
           Container(
             color: Colors.black.withValues(alpha: 0.35),
           ),
 
-          // المحتوى
           Center(
             child: AnimatedBuilder(
               animation: _controller,
@@ -164,7 +155,7 @@ class _SplashScreenState extends State<SplashScreen>
                           ),
                           SizedBox(height: 8.h),
                           Text(
-                            'Your Complete Car Care Solution',
+                            context.l10n.splashTagline,
                             style: TextStyle(
                               fontSize: 14.sp,
                               color: Colors.white.withValues(alpha: 0.85),

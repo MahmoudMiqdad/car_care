@@ -15,21 +15,26 @@ class ProviderAcceptOrderDialogResult {
   final String notes;
 }
 
-String? validateProviderEstimatedArrivalMinutes(String? value) {
+String? validateProviderEstimatedArrivalMinutes(
+  BuildContext context,
+  String? value,
+) {
+  final l10n = context.l10n;
   final trimmed = value?.trim() ?? '';
   if (trimmed.isEmpty) return null;
   final minutes = int.tryParse(trimmed);
-  if (minutes == null) return 'يرجى إدخال رقم صحيح';
+  if (minutes == null) return l10n.invalidNumberError;
   if (minutes < 1 || minutes > 120) {
-    return 'المدة يجب أن تكون بين 1 و 120 دقيقة';
+    return l10n.expectedDurationMinutesRangeError;
   }
   return null;
 }
 
-String? validateProviderNotes(String? value) {
+String? validateProviderNotes(BuildContext context, String? value) {
+  final l10n = context.l10n;
   final trimmed = value?.trim() ?? '';
   if (trimmed.length > 500) {
-    return 'الملاحظات يجب ألا تتجاوز 500 حرف';
+    return l10n.notesMaxLengthError;
   }
   return null;
 }
@@ -126,7 +131,8 @@ class _ProviderAcceptOrderDialogState extends State<ProviderAcceptOrderDialog> {
                       controller: _minutesController,
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      validator: validateProviderEstimatedArrivalMinutes,
+                      validator: (v) =>
+                          validateProviderEstimatedArrivalMinutes(context, v),
                     ),
                     SizedBox(height: 14.h),
                     _DialogField(
@@ -135,7 +141,7 @@ class _ProviderAcceptOrderDialogState extends State<ProviderAcceptOrderDialog> {
                       maxLines: 3,
                       minLines: 2,
                       maxLength: 500,
-                      validator: validateProviderNotes,
+                      validator: (v) => validateProviderNotes(context, v),
                     ),
                   ],
                 ),

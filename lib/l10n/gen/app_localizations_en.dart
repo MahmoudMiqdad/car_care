@@ -3351,4 +3351,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get readygSummary => 'Ready to get back on the road?';
+
+  @override
+  String get noChangesMadeError => 'No changes were made';
+
+  @override
+  String get completeOrderButton => 'Complete Order';
+
+  @override
+  String get dataSavedSuccess => 'Data saved';
+
+  @override
+  String get tapToStartHeadingHint => 'Tap to start heading and share your location';
+
+  @override
+  String get expectedDurationMinutesRangeError => 'Duration must be between 1 and 120 minutes';
+
+  @override
+  String get notesMaxLengthError => 'Notes must not exceed 500 characters';
+
+  @override
+  String get deliveryInfoTitle => 'Delivery Information';
+
+  @override
+  String get splashTagline => 'Your Complete Car Care Solution';
 }

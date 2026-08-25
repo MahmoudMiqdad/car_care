@@ -52,7 +52,7 @@ class _ProviderCreateProfilePageState
   Future<void> _pickGovernorate() async {
     await SharedSelectionBottomSheet.show<String>(
       context: context,
-      title: 'اختر المحافظة',
+      title: context.l10n.selectGovernorate,
       items: kCreateSosProvinceOptions,
       itemBuilder: (context, e) => GovernorateSelectionTile(
         label: e,

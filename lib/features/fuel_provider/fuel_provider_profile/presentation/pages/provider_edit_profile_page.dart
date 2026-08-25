@@ -65,7 +65,7 @@ class _ProviderEditProfilePageState extends State<ProviderEditProfilePage> {
   Future<void> _pickGovernorate() async {
     await SharedSelectionBottomSheet.show<String>(
       context: context,
-      title: 'اختر المحافظة',
+      title: context.l10n.selectGovernorate,
       items: kCreateSosProvinceOptions,
       itemBuilder: (context, e) => GovernorateSelectionTile(
         label: e,
@@ -85,7 +85,6 @@ class _ProviderEditProfilePageState extends State<ProviderEditProfilePage> {
     if (!mounted || price == null) return;
     setState(() {
       if (price.isEmpty) {
-        // Explicit clear on an already-active type = deactivate it.
         _fuelPrices.remove(apiValue);
       } else {
         _fuelPrices[apiValue] = price;
@@ -126,7 +125,7 @@ class _ProviderEditProfilePageState extends State<ProviderEditProfilePage> {
       body: BlocListener<FuelProviderProfileCubit, FuelProviderProfileState>(
         listener: (context, state) {
           if (state is FuelProviderProfileLoaded) {
-             AppSnackBar.success(context, "تم حفظ البيانات");
+            AppSnackBar.success(context, context.l10n.dataSavedSuccess);
             context.safePopOrGo(Routes.provider_profile, result: true);
           }
           if (state is FuelProviderProfileError) {

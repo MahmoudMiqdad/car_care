@@ -120,7 +120,7 @@ class _EditProfileWasherLoadedFormState
 
   void _save() {
     if (_name.text.trim().isEmpty) {
-      AppSnackBar.error(context, 'يرجى إدخال اسم المغسلة');
+      AppSnackBar.error(context, context.l10n.pleaseEnterShopName);
       return;
     }
 

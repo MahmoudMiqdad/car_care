@@ -1,4 +1,3 @@
-// provider_profile_page.dart
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
@@ -101,7 +100,6 @@ class _ProviderProfilePageState extends State<ProviderProfilePage> {
             return _buildBody(context, state.profile);
           }
     
-          // بعد updateAvailability أو updatePrices نستخدم currentProfile
           if (state is FuelProviderAvailabilityUpdated ||
               state is FuelProviderPricesUpdated) {
             final profile =
@@ -121,7 +119,7 @@ class _ProviderProfilePageState extends State<ProviderProfilePage> {
                   TextButton(
                     onPressed: () =>
                         context.read<FuelProviderProfileCubit>().myProfile(),
-                    child: const Text('إعادة المحاولة'),
+                    child: Text(context.l10n.retry),
                   ),
                 ],
               ),

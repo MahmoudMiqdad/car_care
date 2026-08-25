@@ -1,19 +1,19 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart'; 
+import 'package:go_router/go_router.dart';
 
 class AiAssistantButton extends StatelessWidget {
-  const AiAssistantButton({super.key, this.size = 64}); 
+  const AiAssistantButton({super.key, this.size = 64});
 
   final double size;
   static const Color _amber = Color(0xFFF6C177);
-  static const String _label = 'المساعد الذكي';
 
   @override
   Widget build(BuildContext context) {
-    const label = _label;
+    final label = context.l10n.assistantChatTitle;
     final diameter = size.r;
     return Tooltip(
       message: label,

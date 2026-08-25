@@ -3,6 +3,7 @@ import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/features/spare_parts_store/customer/cart/domain/entities/cart_item_entity.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -91,7 +92,7 @@ class CartItemCard extends StatelessWidget {
                       onChanged: onQuantityChanged,
                     ),
                     Text(
-                      '${item.subtotal.toStringAsFixed(0)} ل.س',
+                      '${item.subtotal.toStringAsFixed(0)} ${context.l10n.currencySyp}',
                       style: context.textTheme.labelLarge!.copyWith(
                         color: AppColors.accent,
                         fontWeight: FontWeight.w800,

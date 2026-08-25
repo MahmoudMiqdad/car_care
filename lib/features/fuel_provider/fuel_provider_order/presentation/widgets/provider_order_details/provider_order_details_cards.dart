@@ -92,7 +92,10 @@ class ProviderOrderDetailsOrderCard extends StatelessWidget {
                 SosDetailsInfoRow(
                   iconAsset: AppAssets.serviceFuel,
                   label: l10n.fuel,
-                  value: '${order.fuelType ?? '-'} - ${order.amount ?? 0} لتر',
+                  value: l10n.fuelAmountLabel(
+                    order.fuelType ?? '-',
+                    order.amount ?? 0,
+                  ),
                 ),
                 SosDetailsInfoRow(
                   iconAsset: AppAssets.fuelOrderMoneyIcon,
@@ -206,10 +209,11 @@ class ProviderOrderDetailsNotesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final notes = order.notes ?? '-';
 
     return SosDetailsSectionCard(
-      title: 'ملاحظات الطلب',
+      title: l10n.orderNotesTitle,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -316,8 +320,8 @@ class ProviderOrderDetailsLocationCard extends StatelessWidget {
                     color: Colors.black54,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Text(
-                    'اضغط لبدء التوجه ومشاركة موقعك',
+                  child: Text(
+                    l10n.tapToStartHeadingHint,
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white, fontSize: 12),
                   ),
@@ -330,6 +334,7 @@ class ProviderOrderDetailsLocationCard extends StatelessWidget {
   }
 
   void _openFuelProviderMap(BuildContext context) {
+    final l10n = context.l10n;
     Navigator.of(context).push(
       MaterialPageRoute(
         fullscreenDialog: true,
@@ -337,7 +342,7 @@ class ProviderOrderDetailsLocationCard extends StatelessWidget {
           create: (_) => getIt<ShareFuelProviderLocationCubit>(),
           child: Scaffold(
             appBar: AppBar(
-              title: const Text('التوجه للعميل'),
+              title: Text(l10n.headingToClientTitle),
               backgroundColor: AppColors.carWashTeal,
               foregroundColor: Colors.white,
             ),

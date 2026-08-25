@@ -131,7 +131,7 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
         if (state is TechnicianActionError) {
           final msg =
               state.message.isEmpty || state.message.startsWith('Instance of')
-              ? 'حدث خطأ أثناء تنفيذ العملية، حاول مرة أخرى'
+              ? l10n.sosGenericActionError
               : state.message;
           AppSnackBar.error(context, msg);
         }
