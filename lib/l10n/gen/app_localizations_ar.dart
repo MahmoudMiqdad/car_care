@@ -3458,4 +3458,133 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get googleSignInFailedError => 'تعذر تسجيل الدخول عبر Google';
+
+  @override
+  String get suspendedStatusLabel => 'موقوف';
+
+  @override
+  String get failedToLoadData => 'تعذر تحميل البيانات، حاول مرة أخرى';
+
+  @override
+  String get failedToSaveChanges => 'تعذر حفظ التعديلات، حاول مرة أخرى';
+
+  @override
+  String get failedToCancel => 'تعذر الإلغاء، حاول مرة أخرى';
+
+  @override
+  String get failedToUpdate => 'تعذر التحديث، حاول مرة أخرى';
+
+  @override
+  String get failedToDelete => 'تعذر الحذف، حاول مرة أخرى';
+
+  @override
+  String get failedToCreate => 'تعذر إتمام الطلب، حاول مرة أخرى';
+
+  @override
+  String get failedToAccept => 'تعذر القبول، حاول مرة أخرى';
+
+  @override
+  String get failedToReject => 'تعذر الرفض، حاول مرة أخرى';
+
+  @override
+  String get failedToSubmit => 'تعذر الإرسال، حاول مرة أخرى';
+
+  @override
+  String get sparePartsBusinessType1 => 'قطع غيار مستعملة/كسر';
+
+  @override
+  String get sparePartsBusinessType2 => 'إطارات وجنطات';
+
+  @override
+  String get sparePartsBusinessType3 => 'قطع غيار جديدة';
+
+  @override
+  String get sparePartsBusinessType4 => 'بطاريات وزيوت';
+
+  @override
+  String get sparePartsBusinessType5 => 'اكسسوارات وزينة';
+
+  @override
+  String get sparePartsBusinessType6 => 'زيوت وفلاتر';
+
+  @override
+  String get sparePartsBusinessType7 => 'كهرباء سيارات';
+
+  @override
+  String get sparePartsBusinessType8 => 'قطع بودي وهيكل';
+
+  @override
+  String get sparePartsBusinessType9 => 'قطع محركات';
+
+  @override
+  String get sparePartsBusinessType10 => 'خدمات تشليح';
+
+  @override
+  String get sparePartsPartCategory1 => 'فرامل وديسكات';
+
+  @override
+  String get sparePartsPartCategory2 => 'غماشة وركسين';
+
+  @override
+  String get sparePartsPartCategory3 => 'هيكل خارجي وصاج';
+
+  @override
+  String get sparePartsPartCategory4 => 'ميكانيك عام';
+
+  @override
+  String get sparePartsPartCategory5 => 'كهرباء ونظام إنارة';
+
+  @override
+  String get sparePartsPartCategory6 => 'فلتر وبواجي';
+
+  @override
+  String get sparePartsPartCategory7 => 'محرك وقطع داخلية';
+
+  @override
+  String get sparePartsPartCategory8 => 'قير وناقل حركة';
+
+  @override
+  String get sparePartsPartCategory9 => 'تبريد وراديتر';
+
+  @override
+  String get sparePartsPartCategory10 => 'تعليق ومساعدات';
+
+  @override
+  String get sparePartsPartCategory11 => 'إطارات وجنوط';
+
+  @override
+  String get sparePartsPartCategory12 => 'زيوت وسوائل';
+
+  @override
+  String get sparePartsPartCategory13 => 'بطاريات';
+
+  @override
+  String get sparePartsPartCategory14 => 'حساسات وكمبيوتر';
+
+  @override
+  String get sparePartsPartCategory15 => 'مرايا وزجاج';
+
+  @override
+  String get sparePartsPartCategory16 => 'أنظمة عادم';
+
+  @override
+  String get sparePartsPartCategory17 => 'داخلية واكسسوارات';
+
+  @override
+  String get sparePartsPartCategory18 => 'مصابيح وإنارة';
+
+  @override
+  String get sparePartsPartCategory19 => 'مكيف وتبريد';
+
+  @override
+  String get sparePartsPartCategory20 => 'أبواب وأقفال';
+
+  @override
+  String get sparePartsPartCategory21 => 'مقود وتعليق';
+
+  @override
+  String get sparePartsPartCategory22 => 'طرمبات وفلاتر';
+
+  @override
+  String get sparePartsPartCategory23 => 'سيور وبكرات';
 }

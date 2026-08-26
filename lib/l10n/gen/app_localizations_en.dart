@@ -3458,4 +3458,133 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get googleSignInFailedError => 'Google sign-in failed, please try again';
+
+  @override
+  String get suspendedStatusLabel => 'Suspended';
+
+  @override
+  String get failedToLoadData => 'Failed to load data, please try again';
+
+  @override
+  String get failedToSaveChanges => 'Failed to save changes, please try again';
+
+  @override
+  String get failedToCancel => 'Failed to cancel, please try again';
+
+  @override
+  String get failedToUpdate => 'Failed to update, please try again';
+
+  @override
+  String get failedToDelete => 'Failed to delete, please try again';
+
+  @override
+  String get failedToCreate => 'Failed to complete the request, please try again';
+
+  @override
+  String get failedToAccept => 'Failed to accept, please try again';
+
+  @override
+  String get failedToReject => 'Failed to reject, please try again';
+
+  @override
+  String get failedToSubmit => 'Failed to submit, please try again';
+
+  @override
+  String get sparePartsBusinessType1 => 'Used Parts / Salvage';
+
+  @override
+  String get sparePartsBusinessType2 => 'Tires & Rims';
+
+  @override
+  String get sparePartsBusinessType3 => 'New Parts';
+
+  @override
+  String get sparePartsBusinessType4 => 'Batteries & Oils';
+
+  @override
+  String get sparePartsBusinessType5 => 'Accessories & Decor';
+
+  @override
+  String get sparePartsBusinessType6 => 'Oils & Filters';
+
+  @override
+  String get sparePartsBusinessType7 => 'Car Electrics';
+
+  @override
+  String get sparePartsBusinessType8 => 'Body & Chassis Parts';
+
+  @override
+  String get sparePartsBusinessType9 => 'Engine Parts';
+
+  @override
+  String get sparePartsBusinessType10 => 'Salvage Yard Services';
+
+  @override
+  String get sparePartsPartCategory1 => 'Brakes & Discs';
+
+  @override
+  String get sparePartsPartCategory2 => 'Clutch & Pressure Plate';
+
+  @override
+  String get sparePartsPartCategory3 => 'Body & Sheet Metal';
+
+  @override
+  String get sparePartsPartCategory4 => 'General Mechanics';
+
+  @override
+  String get sparePartsPartCategory5 => 'Electrical & Lighting System';
+
+  @override
+  String get sparePartsPartCategory6 => 'Filters & Spark Plugs';
+
+  @override
+  String get sparePartsPartCategory7 => 'Engine & Internal Parts';
+
+  @override
+  String get sparePartsPartCategory8 => 'Gearbox & Transmission';
+
+  @override
+  String get sparePartsPartCategory9 => 'Cooling & Radiator';
+
+  @override
+  String get sparePartsPartCategory10 => 'Suspension & Shock Absorbers';
+
+  @override
+  String get sparePartsPartCategory11 => 'Tires & Rims';
+
+  @override
+  String get sparePartsPartCategory12 => 'Oils & Fluids';
+
+  @override
+  String get sparePartsPartCategory13 => 'Batteries';
+
+  @override
+  String get sparePartsPartCategory14 => 'Sensors & Computer';
+
+  @override
+  String get sparePartsPartCategory15 => 'Mirrors & Glass';
+
+  @override
+  String get sparePartsPartCategory16 => 'Exhaust Systems';
+
+  @override
+  String get sparePartsPartCategory17 => 'Interior & Accessories';
+
+  @override
+  String get sparePartsPartCategory18 => 'Lamps & Lighting';
+
+  @override
+  String get sparePartsPartCategory19 => 'AC & Cooling';
+
+  @override
+  String get sparePartsPartCategory20 => 'Doors & Locks';
+
+  @override
+  String get sparePartsPartCategory21 => 'Steering & Suspension';
+
+  @override
+  String get sparePartsPartCategory22 => 'Pumps & Filters';
+
+  @override
+  String get sparePartsPartCategory23 => 'Belts & Pulleys';
 }

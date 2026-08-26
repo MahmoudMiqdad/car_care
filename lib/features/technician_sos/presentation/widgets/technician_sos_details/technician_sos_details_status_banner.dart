@@ -20,7 +20,7 @@ class SosTechnicianDetailsStatusBanner extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        textDirection: TextDirection.rtl,
+        textDirection: Directionality.of(context),
         children: [
           Icon(Icons.check_circle_outline, color: color, size: 20.sp),
           SizedBox(width: 8.w),

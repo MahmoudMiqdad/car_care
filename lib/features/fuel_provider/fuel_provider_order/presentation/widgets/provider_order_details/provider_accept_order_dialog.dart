@@ -151,7 +151,7 @@ class _ProviderAcceptOrderDialogState extends State<ProviderAcceptOrderDialog> {
               height: 48.h,
               color: AppColors.carWashTeal,
               child: Row(
-                textDirection: TextDirection.rtl,
+                textDirection: Directionality.of(context),
                 children: [
                   Expanded(
                     child: _FooterAction(
@@ -209,7 +209,7 @@ class _DialogField extends StatelessWidget {
         Text(
           label,
           textAlign: TextAlign.right,
-          textDirection: TextDirection.rtl,
+          textDirection: Directionality.of(context),
           style: TextStyle(
             fontSize: 17.sp,
             fontWeight: FontWeight.w800,
@@ -219,7 +219,7 @@ class _DialogField extends StatelessWidget {
         SizedBox(height: 10.h),
         TextFormField(
           controller: controller,
-          textDirection: TextDirection.rtl,
+          textDirection: Directionality.of(context),
           textAlign: TextAlign.right,
           keyboardType: keyboardType,
           inputFormatters: inputFormatters,

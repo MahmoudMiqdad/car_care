@@ -32,7 +32,7 @@ class ProviderOrderDetailsPendingBanner extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        textDirection: TextDirection.rtl,
+        textDirection: Directionality.of(context),
         children: [
           Icon(Icons.hourglass_empty_rounded, color: color, size: 22.sp),
           SizedBox(width: 8.w),
@@ -69,7 +69,7 @@ class ProviderOrderDetailsOrderCard extends StatelessWidget {
       title: l10n.sosDetailsRequestData,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        textDirection: TextDirection.rtl,
+        textDirection: Directionality.of(context),
         children: [
           Expanded(
             child: Column(
@@ -171,7 +171,7 @@ class ProviderOrderDetailsCustomerCard extends StatelessWidget {
           ),
           Row(
             mainAxisSize: MainAxisSize.min,
-            textDirection: TextDirection.rtl,
+            textDirection: Directionality.of(context),
             children: [
               Image.asset(
                 AppAssets.iconPhoneCall,

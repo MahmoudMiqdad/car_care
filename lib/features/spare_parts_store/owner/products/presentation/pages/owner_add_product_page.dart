@@ -7,6 +7,7 @@ import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/data/static/spare_parts_options.dart';
+import 'package:car_care/features/spare_parts_store/owner/profile/presentation/widgets/spare_parts_option_label.dart';
 import 'package:car_care/features/spare_parts_store/owner/products/presentation/cubit/owner_products/owner_products_cubit.dart';
 import 'package:car_care/features/spare_parts_store/owner/products/presentation/cubit/owner_products/owner_products_state.dart';
 import 'package:car_care/features/spare_parts_store/owner/products/presentation/widgets/single_select_options_sheet.dart';
@@ -81,6 +82,7 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
     required List<SparePartsOption> options,
     required int? currentId,
     required ValueChanged<int?> onPicked,
+    SparePartsOptionLabelBuilder labelBuilder = sparePartsOptionDefaultLabel,
   }) async {
     final l10n = context.l10n;
     final result = await SingleSelectOptionsSheet.show<int>(
@@ -88,7 +90,7 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
       title: title,
       items: [
         (_kNoSelection, l10n.noSelection),
-        ...options.map((o) => (o.id, o.name)),
+        ...options.map((o) => (o.id, labelBuilder(context, o))),
       ],
       currentValue: currentId ?? _kNoSelection,
     );
@@ -231,6 +233,7 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
                           _classificationRow(
                             label: l10n.carBrand,
                             value: _optionLabel(
+                              context,
                               l10n,
                               SparePartsOptions.carBrands,
                               _carBrandId,
@@ -248,9 +251,11 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
                           _classificationRow(
                             label: l10n.partCategory,
                             value: _optionLabel(
+                              context,
                               l10n,
                               SparePartsOptions.partCategories,
                               _partCategoryId,
+                              labelBuilder: sparePartsPartCategoryLabel,
                             ),
                             color: AppColors.accent,
                             onTap: () => _pickOption(
@@ -259,6 +264,7 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
                               currentId: _partCategoryId,
                               onPicked: (id) =>
                                   setState(() => _partCategoryId = id),
+                              labelBuilder: sparePartsPartCategoryLabel,
                             ),
                           ),
                           SizedBox(height: 16.h),
@@ -290,12 +296,16 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
   }
 
   String _optionLabel(
+    BuildContext context,
     AppLocalizations l10n,
     List<SparePartsOption> options,
-    int? id,
-  ) {
+    int? id, {
+    SparePartsOptionLabelBuilder labelBuilder = sparePartsOptionDefaultLabel,
+  }) {
     if (id == null) return l10n.noSelection;
-    return SparePartsOptions.findById(options, id)?.name ?? l10n.noSelection;
+    final option = SparePartsOptions.findById(options, id);
+    if (option == null) return l10n.noSelection;
+    return labelBuilder(context, option);
   }
 
   Widget _sectionTitle(String title) {
@@ -321,7 +331,7 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
       controller: controller,
       keyboardType: keyboardType,
       maxLines: maxLines,
-      textDirection: TextDirection.rtl,
+      textDirection: Directionality.of(context),
       validator: validator,
       style: context.textTheme.bodyMedium!.copyWith(
         color: AppColors.textPrimary(context),

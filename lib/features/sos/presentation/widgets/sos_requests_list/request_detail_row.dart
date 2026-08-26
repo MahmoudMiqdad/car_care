@@ -36,7 +36,7 @@ class RequestDetailRow extends StatelessWidget {
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      textDirection: TextDirection.rtl,
+      textDirection: Directionality.of(context),
       children: [
         SizedBox(
           width: 22.w,
@@ -53,7 +53,7 @@ class RequestDetailRow extends StatelessWidget {
                       TextSpan(text: multilineBelow!, style: valueStyle),
                     ],
                   ),
-                  textDirection: TextDirection.rtl,
+                  textDirection: Directionality.of(context),
                   softWrap: true,
                 )
               : Column(
@@ -68,7 +68,7 @@ class RequestDetailRow extends StatelessWidget {
                             TextSpan(text: value, style: valueStyle),
                         ],
                       ),
-                      textDirection: TextDirection.rtl,
+                      textDirection: Directionality.of(context),
                     ),
                     if (multilineBelow != null &&
                         value != null &&
@@ -77,7 +77,7 @@ class RequestDetailRow extends StatelessWidget {
                       Text(
                         multilineBelow!,
                         style: valueStyle,
-                        textDirection: TextDirection.rtl,
+                        textDirection: Directionality.of(context),
                       ),
                     ],
                   ],

@@ -3433,5 +3433,177 @@
   "googleSignInFailedError": "تعذر تسجيل الدخول عبر Google",
   "@googleSignInFailedError": {
     "description": "Shown when Google sign-in fails on the presentation layer"
+  },
+  "suspendedStatusLabel": "موقوف",
+  "@suspendedStatusLabel": {
+    "description": "Short status chip label for a temporarily suspended account"
+  },
+  "failedToLoadData": "تعذر تحميل البيانات، حاول مرة أخرى",
+  "@failedToLoadData": {
+    "description": "Generic fallback when fetching/loading data from the server fails"
+  },
+  "failedToSaveChanges": "تعذر حفظ التعديلات، حاول مرة أخرى",
+  "@failedToSaveChanges": {
+    "description": "Generic fallback when saving or uploading data fails"
+  },
+  "failedToCancel": "تعذر الإلغاء، حاول مرة أخرى",
+  "@failedToCancel": {
+    "description": "Generic fallback when a cancel action fails"
+  },
+  "failedToUpdate": "تعذر التحديث، حاول مرة أخرى",
+  "@failedToUpdate": {
+    "description": "Generic fallback when an update action fails"
+  },
+  "failedToDelete": "تعذر الحذف، حاول مرة أخرى",
+  "@failedToDelete": {
+    "description": "Generic fallback when a delete action fails"
+  },
+  "failedToCreate": "تعذر إتمام الطلب، حاول مرة أخرى",
+  "@failedToCreate": {
+    "description": "Generic fallback when a create/add action fails"
+  },
+  "failedToAccept": "تعذر القبول، حاول مرة أخرى",
+  "@failedToAccept": {
+    "description": "Generic fallback when an accept action fails"
+  },
+  "failedToReject": "تعذر الرفض، حاول مرة أخرى",
+  "@failedToReject": {
+    "description": "Generic fallback when a reject action fails"
+  },
+  "failedToSubmit": "تعذر الإرسال، حاول مرة أخرى",
+  "@failedToSubmit": {
+    "description": "Generic fallback when submitting/sending data (e.g. a rating or form) fails"
+  },
+  "sparePartsBusinessType1": "قطع غيار مستعملة/كسر",
+  "@sparePartsBusinessType1": {
+    "description": "Spare parts shop business type option (id 1)"
+  },
+  "sparePartsBusinessType2": "إطارات وجنطات",
+  "@sparePartsBusinessType2": {
+    "description": "Spare parts shop business type option (id 2)"
+  },
+  "sparePartsBusinessType3": "قطع غيار جديدة",
+  "@sparePartsBusinessType3": {
+    "description": "Spare parts shop business type option (id 3)"
+  },
+  "sparePartsBusinessType4": "بطاريات وزيوت",
+  "@sparePartsBusinessType4": {
+    "description": "Spare parts shop business type option (id 4)"
+  },
+  "sparePartsBusinessType5": "اكسسوارات وزينة",
+  "@sparePartsBusinessType5": {
+    "description": "Spare parts shop business type option (id 5)"
+  },
+  "sparePartsBusinessType6": "زيوت وفلاتر",
+  "@sparePartsBusinessType6": {
+    "description": "Spare parts shop business type option (id 6)"
+  },
+  "sparePartsBusinessType7": "كهرباء سيارات",
+  "@sparePartsBusinessType7": {
+    "description": "Spare parts shop business type option (id 7)"
+  },
+  "sparePartsBusinessType8": "قطع بودي وهيكل",
+  "@sparePartsBusinessType8": {
+    "description": "Spare parts shop business type option (id 8)"
+  },
+  "sparePartsBusinessType9": "قطع محركات",
+  "@sparePartsBusinessType9": {
+    "description": "Spare parts shop business type option (id 9)"
+  },
+  "sparePartsBusinessType10": "خدمات تشليح",
+  "@sparePartsBusinessType10": {
+    "description": "Spare parts shop business type option (id 10)"
+  },
+  "sparePartsPartCategory1": "فرامل وديسكات",
+  "@sparePartsPartCategory1": {
+    "description": "Spare parts category option (id 1)"
+  },
+  "sparePartsPartCategory2": "غماشة وركسين",
+  "@sparePartsPartCategory2": {
+    "description": "Spare parts category option (id 2)"
+  },
+  "sparePartsPartCategory3": "هيكل خارجي وصاج",
+  "@sparePartsPartCategory3": {
+    "description": "Spare parts category option (id 3)"
+  },
+  "sparePartsPartCategory4": "ميكانيك عام",
+  "@sparePartsPartCategory4": {
+    "description": "Spare parts category option (id 4)"
+  },
+  "sparePartsPartCategory5": "كهرباء ونظام إنارة",
+  "@sparePartsPartCategory5": {
+    "description": "Spare parts category option (id 5)"
+  },
+  "sparePartsPartCategory6": "فلتر وبواجي",
+  "@sparePartsPartCategory6": {
+    "description": "Spare parts category option (id 6)"
+  },
+  "sparePartsPartCategory7": "محرك وقطع داخلية",
+  "@sparePartsPartCategory7": {
+    "description": "Spare parts category option (id 7)"
+  },
+  "sparePartsPartCategory8": "قير وناقل حركة",
+  "@sparePartsPartCategory8": {
+    "description": "Spare parts category option (id 8)"
+  },
+  "sparePartsPartCategory9": "تبريد وراديتر",
+  "@sparePartsPartCategory9": {
+    "description": "Spare parts category option (id 9)"
+  },
+  "sparePartsPartCategory10": "تعليق ومساعدات",
+  "@sparePartsPartCategory10": {
+    "description": "Spare parts category option (id 10)"
+  },
+  "sparePartsPartCategory11": "إطارات وجنوط",
+  "@sparePartsPartCategory11": {
+    "description": "Spare parts category option (id 11)"
+  },
+  "sparePartsPartCategory12": "زيوت وسوائل",
+  "@sparePartsPartCategory12": {
+    "description": "Spare parts category option (id 12)"
+  },
+  "sparePartsPartCategory13": "بطاريات",
+  "@sparePartsPartCategory13": {
+    "description": "Spare parts category option (id 13)"
+  },
+  "sparePartsPartCategory14": "حساسات وكمبيوتر",
+  "@sparePartsPartCategory14": {
+    "description": "Spare parts category option (id 14)"
+  },
+  "sparePartsPartCategory15": "مرايا وزجاج",
+  "@sparePartsPartCategory15": {
+    "description": "Spare parts category option (id 15)"
+  },
+  "sparePartsPartCategory16": "أنظمة عادم",
+  "@sparePartsPartCategory16": {
+    "description": "Spare parts category option (id 16)"
+  },
+  "sparePartsPartCategory17": "داخلية واكسسوارات",
+  "@sparePartsPartCategory17": {
+    "description": "Spare parts category option (id 17)"
+  },
+  "sparePartsPartCategory18": "مصابيح وإنارة",
+  "@sparePartsPartCategory18": {
+    "description": "Spare parts category option (id 18)"
+  },
+  "sparePartsPartCategory19": "مكيف وتبريد",
+  "@sparePartsPartCategory19": {
+    "description": "Spare parts category option (id 19)"
+  },
+  "sparePartsPartCategory20": "أبواب وأقفال",
+  "@sparePartsPartCategory20": {
+    "description": "Spare parts category option (id 20)"
+  },
+  "sparePartsPartCategory21": "مقود وتعليق",
+  "@sparePartsPartCategory21": {
+    "description": "Spare parts category option (id 21)"
+  },
+  "sparePartsPartCategory22": "طرمبات وفلاتر",
+  "@sparePartsPartCategory22": {
+    "description": "Spare parts category option (id 22)"
+  },
+  "sparePartsPartCategory23": "سيور وبكرات",
+  "@sparePartsPartCategory23": {
+    "description": "Spare parts category option (id 23)"
   }
 }

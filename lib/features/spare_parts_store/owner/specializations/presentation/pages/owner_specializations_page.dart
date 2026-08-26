@@ -7,6 +7,7 @@ import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/core/widgets/provider_status_page.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/data/static/spare_parts_options.dart';
+import 'package:car_care/features/spare_parts_store/owner/profile/presentation/widgets/spare_parts_option_label.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/cubit/owner_profile/owner_profile_cubit.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/cubit/owner_profile/owner_profile_state.dart';
 import 'package:car_care/features/spare_parts_store/owner/specializations/presentation/widgets/owner_specialization_card.dart';
@@ -114,6 +115,7 @@ class _OwnerSpecializationsPageState extends State<OwnerSpecializationsPage> {
                         attributeType: StoreAttributeType.businessType,
                         isEnabled: isEnabled,
                         onChanged: (ids) => _saveGroup(state, typeIds: ids),
+                        labelBuilder: sparePartsBusinessTypeLabel,
                       ),
                       SizedBox(height: 12.h),
                       OwnerSpecializationCard(
@@ -133,6 +135,7 @@ class _OwnerSpecializationsPageState extends State<OwnerSpecializationsPage> {
                         isEnabled: isEnabled,
                         onChanged: (ids) =>
                             _saveGroup(state, categoryIds: ids),
+                        labelBuilder: sparePartsPartCategoryLabel,
                       ),
                     ],
                   ),

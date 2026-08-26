@@ -22,7 +22,7 @@ class ResetPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: Directionality.of(context),
       child: BlocProvider(
         create: (_) => getIt<PasswordResetCubit>()
           ..seedVerified(email: email, resetToken: resetToken),
