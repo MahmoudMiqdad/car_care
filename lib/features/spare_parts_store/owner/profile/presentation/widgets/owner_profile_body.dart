@@ -4,6 +4,7 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/data/static/spare_parts_options.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/widgets/owner_basic_info_section.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/widgets/owner_selection_card.dart';
+import 'package:car_care/features/spare_parts_store/owner/profile/presentation/widgets/spare_parts_option_label.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -77,6 +78,7 @@ class OwnerProfileBody extends StatelessWidget {
               isEnabled: isEnabled,
               onChanged: onTypeIdsChanged,
               chipColor: AppColors.accent,
+              labelBuilder: sparePartsBusinessTypeLabel,
             ),
             SizedBox(height: 12.h),
             OwnerSelectionCard(
@@ -95,6 +97,7 @@ class OwnerProfileBody extends StatelessWidget {
               isEnabled: isEnabled,
               onChanged: onCategoryIdsChanged,
               chipColor: AppColors.primary,
+              labelBuilder: sparePartsPartCategoryLabel,
             ),
           ],
           SizedBox(height: 24.h),
@@ -175,7 +178,13 @@ class _StatusChip extends StatelessWidget {
     final l10n = context.l10n;
     final isApproved = status == 'approved';
     final color = isApproved ? AppColors.green : AppColors.textSecondary(context);
-    final label = isApproved ? l10n.activeStatus : (status ?? l10n.unknownStatus);
+    final label = switch (status) {
+      'approved' => l10n.activeStatus,
+      'pending' => l10n.pending,
+      'rejected' => l10n.rejectedStatusLabel,
+      'suspended' => l10n.suspendedStatusLabel,
+      _ => l10n.unknownStatus,
+    };
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),

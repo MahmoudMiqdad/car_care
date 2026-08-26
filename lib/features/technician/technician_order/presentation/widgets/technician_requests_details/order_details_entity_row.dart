@@ -33,7 +33,7 @@ class OrderDetailsEntityRow extends StatelessWidget {
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
-      textDirection: TextDirection.rtl,
+      textDirection: Directionality.of(context),
       children: [
         CircleAvatar(
           radius: avatarSize / 2,
@@ -108,7 +108,7 @@ class OrderDetailsIconLabel extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 6.h),
       child: Row(
-        textDirection: TextDirection.rtl,
+        textDirection: Directionality.of(context),
         mainAxisSize: MainAxisSize.min,
         children: [
           if (imagePath != null)

@@ -64,7 +64,7 @@ class _StatTile extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
         child: Row(
-          textDirection: TextDirection.rtl,
+          textDirection: Directionality.of(context),
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
@@ -84,7 +84,7 @@ class _StatTile extends StatelessWidget {
                 children: [
                   Text(
                     item.title,
-                    textDirection: TextDirection.rtl,
+                    textDirection: Directionality.of(context),
                     maxLines: 2,
                     overflow: TextOverflow.visible,
                     style: TextStyle(

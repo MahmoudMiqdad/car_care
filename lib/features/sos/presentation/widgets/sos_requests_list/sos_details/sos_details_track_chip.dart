@@ -26,7 +26,7 @@ class SosDetailsTrackChip extends StatelessWidget {
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            textDirection: TextDirection.rtl,
+            textDirection: Directionality.of(context),
             children: [
               Icon(
                 Icons.chevron_left_rounded,

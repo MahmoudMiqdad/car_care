@@ -141,7 +141,7 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
                             _selectedDate != null
                                 ? _formatDate(_selectedDate!)
                                 : l10n.chooseDateLabel,
-                            textDirection: TextDirection.rtl,
+                            textDirection: Directionality.of(context),
                             style: TextStyle(
                               fontSize: 15.sp,
                               color: _selectedDate != null
@@ -168,7 +168,7 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
                   SizedBox(height: 10.h),
                   TextField(
                     controller: _notesController,
-                    textDirection: TextDirection.rtl,
+                    textDirection: Directionality.of(context),
                     textAlign: TextAlign.right,
                     maxLines: 3,
                     minLines: 2,
@@ -207,7 +207,7 @@ class _AcceptQuotationDialogState extends State<AcceptQuotationDialog> {
               height: 48.h,
               color: AppColors.carWashTeal,
               child: Row(
-                textDirection: TextDirection.rtl,
+                textDirection: Directionality.of(context),
                 children: [
                   Expanded(
                     child: Material(

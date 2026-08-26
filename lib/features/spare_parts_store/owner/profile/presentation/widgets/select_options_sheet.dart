@@ -2,6 +2,7 @@ import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/data/static/spare_parts_options.dart';
+import 'package:car_care/features/spare_parts_store/owner/profile/presentation/widgets/spare_parts_option_label.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,17 +13,20 @@ class SelectOptionsSheet extends StatefulWidget {
     required this.title,
     required this.options,
     required this.currentSelection,
+    this.labelBuilder = sparePartsOptionDefaultLabel,
   });
 
   final String title;
   final List<SparePartsOption> options;
   final List<int> currentSelection;
+  final SparePartsOptionLabelBuilder labelBuilder;
 
   static Future<List<int>?> show(
     BuildContext context, {
     required String title,
     required List<SparePartsOption> options,
     required List<int> currentSelection,
+    SparePartsOptionLabelBuilder labelBuilder = sparePartsOptionDefaultLabel,
   }) {
     return showModalBottomSheet<List<int>>(
       context: context,
@@ -32,6 +36,7 @@ class SelectOptionsSheet extends StatefulWidget {
         title: title,
         options: options,
         currentSelection: currentSelection,
+        labelBuilder: labelBuilder,
       ),
     );
   }
@@ -109,7 +114,7 @@ class _SelectOptionsSheetState extends State<SelectOptionsSheet> {
                         children: [
                           Expanded(
                             child: Text(
-                              option.name,
+                              widget.labelBuilder(context, option),
                               style: context.textTheme.bodyMedium!.copyWith(
                                 color: AppColors.textPrimary(context),
                               ),

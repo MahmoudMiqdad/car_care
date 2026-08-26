@@ -52,7 +52,7 @@ class FuelOrderCard extends StatelessWidget {
             child: IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                textDirection: TextDirection.rtl,
+                textDirection: Directionality.of(context),
                 children: [
                   Expanded(
                     child: Column(

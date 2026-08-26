@@ -6780,6 +6780,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Google sign-in failed, please try again'**
   String get googleSignInFailedError;
+
+  /// Short status chip label for a temporarily suspended account
+  ///
+  /// In en, this message translates to:
+  /// **'Suspended'**
+  String get suspendedStatusLabel;
+
+  /// Generic fallback when fetching/loading data from the server fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load data, please try again'**
+  String get failedToLoadData;
+
+  /// Generic fallback when saving or uploading data fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save changes, please try again'**
+  String get failedToSaveChanges;
+
+  /// Generic fallback when a cancel action fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to cancel, please try again'**
+  String get failedToCancel;
+
+  /// Generic fallback when an update action fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update, please try again'**
+  String get failedToUpdate;
+
+  /// Generic fallback when a delete action fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete, please try again'**
+  String get failedToDelete;
+
+  /// Generic fallback when a create/add action fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to complete the request, please try again'**
+  String get failedToCreate;
+
+  /// Generic fallback when an accept action fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to accept, please try again'**
+  String get failedToAccept;
+
+  /// Generic fallback when a reject action fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to reject, please try again'**
+  String get failedToReject;
+
+  /// Generic fallback when submitting/sending data (e.g. a rating or form) fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to submit, please try again'**
+  String get failedToSubmit;
+
+  /// Spare parts shop business type option (id 1)
+  ///
+  /// In en, this message translates to:
+  /// **'Used Parts / Salvage'**
+  String get sparePartsBusinessType1;
+
+  /// Spare parts shop business type option (id 2)
+  ///
+  /// In en, this message translates to:
+  /// **'Tires & Rims'**
+  String get sparePartsBusinessType2;
+
+  /// Spare parts shop business type option (id 3)
+  ///
+  /// In en, this message translates to:
+  /// **'New Parts'**
+  String get sparePartsBusinessType3;
+
+  /// Spare parts shop business type option (id 4)
+  ///
+  /// In en, this message translates to:
+  /// **'Batteries & Oils'**
+  String get sparePartsBusinessType4;
+
+  /// Spare parts shop business type option (id 5)
+  ///
+  /// In en, this message translates to:
+  /// **'Accessories & Decor'**
+  String get sparePartsBusinessType5;
+
+  /// Spare parts shop business type option (id 6)
+  ///
+  /// In en, this message translates to:
+  /// **'Oils & Filters'**
+  String get sparePartsBusinessType6;
+
+  /// Spare parts shop business type option (id 7)
+  ///
+  /// In en, this message translates to:
+  /// **'Car Electrics'**
+  String get sparePartsBusinessType7;
+
+  /// Spare parts shop business type option (id 8)
+  ///
+  /// In en, this message translates to:
+  /// **'Body & Chassis Parts'**
+  String get sparePartsBusinessType8;
+
+  /// Spare parts shop business type option (id 9)
+  ///
+  /// In en, this message translates to:
+  /// **'Engine Parts'**
+  String get sparePartsBusinessType9;
+
+  /// Spare parts shop business type option (id 10)
+  ///
+  /// In en, this message translates to:
+  /// **'Salvage Yard Services'**
+  String get sparePartsBusinessType10;
+
+  /// Spare parts category option (id 1)
+  ///
+  /// In en, this message translates to:
+  /// **'Brakes & Discs'**
+  String get sparePartsPartCategory1;
+
+  /// Spare parts category option (id 2)
+  ///
+  /// In en, this message translates to:
+  /// **'Clutch & Pressure Plate'**
+  String get sparePartsPartCategory2;
+
+  /// Spare parts category option (id 3)
+  ///
+  /// In en, this message translates to:
+  /// **'Body & Sheet Metal'**
+  String get sparePartsPartCategory3;
+
+  /// Spare parts category option (id 4)
+  ///
+  /// In en, this message translates to:
+  /// **'General Mechanics'**
+  String get sparePartsPartCategory4;
+
+  /// Spare parts category option (id 5)
+  ///
+  /// In en, this message translates to:
+  /// **'Electrical & Lighting System'**
+  String get sparePartsPartCategory5;
+
+  /// Spare parts category option (id 6)
+  ///
+  /// In en, this message translates to:
+  /// **'Filters & Spark Plugs'**
+  String get sparePartsPartCategory6;
+
+  /// Spare parts category option (id 7)
+  ///
+  /// In en, this message translates to:
+  /// **'Engine & Internal Parts'**
+  String get sparePartsPartCategory7;
+
+  /// Spare parts category option (id 8)
+  ///
+  /// In en, this message translates to:
+  /// **'Gearbox & Transmission'**
+  String get sparePartsPartCategory8;
+
+  /// Spare parts category option (id 9)
+  ///
+  /// In en, this message translates to:
+  /// **'Cooling & Radiator'**
+  String get sparePartsPartCategory9;
+
+  /// Spare parts category option (id 10)
+  ///
+  /// In en, this message translates to:
+  /// **'Suspension & Shock Absorbers'**
+  String get sparePartsPartCategory10;
+
+  /// Spare parts category option (id 11)
+  ///
+  /// In en, this message translates to:
+  /// **'Tires & Rims'**
+  String get sparePartsPartCategory11;
+
+  /// Spare parts category option (id 12)
+  ///
+  /// In en, this message translates to:
+  /// **'Oils & Fluids'**
+  String get sparePartsPartCategory12;
+
+  /// Spare parts category option (id 13)
+  ///
+  /// In en, this message translates to:
+  /// **'Batteries'**
+  String get sparePartsPartCategory13;
+
+  /// Spare parts category option (id 14)
+  ///
+  /// In en, this message translates to:
+  /// **'Sensors & Computer'**
+  String get sparePartsPartCategory14;
+
+  /// Spare parts category option (id 15)
+  ///
+  /// In en, this message translates to:
+  /// **'Mirrors & Glass'**
+  String get sparePartsPartCategory15;
+
+  /// Spare parts category option (id 16)
+  ///
+  /// In en, this message translates to:
+  /// **'Exhaust Systems'**
+  String get sparePartsPartCategory16;
+
+  /// Spare parts category option (id 17)
+  ///
+  /// In en, this message translates to:
+  /// **'Interior & Accessories'**
+  String get sparePartsPartCategory17;
+
+  /// Spare parts category option (id 18)
+  ///
+  /// In en, this message translates to:
+  /// **'Lamps & Lighting'**
+  String get sparePartsPartCategory18;
+
+  /// Spare parts category option (id 19)
+  ///
+  /// In en, this message translates to:
+  /// **'AC & Cooling'**
+  String get sparePartsPartCategory19;
+
+  /// Spare parts category option (id 20)
+  ///
+  /// In en, this message translates to:
+  /// **'Doors & Locks'**
+  String get sparePartsPartCategory20;
+
+  /// Spare parts category option (id 21)
+  ///
+  /// In en, this message translates to:
+  /// **'Steering & Suspension'**
+  String get sparePartsPartCategory21;
+
+  /// Spare parts category option (id 22)
+  ///
+  /// In en, this message translates to:
+  /// **'Pumps & Filters'**
+  String get sparePartsPartCategory22;
+
+  /// Spare parts category option (id 23)
+  ///
+  /// In en, this message translates to:
+  /// **'Belts & Pulleys'**
+  String get sparePartsPartCategory23;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

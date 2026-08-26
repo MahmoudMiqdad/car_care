@@ -26,7 +26,7 @@ class FuelOrderDetailsOrderCard extends StatelessWidget {
       title: l10n.sosDetailsRequestData,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        textDirection: TextDirection.rtl,
+        textDirection: Directionality.of(context),
         children: [
           Expanded(
             child: Column(

@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/functions/upload_file_to_api.dart';
 
 import 'package:car_care/core/routing/navigation_x.dart';
@@ -152,7 +151,6 @@ class _RequestsPageState extends State<_RequestsPageBody> {
       initialDate: selectedDate.isBefore(firstDate) ? firstDate : selectedDate,
       firstDate: firstDate,
       lastDate: DateTime(2100),
-      locale: AppConstants.localeAr,
     );
     if (picked != null) setState(() => selectedDate = picked);
   }

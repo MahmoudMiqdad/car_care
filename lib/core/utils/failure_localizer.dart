@@ -74,5 +74,35 @@ String localizeErrorMessage(BuildContext context, String? rawMessage) {
     return l10n.googleSignInFailedError;
   }
 
+  if (message.contains('حدث خطأ') || message.contains('تعذر')) {
+    if (message.contains('جلب') || message.contains('تحميل')) {
+      return l10n.failedToLoadData;
+    }
+    if (message.contains('حفظ') || message.contains('رفع')) {
+      return l10n.failedToSaveChanges;
+    }
+    if (message.contains('إلغاء')) {
+      return l10n.failedToCancel;
+    }
+    if (message.contains('تحديث') || message.contains('تعديل')) {
+      return l10n.failedToUpdate;
+    }
+    if (message.contains('حذف')) {
+      return l10n.failedToDelete;
+    }
+    if (message.contains('إضافة') || message.contains('إنشاء')) {
+      return l10n.failedToCreate;
+    }
+    if (message.contains('قبول')) {
+      return l10n.failedToAccept;
+    }
+    if (message.contains('رفض')) {
+      return l10n.failedToReject;
+    }
+    if (message.contains('إرسال')) {
+      return l10n.failedToSubmit;
+    }
+  }
+
   return message;
 }

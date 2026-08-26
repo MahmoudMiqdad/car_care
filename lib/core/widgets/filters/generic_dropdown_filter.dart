@@ -92,7 +92,7 @@ class GenericDropdownFilter<T> extends StatelessWidget {
           },
         );
         return rtl
-            ? Directionality(textDirection: TextDirection.rtl, child: content)
+            ? Directionality(textDirection: Directionality.of(context), child: content)
             : content;
       },
     );

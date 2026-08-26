@@ -81,7 +81,7 @@ class _CancelReasonDialogState extends State<CancelReasonDialog> {
                   Text(
                     widget.question,
                     textAlign: TextAlign.right,
-                    textDirection: TextDirection.rtl,
+                    textDirection: Directionality.of(context),
                     style: TextStyle(
                       fontSize: 17.sp,
                       fontWeight: FontWeight.w800,
@@ -91,7 +91,7 @@ class _CancelReasonDialogState extends State<CancelReasonDialog> {
                   SizedBox(height: 12.h),
                   TextField(
                     controller: _controller,
-                    textDirection: TextDirection.rtl,
+                    textDirection: Directionality.of(context),
                     textAlign: TextAlign.right,
                     maxLines: 5,
                     minLines: 4,
@@ -136,7 +136,7 @@ class _CancelReasonDialogState extends State<CancelReasonDialog> {
               height: 48.h,
               color: AppColors.carWashTeal,
               child: Row(
-                textDirection: TextDirection.rtl,
+                textDirection: Directionality.of(context),
                 children: [
                   Expanded(
                     child: _FooterAction(

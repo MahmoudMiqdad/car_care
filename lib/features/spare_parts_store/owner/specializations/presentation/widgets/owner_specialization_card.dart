@@ -2,6 +2,7 @@ import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/data/static/spare_parts_options.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/widgets/select_options_sheet.dart';
+import 'package:car_care/features/spare_parts_store/owner/profile/presentation/widgets/spare_parts_option_label.dart';
 import 'package:car_care/features/spare_parts_store/shared/presentation/widgets/store_attribute_chip.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/foundation.dart';
@@ -17,6 +18,7 @@ class OwnerSpecializationCard extends StatelessWidget {
     required this.attributeType,
     required this.isEnabled,
     required this.onChanged,
+    this.labelBuilder = sparePartsOptionDefaultLabel,
   });
 
   final String title;
@@ -25,6 +27,7 @@ class OwnerSpecializationCard extends StatelessWidget {
   final StoreAttributeType attributeType;
   final bool isEnabled;
   final ValueChanged<List<int>> onChanged;
+  final SparePartsOptionLabelBuilder labelBuilder;
 
   bool _sameSelection(List<int> a, List<int> b) {
     final sortedA = List.of(a)..sort();
@@ -75,6 +78,7 @@ class OwnerSpecializationCard extends StatelessWidget {
                           title: title,
                           options: allOptions,
                           currentSelection: selectedIds,
+                          labelBuilder: labelBuilder,
                         );
                         if (result != null &&
                             !_sameSelection(result, selectedIds)) {
@@ -131,7 +135,7 @@ class OwnerSpecializationCard extends StatelessWidget {
                   children: selected
                       .map(
                         (opt) => StoreAttributeChip(
-                          label: opt.name,
+                          label: labelBuilder(context, opt),
                           type: attributeType,
                         ),
                       )

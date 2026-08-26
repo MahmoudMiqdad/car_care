@@ -90,7 +90,7 @@ class TechnicianSosRequestCard extends StatelessWidget {
               child: IntrinsicHeight(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  textDirection: TextDirection.rtl,
+                  textDirection: Directionality.of(context),
                   children: [
                     Expanded(
                       child: Column(
@@ -309,7 +309,7 @@ class _TechnicianNavigationSheet extends StatelessWidget {
     showDialog(
       context: context,
       builder: (dialogContext) => Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: Directionality.of(context),
         child: AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.r),

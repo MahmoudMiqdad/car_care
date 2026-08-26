@@ -2,6 +2,7 @@ import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/data/static/spare_parts_options.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/presentation/widgets/select_options_sheet.dart';
+import 'package:car_care/features/spare_parts_store/owner/profile/presentation/widgets/spare_parts_option_label.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +16,7 @@ class OwnerSelectionCard extends StatelessWidget {
     required this.onChanged,
     required this.isEnabled,
     this.chipColor = AppColors.primary,
+    this.labelBuilder = sparePartsOptionDefaultLabel,
   });
 
   final String title;
@@ -23,6 +25,7 @@ class OwnerSelectionCard extends StatelessWidget {
   final ValueChanged<List<int>> onChanged;
   final bool isEnabled;
   final Color chipColor;
+  final SparePartsOptionLabelBuilder labelBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +70,7 @@ class OwnerSelectionCard extends StatelessWidget {
                           title: title,
                           options: allOptions,
                           currentSelection: selectedIds,
+                          labelBuilder: labelBuilder,
                         );
                         if (result != null) onChanged(result);
                       }
@@ -136,7 +140,7 @@ class OwnerSelectionCard extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            opt.name,
+                            labelBuilder(context, opt),
                             style: context.textTheme.labelSmall!.copyWith(
                               color: chipColor,
                               fontWeight: FontWeight.w600,

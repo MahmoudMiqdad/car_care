@@ -36,7 +36,7 @@ class SosTechnicianDetailsInfoRow extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 1.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        textDirection: TextDirection.rtl,
+        textDirection: Directionality.of(context),
         children: [
           SizedBox(
             width: size,
@@ -62,7 +62,7 @@ class SosTechnicianDetailsInfoRow extends StatelessWidget {
                   TextSpan(text: value, style: valueStyle),
                 ],
               ),
-              textDirection: TextDirection.rtl,
+              textDirection: Directionality.of(context),
               softWrap: true,
             ),
           ),

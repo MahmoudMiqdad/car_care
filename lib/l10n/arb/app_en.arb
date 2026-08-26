@@ -3431,5 +3431,177 @@
   "googleSignInFailedError": "Google sign-in failed, please try again",
   "@googleSignInFailedError": {
     "description": "Shown when Google sign-in fails on the presentation layer"
+  },
+  "suspendedStatusLabel": "Suspended",
+  "@suspendedStatusLabel": {
+    "description": "Short status chip label for a temporarily suspended account"
+  },
+  "failedToLoadData": "Failed to load data, please try again",
+  "@failedToLoadData": {
+    "description": "Generic fallback when fetching/loading data from the server fails"
+  },
+  "failedToSaveChanges": "Failed to save changes, please try again",
+  "@failedToSaveChanges": {
+    "description": "Generic fallback when saving or uploading data fails"
+  },
+  "failedToCancel": "Failed to cancel, please try again",
+  "@failedToCancel": {
+    "description": "Generic fallback when a cancel action fails"
+  },
+  "failedToUpdate": "Failed to update, please try again",
+  "@failedToUpdate": {
+    "description": "Generic fallback when an update action fails"
+  },
+  "failedToDelete": "Failed to delete, please try again",
+  "@failedToDelete": {
+    "description": "Generic fallback when a delete action fails"
+  },
+  "failedToCreate": "Failed to complete the request, please try again",
+  "@failedToCreate": {
+    "description": "Generic fallback when a create/add action fails"
+  },
+  "failedToAccept": "Failed to accept, please try again",
+  "@failedToAccept": {
+    "description": "Generic fallback when an accept action fails"
+  },
+  "failedToReject": "Failed to reject, please try again",
+  "@failedToReject": {
+    "description": "Generic fallback when a reject action fails"
+  },
+  "failedToSubmit": "Failed to submit, please try again",
+  "@failedToSubmit": {
+    "description": "Generic fallback when submitting/sending data (e.g. a rating or form) fails"
+  },
+  "sparePartsBusinessType1": "Used Parts / Salvage",
+  "@sparePartsBusinessType1": {
+    "description": "Spare parts shop business type option (id 1)"
+  },
+  "sparePartsBusinessType2": "Tires & Rims",
+  "@sparePartsBusinessType2": {
+    "description": "Spare parts shop business type option (id 2)"
+  },
+  "sparePartsBusinessType3": "New Parts",
+  "@sparePartsBusinessType3": {
+    "description": "Spare parts shop business type option (id 3)"
+  },
+  "sparePartsBusinessType4": "Batteries & Oils",
+  "@sparePartsBusinessType4": {
+    "description": "Spare parts shop business type option (id 4)"
+  },
+  "sparePartsBusinessType5": "Accessories & Decor",
+  "@sparePartsBusinessType5": {
+    "description": "Spare parts shop business type option (id 5)"
+  },
+  "sparePartsBusinessType6": "Oils & Filters",
+  "@sparePartsBusinessType6": {
+    "description": "Spare parts shop business type option (id 6)"
+  },
+  "sparePartsBusinessType7": "Car Electrics",
+  "@sparePartsBusinessType7": {
+    "description": "Spare parts shop business type option (id 7)"
+  },
+  "sparePartsBusinessType8": "Body & Chassis Parts",
+  "@sparePartsBusinessType8": {
+    "description": "Spare parts shop business type option (id 8)"
+  },
+  "sparePartsBusinessType9": "Engine Parts",
+  "@sparePartsBusinessType9": {
+    "description": "Spare parts shop business type option (id 9)"
+  },
+  "sparePartsBusinessType10": "Salvage Yard Services",
+  "@sparePartsBusinessType10": {
+    "description": "Spare parts shop business type option (id 10)"
+  },
+  "sparePartsPartCategory1": "Brakes & Discs",
+  "@sparePartsPartCategory1": {
+    "description": "Spare parts category option (id 1)"
+  },
+  "sparePartsPartCategory2": "Clutch & Pressure Plate",
+  "@sparePartsPartCategory2": {
+    "description": "Spare parts category option (id 2)"
+  },
+  "sparePartsPartCategory3": "Body & Sheet Metal",
+  "@sparePartsPartCategory3": {
+    "description": "Spare parts category option (id 3)"
+  },
+  "sparePartsPartCategory4": "General Mechanics",
+  "@sparePartsPartCategory4": {
+    "description": "Spare parts category option (id 4)"
+  },
+  "sparePartsPartCategory5": "Electrical & Lighting System",
+  "@sparePartsPartCategory5": {
+    "description": "Spare parts category option (id 5)"
+  },
+  "sparePartsPartCategory6": "Filters & Spark Plugs",
+  "@sparePartsPartCategory6": {
+    "description": "Spare parts category option (id 6)"
+  },
+  "sparePartsPartCategory7": "Engine & Internal Parts",
+  "@sparePartsPartCategory7": {
+    "description": "Spare parts category option (id 7)"
+  },
+  "sparePartsPartCategory8": "Gearbox & Transmission",
+  "@sparePartsPartCategory8": {
+    "description": "Spare parts category option (id 8)"
+  },
+  "sparePartsPartCategory9": "Cooling & Radiator",
+  "@sparePartsPartCategory9": {
+    "description": "Spare parts category option (id 9)"
+  },
+  "sparePartsPartCategory10": "Suspension & Shock Absorbers",
+  "@sparePartsPartCategory10": {
+    "description": "Spare parts category option (id 10)"
+  },
+  "sparePartsPartCategory11": "Tires & Rims",
+  "@sparePartsPartCategory11": {
+    "description": "Spare parts category option (id 11)"
+  },
+  "sparePartsPartCategory12": "Oils & Fluids",
+  "@sparePartsPartCategory12": {
+    "description": "Spare parts category option (id 12)"
+  },
+  "sparePartsPartCategory13": "Batteries",
+  "@sparePartsPartCategory13": {
+    "description": "Spare parts category option (id 13)"
+  },
+  "sparePartsPartCategory14": "Sensors & Computer",
+  "@sparePartsPartCategory14": {
+    "description": "Spare parts category option (id 14)"
+  },
+  "sparePartsPartCategory15": "Mirrors & Glass",
+  "@sparePartsPartCategory15": {
+    "description": "Spare parts category option (id 15)"
+  },
+  "sparePartsPartCategory16": "Exhaust Systems",
+  "@sparePartsPartCategory16": {
+    "description": "Spare parts category option (id 16)"
+  },
+  "sparePartsPartCategory17": "Interior & Accessories",
+  "@sparePartsPartCategory17": {
+    "description": "Spare parts category option (id 17)"
+  },
+  "sparePartsPartCategory18": "Lamps & Lighting",
+  "@sparePartsPartCategory18": {
+    "description": "Spare parts category option (id 18)"
+  },
+  "sparePartsPartCategory19": "AC & Cooling",
+  "@sparePartsPartCategory19": {
+    "description": "Spare parts category option (id 19)"
+  },
+  "sparePartsPartCategory20": "Doors & Locks",
+  "@sparePartsPartCategory20": {
+    "description": "Spare parts category option (id 20)"
+  },
+  "sparePartsPartCategory21": "Steering & Suspension",
+  "@sparePartsPartCategory21": {
+    "description": "Spare parts category option (id 21)"
+  },
+  "sparePartsPartCategory22": "Pumps & Filters",
+  "@sparePartsPartCategory22": {
+    "description": "Spare parts category option (id 22)"
+  },
+  "sparePartsPartCategory23": "Belts & Pulleys",
+  "@sparePartsPartCategory23": {
+    "description": "Spare parts category option (id 23)"
   }
 }

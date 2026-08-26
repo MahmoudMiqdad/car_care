@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "282551324701-cnqncjolke2f163s5mo0a9ujp005n6lg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.car_care",
+            "certificate_hash": "b39c746b7263a6bbeaa7fd6b333f9e1008dc0e42"
+          }
+        },
+        {
           "client_id": "282551324701-m9bksqgi9kc09n7pdje62va882cuc8ir.apps.googleusercontent.com",
           "client_type": 3
         }
