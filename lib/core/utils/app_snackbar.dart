@@ -1,3 +1,4 @@
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:flutter/material.dart';
 
 class AppSnackBar {
@@ -18,7 +19,7 @@ class AppSnackBar {
   static void error(BuildContext context, String message) {
     _show(
       context,
-      message: message,
+      message: localizeErrorMessage(context, message),
       backgroundColor: Colors.red.shade600,
       icon: Icons.error,
     );

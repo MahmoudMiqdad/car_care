@@ -12,6 +12,7 @@ class GoogleSignInService {
   bool _initialized = false;
 
   Future<void> _ensureInitialized() async {
+    print('GOOGLE SERVER CLIENT ID: $_serverClientId');
     if (_initialized) return;
     await GoogleSignIn.instance.initialize(serverClientId: _serverClientId);
     _initialized = true;
@@ -22,12 +23,15 @@ class GoogleSignInService {
     await _ensureInitialized();
 
     final GoogleSignInAccount account;
-    try {
-      account = await GoogleSignIn.instance.authenticate();
-    } on GoogleSignInException catch (e) {
-      if (e.code == GoogleSignInExceptionCode.canceled) return null;
-      rethrow;
-    }
+   try {
+  account = await GoogleSignIn.instance.authenticate();
+} on GoogleSignInException catch (e) {
+  print('GOOGLE SIGN IN ERROR CODE: ${e.code}');
+  print('GOOGLE SIGN IN ERROR DESCRIPTION: ${e.description}');
+
+  if (e.code == GoogleSignInExceptionCode.canceled) return null;
+  rethrow;
+}
 
     final idToken = account.authentication.idToken;
     if (idToken == null || idToken.isEmpty) {

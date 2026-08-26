@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/errors/excptions.dart';
 import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/core/routing/role_route_resolver.dart';
 import 'package:car_care/core/routing/routes.dart';
+import 'package:car_care/core/service/fcm_service.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/features/user_profile/data/data_sources/profile_remote_data_source.dart';
 import 'package:car_care/l10n.dart';
@@ -69,6 +72,8 @@ class _SplashScreenState extends State<SplashScreen>
         context.go(Routes.onboarding);
         return;
       }
+
+      unawaited(getIt<FcmService>().syncTokenForAuthenticatedUser());
 
       try {
         final model = await getIt<ProfileRemoteDataSource>().showprofile();

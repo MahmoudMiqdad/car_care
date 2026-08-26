@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/l10n.dart';
 import 'package:car_care/features/spare_parts_store/owner/delivery/presentation/cubit/owner_share_location/owner_share_location_cubit.dart';
 import 'package:car_care/features/spare_parts_store/owner/delivery/presentation/cubit/owner_share_location/owner_share_location_state.dart';
 import 'package:dio/dio.dart';
@@ -77,7 +78,9 @@ class _OwnerShareLocationMapWidgetState
       permission = await Geolocator.requestPermission();
     }
     if (permission == LocationPermission.deniedForever) {
-      if (mounted) AppSnackBar.error(context, 'صلاحية الموقع مرفوضة');
+      if (mounted) {
+        AppSnackBar.error(context, context.l10n.locationPermissionDenied);
+      }
       return false;
     }
     return permission == LocationPermission.whileInUse ||
@@ -204,7 +207,10 @@ class _OwnerShareLocationMapWidgetState
       listener: (context, state) {
         if (kDebugMode) debugPrint('[Owner] POST result: $state');
         if (state is OwnerShareLocationError) {
-          AppSnackBar.error(context, 'خطأ في إرسال الموقع: ${state.message}');
+          AppSnackBar.error(
+            context,
+            context.l10n.sosLocationSendError(state.message),
+          );
         }
       },
       child: Stack(
@@ -333,9 +339,9 @@ class _CustomerDestinationMarker extends StatelessWidget {
             color: AppColors.accent,
             borderRadius: BorderRadius.circular(4),
           ),
-          child: const Text(
-            'موقع العميل',
-            style: TextStyle(color: Colors.white, fontSize: 9),
+          child: Text(
+            context.l10n.sosCustomerLocation,
+            style: const TextStyle(color: Colors.white, fontSize: 9),
           ),
         ),
       ],
@@ -377,9 +383,9 @@ class _OwnerDeliveryMarker extends StatelessWidget {
             color: AppColors.primary,
             borderRadius: BorderRadius.circular(4),
           ),
-          child: const Text(
-            'أنت',
-            style: TextStyle(color: Colors.white, fontSize: 9),
+          child: Text(
+            context.l10n.youMarkerLabel,
+            style: const TextStyle(color: Colors.white, fontSize: 9),
           ),
         ),
       ],
@@ -398,7 +404,7 @@ class _StatusCard extends StatelessWidget {
   final bool isLoadingRoute;
   final List<LatLng> routePoints;
 
-  String _getRouteDistance() {
+  String _getRouteDistance(BuildContext context) {
     if (routePoints.length < 2) return '';
     double totalMeters = 0;
     final dist = Distance();
@@ -409,13 +415,16 @@ class _StatusCard extends StatelessWidget {
         routePoints[i + 1],
       );
     }
-    if (totalMeters < 1000) return '${totalMeters.toStringAsFixed(0)} م';
-    return '${(totalMeters / 1000).toStringAsFixed(1)} كم';
+    final l10n = context.l10n;
+    if (totalMeters < 1000) {
+      return l10n.distanceInMeters(totalMeters.toStringAsFixed(0));
+    }
+    return l10n.distanceInKm((totalMeters / 1000).toStringAsFixed(1));
   }
 
   @override
   Widget build(BuildContext context) {
-    final distance = _getRouteDistance();
+    final distance = _getRouteDistance(context);
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -441,8 +450,8 @@ class _StatusCard extends StatelessWidget {
                 children: [
                   Text(
                     isSharing
-                        ? 'يتم إرسال موقعك للعميل'
-                        : 'جاري تحديد الموقع...',
+                        ? context.l10n.sharingLocationWithCustomer
+                        : context.l10n.locatingInProgress,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: isSharing
@@ -453,7 +462,7 @@ class _StatusCard extends StatelessWidget {
                   ),
                   if (isLoadingRoute)
                     Text(
-                      'جاري حساب المسار...',
+                      context.l10n.calculatingRouteInProgress,
                       style: TextStyle(
                         fontSize: 11,
                         color: context.colorScheme.onSurfaceVariant,
@@ -461,7 +470,7 @@ class _StatusCard extends StatelessWidget {
                     )
                   else if (distance.isNotEmpty)
                     Text(
-                      'المسافة للعميل: $distance',
+                      '${context.l10n.distanceToCustomer}: $distance',
                       style: TextStyle(
                         fontSize: 11,
                         color: AppColors.primary,

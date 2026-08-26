@@ -112,7 +112,11 @@ class ProviderAvailableOrderCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SosRequestStatusBadge(
-                        label: order.statusText ?? '-',
+                        label: sosRequestStatusLabel(
+                          context,
+                          order.status,
+                          fallback: order.statusText,
+                        ),
                         style: sosRequestStatusBadgeStyleFor(order.status),
                       ),
                     ],

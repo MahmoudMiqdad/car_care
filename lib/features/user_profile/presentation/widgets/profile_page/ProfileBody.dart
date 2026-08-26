@@ -2,6 +2,7 @@
 
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/routing/routes.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/user_profile/presentation/widgets/delete_confirmation_dialog.dart';
@@ -27,7 +28,9 @@ class ProfileBody extends StatelessWidget {
           return const Center(child: AppLoadingWidget());
         }
         if (state is ShowProfileError) {
-          return Center(child: Text(state.message));
+          return Center(
+            child: Text(localizeErrorMessage(context, state.message)),
+          );
         }
         if (state is ShowProfileLoaded) {
           final profile = state.profile;

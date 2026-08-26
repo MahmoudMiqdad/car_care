@@ -1,5 +1,6 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 
 enum ProviderApprovalStatus { pending, rejected, suspended }
@@ -17,26 +18,27 @@ class ProviderStatusPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = context.colorScheme;
+    final l10n = context.l10n;
     final (icon, color, title, subtitle) = switch (status) {
       ProviderApprovalStatus.pending => (
         Icons.hourglass_empty_rounded,
         AppColors.warningColor(context),
-        'حسابك قيد المراجعة',
-        'يرجى الانتظار حتى تتم مراجعة بياناتك من قبل الإدارة.',
+        l10n.providerReviewPendingTitle,
+        l10n.providerReviewPendingMessage,
       ),
       ProviderApprovalStatus.rejected => (
         Icons.cancel_outlined,
         colorScheme.error,
-        'تم رفض الحساب',
+        l10n.providerReviewRejectedTitle,
         (rejectionReason != null && rejectionReason!.isNotEmpty)
-            ? 'سبب الرفض: $rejectionReason'
-            : 'تم رفض طلبك. يرجى التواصل مع الإدارة لمعرفة التفاصيل.',
+            ? l10n.rejectionReasonPrefix(rejectionReason!)
+            : l10n.providerReviewRejectedDefaultReason,
       ),
       ProviderApprovalStatus.suspended => (
         Icons.pause_circle_outline,
         colorScheme.onSurfaceVariant,
-        'تم إيقاف الحساب مؤقتًا',
-        'يرجى التواصل مع الإدارة لمعرفة التفاصيل.',
+        l10n.providerReviewSuspendedTitle,
+        l10n.providerReviewSuspendedMessage,
       ),
     };
 

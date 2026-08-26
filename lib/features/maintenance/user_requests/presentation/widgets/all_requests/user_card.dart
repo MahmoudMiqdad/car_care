@@ -4,6 +4,7 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
 import 'package:car_care/features/maintenance/user_requests/domain/entities/maintenance_request_entity.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/models/maintenance_priority.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,27 +31,31 @@ class UserCard extends StatelessWidget {
     final Color statusBg = isWaiting
         ? AppColors.warningColor(context).withValues(alpha: 0.12)
         : (isCompleted || isAccepted
-            ? AppColors.successColor(context).withValues(alpha: 0.12)
-            : context.colorScheme.error.withValues(alpha: 0.12));
+              ? AppColors.successColor(context).withValues(alpha: 0.12)
+              : context.colorScheme.error.withValues(alpha: 0.12));
 
     final Color statusColor = isWaiting
         ? AppColors.warningColor(context)
         : (isCompleted || isAccepted
-            ? AppColors.successColor(context)
-            : context.colorScheme.error);
+              ? AppColors.successColor(context)
+              : context.colorScheme.error);
 
     final IconData statusIcon = isWaiting
         ? Icons.hourglass_empty_rounded
         : isAccepted
-            ? Icons.task_alt_rounded
-            : isCompleted
-                ? Icons.task_alt_rounded
-                : Icons.cancel_outlined;
+        ? Icons.task_alt_rounded
+        : isCompleted
+        ? Icons.task_alt_rounded
+        : Icons.cancel_outlined;
 
     final String descriptionStr = job.description?.toString() ?? '';
     final String vehicleBrand = job.vehicle?.brand ?? '';
     final String vehicleModel = job.vehicle?.model ?? '';
-    final String statusTextStr = job.statusText ?? '-';
+    final String statusTextStr = maintenanceRequestStatusLabel(
+      context,
+      job.status,
+      fallback: job.statusText,
+    );
 
     return Padding(
       padding: EdgeInsets.only(bottom: 12.h),
@@ -65,7 +70,10 @@ class UserCard extends StatelessWidget {
                 Expanded(
                   child: Container(
                     color: AppColors.cardBackground(context),
-                    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 10.h,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -78,7 +86,10 @@ class UserCard extends StatelessWidget {
                         ),
                         AppInfoRow(
                           label: l10n.vehicleLabel,
-                          value: l10n.vehicleLabelWithParam(vehicleBrand, vehicleModel),
+                          value: l10n.vehicleLabelWithParam(
+                            vehicleBrand,
+                            vehicleModel,
+                          ),
                           labelFontSize: 16,
                           valueFontSize: 15,
                           leading: Icon(
@@ -89,7 +100,9 @@ class UserCard extends StatelessWidget {
                         ),
                         AppInfoRow(
                           label: l10n.appointmentLabel,
-                          value: job.preferredDate != null ? _formatDate(job.preferredDate!) : '-',
+                          value: job.preferredDate != null
+                              ? _formatDate(job.preferredDate!)
+                              : '-',
                           labelFontSize: 16,
                           valueFontSize: 15,
                           leading: _rowAsset(AppAssets.calendarIcon),
@@ -112,7 +125,11 @@ class UserCard extends StatelessWidget {
                             shape: BoxShape.circle,
                             border: Border.all(color: statusColor, width: 2.5),
                           ),
-                          child: Icon(statusIcon, color: statusColor, size: 28.sp),
+                          child: Icon(
+                            statusIcon,
+                            color: statusColor,
+                            size: 28.sp,
+                          ),
                         ),
                         SizedBox(height: 8.h),
                         Padding(

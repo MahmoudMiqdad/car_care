@@ -14,11 +14,13 @@ class AdvertisementCard extends StatelessWidget {
     required this.advertisement,
     required this.height,
     this.borderRadius = 16,
+    this.imageFit = BoxFit.cover,
   });
 
   final AdvertisementEntity advertisement;
   final double height;
   final double borderRadius;
+  final BoxFit imageFit;
 
   bool get _hasValidLink {
     final url = advertisement.linkUrl;
@@ -68,7 +70,7 @@ class AdvertisementCard extends StatelessWidget {
               imageUrl: advertisement.imageUrl,
               width: double.infinity,
               height: scaledHeight,
-              fit: BoxFit.cover,
+              fit: imageFit,
               placeholder: (context, url) => ColoredBox(
                 color: context.colorScheme.surfaceContainerHighest,
                 child: Center(

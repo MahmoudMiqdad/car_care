@@ -43,7 +43,12 @@ class _RatingsPageState extends State<RatingsPage> {
               child: BlocConsumer<RatingsCubit, RatingsState>(
                 listener: (context, state) {
                   if (state is RatingsSuccess) {
-                    AppSnackBar.success(context, state.message);
+                    AppSnackBar.success(
+                      context,
+                      state.message.isEmpty
+                          ? strings.ratingSubmittedSuccess
+                          : state.message,
+                    );
                     context.safePopOrGo(Routes.bookings, result: true);
                   }
 

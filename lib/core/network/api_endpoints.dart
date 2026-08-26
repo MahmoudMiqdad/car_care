@@ -115,5 +115,8 @@ static const String assistantChatHistory = '/chat/history';
 
   static const String broadcastingAuth = '/broadcasting/auth';
 
+  static const String devicesRegister = '/devices/register';
+  static const String devicesUnregister = '/devices/unregister';
+
   static const String providerInvoices = '/provider/invoices';
 }

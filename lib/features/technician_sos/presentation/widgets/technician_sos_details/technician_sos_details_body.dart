@@ -12,6 +12,7 @@ import 'package:car_care/features/technician_sos/presentation/cubit/share_techni
 import 'package:car_care/features/technician_sos/presentation/cubit/technician_sos_cubit/technician_sos_cubit.dart';
 import 'package:car_care/features/technician_sos/presentation/cubit/technician_sos_cubit/technician_sos_state.dart';
 import 'package:car_care/features/technician_sos/presentation/widgets/sos_requests_list/technician_cancel_response_dialog.dart';
+import 'package:car_care/features/technician_sos/presentation/widgets/sos_requests_list/technician_sos_request_status_badge.dart';
 import 'package:car_care/features/technician_sos/presentation/widgets/technician_sos_details/technician_sos_details_request_card.dart';
 import 'package:car_care/features/technician_sos/presentation/widgets/technician_sos_details/technician_sos_details_section_card.dart';
 import 'package:car_care/features/technician_sos/presentation/widgets/technician_sos_details/technician_sos_details_status_banner.dart';
@@ -143,7 +144,13 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
           AppSnackBar.success(
             context,
             state.request.statusText?.trim().isNotEmpty == true
-                ? l10n.sosStatusUpdatedWithLabel(state.request.statusText!)
+                ? l10n.sosStatusUpdatedWithLabel(
+                    technicianSosRequestStatusLabel(
+                      context,
+                      state.request.status,
+                      fallback: state.request.statusText,
+                    ),
+                  )
                 : l10n.sosStatusUpdated,
           );
         }
@@ -164,7 +171,13 @@ class _SosTechnicianDetailsBodyState extends State<SosTechnicianDetailsBody> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SosTechnicianDetailsStatusBanner(label: widget.sos.statusText!),
+              SosTechnicianDetailsStatusBanner(
+                label: technicianSosRequestStatusLabel(
+                  context,
+                  widget.sos.status,
+                  fallback: widget.sos.statusText,
+                ),
+              ),
               SizedBox(height: 14.h),
 
               SosTechnicianDetailsRequestCard(

@@ -44,7 +44,6 @@ class _RegisterPageState extends State<RegisterPage> {
     return BlocProvider(
       create: (_) => AuthBloc(getIt<IAuthRepository>()),
       child: Scaffold(
-      
         resizeToAvoidBottomInset: false,
         body: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
@@ -60,8 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
           builder: (context, state) {
             bool isLoading = false;
 
-            if (state is AuthFormState) {
-            }
+            if (state is AuthFormState) {}
 
             return Stack(
               fit: StackFit.expand,
@@ -71,6 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Padding(
                     padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.06,
+                      bottom: MediaQuery.of(context).viewInsets.bottom,
                     ),
                     child: RegisterContent(
                       phoneController: _phoneController,
@@ -80,9 +79,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       passwordController: _passwordController,
                       confirmPasswordController: _confirmPasswordController,
                       isLoading: isLoading,
-                      onRegister: () => context
-                          .read<AuthBloc>()
-                          .add(SubmitRegister()),
+                      onRegister: () =>
+                          context.read<AuthBloc>().add(SubmitRegister()),
                       onGoToLogin: () {
                         GoRouter.of(context).go(Routes.login);
                       },

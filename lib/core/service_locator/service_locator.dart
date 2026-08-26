@@ -16,6 +16,7 @@ import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/core/locale/locale_cubit.dart';
 import 'package:car_care/core/network/api_client.dart';
 import 'package:car_care/core/network/api_service.dart';
+import 'package:car_care/core/service/fcm_service.dart';
 import 'package:car_care/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:car_care/features/auth/data/services/google_sign_in_service.dart';
 import 'package:car_care/features/auth/domain/repositories/i_auth_repository.dart';
@@ -219,6 +220,9 @@ Future<void> setupServiceLocator() async {
       () => ApiClient(secureStorage: getIt<SecureStorage>()),
     )
     ..registerLazySingleton<ApiService>(() => ApiService(getIt<ApiClient>()))
+    ..registerLazySingleton<FcmService>(
+      () => FcmService(getIt<ApiService>()),
+    )
     ..registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSource(getIt<ApiService>()),
     )
@@ -230,6 +234,7 @@ Future<void> setupServiceLocator() async {
         getIt<AuthRemoteDataSource>(),
         getIt<SecureStorage>(),
         googleSignInService: getIt<GoogleSignInService>(),
+        fcmService: getIt<FcmService>(),
       ),
     )
     ..registerFactory<PasswordResetCubit>(
@@ -685,8 +690,7 @@ Future<void> setupServiceLocator() async {
     ..registerFactory<ShowProviderInvoiceCubit>(
       () => ShowProviderInvoiceCubit(getIt()),
     )
-    // service_locator.dart
-..registerLazySingleton<AssistantChatRemoteDataSource>(
+    ..registerLazySingleton<AssistantChatRemoteDataSource>(
     () => AssistantChatRemoteDataSource(getIt()),
   )
   ..registerLazySingleton<IAssistantChatRepository>(

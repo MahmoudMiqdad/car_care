@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:car_care/features/advertisements/domain/entities/advertisement_entity.dart';
@@ -13,11 +12,13 @@ class AdvertisementCarousel extends StatefulWidget {
     required this.advertisements,
     required this.height,
     this.borderRadius = 16,
+    this.imageFit = BoxFit.cover,
   });
 
   final List<AdvertisementEntity> advertisements;
   final double height;
   final double borderRadius;
+  final BoxFit imageFit;
 
   @override
   State<AdvertisementCarousel> createState() => _AdvertisementCarouselState();
@@ -74,8 +75,6 @@ class _AdvertisementCarouselState extends State<AdvertisementCarousel> {
 
   void _onPageChanged(int index) {
     setState(() => _currentIndex = index);
-    // Any change — manual swipe or our own auto-advance — restarts the
-    // delay so an automatic move never lands right after a user swipe.
     _armAutoAdvance();
   }
 
@@ -93,6 +92,7 @@ class _AdvertisementCarouselState extends State<AdvertisementCarousel> {
                   advertisement: ads.first,
                   height: widget.height,
                   borderRadius: widget.borderRadius,
+                  imageFit: widget.imageFit,
                 )
               : PageView.builder(
                   controller: _controller,
@@ -102,6 +102,7 @@ class _AdvertisementCarouselState extends State<AdvertisementCarousel> {
                     advertisement: ads[index],
                     height: widget.height,
                     borderRadius: widget.borderRadius,
+                    imageFit: widget.imageFit,
                   ),
                 ),
         ),

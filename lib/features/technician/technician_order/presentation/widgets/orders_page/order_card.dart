@@ -3,6 +3,7 @@
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/media_url.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/models/maintenance_priority.dart';
 import 'package:car_care/core/widgets/app_image_widget.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
@@ -52,7 +53,7 @@ class OrderCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppImageWidget(
-                path: item.images.isNotEmpty ? item.images[0].url : '',
+                path: resolveMediaUrl(item.vehicle.image) ?? '',
                 width: 100.w,
                 height: 130.w,
                 borderRadius: 8.r,

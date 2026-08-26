@@ -37,7 +37,7 @@ class RingCardData {
   const RingCardData({
     required this.title,
     required this.mainValue,
-    this.mainLabel = 'الإجمالي',
+    required this.mainLabel,
     required this.progress,
     required this.headerIcon,
     this.accentColor = AppColors.primary,
@@ -127,7 +127,7 @@ class _SideLayout extends StatelessWidget {
         ),
         SizedBox(height: 12.h),
         Row(
-          textDirection: TextDirection.rtl,
+          textDirection: Directionality.of(context),
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
@@ -175,7 +175,7 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      textDirection: TextDirection.rtl,
+      textDirection: Directionality.of(context),
       children: [
         Container(
           width: 40.w,
@@ -192,7 +192,7 @@ class _Header extends StatelessWidget {
             title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            textDirection: TextDirection.rtl,
+            textDirection: Directionality.of(context),
             style: TextStyle(
               fontSize: 18.sp,
               fontWeight: FontWeight.w700,
@@ -285,13 +285,13 @@ class _IndicatorPill extends StatelessWidget {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        textDirection: TextDirection.rtl,
+        textDirection: Directionality.of(context),
         children: [
           Icon(indicator.icon, size: 18.sp, color: c),
           SizedBox(width: 8.w),
           Text(
             '${indicator.label}:',
-            textDirection: TextDirection.rtl,
+            textDirection: Directionality.of(context),
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
@@ -324,7 +324,7 @@ class _IndicatorRow extends StatelessWidget {
     final c = indicator.color ?? accent;
 
     return Row(
-      textDirection: TextDirection.rtl,
+      textDirection: Directionality.of(context),
       children: [
         Container(
           width: 34.w,
@@ -341,7 +341,7 @@ class _IndicatorRow extends StatelessWidget {
             indicator.label,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            textDirection: TextDirection.rtl,
+            textDirection: Directionality.of(context),
             style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),
           ),
         ),

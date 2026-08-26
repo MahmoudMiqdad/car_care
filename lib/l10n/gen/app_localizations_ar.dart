@@ -3393,4 +3393,69 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get splashTagline => 'حل شامل للعناية بسيارتك';
+
+  @override
+  String rejectionReasonPrefix(String reason) {
+    return 'سبب الرفض: $reason';
+  }
+
+  @override
+  String get providerReviewSuspendedTitle => 'تم إيقاف الحساب مؤقتًا';
+
+  @override
+  String get providerReviewSuspendedMessage => 'يرجى التواصل مع الإدارة لمعرفة التفاصيل.';
+
+  @override
+  String get enterAsCarWasher => 'الدخول كـ مغسلة';
+
+  @override
+  String get enterAsFuelProvider => 'الدخول كـ مزود وقود';
+
+  @override
+  String get enterAsShopOwner => 'الدخول كصاحب متجر';
+
+  @override
+  String get bookingCancelledSuccess => 'تم إلغاء الحجز بنجاح';
+
+  @override
+  String get actionCompletedSuccess => 'تم تنفيذ الإجراء بنجاح';
+
+  @override
+  String get ratingSubmittedSuccess => 'تم التقييم بنجاح';
+
+  @override
+  String get youMarkerLabel => 'أنت';
+
+  @override
+  String get waitingForDeliveryToStart => 'في انتظار بدء التوصيل...';
+
+  @override
+  String get deliveryTrackingEnded => 'انتهى التتبع';
+
+  @override
+  String get deliverySuccessBanner => 'تم التوصيل بنجاح';
+
+  @override
+  String get yourLocationMarkerLabel => 'موقعك';
+
+  @override
+  String get deliveryAgentLabel => 'المندوب';
+
+  @override
+  String get orderRejectedSuccess => 'تم رفض الطلبية';
+
+  @override
+  String get connectionTimeoutError => 'انتهت مهلة الاتصال، حاول مرة أخرى';
+
+  @override
+  String get sessionExpiredError => 'انتهت صلاحية الجلسة، يرجى تسجيل الدخول مجددًا';
+
+  @override
+  String get invalidCredentialsError => 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
+
+  @override
+  String get registrationFailedError => 'حدث خطأ أثناء التسجيل، تحقق من البيانات';
+
+  @override
+  String get googleSignInFailedError => 'تعذر تسجيل الدخول عبر Google';
 }

@@ -87,7 +87,14 @@ class OrderCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                OrderStatusBadge(status: order.status, label: order.statusText),
+                OrderStatusBadge(
+                  status: order.status,
+                  label: orderStatusLabel(
+                    context,
+                    order.status,
+                    fallback: order.statusText,
+                  ),
+                ),
               ],
             ),
             SizedBox(height: 10.h),

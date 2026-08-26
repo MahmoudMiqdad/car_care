@@ -1,6 +1,7 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/utils/location_helper.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/user_fuel/presentation/cubit/user_fuel_tracking_cubit/user_fuel_tracking_cubit.dart';
@@ -132,7 +133,10 @@ class _UserFuelTrackingMapWidgetState extends State<UserFuelTrackingMapWidget> {
                     color: AppColors.textSecondary(context),
                   ),
                   const SizedBox(height: 12),
-                  Text(state.message, textAlign: TextAlign.center),
+                  Text(
+                    localizeErrorMessage(context, state.message),
+                    textAlign: TextAlign.center,
+                  ),
                   const SizedBox(height: 12),
                   OutlinedButton.icon(
                     onPressed: () => context

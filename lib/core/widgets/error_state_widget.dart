@@ -1,4 +1,5 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -81,7 +82,7 @@ class _ErrorStateWidgetState extends State<ErrorStateWidget>
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  widget.message,
+                  localizeErrorMessage(context, widget.message),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 13,

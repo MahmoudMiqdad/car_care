@@ -1,5 +1,6 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,6 +11,22 @@ SosRequestStatusBadgeStyle sosRequestStatusBadgeStyleFor(String? status) {
     'completed' => SosRequestStatusBadgeStyle.softSuccess,
     'cancelled' => SosRequestStatusBadgeStyle.softError,
     _ => SosRequestStatusBadgeStyle.outlineOnWhite,
+  };
+}
+
+String sosRequestStatusLabel(
+  BuildContext context,
+  String? status, {
+  String? fallback,
+}) {
+  final l10n = context.l10n;
+  return switch (status) {
+    'pending' => l10n.pending,
+    'accepted' => l10n.bookingStatusAccepted,
+    'in_progress' => l10n.sosInProgressStatus,
+    'completed' => l10n.sosCompletedStatus,
+    'cancelled' => l10n.bookingStatusCanceled,
+    _ => fallback ?? status ?? '-',
   };
 }
 

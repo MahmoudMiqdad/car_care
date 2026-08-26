@@ -87,9 +87,11 @@ class SosRequestCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SosRequestStatusBadge(
-                        label: item.statusText?.trim().isNotEmpty == true
-                            ? item.statusText!
-                            : '-',
+                        label: sosRequestStatusLabel(
+                          context,
+                          item.status,
+                          fallback: item.statusText,
+                        ),
                         style: sosRequestStatusBadgeStyleFor(item.status),
                       ),
                     ],

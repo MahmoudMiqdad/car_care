@@ -5,6 +5,7 @@ import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/widgets/cancel_reason_dialog.dart';
 import 'package:car_care/features/maintenance/user_quotations/domain/entities/quotation_entity.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/models/maintenance_priority.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_info_row.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_section_card.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_status_banner.dart';
@@ -44,7 +45,13 @@ class QuotationDetailsBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SosDetailsStatusBanner(label: quotation.statusText),
+            SosDetailsStatusBanner(
+              label: maintenanceRequestStatusLabel(
+                context,
+                quotation.status,
+                fallback: quotation.statusText,
+              ),
+            ),
             SizedBox(height: 14.h),
 
             SosDetailsSectionCard(

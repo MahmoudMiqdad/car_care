@@ -203,7 +203,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
 
   void reset() {
     unsubscribeRealtime();
-    emit(const NotificationsInitial());
+    if (!isClosed) emit(const NotificationsInitial());
   }
 
   static const String _realtimeEvent = 'notification.created';
@@ -253,6 +253,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
 
   @visibleForTesting
   void insertRealtimeNotification(NotificationEntity notification) {
+    if (isClosed) return;
     final current = state;
 
     if (current is! NotificationsLoaded) {

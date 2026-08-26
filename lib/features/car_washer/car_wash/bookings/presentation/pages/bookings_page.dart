@@ -1,5 +1,6 @@
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
@@ -38,7 +39,9 @@ class CustomerBookingsPage extends StatelessWidget {
                   return const Center(child: AppLoadingWidget());
                 }
                 if (state is CustomerBookingsError) {
-                  return Center(child: Text(state.message));
+                  return Center(
+                    child: Text(localizeErrorMessage(context, state.message)),
+                  );
                 }
                 if (state is CustomerBookingsLoaded) {
                   final items = state.items;

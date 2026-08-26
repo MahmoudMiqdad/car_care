@@ -15,12 +15,14 @@ class AdvertisementSection extends StatelessWidget {
     required this.height,
     this.borderRadius = 16,
     this.bottomSpacing = 0,
+    this.imageFit = BoxFit.cover,
   });
 
   final AdvertisementPlacement placement;
   final double height;
   final double borderRadius;
   final double bottomSpacing;
+  final BoxFit imageFit;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,7 @@ class AdvertisementSection extends StatelessWidget {
               advertisements: state.items,
               height: height,
               borderRadius: borderRadius,
+              imageFit: imageFit,
             );
           }
 

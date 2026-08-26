@@ -1,7 +1,9 @@
-// مسؤول عن تنفيذ عمليات المصادقة وحفظ بيانات الجلسة محليًا بعد نجاحها.
+import 'dart:async';
+
 import 'package:car_care/core/errors/excptions.dart';
 import 'package:car_care/core/errors/filuar.dart';
 import 'package:car_care/core/local_storage/secure_storage.dart';
+import 'package:car_care/core/service/fcm_service.dart';
 import 'package:car_care/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:car_care/features/auth/data/services/google_sign_in_service.dart';
 import 'package:car_care/features/auth/domain/model/auth_model.dart';
@@ -13,13 +15,15 @@ class AuthRepositoryImpl implements IAuthRepository {
     this._authRemoteDataSource,
     this._secureStorage, {
     GoogleSignInService? googleSignInService,
-  }) : _googleSignInService = googleSignInService;
+    FcmService? fcmService,
+  }) : _googleSignInService = googleSignInService,
+       _fcmService = fcmService;
 
   final AuthRemoteDataSource _authRemoteDataSource;
   final SecureStorage _secureStorage;
   final GoogleSignInService? _googleSignInService;
+  final FcmService? _fcmService;
 
-  // Role priority: first match wins
   static const _rolePriority = [
     'admin',
     'shop-owner',
@@ -43,6 +47,7 @@ class AuthRepositoryImpl implements IAuthRepository {
       await _secureStorage.setRoles(roles);
       await _secureStorage.setPrimaryRole(_pickPrimaryRole(roles));
     }
+    unawaited(_fcmService?.syncTokenForAuthenticatedUser());
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
@@ -60,7 +61,10 @@ class CarWasherStatisticsPage extends StatelessWidget {
                         color: AppColors.red, 
                       ),
                       const SizedBox(height: 16),
-                      Text(state.message, textAlign: TextAlign.center),
+                      Text(
+                        localizeErrorMessage(context, state.message),
+                        textAlign: TextAlign.center,
+                      ),
                       const SizedBox(height: 24),
                       ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(

@@ -3329,5 +3329,107 @@
   "splashTagline": "Your Complete Car Care Solution",
   "@splashTagline": {
     "description": "Tagline shown under the app name on the splash screen"
+  },
+  "rejectionReasonPrefix": "Reason: {reason}",
+  "@rejectionReasonPrefix": {
+    "description": "Prefix shown before the admin-provided rejection reason",
+    "placeholders": {
+      "reason": {"type": "String"}
+    }
+  },
+  "providerReviewSuspendedTitle": "Your account has been suspended",
+  "@providerReviewSuspendedTitle": {
+    "description": "Title shown when a provider account is temporarily suspended"
+  },
+  "providerReviewSuspendedMessage": "Please contact support for more details.",
+  "@providerReviewSuspendedMessage": {
+    "description": "Message shown when a provider account is temporarily suspended"
+  },
+  "enterAsCarWasher": "Enter as car washer",
+  "@enterAsCarWasher": {
+    "description": "Entry option to continue as a car washer provider"
+  },
+  "enterAsFuelProvider": "Enter as fuel provider",
+  "@enterAsFuelProvider": {
+    "description": "Entry option to continue as a fuel provider"
+  },
+  "enterAsShopOwner": "Enter as shop owner",
+  "@enterAsShopOwner": {
+    "description": "Entry option to continue as a spare parts shop owner"
+  },
+  "bookingCancelledSuccess": "Booking cancelled successfully",
+  "@bookingCancelledSuccess": {
+    "description": "Fallback success message when a booking is cancelled and the backend sends no message"
+  },
+  "actionCompletedSuccess": "Action completed successfully",
+  "@actionCompletedSuccess": {
+    "description": "Fallback success message for a booking action when the backend sends no message"
+  },
+  "ratingSubmittedSuccess": "Rating submitted successfully",
+  "@ratingSubmittedSuccess": {
+    "description": "Success message shown after submitting a car wash rating"
+  },
+  "youMarkerLabel": "You",
+  "@youMarkerLabel": {
+    "description": "Map marker label for the current user's own location"
+  },
+  "distanceInMeters": "{value} m",
+  "@distanceInMeters": {
+    "description": "Distance formatted in meters",
+    "placeholders": {
+      "value": {"type": "String"}
+    }
+  },
+  "locatingInProgress": "Locating...",
+  "@locatingInProgress": {
+    "description": "Shown while the device is determining the current location"
+  },
+  "calculatingRouteInProgress": "Calculating route...",
+  "@calculatingRouteInProgress": {
+    "description": "Shown while a delivery/navigation route is being calculated"
+  },
+  "waitingForDeliveryToStart": "Waiting for delivery to start...",
+  "@waitingForDeliveryToStart": {
+    "description": "Shown before delivery tracking has begun"
+  },
+  "deliveryTrackingEnded": "Tracking ended",
+  "@deliveryTrackingEnded": {
+    "description": "Shown once delivery tracking is no longer active"
+  },
+  "deliverySuccessBanner": "Delivered successfully",
+  "@deliverySuccessBanner": {
+    "description": "Banner shown once an order has been delivered"
+  },
+  "yourLocationMarkerLabel": "Your Location",
+  "@yourLocationMarkerLabel": {
+    "description": "Map marker label for the customer's own location during delivery tracking"
+  },
+  "deliveryAgentLabel": "Delivery Agent",
+  "@deliveryAgentLabel": {
+    "description": "Map marker label for the delivery courier"
+  },
+  "orderRejectedSuccess": "Order rejected",
+  "@orderRejectedSuccess": {
+    "description": "Success message shown after an owner rejects a spare parts order"
+  },
+  "connectionTimeoutError": "Connection timeout, please try again",
+  "@connectionTimeoutError": {
+    "description": "Shown when a network request times out"
+  },
+  "sessionExpiredError": "Your session has expired, please log in again",
+  "@sessionExpiredError": {
+    "description": "Shown when the server reports the user is no longer authenticated"
+  },
+  "invalidCredentialsError": "Invalid email or password",
+  "@invalidCredentialsError": {
+    "description": "Shown when login fails due to wrong email or password"
+  },
+  "registrationFailedError": "Registration failed, please check your information",
+  "@registrationFailedError": {
+    "description": "Shown when account registration fails"
+  },
+  "googleSignInFailedError": "Google sign-in failed, please try again",
+  "@googleSignInFailedError": {
+    "description": "Shown when Google sign-in fails on the presentation layer"
   }
 }

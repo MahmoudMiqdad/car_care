@@ -3393,4 +3393,69 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get splashTagline => 'Your Complete Car Care Solution';
+
+  @override
+  String rejectionReasonPrefix(String reason) {
+    return 'Reason: $reason';
+  }
+
+  @override
+  String get providerReviewSuspendedTitle => 'Your account has been suspended';
+
+  @override
+  String get providerReviewSuspendedMessage => 'Please contact support for more details.';
+
+  @override
+  String get enterAsCarWasher => 'Enter as car washer';
+
+  @override
+  String get enterAsFuelProvider => 'Enter as fuel provider';
+
+  @override
+  String get enterAsShopOwner => 'Enter as shop owner';
+
+  @override
+  String get bookingCancelledSuccess => 'Booking cancelled successfully';
+
+  @override
+  String get actionCompletedSuccess => 'Action completed successfully';
+
+  @override
+  String get ratingSubmittedSuccess => 'Rating submitted successfully';
+
+  @override
+  String get youMarkerLabel => 'You';
+
+  @override
+  String get waitingForDeliveryToStart => 'Waiting for delivery to start...';
+
+  @override
+  String get deliveryTrackingEnded => 'Tracking ended';
+
+  @override
+  String get deliverySuccessBanner => 'Delivered successfully';
+
+  @override
+  String get yourLocationMarkerLabel => 'Your Location';
+
+  @override
+  String get deliveryAgentLabel => 'Delivery Agent';
+
+  @override
+  String get orderRejectedSuccess => 'Order rejected';
+
+  @override
+  String get connectionTimeoutError => 'Connection timeout, please try again';
+
+  @override
+  String get sessionExpiredError => 'Your session has expired, please log in again';
+
+  @override
+  String get invalidCredentialsError => 'Invalid email or password';
+
+  @override
+  String get registrationFailedError => 'Registration failed, please check your information';
+
+  @override
+  String get googleSignInFailedError => 'Google sign-in failed, please try again';
 }

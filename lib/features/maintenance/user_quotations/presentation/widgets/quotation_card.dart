@@ -4,6 +4,7 @@ import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/features/maintenance/user_quotations/domain/entities/quotation_entity.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/models/maintenance_priority.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/request_detail_row.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_request_status_badge.dart';
 import 'package:car_care/l10n.dart';
@@ -88,7 +89,11 @@ class QuotationCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SosRequestStatusBadge(
-                        label: quotation.statusText,
+                        label: maintenanceRequestStatusLabel(
+                          context,
+                          quotation.status,
+                          fallback: quotation.statusText,
+                        ),
                         style: SosRequestStatusBadgeStyle.softSuccess,
                       ),
                     ],

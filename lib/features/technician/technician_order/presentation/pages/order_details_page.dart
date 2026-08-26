@@ -4,6 +4,7 @@ import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/technician/technician_order/presentation/cubit/request_cubit/request_cubit.dart';
@@ -61,7 +62,9 @@ class _BodyState extends State<_Body> {
               }
 
               if (state is RequestError) {
-                return Center(child: Text(state.message));
+                return Center(
+                  child: Text(localizeErrorMessage(context, state.message)),
+                );
               }
 
               if (state is RequestLoaded) {

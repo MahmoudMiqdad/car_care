@@ -1,6 +1,6 @@
-// lib/features/assistant_chat/presentation/pages/assistant_chat_page.dart
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/routing/navigation_x.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
@@ -116,7 +116,7 @@ class _AssistantChatPageState extends State<AssistantChatPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(state.message),
+                    Text(localizeErrorMessage(context, state.message)),
                     SizedBox(height: 12.h),
                     TextButton(
                       onPressed: () =>

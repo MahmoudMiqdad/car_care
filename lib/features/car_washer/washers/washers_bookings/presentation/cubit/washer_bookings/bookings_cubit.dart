@@ -90,7 +90,7 @@ class BookingsCubit extends Cubit<BookingsState> {
       (res) async {
         emit(
           BookingActionSuccessMessage(
-            (res['message'] ?? 'تم تنفيذ الإجراء بنجاح').toString(),
+            (res['message'] ?? '').toString(),
             currentItems: _currentItems,
             currentStatus: statusLabel,
             busyBookingIds: Set.unmodifiable(_busyBookingIds),

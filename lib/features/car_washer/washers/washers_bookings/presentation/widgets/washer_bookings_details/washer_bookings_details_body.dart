@@ -9,6 +9,7 @@ import 'package:car_care/features/car_washer/washers/washers_bookings/presentati
     show washerBookingActionVisibilityFor;
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/widgets/washer_bookings_page/washer_booking_quick_actions_column.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/widgets/washer_bookings_page/washer_booking_status_chips_row.dart';
+import 'package:car_care/features/car_washer/shared/presentation/widgets/carwash_booking_filter.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,7 +81,12 @@ class _WasherBookingsDetailsBodyState extends State<WasherBookingsDetailsBody> {
           _lastSeenStatus = booking.status;
         }
         if (state is BookingActionSuccessMessage) {
-          AppSnackBar.success(context, state.message);
+          AppSnackBar.success(
+            context,
+            state.message.isEmpty
+                ? context.l10n.actionCompletedSuccess
+                : state.message,
+          );
         }
         if (state is BookingActionError) {
           AppSnackBar.error(context, state.message);
@@ -139,7 +145,11 @@ class _WasherBookingsDetailsBodyState extends State<WasherBookingsDetailsBody> {
                       Center(
                         child: WasherBookingStatusChipsRow(
                           status: booking.status,
-                          label: booking.statusText,
+                          label:
+                              carwashBookingFilterLabels(
+                                l10n,
+                              )[booking.status] ??
+                              booking.statusText,
                         ),
                       ),
                       SizedBox(height: 10.h),

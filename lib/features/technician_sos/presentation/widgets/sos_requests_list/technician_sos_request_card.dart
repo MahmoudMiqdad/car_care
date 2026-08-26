@@ -132,9 +132,11 @@ class TechnicianSosRequestCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SosTechnicianRequestStatusBadge(
-                          label: item.statusText?.trim().isNotEmpty == true
-                              ? item.statusText!
-                              : '-',
+                          label: technicianSosRequestStatusLabel(
+                            context,
+                            item.status,
+                            fallback: item.statusText,
+                          ),
                           style: technicianSosRequestStatusBadgeStyleFor(
                             item.status,
                           ),

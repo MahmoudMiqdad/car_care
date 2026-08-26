@@ -3859,7 +3859,7 @@ abstract class AppLocalizations {
   /// **'You'**
   String get youLabel;
 
-  /// No description provided for @distanceInMeters.
+  /// Distance formatted in meters
   ///
   /// In en, this message translates to:
   /// **'{value} m'**
@@ -3877,13 +3877,13 @@ abstract class AppLocalizations {
   /// **'Sharing your location with the customer'**
   String get sharingLocationActive;
 
-  /// No description provided for @locatingInProgress.
+  /// Shown while the device is determining the current location
   ///
   /// In en, this message translates to:
   /// **'Locating...'**
   String get locatingInProgress;
 
-  /// No description provided for @calculatingRouteInProgress.
+  /// Shown while a delivery/navigation route is being calculated
   ///
   /// In en, this message translates to:
   /// **'Calculating route...'**
@@ -6654,6 +6654,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your Complete Car Care Solution'**
   String get splashTagline;
+
+  /// Prefix shown before the admin-provided rejection reason
+  ///
+  /// In en, this message translates to:
+  /// **'Reason: {reason}'**
+  String rejectionReasonPrefix(String reason);
+
+  /// Title shown when a provider account is temporarily suspended
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been suspended'**
+  String get providerReviewSuspendedTitle;
+
+  /// Message shown when a provider account is temporarily suspended
+  ///
+  /// In en, this message translates to:
+  /// **'Please contact support for more details.'**
+  String get providerReviewSuspendedMessage;
+
+  /// Entry option to continue as a car washer provider
+  ///
+  /// In en, this message translates to:
+  /// **'Enter as car washer'**
+  String get enterAsCarWasher;
+
+  /// Entry option to continue as a fuel provider
+  ///
+  /// In en, this message translates to:
+  /// **'Enter as fuel provider'**
+  String get enterAsFuelProvider;
+
+  /// Entry option to continue as a spare parts shop owner
+  ///
+  /// In en, this message translates to:
+  /// **'Enter as shop owner'**
+  String get enterAsShopOwner;
+
+  /// Fallback success message when a booking is cancelled and the backend sends no message
+  ///
+  /// In en, this message translates to:
+  /// **'Booking cancelled successfully'**
+  String get bookingCancelledSuccess;
+
+  /// Fallback success message for a booking action when the backend sends no message
+  ///
+  /// In en, this message translates to:
+  /// **'Action completed successfully'**
+  String get actionCompletedSuccess;
+
+  /// Success message shown after submitting a car wash rating
+  ///
+  /// In en, this message translates to:
+  /// **'Rating submitted successfully'**
+  String get ratingSubmittedSuccess;
+
+  /// Map marker label for the current user's own location
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get youMarkerLabel;
+
+  /// Shown before delivery tracking has begun
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for delivery to start...'**
+  String get waitingForDeliveryToStart;
+
+  /// Shown once delivery tracking is no longer active
+  ///
+  /// In en, this message translates to:
+  /// **'Tracking ended'**
+  String get deliveryTrackingEnded;
+
+  /// Banner shown once an order has been delivered
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered successfully'**
+  String get deliverySuccessBanner;
+
+  /// Map marker label for the customer's own location during delivery tracking
+  ///
+  /// In en, this message translates to:
+  /// **'Your Location'**
+  String get yourLocationMarkerLabel;
+
+  /// Map marker label for the delivery courier
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Agent'**
+  String get deliveryAgentLabel;
+
+  /// Success message shown after an owner rejects a spare parts order
+  ///
+  /// In en, this message translates to:
+  /// **'Order rejected'**
+  String get orderRejectedSuccess;
+
+  /// Shown when a network request times out
+  ///
+  /// In en, this message translates to:
+  /// **'Connection timeout, please try again'**
+  String get connectionTimeoutError;
+
+  /// Shown when the server reports the user is no longer authenticated
+  ///
+  /// In en, this message translates to:
+  /// **'Your session has expired, please log in again'**
+  String get sessionExpiredError;
+
+  /// Shown when login fails due to wrong email or password
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email or password'**
+  String get invalidCredentialsError;
+
+  /// Shown when account registration fails
+  ///
+  /// In en, this message translates to:
+  /// **'Registration failed, please check your information'**
+  String get registrationFailedError;
+
+  /// Shown when Google sign-in fails on the presentation layer
+  ///
+  /// In en, this message translates to:
+  /// **'Google sign-in failed, please try again'**
+  String get googleSignInFailedError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

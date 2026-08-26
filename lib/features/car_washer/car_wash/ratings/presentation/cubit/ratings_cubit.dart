@@ -22,7 +22,7 @@ class RatingsCubit extends Cubit<RatingsState> {
 
     result.fold(
       (failure) => emit(RatingsError(failure.message)),
-      (data) => emit(RatingsSuccess(data, message: 'تم التقييم بنجاح')),
+      (data) => emit(RatingsSuccess(data, message: '')),
     );
   }
 }

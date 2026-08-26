@@ -3,6 +3,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
+import 'package:car_care/features/car_washer/shared/presentation/widgets/carwash_booking_filter.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/cubit/washer_bookings/bookings_cubit.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/widgets/washer_bookings_page/washer_booking_info_column.dart';
 import 'package:car_care/features/car_washer/washers/washers_bookings/presentation/widgets/washer_bookings_page/washer_booking_quick_actions_column.dart';
@@ -73,7 +74,9 @@ class _WasherBookingCardState extends State<WasherBookingCard> {
         children: [
           WasherBookingStatusChipsRow(
             status: booking.status,
-            label: booking.statusText,
+            label:
+                carwashBookingFilterLabels(string)[booking.status] ??
+                booking.statusText,
           ),
           SizedBox(height: 10.h),
 

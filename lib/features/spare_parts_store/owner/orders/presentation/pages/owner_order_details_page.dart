@@ -22,6 +22,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+String _successMessageFor(BuildContext context, OwnerOrderActionType action) {
+  final l10n = context.l10n;
+  return switch (action) {
+    OwnerOrderActionType.accept => l10n.orderAcceptedSuccess,
+    OwnerOrderActionType.reject => l10n.orderRejectedSuccess,
+    OwnerOrderActionType.startProcessing => l10n.statusUpdatedSuccessMessage,
+    OwnerOrderActionType.startDelivery => l10n.statusUpdatedSuccessMessage,
+    OwnerOrderActionType.confirmDelivered => l10n.orderCompletedSuccess,
+  };
+}
+
 class OwnerOrderDetailsPage extends StatefulWidget {
   const OwnerOrderDetailsPage({super.key, required this.orderId});
 
@@ -76,8 +87,11 @@ class _OwnerOrderDetailsPageState extends State<OwnerOrderDetailsPage> {
             child: BlocConsumer<OwnerOrderDetailsCubit, OwnerOrderDetailsState>(
               listener: (context, state) {
                 if (state is! OwnerOrderDetailsLoaded) return;
-                if (state.successMessage != null) {
-                  AppSnackBar.success(context, state.successMessage!);
+                if (state.completedAction != null) {
+                  AppSnackBar.success(
+                    context,
+                    _successMessageFor(context, state.completedAction!),
+                  );
                   _cubit.clearSuccessMessage();
                   setState(() => _mutated = true);
                 }
@@ -182,7 +196,14 @@ class _HeaderCard extends StatelessWidget {
               ],
             ),
           ),
-          OrderStatusBadge(status: order.status, label: order.statusText),
+          OrderStatusBadge(
+            status: order.status,
+            label: orderStatusLabel(
+              context,
+              order.status,
+              fallback: order.statusText,
+            ),
+          ),
         ],
       ),
     );

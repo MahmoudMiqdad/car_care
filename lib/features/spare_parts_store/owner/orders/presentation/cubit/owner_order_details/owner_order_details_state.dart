@@ -1,4 +1,3 @@
-// حالات تفاصيل الطلب الخاصة بالمالك — يتضمن نوع الإجراء الجاري.
 import 'package:car_care/features/spare_parts_store/customer/checkout/domain/entities/order_entity.dart';
 
 enum OwnerOrderActionType {
@@ -20,13 +19,13 @@ class OwnerOrderDetailsLoaded extends OwnerOrderDetailsState {
     this.order, {
     this.activeAction,
     this.actionError,
-    this.successMessage,
+    this.completedAction,
   });
 
   final OrderEntity order;
   final OwnerOrderActionType? activeAction;
   final String? actionError;
-  final String? successMessage;
+  final OwnerOrderActionType? completedAction;
 
   bool get isActing => activeAction != null;
 }

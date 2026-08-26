@@ -1,6 +1,7 @@
 import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -67,7 +68,7 @@ class _FuelOrdersListPageState extends State<FuelOrdersListPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(state.message),
+                    Text(localizeErrorMessage(context, state.message)),
                     SizedBox(height: 12.h),
                     TextButton(
                       onPressed: () =>
@@ -106,7 +107,7 @@ class _FuelOrdersListPageState extends State<FuelOrdersListPage> {
                         onTap: () async {
                           final refreshNeeded = await context.push<bool>(
                             Routes.fuel_order_details,
-                            extra: order, // ← Entity مباشرة
+                            extra: order,
                           );
                           if (refreshNeeded == true && context.mounted) {
                             context.read<UserFuelCubit>().getAllOrders();

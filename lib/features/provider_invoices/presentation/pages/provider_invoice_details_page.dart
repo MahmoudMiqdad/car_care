@@ -1,5 +1,6 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
@@ -67,7 +68,9 @@ class _ProviderInvoiceDetailsPageState
               }
 
               if (state is ShowProviderInvoiceError) {
-                return Center(child: Text(state.message));
+                return Center(
+                  child: Text(localizeErrorMessage(context, state.message)),
+                );
               }
 
               final invoice = (state as ShowProviderInvoiceLoaded).invoice;

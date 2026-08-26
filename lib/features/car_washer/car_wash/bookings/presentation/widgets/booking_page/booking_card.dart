@@ -3,6 +3,8 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/presentation/cubit/customer_bookings/customer_bookings_cubit.dart';
+import 'package:car_care/features/car_washer/shared/presentation/widgets/carwash_booking_filter.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,6 +26,7 @@ class BookingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Material(
       color: AppColors.transparent,
       child: InkWell(
@@ -42,7 +45,9 @@ class BookingCard extends StatelessWidget {
             children: [
               BookingStatusChips(
                 status: booking.status,
-                label: booking.statusText,
+                label:
+                    carwashBookingFilterLabels(l10n)[booking.status] ??
+                    booking.statusText,
               ),
               SizedBox(height: 8.h),
               BookingDetailsContent(

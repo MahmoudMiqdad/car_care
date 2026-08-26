@@ -96,32 +96,41 @@ class PusherService {
       final event = decoded['event'] as String?;
       final channel = decoded['channel'] as String?;
 
-      if (event == 'pusher:connection_established') {
-        _connected = true;
-        _socketId = _extractSocketId(decoded['data']);
+  if (event == 'pusher:connection_established') {
+  _connected = true;
+  _socketId = _extractSocketId(decoded['data']);
 
-        for (final ch in _callbacks.keys) {
-          if (!_subscribedChannels.contains(ch)) {
-            _subscribeChannel(ch);
-          }
-        }
+  if (kDebugMode) {
+    debugPrint('✅ REVERB CONNECTED — socketId: $_socketId');
+  }
 
-        for (final channelName in _privateAuthProviders.keys.toList()) {
-          unawaited(_authenticateAndSubscribePrivate(channelName));
-        }
-        return;
-      }
+  for (final ch in _callbacks.keys) {
+    if (!_subscribedChannels.contains(ch)) {
+      _subscribeChannel(ch);
+    }
+  }
 
-      if (event == 'pusher:subscription_error' || event == 'pusher:error') {
-        if (kDebugMode) {
-          debugPrint(' Pusher $event on channel: ${channel ?? 'unknown'}');
-        }
-        return;
-      }
+  for (final channelName in _privateAuthProviders.keys.toList()) {
+    unawaited(_authenticateAndSubscribePrivate(channelName));
+  }
+  return;
+}
 
-      if (event == 'pusher_internal:subscription_succeeded') {
-        return;
-      }
+     if (event == 'pusher:subscription_error' || event == 'pusher:error') {
+  if (kDebugMode) {
+    debugPrint('PUSHER ERROR EVENT: $event');
+    debugPrint('PUSHER ERROR CHANNEL: ${channel ?? 'unknown'}');
+    debugPrint('PUSHER ERROR DATA: ${decoded['data']}');
+    debugPrint('PUSHER ERROR RAW: $decoded');
+  }
+  return;
+}
+if (event == 'pusher_internal:subscription_succeeded') {
+  if (kDebugMode) {
+    debugPrint('✅ REVERB SUBSCRIBED — channel: $channel');
+  }
+  return;
+}
 
       if (event == 'location.updated' && channel != null) {
         final callback = _callbacks[channel];

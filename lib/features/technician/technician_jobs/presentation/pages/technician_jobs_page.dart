@@ -37,12 +37,9 @@ class _TechnicianJobsBody extends StatefulWidget {
 }
 
 const List<String> _kJobStatusFilterKeys = [
-  'pending',
   'assigned',
-  'accepted',
   'in_progress',
   'completed',
-  'cancelled',
 ];
 
 class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
@@ -55,22 +52,8 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
     if (_selectedStatus == null) return true;
     final normalized = rawStatus.toLowerCase();
     return switch (_selectedStatus) {
-      'cancelled' =>
-        normalized == 'rejected' ||
-            normalized == 'cancelled' ||
-            normalized == 'canceled',
       'in_progress' =>
         normalized == 'in_progress' || normalized == 'in-progress',
-      'pending' => !const {
-        'assigned',
-        'accepted',
-        'in_progress',
-        'in-progress',
-        'completed',
-        'rejected',
-        'cancelled',
-        'canceled',
-      }.contains(normalized),
       _ => normalized == _selectedStatus,
     };
   }
@@ -78,12 +61,9 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
   String _filterLabel(BuildContext context, String key) {
     final l10n = context.l10n;
     return switch (key) {
-      'pending' => l10n.pending,
       'assigned' => l10n.jobAssignedStatusLabel,
-      'accepted' => l10n.bookingStatusAccepted,
       'in_progress' => l10n.processingStatusLabel,
       'completed' => l10n.bookingStatusCompleted,
-      'cancelled' => l10n.bookingStatusCanceled,
       _ => key,
     };
   }
@@ -195,6 +175,7 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
                   onChanged: (value) => setState(() => _selectedStatus = value),
                 ),
               ),
+              SizedBox(height: 16.h),
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: () =>

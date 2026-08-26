@@ -1,6 +1,7 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
@@ -44,7 +45,12 @@ class WasherBookingsPage extends StatelessWidget {
             child: BlocConsumer<BookingsCubit, BookingsState>(
               listener: (context, state) {
                 if (state is BookingActionSuccessMessage) {
-                  AppSnackBar.success(context, state.message);
+                  AppSnackBar.success(
+                    context,
+                    state.message.isEmpty
+                        ? context.l10n.actionCompletedSuccess
+                        : state.message,
+                  );
                 }
                 if (state is BookingActionError) {
                   AppSnackBar.error(context, state.message);
@@ -55,7 +61,9 @@ class WasherBookingsPage extends StatelessWidget {
                   return const Center(child: AppLoadingWidget());
                 }
                 if (state is BookingsError) {
-                  return Center(child: Text(state.message));
+                  return Center(
+                    child: Text(localizeErrorMessage(context, state.message)),
+                  );
                 }
 
                 List<BookingsEntity>? realBookings;

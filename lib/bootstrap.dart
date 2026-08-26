@@ -2,7 +2,10 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:car_care/core/service/fcm_service.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,10 +42,18 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
   Bloc.observer = const AppBlocObserver();
 
-  // Initialize service locator (dependency injection)
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
   await setupServiceLocator();
-  // Load the .env file to get the variables from it
   await dotenv.load(fileName: ".env");
+
+  getIt<FcmService>().listenToMessages();
+
   runApp(await builder());
+
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    unawaited(getIt<FcmService>().handleInitialMessage());
+  });
 }
 

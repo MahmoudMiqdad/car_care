@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 
 import 'package:car_care/core/widgets/image_background.dart';
 
@@ -33,7 +34,9 @@ class UpdateVehiclePage extends StatelessWidget {
                 return UpdateVehicleBody(vehicle: state.vehicle);
               }
               if (state is VehicleDetailsError) {
-                return Center(child: Text(state.message));
+                return Center(
+                  child: Text(localizeErrorMessage(context, state.message)),
+                );
               }
               return const SizedBox.shrink();
             },

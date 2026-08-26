@@ -1,3 +1,4 @@
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,7 +20,9 @@ class MaintenanceHistoryBody extends StatelessWidget {
         }
 
         if (state is MaintenanceHistoryFailure) {
-          return Center(child: Text(state.message));
+          return Center(
+            child: Text(localizeErrorMessage(context, state.message)),
+          );
         }
 
         if (state is MaintenanceHistorySuccess) {

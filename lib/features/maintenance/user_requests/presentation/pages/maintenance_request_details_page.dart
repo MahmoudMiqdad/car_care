@@ -13,6 +13,7 @@ import 'package:car_care/features/maintenance/user_requests/presentation/cubit/s
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/show_request_cubit/show_request_state.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/request_details/request_action_buttons.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/request_details/request_images_section.dart';
+import 'package:car_care/features/maintenance/user_requests/presentation/models/maintenance_priority.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/request_details/request_info_card.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/request_details/technician_card.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/request_details/vehicle_card.dart';
@@ -199,7 +200,13 @@ class _MaintenanceRequestDetailsPageState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SosDetailsStatusBanner(label: request.data.statusText),
+          SosDetailsStatusBanner(
+            label: maintenanceRequestStatusLabel(
+              context,
+              request.data.status,
+              fallback: request.data.statusText,
+            ),
+          ),
           SizedBox(height: 14.h),
 
           RequestInfoCard(data: request.data),

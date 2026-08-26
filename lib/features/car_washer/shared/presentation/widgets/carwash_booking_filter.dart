@@ -20,6 +20,7 @@ Map<String?, String> carwashBookingFilterLabels(AppLocalizations l10n) {
     'in_progress': l10n.bookingStatusProgress,
     'completed': l10n.bookingStatusCompleted,
     'cancelled': l10n.bookingStatusCanceled,
+    'canceled': l10n.bookingStatusCanceled,
   };
 }
 

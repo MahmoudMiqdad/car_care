@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -77,7 +78,7 @@ class _AppLoadingWidgetState extends State<AppLoadingWidget>
           ),
           SizedBox(height: 16.h),
           Text(
-            'جارٍ التحميل...',
+            context.l10n.loading,
             style: TextStyle(
               fontSize: 13.sp,
               color: colorScheme.onSurfaceVariant,

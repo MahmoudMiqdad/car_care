@@ -5,6 +5,23 @@ import 'package:flutter/material.dart';
 
 enum MaintenancePriority { low, medium, high }
 
+String maintenanceRequestStatusLabel(
+  BuildContext context,
+  String? status, {
+  String? fallback,
+}) {
+  final l10n = context.l10n;
+  return switch (status) {
+    'pending' || 'waiting' => l10n.requestStatusPending,
+    'quotation_accepted' || 'accepted' => l10n.requestStatusAccepted,
+    'in_progress' => l10n.sosInProgressStatus,
+    'completed' => l10n.requestStatusCompleted,
+    'cancelled' || 'canceled' => l10n.bookingStatusCanceled,
+    'rejected' => l10n.rejectedStatusLabel,
+    _ => fallback ?? status ?? '-',
+  };
+}
+
 extension MaintenancePriorityLocalization on MaintenancePriority {
   String localizedLabel(BuildContext context) {
     final l10n = context.l10n;

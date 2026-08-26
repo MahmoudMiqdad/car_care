@@ -96,7 +96,7 @@ void showTechnicianEntrySheet(BuildContext context) {
                     Divider(height: 1.h, indent: 16.w, endIndent: 16.w),
                     entryItem(
                       icon: Icons.local_car_wash_outlined,
-                      label: 'الدخول كـ مغسلة',
+                      label: strings.enterAsCarWasher,
                       onTap: () => context.push(
                         role == 'car-washer'
                             ? Routes.profile_washer
@@ -106,7 +106,7 @@ void showTechnicianEntrySheet(BuildContext context) {
                     Divider(height: 1.h, indent: 16.w, endIndent: 16.w),
                     entryItem(
                       icon: Icons.local_gas_station_outlined,
-                      label: 'الدخول كـ مزود وقود',
+                      label: strings.enterAsFuelProvider,
                       onTap: () => context.push(
                         role == 'fuel-provider'
                             ? Routes.provider_profile
@@ -116,7 +116,7 @@ void showTechnicianEntrySheet(BuildContext context) {
                     Divider(height: 1.h, indent: 16.w, endIndent: 16.w),
                     entryItem(
                       icon: Icons.store_outlined,
-                      label: 'الدخول كصاحب متجر',
+                      label: strings.enterAsShopOwner,
                       onTap: () => context.push(Routes.ownerProfile),
                     ),
                   ],

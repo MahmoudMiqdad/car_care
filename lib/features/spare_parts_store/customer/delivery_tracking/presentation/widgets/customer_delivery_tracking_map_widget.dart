@@ -1,7 +1,9 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/loding.dart';
+import 'package:car_care/l10n.dart';
 import 'package:car_care/features/spare_parts_store/customer/delivery_tracking/presentation/cubit/customer_delivery_tracking/customer_delivery_tracking_cubit.dart';
 import 'package:car_care/features/spare_parts_store/customer/delivery_tracking/presentation/cubit/customer_delivery_tracking/customer_delivery_tracking_state.dart';
 import 'package:dio/dio.dart';
@@ -157,14 +159,17 @@ class _CustomerDeliveryTrackingMapWidgetState
                     color: context.colorScheme.onSurfaceVariant,
                   ),
                   const SizedBox(height: 12),
-                  Text(state.message, textAlign: TextAlign.center),
+                  Text(
+                    localizeErrorMessage(context, state.message),
+                    textAlign: TextAlign.center,
+                  ),
                   const SizedBox(height: 12),
                   OutlinedButton.icon(
                     onPressed: () => context
                         .read<CustomerDeliveryTrackingCubit>()
                         .loadTracking(widget.orderId),
                     icon: const Icon(Icons.refresh),
-                    label: const Text('إعادة المحاولة'),
+                    label: Text(context.l10n.retry),
                   ),
                 ],
               ),
@@ -185,7 +190,7 @@ class _CustomerDeliveryTrackingMapWidgetState
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'في انتظار بدء التوصيل...',
+                    context.l10n.waitingForDeliveryToStart,
                     style: context.textTheme.labelLarge!.copyWith(
                       color: AppColors.textSecondary(context),
                     ),
@@ -213,7 +218,9 @@ class _CustomerDeliveryTrackingMapWidgetState
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    isDelivered ? 'تم التوصيل بنجاح' : 'انتهى التتبع',
+                    isDelivered
+                        ? context.l10n.deliverySuccessBanner
+                        : context.l10n.deliveryTrackingEnded,
                     style: context.textTheme.labelLarge!.copyWith(
                       color: isDelivered ? AppColors.green : AppColors.red,
                       fontWeight: FontWeight.w700,
@@ -357,9 +364,9 @@ class _CustomerDestinationMarker extends StatelessWidget {
             color: AppColors.accent,
             borderRadius: BorderRadius.circular(4),
           ),
-          child: const Text(
-            'موقعك',
-            style: TextStyle(color: Colors.white, fontSize: 9),
+          child: Text(
+            context.l10n.yourLocationMarkerLabel,
+            style: const TextStyle(color: Colors.white, fontSize: 9),
           ),
         ),
       ],
@@ -401,9 +408,9 @@ class _DeliveryPersonMarker extends StatelessWidget {
             color: AppColors.primary,
             borderRadius: BorderRadius.circular(4),
           ),
-          child: const Text(
-            'المندوب',
-            style: TextStyle(color: Colors.white, fontSize: 9),
+          child: Text(
+            context.l10n.deliveryAgentLabel,
+            style: const TextStyle(color: Colors.white, fontSize: 9),
           ),
         ),
       ],

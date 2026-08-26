@@ -3331,5 +3331,107 @@
   "splashTagline": "حل شامل للعناية بسيارتك",
   "@splashTagline": {
     "description": "Tagline shown under the app name on the splash screen"
+  },
+  "rejectionReasonPrefix": "سبب الرفض: {reason}",
+  "@rejectionReasonPrefix": {
+    "description": "Prefix shown before the admin-provided rejection reason",
+    "placeholders": {
+      "reason": {"type": "String"}
+    }
+  },
+  "providerReviewSuspendedTitle": "تم إيقاف الحساب مؤقتًا",
+  "@providerReviewSuspendedTitle": {
+    "description": "Title shown when a provider account is temporarily suspended"
+  },
+  "providerReviewSuspendedMessage": "يرجى التواصل مع الإدارة لمعرفة التفاصيل.",
+  "@providerReviewSuspendedMessage": {
+    "description": "Message shown when a provider account is temporarily suspended"
+  },
+  "enterAsCarWasher": "الدخول كـ مغسلة",
+  "@enterAsCarWasher": {
+    "description": "Entry option to continue as a car washer provider"
+  },
+  "enterAsFuelProvider": "الدخول كـ مزود وقود",
+  "@enterAsFuelProvider": {
+    "description": "Entry option to continue as a fuel provider"
+  },
+  "enterAsShopOwner": "الدخول كصاحب متجر",
+  "@enterAsShopOwner": {
+    "description": "Entry option to continue as a spare parts shop owner"
+  },
+  "bookingCancelledSuccess": "تم إلغاء الحجز بنجاح",
+  "@bookingCancelledSuccess": {
+    "description": "Fallback success message when a booking is cancelled and the backend sends no message"
+  },
+  "actionCompletedSuccess": "تم تنفيذ الإجراء بنجاح",
+  "@actionCompletedSuccess": {
+    "description": "Fallback success message for a booking action when the backend sends no message"
+  },
+  "ratingSubmittedSuccess": "تم التقييم بنجاح",
+  "@ratingSubmittedSuccess": {
+    "description": "Success message shown after submitting a car wash rating"
+  },
+  "youMarkerLabel": "أنت",
+  "@youMarkerLabel": {
+    "description": "Map marker label for the current user's own location"
+  },
+  "distanceInMeters": "{value} م",
+  "@distanceInMeters": {
+    "description": "Distance formatted in meters",
+    "placeholders": {
+      "value": {"type": "String"}
+    }
+  },
+  "locatingInProgress": "جاري تحديد الموقع...",
+  "@locatingInProgress": {
+    "description": "Shown while the device is determining the current location"
+  },
+  "calculatingRouteInProgress": "جاري حساب المسار...",
+  "@calculatingRouteInProgress": {
+    "description": "Shown while a delivery/navigation route is being calculated"
+  },
+  "waitingForDeliveryToStart": "في انتظار بدء التوصيل...",
+  "@waitingForDeliveryToStart": {
+    "description": "Shown before delivery tracking has begun"
+  },
+  "deliveryTrackingEnded": "انتهى التتبع",
+  "@deliveryTrackingEnded": {
+    "description": "Shown once delivery tracking is no longer active"
+  },
+  "deliverySuccessBanner": "تم التوصيل بنجاح",
+  "@deliverySuccessBanner": {
+    "description": "Banner shown once an order has been delivered"
+  },
+  "yourLocationMarkerLabel": "موقعك",
+  "@yourLocationMarkerLabel": {
+    "description": "Map marker label for the customer's own location during delivery tracking"
+  },
+  "deliveryAgentLabel": "المندوب",
+  "@deliveryAgentLabel": {
+    "description": "Map marker label for the delivery courier"
+  },
+  "orderRejectedSuccess": "تم رفض الطلبية",
+  "@orderRejectedSuccess": {
+    "description": "Success message shown after an owner rejects a spare parts order"
+  },
+  "connectionTimeoutError": "انتهت مهلة الاتصال، حاول مرة أخرى",
+  "@connectionTimeoutError": {
+    "description": "Shown when a network request times out"
+  },
+  "sessionExpiredError": "انتهت صلاحية الجلسة، يرجى تسجيل الدخول مجددًا",
+  "@sessionExpiredError": {
+    "description": "Shown when the server reports the user is no longer authenticated"
+  },
+  "invalidCredentialsError": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+  "@invalidCredentialsError": {
+    "description": "Shown when login fails due to wrong email or password"
+  },
+  "registrationFailedError": "حدث خطأ أثناء التسجيل، تحقق من البيانات",
+  "@registrationFailedError": {
+    "description": "Shown when account registration fails"
+  },
+  "googleSignInFailedError": "تعذر تسجيل الدخول عبر Google",
+  "@googleSignInFailedError": {
+    "description": "Shown when Google sign-in fails on the presentation layer"
   }
 }

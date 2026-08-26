@@ -11,6 +11,7 @@ import 'package:car_care/features/technician_sos/presentation/cubit/technician_s
 import 'package:car_care/features/technician_sos/presentation/cubit/technician_sos_cubit/technician_sos_state.dart';
 import 'package:car_care/features/technician_sos/presentation/technician_sos_request_type.dart';
 import 'package:car_care/features/technician_sos/presentation/widgets/sos_requests_list/technician_sos_request_card.dart';
+import 'package:car_care/features/technician_sos/presentation/widgets/sos_requests_list/technician_sos_request_status_badge.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -103,7 +104,11 @@ class _SosRequestsListPageState extends State<TechnicianSosRequestsListPage> {
                   context,
                   state.request.statusText?.trim().isNotEmpty == true
                       ? l10n.statusUpdatedWithDynamicLabel(
-                          state.request.statusText!,
+                          technicianSosRequestStatusLabel(
+                            context,
+                            state.request.status,
+                            fallback: state.request.statusText,
+                          ),
                         )
                       : l10n.statusUpdatedSuccessMessage,
                 );
@@ -118,7 +123,7 @@ class _SosRequestsListPageState extends State<TechnicianSosRequestsListPage> {
               if (state is TechnicianLoading) {
                 return const Center(child: AppLoadingWidget());
               }
-          
+
               if (state is TechnicianError) {
                 return ErrorStateWidget(
                   message:
@@ -129,21 +134,20 @@ class _SosRequestsListPageState extends State<TechnicianSosRequestsListPage> {
                   onRetry: _load,
                 );
               }
-          
+
               if (state is TechnicianAvailableLoaded) {
                 final list = state.list;
-          
+
                 if (list.isEmpty) {
                   return ListView(
                     physics: const AlwaysScrollableScrollPhysics(),
                     children: [
                       SizedBox(height: 60.h),
                       const EmptyStateWidget(),
-                   
                     ],
                   );
                 }
-          
+
                 return ListView.separated(
                   physics: const AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.all(AppConstants.pageHorizontal),
@@ -158,7 +162,7 @@ class _SosRequestsListPageState extends State<TechnicianSosRequestsListPage> {
                   },
                 );
               }
-          
+
               return ListView(
                 children: [
                   SizedBox(height: 200.h),

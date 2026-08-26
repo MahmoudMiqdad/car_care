@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -83,7 +84,9 @@ class SosDetailsPage extends StatelessWidget {
                 }
 
                 if (state is SosError) {
-                  return Center(child: Text(state.message));
+                  return Center(
+                    child: Text(localizeErrorMessage(context, state.message)),
+                  );
                 }
 
                 if (state is SosRequestLoaded) {

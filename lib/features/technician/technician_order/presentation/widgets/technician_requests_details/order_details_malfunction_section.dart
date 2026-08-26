@@ -13,7 +13,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 class OrderDetailsMalfunctionSection extends StatelessWidget {
   const OrderDetailsMalfunctionSection({super.key, required this.model});
   final RequestDataEntity model;
-  
+
   static String _formatDate(DateTime d) =>
       '${d.year}/${d.month.toString().padLeft(2, '0')}/${d.day.toString().padLeft(2, '0')}';
 
@@ -21,7 +21,7 @@ class OrderDetailsMalfunctionSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final priority = model.priority.toPriority();
-    
+
     final priorityStyle = PriorityChipStyle.forState(
       context: context,
       value: priority,
@@ -38,26 +38,46 @@ class OrderDetailsMalfunctionSection extends StatelessWidget {
           AppInfoRow(
             label: l10n.descriptionLabel,
             value: model.description,
-            leading: Icon(Icons.description_outlined, size: 18.sp, color: Theme.of(context).primaryColor),
+            leading: Icon(
+              Icons.description_outlined,
+              size: 18.sp,
+              color: Theme.of(context).primaryColor,
+            ),
           ),
           AppInfoRow(
             label: l10n.statusLabel,
-            value: model.statusText,
-            leading: Icon(IconsaxPlusLinear.status, size: 18.sp, color: Theme.of(context).primaryColor),
+            value: maintenanceRequestStatusLabel(
+              context,
+              model.status,
+              fallback: model.statusText,
+            ),
+            leading: Icon(
+              IconsaxPlusLinear.status,
+              size: 18.sp,
+              color: Theme.of(context).primaryColor,
+            ),
           ),
           AppInfoRow(
             label: l10n.requestDateLabel,
             value: _formatDate(model.createdAt),
-            leading: Icon(IconsaxPlusLinear.calendar_add, size: 18.sp, color: Theme.of(context).primaryColor),
+            leading: Icon(
+              IconsaxPlusLinear.calendar_add,
+              size: 18.sp,
+              color: Theme.of(context).primaryColor,
+            ),
           ),
           AppInfoRow(
             label: l10n.preferredDateLabel,
             value: _formatDate(model.preferredDate),
-            leading: Icon(IconsaxPlusLinear.calendar, size: 18.sp, color: Theme.of(context).primaryColor),
+            leading: Icon(
+              IconsaxPlusLinear.calendar,
+              size: 18.sp,
+              color: Theme.of(context).primaryColor,
+            ),
           ),
           SizedBox(height: 12.h),
           AppButton(
-            text: model.priorityText,
+            text: priority.localizedLabel(context),
             onPressed: () {},
             backgroundColor: priorityStyle.borderColor,
             textColor: priorityStyle.textColor,

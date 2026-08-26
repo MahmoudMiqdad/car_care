@@ -1,5 +1,6 @@
 import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -114,7 +115,7 @@ class _ProviderProfilePageState extends State<ProviderProfilePage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(state.message),
+                  Text(localizeErrorMessage(context, state.message)),
                   SizedBox(height: 12.h),
                   TextButton(
                     onPressed: () =>

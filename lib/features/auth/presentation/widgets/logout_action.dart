@@ -1,6 +1,6 @@
-// مسؤول عن تنفيذ تسجيل الخروج الموحّد: التأكيد، إشعار الخادم، وتنظيف الجلسة محليًا.
 import 'package:car_care/core/local_storage/secure_storage.dart';
 import 'package:car_care/core/routing/routes.dart';
+import 'package:car_care/core/service/fcm_service.dart';
 import 'package:car_care/core/service/pusher_service.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
@@ -42,21 +42,24 @@ Future<void> confirmAndLogout(BuildContext context) async {
     final router = GoRouter.of(context);
     Scaffold.maybeOf(context)?.closeEndDrawer();
 
-    await getIt<IAuthRepository>().logout();
-
     try {
-      await PusherService().disconnect(intentional: true);
-    } catch (_) {
-      // A socket-close failure must never block clearing the local session.
-    }
+      await getIt<FcmService>().unregisterCurrentToken();
+    } catch (_) {}
+
+    await getIt<IAuthRepository>().logout();
 
     await getIt<SecureStorage>().clearAuth();
 
-    getIt<NotificationsCubit>().reset();
+    try {
+      getIt<NotificationsCubit>().reset();
+    } catch (_) {}
+
+    try {
+      await PusherService().disconnect(intentional: true);
+    } catch (_) {}
 
     router.go(Routes.login);
   } finally {
-    
     _isLoggingOut = false;
   }
 }

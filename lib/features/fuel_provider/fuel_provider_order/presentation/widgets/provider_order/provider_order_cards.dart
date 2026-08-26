@@ -20,7 +20,10 @@ class ProviderOrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final radius = AppConstants.maintenanceRequestCardRadius.r;
-    final fuelText = l10n.fuelAmountLabel(order.fuelType ?? '-', order.amount ?? 0);
+    final fuelText = l10n.fuelAmountLabel(
+      order.fuelType ?? '-',
+      order.amount ?? 0,
+    );
     final dateText = order.scheduledTime ?? order.createdAt ?? '-';
 
     return Container(
@@ -83,7 +86,11 @@ class ProviderOrderCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SosRequestStatusBadge(
-                        label: order.statusText ?? '-',
+                        label: sosRequestStatusLabel(
+                          context,
+                          order.status,
+                          fallback: order.statusText,
+                        ),
                         style: sosRequestStatusBadgeStyleFor(order.status),
                       ),
                     ],

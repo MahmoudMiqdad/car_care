@@ -25,27 +25,33 @@ class CustomerBookingsCubit extends Cubit<CustomerBookingsState> {
   }
 
   Future<void> cancelBooking(int bookingId, String reason) async {
-    emit(CustomerBookingActionLoading(
-      bookingId,
-      currentItems: _currentItems,
-      currentStatus: _currentStatus,
-    ));
+    emit(
+      CustomerBookingActionLoading(
+        bookingId,
+        currentItems: _currentItems,
+        currentStatus: _currentStatus,
+      ),
+    );
 
     final res = await _repo.cancelBooking(bookingId, reason);
 
     res.fold(
-      (f) => emit(CustomerBookingActionError(
-        f.message,
-        currentItems: _currentItems,
-        currentStatus: _currentStatus,
-      )),
-      (data) {
-        final msg = (data['message'] ?? 'تم إلغاء الحجز بنجاح').toString();
-        emit(CustomerBookingActionSuccess(
-          msg,
+      (f) => emit(
+        CustomerBookingActionError(
+          f.message,
           currentItems: _currentItems,
           currentStatus: _currentStatus,
-        ));
+        ),
+      ),
+      (data) {
+        final msg = (data['message'] ?? '').toString();
+        emit(
+          CustomerBookingActionSuccess(
+            msg,
+            currentItems: _currentItems,
+            currentStatus: _currentStatus,
+          ),
+        );
       },
     );
   }

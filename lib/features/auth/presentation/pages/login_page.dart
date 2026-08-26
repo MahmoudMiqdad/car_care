@@ -57,16 +57,16 @@ class _LoginPageState extends State<LoginPage> {
         },
         builder: (context, state) {
           return Scaffold(
-            resizeToAvoidBottomInset: false, 
+            resizeToAvoidBottomInset: false,
             body: Stack(
               fit: StackFit.expand,
               children: [
                 Image.asset(AppAssets.backgroung, fit: BoxFit.cover),
                 SafeArea(
                   child: Padding(
-               
                     padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03,
+                      bottom: MediaQuery.of(context).viewInsets.bottom,
                     ),
                     child: LoginContent(
                       formKey: _formKey,
@@ -80,9 +80,8 @@ class _LoginPageState extends State<LoginPage> {
                       onRegister: () {
                         GoRouter.of(context).go(Routes.signup);
                       },
-                      onGoogleSignIn: () => context.read<AuthBloc>().add(
-                        GoogleSignInRequested(),
-                      ),
+                      onGoogleSignIn: () =>
+                          context.read<AuthBloc>().add(GoogleSignInRequested()),
                     ),
                   ),
                 ),

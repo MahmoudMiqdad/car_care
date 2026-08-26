@@ -1,5 +1,3 @@
-
-
 import 'package:car_care/features/maintenance/user_requests/presentation/models/maintenance_priority.dart';
 
 class AvailableRequestsEntity {
@@ -21,7 +19,7 @@ class AvailableRequestsEntity {
 class AvailableRequestDataEntity {
   final int id;
   final String description;
-final MaintenancePriority priority;
+  final MaintenancePriority priority;
   final String priorityText;
   final String status;
   final String statusText;
@@ -53,11 +51,7 @@ class CustomerEntity {
   final String name;
   final String phone;
 
-  CustomerEntity({
-    required this.id,
-    required this.name,
-    required this.phone,
-  });
+  CustomerEntity({required this.id, required this.name, required this.phone});
 }
 
 class VehicleEntity {
@@ -66,6 +60,7 @@ class VehicleEntity {
   final String model;
   final String year;
   final String plateNumber;
+  final String? image;
 
   VehicleEntity({
     required this.id,
@@ -73,6 +68,7 @@ class VehicleEntity {
     required this.model,
     required this.year,
     required this.plateNumber,
+    this.image,
   });
 }
 
@@ -80,8 +76,5 @@ class ImageEntity {
   final int id;
   final String url;
 
-  ImageEntity({
-    required this.id,
-    required this.url,
-  });
+  ImageEntity({required this.id, required this.url});
 }

@@ -5,6 +5,7 @@ import 'package:car_care/features/sos/domain/entities/sos_entity.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_location_card.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_request_card.dart';
 import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_details/sos_details_status_banner.dart';
+import 'package:car_care/features/sos/presentation/widgets/sos_requests_list/sos_request_status_badge.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,7 +45,13 @@ class SosDetailsBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SosDetailsStatusBanner(label: sos.statusText!),
+            SosDetailsStatusBanner(
+              label: sosRequestStatusLabel(
+                context,
+                sos.status,
+                fallback: sos.statusText,
+              ),
+            ),
             SizedBox(height: 14.h),
             SosDetailsRequestCard(
               vehicleTitle: vehicleTitle,

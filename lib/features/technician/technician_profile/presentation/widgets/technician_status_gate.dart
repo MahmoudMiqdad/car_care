@@ -1,5 +1,6 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/core/widgets/provider_status_page.dart';
@@ -64,7 +65,10 @@ class TechnicianStatusGate extends StatelessWidget {
                       color: AppColors.red,
                     ),
                     const SizedBox(height: 12),
-                    Text(state.message, textAlign: TextAlign.center),
+                    Text(
+                      localizeErrorMessage(context, state.message),
+                      textAlign: TextAlign.center,
+                    ),
                     const SizedBox(height: 16),
                     ElevatedButton.icon(
                       onPressed: () => context

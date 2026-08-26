@@ -13,6 +13,7 @@ import 'package:car_care/features/car_washer/car_wash/bookings/presentation/cubi
 import 'package:car_care/features/car_washer/car_wash/bookings/presentation/cubit/customer_bookings/customer_bookings_state.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/presentation/widgets/booking_details_page/action_buttons.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/presentation/widgets/booking_details_page/details_card.dart';
+import 'package:car_care/features/car_washer/shared/presentation/widgets/carwash_booking_filter.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +35,7 @@ class BookingDetailsPage extends StatelessWidget {
       '${l10n.bookingDetailsWasherNameLabel}:  ${booking!.vehicle.ownerName ?? l10n.unknownStatus}',
       '${l10n.bookingsServiceLabel}:  ${booking!.serviceType}',
       '${l10n.bookingsPriceLabel}:  ${l10n.currencyFormat(booking!.price.toString())}',
-      '${l10n.status}:  ${booking!.statusText}',
+      '${l10n.status}:  ${carwashBookingFilterLabels(l10n)[booking!.status] ?? booking!.statusText}',
     ];
 
     final appointmentLines = [
@@ -48,7 +49,12 @@ class BookingDetailsPage extends StatelessWidget {
       child: BlocListener<CustomerBookingsCubit, CustomerBookingsState>(
         listener: (context, state) {
           if (state is CustomerBookingActionSuccess) {
-            AppSnackBar.success(context, state.message);
+            AppSnackBar.success(
+              context,
+              state.message.isEmpty
+                  ? l10n.bookingCancelledSuccess
+                  : state.message,
+            );
             context.safePopOrGo(Routes.bookings, result: true);
           } else if (state is CustomerBookingActionError) {
             AppSnackBar.error(context, state.message);

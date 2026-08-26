@@ -1,4 +1,5 @@
 import 'package:car_care/core/routing/routes.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/filters/status_filter_tabs.dart';
@@ -105,7 +106,11 @@ class _ProviderInvoicesPageState extends State<ProviderInvoicesPage> {
                             children: [
                               SizedBox(
                                 height: 300.h,
-                                child: Center(child: Text(state.message)),
+                                child: Center(
+                                  child: Text(
+                                    localizeErrorMessage(context, state.message),
+                                  ),
+                                ),
                               ),
                             ],
                           );

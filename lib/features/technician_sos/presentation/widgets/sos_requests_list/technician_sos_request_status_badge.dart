@@ -1,5 +1,6 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,6 +17,22 @@ TechnicianSosRequestStatusBadgeStyle technicianSosRequestStatusBadgeStyleFor(
     'completed' => TechnicianSosRequestStatusBadgeStyle.softSuccess,
     'cancelled' => TechnicianSosRequestStatusBadgeStyle.softError,
     _ => TechnicianSosRequestStatusBadgeStyle.outlineOnWhite,
+  };
+}
+
+String technicianSosRequestStatusLabel(
+  BuildContext context,
+  String? status, {
+  String? fallback,
+}) {
+  final l10n = context.l10n;
+  return switch (status) {
+    'open' || 'pending' => l10n.pending,
+    'accepted' => l10n.bookingStatusAccepted,
+    'in_progress' => l10n.sosInProgressStatus,
+    'completed' => l10n.sosCompletedStatus,
+    'cancelled' || 'canceled' => l10n.bookingStatusCanceled,
+    _ => fallback ?? status ?? '-',
   };
 }
 

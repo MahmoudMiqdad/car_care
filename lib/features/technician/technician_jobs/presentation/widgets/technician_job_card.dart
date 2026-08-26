@@ -1,6 +1,7 @@
 import 'package:car_care/core/constants/app_assets.dart';
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/widgets/app_info_row.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -90,6 +91,23 @@ class TechnicianJobCard extends StatelessWidget {
     if (!isAssigned && !isInProgress) return const SizedBox.shrink();
 
     final onPressed = isAssigned ? onStart : onComplete;
+    final label = isBusy
+        ? l10n.updatingProgress
+        : (isAssigned ? l10n.startWorkButtonLabel : l10n.endWorkButtonLabel);
+
+    if (!isAssigned) {
+      return Padding(
+        padding: EdgeInsets.only(top: 8.h),
+        child: AppButton(
+          onPressed: isBusy ? null : onPressed,
+          text: label,
+          isDisabled: isBusy,
+          height: 44.h,
+          borderRadius: 12.r,
+          fontSize: 15.sp,
+        ),
+      );
+    }
 
     return Padding(
       padding: EdgeInsets.only(top: 8.h),
@@ -98,9 +116,7 @@ class TechnicianJobCard extends StatelessWidget {
         child: ElevatedButton(
           onPressed: isBusy ? null : onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: isAssigned
-                ? AppColors.carWashTeal
-                : AppColors.primary,
+            backgroundColor: AppColors.carWashTeal,
             foregroundColor: AppColors.white,
             disabledBackgroundColor: AppColors.border(context),
             shape: RoundedRectangleBorder(
@@ -108,11 +124,7 @@ class TechnicianJobCard extends StatelessWidget {
             ),
           ),
           child: Text(
-            isBusy
-                ? l10n.updatingProgress
-                : (isAssigned
-                      ? l10n.startWorkButtonLabel
-                      : l10n.endWorkButtonLabel),
+            label,
             style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w700),
           ),
         ),

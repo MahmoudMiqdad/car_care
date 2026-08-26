@@ -11,7 +11,7 @@ import 'package:go_router/go_router.dart';
 class HomeBody extends StatelessWidget {
   const HomeBody({super.key});
 
-  static const double _advertisementHeight = 185;
+  static const double _advertisementHeight = 110;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +25,8 @@ class HomeBody extends StatelessWidget {
             const AdvertisementSection(
               placement: AdvertisementPlacement.home,
               height: _advertisementHeight,
-              borderRadius: 20,
-              bottomSpacing: 24,
+              borderRadius: 14,
+              bottomSpacing: 16,
             ),
             Center(
               child: Text(

@@ -14,6 +14,7 @@ import 'package:car_care/features/spare_parts_store/customer/checkout/domain/ent
 import 'package:car_care/features/spare_parts_store/customer/checkout/domain/entities/order_item_entity.dart';
 import 'package:car_care/features/spare_parts_store/customer/orders/presentation/cubit/order_details/order_details_cubit.dart';
 import 'package:car_care/features/spare_parts_store/customer/orders/presentation/cubit/order_details/order_details_state.dart';
+import 'package:car_care/features/spare_parts_store/shared/presentation/widgets/order_status_badge.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -269,7 +270,11 @@ class _HeroHeaderCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20.r),
                       ),
                       child: Text(
-                        order.statusText,
+                        orderStatusLabel(
+                          context,
+                          order.status,
+                          fallback: order.statusText,
+                        ),
                         style: context.textTheme.labelSmall!.copyWith(
                           color: colorScheme.onPrimary,
                           fontWeight: FontWeight.w700,
