@@ -1,4 +1,5 @@
 import 'package:car_care/core/utils/failure_localizer.dart';
+import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,8 +29,15 @@ class MaintenanceHistoryBody extends StatelessWidget {
         if (state is MaintenanceHistorySuccess) {
           final entries = state.items;
 
+         
           if (entries.isEmpty) {
-           
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center, 
+              children: [
+               
+                Center(child: EmptyStateWidget()),
+              ],
+            );
           }
 
           return CustomScrollView(

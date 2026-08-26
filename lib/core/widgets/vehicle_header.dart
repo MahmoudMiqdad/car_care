@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/widgets/vehicle_image_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,7 +41,7 @@ class VehicleHeader extends StatelessWidget {
                 TextStyle(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.w700,
-                  color: const Color(0xFF1A1A1A),
+                  color:AppColors.textPrimary(context),
                   letterSpacing: 0.5,
                 ),
           ),

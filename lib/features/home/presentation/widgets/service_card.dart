@@ -25,13 +25,7 @@ class ServiceCard extends StatelessWidget {
         child: Ink(
           decoration: BoxDecoration(
             borderRadius: borderRadius,
-            boxShadow: [
-              BoxShadow(
-                color: scheme.shadow.withValues(alpha: 0.08),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
+           
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),

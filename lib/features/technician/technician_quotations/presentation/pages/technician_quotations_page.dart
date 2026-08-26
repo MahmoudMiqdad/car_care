@@ -129,6 +129,7 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
                           icon: Icons.schedule,
                           iconColor: AppColors.primary,
                           child: TextFormField(
+                            
                             controller: _durationController,
                             keyboardType: TextInputType.number,
                             inputFormatters: [
@@ -138,6 +139,7 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
                             style: TextStyle(fontSize: 14.sp, height: 1.2),
                             validator: _validateEstimatedDays,
                             decoration: InputDecoration(
+                                  filled: false,
                               hintText: l10n.durationRangeHint,
                               hintStyle: TextStyle(
                                 color: AppColors.textSecondary(

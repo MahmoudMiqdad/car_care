@@ -52,7 +52,7 @@ class _ForgotPasswordContentState extends State<ForgotPasswordContent> {
               strings.forgotPasswordTitle,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: AppColors.orange,
+                color: AppColors.accent,
                 fontWeight: FontWeight.w700,
                 fontSize: 26.sp,
                 fontFamily: 'Poppins',
@@ -93,7 +93,7 @@ class _ForgotPasswordContentState extends State<ForgotPasswordContent> {
                       }
                     },
                     text: strings.sendVerificationCode,
-                    backgroundColor: AppColors.orange,
+           outlineSurfaceColor: AppColors.white,
                     textColor: AppColors.white,
                   ),
                 );

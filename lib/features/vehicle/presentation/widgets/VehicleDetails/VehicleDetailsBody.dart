@@ -64,9 +64,7 @@ class VehicleDetailsBody extends StatelessWidget {
               Expanded(
                 child: VehicleInfoCardWidget(
                   title: strings.odometer,
-                  value: strings.odometerReadingWithParamLabel(
-                    vehicle.currentKm.toString(),
-                  ),
+                  value:  vehicle.currentKm.toString(),
                   icon: Icon(
                     Icons.speed_outlined,
                     color: AppColors.primary,

@@ -98,7 +98,14 @@ class _FuelLogsBodyState extends State<_FuelLogsBody> {
             ),
             FuelLogsEmpty() => ListView(
               physics: const AlwaysScrollableScrollPhysics(),
-              children: const [SizedBox(height: 60), EmptyStateWidget()],
+              children: const [ Column(
+              mainAxisAlignment: MainAxisAlignment.center, 
+              children: [
+                               SizedBox(height: 120),
+
+                Center(child: EmptyStateWidget()),
+              ],
+            )],
             ),
             FuelLogsLoaded(:final items, :final isLoadingMore) =>
               ListView.separated(
