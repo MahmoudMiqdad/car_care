@@ -17,7 +17,7 @@ class MockErrorInterceptorHandler extends Mock
     implements ErrorInterceptorHandler {}
 
 void main() {
-  const interceptor = LoggingInterceptor.i;
+ final interceptor = LoggingInterceptor.i;
 
   late List<String> printed;
   late DebugPrintCallback originalDebugPrint;
