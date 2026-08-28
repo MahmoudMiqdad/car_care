@@ -1,5 +1,6 @@
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
@@ -21,7 +22,7 @@ class ProviderAvailableOrdersPage extends StatelessWidget {
         child: BlocConsumer<FuelProviderOrderCubit, FuelProviderOrderState>(
           listener: (context, state) {
             if (state is FuelProviderOrderError) {
-              AppSnackBar.error(context, state.message);
+              AppSnackBar.error(context, localizeErrorMessage(context, state.message));
             }
           },
           builder: (context, state) {

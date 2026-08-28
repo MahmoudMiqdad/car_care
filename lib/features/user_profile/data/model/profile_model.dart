@@ -61,7 +61,7 @@ class Data {
         name: json["name"],
         email: json["email"],
         phone: json["phone"],
-        avatar: json["avatar"],
+        avatar: json["profile_image_url"],
         status: json["status"],
         stats: json["stats"] != null ? Stats.fromJson(json["stats"]) : null,
         createdAt: json["created_at"] != null

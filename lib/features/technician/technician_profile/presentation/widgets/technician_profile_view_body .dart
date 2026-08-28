@@ -5,6 +5,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_cubit.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_state.dart';
@@ -31,7 +32,7 @@ class TechnicianProfileViewBody extends StatelessWidget {
           final msg =
               state.message.isEmpty || state.message.startsWith('Instance of')
               ? strings.profileLoadError
-              : state.message;
+              : localizeErrorMessage(context, state.message);
           AppSnackBar.error(context, msg);
         }
       },

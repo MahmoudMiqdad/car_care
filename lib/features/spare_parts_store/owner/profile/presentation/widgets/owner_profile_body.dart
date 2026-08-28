@@ -50,7 +50,12 @@ class OwnerProfileBody extends StatelessWidget {
     final l10n = context.l10n;
 
     return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 32.h),
+      padding: EdgeInsets.fromLTRB(
+        16.w,
+        20.h,
+        16.w,
+        32.h + MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -120,7 +125,13 @@ class OwnerProfileBody extends StatelessWidget {
                   SizedBox(width: 8.w),
                   Expanded(
                     child: Text(
-                      l10n.unknownProfileValuesError(unknownValues.join("، ")),
+                      l10n.unknownProfileValuesError(
+                        unknownValues.join(
+                          Localizations.localeOf(context).languageCode == 'ar'
+                              ? '، '
+                              : ', ',
+                        ),
+                      ),
                       style: context.textTheme.labelSmall!.copyWith(
                         color: AppColors.warning,
                         height: 1.5,

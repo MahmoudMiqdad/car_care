@@ -1,6 +1,7 @@
 // شاشة معلومات متجر قطع غيار محدّد (Read-only)
 import 'package:car_care/core/service_locator/service_locator.dart';
-import 'package:car_care/core/theme/app_colors.dart'; 
+import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/error_state_widget.dart';
 import 'package:car_care/core/widgets/image_background.dart';
@@ -73,6 +74,12 @@ class _ShopDetailsPageState extends State<ShopDetailsPage> {
 
   Widget _buildLoaded(BuildContext context, ShopEntity shop) {
     final l10n = context.l10n;
+
+    if (shop.businessTypes.isEmpty &&
+        shop.carBrands.isEmpty &&
+        shop.partCategories.isEmpty) {
+      return const Center(child: EmptyStateWidget());
+    }
 
     return SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 20.h),

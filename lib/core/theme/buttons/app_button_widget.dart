@@ -81,12 +81,16 @@ class AppButton extends StatelessWidget {
                   icon!,
                   SizedBox(width: 8.w),
                 ],
-                Text(
-                  text,
-                  style: TextStyle(
-                    color: resolvedTextColor,
-                    fontSize: fontSize ?? 16.sp,
-                    fontWeight: FontWeight.bold,
+                Flexible(
+                  child: Text(
+                    text,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: resolvedTextColor,
+                      fontSize: fontSize ?? 16.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -101,7 +105,12 @@ class AppButton extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius ?? 12.r)),
       ),
       onPressed: disabled ? null : onPressed,
-      child: Text(text, style: TextStyle(color: disabled ? Colors.grey : textColor)),
+      child: Text(
+        text,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(color: disabled ? Colors.grey : textColor),
+      ),
     );
   }
 

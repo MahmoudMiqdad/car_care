@@ -3,6 +3,7 @@ import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/error_state_widget.dart';
 import 'package:car_care/core/widgets/image_background.dart';
@@ -96,7 +97,7 @@ class _OwnerOrderDetailsPageState extends State<OwnerOrderDetailsPage> {
                   setState(() => _mutated = true);
                 }
                 if (state.actionError != null) {
-                  AppSnackBar.error(context, state.actionError!);
+                  AppSnackBar.error(context, localizeErrorMessage(context, state.actionError));
                   _cubit.clearActionError();
                 }
               },

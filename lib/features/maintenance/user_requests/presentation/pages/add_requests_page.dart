@@ -7,6 +7,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/selection/shared_selection_bottom_sheet.dart';
 import 'package:car_care/core/widgets/selection/vehicle_selection_tile.dart';
@@ -95,7 +96,7 @@ class _RequestsPageState extends State<_RequestsPageBody> {
     state = cubit.state;
 
     if (state is VehicleError) {
-      AppSnackBar.error(context, state.message);
+      AppSnackBar.error(context, localizeErrorMessage(context, state.message));
       return;
     }
 
@@ -202,7 +203,7 @@ class _RequestsPageState extends State<_RequestsPageBody> {
         }
 
         if (state is AddMaintenanceRequestError) {
-          AppSnackBar.error(context, state.message);
+          AppSnackBar.error(context, localizeErrorMessage(context, state.message));
         }
       },
       builder: (context, state) {

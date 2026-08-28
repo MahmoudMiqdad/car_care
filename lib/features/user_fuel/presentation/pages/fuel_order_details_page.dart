@@ -2,6 +2,7 @@ import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/user_fuel/domain/entities/user_fuel_order_entity.dart';
@@ -37,7 +38,7 @@ class FuelOrderDetailsPage extends StatelessWidget {
               context.safePopOrGo(Routes.fuelorderslist, result: true);
             }
             if (state is UserFuelError) {
-               AppSnackBar.error(context, state.message);
+               AppSnackBar.error(context, localizeErrorMessage(context, state.message));
             }
           },
           child: FuelOrderDetailsBody(

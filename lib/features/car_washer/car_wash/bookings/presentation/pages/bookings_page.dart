@@ -2,6 +2,7 @@ import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/loding.dart';
@@ -48,13 +49,19 @@ class CustomerBookingsPage extends StatelessWidget {
       
                   return ListView.separated(
                     padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 20.h),
-                    itemCount: items.length + 1,
+                    itemCount: items.length + 1 + (items.isEmpty ? 1 : 0),
                     separatorBuilder: (_, _) => SizedBox(height: 14.h),
                     itemBuilder: (context, index) {
                       if (index == 0) return  CustomerBookingFilter();
-      
+                      if (items.isEmpty) {
+                        return const Padding(
+                          padding: EdgeInsets.only(top: 40),
+                          child: EmptyStateWidget(),
+                        );
+                      }
+
                       final booking = items[index - 1];
-      
+
                       return BookingCard(
                         booking: booking,
                       );

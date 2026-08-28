@@ -53,7 +53,7 @@ class WasherBookingsPage extends StatelessWidget {
                   );
                 }
                 if (state is BookingActionError) {
-                  AppSnackBar.error(context, state.message);
+                  AppSnackBar.error(context, localizeErrorMessage(context, state.message));
                 }
               },
               builder: (context, state) {

@@ -8,6 +8,9 @@ import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/user_profile/presentation/widgets/delete_confirmation_dialog.dart';
 
 import 'package:car_care/features/user_profile/presentation/widgets/profile_page/ProfileInfoCard.dart';
+import 'package:car_care/features/user_profile/presentation/widgets/profile_setup/ProfileAvatar.dart';
+import 'package:car_care/features/user_profile/presentation/cubit/avatar_cubit/avatar_cubit.dart';
+import 'package:car_care/features/user_profile/presentation/cubit/avatar_cubit/avatar_state.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/show_profile_cubit/show_profile_cubit.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/show_profile_cubit/show_profile_state.dart';
 import 'package:car_care/l10n.dart';
@@ -22,7 +25,13 @@ class ProfileBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final strings = context.l10n;
 
-    return BlocBuilder<ShowProfileCubit, ShowProfileState>(
+    return BlocListener<AvatarCubit, AvatarState>(
+      listener: (context, state) {
+        if (state is AvatarUpdated || state is AvatarDeleted) {
+          context.read<ShowProfileCubit>().getProfile();
+        }
+      },
+      child: BlocBuilder<ShowProfileCubit, ShowProfileState>(
       builder: (context, state) {
         if (state is ShowProfileLoading) {
           return const Center(child: AppLoadingWidget());
@@ -46,21 +55,7 @@ class ProfileBody extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 60.r,
-                      backgroundColor: colorScheme.surfaceContainerHighest,
-                      backgroundImage:
-                          profile.avatar != null && profile.avatar!.isNotEmpty
-                          ? NetworkImage(profile.avatar!)
-                          : null,
-                      child: (profile.avatar == null || profile.avatar!.isEmpty)
-                          ? Icon(
-                              Icons.person,
-                              size: 100.sp,
-                              color: colorScheme.onSurfaceVariant,
-                            )
-                          : null,
-                    ),
+                    ProfileAvatarUser(image: profile.avatar, radius: 60),
                     SizedBox(height: 8.h),
                     Text(
                       profile.name,
@@ -86,7 +81,10 @@ class ProfileBody extends StatelessWidget {
                     AppButton(
                       text: strings.editProfile,
                       onPressed: () async {
-                        await context.push(Routes.profile_setup);
+                        await context.push(
+                          Routes.profile_setup,
+                          extra: profile,
+                        );
                         if (context.mounted) {
                           context.read<ShowProfileCubit>().getProfile();
                         }
@@ -119,6 +117,7 @@ class ProfileBody extends StatelessWidget {
         }
         return const SizedBox();
       },
+      ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 import 'package:car_care/features/user_profile/domain/repositories/i_profile_repository.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/delete_profile_cubit/delete_profile_cubit.dart';
@@ -46,7 +47,7 @@ class _DeleteProfileDialogState extends State<DeleteProfileDialog> {
               router.go(Routes.signup);
             });
           } else if (state is DeleteProfileError) {
-            AppSnackBar.error(context, state.message);
+            AppSnackBar.error(context, localizeErrorMessage(context, state.message));
           }
         },
         builder: (context, state) {

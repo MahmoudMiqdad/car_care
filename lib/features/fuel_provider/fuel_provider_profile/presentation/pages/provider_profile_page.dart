@@ -83,7 +83,7 @@ class _ProviderProfilePageState extends State<ProviderProfilePage> {
             if (isNotFound) {
               context.go(Routes.provider_create_profile);
             } else {
-              AppSnackBar.error(context, state.message);
+              AppSnackBar.error(context, localizeErrorMessage(context, state.message));
             }
           }
         },

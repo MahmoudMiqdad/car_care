@@ -3,6 +3,7 @@
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/update_profile_cubit/update_profile_cubit.dart';
@@ -13,16 +14,31 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileSetupForm extends StatefulWidget {
-  const ProfileSetupForm({super.key, this.Image});
+  const ProfileSetupForm({
+    super.key,
+    this.Image,
+    this.initialName,
+    this.initialPhone,
+    this.initialEmail,
+  });
   final String? Image;
+  final String? initialName;
+  final String? initialPhone;
+  final String? initialEmail;
   @override
   State<ProfileSetupForm> createState() => _ProfileSetupFormState();
 }
 
 class _ProfileSetupFormState extends State<ProfileSetupForm> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
+  late final TextEditingController _nameController = TextEditingController(
+    text: widget.initialName,
+  );
+  late final TextEditingController _phoneController = TextEditingController(
+    text: widget.initialPhone,
+  );
+  late final TextEditingController _emailController = TextEditingController(
+    text: widget.initialEmail,
+  );
 
   @override
   void dispose() {
@@ -52,41 +68,45 @@ class _ProfileSetupFormState extends State<ProfileSetupForm> {
           Navigator.of(context).pop();
         }
         if (state is UpdateProfileError) {
-          AppSnackBar.error(context, state.message);
+          AppSnackBar.error(context, localizeErrorMessage(context, state.message));
         }
       },
       builder: (context, state) {
         final isLoading = state is UpdateProfileLoading;
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        return Stack(
           children: [
-            LoginTextField(
-              controller: _nameController,
-              hintText: strings.fullName,
-              icon: Icons.person,
-            ),
-            SizedBox(height: 16.h),
-            LoginTextField(
-              controller: _phoneController,
-              hintText: strings.phoneNumber,
-              icon: Icons.call,
-              keyboardType: TextInputType.phone,
-            ),
-            SizedBox(height: 16.h),
-            LoginTextField(
-              controller: _emailController,
-              hintText: strings.email,
-              icon: Icons.email,
-              keyboardType: TextInputType.emailAddress,
-            ),
-            SizedBox(height: 40.h),
-            SizedBox(
-              height: 50.h,
-              child: AppButton(
-                onPressed: isLoading ? null : () => _submit(context),
-                text: strings.saveandfollow,
-                textColor: AppColors.white,
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                LoginTextField(
+                  controller: _nameController,
+                  hintText: strings.fullName,
+                  icon: Icons.person,
+                ),
+                SizedBox(height: 16.h),
+                LoginTextField(
+                  controller: _phoneController,
+                  hintText: strings.phoneNumber,
+                  icon: Icons.call,
+                  keyboardType: TextInputType.phone,
+                ),
+                SizedBox(height: 16.h),
+                LoginTextField(
+                  controller: _emailController,
+                  hintText: strings.email,
+                  icon: Icons.email,
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                SizedBox(height: 40.h),
+                SizedBox(
+                  height: 50.h,
+                  child: AppButton(
+                    onPressed: isLoading ? null : () => _submit(context),
+                    text: strings.saveandfollow,
+                    textColor: AppColors.white,
+                  ),
+                ),
+              ],
             ),
             if (isLoading)
               const Positioned.fill(child: Center(child: AppLoadingWidget())),

@@ -1,6 +1,7 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/features/car_washer/washers/washers_availability/presentation/cubit/availability_cubit.dart';
 import 'package:car_care/features/car_washer/washers/washers_availability/presentation/cubit/availability_state.dart';
 import 'package:car_care/l10n.dart';
@@ -39,7 +40,7 @@ class _WasherAvailabilitySwitchCardState
           setState(() => _value = state.isAvailable);
           AppSnackBar.success(context, l10n.washerAvailabilityUpdateSuccess);
         } else if (state is AvailabilityError) {
-          AppSnackBar.error(context, state.message);
+          AppSnackBar.error(context, localizeErrorMessage(context, state.message));
         }
       },
       child: BlocBuilder<AvailabilityCubit, AvailabilityState>(

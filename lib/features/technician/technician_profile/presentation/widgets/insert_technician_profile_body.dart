@@ -7,6 +7,7 @@ import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_cubit.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_state.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/widgets/technician_certificate_picker.dart';
@@ -93,7 +94,7 @@ class _TechnicianProfileBodyState extends State<InsertTechnicianProfileBody> {
           _refreshRolesAndExit();
         }
         if (state is TechnicianProfileError) {
-          AppSnackBar.error(context, state.message);
+          AppSnackBar.error(context, localizeErrorMessage(context, state.message));
         }
       },
       builder: (context, state) {

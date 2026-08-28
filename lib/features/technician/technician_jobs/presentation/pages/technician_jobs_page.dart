@@ -1,6 +1,7 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/error_state_widget.dart';
@@ -203,7 +204,7 @@ class _TechnicianJobsBodyState extends State<_TechnicianJobsBody> {
                             state.message.isEmpty ||
                                 state.message.startsWith('Instance of')
                             ? l10n.unexpectedErrorTryAgain
-                            : state.message;
+                            : localizeErrorMessage(context, state.message);
                         AppSnackBar.error(context, msg);
                       }
                     },

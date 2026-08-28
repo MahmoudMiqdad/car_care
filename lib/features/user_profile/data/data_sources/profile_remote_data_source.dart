@@ -41,7 +41,7 @@ class ProfileRemoteDataSource {
       isFormData: true,
       endPoint: ApiEndpoints.updateavatar,
       data: {
-        "avatar":await uploadFiletoApi(avatar)
+        "profile_image":await uploadFiletoApi(avatar)
       },
     );
     return AvatarModel.fromJson(response);

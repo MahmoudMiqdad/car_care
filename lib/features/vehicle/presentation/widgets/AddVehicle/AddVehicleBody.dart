@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_add_cubit/vehicle_add_cubit.dart';
 import 'package:car_care/features/vehicle/presentation/cubit/vehicle_add_cubit/vehicle_add_state.dart';
@@ -106,7 +107,7 @@ class _AddVehicleBodyState extends State<AddVehicleBody> {
             context.pop(true);
           }
           if (state is VehicleAddError) {
-            AppSnackBar.error(context, state.message);
+            AppSnackBar.error(context, localizeErrorMessage(context, state.message));
           }
         },
         builder: (context, state) {

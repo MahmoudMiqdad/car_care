@@ -2,6 +2,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/error_state_widget.dart';
 import 'package:car_care/core/widgets/image_background.dart';
@@ -107,7 +108,7 @@ class _Body extends StatelessWidget {
                   state.message.isEmpty ||
                       state.message.startsWith('Instance of')
                   ? l10n.jobLoadErrorLabel
-                  : state.message;
+                  : localizeErrorMessage(context, state.message);
               AppSnackBar.error(context, msg);
             }
           },

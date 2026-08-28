@@ -4,6 +4,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/app_headline.dart';
 import 'package:car_care/core/widgets/vehicle_header.dart';
 import 'package:car_care/features/vehicle/domain/entities/vehicle_entity.dart';
@@ -180,7 +181,7 @@ void showCustomDeleteDialog({
             }
             if (state is VehicleDeleteError) {
               if (context.mounted) {
-                AppSnackBar.error(context, state.message);
+                AppSnackBar.error(context, localizeErrorMessage(context, state.message));
               }
             }
           },

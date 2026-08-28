@@ -5,8 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileSetupPage extends StatelessWidget {
-  const ProfileSetupPage({super.key, this.imageavatar});
+  const ProfileSetupPage({
+    super.key,
+    this.imageavatar,
+    this.initialName,
+    this.initialPhone,
+    this.initialEmail,
+  });
   final String? imageavatar;
+  final String? initialName;
+  final String? initialPhone;
+  final String? initialEmail;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +31,12 @@ class ProfileSetupPage extends StatelessWidget {
                 const LoginHeader(),
                 SizedBox(height: 16.h),
                 Expanded(
-                  child: ProfileSetupContent(image:imageavatar ),
+                  child: ProfileSetupContent(
+                    image: imageavatar,
+                    initialName: initialName,
+                    initialPhone: initialPhone,
+                    initialEmail: initialEmail,
+                  ),
                 ),
               ],
             ),

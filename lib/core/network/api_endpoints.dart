@@ -19,8 +19,8 @@ class ApiEndpoints {
 
   static const String updateprofile = '/profile';
   static const String updatepassword = '/profile/password';
-  static const String updateavatar = '/profile/avatar';
-  static const String deletavatar = '/profile/avatar';
+  static const String updateavatar = '/auth/profile-image';
+  static const String deletavatar = '/auth/profile-image';
   static const String deletprofile = '/profile';
   static const String showprofile = '/auth/me';
   static const String technician = '/technician';

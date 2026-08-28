@@ -5,6 +5,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/widgets/add_requests/requests_action_buttons.dart';
@@ -79,7 +80,7 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
           }
 
           if (state is SubmitQuotationError) {
-            AppSnackBar.error(context, state.message);
+            AppSnackBar.error(context, localizeErrorMessage(context, state.message));
           }
         },
         builder: (context, state) {

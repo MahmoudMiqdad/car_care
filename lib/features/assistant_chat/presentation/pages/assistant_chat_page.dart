@@ -103,7 +103,7 @@ class _AssistantChatPageState extends State<AssistantChatPage> {
         child: BlocConsumer<AssistantChatCubit, AssistantChatState>(
           listener: (context, state) {
             if (state is AssistantChatLoaded && state.errorMessage != null) {
-              AppSnackBar.error(context, state.errorMessage!);
+              AppSnackBar.error(context, localizeErrorMessage(context, state.errorMessage));
             }
           },
           builder: (context, state) {

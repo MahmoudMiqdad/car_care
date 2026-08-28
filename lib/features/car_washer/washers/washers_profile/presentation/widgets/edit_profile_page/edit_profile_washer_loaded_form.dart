@@ -145,7 +145,12 @@ class _EditProfileWasherLoadedFormState
     return Stack(
       children: [
         SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 24.h),
+          padding: EdgeInsets.fromLTRB(
+            16.w,
+            12.h,
+            16.w,
+            24.h + MediaQuery.of(context).viewInsets.bottom,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

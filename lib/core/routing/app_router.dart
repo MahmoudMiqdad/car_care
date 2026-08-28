@@ -85,6 +85,7 @@ import 'package:car_care/features/home/presentation/pages/home_page.dart';
 import 'package:car_care/features/home/presentation/pages/notifications_page.dart';
 import 'package:car_care/features/home/presentation/widgets/home_bottom_nav_bar.dart';
 import 'package:car_care/features/home/presentation/widgets/ai_assistant_button.dart';
+import 'package:car_care/features/user_profile/domain/entities/profile_entity.dart';
 import 'package:car_care/features/user_profile/presentation/pages/profile_setup_page.dart';
 import 'package:car_care/features/vehicle/presentation/widgets/UpdateVehicle/UpdateVehiclePage.dart';
 import 'package:car_care/features/spare_parts_store/customer/cart/presentation/cubit/cart/cart_cubit.dart';
@@ -452,7 +453,15 @@ class AppRouter {
         path: Routes.profile_setup,
         name: '/profile_setup',
         parentNavigatorKey: rootNavigatorKey,
-        builder: (context, state) => ProfileSetupPage(),
+        builder: (context, state) {
+          final profile = state.extra as ProfileEntity?;
+          return ProfileSetupPage(
+            imageavatar: profile?.avatar,
+            initialName: profile?.name,
+            initialPhone: profile?.phone,
+            initialEmail: profile?.email,
+          );
+        },
       ),
       GoRoute(
         path: Routes.user_profile,

@@ -3,6 +3,7 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/cubit/technician_location_cubit.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/cubit/technician_location_state.dart';
 import 'package:car_care/l10n.dart';
@@ -88,7 +89,7 @@ class _LocationPickerSheetState extends State<LocationPickerSheet> {
           AppSnackBar.success(context, l10n.workshopLocationSet);
         }
         if (state is UpdateLocationError) {
-          AppSnackBar.error(context, state.message);
+          AppSnackBar.error(context, localizeErrorMessage(context, state.message));
         }
       },
       child: Container(

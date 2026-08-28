@@ -3,6 +3,7 @@ import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/core/widgets/selection/governorate_selection_tile.dart';
@@ -65,7 +66,7 @@ class _CreateSosPageState extends State<CreateSosPage> {
     state = cubit.state;
 
     if (state is VehicleError) {
-      AppSnackBar.error(context, state.message);
+      AppSnackBar.error(context, localizeErrorMessage(context, state.message));
       return;
     }
 
@@ -199,7 +200,7 @@ class _CreateSosPageState extends State<CreateSosPage> {
 
         if (state is SosError) {
           setState(() => _isSubmitting = false);
-          AppSnackBar.error(context, state.message);
+          AppSnackBar.error(context, localizeErrorMessage(context, state.message));
         }
       },
       child: Scaffold(

@@ -51,7 +51,7 @@ class ProviderEditProfileBody extends StatelessWidget {
           AppConstants.pageHorizontal,
           16.h,
           AppConstants.pageHorizontal,
-          24.h,
+          24.h + MediaQuery.of(context).viewInsets.bottom,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

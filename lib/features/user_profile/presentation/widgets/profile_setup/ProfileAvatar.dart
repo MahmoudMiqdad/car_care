@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/avatar_cubit/avatar_cubit.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/avatar_cubit/avatar_state.dart';
 import 'package:car_care/l10n.dart';
@@ -40,7 +41,7 @@ class ProfileAvatarUser extends StatelessWidget {
           AppSnackBar.success(context, l10n.avatarUpdatedSuccess);
         }
         if (state is AvatarError) {
-          AppSnackBar.error(context, state.message);
+          AppSnackBar.error(context, localizeErrorMessage(context, state.message));
         }
       },
       builder: (context, state) {
@@ -55,6 +56,8 @@ class ProfileAvatarUser extends StatelessWidget {
           } else {
             avatarImage = FileImage(File(path));
           }
+        } else if (state is AvatarDeleted) {
+          avatarImage = null;
         } else if (image != null && image!.isNotEmpty) {
           avatarImage = NetworkImage(image!);
         }
@@ -74,6 +77,32 @@ class ProfileAvatarUser extends StatelessWidget {
                     )
                   : null,
             ),
+            if (avatarImage != null)
+              Positioned(
+                bottom: 0,
+                left: 4.w,
+                child: GestureDetector(
+                  onTap: isLoading
+                      ? null
+                      : () => context.read<AvatarCubit>().deleteAvatar(),
+                  child: Container(
+                    padding: EdgeInsets.all(6.r),
+                    decoration: BoxDecoration(
+                      color: colorScheme.error,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: colorScheme.onPrimary,
+                        width: 2,
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.delete,
+                      color: colorScheme.onError,
+                      size: 18.sp,
+                    ),
+                  ),
+                ),
+              ),
             Positioned(
               bottom: 0,
               right: 4.w,

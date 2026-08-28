@@ -4,6 +4,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/features/maintenance/user_requests/domain/entities/maintenance_request_details_entity.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/cancel_request_cubit/cancel_request_cubit.dart';
 import 'package:car_care/features/maintenance/user_requests/presentation/cubit/cancel_request_cubit/cancel_request_state.dart';
@@ -37,7 +38,7 @@ class RequestActionButtons extends StatelessWidget {
           context.safePopOrGo(Routes.all_requests);
         }
         if (state is DeleteRequestError) {
-          AppSnackBar.error(context, state.message);
+          AppSnackBar.error(context, localizeErrorMessage(context, state.message));
           context.safePopOrGo(Routes.all_requests);
         }
       },

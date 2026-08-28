@@ -4,6 +4,7 @@ import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/functions/upload_file_to_api.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/spare_parts_store/owner/profile/data/static/spare_parts_options.dart';
@@ -138,7 +139,7 @@ class _OwnerAddProductPageState extends State<OwnerAddProductPage> {
             if (state.isCreating) return;
             setState(() => _submitting = false);
             if (state.createError != null) {
-              AppSnackBar.error(context, state.createError!);
+              AppSnackBar.error(context, localizeErrorMessage(context, state.createError));
               cubit.clearCreateError();
             } else {
               AppSnackBar.success(context, l10n.productAddedSuccessfully);

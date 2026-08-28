@@ -27,7 +27,7 @@ class Data {
     });
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
-        avatarUrl: json["avatar_url"],
+        avatarUrl: json["user"]?["profile_image_url"] ?? '',
     );
 
  

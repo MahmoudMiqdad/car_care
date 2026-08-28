@@ -2,8 +2,10 @@ import 'package:car_care/core/routing/navigation_x.dart';
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
 import 'package:car_care/features/user_profile/presentation/widgets/profile_page/ProfileBody.dart';
+import 'package:car_care/features/user_profile/presentation/cubit/avatar_cubit/avatar_cubit.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/show_profile_cubit/show_profile_cubit.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +17,11 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<ShowProfileCubit>()..getProfile(),
-
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => getIt<ShowProfileCubit>()..getProfile()),
+        BlocProvider(create: (_) => getIt<AvatarCubit>()),
+      ],
       child: PopScope(
         canPop: context.canPop(),
         onPopInvokedWithResult: (didPop, _) {
@@ -25,29 +29,11 @@ class ProfilePage extends StatelessWidget {
         },
         child: Scaffold(
           backgroundColor: AppColors.transparent,
-          body: ImageBackground(
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                const ProfileBody(),
-                PositionedDirectional(
-                  top: 0,
-                  start: 4,
-                  child: SafeArea(
-                    child: IconButton(
-                      onPressed: () => context.safePopOrGo(Routes.home),
-                      icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                      color: Colors.white,
-                      style: IconButton.styleFrom(
-                        backgroundColor: Colors.black26,
-                      ),
-                      tooltip: context.l10n.back,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          appBar: CustomAppBar(
+            title: context.l10n.myProfile,
+            onBackTapped: () => context.safePopOrGo(Routes.home),
           ),
+          body: const ImageBackground(child: ProfileBody()),
         ),
       ),
     );

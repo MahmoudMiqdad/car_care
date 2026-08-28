@@ -4,6 +4,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/features/spare_parts_store/customer/orders/presentation/widgets/cancel_order_bottom_sheet.dart';
 import 'package:car_care/core/theme/app_typography.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
@@ -107,7 +108,7 @@ class _CustomerOrderDetailsPageState extends State<CustomerOrderDetailsPage> {
                 if (state is OrderDetailsLoaded) {
                   _triggerEntrance();
                   if (state.cancelError != null) {
-                    AppSnackBar.error(context, state.cancelError!);
+                    AppSnackBar.error(context, localizeErrorMessage(context, state.cancelError));
                     _cubit.clearCancelError();
                   } else if (_wasCancelling && !state.isCancelling) {
                     _mutated = true;

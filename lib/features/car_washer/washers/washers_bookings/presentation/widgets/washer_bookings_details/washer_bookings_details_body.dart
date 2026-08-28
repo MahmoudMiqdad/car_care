@@ -1,4 +1,5 @@
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/utils/media_url.dart';
 import 'package:car_care/core/widgets/vehicle_image_box.dart';
 import 'package:car_care/features/car_washer/car_wash/bookings/domain/entities/bookings_entity.dart';
@@ -89,7 +90,7 @@ class _WasherBookingsDetailsBodyState extends State<WasherBookingsDetailsBody> {
           );
         }
         if (state is BookingActionError) {
-          AppSnackBar.error(context, state.message);
+          AppSnackBar.error(context, localizeErrorMessage(context, state.message));
         }
       },
       builder: (context, state) {
@@ -125,7 +126,6 @@ class _WasherBookingsDetailsBodyState extends State<WasherBookingsDetailsBody> {
         ];
 
         final visibility = washerBookingActionVisibilityFor(booking.status);
-        final showDefaultActions = visibility.showAcceptReject;
         final showAfterAcceptActions = visibility.showStartComplete;
         final showInProgressActions = visibility.showCompleteOnly;
 
@@ -164,14 +164,13 @@ class _WasherBookingsDetailsBodyState extends State<WasherBookingsDetailsBody> {
                         textAlign: TextAlign.center,
                         contentFontWeight: FontWeight.w800,
                       ),
-                      if (showDefaultActions ||
-                          showAfterAcceptActions ||
+                      if (showAfterAcceptActions ||
                           showInProgressActions) ...[
                         SizedBox(height: 16.h),
                         Align(
                           alignment: Alignment.centerRight,
                           child: WasherBookingQuickActionsColumn(
-                            showAcceptReject: showDefaultActions,
+                            showAcceptReject: false,
                             showStartComplete: showAfterAcceptActions,
                             showCompleteOnly: showInProgressActions,
                             busy: busy,

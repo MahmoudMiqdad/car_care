@@ -11,6 +11,20 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
+class _NotificationCategory {
+  const _NotificationCategory({
+    required this.channelId,
+    required this.channelName,
+    required this.icon,
+    required this.sound,
+  });
+
+  final String channelId;
+  final String channelName;
+  final String icon;
+  final String sound;
+}
+
 class FcmService {
   FcmService(this._apiService, {FirebaseMessaging? messaging})
     : _messaging = messaging ?? FirebaseMessaging.instance;
@@ -28,6 +42,71 @@ class FcmService {
         importance: Importance.high,
       );
 
+  static const Map<String, _NotificationCategory> _categoriesByPrefix = {
+    'sos_': _NotificationCategory(
+      channelId: 'car_care_sos',
+      channelName: 'Car Care SOS',
+      icon: 'ic_notification_sos',
+      sound: 'carcare_sos',
+    ),
+    'carwash_': _NotificationCategory(
+      channelId: 'car_care_wash',
+      channelName: 'Car Care Wash',
+      icon: 'ic_notification_wash',
+      sound: 'carcare_wash',
+    ),
+    'fuel_': _NotificationCategory(
+      channelId: 'car_care_fuel',
+      channelName: 'Car Care Fuel',
+      icon: 'ic_notification_fuel',
+      sound: 'carcare_fuel',
+    ),
+    'maintenance_': _NotificationCategory(
+      channelId: 'car_care_maintenance',
+      channelName: 'Car Care Maintenance',
+      icon: 'ic_notification_maintenance',
+      sound: 'carcare_maintenance',
+    ),
+    'spare_parts_': _NotificationCategory(
+      channelId: 'car_care_spare_parts',
+      channelName: 'Car Care Spare Parts',
+      icon: 'ic_notification_spare_parts',
+      sound: 'carcare_spare_parts',
+    ),
+  };
+
+  static const Map<String, _NotificationCategory> _categoriesByExactType = {
+    'new_sos_request': _NotificationCategory(
+      channelId: 'car_care_sos',
+      channelName: 'Car Care SOS',
+      icon: 'ic_notification_sos',
+      sound: 'carcare_sos',
+    ),
+    'new_emergency_fuel_order': _NotificationCategory(
+      channelId: 'car_care_fuel',
+      channelName: 'Car Care Fuel',
+      icon: 'ic_notification_fuel',
+      sound: 'carcare_fuel',
+    ),
+  };
+
+  static const _NotificationCategory _generalCategory = _NotificationCategory(
+    channelId: 'car_care_general',
+    channelName: 'Car Care General',
+    icon: 'ic_notification_general',
+    sound: 'carcare_general',
+  );
+
+  static _NotificationCategory _resolveCategory(String? type) {
+    if (type == null || type.isEmpty) return _generalCategory;
+    final exact = _categoriesByExactType[type];
+    if (exact != null) return exact;
+    for (final entry in _categoriesByPrefix.entries) {
+      if (type.startsWith(entry.key)) return entry.value;
+    }
+    return _generalCategory;
+  }
+
   StreamSubscription<String>? _tokenRefreshSubscription;
   StreamSubscription<RemoteMessage>? _foregroundSubscription;
   StreamSubscription<RemoteMessage>? _tapSubscription;
@@ -39,25 +118,56 @@ class FcmService {
     return defaultTargetPlatform == TargetPlatform.iOS ? 'ios' : 'android';
   }
 
+  Future<void> initializeNotifications() async {
+    await _ensureLocalNotificationsInitialized();
+  }
+
   Future<void> _ensureLocalNotificationsInitialized() async {
     if (_localNotificationsInitialized || kIsWeb) return;
     await _localNotifications.initialize(
       const InitializationSettings(
-        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+        android: AndroidInitializationSettings('ic_notification_general'),
         iOS: DarwinInitializationSettings(),
       ),
+      onDidReceiveNotificationResponse: _onLocalNotificationTap,
     );
-    await _localNotifications
+    final androidImplementation = _localNotifications
         .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin
-        >()
-        ?.createNotificationChannel(_foregroundChannel);
+        >();
+    await androidImplementation?.createNotificationChannel(_foregroundChannel);
+    for (final category in _categoriesByExactType.values.followedBy(
+      _categoriesByPrefix.values,
+    )) {
+      await androidImplementation?.createNotificationChannel(
+        AndroidNotificationChannel(
+          category.channelId,
+          category.channelName,
+          importance: Importance.high,
+          sound: RawResourceAndroidNotificationSound(category.sound),
+        ),
+      );
+    }
+    await androidImplementation?.createNotificationChannel(
+      AndroidNotificationChannel(
+        _generalCategory.channelId,
+        _generalCategory.channelName,
+        importance: Importance.high,
+        sound: RawResourceAndroidNotificationSound(_generalCategory.sound),
+      ),
+    );
     _localNotificationsInitialized = true;
+  }
+
+  void _onLocalNotificationTap(NotificationResponse response) {
+    AppRouter.router.go(Routes.notifications);
   }
 
   Future<void> _showForegroundNotification(RemoteMessage message) async {
     final notification = message.notification;
     if (notification == null || kIsWeb) return;
+
+    final category = _resolveCategory(message.data['type'] as String?);
 
     await _ensureLocalNotificationsInitialized();
     await _localNotifications.show(
@@ -66,12 +176,12 @@ class FcmService {
       notification.body,
       NotificationDetails(
         android: AndroidNotificationDetails(
-          _foregroundChannel.id,
-          _foregroundChannel.name,
-          channelDescription: _foregroundChannel.description,
+          category.channelId,
+          category.channelName,
           importance: Importance.high,
           priority: Priority.high,
-          icon: '@mipmap/ic_launcher',
+          icon: category.icon,
+          sound: RawResourceAndroidNotificationSound(category.sound),
         ),
         iOS: const DarwinNotificationDetails(),
       ),
@@ -102,20 +212,29 @@ class FcmService {
     AppRouter.router.go(Routes.notifications);
   }
 
-  Future<void> syncTokenForAuthenticatedUser() async {
-    try {
-      await _messaging.requestPermission();
-      final token = await _messaging.getToken();
-      if (token != null) {
-        await _registerToken(token);
-      }
-      _tokenRefreshSubscription ??= _messaging.onTokenRefresh.listen(
-        _registerToken,
-      );
-    } catch (e) {
-      if (kDebugMode) debugPrint('FCM token sync failed: $e');
+Future<void> syncTokenForAuthenticatedUser() async {
+  try {
+    await _messaging.requestPermission();
+
+    final token = await _messaging.getToken();
+
+    if (kDebugMode) {
+      debugPrint('FCM TOKEN = $token');
+    }
+
+    if (token != null) {
+      await _registerToken(token);
+    }
+
+    _tokenRefreshSubscription ??= _messaging.onTokenRefresh.listen(
+      _registerToken,
+    );
+  } catch (e) {
+    if (kDebugMode) {
+      debugPrint('FCM token sync failed: $e');
     }
   }
+}
 
   Future<void> _registerToken(String token) async {
     if (_registeredToken == token) return;

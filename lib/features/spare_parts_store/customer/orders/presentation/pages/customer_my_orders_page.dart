@@ -1,6 +1,7 @@
 import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/Empty_state.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/error_state_widget.dart';
@@ -106,7 +107,7 @@ class _CustomerMyOrdersPageState extends State<CustomerMyOrdersPage> {
                   listener: (context, state) {
                     if (state is CustomerOrdersLoaded &&
                         state.actionError != null) {
-                      AppSnackBar.error(context, state.actionError!);
+                      AppSnackBar.error(context, localizeErrorMessage(context, state.actionError));
                       _cubit.clearActionError();
                     }
                   },

@@ -66,7 +66,7 @@ class SosDetailsPage extends StatelessWidget {
               }
 
               if (state is SosError) {
-                AppSnackBar.error(context, state.message);
+                AppSnackBar.error(context, localizeErrorMessage(context, state.message));
 
                 if (state.message.toLowerCase().contains("not found")) {
                   if (context.canPop()) {

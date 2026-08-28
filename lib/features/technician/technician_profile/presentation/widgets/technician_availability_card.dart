@@ -1,6 +1,7 @@
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_availability_cubit/technician_availability_cubit.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_availability_cubit/technician_availability_state.dart';
 import 'package:car_care/features/technician/technician_profile/presentation/cubit/technician_profile_cubit/technician_profile_cubit.dart';
@@ -24,7 +25,7 @@ class TechnicianAvailabilityCard extends StatelessWidget {
     >(
       listener: (context, state) {
         if (state is TechnicianAvailabilityError) {
-          AppSnackBar.error(context, state.message);
+          AppSnackBar.error(context, localizeErrorMessage(context, state.message));
         }
 
         if (state is TechnicianAvailabilitySuccess) {

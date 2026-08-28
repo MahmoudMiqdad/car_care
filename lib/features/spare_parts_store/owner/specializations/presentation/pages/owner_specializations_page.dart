@@ -1,6 +1,7 @@
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/error_state_widget.dart';
 import 'package:car_care/core/widgets/image_background.dart';
@@ -76,7 +77,7 @@ class _OwnerSpecializationsPageState extends State<OwnerSpecializationsPage> {
                 _cubit.clearJustSaved();
               }
               if (state.saveError != null) {
-                AppSnackBar.error(context, state.saveError!);
+                AppSnackBar.error(context, localizeErrorMessage(context, state.saveError));
                 _cubit.clearSaveError();
               }
             },

@@ -4,6 +4,7 @@ import 'package:car_care/core/routing/routes.dart';
 import 'package:car_care/core/service_locator/service_locator.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/app_date_time_picker_row.dart';
 import 'package:car_care/core/widgets/custom_appbar.dart';
 import 'package:car_care/core/widgets/image_background.dart';
@@ -180,7 +181,7 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
               ctx.go(Routes.washers);
               ctx.push(Routes.bookings);
             } else if (state is CarWashBookingError) {
-              AppSnackBar.error(ctx, state.message);
+              AppSnackBar.error(ctx, localizeErrorMessage(ctx, state.message));
             }
           },
           builder: (ctx, bookingState) {
@@ -268,7 +269,7 @@ class _WasherReservationPageState extends State<WasherReservationPage> {
                           ],
                         ],
                       ),
-                      SizedBox(height: 20.h),
+                      SizedBox(height: 28.h),
                       if (isLoading)
                         const Center(child: CircularProgressIndicator())
                       else

@@ -48,6 +48,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   await setupServiceLocator();
   await dotenv.load(fileName: ".env");
 
+  await getIt<FcmService>().initializeNotifications();
   getIt<FcmService>().listenToMessages();
 
   runApp(await builder());

@@ -48,7 +48,7 @@ class ProfileWasherPage extends StatelessWidget {
           child: BlocConsumer<ProfileWasherCubit, ProfileWasherState>(
             listener: (context, state) {
               if (state is ProfileWasherError) {
-                AppSnackBar.error(context, state.message);
+                AppSnackBar.error(context, localizeErrorMessage(context, state.message));
               }
             },
             builder: (context, state) {

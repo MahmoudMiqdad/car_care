@@ -2,6 +2,7 @@ import 'package:car_care/core/constants/app_constants.dart';
 import 'package:car_care/core/theme/app_colors.dart';
 import 'package:car_care/core/theme/buttons/app_button_widget.dart';
 import 'package:car_care/core/utils/app_snackbar.dart';
+import 'package:car_care/core/utils/failure_localizer.dart';
 import 'package:car_care/core/widgets/loding.dart';
 import 'package:car_care/features/auth/presentation/widgets/login/login_text_field.dart';
 import 'package:car_care/features/user_profile/presentation/cubit/change_password_cubit/cange_password_state.dart';
@@ -51,7 +52,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
             if (context.mounted) Navigator.of(context).pop();
           });
         } else if (state is PasswordError) {
-          AppSnackBar.error(context, state.message);
+          AppSnackBar.error(context, localizeErrorMessage(context, state.message));
         }
       },
       builder: (context, state) {
