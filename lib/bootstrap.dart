@@ -42,19 +42,32 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
   Bloc.observer = const AppBlocObserver();
 
-  await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  var firebaseReady = false;
+  try {
+    await Firebase.initializeApp();
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+    firebaseReady = true;
+  } catch (e, s) {
+    log('Firebase initialization failed: $e', stackTrace: s);
+  }
 
   await setupServiceLocator();
-  await dotenv.load(fileName: ".env");
 
-  await getIt<FcmService>().initializeNotifications();
-  getIt<FcmService>().listenToMessages();
+  if (firebaseReady) {
+    try {
+      await getIt<FcmService>().initializeNotifications();
+      getIt<FcmService>().listenToMessages();
+    } catch (e, s) {
+      log('Notification initialization failed: $e', stackTrace: s);
+    }
+  }
 
   runApp(await builder());
 
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    unawaited(getIt<FcmService>().handleInitialMessage());
-  });
+  if (firebaseReady) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(getIt<FcmService>().handleInitialMessage());
+    });
+  }
 }
 

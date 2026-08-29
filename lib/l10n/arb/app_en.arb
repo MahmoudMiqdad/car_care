@@ -3603,5 +3603,17 @@
   "sparePartsPartCategory23": "Belts & Pulleys",
   "@sparePartsPartCategory23": {
     "description": "Spare parts category option (id 23)"
+  },
+  "timePeriodAm": "AM",
+  "@timePeriodAm": {
+    "description": "Period label for a time before noon, shown next to a formatted 12-hour time"
+  },
+  "timePeriodNoon": "PM",
+  "@timePeriodNoon": {
+    "description": "Period label for exactly noon (12:00), shown next to a formatted 12-hour time"
+  },
+  "timePeriodPm": "PM",
+  "@timePeriodPm": {
+    "description": "Period label for a time after noon, shown next to a formatted 12-hour time"
   }
 }

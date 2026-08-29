@@ -249,11 +249,11 @@ Future<void> syncTokenForAuthenticatedUser() async {
     }
   }
 
-  Future<void> unregisterCurrentToken() async {
+  Future<String?> unregisterCurrentToken() async {
     final token = _registeredToken ?? await _messaging.getToken();
     await _tokenRefreshSubscription?.cancel();
     _tokenRefreshSubscription = null;
-    if (token == null) return;
+    if (token == null) return null;
     try {
       await _apiService.delete(
         endPoint: ApiEndpoints.devicesUnregister,
@@ -264,5 +264,6 @@ Future<void> syncTokenForAuthenticatedUser() async {
     } finally {
       _registeredToken = null;
     }
+    return token;
   }
 }

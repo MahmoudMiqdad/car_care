@@ -3587,4 +3587,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sparePartsPartCategory23 => 'Belts & Pulleys';
+
+  @override
+  String get timePeriodAm => 'AM';
+
+  @override
+  String get timePeriodNoon => 'PM';
+
+  @override
+  String get timePeriodPm => 'PM';
 }

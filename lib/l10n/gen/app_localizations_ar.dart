@@ -3587,4 +3587,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get sparePartsPartCategory23 => 'سيور وبكرات';
+
+  @override
+  String get timePeriodAm => 'صباحًا';
+
+  @override
+  String get timePeriodNoon => 'ظهرًا';
+
+  @override
+  String get timePeriodPm => 'مساءً';
 }

@@ -1,6 +1,7 @@
 import 'package:car_care/core/constants/app_text_styles.dart';
 import 'package:car_care/core/extensions/theme_extension.dart';
 import 'package:car_care/core/theme/app_colors.dart';
+import 'package:car_care/features/car_washer/shared/presentation/widgets/washer_time_format.dart';
 import 'package:car_care/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,13 +46,17 @@ class ProfileWasherContactCardsRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                l10n.washerOpenTime(workStart),
+                l10n.washerOpenTime(
+                  formatWasherTime12Hour(context, workStart),
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: AppTextStyles.font13TextPrimarySemiBold(context),
               ),
               Text(
-                l10n.washerCloseTime(workEnd),
+                l10n.washerCloseTime(
+                  formatWasherTime12Hour(context, workEnd),
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: AppTextStyles.font13TextPrimarySemiBold(context),

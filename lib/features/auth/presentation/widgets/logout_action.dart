@@ -42,11 +42,12 @@ Future<void> confirmAndLogout(BuildContext context) async {
     final router = GoRouter.of(context);
     Scaffold.maybeOf(context)?.closeEndDrawer();
 
+    String? fcmToken;
     try {
-      await getIt<FcmService>().unregisterCurrentToken();
+      fcmToken = await getIt<FcmService>().unregisterCurrentToken();
     } catch (_) {}
 
-    await getIt<IAuthRepository>().logout();
+    await getIt<IAuthRepository>().logout(fcmToken: fcmToken);
 
     await getIt<SecureStorage>().clearAuth();
 

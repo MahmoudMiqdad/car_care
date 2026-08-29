@@ -7038,6 +7038,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Belts & Pulleys'**
   String get sparePartsPartCategory23;
+
+  /// Period label for a time before noon, shown next to a formatted 12-hour time
+  ///
+  /// In en, this message translates to:
+  /// **'AM'**
+  String get timePeriodAm;
+
+  /// Period label for exactly noon (12:00), shown next to a formatted 12-hour time
+  ///
+  /// In en, this message translates to:
+  /// **'PM'**
+  String get timePeriodNoon;
+
+  /// Period label for a time after noon, shown next to a formatted 12-hour time
+  ///
+  /// In en, this message translates to:
+  /// **'PM'**
+  String get timePeriodPm;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

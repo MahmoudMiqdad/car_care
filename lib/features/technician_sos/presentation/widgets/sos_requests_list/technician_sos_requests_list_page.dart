@@ -58,7 +58,7 @@ class _SosRequestsListPageState extends State<TechnicianSosRequestsListPage> {
       backgroundColor: AppColors.scaffoldBackground(context),
       appBar: CustomAppBar(
         title: widget.type == SosRequestType.available
-            ? l10n.sosRequestsListTitle
+            ? l10n.availableSosRequests
             : l10n.acceptedSosRequests,
         showBackButton: true,
         backgroundColor: AppColors.carWashTeal,

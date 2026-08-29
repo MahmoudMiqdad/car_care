@@ -93,11 +93,11 @@ class AuthRepositoryImpl implements IAuthRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> logout() async {
+  Future<Either<Failure, Unit>> logout({String? fcmToken}) async {
     await _googleSignInService?.signOut();
 
     try {
-      await _authRemoteDataSource.logout();
+      await _authRemoteDataSource.logout(fcmToken: fcmToken);
       return const Right(unit);
     } on ServerExpcptions catch (e) {
       return Left(e.error);

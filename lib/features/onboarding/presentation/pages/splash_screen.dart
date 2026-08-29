@@ -60,54 +60,79 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    Future.delayed(const Duration(milliseconds: 3000), () async {
+    _startAuthCheck();
+  }
+
+  Future<void> _startAuthCheck() async {
+    final minimumSplash = Future<void>.delayed(
+      const Duration(milliseconds: 3000),
+    );
+
+    final storage = getIt<SecureStorage>();
+    final token = await storage.getToken();
+
+    if (!mounted) return;
+
+    if (token == null || token.isEmpty) {
+      await minimumSplash;
       if (!mounted) return;
+      context.go(Routes.onboarding);
+      return;
+    }
 
-      final storage = getIt<SecureStorage>();
-      final token = await storage.getToken();
+    unawaited(getIt<FcmService>().syncTokenForAuthenticatedUser());
 
-      if (!mounted) return;
+    List<String> roles = const [];
+    Object? profileError;
 
-      if (token == null || token.isEmpty) {
-        context.go(Routes.onboarding);
-        return;
+    try {
+      final model = await getIt<ProfileRemoteDataSource>()
+          .showprofile()
+          .timeout(const Duration(seconds: 9));
+      roles = model.data?.parsedRoles ?? [];
+    } catch (e) {
+      profileError = e;
+    }
+
+    await minimumSplash;
+    if (!mounted) return;
+
+    if (profileError == null) {
+      if (roles.isNotEmpty) {
+        await storage.setRoles(roles);
+        await storage.setPrimaryRole(RoleRouteResolver.pickPrimaryRole(roles));
       }
+      if (!mounted) return;
+      context.go(Routes.home);
+      return;
+    }
 
-      unawaited(getIt<FcmService>().syncTokenForAuthenticatedUser());
+    if (profileError is TimeoutException) {
+      context.go(Routes.home);
+      return;
+    }
 
-      try {
-        final model = await getIt<ProfileRemoteDataSource>().showprofile();
-
-        final roles = model.data?.parsedRoles ?? [];
-        if (roles.isNotEmpty) {
-          await storage.setRoles(roles);
-          await storage.setPrimaryRole(RoleRouteResolver.pickPrimaryRole(roles));
-        }
-
-        if (!mounted) return;
+    if (profileError is ServerExpcptions) {
+      final msg = profileError.error.message.toLowerCase();
+      final isConnectivity = msg.contains('اتصال') ||
+          msg.contains('شبكة') ||
+          msg.contains('مهلة') ||
+          msg.contains('internet') ||
+          msg.contains('network') ||
+          msg.contains('timeout');
+      if (isConnectivity) {
         context.go(Routes.home);
-      } on ServerExpcptions catch (e) {
-        if (!mounted) return;
-        final msg = e.error.message.toLowerCase();
-        final isConnectivity = msg.contains('اتصال') ||
-            msg.contains('شبكة') ||
-            msg.contains('مهلة') ||
-            msg.contains('internet') ||
-            msg.contains('network') ||
-            msg.contains('timeout');
-        if (isConnectivity) {
-          context.go(Routes.home);
-        } else {
-          await storage.clearAuth();
-          if (!mounted) return;
-          context.go(Routes.onboarding);
-        }
-      } catch (_) {
+      } else {
         await storage.clearAuth();
         if (!mounted) return;
         context.go(Routes.onboarding);
       }
-    });
+      return;
+    }
+
+    await storage.clearAuth();
+    if (!mounted) return;
+    context.go(Routes.onboarding);
   }
 
   @override

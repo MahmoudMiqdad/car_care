@@ -11,7 +11,7 @@ abstract class IAuthRepository {
   Future<Either<Failure, AuthResponseModel>> register(
     Map<String, dynamic> data,
   );
-  Future<Either<Failure, Unit>> logout();
+  Future<Either<Failure, Unit>> logout({String? fcmToken});
 
   Future<Either<Failure, AuthResponseModel>> loginWithGoogle(String idToken);
 

@@ -3605,5 +3605,17 @@
   "sparePartsPartCategory23": "سيور وبكرات",
   "@sparePartsPartCategory23": {
     "description": "Spare parts category option (id 23)"
+  },
+  "timePeriodAm": "صباحًا",
+  "@timePeriodAm": {
+    "description": "Period label for a time before noon, shown next to a formatted 12-hour time"
+  },
+  "timePeriodNoon": "ظهرًا",
+  "@timePeriodNoon": {
+    "description": "Period label for exactly noon (12:00), shown next to a formatted 12-hour time"
+  },
+  "timePeriodPm": "مساءً",
+  "@timePeriodPm": {
+    "description": "Period label for a time after noon, shown next to a formatted 12-hour time"
   }
 }

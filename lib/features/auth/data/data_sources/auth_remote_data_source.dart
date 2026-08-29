@@ -25,8 +25,11 @@ class AuthRemoteDataSource {
     return AuthResponseModel.fromJson(response);
   }
 
-  Future<void> logout() async {
-    await _apiService.post(endPoint: ApiEndpoints.logout);
+  Future<void> logout({String? fcmToken}) async {
+    await _apiService.post(
+      endPoint: ApiEndpoints.logout,
+      data: fcmToken != null ? {'fcm_token': fcmToken} : null,
+    );
   }
 
   Future<AuthResponseModel> loginWithGoogle(String idToken) async {
