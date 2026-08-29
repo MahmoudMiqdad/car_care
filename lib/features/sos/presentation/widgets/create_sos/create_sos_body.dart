@@ -74,7 +74,7 @@ class CreateSosBody extends StatelessWidget {
             SizedBox(height: 30.h),
             AppButton(
               text: isLoading
-                  ? l10n.sosProcessingInProgress
+                  ? l10n.sendingRequest
                   : l10n.createSosSendRequest,
               onPressed: isLoading ? null : onSubmit,
               backgroundColor: isLoading

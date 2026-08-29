@@ -125,7 +125,7 @@ class _PriceOfferPageState extends State<TechnicianQuotationsPage> {
                         ),
                         SizedBox(height: 12.h),
                         RequestsFormCard(
-                          cardRadius: _cardR,
+                    cardRadius: _cardR,
                           title: l10n.durationInDaysLabel,
                           icon: Icons.schedule,
                           iconColor: AppColors.primary,
