@@ -235,18 +235,14 @@ class _HeroHeaderCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      l10n.orderNumberLabel.toString(),
-                      style: context.textTheme.labelSmall!.copyWith(
-                        color: colorScheme.onPrimary.withValues(alpha: 0.7),
-                      ),
-                    ),
+        
+
                     SizedBox(height: 2.h),
                     Text(
-                      '#${order.id}',
+                      order.status,
                       style: context.textTheme.headlineLarge!.copyWith(
                         color: colorScheme.onPrimary,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
