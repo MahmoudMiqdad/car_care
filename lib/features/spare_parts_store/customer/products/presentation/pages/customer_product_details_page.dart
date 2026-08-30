@@ -41,15 +41,12 @@ class _CustomerProductDetailsPageState
   @override
   void initState() {
     super.initState();
-    _cubit = getIt<ProductDetailsCubit>()
-      ..fetchProductDetails(widget.productId);
+    _cubit = getIt<ProductDetailsCubit>()..fetchProductDetails(widget.productId);
     _addToCartCubit = getIt<AddToCartCubit>();
   }
 
   @override
   void dispose() {
-    _cubit.close();
-    _addToCartCubit.close();
     super.dispose();
   }
 
@@ -57,8 +54,11 @@ class _CustomerProductDetailsPageState
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return BlocProvider.value(
-      value: _cubit,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: _cubit),
+        BlocProvider.value(value: _addToCartCubit),
+      ],
       child: Scaffold(
         backgroundColor: AppColors.transparent,
         appBar: CustomAppBar(title: l10n.productDetailsTitle),
@@ -83,48 +83,45 @@ class _CustomerProductDetailsPageState
         ),
         bottomNavigationBar:
             BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
-              builder: (context, state) {
-                if (state is! ProductDetailsLoaded) {
-                  return const SizedBox.shrink();
+          builder: (context, state) {
+            if (state is! ProductDetailsLoaded) {
+              return const SizedBox.shrink();
+            }
+            final product = state.product;
+            return BlocConsumer<AddToCartCubit, AddToCartState>(
+              listener: (context, cartState) {
+                if (cartState is AddToCartSuccess) {
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  AppSnackBar.success(
+                    context,
+                    l10n.productAddedToCartSuccess,
+                  );
                 }
-                final product = state.product;
-                return BlocConsumer<AddToCartCubit, AddToCartState>(
-                  bloc: _addToCartCubit,
-                  listener: (context, cartState) {
-                    if (cartState is AddToCartSuccess) {
-                      ScaffoldMessenger.of(context).clearSnackBars();
-                      AppSnackBar.success(
-                        context,
-                        l10n.productAddedToCartSuccess,
-                        action: SnackBarAction(
-                          label: l10n.viewCartButton,
-                          textColor: context.colorScheme.onInverseSurface,
-                          onPressed: () => context.push(Routes.customerCart),
-                        ),
-                      );
-                    }
-                    if (cartState is AddToCartError) {
-                      ScaffoldMessenger.of(context).clearSnackBars();
-                      AppSnackBar.error(context, localizeErrorMessage(context, cartState.message));
-                    }
-                  },
-                  builder: (context, cartState) {
-                    return AddToCartBar(
-                      quantity: _quantity,
-                      maxQuantity: product.stockQuantity,
-                      totalPrice: product.finalPrice * _quantity,
-                      isLoading: cartState is AddToCartLoading,
-                      onQuantityChanged: (value) =>
-                          setState(() => _quantity = value),
-                      onAddToCart: () => _addToCartCubit.addToCart(
-                        productId: product.id,
-                        quantity: _quantity,
-                      ),
-                    );
-                  },
+                if (cartState is AddToCartError) {
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  AppSnackBar.error(
+                    context,
+                    localizeErrorMessage(context, cartState.message),
+                  );
+                }
+              },
+              builder: (context, cartState) {
+                return AddToCartBar(
+                  quantity: _quantity,
+                  maxQuantity: product.stockQuantity,
+                  totalPrice: product.finalPrice * _quantity,
+                  isLoading: cartState is AddToCartLoading,
+                  onQuantityChanged: (value) =>
+                      setState(() => _quantity = value),
+                  onAddToCart: () => _addToCartCubit.addToCart(
+                    productId: product.id,
+                    quantity: _quantity,
+                  ),
                 );
               },
-            ),
+            );
+          },
+        ),
       ),
     );
   }
